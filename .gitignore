@@ -1,0 +1,15 @@
+
+packages/*/node_modules
+packages/*/dist
+packages/*/es6
+packages/*/env
+packages/*/auth_config
+packages/tdb-dashboard/.env
+packages/tdb-dashboard/cypress/integration/1-getting-started
+packages/tdb-dashboard/cypress/integration/2-advanced-examples
+
+*.DS_Store
+node_modules/
+lerna-debug.log
+packages/tdb-dashboard/local_file
+*.DS_Store
