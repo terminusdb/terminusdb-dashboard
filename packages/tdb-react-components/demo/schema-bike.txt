@@ -1,0 +1,68 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix repo: <http://terminusdb.com/schema/repository#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix terminus: <http://terminusdb.com/schema/system#> .
+@prefix system: <http://terminusdb.com/schema/system#> .
+@prefix layer: <http://terminusdb.com/schema/layer#> .
+@prefix woql: <http://terminusdb.com/schema/woql#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix xdd: <http://terminusdb.com/schema/xdd#> .
+@prefix vio: <http://terminusdb.com/schema/vio#> .
+@prefix ref: <http://terminusdb.com/schema/ref#> .
+@prefix api: <http://terminusdb.com/schema/api#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix scm: <terminusdb:///schema#> .
+@prefix doc: <terminusdb:///data/> .
+
+scm:Bicycle
+  a owl:Class ;
+  rdfs:comment "A thing with wheels - wheee!!!!"@en ;
+  rdfs:label "Bicycle"@en ;
+  rdfs:subClassOf terminus:Document .
+
+scm:Journey
+  a owl:Class ;
+  rdfs:label "Journeyxxxd"@en ;
+  rdfs:subClassOf terminus:Document .
+
+scm:Station
+  a owl:Class ;
+  rdfs:comment "A station where bikes are deposited"@en ;
+  rdfs:label "Bike Station"@en ;
+  rdfs:subClassOf terminus:Document .
+
+scm:duration
+  a owl:DatatypeProperty ;
+  rdfs:domain scm:Journey ;
+  rdfs:label "Journey Duration"@en ;
+  rdfs:range xsd:integer .
+
+scm:end_station
+  a owl:ObjectProperty ;
+  rdfs:domain scm:Journey ;
+  rdfs:label "End Station"@en ;
+  rdfs:range scm:Station .
+
+scm:end_time
+  a owl:DatatypeProperty ;
+  rdfs:domain scm:Journey ;
+  rdfs:label "Time Ended"@en ;
+  rdfs:range xsd:dateTime .
+
+scm:journey_bicycle
+  a owl:ObjectProperty ;
+  rdfs:domain scm:Journey ;
+  rdfs:label "Bicycle Used"@en ;
+  rdfs:range scm:Bicycle .
+
+scm:start_station
+  a owl:ObjectProperty ;
+  rdfs:domain scm:Journey ;
+  rdfs:label "Start Station"@en ;
+  rdfs:range scm:Station .
+
+scm:start_time
+  a owl:DatatypeProperty ;
+  rdfs:domain scm:Journey ;
+  rdfs:label "Time Started"@en ;
+  rdfs:range xsd:dateTime .

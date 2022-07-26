@@ -1,0 +1,88 @@
+{
+  "name": "@terminusdb-live/react-worker",
+  "version": "0.1.1",
+  "description": "react hook library for manage terminusdb live workers",
+  "main": "src/index",
+  "module": "es6/index",
+  "jsnext:main": "es6/index",
+  "sideEffects": [
+    "./*/index.js"
+  ],
+  "files": [
+    "*.md",
+    "src",
+    "es6"
+  ],
+  "keywords": [
+    "react",
+    "reactjs",
+    "chart",
+    "react-component",
+    "terminusdb"
+  ],
+  "scripts": {
+    "build-es6": "rimraf es6 && babel ./src -d es6 --extensions '.js'",
+    "build": "npm run build-es6 && webpack --mode production",
+    "demo": "webpack-dev-server --progress --port 3030 --host localhost --content-base demo --inline --config demo/webpack.config.js",
+    "test": "exit 0",
+    "lint": "eslint src",
+    "autofix": "eslint src --fix"
+  },
+  "pre-commit": [],
+  "pre-push": [
+    "test",
+    "lint"
+  ],
+  "repository": {},
+  "author": "terminusdb group",
+  "peerDependencies": {
+    "react": "^16.10.3",
+    "react-dom": "^16.10.3"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-export-default-from": "^7.12.13",
+    "@babel/plugin-transform-react-jsx": "^7.13.12",
+    "@babel/plugin-transform-regenerator": "^7.12.13",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.12.13",
+    "@babel/runtime-corejs2": "^7.13.10",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.0",
+    "babel-plugin-istanbul": "^5.2.0",
+    "babel-plugin-lodash": "^3.3.0",
+    "babel-preset-airbnb": "^2.6.0",
+    "chai": "^4.2.0",
+    "chai-enzyme": "^1.0.0-beta.1",
+    "cross-env": "^5.2.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "json-loader": "^0.5.7",
+    "pre-commit": "^1.1.3",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-hot-loader": "^1.3.0",
+    "react-router-dom": "^5.1.2",
+    "react-test-renderer": "^16.12.0",
+    "webpack": "^4.41.2",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
+  },
+  "license": "APACHE",
+  "gitHead": "aa081c438b01f552aaad466229baee35c0299ff5"
+}

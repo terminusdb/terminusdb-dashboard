@@ -1,0 +1,5 @@
+/node_modules
+es6
+demo/.env
+dist
+.npmrc

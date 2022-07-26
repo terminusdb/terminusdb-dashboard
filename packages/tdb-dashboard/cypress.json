@@ -1,0 +1,10 @@
+{
+    "env": {
+        "MAILSLURP_API_KEY": "***REMOVED***"
+      },
+        "defaultCommandTimeout": 120000,
+        "responseTimeout": 120000,
+        "requestTimeout": 120000,
+        "baseUrl":"https://dashboard-dev.terminusdb.com/",
+        "chromeWebSecurity": false      
+}

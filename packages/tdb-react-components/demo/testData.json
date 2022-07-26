@@ -1,0 +1,3837 @@
+{
+  "@type":"api:WoqlResponse",
+  "api:status":"api:success",
+  "api:variable_names": [
+    "Parents",
+    "Description",
+    "Class Name",
+    "Class ID",
+    "Children",
+    "Abstract"
+  ],
+  "bindings": [
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#CitedWork",
+      "Class Name": {"@language":"en", "@value":"Cited Work"},
+      "Description": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Parents": [ ["http://terminusdb.com/schema/system#Document" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#City",
+      "Class Name": {"@language":"en", "@value":"City"},
+      "Description": {
+	"@language":"en",
+	"@value":"A concentrated human settlement, typically large"
+      },
+      "Parents": [ ["terminusdb:///schema#Settlement" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#InterestGroup",
+      "Class Name": {"@language":"en", "@value":"Interest Group"},
+      "Description": {
+	"@language":"en",
+	"@value":"An Interest Group (IG) is a social group that pursues some common interest, so that its members are united by a common goal or goals. Polities and religious cults are also interest groups, but this category is broader. It also includes ethnic groups, professional associations, warrior bands, solidarity associations, mutual aid societies, firms and banks (including their pre-modern variants), etc. The Interest Group is defined sociologically, not geographically. However, a geographic area, enclosed within a boundary, refering to its area of operation, may be associated with it in the same way as with a polity or a Religious System(RS). "
+      },
+      "Parents": [ ["terminusdb:///schema#Organization" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Yes"
+      },
+      "Children": [
+	["terminusdb:///schema#InterestGroup" ],
+	["terminusdb:///schema#PoliticalAuthority" ],
+	["terminusdb:///schema#Settlement" ],
+	["terminusdb:///schema#SupraculturalEntity" ]
+      ],
+      "Class ID":"terminusdb:///schema#Organization",
+      "Class Name": {"@language":"en", "@value":"Organization"},
+      "Description": {
+	"@language":"en",
+	"@value":"A human organization of any type - has the capacity to act as a unit, in some sense"
+      },
+      "Parents": [ ["http://terminusdb.com/schema/system#Document" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#Polity" ],
+	["terminusdb:///schema#QuasiPolity" ],
+	["terminusdb:///schema#SubPolity" ]
+      ],
+      "Class ID":"terminusdb:///schema#PoliticalAuthority",
+      "Class Name": {"@language":"en", "@value":"Political Authority"},
+      "Description": {
+	"@language":"en",
+	"@value":"A human social group with some autonomous political authority."
+      },
+      "Parents": [ ["terminusdb:///schema#Organization" ] ]
+    },
+
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Polity",
+      "Class Name": {"@language":"en", "@value":"Polity"},
+      "Description": {
+	"@language":"en",
+	"@value":"A polity is defined as an independent political unit. Kinds of polities range from villages (local communities) through simple and complex chiefdoms to states and empires. A polity can be either centralized or not (e.g., organized as a confederation). What distinguishes a polity from other human groupings and organizations is that it is politically independent of any overarching authority; it possesses sovereignty. Polities are defined spatially by the area enclosed within a boundary on the world map. There may be more than one such areas. Polities are dynamical entities, and thus their geographical extent may change with time. Thus, typically each polity will be defined by a set of multiple boundaries, each for a specified period of time. For prehistoric periods and for areas populated by a multitude of small-scale polities we use a variant called quasi-polity."
+      },
+      "Parents": [ ["terminusdb:///schema#PoliticalAuthority" ] ]
+    },
+
+
+    
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#QuasiPolity",
+      "Class Name": {"@language":"en", "@value":"Quasi-Polity"},
+      "Description": {
+	"@language":"en",
+	"@value":"The polity-based approach is not feasible for those periods when a region is divided up among a multitude of small-scale polities (e.g., independent villages or even many small chiefdoms). In this instance we use the concept of 'quasi-polity'. Similarly, for societies known only archaeologically we may not be able to establish the boundaries of polities, even approximately. Quasi-polity is defined as a cultural area with some degree of cultural homogeneity (including linguistic, if known) that is distinct from surrounding areas. For example, the Marshall Islands before German occupation had no overarching native or colonial authority (chiefs controlled various subsets of islands and atolls) and therefore it was not a polity. But it was a quasi-polity because of the significant cultural and linguistic uniformity.<P>We collect data for the quasi-polity as a whole. This way we can integrate over (often patchy) data from different sites and different polities to estimate what the 'generic' social and political system was like. Data is not entered for the whole region but for a 'typical' polity in it. For example, when coding a quasi-polity, its territory is not the area of the region as a whole, but the average or typical area of autonomous groups within the NGA."
+      },
+      "Parents": [ ["terminusdb:///schema#PoliticalAuthority" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#City" ] ],
+      "Class ID":"terminusdb:///schema#Settlement",
+      "Class Name": {"@language":"en", "@value":"Settlement"},
+      "Description": {
+	"@language":"en",
+	"@value":"A semi-permanent or permanent human settlement"
+      },
+      "Parents": [
+	["http://terminusdb.com/schema/system#Document" ],
+	["terminusdb:///schema#Organization" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#SubPolity",
+      "Class Name": {"@language":"en", "@value":"Sub-Polity"},
+      "Description": {
+	"@language":"en",
+	"@value":"A human social group that has some governing authority within a specific region or area of a polity - used to describe regional governments, etc."
+      },
+      "Parents": [ ["terminusdb:///schema#PoliticalAuthority" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#SupraculturalEntity",
+      "Class Name": {"@language":"en", "@value":"Supra-Cultural Entity"},
+      "Description": {
+	"@language":"en",
+	"@value":"Political Authority entities are often embedded within larger-scale cultural groupings of polities or quasipolities. These are sometimes referred to as 'civilizations'. For example, medieval European kingdoms were part of Latin Christendom. During the periods of disunity in China, warring states there, nevertheless, belonged to the same Chinese cultural sphere. Archaeologists often use 'archaeological traditions' to denote such large-scale cultural entities (for example, Peregrine's Atlas of Cultural Evolution). Note, 'supracultural entity' refers to cultural interdependence, and is distinct from a political confederation or alliance, which should be coded under 'supra-polity relations.'."
+      },
+      "Parents": [ ["terminusdb:///schema#Organization" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Agriculture",
+      "Class Name": {"@language":"en", "@value":"Agriculture"},
+      "Description": {"@language":"en", "@value":"Dealing with agricultural matters"},
+      "Parents": [ ["terminusdb:///schema#Food" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#bureaucrat_income_source_Value" ],
+	["terminusdb:///schema#bureaucrats_Value" ],
+	["terminusdb:///schema#examination_system_Value" ],
+	["terminusdb:///schema#full_time_bureaucrats_Value" ],
+	["terminusdb:///schema#government_buildings_Value" ],
+	["terminusdb:///schema#merit_promotion_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#BureaucraticSystem",
+      "Class Name": {"@language":"en", "@value":"Bureaucratic System"},
+      "Description": {
+	"@language":"en",
+	"@value":"A bureaucratic system, decisions are made by office holders"
+      },
+      "Parents": [
+	["terminusdb:///schema#InternalAffairs" ],
+	["terminusdb:///schema#Politics" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#burial_sites_Value" ] ],
+      "Class ID":"terminusdb:///schema#Burial",
+      "Class Name": {"@language":"en", "@value":"Burial"},
+      "Description": {"@language":"en", "@value":"Burial Related Variables"},
+      "Parents": [ ["terminusdb:///schema#Ritual" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#PostalSystem" ] ],
+      "Class ID":"terminusdb:///schema#Communication",
+      "Class Name": {"@language":"en", "@value":"Communication"},
+      "Description": {"@language":"en", "@value":"Dealing with Communication"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#Housing" ],
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#SpecialSites" ],
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#Building" ],
+	["terminusdb:///schema#siloes_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Construction",
+      "Class Name": {"@language":"en", "@value":"Construction"},
+      "Description": {"@language":"en", "@value":"Dealing with Construction matters"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#MonetarySystem" ] ],
+      "Class ID":"terminusdb:///schema#Economics",
+      "Class Name": {"@language":"en", "@value":"Economics"},
+      "Description": {"@language":"en", "@value":"Dealing with Economics"},
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#fun_houses_Value" ] ],
+      "Class ID":"terminusdb:///schema#Entertainment",
+      "Class Name": {"@language":"en", "@value":"Entertainment"},
+      "Description": {"@language":"en", "@value":"Dealing with entertainment"},
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#SupraPolityRelations" ],
+	["terminusdb:///schema#supra_polity_relations_Value" ],
+	["terminusdb:///schema#supracultural_entity_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#ExternalAffairs",
+      "Class Name": {"@language":"en", "@value":"External Affairs"},
+      "Description": {
+	"@language":"en",
+	"@value":"Dealing with a group's external affairs"
+      },
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#Money" ]
+      ],
+      "Class ID":"terminusdb:///schema#Finance",
+      "Class Name": {"@language":"en", "@value":"Finance"},
+      "Description": {"@language":"en", "@value":"Dealing with financial affairs"},
+      "Parents": [ ["terminusdb:///schema#Politics" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Fishing",
+      "Class Name": {"@language":"en", "@value":"Fishing"},
+      "Description": {"@language":"en", "@value":"Dealing with fishing matters"},
+      "Parents": [ ["terminusdb:///schema#Food" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#Agriculture" ],
+	["terminusdb:///schema#Fishing" ],
+	["terminusdb:///schema#Hunting" ],
+	["terminusdb:///schema#siloes_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Food",
+      "Class Name": {"@language":"en", "@value":"Food"},
+      "Description": {"@language":"en", "@value":"Dealing with food"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#administrative_levels_Value" ],
+	["terminusdb:///schema#military_levels_Value" ],
+	["terminusdb:///schema#religious_levels_Value" ],
+	["terminusdb:///schema#settlement_levels_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#HierarchicalComplexity",
+      "Class Name": {"@language":"en", "@value":"Hierarchical Complexity"},
+      "Description": {
+	"@language":"en",
+	"@value":"Encodes the number of levels in the most important hierarchies of a social system."
+      },
+      "Parents": [ ["terminusdb:///schema#SocialComplexity" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Housing",
+      "Class Name": {"@language":"en", "@value":"Housing"},
+      "Description": {"@language":"en", "@value":"Dealing with housing matters"},
+      "Parents": [ ["terminusdb:///schema#Construction" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Hunting",
+      "Class Name": {"@language":"en", "@value":"Hunting"},
+      "Description": {"@language":"en", "@value":"Dealing with hunting matters"},
+      "Parents": [ ["terminusdb:///schema#Food" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#Religion" ] ],
+      "Class ID":"terminusdb:///schema#Ideology",
+      "Class Name": {"@language":"en", "@value":"Ideology"},
+      "Description": {"@language":"en", "@value":"Dealing with Ideological matters"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#PostalSystem" ],
+	["terminusdb:///schema#SpecialSites" ],
+	["terminusdb:///schema#TransportInfrastructure" ],
+	["terminusdb:///schema#burial_sites_Value" ],
+	["terminusdb:///schema#ceremonial_sites_Value" ],
+	["terminusdb:///schema#fortifications_Value" ],
+	["terminusdb:///schema#government_buildings_Value" ],
+	["terminusdb:///schema#irrigation_Value" ],
+	["terminusdb:///schema#markets_Value" ],
+	["terminusdb:///schema#mines_Value" ],
+	["terminusdb:///schema#potable_water_Value" ],
+	["terminusdb:///schema#sewage_Value" ],
+	["terminusdb:///schema#siloes_Value" ],
+	["terminusdb:///schema#special_sites_Value" ],
+	["terminusdb:///schema#utilities_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Infrastructure",
+      "Class Name": {"@language":"en", "@value":"Infrastructure"},
+      "Description": {
+	"@language":"en",
+	"@value":"The built infrastructure that a society depends upon"
+      },
+      "Parents": [ ["terminusdb:///schema#Construction" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#centralization_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#InternalAffairs",
+      "Class Name": {"@language":"en", "@value":"Internal Affairs"},
+      "Description": {
+	"@language":"en",
+	"@value":"Dealing with a group's internal organisation"
+      },
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#courts_Value" ],
+	["terminusdb:///schema#formal_legal_code_Value" ],
+	["terminusdb:///schema#judges_Value" ],
+	["terminusdb:///schema#professional_lawyers_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Legal",
+      "Class Name": {"@language":"en", "@value":"Legal"},
+      "Description": {"@language":"en", "@value":"Dealing with legal matters"},
+      "Parents": [ ["terminusdb:///schema#Politics" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#WritingGenre" ] ],
+      "Class ID":"terminusdb:///schema#Literature",
+      "Class Name": {"@language":"en", "@value":"Literature"},
+      "Description": {"@language":"en", "@value":"Dealing with literature"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#advanced_unit_Value" ],
+	["terminusdb:///schema#area_unit_Value" ],
+	["terminusdb:///schema#geometrical_unit_Value" ],
+	["terminusdb:///schema#length_unit_Value" ],
+	["terminusdb:///schema#time_unit_Value" ],
+	["terminusdb:///schema#volume_unit_Value" ],
+	["terminusdb:///schema#weight_unit_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#MeasurementSystem",
+      "Class Name": {"@language":"en", "@value":"Measurement System"},
+      "Description": {
+	"@language":"en",
+	"@value":"Textual evidence of a measurement system: measurement units are named in sources (e.g. pound, aroura). Archaeological evidence includes finding containers of standard volume, etc. ('inferred presence')"
+      },
+      "Parents": [
+	["terminusdb:///schema#Science" ],
+	["terminusdb:///schema#SocialComplexity" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Metals",
+      "Class Name": {"@language":"en", "@value":"Metals"},
+      "Description": {"@language":"en", "@value":"Dealing with Metals"},
+      "Parents": [ ["terminusdb:///schema#Minerals" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#fortifications_Value" ],
+	["terminusdb:///schema#military_officers_Value" ],
+	["terminusdb:///schema#professional_soldiers_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Military",
+      "Class Name": {"@language":"en", "@value":"Military"},
+      "Description": {"@language":"en", "@value":"Dealing with Military matters"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#Metals" ] ],
+      "Class ID":"terminusdb:///schema#Minerals",
+      "Class Name": {"@language":"en", "@value":"Minerals"},
+      "Description": {"@language":"en", "@value":"Dealing with Minerals"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#mines_Value" ] ],
+      "Class ID":"terminusdb:///schema#Mining",
+      "Class Name": {"@language":"en", "@value":"Mining"},
+      "Description": {
+	"@language":"en",
+	"@value":"Dealing with Mining and Mineral Extraction"
+      },
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#debt_and_credit_Value" ],
+	["terminusdb:///schema#foreign_coins_Value" ],
+	["terminusdb:///schema#indigenous_coins_Value" ],
+	["terminusdb:///schema#monetary_articles_Value" ],
+	["terminusdb:///schema#monetary_tokens_Value" ],
+	["terminusdb:///schema#paper_currency_Value" ],
+	["terminusdb:///schema#precious_metals_Value" ],
+	["terminusdb:///schema#stores_of_wealth_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#MonetarySystem",
+      "Class Name": {"@language":"en", "@value":"Monetary System"},
+      "Description": {"@language":"en", "@value":"The System that produces money"},
+      "Parents": [
+	["terminusdb:///schema#Economics" ],
+	["terminusdb:///schema#Finance" ],
+	["terminusdb:///schema#Money" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#MonetarySystem" ] ],
+      "Class ID":"terminusdb:///schema#Money",
+      "Class Name": {"@language":"en", "@value":"Money"},
+      "Description": {"@language":"en", "@value":"Dealing with money"},
+      "Parents": [ ["terminusdb:///schema#Finance" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#ports_Value" ] ],
+      "Class ID":"terminusdb:///schema#Naval",
+      "Class Name": {"@language":"en", "@value":"Naval"},
+      "Description": {"@language":"en", "@value":"Dealing with naval matters"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#Finance" ],
+	["terminusdb:///schema#Legal" ]
+      ],
+      "Class ID":"terminusdb:///schema#Politics",
+      "Class Name": {"@language":"en", "@value":"Politics"},
+      "Description": {
+	"@language":"en",
+	"@value":"Dealing with political authority and organization"
+      },
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#couriers_Value" ],
+	["terminusdb:///schema#post_offices_Value" ],
+	["terminusdb:///schema#private_mail_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#PostalSystem",
+      "Class Name": {"@language":"en", "@value":"Postal System"},
+      "Description": {
+	"@language":"en",
+	"@value":"A system for sending physical messages"
+      },
+      "Parents": [
+	["terminusdb:///schema#Communication" ],
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Transport" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Private",
+      "Class Name": {"@language":"en", "@value":"Private"},
+      "Description": {
+	"@language":"en",
+	"@value":"Dealing with private, individual or factional decision making"
+      },
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#bureaucrats_Value" ],
+	["terminusdb:///schema#military_officers_Value" ],
+	["terminusdb:///schema#priests_Value" ],
+	["terminusdb:///schema#professional_soldiers_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Professions",
+      "Class Name": {"@language":"en", "@value":"Professions"},
+      "Description": {"@language":"en", "@value":"A system of professional work"},
+      "Parents": [ ["terminusdb:///schema#Work" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#bureaucrat_income_source_Value" ],
+	["terminusdb:///schema#examination_system_Value" ],
+	["terminusdb:///schema#full_time_bureaucrats_Value" ],
+	["terminusdb:///schema#government_buildings_Value" ],
+	["terminusdb:///schema#irrigation_Value" ],
+	["terminusdb:///schema#merit_promotion_Value" ],
+	["terminusdb:///schema#potable_water_Value" ],
+	["terminusdb:///schema#public_buildings_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Public",
+      "Class Name": {"@language":"en", "@value":"Public"},
+      "Description": {
+	"@language":"en",
+	"@value":"Dealing with public, collective characteristics, decision making, etc"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#priests_Value" ],
+	["terminusdb:///schema#religious_literature_Value" ],
+	["terminusdb:///schema#sacred_texts_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Religion",
+      "Class Name": {"@language":"en", "@value":"Religion"},
+      "Description": {"@language":"en", "@value":"Relating to religion"},
+      "Parents": [ ["terminusdb:///schema#Ideology" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#fortifications_Value" ],
+	["terminusdb:///schema#sewage_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Resilience",
+      "Class Name": {"@language":"en", "@value":"Resilience"},
+      "Description": {"@language":"en", "@value":"Resilience Related Variables"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#Burial" ],
+	["terminusdb:///schema#ceremonial_sites_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Ritual",
+      "Class Name": {"@language":"en", "@value":"Ritual"},
+      "Description": {"@language":"en", "@value":"Dealing with rituals"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#cost_Value" ],
+	["terminusdb:///schema#extent_Value" ],
+	["terminusdb:///schema#height_Value" ],
+	["terminusdb:///schema#largest_settlement_population_Value" ],
+	["terminusdb:///schema#longest_communication_distance_Value" ],
+	["terminusdb:///schema#population_Value" ],
+	["terminusdb:///schema#supracultural_scale_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Scale",
+      "Class Name": {"@language":"en", "@value":"Scale"},
+      "Description": {"@language":"en", "@value":"Dealing with Social Scale"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#science_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Science",
+      "Class Name": {"@language":"en", "@value":"Science"},
+      "Description": {"@language":"en", "@value":"Dealing with scientific method"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#HierarchicalComplexity" ],
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#capital_city_Value" ],
+	["terminusdb:///schema#cost_Value" ],
+	["terminusdb:///schema#courts_Value" ],
+	["terminusdb:///schema#debt_and_credit_Value" ],
+	["terminusdb:///schema#degree_of_centralization_Value" ],
+	["terminusdb:///schema#extent_Value" ],
+	["terminusdb:///schema#foreign_coins_Value" ],
+	["terminusdb:///schema#formal_legal_code_Value" ],
+	["terminusdb:///schema#height_Value" ],
+	["terminusdb:///schema#indigenous_coins_Value" ],
+	["terminusdb:///schema#judges_Value" ],
+	["terminusdb:///schema#largest_settlement_population_Value" ],
+	["terminusdb:///schema#linguistic_family_Value" ],
+	["terminusdb:///schema#longest_communication_distance_Value" ],
+	["terminusdb:///schema#monetary_articles_Value" ],
+	["terminusdb:///schema#monetary_tokens_Value" ],
+	["terminusdb:///schema#paper_currency_Value" ],
+	["terminusdb:///schema#population_Value" ],
+	["terminusdb:///schema#precious_metals_Value" ],
+	["terminusdb:///schema#professional_lawyers_Value" ],
+	["terminusdb:///schema#stores_of_wealth_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#SocialComplexity",
+      "Class Name": {"@language":"en", "@value":"Social Complexity"},
+      "Description": {"@language":"en", "@value":"Social Complexity Variables"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#SpecialSites",
+      "Class Name": {"@language":"en", "@value":"Special Sites"},
+      "Description": {
+	"@language":"en",
+	"@value":"Sites not associated with residential areas. This position is primarily useful for coding archaneologically known societies."
+      },
+      "Parents": [
+	["terminusdb:///schema#Construction" ],
+	["terminusdb:///schema#Infrastructure" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#emporia_Value" ],
+	["terminusdb:///schema#enclosures_Value" ],
+	["terminusdb:///schema#fun_houses_Value" ],
+	["terminusdb:///schema#libraries_Value" ],
+	["terminusdb:///schema#other_site_Value" ],
+	["terminusdb:///schema#post_offices_Value" ],
+	["terminusdb:///schema#public_buildings_Value" ],
+	["terminusdb:///schema#special_houses_Value" ],
+	["terminusdb:///schema#symbolic_building_Value" ],
+	["terminusdb:///schema#utilities_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#SpecializedBuildings",
+      "Class Name": {"@language":"en", "@value":"Specialized Buildings"},
+      "Description": {
+	"@language":"en",
+	"@value":"Polity-owned: includes owned by the community, or the state."
+      },
+      "Parents": [
+	["terminusdb:///schema#Construction" ],
+	["terminusdb:///schema#Public" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#SupraPolityRelations",
+      "Class Name": {"@language":"en", "@value":"Supra-Polity Relations"},
+      "Description": {
+	"@language":"en",
+	"@value":"Relating to relationships between polities."
+      },
+      "Parents": [
+	["terminusdb:///schema#ExternalAffairs" ],
+	["terminusdb:///schema#Enumerated" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Yes"
+      },
+      "Children": [
+	["terminusdb:///schema#Communication" ],
+	["terminusdb:///schema#Construction" ],
+	["terminusdb:///schema#ExternalAffairs" ],
+	["terminusdb:///schema#Food" ],
+	["terminusdb:///schema#Ideology" ],
+	["terminusdb:///schema#InternalAffairs" ],
+	["terminusdb:///schema#Literature" ],
+	["terminusdb:///schema#Military" ],
+	["terminusdb:///schema#Minerals" ],
+	["terminusdb:///schema#Mining" ],
+	["terminusdb:///schema#Naval" ],
+	["terminusdb:///schema#Politics" ],
+	["terminusdb:///schema#Private" ],
+	["terminusdb:///schema#Resilience" ],
+	["terminusdb:///schema#Ritual" ],
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#Science" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#Transport" ],
+	["terminusdb:///schema#Work" ],
+	["terminusdb:///schema#Writing" ]
+      ],
+      "Class ID":"terminusdb:///schema#Topic",
+      "Class Name": {"@language":"en", "@value":"Topic Class"},
+      "Description": {"@language":"en", "@value":"A class that represents a topic"},
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#PostalSystem" ],
+	["terminusdb:///schema#TransportInfrastructure" ],
+	["terminusdb:///schema#bridges_Value" ],
+	["terminusdb:///schema#canals_Value" ],
+	["terminusdb:///schema#fastest_travel_Value" ],
+	["terminusdb:///schema#ports_Value" ],
+	["terminusdb:///schema#roads_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Transport",
+      "Class Name": {"@language":"en", "@value":"Transport"},
+      "Description": {"@language":"en", "@value":"Dealing with Transport matters"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#TransportInfrastructure",
+      "Class Name": {"@language":"en", "@value":"Transport Infrastructure"},
+      "Description": {
+	"@language":"en",
+	"@value":"Relating to Transport Infrastructure."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Transport" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#Professions" ] ],
+      "Class ID":"terminusdb:///schema#Work",
+      "Class Name": {"@language":"en", "@value":"Work"},
+      "Description": {"@language":"en", "@value":"Dealing with work"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#libraries_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#Writing",
+      "Class Name": {"@language":"en", "@value":"Writing"},
+      "Description": {"@language":"en", "@value":"Dealing with written word"},
+      "Parents": [ ["terminusdb:///schema#Topic" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#calendar_Value" ],
+	["terminusdb:///schema#fiction_Value" ],
+	["terminusdb:///schema#history_Value" ],
+	["terminusdb:///schema#lists_Value" ],
+	["terminusdb:///schema#manuals_Value" ],
+	["terminusdb:///schema#philosophy_Value" ],
+	["terminusdb:///schema#religious_literature_Value" ],
+	["terminusdb:///schema#sacred_texts_Value" ],
+	["terminusdb:///schema#science_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#WritingGenre",
+      "Class Name": {"@language":"en", "@value":"Written Genres"},
+      "Description": {
+	"@language":"en",
+	"@value":"Relating to different types of written material."
+      },
+      "Parents": [
+	["terminusdb:///schema#Literature" ],
+	["terminusdb:///schema#SocialComplexity" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#mnemonics_Value" ],
+	["terminusdb:///schema#non_phonetic_Value" ],
+	["terminusdb:///schema#non_written_records_Value" ],
+	["terminusdb:///schema#phonetic_Value" ],
+	["terminusdb:///schema#script_Value" ],
+	["terminusdb:///schema#written_records_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#WritingSystem",
+      "Class Name": {"@language":"en", "@value":"Writing System"},
+      "Description": {
+	"@language":"en",
+	"@value":"Relating to different types of a writing system."
+      },
+      "Parents": [
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#Writing" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Confidence",
+      "Class Name": {"@language":"en", "@value":"Confidence Tags"},
+      "Description": {
+	"@language":"en",
+	"@value":"Tags that can be added to values to indicate confidence in the value of some piece data"
+      },
+      "Parents": [ ["terminusdb:///schema#Enumerated" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#SupraPolityRelations" ],
+	["terminusdb:///schema#Confidence" ],
+	["terminusdb:///schema#DegreeOfCentralization" ],
+	["terminusdb:///schema#EpistemicState" ],
+	["terminusdb:///schema#IncomeSource" ],
+	["terminusdb:///schema#PoliticalEvolution" ]
+      ],
+      "Class ID":"terminusdb:///schema#Enumerated",
+      "Class Name": {"@language":"en", "@value":"Enumerated Type"},
+      "Description": {
+	"@language":"en",
+	"@value":"A type that consists of a fixed set of choices"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#DegreeOfCentralization",
+      "Class Name": {"@language":"en", "@value":"Degree of Centralization"},
+      "Description": {
+	"@language":"en",
+	"@value":"An indication of how centralized a political authority was"
+      },
+      "Parents": [ ["terminusdb:///schema#Enumerated" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#EpistemicState",
+      "Class Name": {"@language":"en", "@value":"Epistemic State"},
+      "Description": {
+	"@language":"en",
+	"@value":"The existence of a feature in the historical record"
+      },
+      "Parents": [ ["terminusdb:///schema#Enumerated" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#IncomeSource",
+      "Class Name": {"@language":"en", "@value":"Income Source"},
+      "Description": {"@language":"en", "@value":"A source of income"},
+      "Parents": [ ["terminusdb:///schema#Enumerated" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#PoliticalEvolution",
+      "Class Name": {"@language":"en", "@value":"Political Evolution"},
+      "Description": {
+	"@language":"en",
+	"@value":"How a political authority evolves into another one"
+      },
+      "Parents": [ ["terminusdb:///schema#Enumerated" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Note",
+      "Class Name": {"@language":"en", "@value":"A Note on a value"},
+      "Description": {"@language":"en", "@value":"Editorial note on the value"},
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Yes"
+      },
+      "Children": [
+	["terminusdb:///schema#administrative_levels_Value" ],
+	["terminusdb:///schema#advanced_unit_Value" ],
+	["terminusdb:///schema#alternative_names_Value" ],
+	["terminusdb:///schema#area_unit_Value" ],
+	["terminusdb:///schema#bridges_Value" ],
+	["terminusdb:///schema#bureaucrat_income_source_Value" ],
+	["terminusdb:///schema#bureaucrats_Value" ],
+	["terminusdb:///schema#burial_sites_Value" ],
+	["terminusdb:///schema#calendar_Value" ],
+	["terminusdb:///schema#canals_Value" ],
+	["terminusdb:///schema#capital_city_Value" ],
+	["terminusdb:///schema#centralization_Value" ],
+	["terminusdb:///schema#ceremonial_sites_Value" ],
+	["terminusdb:///schema#cost_Value" ],
+	["terminusdb:///schema#couriers_Value" ],
+	["terminusdb:///schema#courts_Value" ],
+	["terminusdb:///schema#debt_and_credit_Value" ],
+	["terminusdb:///schema#degree_of_centralization_Value" ],
+	["terminusdb:///schema#emporia_Value" ],
+	["terminusdb:///schema#enclosures_Value" ],
+	["terminusdb:///schema#examination_system_Value" ],
+	["terminusdb:///schema#extent_Value" ],
+	["terminusdb:///schema#fastest_travel_Value" ],
+	["terminusdb:///schema#fiction_Value" ],
+	["terminusdb:///schema#foreign_coins_Value" ],
+	["terminusdb:///schema#formal_legal_code_Value" ],
+	["terminusdb:///schema#fortifications_Value" ],
+	["terminusdb:///schema#full_time_bureaucrats_Value" ],
+	["terminusdb:///schema#fun_houses_Value" ],
+	["terminusdb:///schema#geometrical_unit_Value" ],
+	["terminusdb:///schema#government_buildings_Value" ],
+	["terminusdb:///schema#height_Value" ],
+	["terminusdb:///schema#history_Value" ],
+	["terminusdb:///schema#indigenous_coins_Value" ],
+	["terminusdb:///schema#irrigation_Value" ],
+	["terminusdb:///schema#judges_Value" ],
+	["terminusdb:///schema#lang_Value" ],
+	["terminusdb:///schema#largest_settlement_population_Value" ],
+	["terminusdb:///schema#length_unit_Value" ],
+	["terminusdb:///schema#libraries_Value" ],
+	["terminusdb:///schema#linguistic_family_Value" ],
+	["terminusdb:///schema#lists_Value" ],
+	["terminusdb:///schema#longest_communication_distance_Value" ],
+	["terminusdb:///schema#manuals_Value" ],
+	["terminusdb:///schema#markets_Value" ],
+	["terminusdb:///schema#merit_promotion_Value" ],
+	["terminusdb:///schema#military_levels_Value" ],
+	["terminusdb:///schema#military_officers_Value" ],
+	["terminusdb:///schema#mines_Value" ],
+	["terminusdb:///schema#mnemonics_Value" ],
+	["terminusdb:///schema#monetary_articles_Value" ],
+	["terminusdb:///schema#monetary_tokens_Value" ],
+	["terminusdb:///schema#non_phonetic_Value" ],
+	["terminusdb:///schema#non_written_records_Value" ],
+	["terminusdb:///schema#other_site_Value" ],
+	["terminusdb:///schema#paper_currency_Value" ],
+	["terminusdb:///schema#peak_Value" ],
+	["terminusdb:///schema#philosophy_Value" ],
+	["terminusdb:///schema#phonetic_Value" ],
+	["terminusdb:///schema#population_Value" ],
+	["terminusdb:///schema#ports_Value" ],
+	["terminusdb:///schema#post_offices_Value" ],
+	["terminusdb:///schema#potable_water_Value" ],
+	["terminusdb:///schema#precious_metals_Value" ],
+	["terminusdb:///schema#predecessor_relationship_Value" ],
+	["terminusdb:///schema#priests_Value" ],
+	["terminusdb:///schema#private_mail_Value" ],
+	["terminusdb:///schema#professional_lawyers_Value" ],
+	["terminusdb:///schema#professional_soldiers_Value" ],
+	["terminusdb:///schema#public_buildings_Value" ],
+	["terminusdb:///schema#religious_levels_Value" ],
+	["terminusdb:///schema#religious_literature_Value" ],
+	["terminusdb:///schema#roads_Value" ],
+	["terminusdb:///schema#sacred_texts_Value" ],
+	["terminusdb:///schema#science_Value" ],
+	["terminusdb:///schema#script_Value" ],
+	["terminusdb:///schema#settlement_levels_Value" ],
+	["terminusdb:///schema#sewage_Value" ],
+	["terminusdb:///schema#siloes_Value" ],
+	["terminusdb:///schema#special_houses_Value" ],
+	["terminusdb:///schema#special_sites_Value" ],
+	["terminusdb:///schema#stores_of_wealth_Value" ],
+	["terminusdb:///schema#supra_polity_relations_Value" ],
+	["terminusdb:///schema#supracultural_entity_Value" ],
+	["terminusdb:///schema#supracultural_scale_Value" ],
+	["terminusdb:///schema#symbolic_building_Value" ],
+	["terminusdb:///schema#territorial_area_Value" ],
+	["terminusdb:///schema#time_unit_Value" ],
+	["terminusdb:///schema#utilities_Value" ],
+	["terminusdb:///schema#utm_zone_Value" ],
+	["terminusdb:///schema#volume_unit_Value" ],
+	["terminusdb:///schema#weight_unit_Value" ],
+	["terminusdb:///schema#written_records_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#ScopedValue",
+      "Class Name": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Description": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Yes"
+      },
+      "Children": [
+	["terminusdb:///schema#Coordinate" ],
+	["terminusdb:///schema#CoordinatePolygon" ],
+	["terminusdb:///schema#CoordinatePolyline" ],
+	["terminusdb:///schema#DateRange" ],
+	["terminusdb:///schema#DecimalRange" ],
+	["terminusdb:///schema#Email" ],
+	["terminusdb:///schema#GYearRange" ],
+	["terminusdb:///schema#Html" ],
+	["terminusdb:///schema#IntegerRange" ],
+	["terminusdb:///schema#Url" ],
+	["terminusdb:///schema#AnySimpleType" ],
+	["terminusdb:///schema#String" ],
+	["terminusdb:///schema#Boolean" ],
+	["terminusdb:///schema#Decimal" ],
+	["terminusdb:///schema#Double" ],
+	["terminusdb:///schema#Float" ],
+	["terminusdb:///schema#Time" ],
+	["terminusdb:///schema#Date" ],
+	["terminusdb:///schema#DateTime" ],
+	["terminusdb:///schema#DateTimeStamp" ],
+	["terminusdb:///schema#GYear" ],
+	["terminusdb:///schema#GMonth" ],
+	["terminusdb:///schema#Integer" ],
+	["terminusdb:///schema#NonNegativeInteger" ],
+	["terminusdb:///schema#AnyURI" ]
+      ],
+      "Class ID":"terminusdb:///schema#Box",
+      "Class Name": {"@language":"en", "@value":"Box Class"},
+      "Description": {
+	"@language":"en",
+	"@value":"A class that represents a boxed datatype"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Coordinate",
+      "Class Name": {"@language":"en", "@value":"Coordinate"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:coordinate"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#CoordinatePolygon",
+      "Class Name": {"@language":"en", "@value":"Geographic Area"},
+      "Description": {
+	"@language":"en",
+	"@value":"Boxed Class for xdd:coordinatePolygon"
+      },
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#CoordinatePolyline",
+      "Class Name": {"@language":"en", "@value":"Coordinate Path"},
+      "Description": {
+	"@language":"en",
+	"@value":"Boxed Class for xdd:coordinatePolyline"
+      },
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#DateRange",
+      "Class Name": {"@language":"en", "@value":"Date Range"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:dateRange"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#cost_Value" ],
+	["terminusdb:///schema#extent_Value" ],
+	["terminusdb:///schema#fastest_travel_Value" ],
+	["terminusdb:///schema#height_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#DecimalRange",
+      "Class Name": {"@language":"en", "@value":"Decimal Number"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:decimalRange"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Email",
+      "Class Name": {"@language":"en", "@value":"Email"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:email"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#GYearRange",
+      "Class Name": {"@language":"en", "@value":"Year"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:gYearRange"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Html",
+      "Class Name": {"@language":"en", "@value":"HTML"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:html"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#administrative_levels_Value" ],
+	["terminusdb:///schema#largest_settlement_population_Value" ],
+	["terminusdb:///schema#longest_communication_distance_Value" ],
+	["terminusdb:///schema#military_levels_Value" ],
+	["terminusdb:///schema#peak_Value" ],
+	["terminusdb:///schema#population_Value" ],
+	["terminusdb:///schema#religious_levels_Value" ],
+	["terminusdb:///schema#settlement_levels_Value" ],
+	["terminusdb:///schema#supracultural_scale_Value" ],
+	["terminusdb:///schema#territorial_area_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#IntegerRange",
+      "Class Name": {"@language":"en", "@value":"Integer"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:integerRange"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Json",
+      "Class Name": {"@language":"en", "@value":"JSON"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:json"},
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Url",
+      "Class Name": {"@language":"en", "@value":"URL"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xdd:url"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#AnySimpleType",
+      "Class Name": {"@language":"en", "@value":"Any Simple Type"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:anySimpleType"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#alternative_names_Value" ],
+	["terminusdb:///schema#capital_city_Value" ],
+	["terminusdb:///schema#lang_Value" ],
+	["terminusdb:///schema#linguistic_family_Value" ],
+	["terminusdb:///schema#supracultural_entity_Value" ],
+	["terminusdb:///schema#utm_zone_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#String",
+      "Class Name": {"@language":"en", "@value":"String"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:string"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Boolean",
+      "Class Name": {"@language":"en", "@value":"Boolean"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:boolean"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Decimal",
+      "Class Name": {"@language":"en", "@value":"Decimal"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:decimal"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Double",
+      "Class Name": {"@language":"en", "@value":"Double"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:double"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Float",
+      "Class Name": {"@language":"en", "@value":"Float"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:float"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Time",
+      "Class Name": {"@language":"en", "@value":"Time"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:time"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Date",
+      "Class Name": {"@language":"en", "@value":"Date"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:date"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#DateTime",
+      "Class Name": {"@language":"en", "@value":"Date Time"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:dateTime"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#DateTimeStamp",
+      "Class Name": {"@language":"en", "@value":"Date-Time Stamp"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:dateTimeStamp"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#GYear",
+      "Class Name": {"@language":"en", "@value":"Year"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:gYear"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#GMonth",
+      "Class Name": {"@language":"en", "@value":"Month"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:gMonth"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Integer",
+      "Class Name": {"@language":"en", "@value":"Integer"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:integer"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#NonNegativeInteger",
+      "Class Name": {"@language":"en", "@value":"Non-Negative Integer"},
+      "Description": {
+	"@language":"en",
+	"@value":"Boxed Class for xsd:nonNegativeInteger"
+      },
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#AnyURI",
+      "Class Name": {"@language":"en", "@value":"Any URI"},
+      "Description": {"@language":"en", "@value":"Boxed Class for xsd:anyURI"},
+      "Parents": [ ["terminusdb:///schema#Box" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Building",
+      "Class Name": {"@language":"en", "@value":"Building"},
+      "Description": {"@language":"en", "@value":"A specific building."},
+      "Parents": [ ["terminusdb:///schema#Construction" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedCitedWork",
+      "Class Name": {"@language":"en", "@value":"Cited Work"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#CitedWork"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedCity",
+      "Class Name": {"@language":"en", "@value":"City"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#City"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#centralization_Value" ],
+	["terminusdb:///schema#degree_of_centralization_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#ScopedDegreeOfCentralization",
+      "Class Name": {"@language":"en", "@value":"Degree of Centralization"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#DegreeOfCentralization"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedEnumerated",
+      "Class Name": {"@language":"en", "@value":"Enumerated Type"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#Enumerated"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [
+	["terminusdb:///schema#advanced_unit_Value" ],
+	["terminusdb:///schema#area_unit_Value" ],
+	["terminusdb:///schema#bridges_Value" ],
+	["terminusdb:///schema#bureaucrats_Value" ],
+	["terminusdb:///schema#burial_sites_Value" ],
+	["terminusdb:///schema#calendar_Value" ],
+	["terminusdb:///schema#canals_Value" ],
+	["terminusdb:///schema#ceremonial_sites_Value" ],
+	["terminusdb:///schema#couriers_Value" ],
+	["terminusdb:///schema#courts_Value" ],
+	["terminusdb:///schema#debt_and_credit_Value" ],
+	["terminusdb:///schema#emporia_Value" ],
+	["terminusdb:///schema#enclosures_Value" ],
+	["terminusdb:///schema#examination_system_Value" ],
+	["terminusdb:///schema#fiction_Value" ],
+	["terminusdb:///schema#foreign_coins_Value" ],
+	["terminusdb:///schema#formal_legal_code_Value" ],
+	["terminusdb:///schema#fortifications_Value" ],
+	["terminusdb:///schema#full_time_bureaucrats_Value" ],
+	["terminusdb:///schema#fun_houses_Value" ],
+	["terminusdb:///schema#geometrical_unit_Value" ],
+	["terminusdb:///schema#government_buildings_Value" ],
+	["terminusdb:///schema#history_Value" ],
+	["terminusdb:///schema#indigenous_coins_Value" ],
+	["terminusdb:///schema#irrigation_Value" ],
+	["terminusdb:///schema#judges_Value" ],
+	["terminusdb:///schema#length_unit_Value" ],
+	["terminusdb:///schema#libraries_Value" ],
+	["terminusdb:///schema#lists_Value" ],
+	["terminusdb:///schema#manuals_Value" ],
+	["terminusdb:///schema#markets_Value" ],
+	["terminusdb:///schema#merit_promotion_Value" ],
+	["terminusdb:///schema#military_officers_Value" ],
+	["terminusdb:///schema#mines_Value" ],
+	["terminusdb:///schema#mnemonics_Value" ],
+	["terminusdb:///schema#monetary_articles_Value" ],
+	["terminusdb:///schema#monetary_tokens_Value" ],
+	["terminusdb:///schema#non_phonetic_Value" ],
+	["terminusdb:///schema#non_written_records_Value" ],
+	["terminusdb:///schema#other_site_Value" ],
+	["terminusdb:///schema#paper_currency_Value" ],
+	["terminusdb:///schema#philosophy_Value" ],
+	["terminusdb:///schema#phonetic_Value" ],
+	["terminusdb:///schema#ports_Value" ],
+	["terminusdb:///schema#post_offices_Value" ],
+	["terminusdb:///schema#potable_water_Value" ],
+	["terminusdb:///schema#precious_metals_Value" ],
+	["terminusdb:///schema#priests_Value" ],
+	["terminusdb:///schema#private_mail_Value" ],
+	["terminusdb:///schema#professional_lawyers_Value" ],
+	["terminusdb:///schema#professional_soldiers_Value" ],
+	["terminusdb:///schema#public_buildings_Value" ],
+	["terminusdb:///schema#religious_literature_Value" ],
+	["terminusdb:///schema#roads_Value" ],
+	["terminusdb:///schema#sacred_texts_Value" ],
+	["terminusdb:///schema#science_Value" ],
+	["terminusdb:///schema#script_Value" ],
+	["terminusdb:///schema#sewage_Value" ],
+	["terminusdb:///schema#siloes_Value" ],
+	["terminusdb:///schema#special_houses_Value" ],
+	["terminusdb:///schema#special_sites_Value" ],
+	["terminusdb:///schema#stores_of_wealth_Value" ],
+	["terminusdb:///schema#symbolic_building_Value" ],
+	["terminusdb:///schema#time_unit_Value" ],
+	["terminusdb:///schema#utilities_Value" ],
+	["terminusdb:///schema#volume_unit_Value" ],
+	["terminusdb:///schema#weight_unit_Value" ],
+	["terminusdb:///schema#written_records_Value" ]
+      ],
+      "Class ID":"terminusdb:///schema#ScopedEpistemicState",
+      "Class Name": {"@language":"en", "@value":"Epistemic State"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#EpistemicState"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#bureaucrat_income_source_Value" ] ],
+      "Class ID":"terminusdb:///schema#ScopedIncomeSource",
+      "Class Name": {"@language":"en", "@value":"Income Source"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#IncomeSource"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedInterestGroup",
+      "Class Name": {"@language":"en", "@value":"Interest Group"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#InterestGroup"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedPoliticalAuthority",
+      "Class Name": {"@language":"en", "@value":"Political Authority"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#PoliticalAuthority"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#predecessor_relationship_Value" ] ],
+      "Class ID":"terminusdb:///schema#ScopedPoliticalEvolution",
+      "Class Name": {"@language":"en", "@value":"Political Evolution"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#PoliticalEvolution"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedPolity",
+      "Class Name": {"@language":"en", "@value":"Polity"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#Polity"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedQuasiPolity",
+      "Class Name": {"@language":"en", "@value":"Quasi-Polity"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#QuasiPolity"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedSettlement",
+      "Class Name": {"@language":"en", "@value":"Settlement"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#Settlement"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedSubPolity",
+      "Class Name": {"@language":"en", "@value":"Sub-Polity"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#SubPolity"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": [ ["terminusdb:///schema#supra_polity_relations_Value" ] ],
+      "Class ID":"terminusdb:///schema#ScopedSupraPolityRelations",
+      "Class Name": {"@language":"en", "@value":"Supra-Polity Relations"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#SupraPolityRelations"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ScopedSupraculturalEntity",
+      "Class Name": {"@language":"en", "@value":"Supra-Cultural Entity"},
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Class generated for class terminusdb:///schema#SupraculturalEntity"
+      },
+      "Parents": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""}
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#administrative_levels_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Administrative Levels"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Number of levels in the administrative hierarchy. \n        <p>An example of hierarchy for a state society could be \n        (5) the overall ruler, (4) provincial/regional governors, \n        (3) district heads, (2) town mayors, (1) village heads. \n        Note that unlike in settlement hierarchy, the people hierarchy is coded here. <\/p> \n        <p>Archaeological polities are usually coded as 'unknown', unless experts can \n        identified ranks of chiefs or officials independently of the settlement hierarchy.<\/p>\n        <p>Note: Often there are more than one concurrent administrative hierarchy. \n        In the example above the hierarchy refers to the territorial government. \n        In addition, the ruler may have a hierarchically organized central \n        bureaucracy located in the capital. For example, \n        (4)the overall ruler, (3) chiefs of various ministries, \n        (2) mid-level bureaucrats, (1) scribes and clerks. \n        In the narrative paragraph detail what is known about both hierarchies. \n        The machine-readable code should reflect the largest number (the longer chain of command). <\/p>"
+      },
+      "Parents": [
+	["terminusdb:///schema#HierarchicalComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#advanced_unit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Other"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"More advanced measurements: temperature, force, astronomical."
+      },
+      "Parents": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#alternative_names_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Alternative names"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Names used in the historical literature or common names used by the inhabitants"
+      },
+      "Parents": [
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#String" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#area_unit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Area"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring areas. \n        For example: squared feet, hectares"
+      },
+      "Parents": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#bridges_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Bridges"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of bridges that were either built or\n        maintained by the political authority."
+      },
+      "Parents": [
+	["terminusdb:///schema#Transport" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#bureaucrat_income_source_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Bureaucrat Income Source"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the primary sources of income for professional bureaucrats / administrators"
+      },
+      "Parents": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedIncomeSource" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#bureaucrats_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time Bureaucrats"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of full-time specialist bureaucratic officials."
+      },
+      "Parents": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#Professions" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#burial_sites_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Burial Site"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of burial sites, dissociated \n        from settlement habitation, with monumental features."
+      },
+      "Parents": [
+	["terminusdb:///schema#Burial" ],
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#calendar_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Calendar"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written calendar or dating system"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#canals_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Canals"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of canals or artificial waterways \n        that were built or maintained by the political authority."
+      },
+      "Parents": [
+	["terminusdb:///schema#Transport" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#capital_city_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Capital City"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The city where the ruler spends most of his or her time. If there was more than one capital,\n         all are included. Note that the capital may be different from the largest city (see below).\n         <p>'Capital' may be difficult to code for archaeologically known societies.\n         If there is reasonable basis to believe that the largest known settlement was \n         the seat of the ruler it is coded as capital.\n         Archaeologists are able to recognize special architectural structures, \n         such as a ceremonial centres and some kind of citadels or palaces.\n         These features could be recognized with certainty after a careful study of the \n         whole region and the settlement network.\n         If such an inference cannot be made, this variable is coded as unknown \n        (again, the largest settlement is coded elsewhere).<\/p>"
+      },
+      "Parents": [
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#String" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#centralization_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Degree of Centralization"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"How centralized was power in this political authority?"
+      },
+      "Parents": [
+	["terminusdb:///schema#InternalAffairs" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedDegreeOfCentralization" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ceremonial_sites_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Ceremonial Site"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of sites that were specifically used for ceremonies."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Ritual" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#cost_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Cost"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"cost in people-years."
+      },
+      "Parents": [
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#DecimalRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#couriers_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Couriers"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time professional couriers."
+      },
+      "Parents": [
+	["terminusdb:///schema#PostalSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#courts_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Courts"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of buildings specialized for legal proceedings only."
+      },
+      "Parents": [
+	["terminusdb:///schema#Legal" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#debt_and_credit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Debt and credit"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Commercial and market debt and credit structures that take physical form, \n        e.g. a contract on parchment (not just verbal agreements)"
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#degree_of_centralization_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Degree of Centralization"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"How centralized was power in this political authority?"
+      },
+      "Parents": [
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedDegreeOfCentralization" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#emporia_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Trading Emporia"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of trading settlements characterised by their peripheral locations, \n        on the shore at the edge of a polity, a lack of infrastructure (typically those in Europe contained no churches) \n        and often of a short-lived nature. They include isolated caravanserai along trade routes."
+      },
+      "Parents": [
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#enclosures_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Enclosure"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of 'enclosures': a clearly demarcated special-purpose area. \n        It can be separated from surrounding land by earthworks (including banks or ditches), walls, \n        or fencing. It may be as small as a few meters across, or encompass many hectares. It is non-residential,\n        but could serve numerous purposes, both practical (animal pens) as well as religious and ceremonial."
+      },
+      "Parents": [
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#examination_system_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Examination System"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of an official Examination System. \n        The paradigmatic example is the Chinese imperial system."
+      },
+      "Parents": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#extent_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Extent"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Length of building along longest axis in metres"
+      },
+      "Parents": [
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#DecimalRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#fastest_travel_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Fastest Individual Communication"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"This is the fastest time (in days) an individual can travel from the capital city \n         to the most outlying provincial capital (if one exists), usually keeping within the \n         boundaries of the polity. This might be by ship, horse, horse relay, or on foot, or a combination."
+      },
+      "Parents": [
+	["terminusdb:///schema#Transport" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#DecimalRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#fiction_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Fiction"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written fictional works - including poetry, novels, short-stories, etc \n        (poetry will be factored out in future versions of the codebook."
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#foreign_coins_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Foreign Coins"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Coins minted by some external polity are used for exchange"
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#formal_legal_code_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Formal Legal Code"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of a formal legal code. Usually, \n        but not always written down. If not written down, it is coded as 'present' \n        when a uniform legal system is established by oral transmission \n        (e.g., officials are taught the rules, or the laws are announced in a public space)."
+      },
+      "Parents": [
+	["terminusdb:///schema#Legal" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#fortifications_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Fortifications"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"IV-5-7. Fortifications."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Military" ],
+	["terminusdb:///schema#Resilience" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#full_time_bureaucrats_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time Bureaucrats"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of full-time specialist bureaucratic officials."
+      },
+      "Parents": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#fun_houses_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Entertainment Buildings"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialist entertainment buildings. These include theaters, arenas, race tracks."
+      },
+      "Parents": [
+	["terminusdb:///schema#Entertainment" ],
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#geometrical_unit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Geometrical"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring geometries - for example: degrees."
+      },
+      "Parents": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#government_buildings_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Government Buildings"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of specialized government administration buildings. \n        These buildings are distinct from the ruler's palace and could be used for document storage, \n        registration offices, minting money, etc. \n        Defense structures also are not included here."
+      },
+      "Parents": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#height_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Height"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Height of building in metres"
+      },
+      "Parents": [
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#DecimalRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#history_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"History"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written history existed"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#indigenous_coins_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Indigenous Coins"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Coins minted by local authority are in use for exchange"
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#irrigation_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Irrigation Systems"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of irrigation systems."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#judges_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Judges"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of specialist judges"
+      },
+      "Parents": [
+	["terminusdb:///schema#Legal" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#lang_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Language"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The language(s) are listed that were generally used for administration, religion, and military affairs. \n        The languages spoken by the majority of the population are also listed, if different from the above."
+      },
+      "Parents": [
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#String" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#largest_settlement_population_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Largest Settlement Population"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Population count of the largest settlement within the entity. \n         <p>Note that the largest settlement could be different from the capital. \n         Where possible, the dynamics (that is, how population changed during the temporal period of the polity) \n         are included in the notes. \n         Note that we are also building a city database - this will be merged into that eventually.<\/p>"
+      },
+      "Parents": [
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#length_unit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Length"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring length. \n        For example: feet, miles, kilometers, inches"
+      },
+      "Parents": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#libraries_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Knowledge / Information Buildings"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialist information / knowledge buildings. \n        These include astronomic observatories, libraries, and museums."
+      },
+      "Parents": [
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#Writing" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#linguistic_family_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Linguistic Family"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The Linguistic family or families that the main languages\n         belonged to. https://en.wikipedia.org/wiki/List_of_language_families"
+      },
+      "Parents": [
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#String" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#lists_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Lists and Tables"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written lists, tables and classifications (e.g. debt lists, tax-lists...)"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#longest_communication_distance_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Longest Communication Distance"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Distance in kilometers between the capital and the furthest provincial capital. \n         The figure for the most direct land and/or sea route that was available is used.\n         <p>As an alternative for prehistoric communities, it refers to the distance between \n         largest quasi-capital and furthest village within the quasi-polity.<\/p>"
+      },
+      "Parents": [
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#manuals_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Practical Literature"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Practical guides and manuals to help people do useful stuff. \n        For example manuals on agriculture, military, cooking, etc"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#markets_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Markets"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of markets."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#merit_promotion_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Merit Promotion"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of merit promotion. <i>Present<\/i> means there were regular, \n        institutionalized procedures for promotion based on performance. When exceptional \n        individuals are promoted to the top ranks, in the absence of \n        institutionalized procedures, this does not count (it is encoded elsewhere)."
+      },
+      "Parents": [
+	["terminusdb:///schema#BureaucraticSystem" ],
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#military_levels_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Military Levels"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Number of levels in the military hierarchy. \n        <p>Starts with the commander-in-chief and works down to the private (level 1).<\/p> \n        <p>Even in primitive societies such as simple chiefdoms it is often possible to \n        distinguish at least two levels : a commander and soldiers.\n        A complex chiefdom would be coded as having three levels.\n        The presence of warrior burials might be the basis for inferring the existence of a military organization. \n        (The lowest military level is always the individual soldier).<\/p>"
+      },
+      "Parents": [
+	["terminusdb:///schema#HierarchicalComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#military_officers_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Military Officers"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time specialist military officers."
+      },
+      "Parents": [
+	["terminusdb:///schema#Military" ],
+	["terminusdb:///schema#Professions" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#mines_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Mine or Quarry"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of mines or quarries within the political authority."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Mining" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#mnemonics_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Mnemonic Devices"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Marks that serve as memory devices that help people recall larger pieces of information"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#monetary_articles_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Articles"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Articles with use-value used for exchange and trade, e.g. axes, cattle, grain."
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#monetary_tokens_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Tokens"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Tokens used for exchange and trade, e.g. cowrie shells."
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#non_phonetic_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Non-phonetic Writing"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"this refers to the kind of script - non-phonetic scripts do not represent the sound of \n        the word but attach symbols to the meaning."
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#non_written_records_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Non-written Records"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Knoweldge representation systems that do not use writing - using color, material, etc to convey meaning. e.g., quipu https://en.wikipedia.org/wiki/Quipu"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#other_site_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Other Site"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialised non-residential sites. \n         A description of the site is provided in the notes."
+      },
+      "Parents": [
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#paper_currency_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Paper Currency"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Currency notes or other kind of fiat currency"
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#peak_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Peak Date"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The period when the political power was at its peak, whether militarily,\n        in terms of the size of territory controlled, or the degree of cultural development. \n        This variable has a subjective element, but typically historians agree when the peak was."
+      },
+      "Parents": [
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#philosophy_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Philosophy"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written philosophical treatises"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#phonetic_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Phonetic Alphabet"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"this refers to the kind of script - phonetic scripts have alphabets \n        with letters and combinations of letters which represent sounds."
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#population_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Population"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Estimated population; can change as a result of a political authority adding/losing \n         new territories or by population growth/decline within a region"
+      },
+      "Parents": [
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#ports_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Ports"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of ports that were either built or maintained by the political authority. \n        These include river ports. Direct historical or archaeological evidence of Ports is absent \n        when no port has been excavated or all evidence of such has been obliterated. Indirect historical \n        or archaeological data is absent when there is no evidence that suggests that the polity engaged\n        in maritime or riverine trade, conflict, or transportation, such as evidence of merchant shipping, \n        administrative records of customs duties, or evidence that at the same period of time a trading \n        relation in the region had a port (for example, due to natural processes, there is little evidence\n        of ancient ports in delta Egypt at a time we know there was a timber trade with the Levant). \n        When evidence for the variable itself is available the code is 'present.' When other forms of evidence \n        suggests the existence of the variable (or not) the code may be 'inferred present' (or 'inferred absent').\n        When indirect evidence is <i>not<\/i> available the code will be either absent, \n        temporal uncertainty, suspected unknown, or unknown."
+      },
+      "Parents": [
+	["terminusdb:///schema#Naval" ],
+	["terminusdb:///schema#Transport" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#post_offices_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Postal Stations"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Specialized buildings exclusively devoted to the postal service."
+      },
+      "Parents": [
+	["terminusdb:///schema#PostalSystem" ],
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#potable_water_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Drinking Water Supply"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of systems to supply drinking water to the public."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#precious_metals_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Precious Metals"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Bullion: non-coined silver, gold, platinum."
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#predecessor_relationship_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Relationship to Preceding Polity"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"How this political authority evolved from its predecessor."
+      },
+      "Parents": [
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedPoliticalEvolution" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#priests_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Priesthood"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of full-time specialist religious officials."
+      },
+      "Parents": [
+	["terminusdb:///schema#Professions" ],
+	["terminusdb:///schema#Religion" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#private_mail_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"General Service"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"A postal service that not only serves the ruler's needs, but carries mail for private citizens."
+      },
+      "Parents": [
+	["terminusdb:///schema#PostalSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#professional_lawyers_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Professional Lawyers"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialist professional lawyers."
+      },
+      "Parents": [
+	["terminusdb:///schema#Legal" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#professional_soldiers_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Soldiers"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time specialist paid soldiers."
+      },
+      "Parents": [
+	["terminusdb:///schema#Military" ],
+	["terminusdb:///schema#Professions" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#public_buildings_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Communal Buildings"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"This encodes the historical presence of Communal buildings. It distinguishes between \n        settlements that consist of only private households (coded 'absent') and settlements \n        where there are communal buildings which could be used for a variety of uses (coded 'present')."
+      },
+      "Parents": [
+	["terminusdb:///schema#Public" ],
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#religious_levels_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Religious Levels"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Number of levels in the religious hierarchy.\n         <P>Starts with the head of the official cult \n        (if present) and works down to the local priest (level 1).<\/p>"
+      },
+      "Parents": [
+	["terminusdb:///schema#HierarchicalComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#religious_literature_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Religious Literature"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Religious literature differs from the sacred texts. For example, it may provide commentary \n        on the sacred texts, or advice on how to live a virtuous life."
+      },
+      "Parents": [
+	["terminusdb:///schema#Religion" ],
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#roads_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Roads"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of roads that were either built or \n        maintained by the political authority."
+      },
+      "Parents": [
+	["terminusdb:///schema#Transport" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#sacred_texts_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Sacred Texts"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Sacred Texts originate from supernatural agents (deities), or are directly inspired by them."
+      },
+      "Parents": [
+	["terminusdb:///schema#Religion" ],
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#science_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Science"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written scientific works, including mathematics, natural sciences, social sciences"
+      },
+      "Parents": [
+	["terminusdb:///schema#Science" ],
+	["terminusdb:///schema#WritingGenre" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#script_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Script"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"A system for writing symbols that have meaning attached to them. \n        (note that if written records are present, then so is script by defintion)"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#settlement_levels_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Settlement Levels"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"This variable records the hierarchy of not just settlement sizes, \n         but also their complexity as reflected in different roles they play within the (quasi)polity.\n         As settlements become more populous they acquire more complex functions: transportational \n         (e.g. port); economic (e.g. market); administrative (e.g. storehouse, local government building); \n         cultural (e.g. theatre); religious (e.g. temple), utilitarian (e.g. hospital), monumental \n         (e.g. statues, plazas). <p>Example: (6) Large City \n         (monumental structures, theatre, market, hospital, central government buildings) \n         (5) City (market, theatre, regional government buildings) \n         (4) Large Town (market, administrative buildings)\n         (3) Town (administrative buildings, storehouse)) (2) Village (shrine) \n         (1) Hamlet (residential only).<\/p> <p>In the narrative annotations, the different levels and \n         their functions are listed. A Crude estimate of population sizes is included.\n         For example, Large Town (market, temple, administrative buildings): 2,000-5,000 inhabitants. <\/p>"
+      },
+      "Parents": [
+	["terminusdb:///schema#HierarchicalComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#sewage_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Sewage"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"IV-5-4. Sewage management systems"
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#Resilience" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#siloes_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Food Storage Sites"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The historical presence of specialized structures (grain siloes...) for storing food."
+      },
+      "Parents": [
+	["terminusdb:///schema#Construction" ],
+	["terminusdb:///schema#Food" ],
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#special_houses_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Special Purpose Houses"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of houses that were used in\n         a distinctive or special manner. This code reflects differentiation between houses."
+      },
+      "Parents": [
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#special_sites_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Special Sites"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The types of special sites that are associated with the polity - \n        primarily useful for coding archaneologically known societies."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#stores_of_wealth_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Stores of Wealth"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Special places for storing wealth: (example: hoard, chest for storing valuables, treasury room). \n        Note for the future: perhaps should separate these into individual variables."
+      },
+      "Parents": [
+	["terminusdb:///schema#MonetarySystem" ],
+	["terminusdb:///schema#SocialComplexity" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#supra_polity_relations_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Supra-polity relations"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"What was the relationship between this political authority and larger / higher order power."
+      },
+      "Parents": [
+	["terminusdb:///schema#ExternalAffairs" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedSupraPolityRelations" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#supracultural_entity_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Supra-cultural Entity"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Political Authorities can be embedded within larger-scale cultural groupings \n          of polities or quasipolities. These are sometimes referred to as \"civilizations\". \n          For example, medieval European kingdoms were part of Latin Christendom. During the periods of \n          disunity in China, warring states there, nevertheless, belonged to the same Chinese cultural sphere. \n          Archaeologists often use \"archaeological traditions\" to denote such large-scale cultural entities \n          (for example, Peregrine's Atlas of Cultural Evolution). \n          Note, 'supracultural entity' refers to cultural interdependence, and is distinct \n          from a political confederation or alliance, which is coded under 'supra-polity relations.'"
+      },
+      "Parents": [
+	["terminusdb:///schema#ExternalAffairs" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#String" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#supracultural_scale_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Supra-cultural Scale"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"An estimate of the area encompassed by the supracultural entity - in km squared."
+      },
+      "Parents": [
+	["terminusdb:///schema#Scale" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#symbolic_building_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Symbolic Buildings"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialized purely symbolic buildings. \n        <P>These are non-utilitarian constructions that display symbols, or are themselves \n        symbols of the community or polity (or a ruler as a symbol of the polity). \n        Examples include Taj Mahal mausoleum, Trajan's Column, Ashoka's Pillars, Qin Shih Huang's Terracota Army, \n        the Statue of Liberty. Has to be constructed by humans, so sacred groves or mountains \n        are not symbolic buildings. A palace is also not a symbolic building, because it has other, \n        utilitarian functions (houses the ruler).<\/P>"
+      },
+      "Parents": [
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#territorial_area_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Territorial Area"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The area in squared kilometers of the entity's territory."
+      },
+      "Parents": [
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#IntegerRange" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#time_unit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Time"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring time.\n         A natural unit such as 'day' doesn't qualify. \n        Nor does a vague one like 'season'. Archaeological evidence is a clock (e.g., sundial)"
+      },
+      "Parents": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#utilities_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Utilitarian Public Buildings"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of public utilities. Typical examples include aqueducts, \n        sewers, and granaries (which are also included as separate variables). In the narrative annotations, \n        examples of utilitarian buildings and the most impressive/costly/large ones are included."
+      },
+      "Parents": [
+	["terminusdb:///schema#Infrastructure" ],
+	["terminusdb:///schema#SpecializedBuildings" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#utm_zone_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"UTM Zone"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The UTM Zone that corresponds most directly with the entity - e.g. \n         where the polity's capital city is located, or the location of the NGA. \n         For more see: http://www.dmap.co.uk/utmworld.htm"
+      },
+      "Parents": [
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#String" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#volume_unit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Volume"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring volume. For example: pint, litre"
+      },
+      "Parents": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#weight_unit_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Weight"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring weight. For example: pounds, kilograms"
+      },
+      "Parents": [
+	["terminusdb:///schema#MeasurementSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#written_records_Value",
+      "Class Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written Records"
+      },
+      "Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"More than short and fragmentary inscriptions, such as found on tombs or runic stones. \n        There must be several sentences strung together, at the very minimum. For example, \n        royal proclamations from Mesopotamia and Egypt qualify as written records;"
+      },
+      "Parents": [
+	["terminusdb:///schema#WritingSystem" ],
+	["terminusdb:///schema#ScopedValue" ],
+	["terminusdb:///schema#ScopedEpistemicState" ]
+      ]
+    }
+  ],
+  "deletes":0,
+  "inserts":0,
+  "transaction_retry_count":0
+}

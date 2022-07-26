@@ -1,0 +1,53 @@
+{
+  "@type":"api:WoqlResponse",
+  "api:status":"api:success",
+  "api:variable_names": [
+    "Parents",
+    "Description",
+    "Class Name",
+    "Class ID",
+    "Children",
+    "Abstract"
+  ],
+  "bindings": [
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Bicycle",
+      "Class Name": {"@language":"en", "@value":"Bicycle"},
+      "Description": {"@language":"en", "@value":"A thing with wheels - wheee!!!!"},
+      "Parents": [ ["http://terminusdb.com/schema/system#Document" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Journey",
+      "Class Name": {"@language":"en", "@value":"Journeyxxxd"},
+      "Description": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Parents": [ ["http://terminusdb.com/schema/system#Document" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#Station",
+      "Class Name": {"@language":"en", "@value":"Bike Station"},
+      "Description": {
+	"@language":"en",
+	"@value":"A station where bikes are deposited"
+      },
+      "Parents": [ ["http://terminusdb.com/schema/system#Document" ] ]
+    }
+  ],
+  "deletes":0,
+  "inserts":0,
+  "transaction_retry_count":0
+}

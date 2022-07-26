@@ -1,0 +1,1 @@
+export { ChartComponent } from './ChartComponent';

@@ -1,0 +1,67 @@
+.tdb__form{
+
+	&__group{
+		padding-bottom:15px
+	}
+
+	&__error{
+	  color:#e74c3c;
+	}
+
+
+	&__element{
+	    display: block;
+	    width: 100%;
+	    padding: .375rem .75rem;
+	    font-size: 1rem;
+	    line-height: 1.5;
+	    color: #495057;
+	    background-color: #fff;
+	    background-clip: padding-box;
+	    border: 1px solid #ced4da;
+	    border-radius: .25rem;
+	    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+	    &:disabled{
+	    	background-color: #ccc;
+	    }
+	    &:focus{
+	    	outline-color: darkgrey;
+    		outline-style: auto;
+    		outline-width: 1px;
+	    }
+	}
+
+
+
+	&__check{
+	 	-webkit-transform: scale(1.3) rotateZ(0deg);
+	    -ms-transform: scale(1.3) rotate(0deg);
+	    transform: scale(1.3) rotateZ(0deg);
+	    opacity: 0.7;
+	    /* outline: 1px solid #222; */
+	    background-color: transparent;
+	    margin-right: 10px;
+	}
+
+	&__span{
+	    align-items: center;
+	    display: flex;
+	}
+
+	&__help{
+		display: flex;
+    	justify-content: space-between;
+	}
+
+
+	&__label{
+
+
+	}
+
+}
+
+.icon-help{
+  margin-bottom:.5rem;
+}

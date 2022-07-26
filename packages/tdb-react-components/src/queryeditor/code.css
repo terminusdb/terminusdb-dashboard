@@ -1,0 +1,29 @@
+div.q-e div.react-codemirror2{ 
+  margin-top: 0px !important;
+}
+
+div.cm-s-eclipse {
+    height: 350px !important;
+}
+
+div.CodeMirror-hscrollbar {
+   display: none !important;
+}
+ 
+.readOnly.react-codemirror2  *.CodeMirror{
+	background-color: green !important /*#cccccc !important*/;
+}
+
+div.CodeMirror{
+ 	min-height: 350px;
+}
+
+div.CodeMirror{
+    height: auto;
+}
+
+div.react-codemirror2{
+  	/*margin-top: 100px;*/
+ 	min-height: 350px;
+ 	background-color: red !important;
+}

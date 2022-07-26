@@ -1,0 +1,130 @@
+{
+  "@type":"api:WoqlResponse",
+  "api:status":"api:success",
+  "api:variable_names": ["Person", "Name", "Mother", "Mother_Name" ],
+  "bindings": [
+    {
+      "Mother":"terminusdb:///data/Person_motherOfMaria01_11/06/1976",
+      "Mother_Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfMaria01"
+      },
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"Maria01"
+      },
+      "Person":"terminusdb:///data/Person_Maria01_25/05/2011"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"fatherOfMaria01"
+      },
+      "Person":"terminusdb:///data/Person_fatherOfMaria01_11/08/1975"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfMaria01"
+      },
+      "Person":"terminusdb:///data/Person_motherOfMaria01_11/06/1976"
+    },
+    {
+      "Mother":"terminusdb:///data/Person_motherOfSofia01_11/06/1976",
+      "Mother_Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfSofia01"
+      },
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"Sofia01"
+      },
+      "Person":"terminusdb:///data/Person_Sofia01_25/05/2011"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"fatherOfSofia01"
+      },
+      "Person":"terminusdb:///data/Person_fatherOfSofia01_11/08/1975"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfSofia01"
+      },
+      "Person":"terminusdb:///data/Person_motherOfSofia01_11/06/1976"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"fatherOfmotherOfMaria01"
+      },
+      "Person":"terminusdb:///data/Person_fatherOfmotherOfMaria01_11/08/1955"
+    },
+    {
+      "Mother":"terminusdb:///data/Person_motherOfmotherOfMaria01_11/06/1956",
+      "Mother_Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfmotherOfMaria01"
+      },
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfMaria01"
+      },
+      "Person":"terminusdb:///data/Person_motherOfMaria01_11/06/1956"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfmotherOfMaria01"
+      },
+      "Person":"terminusdb:///data/Person_motherOfmotherOfMaria01_11/06/1956"
+    },
+    {
+      "Mother":"terminusdb:///data/Person_motherOfAnna002_1956-10-23",
+      "Mother_Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfAnna002"
+      },
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"Anna002"
+      },
+      "Person":"terminusdb:///data/Person_Anna002_2011-05-25"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"fatherOfAnna002"
+      },
+      "Person":"terminusdb:///data/Person_fatherOfAnna002_1955-08-22"
+    },
+    {
+      "Mother":"system:unknown",
+      "Mother_Name":"system:unknown",
+      "Name": {
+  "@type":"http://www.w3.org/2001/XMLSchema#string",
+  "@value":"motherOfAnna002"
+      },
+      "Person":"terminusdb:///data/Person_motherOfAnna002_1956-10-23"
+    }
+  ],
+  "deletes":0,
+  "inserts":0,
+  "transaction_retry_count":0
+}

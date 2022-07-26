@@ -1,0 +1,39 @@
+{
+  "@type":"api:WoqlResponse",
+  "api:status":"api:success",
+  "api:variable_names": [
+    "Parents",
+    "Description",
+    "Class Name",
+    "Class ID",
+    "Children",
+    "Abstract"
+  ],
+  "bindings": [
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#CitedWork",
+      "Class Name": {"@language":"en", "@value":"Cited Work"},
+      "Description": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Parents": [ ["http://terminusdb.com/schema/system#Document" ] ]
+    },
+    {
+      "Abstract": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"No"
+      },
+      "Children": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Class ID":"terminusdb:///schema#City",
+      "Class Name": {"@language":"en", "@value":"City"},
+      "Description": {
+	"@language":"en",
+	"@value":"A concentrated human settlement, typically large"
+      },
+      "Parents": [ ["terminusdb:///schema#Settlement" ] ]
+    }
+  ]
+}
