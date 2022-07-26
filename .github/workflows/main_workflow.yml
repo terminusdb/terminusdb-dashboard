@@ -78,6 +78,7 @@ jobs:
       with:
         node-version: 16
     - run: bash .ci/install_dependencies.sh
+    - name: Build local dashboard
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' || startsWith(github.ref, 'refs/tags/v') }}
       run: |
         cd packages/tdb-dashboard
