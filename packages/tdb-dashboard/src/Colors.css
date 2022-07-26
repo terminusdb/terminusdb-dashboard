@@ -1,0 +1,60 @@
+/*** Pink: de7dd8, Purple: 855afc, Blue: 4c58d2, Yellow: f9d891  ***/
+ /* mute: D2D3D9 */
+:root {
+    --color-pink: #de7dd8;
+    --text-contrast-pink: #002856;
+    --color-purple: #855afc;
+    --color-purple-hover: #8f75d8;
+    --text-contrast-purple: #fff;
+    --color-yellow: #f9d891;
+    --color-contrast-yellow: #002856;
+    --color-border-yellow: #d7a12f;
+
+    --custom-text: var(--color-pink);
+    --custom-nav: var(--color-pink);
+    --custom-nav-text: var(--text-contrast-pink);
+    --custom-button: var(--color-purple);
+    --custom-button-text: var(--text-contrast-purple);
+    --color-purple-hover: var(--color-purple-hover);
+
+    --badge-color: var(--color-yellow);
+    --badge-text-color: var(--color-contrast-yellow);
+    --badge-border-color: var(--color-border-yellow);
+}
+
+  
+.text-success {
+    color: var(--custom-text) !important;
+}
+
+
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+    color:  var(--custom-nav) !important;
+}
+  
+.navbar-dark .navbar-nav .nav-link.active{
+    background-color: var(--custom-nav);
+    color: var(--custom-nav-text) !important;
+}
+
+.btn-info {
+    background-color: var(--custom-button) !important;
+    border-color: var(--custom-button) !important;
+    color: var(--custom-button-text) !important;
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open>.dropdown-toggle.btn-info {
+    color: var(--custom-button-text);
+    background-color: var(--color-purple-hover);
+    border-color: var(--custom-button);
+}
+
+.bg-primary {
+    background-color: var(--badge-color) !important;
+    border-color: var(--badge-border-color) !important;
+    color: var(--badge-text-color) !important;
+}
+
+.bg-success {
+    background-color: var(--color-pink) !important; 
+}

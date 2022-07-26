@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "../../../../terminusdb-hub-mothership"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../terminusdb-react-chart"
+		},
+		{
+			"path": "../../../../terminusdb-react-components"
+		},
+		{
+			"path": "../../../../terminusdb-client"
+		},
+		{
+			"path": "../../../../react-server"
+		},
+		{
+			"path": "../../../../react-ssr"
+		}
+	],
+	"settings": {}
+}

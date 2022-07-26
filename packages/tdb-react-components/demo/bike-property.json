@@ -1,0 +1,133 @@
+{
+   "@type":"api:WoqlResponse",
+   "api:status":"api:success",
+   "api:variable_names":[
+      "Property Type",
+      "Property Range",
+      "Property Name",
+      "Property ID",
+      "Property Domain",
+      "Property Description"
+   ],
+   "bindings":[
+      {
+         "Property Description":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":""
+         },
+         "Property Domain":"terminusdb:///schema#Journey",
+         "Property ID":"terminusdb:///schema#duration",
+         "Property Name":{
+            "@language":"en",
+            "@value":"Journey Duration"
+         },
+         "Property Range":"http://www.w3.org/2001/XMLSchema#integer",
+         "Property Type":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"Data"
+         }
+      },
+      {
+         "Property Description":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":""
+         },
+         "Property Domain":"terminusdb:///schema#Journey",
+         "Property ID":"terminusdb:///schema#end_station",
+         "Property Name":{
+            "@language":"en",
+            "@value":"End Station"
+         },
+         "Property Range":"terminusdb:///schema#Station",
+         "Property Type":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"Object"
+         }
+      },
+      {
+         "Property Description":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":""
+         },
+         "Property Domain":"terminusdb:///schema#Journey",
+         "Property ID":"terminusdb:///schema#end_time",
+         "Property Name":{
+            "@language":"en",
+            "@value":"Time Ended"
+         },
+         "Property Range":"http://www.w3.org/2001/XMLSchema#dateTime",
+         "Property Type":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"Data"
+         }
+      },
+      {
+         "Property Description":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":""
+         },
+         "Property Domain":"terminusdb:///schema#Journey",
+         "Property ID":"terminusdb:///schema#journey_bicycle",
+         "Property Name":{
+            "@language":"en",
+            "@value":"Bicycle Used"
+         },
+         "Property Range":"terminusdb:///schema#Bicycle",
+         "Property Type":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"Object"
+         }
+      },
+      {
+         "Property Description":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":""
+         },
+         "Property Domain":"terminusdb:///schema#Journey",
+         "Property ID":"terminusdb:///schema#start_station",
+         "Property Name":{
+            "@language":"en",
+            "@value":"Start Station"
+         },
+         "Property Range":"terminusdb:///schema#Station",
+         "Property Type":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"Object"
+         }
+      },
+      {
+         "Property Description":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":""
+         },
+         "Property Domain":"terminusdb:///schema#Journey",
+         "Property ID":"terminusdb:///schema#start_time",
+         "Property Name":{
+            "@language":"en",
+            "@value":"Time Started"
+         },
+         "Property Range":"http://www.w3.org/2001/XMLSchema#dateTime",
+         "Property Type":{
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"Data"
+         }
+      },
+      {
+         "Property Description": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+         "Property Domain":"terminusdb:///schema#Bicycle",
+         "Property ID":"terminusdb:///schema#short_prop",
+         "Property Name": {
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"short property"
+               },
+               "Property Range":"http://www.w3.org/2001/XMLSchema#short",
+               "Property Type": {
+            "@type":"http://www.w3.org/2001/XMLSchema#string",
+            "@value":"Data"
+         }
+       }
+   ],
+   "deletes":0,
+   "inserts":0,
+   "transaction_retry_count":0
+}

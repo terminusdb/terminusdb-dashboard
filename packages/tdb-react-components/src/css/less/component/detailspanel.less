@@ -1,0 +1,267 @@
+.tdb__panel{
+    outline: 0;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    /* padding: 0 1% 0 0; */
+    padding: 0px;
+    margin: 0;
+    word-wrap: break-word;
+    flex: 1;
+    flex: 1 1 auto;
+    min-height: 100px;
+    margin-bottom: 100px;
+    /* height: calc(100vh - 330px); */
+
+  &--nopad{
+    padding:0px;
+  }
+
+  &__subtitle{
+    color: #00C08B;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+
+  &__title{
+    background: #f4f4f4;
+    min-height: 35px;
+    padding: 10px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    &--prop{
+      font-style: italic;
+      color: #ff8000;
+    }
+
+    &--parent{
+      font-style: italic;
+      color: #00C08B;
+    }
+  }
+
+  &__title__icon{
+      background-repeat: no-repeat;
+      display: inline-block;
+      margin-right: 10px;
+      font-size: 1.4em;
+  }
+
+   &__label{
+      padding:10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
+  &__bar{
+    background: transparent;
+    justify-content: flex-end;
+    display: flex;
+    border-bottom: 1px solid rgb(102, 102, 102);;
+  }
+
+  &__box{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    &--hideEmpty{
+
+      &:empty {
+        display: none;
+      }
+
+    }
+
+    &--border{
+      border: 1px solid #868484;
+    }
+  }
+
+  &__button{
+    font-size: 22px;
+    background: transparent;
+    border: 0px;
+    padding:10px;
+    margin-left: auto;
+    color: #565656;
+
+    &:disabled{
+       color:#ddd;
+    }
+
+    &--red{
+       color: #e74c3c;
+       padding: 0px 0px 20px;
+    }
+
+    &--green{
+       color:#00C08B;
+    }
+
+    &--orange{
+      color:#ff8000;
+    }
+
+    &--selected{
+      /*border: 1px solid #ff8000 ! important;*/
+      cursor: pointer;
+      background-color: #ddd !important;
+      border-radius: 50%;
+      padding:10px;
+      color: #ff8000 ! important;
+      border:transparent;
+    }
+  }
+
+  &__row{
+    display: flex;
+    &--center{
+      align-items: center;
+    }
+  }
+
+
+  &__viewlabel{
+      width: 150px;
+      display: block;
+      text-align: right;
+      margin: 10px;
+      min-width: 150px;
+      font-weight: 600;
+    }
+
+  &__viewvalue{
+     display: block;
+     margin: 10px;
+
+     &--active{
+        cursor:pointer;
+        text-decoration: underline;
+
+        &:hover{
+          color:@brand-color-green;
+        }
+    }
+  }
+
+
+  &__input{
+
+  }
+
+
+  &__icon__trash{
+    padding: 5px;
+    font-size: 2em;
+    border: 1px solid #ffff;
+    /* border-radius: 10px; */
+    color: red;
+    background: white;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover{
+      background-color: #ddd;
+      color:red;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+    }
+
+    &:disabled{
+      background-color: #ffff;
+      color:#ddd;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      cursor:default;
+    }
+
+  }
+}
+
+.tdb__list{
+    display:flex;
+    flex-direction:column;
+
+    &__title{
+      padding: 10px;
+      background: #afafaf;
+      color: #ffffff;
+      border: 1px solid #afafaf;
+      /* border-top-left-radius: 10px; */
+      border-top-right-radius: 10px;
+      width: 200px;
+    }
+
+    &__label{
+      padding:10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
+    &__body{
+      margin-bottom:10px;
+      border: 1px solid #868484;
+      padding: 10px;
+    }
+
+    &__items{
+      margin-bottom:10px;
+      border: 1px solid #868484;
+      padding: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    &__item{
+      display: flex;
+      align-items: baseline;
+      border-bottom: 1px solid #dddd;
+      padding-left: 10px;
+    }
+}
+
+.baseP{
+  display: flex;
+}
+
+.hideEmpty:empty {
+   display: none;
+}
+
+.basePmain{
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  font-size: 1.2em;
+  color: #265fa2;
+}
+
+.titleElement{
+  padding-top: 5px;
+}
+
+.numElementMain{
+  display: flex;
+  justify-content: space-between;
+  color:#265fa2;
+}
+
+.numElementBox{
+  flex-basis:0;
+  flex-grow: 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #e7f5ff;
+  border: 1px solid #d0e8f9;
+  border-radius: 5px;
+  margin: 10px;
+}

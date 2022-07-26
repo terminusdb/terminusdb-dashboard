@@ -1,0 +1,72 @@
+.tdb__rel{
+	
+	&__box{
+	  display: flex;	  
+	  padding: 10px;
+	  align-items: center;
+	  margin-bottom: 10px;
+	}
+	
+    &__linegroup{
+    	flex-grow: 1;
+	    display: flex;
+	    flex-wrap: nowrap;
+	    overflow: hidden;
+    }
+
+    &__label{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width:100px;
+	  margin-bottom: 0px;
+    }
+
+
+    &__line{
+    	flex-grow: 1;
+    	height: 30px;
+    	border-bottom: 5px solid #868484;
+    	display: flex;
+    	justify-content: center;
+    }
+
+    &__arrow{
+    	font-size: 30px;
+	    height: 30px;
+	    margin-top: 12px;
+	    color: #868484;
+    }
+
+    &__element{
+	    width: 110px;
+	    height: 100px;
+	    padding: 5px;
+	    border: 3px dashed;
+	    border-radius: 20px;
+	    color: #265fa2;
+	    font-weight: bold;
+	    display: -ms-flexbox;
+	    display: flex;
+	    -ms-flex-align: center;
+	    align-items: center;
+	    -ms-flex-pack: center;
+	    justify-content: center;	    
+
+	    &--active{
+	    	cursor:pointer;
+	    	background: aliceblue;
+
+	    	&:hover{
+	    		background-color: #d1d5da;
+	    	}
+	    }
+	}
+
+}
+
+
+
+
+
+

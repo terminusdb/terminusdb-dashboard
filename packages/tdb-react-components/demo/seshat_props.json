@@ -1,0 +1,2298 @@
+{
+  "@type":"api:WoqlResponse",
+  "api:status":"api:success",
+  "api:variable_names": [
+    "Property Type",
+    "Property Range",
+    "Property Name",
+    "Property ID",
+    "Property Domain",
+    "Property Description"
+  ],
+  "bindings": [
+    {
+      "Property Description": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Property Domain":"terminusdb:///schema#CitedWork",
+      "Property ID":"terminusdb:///schema#remote_url",
+      "Property Name": {"@type":"http://www.w3.org/2001/XMLSchema#string", "@value":""},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#anyURI",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"A link to a cited work"},
+      "Property Domain":"terminusdb:///schema#Note",
+      "Property ID":"terminusdb:///schema#citation",
+      "Property Name": {"@language":"en", "@value":"Citation"},
+      "Property Range":"terminusdb:///schema#CitedWork",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"Qualifiers of the confidence of a variable value"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedValue",
+      "Property ID":"terminusdb:///schema#confidence",
+      "Property Name": {"@language":"en", "@value":"Confidence"},
+      "Property Range":"terminusdb:///schema#Confidence",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"The end of a time range"},
+      "Property Domain":"terminusdb:///schema#ScopedValue",
+      "Property ID":"terminusdb:///schema#end",
+      "Property Name": {"@language":"en", "@value":"To"},
+      "Property Range":"http://terminusdb.com/schema/xdd#integerRange",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"Editorial notes on values"},
+      "Property Domain":"terminusdb:///schema#ScopedValue",
+      "Property ID":"terminusdb:///schema#notes",
+      "Property Name": {"@language":"en", "@value":"Notes"},
+      "Property Range":"terminusdb:///schema#Note",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"A quotation from a work"},
+      "Property Domain":"terminusdb:///schema#Note",
+      "Property ID":"terminusdb:///schema#quotation",
+      "Property Name": {"@language":"en", "@value":"Quotation"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#string",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"The start of a time range"},
+      "Property Domain":"terminusdb:///schema#ScopedValue",
+      "Property ID":"terminusdb:///schema#start",
+      "Property Name": {"@language":"en", "@value":"From"},
+      "Property Range":"http://terminusdb.com/schema/xdd#integerRange",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A particular location on the surface of the earth, defined by latitude and longitude . An xdd:coordinate value."
+      },
+      "Property Domain":"terminusdb:///schema#Coordinate",
+      "Property ID":"terminusdb:///schema#coordinate",
+      "Property Name": {"@language":"en", "@value":"Coordinate"},
+      "Property Range":"http://terminusdb.com/schema/xdd#coordinate",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A shape on a map which defines an area. within the defined set of coordinates   An xdd:coordinatePolygon value."
+      },
+      "Property Domain":"terminusdb:///schema#CoordinatePolygon",
+      "Property ID":"terminusdb:///schema#coordinatePolygon",
+      "Property Name": {"@language":"en", "@value":"Geographic Area"},
+      "Property Range":"http://terminusdb.com/schema/xdd#coordinatePolygon",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A set of coordinates forming a line on a map, representing a route. An xdd:coordinatePolyline value."
+      },
+      "Property Domain":"terminusdb:///schema#CoordinatePolyline",
+      "Property ID":"terminusdb:///schema#coordinatePolyline",
+      "Property Name": {"@language":"en", "@value":"Coordinate Path"},
+      "Property Range":"http://terminusdb.com/schema/xdd#coordinatePolyline",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A date or a range of dates YYYY-MM-DD"
+      },
+      "Property Domain":"terminusdb:///schema#DateRange",
+      "Property ID":"terminusdb:///schema#dateRange",
+      "Property Name": {"@language":"en", "@value":"Date Range"},
+      "Property Range":"http://terminusdb.com/schema/xdd#dateRange",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A decimal value or, if uncertain, a range of decimal values. An xdd:decimalRange value."
+      },
+      "Property Domain":"terminusdb:///schema#DecimalRange",
+      "Property ID":"terminusdb:///schema#decimalRange",
+      "Property Name": {"@language":"en", "@value":"Decimal Number"},
+      "Property Range":"http://terminusdb.com/schema/xdd#decimalRange",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"A valid email address."},
+      "Property Domain":"terminusdb:///schema#Email",
+      "Property ID":"terminusdb:///schema#email",
+      "Property Name": {"@language":"en", "@value":"Email"},
+      "Property Range":"http://terminusdb.com/schema/xdd#email",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A 4-digit year, YYYY, or if uncertain, a range of years. An xdd:gYearRange value."
+      },
+      "Property Domain":"terminusdb:///schema#GYearRange",
+      "Property ID":"terminusdb:///schema#gYearRange",
+      "Property Name": {"@language":"en", "@value":"Year"},
+      "Property Range":"http://terminusdb.com/schema/xdd#gYearRange",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"A safe HTML string"},
+      "Property Domain":"terminusdb:///schema#Html",
+      "Property ID":"terminusdb:///schema#html",
+      "Property Name": {"@language":"en", "@value":"HTML"},
+      "Property Range":"http://terminusdb.com/schema/xdd#html",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A simple number or range of numbers. An xdd:integerRange value."
+      },
+      "Property Domain":"terminusdb:///schema#IntegerRange",
+      "Property ID":"terminusdb:///schema#integerRange",
+      "Property Name": {"@language":"en", "@value":"Integer"},
+      "Property Range":"http://terminusdb.com/schema/xdd#integerRange",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"A JSON Encoded String"},
+      "Property Domain":"terminusdb:///schema#Json",
+      "Property ID":"terminusdb:///schema#json",
+      "Property Name": {"@language":"en", "@value":"JSON"},
+      "Property Range":"http://terminusdb.com/schema/xdd#json",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"A valid url."},
+      "Property Domain":"terminusdb:///schema#Url",
+      "Property ID":"terminusdb:///schema#url",
+      "Property Name": {"@language":"en", "@value":"URL"},
+      "Property Range":"http://terminusdb.com/schema/xdd#url",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"Any basic data type such as string or integer. An xsd:anySimpleType value."
+      },
+      "Property Domain":"terminusdb:///schema#AnySimpleType",
+      "Property ID":"terminusdb:///schema#anySimpleType",
+      "Property Name": {"@language":"en", "@value":"Any Simple Type"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#anySimpleType",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"Any text or sequence of characters"
+      },
+      "Property Domain":"terminusdb:///schema#String",
+      "Property ID":"terminusdb:///schema#string",
+      "Property Name": {"@language":"en", "@value":"String"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#string",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A true or false value. An xsd:boolean value."
+      },
+      "Property Domain":"terminusdb:///schema#Boolean",
+      "Property ID":"terminusdb:///schema#boolean",
+      "Property Name": {"@language":"en", "@value":"Boolean"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#boolean",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A decimal number. An xsd:decimal value."
+      },
+      "Property Domain":"terminusdb:///schema#Decimal",
+      "Property ID":"terminusdb:///schema#decimal",
+      "Property Name": {"@language":"en", "@value":"Decimal"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#decimal",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A double-precision decimal number. An xsd:double value."
+      },
+      "Property Domain":"terminusdb:///schema#Double",
+      "Property ID":"terminusdb:///schema#double",
+      "Property Name": {"@language":"en", "@value":"Double"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#double",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A floating-point number. An xsd:float value."
+      },
+      "Property Domain":"terminusdb:///schema#Float",
+      "Property ID":"terminusdb:///schema#float",
+      "Property Name": {"@language":"en", "@value":"Float"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#float",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A time. An xsd:time value. hh:mm:ss.ssss"
+      },
+      "Property Domain":"terminusdb:///schema#Time",
+      "Property ID":"terminusdb:///schema#time",
+      "Property Name": {"@language":"en", "@value":"Time"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#time",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A date. An xsd:date value. YYYY-MM-DD"
+      },
+      "Property Domain":"terminusdb:///schema#Date",
+      "Property ID":"terminusdb:///schema#date",
+      "Property Name": {"@language":"en", "@value":"Date"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#date",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A date and time. An xsd:dateTime value."
+      },
+      "Property Domain":"terminusdb:///schema#DateTime",
+      "Property ID":"terminusdb:///schema#dateTime",
+      "Property Name": {"@language":"en", "@value":"Date Time"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#dateTime",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"An xsd:dateTimeStamp value."},
+      "Property Domain":"terminusdb:///schema#DateTimeStamp",
+      "Property ID":"terminusdb:///schema#dateTimeStamp",
+      "Property Name": {"@language":"en", "@value":"Date-Time Stamp"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A particular 4 digit year YYYY - negative years are BCE."
+      },
+      "Property Domain":"terminusdb:///schema#GYear",
+      "Property ID":"terminusdb:///schema#gYear",
+      "Property Name": {"@language":"en", "@value":"Year"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#gYear",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A particular month. An xsd:gMonth value. --MM"
+      },
+      "Property Domain":"terminusdb:///schema#GMonth",
+      "Property ID":"terminusdb:///schema#gMonth",
+      "Property Name": {"@language":"en", "@value":"Month"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#gMonth",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A simple number. An xsd:integer value."
+      },
+      "Property Domain":"terminusdb:///schema#Integer",
+      "Property ID":"terminusdb:///schema#integer",
+      "Property Name": {"@language":"en", "@value":"Integer"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#integer",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"A simple number that can't be less than 0. An xsd:nonNegativeInteger value."
+      },
+      "Property Domain":"terminusdb:///schema#NonNegativeInteger",
+      "Property ID":"terminusdb:///schema#nonNegativeInteger",
+      "Property Name": {"@language":"en", "@value":"Non-Negative Integer"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"Any URl. An xsd:anyURI value."},
+      "Property Domain":"terminusdb:///schema#AnyURI",
+      "Property ID":"terminusdb:///schema#anyURI",
+      "Property Name": {"@language":"en", "@value":"Any URI"},
+      "Property Range":"http://www.w3.org/2001/XMLSchema#anyURI",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Data"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"The most impressive or costly building constructed by the political authority"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#best_building",
+      "Property Name": {"@language":"en", "@value":"Most Costly Building"},
+      "Property Range":"terminusdb:///schema#Building",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"The immediate preceding political authority. This code is based on the core region of the polity \n        (not the NGA region).  E.g. Achaemenid Empire's core region was Persia, \n        where they were preceded by the Median Empire."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#predecessor",
+      "Property Name": {"@language":"en", "@value":"Preceding Polity"},
+      "Property Range":"terminusdb:///schema#PoliticalAuthority",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"Provenance Notes"},
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#provenance_note",
+      "Property Name": {"@language":"en", "@value":"Provenance Note"},
+      "Property Range":"terminusdb:///schema#String",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {"@language":"en", "@value":"The References from the wiki"},
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#references",
+      "Property Name": {"@language":"en", "@value":"References"},
+      "Property Range":"terminusdb:///schema#CitedWork",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@language":"en",
+	"@value":"Name. Only name it here and don't code the nature of change \n        (it's coded on the page of the succeeding quasipolity). \n        This code is based on the core region of the current polity (not the NGA region). E.g. \n        Achaemenid Empire's core region was Persia, where they were succeeded by the Macedonian Empire."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#successor",
+      "Property Name": {"@language":"en", "@value":"Succeeding Polity"},
+      "Property Range":"terminusdb:///schema#PoliticalAuthority",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedCitedWork to class terminusdb:///schema#CitedWork"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedCitedWork",
+      "Property ID":"terminusdb:///schema#citedWork",
+      "Property Name": {"@language":"en", "@value":"Cited Work"},
+      "Property Range":"terminusdb:///schema#CitedWork",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedCity to class terminusdb:///schema#City"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedCity",
+      "Property ID":"terminusdb:///schema#city",
+      "Property Name": {"@language":"en", "@value":"City"},
+      "Property Range":"terminusdb:///schema#City",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedDegreeOfCentralization to class terminusdb:///schema#DegreeOfCentralization"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedDegreeOfCentralization",
+      "Property ID":"terminusdb:///schema#degreeOfCentralization",
+      "Property Name": {"@language":"en", "@value":"Degree of Centralization"},
+      "Property Range":"terminusdb:///schema#DegreeOfCentralization",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedEnumerated to class terminusdb:///schema#Enumerated"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedEnumerated",
+      "Property ID":"terminusdb:///schema#enumerated",
+      "Property Name": {"@language":"en", "@value":"Enumerated Type"},
+      "Property Range":"terminusdb:///schema#Enumerated",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedEpistemicState to class terminusdb:///schema#EpistemicState"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedEpistemicState",
+      "Property ID":"terminusdb:///schema#epistemicState",
+      "Property Name": {"@language":"en", "@value":"Epistemic State"},
+      "Property Range":"terminusdb:///schema#EpistemicState",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedIncomeSource to class terminusdb:///schema#IncomeSource"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedIncomeSource",
+      "Property ID":"terminusdb:///schema#incomeSource",
+      "Property Name": {"@language":"en", "@value":"Income Source"},
+      "Property Range":"terminusdb:///schema#IncomeSource",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedInterestGroup to class terminusdb:///schema#InterestGroup"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedInterestGroup",
+      "Property ID":"terminusdb:///schema#interestGroup",
+      "Property Name": {"@language":"en", "@value":"Interest Group"},
+      "Property Range":"terminusdb:///schema#InterestGroup",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedPoliticalAuthority to class terminusdb:///schema#PoliticalAuthority"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedPoliticalAuthority",
+      "Property ID":"terminusdb:///schema#politicalAuthority",
+      "Property Name": {"@language":"en", "@value":"Political Authority"},
+      "Property Range":"terminusdb:///schema#PoliticalAuthority",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedPoliticalEvolution to class terminusdb:///schema#PoliticalEvolution"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedPoliticalEvolution",
+      "Property ID":"terminusdb:///schema#politicalEvolution",
+      "Property Name": {"@language":"en", "@value":"Political Evolution"},
+      "Property Range":"terminusdb:///schema#PoliticalEvolution",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedPolity to class terminusdb:///schema#Polity"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedPolity",
+      "Property ID":"terminusdb:///schema#polity",
+      "Property Name": {"@language":"en", "@value":"Polity"},
+      "Property Range":"terminusdb:///schema#Polity",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedQuasiPolity to class terminusdb:///schema#QuasiPolity"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedQuasiPolity",
+      "Property ID":"terminusdb:///schema#quasiPolity",
+      "Property Name": {"@language":"en", "@value":"Quasi-Polity"},
+      "Property Range":"terminusdb:///schema#QuasiPolity",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedSettlement to class terminusdb:///schema#Settlement"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedSettlement",
+      "Property ID":"terminusdb:///schema#settlement",
+      "Property Name": {"@language":"en", "@value":"Settlement"},
+      "Property Range":"terminusdb:///schema#Settlement",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedSubPolity to class terminusdb:///schema#SubPolity"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedSubPolity",
+      "Property ID":"terminusdb:///schema#subPolity",
+      "Property Name": {"@language":"en", "@value":"Sub-Polity"},
+      "Property Range":"terminusdb:///schema#SubPolity",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedSupraPolityRelations to class terminusdb:///schema#SupraPolityRelations"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedSupraPolityRelations",
+      "Property ID":"terminusdb:///schema#supraPolityRelations",
+      "Property Name": {"@language":"en", "@value":"Supra-Polity Relations"},
+      "Property Range":"terminusdb:///schema#SupraPolityRelations",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Box Property generated to link box terminusdb:///schema#ScopedSupraculturalEntity to class terminusdb:///schema#SupraculturalEntity"
+      },
+      "Property Domain":"terminusdb:///schema#ScopedSupraculturalEntity",
+      "Property ID":"terminusdb:///schema#supraculturalEntity",
+      "Property Name": {"@language":"en", "@value":"Supra-Cultural Entity"},
+      "Property Range":"terminusdb:///schema#SupraculturalEntity",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Number of levels in the administrative hierarchy. \n        <p>An example of hierarchy for a state society could be \n        (5) the overall ruler, (4) provincial/regional governors, \n        (3) district heads, (2) town mayors, (1) village heads. \n        Note that unlike in settlement hierarchy, the people hierarchy is coded here. <\/p> \n        <p>Archaeological polities are usually coded as 'unknown', unless experts can \n        identified ranks of chiefs or officials independently of the settlement hierarchy.<\/p>\n        <p>Note: Often there are more than one concurrent administrative hierarchy. \n        In the example above the hierarchy refers to the territorial government. \n        In addition, the ruler may have a hierarchically organized central \n        bureaucracy located in the capital. For example, \n        (4)the overall ruler, (3) chiefs of various ministries, \n        (2) mid-level bureaucrats, (1) scribes and clerks. \n        In the narrative paragraph detail what is known about both hierarchies. \n        The machine-readable code should reflect the largest number (the longer chain of command). <\/p>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#administrative_levels",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Administrative Levels"
+      },
+      "Property Range":"terminusdb:///schema#administrative_levels_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"More advanced measurements: temperature, force, astronomical."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#advanced_unit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Other"
+      },
+      "Property Range":"terminusdb:///schema#advanced_unit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Names used in the historical literature or common names used by the inhabitants"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#alternative_names",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Alternative names"
+      },
+      "Property Range":"terminusdb:///schema#alternative_names_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring areas. \n        For example: squared feet, hectares"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#area_unit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Area"
+      },
+      "Property Range":"terminusdb:///schema#area_unit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of bridges that were either built or\n        maintained by the political authority."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#bridges",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Bridges"
+      },
+      "Property Range":"terminusdb:///schema#bridges_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the primary sources of income for professional bureaucrats / administrators"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#bureaucrat_income_source",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Bureaucrat Income Source"
+      },
+      "Property Range":"terminusdb:///schema#bureaucrat_income_source_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of full-time specialist bureaucratic officials."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#bureaucrats",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time Bureaucrats"
+      },
+      "Property Range":"terminusdb:///schema#bureaucrats_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of burial sites, dissociated \n        from settlement habitation, with monumental features."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#burial_sites",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Burial Site"
+      },
+      "Property Range":"terminusdb:///schema#burial_sites_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written calendar or dating system"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#calendar",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Calendar"
+      },
+      "Property Range":"terminusdb:///schema#calendar_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of canals or artificial waterways \n        that were built or maintained by the political authority."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#canals",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Canals"
+      },
+      "Property Range":"terminusdb:///schema#canals_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The city where the ruler spends most of his or her time. If there was more than one capital,\n         all are included. Note that the capital may be different from the largest city (see below).\n         <p>'Capital' may be difficult to code for archaeologically known societies.\n         If there is reasonable basis to believe that the largest known settlement was \n         the seat of the ruler it is coded as capital.\n         Archaeologists are able to recognize special architectural structures, \n         such as a ceremonial centres and some kind of citadels or palaces.\n         These features could be recognized with certainty after a careful study of the \n         whole region and the settlement network.\n         If such an inference cannot be made, this variable is coded as unknown \n        (again, the largest settlement is coded elsewhere).<\/p>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#capital_city",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Capital City"
+      },
+      "Property Range":"terminusdb:///schema#capital_city_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"How centralized was power in this political authority?"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#centralization",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Degree of Centralization"
+      },
+      "Property Range":"terminusdb:///schema#centralization_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of sites that were specifically used for ceremonies."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#ceremonial_sites",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Ceremonial Site"
+      },
+      "Property Range":"terminusdb:///schema#ceremonial_sites_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"cost in people-years."
+      },
+      "Property Domain":"terminusdb:///schema#Building",
+      "Property ID":"terminusdb:///schema#cost",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Cost"
+      },
+      "Property Range":"terminusdb:///schema#cost_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time professional couriers."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#couriers",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Couriers"
+      },
+      "Property Range":"terminusdb:///schema#couriers_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of buildings specialized for legal proceedings only."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#courts",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Courts"
+      },
+      "Property Range":"terminusdb:///schema#courts_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Commercial and market debt and credit structures that take physical form, \n        e.g. a contract on parchment (not just verbal agreements)"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#debt_and_credit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Debt and credit"
+      },
+      "Property Range":"terminusdb:///schema#debt_and_credit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"How centralized was power in this political authority?"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#degree_of_centralization",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Degree of Centralization"
+      },
+      "Property Range":"terminusdb:///schema#degree_of_centralization_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of trading settlements characterised by their peripheral locations, \n        on the shore at the edge of a polity, a lack of infrastructure (typically those in Europe contained no churches) \n        and often of a short-lived nature. They include isolated caravanserai along trade routes."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#emporia",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Trading Emporia"
+      },
+      "Property Range":"terminusdb:///schema#emporia_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of 'enclosures': a clearly demarcated special-purpose area. \n        It can be separated from surrounding land by earthworks (including banks or ditches), walls, \n        or fencing. It may be as small as a few meters across, or encompass many hectares. It is non-residential,\n        but could serve numerous purposes, both practical (animal pens) as well as religious and ceremonial."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#enclosures",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Enclosure"
+      },
+      "Property Range":"terminusdb:///schema#enclosures_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of an official Examination System. \n        The paradigmatic example is the Chinese imperial system."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#examination_system",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Examination System"
+      },
+      "Property Range":"terminusdb:///schema#examination_system_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Length of building along longest axis in metres"
+      },
+      "Property Domain":"terminusdb:///schema#Building",
+      "Property ID":"terminusdb:///schema#extent",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Extent"
+      },
+      "Property Range":"terminusdb:///schema#extent_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"This is the fastest time (in days) an individual can travel from the capital city \n         to the most outlying provincial capital (if one exists), usually keeping within the \n         boundaries of the polity. This might be by ship, horse, horse relay, or on foot, or a combination."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#fastest_travel",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Fastest Individual Communication"
+      },
+      "Property Range":"terminusdb:///schema#fastest_travel_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written fictional works - including poetry, novels, short-stories, etc \n        (poetry will be factored out in future versions of the codebook."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#fiction",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Fiction"
+      },
+      "Property Range":"terminusdb:///schema#fiction_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Coins minted by some external polity are used for exchange"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#foreign_coins",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Foreign Coins"
+      },
+      "Property Range":"terminusdb:///schema#foreign_coins_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of a formal legal code. Usually, \n        but not always written down. If not written down, it is coded as 'present' \n        when a uniform legal system is established by oral transmission \n        (e.g., officials are taught the rules, or the laws are announced in a public space)."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#formal_legal_code",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Formal Legal Code"
+      },
+      "Property Range":"terminusdb:///schema#formal_legal_code_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"IV-5-7. Fortifications."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#fortifications",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Fortifications"
+      },
+      "Property Range":"terminusdb:///schema#fortifications_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of full-time specialist bureaucratic officials."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#full_time_bureaucrats",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time Bureaucrats"
+      },
+      "Property Range":"terminusdb:///schema#full_time_bureaucrats_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialist entertainment buildings. These include theaters, arenas, race tracks."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#fun_houses",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Entertainment Buildings"
+      },
+      "Property Range":"terminusdb:///schema#fun_houses_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring geometries - for example: degrees."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#geometrical_unit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Geometrical"
+      },
+      "Property Range":"terminusdb:///schema#geometrical_unit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of specialized government administration buildings. \n        These buildings are distinct from the ruler's palace and could be used for document storage, \n        registration offices, minting money, etc. \n        Defense structures also are not included here."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#government_buildings",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Government Buildings"
+      },
+      "Property Range":"terminusdb:///schema#government_buildings_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Height of building in metres"
+      },
+      "Property Domain":"terminusdb:///schema#Building",
+      "Property ID":"terminusdb:///schema#height",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Height"
+      },
+      "Property Range":"terminusdb:///schema#height_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written history existed"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#history",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"History"
+      },
+      "Property Range":"terminusdb:///schema#history_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Coins minted by local authority are in use for exchange"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#indigenous_coins",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Indigenous Coins"
+      },
+      "Property Range":"terminusdb:///schema#indigenous_coins_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of irrigation systems."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#irrigation",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Irrigation Systems"
+      },
+      "Property Range":"terminusdb:///schema#irrigation_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of specialist judges"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#judges",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Judges"
+      },
+      "Property Range":"terminusdb:///schema#judges_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The language(s) are listed that were generally used for administration, religion, and military affairs. \n        The languages spoken by the majority of the population are also listed, if different from the above."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#lang",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Language"
+      },
+      "Property Range":"terminusdb:///schema#lang_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Population count of the largest settlement within the entity. \n         <p>Note that the largest settlement could be different from the capital. \n         Where possible, the dynamics (that is, how population changed during the temporal period of the polity) \n         are included in the notes. \n         Note that we are also building a city database - this will be merged into that eventually.<\/p>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#largest_settlement_population",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Largest Settlement Population"
+      },
+      "Property Range":"terminusdb:///schema#largest_settlement_population_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring length. \n        For example: feet, miles, kilometers, inches"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#length_unit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Length"
+      },
+      "Property Range":"terminusdb:///schema#length_unit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialist information / knowledge buildings. \n        These include astronomic observatories, libraries, and museums."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#libraries",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Knowledge / Information Buildings"
+      },
+      "Property Range":"terminusdb:///schema#libraries_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The Linguistic family or families that the main languages\n         belonged to. https://en.wikipedia.org/wiki/List_of_language_families"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#linguistic_family",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Linguistic Family"
+      },
+      "Property Range":"terminusdb:///schema#linguistic_family_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written lists, tables and classifications (e.g. debt lists, tax-lists...)"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#lists",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Lists and Tables"
+      },
+      "Property Range":"terminusdb:///schema#lists_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Distance in kilometers between the capital and the furthest provincial capital. \n         The figure for the most direct land and/or sea route that was available is used.\n         <p>As an alternative for prehistoric communities, it refers to the distance between \n         largest quasi-capital and furthest village within the quasi-polity.<\/p>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#longest_communication_distance",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Longest Communication Distance"
+      },
+      "Property Range":"terminusdb:///schema#longest_communication_distance_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Practical guides and manuals to help people do useful stuff. \n        For example manuals on agriculture, military, cooking, etc"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#manuals",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Practical Literature"
+      },
+      "Property Range":"terminusdb:///schema#manuals_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of markets."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#markets",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Markets"
+      },
+      "Property Range":"terminusdb:///schema#markets_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the historical presence of merit promotion. <i>Present<\/i> means there were regular, \n        institutionalized procedures for promotion based on performance. When exceptional \n        individuals are promoted to the top ranks, in the absence of \n        institutionalized procedures, this does not count (it is encoded elsewhere)."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#merit_promotion",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Merit Promotion"
+      },
+      "Property Range":"terminusdb:///schema#merit_promotion_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Number of levels in the military hierarchy. \n        <p>Starts with the commander-in-chief and works down to the private (level 1).<\/p> \n        <p>Even in primitive societies such as simple chiefdoms it is often possible to \n        distinguish at least two levels : a commander and soldiers.\n        A complex chiefdom would be coded as having three levels.\n        The presence of warrior burials might be the basis for inferring the existence of a military organization. \n        (The lowest military level is always the individual soldier).<\/p>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#military_levels",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Military Levels"
+      },
+      "Property Range":"terminusdb:///schema#military_levels_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time specialist military officers."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#military_officers",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Military Officers"
+      },
+      "Property Range":"terminusdb:///schema#military_officers_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of mines or quarries within the political authority."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#mines",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Mine or Quarry"
+      },
+      "Property Range":"terminusdb:///schema#mines_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Marks that serve as memory devices that help people recall larger pieces of information"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#mnemonics",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Mnemonic Devices"
+      },
+      "Property Range":"terminusdb:///schema#mnemonics_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Articles with use-value used for exchange and trade, e.g. axes, cattle, grain."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#monetary_articles",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Articles"
+      },
+      "Property Range":"terminusdb:///schema#monetary_articles_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Tokens used for exchange and trade, e.g. cowrie shells."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#monetary_tokens",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Tokens"
+      },
+      "Property Range":"terminusdb:///schema#monetary_tokens_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"this refers to the kind of script - non-phonetic scripts do not represent the sound of \n        the word but attach symbols to the meaning."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#non_phonetic",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Non-phonetic Writing"
+      },
+      "Property Range":"terminusdb:///schema#non_phonetic_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Knoweldge representation systems that do not use writing - using color, material, etc to convey meaning. e.g., quipu https://en.wikipedia.org/wiki/Quipu"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#non_written_records",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Non-written Records"
+      },
+      "Property Range":"terminusdb:///schema#non_written_records_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialised non-residential sites. \n         A description of the site is provided in the notes."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#other_site",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Other Site"
+      },
+      "Property Range":"terminusdb:///schema#other_site_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Currency notes or other kind of fiat currency"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#paper_currency",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Paper Currency"
+      },
+      "Property Range":"terminusdb:///schema#paper_currency_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The period when the political power was at its peak, whether militarily,\n        in terms of the size of territory controlled, or the degree of cultural development. \n        This variable has a subjective element, but typically historians agree when the peak was."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#peak",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Peak Date"
+      },
+      "Property Range":"terminusdb:///schema#peak_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written philosophical treatises"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#philosophy",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Philosophy"
+      },
+      "Property Range":"terminusdb:///schema#philosophy_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"this refers to the kind of script - phonetic scripts have alphabets \n        with letters and combinations of letters which represent sounds."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#phonetic",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Phonetic Alphabet"
+      },
+      "Property Range":"terminusdb:///schema#phonetic_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Estimated population; can change as a result of a political authority adding/losing \n         new territories or by population growth/decline within a region"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#population",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Population"
+      },
+      "Property Range":"terminusdb:///schema#population_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of ports that were either built or maintained by the political authority. \n        These include river ports. Direct historical or archaeological evidence of Ports is absent \n        when no port has been excavated or all evidence of such has been obliterated. Indirect historical \n        or archaeological data is absent when there is no evidence that suggests that the polity engaged\n        in maritime or riverine trade, conflict, or transportation, such as evidence of merchant shipping, \n        administrative records of customs duties, or evidence that at the same period of time a trading \n        relation in the region had a port (for example, due to natural processes, there is little evidence\n        of ancient ports in delta Egypt at a time we know there was a timber trade with the Levant). \n        When evidence for the variable itself is available the code is 'present.' When other forms of evidence \n        suggests the existence of the variable (or not) the code may be 'inferred present' (or 'inferred absent').\n        When indirect evidence is <i>not<\/i> available the code will be either absent, \n        temporal uncertainty, suspected unknown, or unknown."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#ports",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Ports"
+      },
+      "Property Range":"terminusdb:///schema#ports_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Specialized buildings exclusively devoted to the postal service."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#post_offices",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Postal Stations"
+      },
+      "Property Range":"terminusdb:///schema#post_offices_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of systems to supply drinking water to the public."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#potable_water",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Drinking Water Supply"
+      },
+      "Property Range":"terminusdb:///schema#potable_water_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Bullion: non-coined silver, gold, platinum."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#precious_metals",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Precious Metals"
+      },
+      "Property Range":"terminusdb:///schema#precious_metals_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"How this political authority evolved from its predecessor."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#predecessor_relationship",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Relationship to Preceding Polity"
+      },
+      "Property Range":"terminusdb:///schema#predecessor_relationship_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Codes the presence of full-time specialist religious officials."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#priests",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Priesthood"
+      },
+      "Property Range":"terminusdb:///schema#priests_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"A postal service that not only serves the ruler's needs, but carries mail for private citizens."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#private_mail",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"General Service"
+      },
+      "Property Range":"terminusdb:///schema#private_mail_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialist professional lawyers."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#professional_lawyers",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Professional Lawyers"
+      },
+      "Property Range":"terminusdb:///schema#professional_lawyers_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Full-time specialist paid soldiers."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#professional_soldiers",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Soldiers"
+      },
+      "Property Range":"terminusdb:///schema#professional_soldiers_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"This encodes the historical presence of Communal buildings. It distinguishes between \n        settlements that consist of only private households (coded 'absent') and settlements \n        where there are communal buildings which could be used for a variety of uses (coded 'present')."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#public_buildings",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Communal Buildings"
+      },
+      "Property Range":"terminusdb:///schema#public_buildings_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Number of levels in the religious hierarchy.\n         <P>Starts with the head of the official cult \n        (if present) and works down to the local priest (level 1).<\/p>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#religious_levels",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Religious Levels"
+      },
+      "Property Range":"terminusdb:///schema#religious_levels_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Religious literature differs from the sacred texts. For example, it may provide commentary \n        on the sacred texts, or advice on how to live a virtuous life."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#religious_literature",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Religious Literature"
+      },
+      "Property Range":"terminusdb:///schema#religious_literature_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of roads that were either built or \n        maintained by the political authority."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#roads",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Roads"
+      },
+      "Property Range":"terminusdb:///schema#roads_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Sacred Texts originate from supernatural agents (deities), or are directly inspired by them."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#sacred_texts",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Sacred Texts"
+      },
+      "Property Range":"terminusdb:///schema#sacred_texts_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written scientific works, including mathematics, natural sciences, social sciences"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#science",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Science"
+      },
+      "Property Range":"terminusdb:///schema#science_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"A system for writing symbols that have meaning attached to them. \n        (note that if written records are present, then so is script by defintion)"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#script",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Script"
+      },
+      "Property Range":"terminusdb:///schema#script_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"This variable records the hierarchy of not just settlement sizes, \n         but also their complexity as reflected in different roles they play within the (quasi)polity.\n         As settlements become more populous they acquire more complex functions: transportational \n         (e.g. port); economic (e.g. market); administrative (e.g. storehouse, local government building); \n         cultural (e.g. theatre); religious (e.g. temple), utilitarian (e.g. hospital), monumental \n         (e.g. statues, plazas). <p>Example: (6) Large City \n         (monumental structures, theatre, market, hospital, central government buildings) \n         (5) City (market, theatre, regional government buildings) \n         (4) Large Town (market, administrative buildings)\n         (3) Town (administrative buildings, storehouse)) (2) Village (shrine) \n         (1) Hamlet (residential only).<\/p> <p>In the narrative annotations, the different levels and \n         their functions are listed. A Crude estimate of population sizes is included.\n         For example, Large Town (market, temple, administrative buildings): 2,000-5,000 inhabitants. <\/p>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#settlement_levels",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Settlement Levels"
+      },
+      "Property Range":"terminusdb:///schema#settlement_levels_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"IV-5-4. Sewage management systems"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#sewage",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Sewage"
+      },
+      "Property Range":"terminusdb:///schema#sewage_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The historical presence of specialized structures (grain siloes...) for storing food."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#siloes",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Food Storage Sites"
+      },
+      "Property Range":"terminusdb:///schema#siloes_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of houses that were used in\n         a distinctive or special manner. This code reflects differentiation between houses."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#special_houses",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Special Purpose Houses"
+      },
+      "Property Range":"terminusdb:///schema#special_houses_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The types of special sites that are associated with the polity - \n        primarily useful for coding archaneologically known societies."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#special_sites",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Special Sites"
+      },
+      "Property Range":"terminusdb:///schema#special_sites_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Special places for storing wealth: (example: hoard, chest for storing valuables, treasury room). \n        Note for the future: perhaps should separate these into individual variables."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#stores_of_wealth",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Stores of Wealth"
+      },
+      "Property Range":"terminusdb:///schema#stores_of_wealth_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"What was the relationship between this political authority and larger / higher order power."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#supra_polity_relations",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Supra-polity relations"
+      },
+      "Property Range":"terminusdb:///schema#supra_polity_relations_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Political Authorities can be embedded within larger-scale cultural groupings \n          of polities or quasipolities. These are sometimes referred to as \"civilizations\". \n          For example, medieval European kingdoms were part of Latin Christendom. During the periods of \n          disunity in China, warring states there, nevertheless, belonged to the same Chinese cultural sphere. \n          Archaeologists often use \"archaeological traditions\" to denote such large-scale cultural entities \n          (for example, Peregrine's Atlas of Cultural Evolution). \n          Note, 'supracultural entity' refers to cultural interdependence, and is distinct \n          from a political confederation or alliance, which is coded under 'supra-polity relations.'"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#supracultural_entity",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Supra-cultural Entity"
+      },
+      "Property Range":"terminusdb:///schema#supracultural_entity_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"An estimate of the area encompassed by the supracultural entity - in km squared."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#supracultural_scale",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Supra-cultural Scale"
+      },
+      "Property Range":"terminusdb:///schema#supracultural_scale_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of specialized purely symbolic buildings. \n        <P>These are non-utilitarian constructions that display symbols, or are themselves \n        symbols of the community or polity (or a ruler as a symbol of the polity). \n        Examples include Taj Mahal mausoleum, Trajan's Column, Ashoka's Pillars, Qin Shih Huang's Terracota Army, \n        the Statue of Liberty. Has to be constructed by humans, so sacred groves or mountains \n        are not symbolic buildings. A palace is also not a symbolic building, because it has other, \n        utilitarian functions (houses the ruler).<\/P>"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#symbolic_building",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Symbolic Buildings"
+      },
+      "Property Range":"terminusdb:///schema#symbolic_building_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The area in squared kilometers of the entity's territory."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#territorial_area",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Territorial Area"
+      },
+      "Property Range":"terminusdb:///schema#territorial_area_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring time.\n         A natural unit such as 'day' doesn't qualify. \n        Nor does a vague one like 'season'. Archaeological evidence is a clock (e.g., sundial)"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#time_unit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Time"
+      },
+      "Property Range":"terminusdb:///schema#time_unit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of public utilities. Typical examples include aqueducts, \n        sewers, and granaries (which are also included as separate variables). In the narrative annotations, \n        examples of utilitarian buildings and the most impressive/costly/large ones are included."
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#utilities",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Utilitarian Public Buildings"
+      },
+      "Property Range":"terminusdb:///schema#utilities_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"The UTM Zone that corresponds most directly with the entity - e.g. \n         where the polity's capital city is located, or the location of the NGA. \n         For more see: http://www.dmap.co.uk/utmworld.htm"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#utm_zone",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"UTM Zone"
+      },
+      "Property Range":"terminusdb:///schema#utm_zone_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring volume. For example: pint, litre"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#volume_unit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Volume"
+      },
+      "Property Range":"terminusdb:///schema#volume_unit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Encodes the historical presence of a standard way of measuring weight. For example: pounds, kilograms"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#weight_unit",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Weight"
+      },
+      "Property Range":"terminusdb:///schema#weight_unit_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    },
+    {
+      "Property Description": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"More than short and fragmentary inscriptions, such as found on tombs or runic stones. \n        There must be several sentences strung together, at the very minimum. For example, \n        royal proclamations from Mesopotamia and Egypt qualify as written records;"
+      },
+      "Property Domain":"terminusdb:///schema#PoliticalAuthority",
+      "Property ID":"terminusdb:///schema#written_records",
+      "Property Name": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Written Records"
+      },
+      "Property Range":"terminusdb:///schema#written_records_Value",
+      "Property Type": {
+	"@type":"http://www.w3.org/2001/XMLSchema#string",
+	"@value":"Object"
+      }
+    }
+  ],
+  "deletes":0,
+  "inserts":0,
+  "transaction_retry_count":0
+}

@@ -1,0 +1,141 @@
+
+.icon-header{
+  padding:0px;
+  font-size: 1.6em;
+  cursor: pointer;
+  color:#565656;
+  margin: 0px 10px 0px 10px;
+}
+
+.icon-header--abs{
+	position: absolute;
+}
+
+.icon-header .fa{
+  background-color: transparent;
+  border:transparent !important;
+  padding:10px;
+  border-radius: 50%;
+}
+
+.icon-header .fa:focus{
+  border:transparent;
+  background-color: #ddd;
+  outline: 0;
+}
+
+.icon-header .fa:hover{
+  background-color: #ddd;
+  border:transparent !important;
+}
+
+
+.tdb__model{
+
+    &__gnode{
+
+    }
+
+    &__savebox{
+	    margin-right: 10px;
+	    margin-left: 10px;
+	    min-width: 400px;
+	    display: flex;
+	    align-items: baseline;
+	    justify-content: flex-end;
+	}
+
+	&__node{
+	  margin-right: 10px;
+      font-size: 2em;
+      cursor:pointer;
+      display: flex;
+
+      &--doc{
+      	 color: #ffb266;
+      }
+
+      &--class{
+      	 color: #96e997;
+      }
+
+      &--choice{
+      	/* color: #a783c9;*/
+      	color:#17becf;
+      }
+
+      &:hover{
+      	opacity:0.8
+      }
+
+	}
+
+	&__header{
+	   background: 0 0;
+	   /*flex-basis: 53px;*/
+	   z-index: 202;
+	   display: flex;
+	   background: #f4f4f4;
+	   border-bottom: 1px solid #ddd;
+	   min-height: 38px
+	}
+
+	&__message{
+		position: absolute;
+	    margin-top: 45px;
+	    margin-left: 50px;
+	    z-index: 999;
+	    display:flex;
+	    width:calc(100% - 550px);
+	}
+
+
+	&__left{
+  		align-items: center;
+  		flex-basis: 50px;
+	}
+
+	&__hcenter{
+		justify-content: flex-center;
+		display: flex;
+	}
+
+	&__hright{
+	   display: -ms-flexbox;
+	   display: flex;
+	   -ms-flex-positive: 1;
+	   flex-grow: 1;
+	   /* border-bottom: 1px solid #ddd;*/
+	   min-height: 45px;
+	   align-items: center;
+	   justify-content: flex-end;
+	}
+
+	 &__iclose{
+    	margin-right:20px;
+    	margin-left:60px;
+  	}
+
+  	&__xicon{
+  		position: absolute;
+	    z-index: 20;
+	    right: 25px;
+	    top: 0px;
+	    background: white;
+	    border: 2px solid #ccc;
+	    font-size: 14px;
+	    border-radius: 50%;
+  	}
+
+
+	&__footer{
+		height: 20px;
+	    position: fixed;
+	    bottom: 0px;
+	    left: 0px;
+	    right: 0px;
+	    background: #d3d2d2;
+	    z-index: 100;
+	}
+
+}
