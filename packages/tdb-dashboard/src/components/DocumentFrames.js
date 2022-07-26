@@ -13,7 +13,7 @@ import {JsonFrameViewer} from "./JsonFrameViewer"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {DocumentationTypeFrame} from "./DocumentationTypeFrame"
 import {DocumentControlObj} from '../hooks/DocumentControlContext'
-import {NavLink as RouterNavLink} from "react-router-dom"
+import {NavLink as RouterNavLink, useParams} from "react-router-dom"
 import {IconBarConfig} from "./constants"
 import {checkIfNoProperties} from "./utils"
 import {BiPlus} from "react-icons/bi"
@@ -25,6 +25,11 @@ import TerminusClient from '@terminusdb/terminusdb-client'
 
 export const DocumentFrames = () => {
 
+    const {dataProduct,organization} = useParams()
+
+    const getUrl = (pageName)=> {
+        return  `/${organization}/${dataProduct}/${pageName}`
+    }
     const {
         frames,
         docs,
@@ -138,9 +143,8 @@ export const DocumentFrames = () => {
                                 <Nav.Link  as={RouterNavLink}
                                     title={IconBarConfig.dataProductModal.title}
                                     className="btn btn-lg btn-info d-inline text-white"
-                                    to={IconBarConfig.dataProductModal.path}
+                                    to={getUrl(IconBarConfig.dataProductModal.path)}
                                     exact
-                                    onClick={(e) => history.push(IconBarConfig.dataProductModal.path)}
                                     id={IconBarConfig.dataProductModal.key}>
                                         <BiPlus className="mr-1"/>{`Add properties to ${documentObject.type}`}
                                 </Nav.Link>

@@ -7,6 +7,7 @@ import {WOQLClientObj} from '../init-woql-client'
 const PrivateRoute = ({ component: Component, path, ...rest }) => {
 
 const {clientUser } = WOQLClientObj()
+if(!clientUser) return
 const { isAuthenticated, loginWithRedirect }  = clientUser
 
 let {refid,teamid} = useParams()

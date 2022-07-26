@@ -14,16 +14,22 @@ import 'react-accessible-accordion/dist/fancy-example.css'
 import {IconBarConfig} from "./constants"
 import {handleCreate} from "./documents.utils"
 import {Nav} from "react-bootstrap"
-import {NavLink as RouterNavLink} from "react-router-dom"
+import {NavLink as RouterNavLink , useParams} from "react-router-dom"
 import {DocumentControlObj} from '../hooks/DocumentControlContext'
 
 
 export const DocumentSummary = () => {
 
+
+    const {dataProduct,organization} = useParams()
+
+    const getUrl = (pageName)=> {
+        return  `/${organization}/${dataProduct}/${pageName}`
+    }
+
     const {
         perDocumentCount,
         totalDocumentCount,
-        setRoute
     } = WOQLClientObj()
 
     const {
@@ -103,9 +109,9 @@ export const DocumentSummary = () => {
                                 <Nav.Link  as={RouterNavLink}
                                     title={IconBarConfig.dataProductModal.title}
                                     className="btn btn-lg  btn-info d-inline text-white"
-                                    to={IconBarConfig.dataProductModal.path}
+                                    to={getUrl(IconBarConfig.dataProductModal.path)}
                                     exact
-                                    onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
+                                   // onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
                                     id={IconBarConfig.dataProductModal.key}>
                                         <BiPlus className="mr-1"/>Create a document
                                 </Nav.Link>

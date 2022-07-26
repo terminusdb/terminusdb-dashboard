@@ -7,7 +7,7 @@ import {DOCUMENT,INVITE_PAGE,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER,
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
 import {VerifyEmail} from "./pages/VerifyEmail"
-//import PrivateRoute from "./routing/PrivateRoute"
+import PrivateRoute from "./routing/PrivateRoute"
 import {DocumentPage} from "./pages/DocumentPage"
 import {DocumentExplorer} from "./pages/DocumentExplorer"
 import {Profile} from "./pages/Profile"
@@ -17,8 +17,8 @@ import {ServerError} from './components/ServerError'
 import {InvitePage} from './pages/InvitePage'
 import {UserManagement} from "./pages/UserManagement"
 import {localSettings} from "../localSettings"
-import { Layout } from "./pages/Layout"
-import { OrganizationHome } from "./pages/OrganizationHome"
+import {OrganizationHome } from "./pages/OrganizationHome"
+import {Home} from "./pages/Home"
 
 
 export function App (props){
@@ -64,25 +64,48 @@ export function App (props){
 
     return <div className="container-fluid container-background h-100">
             <Routes>
-                <Route index element={<div>HOME</div >} />
-                <Route path=":organization" >
-                    <Route index element={<OrganizationHome/>}/>
-                    <Route path="administrator" element={<UserManagement/>}/>
-                    <Route path="members" element={<UserManagement/>}/>
-                    <Route path=":dataProduct" >
-                        <Route index element={<DataProductsHome/>} />                     
-                        <Route path={DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />
-                        <Route path={PRODUCT_EXPLORER} element={<ProductsExplorer/>} />
-                        <Route path={PRODUCT_MODELS} element={<ModelProductPage/>} />                    
-                    </Route>
-                </Route>             
-                <Route path="*" element={<div>Not Found 404 !!!!</div >} />
+                {getRoutes()}
             </Routes>         
             </div>
 }
-/*<Route path="/verify" exact>
-<VerifyEmail />
-</Route>                                                 
+
+function getRoutes(){
+    if(localSettings.connection_type==="LOCAL"){
+    return <React.Fragment>
+        <Route index element={<Home/>} />
+            <Route path=":organization" >
+                <Route index element={<OrganizationHome/>}/>
+                <Route path="administrator" element={<UserManagement/>}/>
+                <Route path="members" element={<UserManagement/>}/>
+                <Route path=":dataProduct" >
+                    <Route index element={<DataProductsHome/>} />                     
+                    <Route path={DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />
+                    <Route path={PRODUCT_EXPLORER} element={<ProductsExplorer/>} />
+                    <Route path={PRODUCT_MODELS} element={<ModelProductPage/>} />                    
+                </Route>
+            </Route>             
+            <Route path="*" element={<div>Not Found 404 !!!!</div >} />
+        </React.Fragment>
+    }
+    return <React.Fragment>
+        <Route index element={<div>HOME</div >} />
+        <Route path=":organization" >
+            <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
+            <Route path="administrator" element={<UserManagement/>}/>
+            <Route path="members" element={<UserManagement/>}/>
+            <Route path=":dataProduct" >
+                <Route index element={<DataProductsHome/>} />                     
+                <Route path={DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />
+                <Route path={PRODUCT_EXPLORER} element={<ProductsExplorer/>} />
+                <Route path={PRODUCT_MODELS} element={<ModelProductPage/>} />                    
+            </Route>
+        </Route>             
+        <Route path="*" element={<div>Not Found 404 !!!!</div >} />
+    </React.Fragment>
+}
+/*
+<Route path="/verify" element={VerifyEmail}/>
+                                                 
 <PrivateRoute path='/' component = {DataProductsHome} exact/>
 <PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
 <PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
