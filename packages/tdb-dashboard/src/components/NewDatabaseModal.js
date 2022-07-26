@@ -53,7 +53,6 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
                 setLoading(false)
                 navigate(dbInfo.id)
                 reconnectToServer(dbInfo.id)
-                //setRoute(IconBarConfig.dataProductView.path)
                 setShowModal(false)
                 setReportAlert(false)
                // pendoMsgAfterCreateDataProduct()
@@ -123,7 +122,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
               <button title={IconBarConfig.dataProductView.title}  
                     className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info" 
                     to={IconBarConfig.dataProductView.path} 
-                    onClick={(e) => handleCreate(setRoute)}
+                    onClick={(e) => handleCreate()}
                     id="create_data_product_button">
                     <BiPlus className="mr-1" size="1em"/>{CREATE_NEW_DATA_PRODUCT_BUTTON.label}
                </button>
