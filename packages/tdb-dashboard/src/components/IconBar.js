@@ -50,7 +50,6 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {...disabled}
                     to={toHomeTeam} 
                     exact
-                    //onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
                     id={IconBarConfig.dataProductView.key}>
                     {IconBarConfig.dataProductView.icon}
                 </Nav.Link>
@@ -63,7 +62,6 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {...disabled}
                     to={getUrl(IconBarConfig.dataProductModal.path)} 
                     exact
-                    //onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
                     id={IconBarConfig.dataProductModal.key}>
                     {IconBarConfig.dataProductModal.icon}
                 </Nav.Link>

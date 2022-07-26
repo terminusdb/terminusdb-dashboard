@@ -135,15 +135,18 @@ export const WOQLClientProvider = ({children, params}) => {
                  //the last organization viewed organization
                  //this is for woql client 
                 const {organization,dataProduct} = getLocation()
-                let defOrg = organization || localStorage.getItem("Org")
+                let defOrg = organization //|| localStorage.getItem("Org")
                       
                  await dbClient.getUserOrganizations()
                  // to be review the access control is only for the admin user
                  // to see what we have to disabled in the interface
+                 
                  const access =  new TerminusClient.AccessControl(opts.server,{organization:defOrg,user:user,"key":key})
                  const clientAccessControl = new AccessControlDashboard(access)
                  //await clientAccessControl.callGetRolesList()               
-                 await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
+                 if(defOrg){
+                    await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
+                 }
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
@@ -350,7 +353,6 @@ export const WOQLClientProvider = ({children, params}) => {
         sidebarStateObj[name]=value
     }
 
-    //setRoute and route have to be deleted we can get the some information by the history
     return (
         <WOQLContext.Provider
             value={{

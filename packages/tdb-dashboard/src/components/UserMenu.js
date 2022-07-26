@@ -28,7 +28,6 @@ export const UserMenu = ({organization}) => {
                     title={"View Team Members"}  
                     to={`/${organization}/administrator`} 
                     exact
-                    //onClick={(e) => setRoute(TEAM_MEMBERS)}
                     id={"team_members"}>
                         <AiOutlineUsergroupAdd className="mr-3 mb-1" />User Managment 
                 </Nav.Link>
@@ -54,7 +53,6 @@ export const UserMenu = ({organization}) => {
                     title={"View Profile Page"}  
                     to={PROFILE} 
                     exact
-                    //onClick={(e) => setRoute(PROFILE)}
                     id={"profile"}>
                         <AiOutlineUser className="mr-3 mb-1" />Profile
                 </Nav.Link>
@@ -64,7 +62,6 @@ export const UserMenu = ({organization}) => {
                     title={"View Team Members"}  
                     to={TEAM_MEMBERS} 
                     exact
-                    //onClick={(e) => setRoute(TEAM_MEMBERS)}
                     id={"team_members"}>
                         <AiOutlineUsergroupAdd className="mr-3 mb-1" />Team Members
                 </Nav.Link>

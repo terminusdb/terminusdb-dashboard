@@ -5,23 +5,18 @@ import {WOQLClientProvider} from './init-woql-client'
 import {localSettings} from "../localSettings"
 import {auth0_conf} from '../auth_config'
 import {Auth0Provider} from "./react-auth0-spa"
-import {BrowserRouter,} from "react-router-dom"
+import {BrowserRouter,useNavigate} from "react-router-dom"
 require('./App.css')
 
 function NavigationComponent(){
-      let redirect_uri=`${window.location.origin}/`
+  
+    let navigate = useNavigate();
+    const onRedirectCallback = (appState) => {
+	    navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
+    };
 
-      //const { dataProduct, organization} = useParams();
 
-      const onRedirectCallback = appState => {
-       /* history.replace(
-            appState && appState.targetUrl
-              ? appState.targetUrl
-              : '/'
-          );*/
-        };
-
-    if(localSettings & localSettings.connection_type!== "LOCAL"){
+    if(localSettings && localSettings.connection_type!== "LOCAL"){
       return <Auth0Provider
               domain={auth0_conf.domain}
               client_id={auth0_conf.clientId}
