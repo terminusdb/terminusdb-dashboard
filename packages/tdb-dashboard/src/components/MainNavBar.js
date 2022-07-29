@@ -11,8 +11,8 @@ import {useNavigate,useParams} from "react-router-dom"
 import {ChangeUser} from "./ChangeUser"
 
 export const MainNavBar = ({setShowTimeTravel}) => {
-    const {woqlClient,changeOrganization,accessControlDashboard} = WOQLClientObj()
-
+    const {woqlClient,changeOrganization,accessControlDashboard,clientUser} = WOQLClientObj()
+    if(!clientUser || !woqlClient) return ""
     //we don't need setRoute
     const { organization, dataProduct } = useParams();
     const currentPage = history.location.pathname
@@ -36,7 +36,7 @@ export const MainNavBar = ({setShowTimeTravel}) => {
             {accessControlDashboard && accessControlDashboard.createDB() &&
                 <NewDataProduct css={"btn-sm"}/>
             }
-            <ChangeUser />
+            {clientUser.connection_type === "LOCAL" && <ChangeUser />}
             <Dropdown className="pl-3 pr-3 ml-3 mr-3 border-right border-left" id="team_list_menu">
                 <Button size="sm" className="bg-transparent border-0" id="team_list_nenu_button">
                    {organization}

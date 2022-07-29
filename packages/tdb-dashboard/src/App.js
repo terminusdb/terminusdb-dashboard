@@ -1,5 +1,5 @@
 import React from "react"
-import {Routes,Route,Outlet,Link} from "react-router-dom"
+import {Routes,Route,useNavigate} from "react-router-dom"
 import {Loading} from "./components/Loading"
 import {SERVER_LOADING_MESSAGE} from "./components/constants"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
@@ -25,11 +25,11 @@ export function App (props){
     const {connectionError,loadingServer,clientUser} = WOQLClientObj()
     const {loading} = clientUser
 
-
+    let navigate = useNavigate();
 
     if (window.location.search.includes("error=unauthorized")) {
        
-        //history.push(`/verify`)
+        navigate(`/verify`)
     }
    
     
@@ -88,32 +88,34 @@ function getRoutes(){
         </React.Fragment>
     }
     return <React.Fragment>
-        <Route index element={<div>HOME</div >} />
+        <Route path="/verify" element={<VerifyEmail/>}/>
+        <Route index element={<PrivateRoute component={Home}/>} />
         <Route path=":organization" >
             <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
-            <Route path="administrator" element={<UserManagement/>}/>
-            <Route path="members" element={<UserManagement/>}/>
+            <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>
+            <Route path="members" element={<PrivateRoute component={UserManagement}/>}/>
             <Route path=":dataProduct" >
-                <Route index element={<DataProductsHome/>} />                     
-                <Route path={DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />
-                <Route path={PRODUCT_EXPLORER} element={<ProductsExplorer/>} />
-                <Route path={PRODUCT_MODELS} element={<ModelProductPage/>} />                    
+                <Route index element={<PrivateRoute component={DataProductsHome}/>} />                     
+                <Route path={DOCUMENT_EXPLORER} element={<PrivateRoute component={DocumentExplorer}/>} />
+                <Route path={PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
+                <Route path={PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />                    
             </Route>
-        </Route>             
+        </Route>
+        <Route path = {INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />             
         <Route path="*" element={<div>Not Found 404 !!!!</div >} />
     </React.Fragment>
 }
 /*
 <Route path="/verify" element={VerifyEmail}/>
                                                  
-<PrivateRoute path='/' component = {DataProductsHome} exact/>
-<PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} exact/>
-<PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} exact/>
-<Route path={DOCUMENT} component = {DocumentPage} exact/>               
-<PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} exact/> 
-<PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} exact/>    
-<PrivateRoute path={PROFILE} component = {Profile} exact/>  
-<PrivateRoute path={TEAM_MEMBERS} component = {UserManagement} exact/>           
+<PrivateRoute path='/' component = {DataProductsHome} />
+<PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} />
+<PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} />
+<Route path={DOCUMENT} component = {DocumentPage} />               
+<PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} /> 
+<PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} />    
+<PrivateRoute path={PROFILE} component = {Profile} />  
+<PrivateRoute path={TEAM_MEMBERS} component = {UserManagement} />           
 <Route path = {INVITE_PAGE} >
-<PrivateRoute path = {INVITE_PAGE} component = {InvitePage} exact />
+<PrivateRoute path = {INVITE_PAGE} component = {InvitePage}  />
 </Route>*/

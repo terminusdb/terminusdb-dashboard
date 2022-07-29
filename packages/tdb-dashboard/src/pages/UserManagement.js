@@ -34,9 +34,14 @@ function getSettings (clientUser){
     }else{
         return {tabs:{
             MEMBERS_TAB:true,
-            INVITATION_TAB:false,
+            INVITATION_TAB:true,
             REQUEST_ACCESS:false,
-            ALL_USER:true
+            ALL_USER:false
+        },
+        buttons:{
+            ADD_USER:false,
+            ADD_INVITATION:true,
+            ADD_ROLE:false
         },
         interface:{
             memberList:{

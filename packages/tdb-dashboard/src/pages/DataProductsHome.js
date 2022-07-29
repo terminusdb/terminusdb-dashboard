@@ -68,7 +68,7 @@ export const DataProductsHome = (props) => {
                                             <div className="card-body w-100">
                                                 <Row className="w-100 d-flex">
                                                     <Col md={10}>
-                                                        <p className="mt-2 text-muted"> Each Data Product can have one or more branches, with the default branch called main. Branches saves each version of Data Product as a snapshot of the data exactly as it was at the moment you committed it.</p>
+                                                        <p className="mt-2 text-muted"> Each Data Product can have one or more branches, with the default branch called main. Branches saves each version of Data Product as a snapshot of the data ly as it was at the moment you committed it.</p>
                                                     </Col>
                                                     <Col md={2}>
                                                         {accessControlDashboard && accessControlDashboard.branch() && 

@@ -18,7 +18,7 @@ export const UserMenu = ({organization}) => {
     if(clientUser.connection_type==="LOCAL"){
         return <Dropdown className="mr-4" id="profile_menu">
         <Button size="sm" className="bg-transparent border-0">
-          User: {clientUser.user}
+          User: {clientUser.email}
         </Button>
         <Dropdown.Toggle split className="bg-transparent border-0" vairant="info" id="profile_menu_arrow">
         </Dropdown.Toggle>
@@ -27,7 +27,7 @@ export const UserMenu = ({organization}) => {
                 <Nav.Link  as={RouterNavLink}
                     title={"View Team Members"}  
                     to={`/${organization}/administrator`} 
-                    exact
+                    
                     id={"team_members"}>
                         <AiOutlineUsergroupAdd className="mr-3 mb-1" />User Managment 
                 </Nav.Link>
@@ -52,7 +52,7 @@ export const UserMenu = ({organization}) => {
                 <Nav.Link  as={RouterNavLink}
                     title={"View Profile Page"}  
                     to={PROFILE} 
-                    exact
+                    
                     id={"profile"}>
                         <AiOutlineUser className="mr-3 mb-1" />Profile
                 </Nav.Link>
@@ -60,8 +60,8 @@ export const UserMenu = ({organization}) => {
             <Dropdown.Item>
                 <Nav.Link  as={RouterNavLink}
                     title={"View Team Members"}  
-                    to={TEAM_MEMBERS} 
-                    exact
+                    to={`/${organization}/administrator`} 
+                    
                     id={"team_members"}>
                         <AiOutlineUsergroupAdd className="mr-3 mb-1" />Team Members
                 </Nav.Link>
@@ -70,7 +70,7 @@ export const UserMenu = ({organization}) => {
             <Dropdown.Item>
                 <Nav.Link  
                     title={"Logout"}  
-                    exact
+                    
                     onClick={(e) => logoutWithRedirect()}
                     id={"logout"}>
                         <AiOutlinePoweroff className="mr-3 mb-1" />Logout

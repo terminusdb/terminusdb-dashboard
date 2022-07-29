@@ -133,7 +133,9 @@ div.progress-bar-container {
 
 .nav-item {
   text-align: center;
+ 
 }
+
 
 .nav-link {
   color: #a3b6ca !important;
@@ -205,6 +207,12 @@ div.progress-bar-container {
   color: #000 !important;
 }
 
+.nav-icon{
+  padding-top: 1rem!important;
+  padding-bottom: 1rem!important;
+  display: block;
+  padding: 0.5rem 1rem;
+}
 /* ---------- sub nav css ----------- */
 
 .cancel-button {

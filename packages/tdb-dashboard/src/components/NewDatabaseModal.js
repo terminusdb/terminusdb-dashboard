@@ -13,7 +13,7 @@ import {BiPlus} from "react-icons/bi"
 import {TERMINUS_DANGER} from "./constants"
 import {Alerts} from "./Alerts"
 //import {pendoMsgAfterCreateDataProduct} from "../trackWithPendo"
-import {useNavigate} from "react-router-dom"
+import {useNavigate,useParams} from "react-router-dom"
 
 export const NewDatabaseModal = ({showModal, setShowModal}) => {
     const {
@@ -21,7 +21,8 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
         reconnectToServer
     } = WOQLClientObj()
 
-    
+    const {organization} = useParams()
+
     const [loading, setLoading] = useState(false)
     const [id, setID]=useState(false)
     const [label, setLabel]=useState(false)
@@ -49,7 +50,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
 
             woqlClient.createDatabase(dbInfo.id, dbInfo).then((res) => {
                 setLoading(false)
-                navigate(dbInfo.id)
+                navigate(`/${organization}/${dbInfo.id}`)
                 reconnectToServer(dbInfo.id)
                 setShowModal(false)
                 setReportAlert(false)
