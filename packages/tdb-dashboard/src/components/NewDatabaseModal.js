@@ -47,22 +47,25 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
         let dbInfo = {id: id, label: label, comment: description, organization:woqlClient.organization()}
         if(woqlClient && dbInfo.id && dbInfo.label) {
             setLoading(true)
-
-            woqlClient.createDatabase(dbInfo.id, dbInfo).then((res) => {
-                setLoading(false)
-                navigate(`/${organization}/${dbInfo.id}`)
-                reconnectToServer(dbInfo.id)
-                setShowModal(false)
-                setReportAlert(false)
-               // pendoMsgAfterCreateDataProduct()
-
-                //clear all the fields
-                setID('');
-                setLabel('');
-                setDescription('');
+            woqlClient.createDatabase(dbInfo.id, dbInfo).then((res) => { 
+                reconnectToServer(dbInfo.id).then(()=>{
+                    navigate(`/${organization}/${dbInfo.id}`)                     
+                    setLoading(false)
+                    setShowModal(false)
+                    setReportAlert(false)
+                    //clear all the fields
+                    setID('');
+                    setLabel('');
+                    setDescription(''); 
+                })           
+                               
             }).catch((err) => {
-                let messaage=`Error in creating database ${dbInfo.label}. ${err}`
-                setErrorWithTimeout(messaage)
+                let errMsg = err
+                if(err.data && err.data["api:message"]){
+                    errMsg = err.data["api:message"]
+                }
+                let message=`Error in creating database ${dbInfo.label}. ${errMsg}`
+                setErrorWithTimeout(message)
                 setLoading(false)
 
                 //clear all the fields

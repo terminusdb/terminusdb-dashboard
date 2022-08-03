@@ -5,13 +5,10 @@ import {WOQLClientProvider} from './init-woql-client'
 import {localSettings} from "../localSettings"
 import {auth0_conf} from '../auth_config'
 import {Auth0Provider} from "./react-auth0-spa"
-import {BrowserRouter,useNavigate,useParams} from "react-router-dom"
+import {BrowserRouter,useNavigate} from "react-router-dom"
 require('./App.css')
 
 function NavigationComponent(){
-    const { organization, dataProduct } = useParams();
-
-    console.log("NavigationComponent",organization)
 
     let navigate = useNavigate();
     const redirect_uri = window.location.origin

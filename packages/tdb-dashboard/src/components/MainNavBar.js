@@ -8,7 +8,6 @@ import {DATA_PRODUCTS} from "../routing/constants"
 import history from "../routing/history"
 import { UserMenu } from "./UserMenu";
 import {useNavigate,useParams} from "react-router-dom"
-import {ChangeUser} from "./ChangeUser"
 
 export const MainNavBar = ({setShowTimeTravel}) => {
     const {woqlClient,changeOrganization,accessControlDashboard,clientUser} = WOQLClientObj()
@@ -36,7 +35,6 @@ export const MainNavBar = ({setShowTimeTravel}) => {
             {accessControlDashboard && accessControlDashboard.createDB() &&
                 <NewDataProduct css={"btn-sm"}/>
             }
-            {clientUser.connection_type === "LOCAL" && <ChangeUser />}
             <Dropdown className="pl-3 pr-3 ml-3 mr-3 border-right border-left" id="team_list_menu">
                 <Button size="sm" className="bg-transparent border-0" id="team_list_nenu_button">
                    {organization}

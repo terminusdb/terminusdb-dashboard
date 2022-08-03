@@ -7,6 +7,7 @@ import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {WOQLClientObj} from "../init-woql-client"
 import {TERMINUS_DANGER} from "./constants"
 import {Alerts} from "./Alerts"
+import {useNavigate,useParams} from "react-router-dom"
 
 export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}) => {
     const {
@@ -14,6 +15,9 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
         reconnectToServer
     } = WOQLClientObj()
     if(!woqlClient) return ""
+
+    let {organization} = useParams()
+    let navigate = useNavigate();
     
     const [id, setID]=useState(false)
     const [loading, setLoading] = useState(false)
@@ -31,9 +35,10 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
         .then((res) => {        
             setShowModal(false)
             setDisabled(true)
-            reconnectToServer()
             setReportAlert(false)
             setLoading(false)
+            reconnectToServer()
+            navigate(`/${organization}`)         
         })
         .catch((err) => {
             let messaage=`Error in deleting database ${dataProductDetails.label}. ${err}`
