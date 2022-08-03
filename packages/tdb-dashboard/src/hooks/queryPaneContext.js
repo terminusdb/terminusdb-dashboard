@@ -3,12 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 import {PanelQueryObj} from "./PanelQueryObj"
 export const QueryPaneContext = React.createContext()
 export const QueryPaneObj = () => useContext(QueryPaneContext)
-import {WOQLClientObj} from '../init-woql-client'
 
 //I need to register all the change so I can rebuild the view
-export const QueryPaneProvider = ({children}) => {
-    const {woqlClient,newQueryPanelQuery} = WOQLClientObj()
-    if(!woqlClient) return ""
+export const QueryPaneProvider = ({children,woqlClient,newQueryPanelQuery}) => {
     const dataProduct = woqlClient.db()
 
     const [queryPaneList, setQueryPaneList] = useState({});

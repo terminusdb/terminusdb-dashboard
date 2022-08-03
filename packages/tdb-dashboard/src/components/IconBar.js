@@ -49,7 +49,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     className="nav-icon nav-product-model" 
                     {...disabled}
                     to={toHomeTeam} 
-                    exact
+                    
                     id={IconBarConfig.dataProductView.key}>
                     {IconBarConfig.dataProductView.icon}
                 </Nav.Link>
@@ -61,7 +61,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     className="nav-icon nav-product-model" 
                     {...disabled}
                     to={getUrl(IconBarConfig.dataProductModal.path)} 
-                    exact
+                    
                     id={IconBarConfig.dataProductModal.key}>
                     {IconBarConfig.dataProductModal.icon}
                 </Nav.Link>
@@ -73,7 +73,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     className="nav-icon nav-document-expolorer" 
                     {...disabled}
                     to={getUrl(IconBarConfig.documentExplorer.path)} 
-                    exact
+                    
                     id={IconBarConfig.documentExplorer.key}>
                     {IconBarConfig.documentExplorer.icon}
                 </Nav.Link>
@@ -84,7 +84,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     className="nav-icon nav-product-expolorer" 
                     {...disabled}
                     to={getUrl(IconBarConfig.dataProductExplorer.path)} 
-                    exact
+                    
                     id={IconBarConfig.dataProductExplorer.key}>
                     {IconBarConfig.dataProductExplorer.icon}
                 </Nav.Link>
@@ -96,7 +96,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     className="nav-item"
                     style={{cursor: "pointer"}}>
                     <span className="nav-icon nav-link">
-                        <AiOutlineMail />
+                        <AiOutlineMail size={24}/>
                     </span>
                 </div>
                 {/*<Nav.Item className="mb-4"> 
@@ -114,7 +114,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                         title={IconBarConfig.tutorials.title} 
                         className="nav-icon"
                         to={IconBarConfig.tutorials.path} 
-                        exact
+                        
                         onClick={(e) => setRoute(IconBarConfig.tutorials.path)}
                         id={IconBarConfig.tutorials.key}
                         >

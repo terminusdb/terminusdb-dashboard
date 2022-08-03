@@ -13,7 +13,7 @@ import {BiPlus} from "react-icons/bi"
 import {TERMINUS_DANGER} from "./constants"
 import {Alerts} from "./Alerts"
 //import {pendoMsgAfterCreateDataProduct} from "../trackWithPendo"
-import {useNavigate} from "react-router-dom"
+import {useNavigate,useParams} from "react-router-dom"
 
 export const NewDatabaseModal = ({showModal, setShowModal}) => {
     const {
@@ -21,7 +21,8 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
         reconnectToServer
     } = WOQLClientObj()
 
-    
+    const {organization} = useParams()
+
     const [loading, setLoading] = useState(false)
     const [id, setID]=useState(false)
     const [label, setLabel]=useState(false)
@@ -46,22 +47,25 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
         let dbInfo = {id: id, label: label, comment: description, organization:woqlClient.organization()}
         if(woqlClient && dbInfo.id && dbInfo.label) {
             setLoading(true)
-
-            woqlClient.createDatabase(dbInfo.id, dbInfo).then((res) => {
-                setLoading(false)
-                navigate(dbInfo.id)
-                reconnectToServer(dbInfo.id)
-                setShowModal(false)
-                setReportAlert(false)
-               // pendoMsgAfterCreateDataProduct()
-
-                //clear all the fields
-                setID('');
-                setLabel('');
-                setDescription('');
+            woqlClient.createDatabase(dbInfo.id, dbInfo).then((res) => { 
+                reconnectToServer(dbInfo.id).then(()=>{
+                    navigate(`/${organization}/${dbInfo.id}`)                     
+                    setLoading(false)
+                    setShowModal(false)
+                    setReportAlert(false)
+                    //clear all the fields
+                    setID('');
+                    setLabel('');
+                    setDescription(''); 
+                })           
+                               
             }).catch((err) => {
-                let messaage=`Error in creating database ${dbInfo.label}. ${err}`
-                setErrorWithTimeout(messaage)
+                let errMsg = err
+                if(err.data && err.data["api:message"]){
+                    errMsg = err.data["api:message"]
+                }
+                let message=`Error in creating database ${dbInfo.label}. ${errMsg}`
+                setErrorWithTimeout(message)
                 setLoading(false)
 
                 //clear all the fields

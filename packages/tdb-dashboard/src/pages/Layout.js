@@ -11,7 +11,8 @@ import { Outlet,useParams } from 'react-router-dom'
 import {LeftSideBar} from '../components/LeftSideBar'
 
 export const Layout = (props) => {
-    const { dataProduct } = useParams();
+    const { organization, dataProduct } = useParams();
+
     const [showTimeTravel, setShowTimeTravel] = useState(false)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
     

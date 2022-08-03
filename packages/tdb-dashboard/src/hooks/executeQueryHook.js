@@ -11,6 +11,8 @@ function executeQueryHook(woqlClient, startQuery) {
 
     function executeQuery(q) {
         //setLoading(true)
+        // to be review we call this function without query
+        if(JSON.stringify(q.json())==="{}")return
         q.execute(woqlClient, cmsg)
         .then((response) => {
             // set the bindings 

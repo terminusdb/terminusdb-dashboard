@@ -7,7 +7,8 @@ export const LoginModal = ({showModal, setShowModal }) => {
     const orgRef = useRef(null);
 // to be review
     const loading = false
-    
+    const handleClose = () => setShowModal(false);
+
     const changeLoggeduser = async () => {
         const name = nameRef.current.value
         const password = passwordRef.current.value
@@ -27,10 +28,10 @@ export const LoginModal = ({showModal, setShowModal }) => {
 
  
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-    return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={setShowModal}>
+    return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
         <Modal.Header>
             <Modal.Title className="h6">Login</Modal.Title>
-            <Button variant="close" aria-label="Close" onClick={setShowModal} />
+            <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body className="p-5">
             {/*errorMessage && 
