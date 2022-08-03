@@ -72,7 +72,7 @@ export const WOQLClientProvider = ({children, params}) => {
         const teamPath = locArr.length>1 ? locArr[1] : false
         const dataPath = locArr.length>2 && locArr[2] !== "administrator" ? locArr[2] : false
         const page = locArr.length>3 ? locArr[3] : false
-        console.log(teamPath,dataPath,page)
+       // console.log(teamPath,dataPath,page)
         return {organization:teamPath,dataProduct:dataPath,page}
     }
 
@@ -110,7 +110,7 @@ export const WOQLClientProvider = ({children, params}) => {
                      dbClient.connectionConfig.api_extension = 'system/api/'
                 }
                       
-                 await dbClient.getUserOrganizations()
+                await dbClient.getUserOrganizations()
                  // to be review the access control is only for the admin user
                  // to see what we have to disabled in the interface
                  const testS = opts.server+'system/'
@@ -123,7 +123,14 @@ export const WOQLClientProvider = ({children, params}) => {
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
-                setError(err.message)
+                let message = err.message
+                if(err.data && err.data["api:message"]){                  
+                    message = err.data["api:message"]
+                    console.log("ERROR_DATA",message)
+                }else if (message.indexOf("Network Error")>-1){
+                    message = "Network Error"
+                }
+                setError(message)
             }finally {
                 setLoadingServer(false)
             }
@@ -290,6 +297,7 @@ export const WOQLClientProvider = ({children, params}) => {
         accessControlDash = accessControlDash || accessControlDashboard
         //this set the organization name and reset the databases list to empty
         hubClient.organization(orgName)
+        // this failed if the organization does not exists
         await accessControlDash.callGetUserTeamRole(clientUser.user,orgName)
 
         //I use this for now to not call getDatabases

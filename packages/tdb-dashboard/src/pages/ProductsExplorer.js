@@ -6,6 +6,7 @@ import {WOQLClientObj} from '../init-woql-client'
 
 export const ProductsExplorer = (props) => {
     const {woqlClient,newQueryPanelQuery} = WOQLClientObj()
+    if(!woqlClient) return ""
 
     return <QueryPaneProvider woqlClient={woqlClient} newQueryPanelQuery={newQueryPanelQuery}>
                 <Layout>

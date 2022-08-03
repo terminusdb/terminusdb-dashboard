@@ -42,16 +42,6 @@ export function App (props){
     }
 
 
-   /* useEffect(() => {
-        const initPendo = async()=>{
-            trackWithPendo(user) 
-        }
-        if(isAuthenticated && user){
-            initPendo()
-        }
-    }, [user])*/
-
-
     if(connectionError) {
         return <ServerError>{connectionError}</ServerError>
     }

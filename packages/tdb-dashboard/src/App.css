@@ -138,7 +138,8 @@ div.progress-bar-container {
 
 
 .nav-link {
-  color: #a3b6ca !important;
+  /* color: #a3b6ca !important;*/
+  color: #fff !important;
 }
 
 .navbar-dark .navbar-nav .nav-link.disabled {
