@@ -144,7 +144,7 @@ export const DocumentFrames = () => {
                                     title={IconBarConfig.dataProductModal.title}
                                     className="btn btn-lg btn-info d-inline text-white"
                                     to={getUrl(IconBarConfig.dataProductModal.path)}
-                                    exact
+                                    
                                     id={IconBarConfig.dataProductModal.key}>
                                         <BiPlus className="mr-1"/>{`Add properties to ${documentObject.type}`}
                                 </Nav.Link>

@@ -9,8 +9,10 @@ import {BrowserRouter,useNavigate} from "react-router-dom"
 require('./App.css')
 
 function NavigationComponent(){
-  
+
     let navigate = useNavigate();
+    const redirect_uri = window.location.origin
+    
     const onRedirectCallback = (appState) => {
 	    navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
     };

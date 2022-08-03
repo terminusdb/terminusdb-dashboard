@@ -72,6 +72,7 @@ export const WOQLClientProvider = ({children, params}) => {
         const teamPath = locArr.length>1 ? locArr[1] : false
         const dataPath = locArr.length>2 && locArr[2] !== "administrator" ? locArr[2] : false
         const page = locArr.length>3 ? locArr[3] : false
+       // console.log(teamPath,dataPath,page)
         return {organization:teamPath,dataProduct:dataPath,page}
     }
 
@@ -95,62 +96,41 @@ export const WOQLClientProvider = ({children, params}) => {
    
 
      useEffect(() => {
-        const initWoqlClientRemote = async()=>{
-            //I have to change this
-            const orgRemoteUrl=`${opts.server}`
-            const hubClient = new TerminusClient.WOQLClient(orgRemoteUrl)
-
-            //this is for jump in different organization proxy
-            hubClient.connectionConfig.api_extension = 'system/api/'
-
-            const jwtoken = await clientUser.getTokenSilently()
-            let hubcreds = {type: "jwt", key: jwtoken, user: clientUser.email}
-            hubClient.localAuth(hubcreds)
-            try{
-                let defOrg = localStorage.getItem("Org")
-                await hubClient.getUserOrganizations()
-                // if the organization does not exists get the first in the list
-                if(!defOrg || JSON.stringify(hubClient.userOrganizations()).indexOf(defOrg) === -1){
-                    defOrg=hubClient.userOrganizations()[0]['name']
-                }
-
-                const accessControl =  new TerminusClient.AccessControl(orgRemoteUrl,{organization:defOrg,jwt:jwtoken})
-                const accessControlDash = new AccessControlDashboard(accessControl)
-               //await accessControlDash.callGetRolesList()
-                
-                await changeOrganization(defOrg,dataPath,hubClient,accessControlDash)
-                setAccessControl(accessControlDash)
-                setWoqlClient(hubClient)
-            } catch (err) {
-                setError(`Connection Error ${err.message}`)
-            }finally {
-                setLoadingServer(false)
-            }
-        }
-        const initWoqlClientLocal = async()=>{
-            const user = localStorage.getItem("User") || opts.user
-            const key = localStorage.getItem("Key") || opts.key
-            const dbClient = new TerminusClient.WOQLClient(opts.server,{user,key})
+        const initWoqlClient = async(credentials,accessCredential )=>{
             try{
                  //the last organization viewed organization
                  //this is for woql client 
+                const dbClient = new TerminusClient.WOQLClient(opts.server,credentials)
                 const {organization,dataProduct} = getLocation()
                 let defOrg = organization //|| localStorage.getItem("Org")
+
+                //this is for jump in different organization proxy
+                //to be removed soon
+                if(opts.connection_type!== "LOCAL"){
+                     dbClient.connectionConfig.api_extension = 'system/api/'
+                }
                       
-                 await dbClient.getUserOrganizations()
+                await dbClient.getUserOrganizations()
                  // to be review the access control is only for the admin user
                  // to see what we have to disabled in the interface
-                 
-                 const access =  new TerminusClient.AccessControl(opts.server,{organization:defOrg,user:user,"key":key})
+                 const testS = opts.server+'system/'
+                 const access =  new TerminusClient.AccessControl(opts.server,accessCredential)
                  const clientAccessControl = new AccessControlDashboard(access)
-                 //await clientAccessControl.callGetRolesList()               
+                
                  if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
                  }
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
-                setError(err.message)
+                let message = err.message
+                if(err.data && err.data["api:message"]){                  
+                    message = err.data["api:message"]
+                    console.log("ERROR_DATA",message)
+                }else if (message.indexOf("Network Error")>-1){
+                    message = "Network Error"
+                }
+                setError(message)
             }finally {
                 setLoadingServer(false)
             }
@@ -160,10 +140,20 @@ export const WOQLClientProvider = ({children, params}) => {
             //and don't need auth0 too
             if(opts.connection_type === 'LOCAL'){
                 setLoadingServer(true)
-                initWoqlClientLocal()
+                const user = localStorage.getItem("User") || opts.user
+                const key = localStorage.getItem("Key") || opts.key
+                const credentials  = {user ,key}                        
+                initWoqlClient(credentials,credentials)
+
             }else if(clientUser && clientUser.isAuthenticated){
                 setLoadingServer(true)
-                initWoqlClientRemote()
+                clientUser.getTokenSilently().then(jwtoken=>{
+                    let hubcreds = {jwt: jwtoken, user: clientUser.email}
+                    // user is the Auth0 id
+                    let accesscred ={jwt : jwtoken, user:clientUser.user}              
+                    initWoqlClient(hubcreds,accesscred)
+                })
+                
             }
         }
     }, [opts.user, clientUser.email])
@@ -307,6 +297,7 @@ export const WOQLClientProvider = ({children, params}) => {
         accessControlDash = accessControlDash || accessControlDashboard
         //this set the organization name and reset the databases list to empty
         hubClient.organization(orgName)
+        // this failed if the organization does not exists
         await accessControlDash.callGetUserTeamRole(clientUser.user,orgName)
 
         //I use this for now to not call getDatabases

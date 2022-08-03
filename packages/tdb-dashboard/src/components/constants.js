@@ -35,43 +35,43 @@ export const IconBarConfig = {
         title: "Data Products",
         key:"data_products",
         path: DATA_PRODUCTS,
-        icon: <AiOutlineDatabase/>
+        icon: <AiOutlineDatabase size={24}/>
     },
     dataProductExplorer: {
         title: "Data Product Explorer",
         key: "data_products_explorer",
         path: PRODUCT_EXPLORER,
-        icon: <BiCode/>
+        icon: <BiCode size={24}/>
     },
     dataProductModal:{
         title: "Data Product Model",
         key: "data_products_model",
         path: PRODUCT_MODELS,
-        icon: <MdBubbleChart/>
+        icon: <MdBubbleChart size={24}/>
     },
     dataProductManage: {
         title: "Manage Data Product",
         key: "manage_data_product",
         path: PRODUCT_MANAGE,
-        icon: <SiGithubactions/>
+        icon: <SiGithubactions size={24}/>
     },
     documentExplorer: {
         title: "Document Explorer",
         key: "document_explorer",
         path: DOCUMENT_EXPLORER,
-        icon: <BsFileEarmarkCheck/>
+        icon: <BsFileEarmarkCheck size={24}/>
     },
     feedback: {
         title: "Feedback",
         key:"feedback",
         path: FEEDBACK,
-        icon: <AiOutlineMail/>
+        icon: <AiOutlineMail size={24}/>
     },
     tutorials: {
         title: "Example Data Products",
         key: "example_data_products",
         path: EXAMPLES_PRODUCTS,
-        icon: <BsBookmarkPlus/>
+        icon: <BsBookmarkPlus size={24}/>
     }
 }
 

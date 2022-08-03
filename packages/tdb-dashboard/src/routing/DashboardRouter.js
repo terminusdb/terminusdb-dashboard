@@ -8,13 +8,13 @@ import {
 export const DashboardRouter = () => {
 
     return (<Switch>
-            <Route path="/" exact>
+            <Route path="/" >
                   <div> HOME PAGE</div>
             </Route>
-            <Route path="/first" exact>
+            <Route path="/first" >
                   <div> HELLO FIRST PAGE</div>
             </Route>
-            <Route path="/second" exact>
+            <Route path="/second" >
                   <div> HELLO second PAGE</div>
             </Route>
         </Switch>)

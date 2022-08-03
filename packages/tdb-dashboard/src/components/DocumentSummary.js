@@ -110,7 +110,7 @@ export const DocumentSummary = () => {
                                     title={IconBarConfig.dataProductModal.title}
                                     className="btn btn-lg  btn-info d-inline text-white"
                                     to={getUrl(IconBarConfig.dataProductModal.path)}
-                                    exact
+                                    
                                    // onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
                                     id={IconBarConfig.dataProductModal.key}>
                                         <BiPlus className="mr-1"/>Create a document

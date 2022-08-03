@@ -147,8 +147,7 @@ export const DataProductActivityBoard = () => {
         //<div className="list-group-item">
         dataProvider.map((item,num) => {
             if(selectedCounter>=5) return
-            timeElements.push(<React.Fragment>
-                <div key={`element__${num}`}>
+            timeElements.push(<div key={`element__${num}`}>
                     <div className="row">
                         {/*<div className="col-auto">
                             <div className="avatar avatar-sm avatar-online">
@@ -173,8 +172,7 @@ export const DataProductActivityBoard = () => {
                             </p>
                         </div>
                     </div> 
-                </div>
-            </React.Fragment>  )  
+                </div> )  
             selectedCounter += 1
         })
 
