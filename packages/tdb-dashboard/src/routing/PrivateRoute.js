@@ -23,7 +23,7 @@ const path = window.location.pathname
           appState: { targetUrl: path }
           
         }
-        if(path===INVITE_PAGE){
+        if(refid && teamid){
           const returnTo=`${window.location.origin}?refid=${refid}&team=${teamid}`
           const targetUrl=`/invite/${teamid}/${refid}`
           loginConf['returnTo'] = returnTo
