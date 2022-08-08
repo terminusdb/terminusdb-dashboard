@@ -319,11 +319,11 @@ export const WOQLClientProvider = ({children, params}) => {
             accessControlDash.callGetRolesList()
         }
         
-        localStorage.setItem("Org",orgName)
+        localStorage.setItem("Org", orgName)
         const dataP = setDataP || false
         //reset database and commit head
         setDataProduct(dataP,hubClient,accessControlDash)
-   }
+   } 
 
     //get the list of databases
     async function reconnectToServer (currentDB = false) { // temporary fix for loading new woqlClient when create/ delete of a data product, have to review
