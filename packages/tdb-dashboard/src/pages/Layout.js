@@ -20,7 +20,7 @@ export const Layout = (props) => {
             <SplitPane split="vertical" minSize={70} defaultSize={350} primary="first" allowResize={false}>
                 <div className="side-black h-100 d-flex">
                     <IconBar setShowFeedbackForm={setShowFeedbackForm} />
-                    <LeftSideBar/>
+                    {organization && <LeftSideBar/>}
                     <div style={{position: "relative"}}>
                         {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
                     </div>
