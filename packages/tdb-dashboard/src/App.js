@@ -79,6 +79,8 @@ function getRoutes(){
     }
     return <React.Fragment>
         <Route path="/verify" element={<VerifyEmail/>}/>
+        <Route path = {INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} /> 
+        <Route path = {PROFILE} element = {<PrivateRoute component={Profile}/>} />                
         <Route index element={<PrivateRoute component={Home}/>} />
         <Route path=":organization" >
             <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
@@ -91,7 +93,7 @@ function getRoutes(){
                 <Route path={PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />                    
             </Route>
         </Route>
-        <Route path = {INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />             
+                 
         <Route path="*" element={<div>Not Found 404 !!!!</div >} />
     </React.Fragment>
 }

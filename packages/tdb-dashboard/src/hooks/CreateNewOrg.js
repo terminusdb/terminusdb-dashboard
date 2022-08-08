@@ -1,11 +1,23 @@
 import { useState, useEffect } from "react"
 import   axios  from "axios"
 import { useAuth0 } from "../react-auth0-spa"
-import {getOptions,getBaseUrl} from "./hookUtils"
+import {getOptions} from "./hookUtils"
 
+function getBaseUrl(){
+	/*
+    * link to the node server
+    */
+	let remote_url = ''
+    if(process.env.TERMINUSDB_SERVER){
+        remote_url += process.env.TERMINUSDB_SERVER.endsWith('/') ? process.env.TERMINUSDB_SERVER : process.env.TERMINUSDB_SERVER+'/'
+    }
+    return `${remote_url}api`
+}
 export const CreateNewOrg=()=> {
 	const axiosHub=axios.create();
     const {getTokenSilently } = useAuth0()
+   // const {clientUser } = WOQLClientObj()
+
     const [loading,setLoading]=useState(null)
     const [teamCreated,setTeamCreated]=useState(null)
     const [errorMessage,setError] =useState(null)
@@ -21,8 +33,9 @@ export const CreateNewOrg=()=> {
             const payload = {organization:orgid}
             const response = await axiosHub.post(`${baseUrl}/organizations`, payload,options)
             localStorage.setItem("Org",orgid)
-            setTeamCreated(response.data)           
-            window.location.replace(`/`)
+            setTeamCreated(response.data)
+            //reload the home page with the new team
+            window.location.replace(`${window.location.origin}/${orgid}`)
         }catch(err){
             const data = err.response.data &&  err.response.data.err ?  err.response.data.err : ''
             let errorMessage = `I can not create the team ${orgid} `
