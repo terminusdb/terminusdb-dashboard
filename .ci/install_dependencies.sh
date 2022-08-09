@@ -3,6 +3,6 @@ npm i
 cd ../tdb-react-layout
 npm i
 cd ../tdb-react-components
-npm i
+npm i --legacy-peer-deps
 cd ../react-worker
 npm i
