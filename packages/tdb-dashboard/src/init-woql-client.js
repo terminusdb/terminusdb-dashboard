@@ -68,12 +68,13 @@ export const WOQLClientProvider = ({children, params}) => {
     // in this point params is not setted
     // to be review I need params get better
     // in pathname teamName and username are still encoded
-    const noTeam = {"profile":true,"":true,"invite":true}
+    const noTeam = {"":true,"invite":true}
+    const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
        // const startWith = process.env.BASE_URL ? 2 : 1 
         const teamPath = locArr.length>1 && !noTeam[locArr[1]] ? UTILS.decodeURISegment(locArr[1]) : false
-        const dataPath = locArr.length>2 && locArr[2] !== "administrator" ? UTILS.decodeURISegment(locArr[2]) : false
+        const dataPath = locArr.length>2 && !noDatabase[locArr[2]] ? UTILS.decodeURISegment(locArr[2]) : false
         const page = locArr.length>3 ? locArr[3] : false
        // console.log(teamPath,dataPath,page)
         
