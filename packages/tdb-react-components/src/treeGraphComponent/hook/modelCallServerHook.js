@@ -21,7 +21,9 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId, pendoMsgAfterCre
 			setLoading(true)
 			setReport(false)
 			let jsonSchema=[]
+			const ts = Date.now()
 			try{
+				
 				const params={"as_list":true,"graph_type":"schema"}
 				//save with all the context so we can use it for update the schema
 				jsonSchema = await woqlClient.getDocument(params)

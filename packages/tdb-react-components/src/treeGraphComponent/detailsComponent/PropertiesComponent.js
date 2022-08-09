@@ -4,6 +4,7 @@ import {ObjectProperty} from './ObjectProperty'
 import {PropertyMenuList} from './PropertyMenuList'
 import {PROPERTY_TYPE_NAME,CLASS_TYPE_NAME_LABEL} from '../utils/elementsName'
 import {STRING_TYPE_DATAPROVIDER,NUMBER_PROPERTY_PRECISION_DATAPROVIDER,BOOLEAN_TYPE_DATAPROVIDER,
+		JSON_TYPE_DATAPROVIDER,
 		GEOMETRY_PROPS_DATAPROVIDER,TEMPORAL_PROPERTY_DATAPROVIDER,ELEMENT_HELP} from '../../constants/details-labels';
 
 import {GraphContextObj} from '../hook/graphObjectContext';
@@ -65,6 +66,11 @@ export const PropertiesComponent = (props)=> {
 					baseObj['selectDataProvider']=BOOLEAN_TYPE_DATAPROVIDER;	
 					baseObj['help']=ELEMENT_HELP.string_subtype			   				   			
 					return <BasePropertyComponent {...baseObj} key={propertyItem.name} />
+				
+				case PROPERTY_TYPE_NAME.JSON_PROPERTY:
+						baseObj['selectDataProvider']=JSON_TYPE_DATAPROVIDER;	
+						baseObj['help']=ELEMENT_HELP.string_subtype			   				   			
+						return <BasePropertyComponent {...baseObj} key={propertyItem.name} />
 
 		   		case PROPERTY_TYPE_NAME.GEO_PROPERTY:
 		   			baseObj['selectDataProvider']=GEOMETRY_PROPS_DATAPROVIDER;

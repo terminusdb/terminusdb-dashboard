@@ -93,6 +93,10 @@ export const GEO_PROPERTY_VALUE_ID='value_type';
 export const BOOLEAN_TYPE_DATAPROVIDER = {label: 'Boolean Type', id:'range',
 											options:[{label:'Boolean', value:'xsd:boolean'}]}
 
+export const JSON_TYPE_DATAPROVIDER = {label: 'JSON Type', id:'range',
+											options:[{label:'JSON', value:'sys:JSON'}]}
+
+
 
 /*
 */
@@ -120,11 +124,13 @@ export const CLASS_PROPERTIES_LIST=[{label:'Enum Property', id:'ChoiceProperty',
 		    					   {label:'Geo Property', id:'GeoProperty',defaultRange:'xdd:coordinate'},
 		    					   {label:'Temporal Property', id:'TemporalProperty',defaultRange:'xsd:dateTime'},
 								   {label:'Boolean Property', id:'BooleanProperty',defaultRange:'xsd:boolean'},
+								   {label:'JSON Property', id:'JSONProperty',defaultRange:'sys:JSON'},
 		    					   {label:'Link Property', id:'LinkProperty',defaultRange:''}]
 
 
 export const GET_ICON_NAME={StringProperty:'custom-img-string',
-							BooleanProperty:'custom-img-string',		
+							BooleanProperty:'custom-img-string',
+							JSONProperty:'custom-img-string',		
 							NumericProperty:'custom-img-number_alt',
 							ChoiceProperty:'custom-img-choice',
 							GeoProperty:'custom-img_map',

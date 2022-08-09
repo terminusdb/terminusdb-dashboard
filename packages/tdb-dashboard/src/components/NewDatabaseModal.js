@@ -12,8 +12,8 @@ import {IconBarConfig} from "./constants"
 import {BiPlus} from "react-icons/bi"
 import {TERMINUS_DANGER} from "./constants"
 import {Alerts} from "./Alerts"
-//import {pendoMsgAfterCreateDataProduct} from "../trackWithPendo"
 import {useNavigate,useParams} from "react-router-dom"
+import { UTILS } from "@terminusdb/terminusdb-client"
 
 export const NewDatabaseModal = ({showModal, setShowModal}) => {
     const {
@@ -31,17 +31,13 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
 
     let navigate = useNavigate();
 
-    const setErrorWithTimeout = (message)=>{
-        setReportAlert(message)
-        setTimeout(()=>{ setReportAlert(false) }, 10000);
-    }
     function handleCreate () {
-        if(!id && !label) {
-            setErrorWithTimeout('Id and Name cannot be empty')
-        } else if (!label) {
-            setErrorWithTimeout('Name cannot be empty')
-        } else if(!id) {
-            setErrorWithTimeout('Id cannot be empty')
+        if(!UTILS.checkValidName(id)) {
+            setReportAlert("Id is mandatory and can only contain underscores and alphanumeric characters.")
+            return
+        }else if(!label) {
+            setReportAlert('Name cannot be empty')
+            return
         }
 
         let dbInfo = {id: id, label: label, comment: description, organization:woqlClient.organization()}
@@ -65,7 +61,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
                     errMsg = err.data["api:message"]
                 }
                 let message=`Error in creating database ${dbInfo.label}. ${errMsg}`
-                setErrorWithTimeout(message)
+                setErrorMessage(message)
                 setLoading(false)
 
                 //clear all the fields
@@ -79,6 +75,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
     function handleOnBlur (e) {
         e.preventDefault()
         e.stopPropagation()
+        setReportAlert(false)
         if(e.target.id == newDataProductForm.id.id)
             setID(e.target.value)
         else if (e.target.id == newDataProductForm.label.id)
