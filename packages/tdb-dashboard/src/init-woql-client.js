@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import TerminusClient from '@terminusdb/terminusdb-client'
+import TerminusClient ,{UTILS} from '@terminusdb/terminusdb-client'
 import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER} from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments, getDocsQuery} from "./queries/GeneralQueries"
@@ -64,15 +64,20 @@ export const WOQLClientProvider = ({children, params}) => {
     var [docQueryResults]=executeQueryHook(woqlClient, docsQuery)
 
     const [frames, setFrames]=useState(false)
+
     // in this point params is not setted
     // to be review I need params get better
+    // in pathname teamName and username are still encoded
+    const noTeam = {"":true,"invite":true}
+    const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
        // const startWith = process.env.BASE_URL ? 2 : 1 
-        const teamPath = locArr.length>1 ? locArr[1] : false
-        const dataPath = locArr.length>2 && locArr[2] !== "administrator" ? locArr[2] : false
+        const teamPath = locArr.length>1 && !noTeam[locArr[1]] ? UTILS.decodeURISegment(locArr[1]) : false
+        const dataPath = locArr.length>2 && !noDatabase[locArr[2]] ? UTILS.decodeURISegment(locArr[2]) : false
         const page = locArr.length>3 ? locArr[3] : false
        // console.log(teamPath,dataPath,page)
+        
         return {organization:teamPath,dataProduct:dataPath,page}
     }
 
@@ -320,6 +325,8 @@ export const WOQLClientProvider = ({children, params}) => {
         //this is for change the base url api for the proxy
         if(opts.connection_type!== "LOCAL"){
             hubClient.connectionConfig.api_extension = `${orgName}/api/`
+            //load the list of system roles
+            accessControlDash.callGetRolesList()
         }
         
         localStorage.setItem("Org", orgName)

@@ -18,6 +18,13 @@ export const UserManagement = (props) =>{
 function getSettings (clientUser){
    if(clientUser.connection_type==="LOCAL") {
     return {
+            labels:{
+                userListTitle:"Users and Organizations",
+                inviteAddText: "This section allow you to manage users and organizations, and grant rights over entities.",
+                addUser:"Add a user to the team",
+                addRole:"Add Role",
+                createRole: "Create a new Role"
+            },
             tabs:{
                 ALL_USER:true,
                 ROLES_LIST:true,
