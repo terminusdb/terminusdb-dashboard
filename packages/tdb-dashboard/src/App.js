@@ -23,12 +23,12 @@ import {Home} from "./pages/Home"
 
 export function App (props){
     const {connectionError,loadingServer,clientUser} = WOQLClientObj()
+    if(!clientUser) return
     const {loading} = clientUser
 
     let navigate = useNavigate();
 
-    if (window.location.search.includes("error=unauthorized")) {
-       
+    if (window.location.search.includes("error=unauthorized")) {      
         navigate(`/verify`)
     }
    
@@ -38,9 +38,8 @@ export function App (props){
     }*/
 
     if (window.location.search.includes("supportSignUp=true")) {
-        //history.push(`/`)
+        navigate(`/`)
     }
-
 
     if(connectionError) {
         return <ServerError>{connectionError}</ServerError>
@@ -54,18 +53,19 @@ export function App (props){
 
     return <div className="container-fluid container-background h-100">
             <Routes>
-                {getRoutes()}
+                {getRoutes(clientUser)}
             </Routes>         
             </div>
 }
 
-function getRoutes(){
+function getRoutes(clientUser){
     if(localSettings.connection_type==="LOCAL"){
     return <React.Fragment>
         <Route index element={<Home/>} />
             <Route path=":organization" >
                 <Route index element={<OrganizationHome/>}/>
-                <Route path="administrator" element={<UserManagement/>}/>
+                { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
+                { clientUser.user !== "admin" && <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}
                 <Route path="members" element={<UserManagement/>}/>
                 <Route path=":dataProduct" >
                     <Route index element={<DataProductsHome/>} />                     
