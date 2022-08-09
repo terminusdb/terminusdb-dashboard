@@ -13,7 +13,7 @@ export const WOQLEditor = ({editorObject, editable, setEditorContent, setMainErr
         content:PropTypes.string,
         setMainError:PropTypes.func,
         setWOQLQuery:PropTypes.func,
-        setEditorContent:PropTypes.func.isRequired,
+        setEditorContent:PropTypes.func,
         editable:PropTypes.bool
     }
 

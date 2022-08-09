@@ -51,9 +51,9 @@ export const AccessTokenHook=(organization)=> {
 			*/
 			const Auth0token = await getTokenSilently()			
 			const options = getOptions(Auth0token);
-			const result = await axiosHub.delete(`${baseUrl}/organizations/${organization}/tokens/${tokenId}`, options)	
+			await axiosHub.delete(`${baseUrl}/organizations/${organization}/tokens/${tokenId}`, options)	
+			await getTokenList()
 			setToken(null)
-			getTokenList()
 			
 		}catch(err){
         	setError('I can not delete the token')

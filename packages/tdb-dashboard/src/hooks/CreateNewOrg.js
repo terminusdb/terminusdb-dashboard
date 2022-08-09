@@ -49,6 +49,7 @@ export const CreateNewOrg=()=> {
     }
 
     return {loading,
+        setError,
         createNewOrg,
         teamCreated,
         errorMessage}

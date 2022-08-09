@@ -5,7 +5,8 @@ export const PROPERTY_TYPE_NAME={
 	GEO_PROPERTY:'GeoProperty',
 	TEMPORAL_PROPERTY:'TemporalProperty',
 	OBJECT_PROPERTY:'LinkProperty',
-	BOOLEAN_PROPERTY:'BooleanProperty'
+	BOOLEAN_PROPERTY:'BooleanProperty',
+	JSON_PROPERTY:'JSONProperty'
 }
 
 export const getLabelByName=(elementName)=>{
@@ -30,7 +31,8 @@ export const PROPERTY_TYPE_LABEL={
 	GEO_PROPERTY:'Geo Property',
 	TEMPORAL_PROPERTY:'Temporal Property',
 	OBJECT_PROPERTY:'Link Property',
-    BOOLEAN_PROPERTY:'Boolean Property'
+    BOOLEAN_PROPERTY:'Boolean Property',
+	JSON_PROPERTY:'Boolean Property'
 	
 }
 
@@ -92,7 +94,8 @@ export const getRootIndexObj=(dbName)=>{
 
 }
 
-export const PROPERTY_TYPE_BY_CLASS = { 'xsd:boolean':PROPERTY_TYPE_NAME.BOOLEAN_PROPERTY,
+export const PROPERTY_TYPE_BY_CLASS = { 'sys:JSON':PROPERTY_TYPE_NAME.JSON_PROPERTY,
+										'xsd:boolean':PROPERTY_TYPE_NAME.BOOLEAN_PROPERTY,
 										'xsd:string':PROPERTY_TYPE_NAME.STRING_PROPERTY,
 									    'xdd:json':PROPERTY_TYPE_NAME.STRING_PROPERTY,
 										'xsd:base64Binary':PROPERTY_TYPE_NAME.STRING_PROPERTY,

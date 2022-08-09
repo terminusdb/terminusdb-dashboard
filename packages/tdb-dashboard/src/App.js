@@ -3,15 +3,13 @@ import {Routes,Route,useNavigate} from "react-router-dom"
 import {Loading} from "./components/Loading"
 import {SERVER_LOADING_MESSAGE} from "./components/constants"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
-import {DOCUMENT,INVITE_PAGE,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS,PROFILE, TEAM_MEMBERS} from "./routing/constants"
+import {INVITE_PAGE,PRODUCT_EXPLORER,PRODUCT_MODELS, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS,PROFILE, TEAM_MEMBERS} from "./routing/constants"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
-import {DocumentPage} from "./pages/DocumentPage"
 import {DocumentExplorer} from "./pages/DocumentExplorer"
 import {Profile} from "./pages/Profile"
-import {ExampleProducts} from "./pages/ExampleProducts"
 import {WOQLClientObj} from './init-woql-client'
 import {ServerError} from './components/ServerError'
 import {InvitePage} from './pages/InvitePage'
@@ -22,20 +20,15 @@ import {Home} from "./pages/Home"
 
 
 export function App (props){
-    const {connectionError,loadingServer,clientUser} = WOQLClientObj()
-    if(!clientUser) return
-    const {loading} = clientUser
-
     let navigate = useNavigate();
+    const {connectionError,loadingServer,clientUser,accessControlDashboard} = WOQLClientObj()
+    if(!clientUser || !accessControlDashboard) return ""
+    const {loading} = clientUser
+    
 
     if (window.location.search.includes("error=unauthorized")) {      
         navigate(`/verify`)
     }
-   
-    
-    /*if(user && user['http://terminusdb.com/schema/system#afterSignUp'] && window.location.pathname.startsWith("/invite")){
-        history.push(`/`)
-    }*/
 
     if (window.location.search.includes("supportSignUp=true")) {
         navigate(`/`)
@@ -51,14 +44,15 @@ export function App (props){
         </main>
     }
 
+    const isAdmin = accessControlDashboard.isAdmin()
     return <div className="container-fluid container-background h-100">
             <Routes>
-                {getRoutes(clientUser)}
+                {getRoutes(clientUser,isAdmin)}
             </Routes>         
             </div>
 }
 
-function getRoutes(clientUser){
+function getRoutes(clientUser,isAdmin){
     if(localSettings.connection_type==="LOCAL"){
     return <React.Fragment>
         <Route index element={<Home/>} />
@@ -79,12 +73,13 @@ function getRoutes(clientUser){
     }
     return <React.Fragment>
         <Route path="/verify" element={<VerifyEmail/>}/>
-        <Route path = {INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} /> 
-        <Route path = {PROFILE} element = {<PrivateRoute component={Profile}/>} />                
+        <Route path = {INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />                     
         <Route index element={<PrivateRoute component={Home}/>} />
         <Route path=":organization" >
             <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
-            <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>
+            <Route path = {PROFILE} element = {<PrivateRoute component={Profile}/>} />  
+           {isAdmin &&  <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>}
+           {!isAdmin &&  <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}
             <Route path="members" element={<PrivateRoute component={UserManagement}/>}/>
             <Route path=":dataProduct" >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />                     

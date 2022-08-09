@@ -8,7 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import { LoginModal } from "./LoginModal";
 
 export const UserMenu = ({organization}) => {
-    const { clientUser,accessControlDashboard, setDataProduct} = WOQLClientObj()
+    const { clientUser,accessControlDashboard} = WOQLClientObj()
     const redirect_uri=`${window.location.origin}/`
     
     const [showModal, setShowModal] = useState(false)
@@ -79,7 +79,7 @@ export const UserMenu = ({organization}) => {
                 <Dropdown.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={"View Profile Page"}  
-                        to={PROFILE} 
+                        to={`/${organization}/${PROFILE}`} 
                         
                         id={"profile"}>
                             <AiOutlineUser className="mr-3 mb-1" />Profile
