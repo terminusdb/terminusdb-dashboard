@@ -50,7 +50,7 @@ export const WOQLClientProvider = ({children, params}) => {
     // set constants for query to get count of document class instances
     const [query, setQuery] = useState(false)
     const [selectedDocument, setSelectedDocument]=useState(false) // when a document is selected from a query panel
-    var [perDocumentCountProvider]=executeQueryHook(woqlClient, query)
+    var [perDocumentCountProvider]=executeQueryHook(woqlClient, query) 
 
     const [perDocumentCount, setPerDocument]=useState(false)
     const [totalDocumentCount, setTotalDocumentCount]=useState(false)
@@ -188,6 +188,17 @@ export const WOQLClientProvider = ({children, params}) => {
         })
     }
 
+    /**
+     * function to clear document counts
+     */
+    function clearDocumentCounts () {
+        setDocumentClasses(false)
+        setPerDocument(false)
+        perDocumentCountProvider=false
+        setTotalDocumentCount(false)
+    }
+
+    //dataproduct change
     const setDataProduct = (id,hubClient,accessDash) =>{
         const client = woqlClient || hubClient
         const accDash = accessControlDashboard || accessDash
@@ -197,17 +208,15 @@ export const WOQLClientProvider = ({children, params}) => {
             accDash.setDBUserActions(id)
             //reset the head
             setHead('main',{commit:false,time:false})
+            clearDocumentCounts()
         }
     }
-//designing data intensive applications
-    //dataproduct change
+    //designing data intensive applications
+    //branch change
     useEffect(() => {
         if(woqlClient && woqlClient.db()){
             setBranches(false)
-            setDocumentClasses(false)
-            setPerDocument(false)
-            perDocumentCountProvider=false
-            setTotalDocumentCount(false)
+            clearDocumentCounts()
             //I have to add this again
             //if we run a query against an empty branch we get an error
             //we'll remove this when the error will be fixed in core db
