@@ -9,8 +9,10 @@ export const IconBar =  ({setShowFeedbackForm}) => {
     const { organization, dataProduct } = useParams();
 
     let disabled =  {disabled:true} 
+    let  basecss = "disabled"
     if(dataProduct && dataProduct!=='_system'){
         disabled={}
+        basecss = ""
     }
 
     const getUrl = (pageName)=> {
@@ -22,13 +24,8 @@ export const IconBar =  ({setShowFeedbackForm}) => {
     let resolved = useResolvedPath(toHomeTeam);
     let match = useMatch({ path: resolved.pathname, end: true });
 
-
-    let resolved01 = useResolvedPath(`${dataProduct}`);
-    let match01 = useMatch({ path: resolved01.pathname, end: true });
-
     function getActive (){
-        console.log("MATCH",match,match01) 
-        return match ? 'nav-icon nav-product-model' : 'nav-icon nav-product-model'
+        return match ? `nav-icon nav-product-model nav-link active` : `nav-icon nav-product-model nav-link ${basecss}`
     }
 
  // href="https://terminusdb.com"
@@ -44,16 +41,14 @@ export const IconBar =  ({setShowFeedbackForm}) => {
             </Nav.Item>
             <hr className="my-3" role="separator"></hr>       
             <Nav.Item>
-                <Nav.Link  as={RouterNavLink}
-                    title={IconBarConfig.dataProductView.title}  
-                    className="nav-icon nav-product-model" 
-                    {...disabled}
-                    to={toHomeTeam} 
-                    
-                    id={IconBarConfig.dataProductView.key}>
-                    {IconBarConfig.dataProductView.icon}
-                </Nav.Link>
-            </Nav.Item>        
+            <RouterNavLink
+                to={toHomeTeam} 
+                className={getActive}
+                {...disabled}
+                id={"HOME"}>
+                     {IconBarConfig.dataProductView.icon}    
+            </RouterNavLink> 
+            </Nav.Item>      
             <Nav.Item>
                 <Nav.Link  
                     as={RouterNavLink}
