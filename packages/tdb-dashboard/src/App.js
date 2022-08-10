@@ -22,10 +22,10 @@ import {Home} from "./pages/Home"
 export function App (props){
     let navigate = useNavigate();
     const {connectionError,loadingServer,clientUser,accessControlDashboard} = WOQLClientObj()
-    if(!clientUser || !accessControlDashboard) return ""
+    if(!clientUser) return ""
+    // we have this loading only in terminusX, it is auth0 information/login loading
     const {loading} = clientUser
     
-
     if (window.location.search.includes("error=unauthorized")) {      
         navigate(`/verify`)
     }
@@ -43,8 +43,9 @@ export function App (props){
             <Loading message={SERVER_LOADING_MESSAGE}/>
         </main>
     }
-
-    const isAdmin = accessControlDashboard.isAdmin()
+    //the accessControlDashboard in terminusX is created only after the login 
+    // so he can be undefined at the start
+    const isAdmin = accessControlDashboard ? accessControlDashboard.isAdmin() : false
     return <div className="container-fluid container-background h-100">
             <Routes>
                 {getRoutes(clientUser,isAdmin)}
@@ -92,17 +93,3 @@ function getRoutes(clientUser,isAdmin){
         <Route path="*" element={<div>Not Found 404 !!!!</div >} />
     </React.Fragment>
 }
-/*
-<Route path="/verify" element={VerifyEmail}/>
-                                                 
-<PrivateRoute path='/' component = {DataProductsHome} />
-<PrivateRoute path={PRODUCT_EXPLORER} component = {ProductsExplorer} />
-<PrivateRoute path={PRODUCT_MODELS} component = {ModelProductPage} />
-<Route path={DOCUMENT} component = {DocumentPage} />               
-<PrivateRoute path={DOCUMENT_EXPLORER} component = {DocumentExplorer} /> 
-<PrivateRoute path={EXAMPLES_PRODUCTS} component = {ExampleProducts} />    
-<PrivateRoute path={PROFILE} component = {Profile} />  
-<PrivateRoute path={TEAM_MEMBERS} component = {UserManagement} />           
-<Route path = {INVITE_PAGE} >
-<PrivateRoute path = {INVITE_PAGE} component = {InvitePage}  />
-</Route>*/
