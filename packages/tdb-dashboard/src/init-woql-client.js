@@ -7,7 +7,7 @@ import {executeQueryHook} from "./hooks/executeQueryHook"
 import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-component"
 import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
-
+import { formatErrorMessage } from './hooks/hookUtils'
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext)
 
@@ -128,13 +128,7 @@ export const WOQLClientProvider = ({children, params}) => {
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
-                let message = err.message
-                if(err.data && err.data["api:message"]){                  
-                    message = err.data["api:message"]
-                    console.log("ERROR_DATA",message)
-                }else if (message.indexOf("Network Error")>-1){
-                    message = "Network Error"
-                }
+                const message = formatErrorMessage(err)
                 setError(message)
             }finally {
                 setLoadingServer(false)
@@ -307,32 +301,37 @@ export const WOQLClientProvider = ({children, params}) => {
 
    // review
     async function changeOrganization (orgName,setDataP, hubClient,accessControlDash){      
-        hubClient = hubClient || woqlClient 
-        accessControlDash = accessControlDash || accessControlDashboard
-        //this set the organization name and reset the databases list to empty
-        hubClient.organization(orgName)
-        // this failed if the organization does not exists
-        await accessControlDash.callGetUserTeamRole(clientUser.user,orgName)
+        try{
+            hubClient = hubClient || woqlClient 
+            accessControlDash = accessControlDash || accessControlDashboard
+            //this set the organization name and reset the databases list to empty
+            hubClient.organization(orgName)
+            // this failed if the organization does not exists
+            await accessControlDash.callGetUserTeamRole(clientUser.user,orgName)
 
-        //I use this for now to not call getDatabases
-        if(hubClient.userOrganizations().length>0){  
-            const hh= hubClient.userOrganizations();                 
-            const dbs =  hubClient.userOrganizations().find(element => element['name'] === orgName ) 
-            //console.log("DATABASES", dbs)
-            const dbList = dbs && dbs.databases ? dbs.databases : []
-            hubClient.databases(dbList)
+            //I use this for now to not call getDatabases
+            if(hubClient.userOrganizations().length>0){  
+                const hh= hubClient.userOrganizations();                 
+                const dbs =  hubClient.userOrganizations().find(element => element['name'] === orgName ) 
+                //console.log("DATABASES", dbs)
+                const dbList = dbs && dbs.databases ? dbs.databases : []
+                hubClient.databases(dbList)
+            }
+            //this is for change the base url api for the proxy
+            if(opts.connection_type!== "LOCAL"){
+                hubClient.connectionConfig.api_extension = `${orgName}/api/`
+                //load the list of system roles
+                accessControlDash.callGetRolesList()
+            }
+            
+            localStorage.setItem("Org", orgName)
+            const dataP = setDataP || false
+            //reset database and commit head
+            setDataProduct(dataP,hubClient,accessControlDash)
+        }catch(err){
+            const message = formatErrorMessage(err)
+            setError(message)
         }
-        //this is for change the base url api for the proxy
-        if(opts.connection_type!== "LOCAL"){
-            hubClient.connectionConfig.api_extension = `${orgName}/api/`
-            //load the list of system roles
-            accessControlDash.callGetRolesList()
-        }
-        
-        localStorage.setItem("Org", orgName)
-        const dataP = setDataP || false
-        //reset database and commit head
-        setDataProduct(dataP,hubClient,accessControlDash)
    } 
 
     //get the list of databases
