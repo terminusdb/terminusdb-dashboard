@@ -32,7 +32,6 @@ export const AccessTokenHook=(organization)=> {
 			const token = await getTokenSilently()
 			const options = getOptions(token);
 			const response = await axiosHub.get(`${baseUrl}/organizations/${organization}/tokens`, options)
-			console.log(response)
 			if(response.data){
 				setTokenList(response.data)
 			}
@@ -51,8 +50,8 @@ export const AccessTokenHook=(organization)=> {
 			*/
 			const Auth0token = await getTokenSilently()			
 			const options = getOptions(Auth0token);
-			await axiosHub.delete(`${baseUrl}/organizations/${organization}/tokens/${tokenId}`, options)	
-			await getTokenList()
+		 	await axiosHub.delete(`${baseUrl}/organizations/${organization}/tokens/${tokenId}`, options)
+			getTokenList()	
 			setToken(null)
 			
 		}catch(err){
