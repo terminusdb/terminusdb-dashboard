@@ -22,3 +22,13 @@ export function getBaseUrl(){
     }
     return `${remote_url}api`
 }
+
+export function formatErrorMessage (err){
+	let message = err.message
+	if(err.data && err.data["api:message"]){                  
+		message = err.data["api:message"]
+	}else if (message.indexOf("Network Error")>-1){
+		message = "Network Error"
+	}
+	return message
+}

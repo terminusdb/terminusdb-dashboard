@@ -43,8 +43,8 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.19.3",
-    "@terminusdb/terminusdb-access-control-component": "^0.0.8",
-    "@terminusdb/terminusdb-client": "^10.0.13",
+    "@terminusdb/terminusdb-access-control-component": "^0.0.9",
+    "@terminusdb/terminusdb-client": "^10.0.14",
     "@terminusdb/terminusdb-documents-ui": "^1.0.7",
     "axios": "^0.21.1",
     "classnames": "^2.2.5",
