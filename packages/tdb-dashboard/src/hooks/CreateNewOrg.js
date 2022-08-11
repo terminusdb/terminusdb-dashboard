@@ -1,18 +1,8 @@
 import { useState, useEffect } from "react"
 import   axios  from "axios"
 import { useAuth0 } from "../react-auth0-spa"
-import {getOptions} from "./hookUtils"
+import {getOptions,getBaseUrl} from "./hookUtils"
 
-function getBaseUrl(){
-	/*
-    * link to the node server
-    */
-	let remote_url = ''
-    if(process.env.TERMINUSDB_SERVER){
-        remote_url += process.env.TERMINUSDB_SERVER.endsWith('/') ? process.env.TERMINUSDB_SERVER : process.env.TERMINUSDB_SERVER+'/'
-    }
-    return `${remote_url}api`
-}
 export const CreateNewOrg=()=> {
 	const axiosHub=axios.create();
     const {getTokenSilently } = useAuth0()

@@ -17,6 +17,17 @@ export function getBaseUrl(){
     * link to the node server
     */
 	let remote_url = ''
+    if(process.env.TERMINUSDB_SERVER){
+        remote_url += process.env.TERMINUSDB_SERVER.endsWith('/') ? process.env.TERMINUSDB_SERVER : process.env.TERMINUSDB_SERVER+'/'
+    }
+    return `${remote_url}api`
+}
+
+export function getBaseUrlFeedback(){
+	/*
+    * link to the node server
+    */
+	let remote_url = ''
     if(process.env.FEEDBACK_URL){
         remote_url += process.env.FEEDBACK_URL.endsWith('/') ? process.env.FEEDBACK_URL : process.env.FEEDBACK_URL+'/'
     }

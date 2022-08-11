@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios" 
-import {getBaseUrl,getOptions} from "./hookUtils"
+import {getBaseUrlFeedback,getOptions} from "./hookUtils"
 import {WOQLClientObj} from '../init-woql-client'
 
 export function SendEmailHook(props) {
@@ -11,7 +11,7 @@ export function SendEmailHook(props) {
     const [emailError,setEmailError]=useState(false)
     const [loadingEmail, setEmailLoading] = useState(false)
 	
-	const baseUrl = getBaseUrl()
+	const baseUrl = getBaseUrlFeedback()
 
 	useEffect(() => {
 		 async function callEmailServer() {
