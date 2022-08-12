@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from "react"
-import {Modal, Button, Form, Col} from "react-bootstrap"
+import React, {useState} from "react"
+import {Modal, Button, Form} from "react-bootstrap"
 import {BsFillPeopleFill} from "react-icons/bs"
 import {CreateNewOrg} from "../hooks/CreateNewOrg"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, TERMINUS_DANGER,TERMINUS_SUCCESS} from "./constants"
 import {Alerts} from "./Alerts"
 import { UTILS } from "@terminusdb/terminusdb-client"
+
 export const NewTeamModal = ({show, setShow}) => {
     const {createNewOrg,teamCreated,loading,errorMessage,setError} =  CreateNewOrg()
    
@@ -37,10 +38,6 @@ export const NewTeamModal = ({show, setShow}) => {
             {teamCreated && 
             <Alerts id="alert_team_created" message={"the team has been created"} type={TERMINUS_SUCCESS}/>}
             {errorMessage &&  <Alerts id="alert_team_created_error" message={errorMessage} type={TERMINUS_DANGER}/>}
-      
-            {/*error && <span className="d-flex">
-                <BiError className="text-danger mt-1 mr-1"/><p className="text-danger">Team name is mandatory</p>
-            </span>*/}
             <Form>
                 <Form.Group>
                     <Form.Control

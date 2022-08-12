@@ -76,7 +76,7 @@ export const UserMenu = ({organization}) => {
                 <Dropdown.Toggle split className="bg-transparent border-0" vairant="info" id="profile_menu_arrow">
                 </Dropdown.Toggle>
                 <Dropdown.Menu >
-                <Dropdown.Item>
+                {organization && <Dropdown.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={"View Profile Page"}  
                         to={`/${organization}/${PROFILE}`} 
@@ -84,7 +84,7 @@ export const UserMenu = ({organization}) => {
                         id={"profile"}>
                             <AiOutlineUser className="mr-3 mb-1" />Profile
                     </Nav.Link>
-                </Dropdown.Item>
+                </Dropdown.Item>}
                 {isAdmin && <Dropdown.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={"View Team Members"}  
