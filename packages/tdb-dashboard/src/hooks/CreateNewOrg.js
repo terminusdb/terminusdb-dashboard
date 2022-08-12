@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import   axios  from "axios"
 import { useAuth0 } from "../react-auth0-spa"
 import {getOptions,getBaseUrl} from "./hookUtils"
@@ -21,7 +21,7 @@ export const CreateNewOrg=()=> {
             const token = await getTokenSilently()
             const options = getOptions(token);
             const payload = {organization:orgid}
-            const response = await axiosHub.post(`${baseUrl}/organizations`, payload,options)
+            const response = await axiosHub.post(`${baseUrl}/private/organizations`, payload,options)
             localStorage.setItem("Org",orgid)
             setTeamCreated(response.data)
             //reload the home page with the new team
@@ -30,7 +30,7 @@ export const CreateNewOrg=()=> {
             const data = err.response.data &&  err.response.data.err ?  err.response.data.err : ''
             let errorMessage = `I can not create the team ${orgid} `
             if(data.indexOf("but an object with that id already exists api")){
-                errorMessage = `The Team Name ${orgid} already exists`
+                errorMessage = <span className="ml-2">The team <strong>{orgid}</strong> is not available in TerminusX</span>
             }
             setError(errorMessage)
         }finally{
