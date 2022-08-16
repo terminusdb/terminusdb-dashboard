@@ -1,10 +1,14 @@
 {
     "env": {
-        "MAILSLURP_API_KEY": "***REMOVED***"
+        "MAILSLURP_API_KEY": "***REMOVED***",
+        "COLLABORATOR_USER":"collaborator@gmail.com",
+        "COLLABORATOR_PASS":"collaborator@gmail.com",
+        "OWNER_PASS": "***REMOVED***",
+        "NEW_PASS" : "***REMOVED***"
       },
         "defaultCommandTimeout": 120000,
         "responseTimeout": 120000,
         "requestTimeout": 120000,
-        "baseUrl":"https://dashboard-dev.terminusdb.com/",
+        "baseUrl":"http://localhost:3030/",
         "chromeWebSecurity": false      
 }
