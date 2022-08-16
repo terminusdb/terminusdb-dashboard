@@ -7,9 +7,9 @@
 //emf7V3RaiDXCsx$#@%yy
 describe('visit dashboard dev', () => {
     const dashboard = "/"//"https://dashboard-dev.terminusdb.com/"
-    
+
+    let emailAddressOwner =  Cypress.env('COLLABORATOR_USER')
     let ownerPass = Cypress.env('COLLABORATOR_USER')
-    const newPass = Cypress.env('COLLABORATOR_PASS')
 
     //const collaboratorEmail = 
 
@@ -28,6 +28,14 @@ describe('visit dashboard dev', () => {
     it('Check to see that you can login with an exists user', () => {
         //check to be in terminusdb - login page
         userLogin()
+    })
+
+   
+    it('check that you can select a team', ()=>{
+        cy.get('#cypress_test').click() //  
+        cy.location().should((loc) => {
+          expect(loc.pathname).to.eq('/cypress_test')
+        })
     })
 
 
@@ -84,7 +92,7 @@ describe('visit dashboard dev', () => {
   const squash_commit_message = "squash test"
   it('Check that a new branch can be added', ()=>{
     // check that the dataproduct is in the dataproduct list
-    cy.get(`a#data_products`).click()
+    cy.get(`a#HOME`).click()
     cy.get(`#home_show_branches`).click()
     cy.get('#home_open_create_new_branch_modal').click() 
 
@@ -122,7 +130,7 @@ it('Check that the new branch has 2 commits', ()=>{
 
   it('check that you can get a dataProduct', ()=>{
     // check that the dataproduct is in the dataproduct list
-    cy.get(`a#data_products`).click()
+    cy.get(`a#HOME`).click()
     cy.get(`#${dataProduct}`).find('span').should("contain",dataProduct)
 })
 

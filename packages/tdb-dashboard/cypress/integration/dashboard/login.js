@@ -10,8 +10,8 @@ describe('visit dashboard dev', () => {
     const dashboard = "https://dashboard-dev.terminusdb.com/"
     let ownerPass = Cypress.env('OWNER_PASS')
     const newPass = Cypress.env('NEW_PASS')
-    let emailAddressOwner =  '' //"collaborator@gmail.com"
-    let inboxIdOwner =  '' //"collaborator@gmail.com"
+    let emailAddressOwner =  '' 
+    let inboxIdOwner =  '' 
     //const collaboratorEmail = 
 
     before(function () {
@@ -103,14 +103,11 @@ let teamName = "shared_team"
 it('check that you can create a new Team', ()=>{
       userLogin()
       teamName = `${teamName}__${Date.now()}`
-      cy.get('#profile_menu_arrow').click()
-      cy.get('#profile').click()
-      cy.get('#profile_open_create_new_team_modal').click()
+      cy.get('#team_page_open_create_new_team_modal').click()
       cy.get('input#team_id').type(teamName).trigger('change');
       cy.get('#create_new_team_button').click()
       cy.wait(5000)
       cy.get('#team_list_nenu_button').should("contain",teamName)
-     
   })
 
     

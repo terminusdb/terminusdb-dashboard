@@ -24,7 +24,7 @@ export const ServerError = (props) => {
             }
             {clientUser && clientUser.connection_type ==="LOCAL" &&
                 <div>
-                    <ChangeUser/>
+                    <ChangeUser label="Login to TerminusDB"/>
                 </div>
             }
         </div>
