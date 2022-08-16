@@ -1,10 +1,6 @@
 {
     "env": {
-        "MAILSLURP_API_KEY": "***REMOVED***",
-        "COLLABORATOR_USER":"collaborator@gmail.com",
-        "COLLABORATOR_PASS":"collaborator@gmail.com",
-        "OWNER_PASS": "***REMOVED***",
-        "NEW_PASS" : "***REMOVED***"
+       
       },
         "defaultCommandTimeout": 120000,
         "responseTimeout": 120000,
