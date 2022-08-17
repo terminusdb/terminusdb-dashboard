@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = {
+module.exports = (env, argv) => ({
     entry: './src/index.js',
     module: {
         rules: [
@@ -9,33 +9,21 @@ module.exports = {
                 use:{
                     loader: "babel-loader",
                 },
+                include: path.resolve(__dirname, "src"),
+                exclude: /node_modules/,
             },
-            {
-              test: /\.css$/,
-              exclude: /node_modules/,
-              use: ['style-loader', 'css-loader'],
-            }
-            
         ]
     },
+    devtool: argv.mode === 'production' ? false : '#inline-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'tdb-react-layout.min.js',
-        sourceMapFilename: 'tdb-react-layout.min.js.map',
-        libraryTarget: 'umd',
-        library: 'TDBReactLayout',
-    },
-    resolve: {
-      extensions: ['.js', '.jsx', '.json', '.css'],
+        filename: 'terminusdb-access-control-component.min.js',
+        sourceMapFilename: 'terminusdb-access-control-component.min.js.map',
+        library: 'TerminusDBAccessControl',
     },
     externals: {
-    '@terminusdb-live/react-worker': {
-        root: 'ReactWorker',
-        commonjs2: '@terminusdb-live/react-worker',
-        commonjs: '@terminusdb-live/react-worker',
-        amd: 'ReactWorker',
-    },
-    'react': {
+    
+    react: {
       root: 'React',
       commonjs2: 'react',
       commonjs: 'react',
@@ -54,4 +42,5 @@ module.exports = {
       amd: 'prop-types',
     }
   },
-}
+  target: 'node'
+});

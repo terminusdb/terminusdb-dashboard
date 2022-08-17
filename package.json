@@ -1,0 +1,10 @@
+{
+  "name": "terminusdb-react",
+  "workspaces": [
+    "./packages/tdb-react-components",
+    "./packages/react-worker",
+    "./packages/tdb-react-layout",
+    "./packages/tdb-access-control-component",
+    "./packages/tdb-dashboard"
+  ]
+}
