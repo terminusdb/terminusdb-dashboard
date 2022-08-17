@@ -44,10 +44,6 @@ module.exports = (env, argv) => ({
   ],
   resolve: {
     alias: {
-      react: path.resolve('./node_modules/react'),
-      "@terminusdb-live/tdb-react-components": path.resolve('../tdb-react-components/src/index.js'),
-      "@terminusdb-live/tdb-react-layout": path.resolve('../tdb-react-layout/src/index.js'),
-      "@terminusdb-live/react-worker":path.resolve('../react-worker/src/index.js')
     },
     fallback: { "https": false },
     extensions: ['.js', '.jsx', '.json'],
