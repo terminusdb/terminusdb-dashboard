@@ -23,6 +23,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       inject: true,
+      title: env.title ? env.title : "TerminusDB",
       template: path.resolve(__dirname, './src/index.html'),
       bundleFileName:"bundle.js"
     }),
