@@ -32,7 +32,7 @@ jobs:
             AUTH0_DOMAIN="signup-dev.terminusdb.com"
             AUDIENCE="https://terminuscloud/users"
         ' > .env
-        npm run build
+        npm run build-terminusx
     - name: Build prod
       if: startsWith(github.ref, 'refs/tags/v')
       run: |
@@ -46,7 +46,7 @@ jobs:
             AUTH0_DOMAIN="signup.terminusdb.com"
             AUDIENCE="https://terminuscloud/users"
         ' > .env
-        npm run build
+        npm run build-terminusx
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
       with:
