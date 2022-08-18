@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-module.exports = {
+module.exports = (env, argv) => ({
   mode: 'development',
   context: __dirname,
   //devtool: 'inline-source-map',
@@ -115,7 +115,7 @@ module.exports = {
       }
      ]
   }
-}
+})
 
 /*"@terminusdb/terminusdb-react-components": path.resolve('../../../terminusdb-react-components/src/index.js'),*/
 
