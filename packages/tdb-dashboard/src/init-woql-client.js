@@ -68,7 +68,7 @@ export const WOQLClientProvider = ({children, params}) => {
     // in this point params is not setted
     // to be review I need params get better
     // in pathname teamName and username are still encoded
-    const noTeam = {"":true,"invite":true}
+    const noTeam = {"":true,"invite":true,"administrator" :true}
     const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
@@ -198,13 +198,14 @@ export const WOQLClientProvider = ({children, params}) => {
     }
 
     //dataproduct change
-    const setDataProduct = (id,hubClient,accessDash) =>{
+    const setDataProduct = (dbName,hubClient,accessDash) =>{
         const client = woqlClient || hubClient
         const accDash = accessControlDashboard || accessDash
         if(client){
-            client.db(id)
+            client.db(dbName)
             //set the allowed actios for the selected dataproduct
-            accDash.setDBUserActions(id)
+            const dbDetails = client.databaseInfo(dbName)
+            accDash.setDBUserActions(dbDetails['@id'])
             //reset the head
             setHead('main',{commit:false,time:false})
             clearDocumentCounts()

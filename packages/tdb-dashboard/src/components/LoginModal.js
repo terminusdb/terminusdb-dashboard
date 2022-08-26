@@ -14,7 +14,7 @@ export const LoginModal = ({showModal, setShowModal }) => {
         const password = passwordRef.current.value
         const organization = orgRef.current.value
         if(!name || name === "" || !password || password === "") {
-            setError("Organization name and password are mandatory")
+            setError("Team name and password are mandatory")
             return
         }else{
             localStorage.setItem("User",name) 

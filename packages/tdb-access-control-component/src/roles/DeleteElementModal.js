@@ -34,7 +34,7 @@ export const DeleteElementModal = ({showModal, setShowModal, labels, elementType
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
         <Modal.Header>
-            <Modal.Title className="h6">{currentTitles.modalTitle} </Modal.Title>
+            <Modal.Title className="text-success mt-3 mb-3">{currentTitles.modalTitle} </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body className="p-5">

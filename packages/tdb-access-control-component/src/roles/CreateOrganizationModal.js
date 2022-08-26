@@ -11,7 +11,7 @@ export const CreateOrganizationModal = ({accessControlDashboard,showModal, setSh
     const runCreate = async () => {
         const name = nameRef.current.value
         if(!UTILS.checkValidName(name)) {
-            setError("Organization name is mandatory and can only contain underscores and alphanumeric characters.")
+            setError("Team name is mandatory and can only contain underscores and alphanumeric characters.")
             return
         }else{
             const done = await createElementByName(CREATE_ORGANIZATION, name)         
@@ -26,17 +26,17 @@ export const CreateOrganizationModal = ({accessControlDashboard,showModal, setSh
     function checkName (){
         const name = nameRef.current.value
         if(!name || name === "") {
-            setError("Organization name is mandatory")
+            setError("Team name is mandatory")
             return
         }
         setError(false)
     }
  
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-    return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={setShowModal}>
+    return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={()=>setShowModal(false)}>
         <Modal.Header>
-            <Modal.Title className="h6">Create a new Organization</Modal.Title>
-            <Button variant="close" aria-label="Close" onClick={setShowModal} />
+            <Modal.Title className="text-success mt-3 mb-3 ">Create a new Team</Modal.Title>
+            <Button variant="close" aria-label="Close" onClick={()=>setShowModal(false)} />
         </Modal.Header>
         <Modal.Body className="p-5">
             {errorMessage && 
@@ -48,7 +48,7 @@ export const CreateOrganizationModal = ({accessControlDashboard,showModal, setSh
                         id="add_element_name" 
                         type="text"
                         onBlur={checkName}
-                        placeholder={`Please type the Organization name`} />
+                        placeholder={`Please type the Team name`} />
                 </Form.Group>
             </Form>
         </Modal.Body>
@@ -57,8 +57,8 @@ export const CreateOrganizationModal = ({accessControlDashboard,showModal, setSh
                 disabled={loading}
                 id ="add_element_button"
                 variant="info" 
-                title={`Add New Organization`} 
-                onClick={runCreate}>{loading ? 'Loading ...' : "Add New Organization"} 
+                title={`Create new Team`} 
+                onClick={runCreate}>{loading ? 'Sending request ...' : "Create new Team"} 
             </Button>
         </Modal.Footer>
     </Modal>

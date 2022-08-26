@@ -1,6 +1,5 @@
 import React,{useState} from "react"
 import { Layout } from "./Layout"
-import {NoDataProductSelectedStyle} from "../components/constants"
 import {WOQLClientObj} from '../init-woql-client'
 import {Card, Row, Col, Button,Container} from "react-bootstrap"
 import {useNavigate} from "react-router-dom"
@@ -21,13 +20,15 @@ export const Home = () => {
         changeOrganization(orgName)         
     }
 
+    const addCreateTeam = clientUser && (clientUser.connection_type !== "LOCAL" || clientUser.user === "admin") ? true : false
+
     return <Layout>
                 <main className="content w-100">
                 <Container>
                     <Col xs={12} className="text-center d-block align-items-center justify-content-center">
                         <h3 className="text-success mt-5 mb-4">
-                            <RiTeamLine className="mr-2"/> Select a Team
-                            { clientUser && clientUser.connection_type !== "LOCAL" &&
+                            <RiTeamLine className="mr-2"/>Select a Team
+                            { addCreateTeam &&
                             <React.Fragment>
                                 <Button id="team_page_open_create_new_team_modal" className="ml-4 btn-info mt-4 mb-4" onClick={()=>{setShowNewMemberModal(true)}}>
                                     <BsFillPeopleFill className="mr-2"/>Create a new Team

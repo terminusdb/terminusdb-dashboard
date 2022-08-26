@@ -115,13 +115,9 @@ export const UserDatabasesListLocal = ({team,selectedUser,accessControlDashboard
        
                 {Array.isArray(userDatabaseList) && 
                      <Card className="shadow-sm m-4">
-                     <Card.Header className=" d-flex justify-content-between bg-transparent">
-                        <Col className="d-flex align-item-center">
-                            <h5 className="mb-0 mt-1 float-left text-muted">
-                                <strong className="text-success">{selectTeamRow.username} </strong> Dataproducts Role
-                            </h5>
-                        </Col>
-                     </Card.Header>
+                        <h4 className="mt-3 mb-2 mr-4 ml-3">
+                            <strong className="text-success">{selectTeamRow.username} </strong>-- Dataproducts Roles
+                        </h4>                
                     <Card.Body>                       
                         <WOQLTable
                         result={userDatabaseList}

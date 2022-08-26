@@ -2,7 +2,7 @@ import React, {useEffect,useState} from "react"
 import {Row, Badge, Col, Card,Button} from "react-bootstrap"
 import {AccessControlHook} from "../hooks/AccessControlHook"
 import {WOQLTable} from '@terminusdb/terminusdb-react-table'
-import {getListConfigBase} from "../ViewConfig"
+import {getRoleListConfig} from "../ViewConfig"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import { DeleteElementByName } from "./DeleteElementByName"
 import { CreateRoleModal } from "./CreateRoleModal"
@@ -22,9 +22,12 @@ export const RoleListTable = ({accessControlDashboard,options}) => {
 
     // all the system database user
     useEffect(() => {
-        getRolesList()
+        updateTable()
     }, [])
 
+    const updateTable = () =>{
+        getRolesList({"Role/admin":true})
+    }
     function deleteAction(cell){
         setRowSelected(cell)
         setShowDelete(true)
@@ -43,7 +46,7 @@ export const RoleListTable = ({accessControlDashboard,options}) => {
                 </React.Fragment>
         
     }
-    const tableConfig = getListConfigBase(10, getActionButtons)
+    const tableConfig = getRoleListConfig(10, getActionButtons)
 
     if(loading){
         return  <Loading/>
@@ -52,7 +55,7 @@ export const RoleListTable = ({accessControlDashboard,options}) => {
 
     return <React.Fragment>
         {showDelete && <DeleteElementByName 
-                        updateTable={getRolesList}
+                        updateTable={updateTable}
                         accessControlDashboard={accessControlDashboard}
                         showModal={showDelete} 
                         setShowModal={setShowDelete} 
@@ -61,7 +64,7 @@ export const RoleListTable = ({accessControlDashboard,options}) => {
                         methodName={DELETE_ROLE}/>}
 
         {showNewRoleModal && <CreateRoleModal options={options} 
-                                           updateRolesList={getRolesList}
+                                           updateRolesList={updateTable}
                                            accessControlDashboard={accessControlDashboard} 
                                            show={showNewRoleModal} 
                                            setShow={setShowNewRoleModal}/>}
@@ -77,7 +80,7 @@ export const RoleListTable = ({accessControlDashboard,options}) => {
                             </h6>
                         </Col>
                         <Col >
-                            <button onClick={()=>setShowNewRoleModal(true)} style={{maxWidth:"200px"}} title="Create New Role"
+                            <button onClick={()=>setShowNewRoleModal(true)} style={{maxWidth:"200px"}} title="Create a new Role"
                                     type="button" className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info">
                                         {options.labels.addRole}
                             </button>

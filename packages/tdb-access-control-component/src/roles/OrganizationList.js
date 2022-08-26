@@ -50,10 +50,10 @@ export const OrganizationList = ({accessControlDashboard,options}) => {
         const name = cell.row.original['name']
         return <React.Fragment>
                 <span className="d-flex">             
-                <Button variant="success" size="sm"   title={`show user dataproducts role`} onClick={() => setViewOrgUsers(cell.row.original)}>
+                <Button variant="success" size="sm"   title={`show ${name} Team Users`} onClick={() => setViewOrgUsers(cell.row.original)}>
                     <FaUsers/> 
                 </Button>
-                <Button variant="danger" size="sm" className="ml-5" title={`delete - name`} onClick={() => deleteAction(cell.row.original)}>
+                <Button variant="danger" size="sm" className="ml-5" title={`delete ${name} Team`} onClick={() => deleteAction(cell.row.original)}>
                   <RiDeleteBin7Line/> 
                 </Button>
                 </span>
@@ -73,11 +73,11 @@ export const OrganizationList = ({accessControlDashboard,options}) => {
                         showModal={showDelete} 
                         setShowModal={setShowDelete} 
                         elementName={rowSelected.name} 
-                        elementType="Organization"
+                        elementType="Team"
                         methodName={DELETE_ORGANIZATION}/>}
                         
         {showAdd && <CreateOrganizationModal
-                        title="Create a new Organization"
+                        title="Create a new Team"
                         options={options} 
                         updateTable={updateResultTable}
                         accessControlDashboard={accessControlDashboard} 
@@ -95,9 +95,9 @@ export const OrganizationList = ({accessControlDashboard,options}) => {
                             </h6>
                         </Col>
                         <Col >
-                            <button onClick={()=>setShowAdd(true)} style={{maxWidth:"200px"}} title="Create New Role"
+                            <button onClick={()=>setShowAdd(true)} style={{maxWidth:"200px"}} title="Create a new empty Team"
                                     type="button" className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info">
-                                       Add Organization
+                                       Create a new Team
                             </button>
                         </Col>
                     </Row>
