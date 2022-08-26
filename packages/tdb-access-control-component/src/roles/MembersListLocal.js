@@ -75,7 +75,6 @@ export const MembersListLocal = ({organizationInfo,currentUser,accessControlDash
     //maybe an utilityfunction woqlClient
     function getActionButtons (cell) {       
         const currentSelected = cell.row.original
-        if(!accessControlDashboard.isAdmin())return <span className="d-flex"></span>
         return <span className="d-flex">          
             {options.interface.memberList.showDatabase && 
             <Button variant="success" size="sm"   title={`show user dataproducts role`} onClick={() => getUserDatabaseList(currentSelected)}>
@@ -101,7 +100,7 @@ export const MembersListLocal = ({organizationInfo,currentUser,accessControlDash
     }
 
     const labels = selectTeamRow ? {
-                modalTitle : <h5>{"Are you sure to delete the User - "}<span className="text-success" >{selectTeamRow.username}</span> {`from the Organization ${team}?`}</h5>,
+                modalTitle : <h5>{"Are you sure to delete the User - "}<span className="text-success" >{selectTeamRow.username}</span> {`from the Team ${team}?`}</h5>,
                 buttonTitle : `Remove the User from the team`,
                 buttonLabel: "Remove the user from the team"
             } : {}
@@ -115,14 +114,13 @@ export const MembersListLocal = ({organizationInfo,currentUser,accessControlDash
                          options={options} 
                          updateTable={updateTable}
                          resourceId={teamId}
-                         //defaultName={rowSelected.name}
-                         //rowSelected ={rowSelected}
                          team = {team}
+                         title = {`Add User to ${team} Team`}
                         />}
         <Row className="mr-5 ml-2">
             <Col>
             <Card className="shadow-sm m-4">                
-                    <h4 className="mt-3 mb-2 mr-4"><strong className="text-success">{team}</strong> -- Organization Users Roles</h4> 
+                    <h4 className="mt-3 mb-2 mr-4 ml-3"><strong className="text-success">{team}</strong> -- Team Users Roles</h4> 
                 <Card.Header className="bg-transparent">                                  
                 <Row>
                     <Col>
@@ -131,9 +129,9 @@ export const MembersListLocal = ({organizationInfo,currentUser,accessControlDash
                         </h6>
                     </Col>
                     <Col >
-                        <button onClick={()=>setShowAdd(true)} style={{maxWidth:"200px"}} title="Create New Role"
+                        <button onClick={()=>setShowAdd(true)} style={{maxWidth:"200px"}} title="Add User to the Team"
                             type="button" className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info">
-                            Add User to {team} Organization
+                            Add User to {team} Team
                         </button>
                     </Col>
                     </Row>

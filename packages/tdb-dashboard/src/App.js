@@ -18,7 +18,6 @@ import {localSettings} from "../localSettings"
 import {OrganizationHome } from "./pages/OrganizationHome"
 import {Home} from "./pages/Home"
 
-
 export function App (props){
     let navigate = useNavigate();
     const {connectionError,loadingServer,clientUser,accessControlDashboard} = WOQLClientObj()
@@ -57,10 +56,10 @@ function getRoutes(clientUser,isAdmin){
     if(localSettings.connection_type==="LOCAL"){
     return <React.Fragment>
         <Route index element={<Home/>} />
+            { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
+            { clientUser.user !== "admin" && <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}   
             <Route path=":organization" >
                 <Route index element={<OrganizationHome/>}/>
-                { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
-                { clientUser.user !== "admin" && <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}
                 <Route path="members" element={<UserManagement/>}/>
                 <Route path=":dataProduct" >
                     <Route index element={<DataProductsHome/>} />                     

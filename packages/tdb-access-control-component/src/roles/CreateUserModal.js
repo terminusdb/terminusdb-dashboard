@@ -32,7 +32,7 @@ export const CreateUserModal = ({accessControlDashboard,showModal, setShowModal,
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
         <Modal.Header>
-            <Modal.Title className="h6">Create a new User</Modal.Title>
+            <Modal.Title className="text-success mt-3 mb-3">Create a new User</Modal.Title>
             <Button variant="close" aria-label="Close" onClick={closeModal} />
         </Modal.Header>
         <Modal.Body className="p-5">
@@ -61,8 +61,8 @@ export const CreateUserModal = ({accessControlDashboard,showModal, setShowModal,
                 disabled={loading}
                 id ="add_element_button"
                 variant="info" 
-                title={`Add New User`} 
-                onClick={runCreate}>{loading ? 'Sending Request ...' : "Add New User"} 
+                title={`Create New User`} 
+                onClick={runCreate}>{loading ? 'Sending Request ...' : "Create New User"} 
             </Button>
         </Modal.Footer>
     </Modal>

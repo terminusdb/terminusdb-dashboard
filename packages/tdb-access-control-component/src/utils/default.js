@@ -4,8 +4,8 @@ export const defaultSetting ={
         inviteAddText: "Here you can invite people to your team",
         inviteMember:"Invite a Member",
         addUser:"Add a user to the team",
-        addRole:"Add Role",
-        createRole: "Create a new Role"
+        addRole:"Create a new Role",
+        createRole: "Create Role"
     },
     tabs:{
         MEMBERS_TAB:false,

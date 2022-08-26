@@ -62,6 +62,8 @@ export function errorMessageFormatter (jsonErr,errorMessage){
               text: `${className} is not a class or a base type`}
 
       }
+    }else if(jsonErr.status === 403 && jsonError.action === "'@schema':'Action/schema_read_access'"){
+          return {title:"API Forbidden", text:"You do not have the permissions to access the dataproduct schema"}
     }
     return {title:"SCHEMA CHECK FAILURE", text:errorMessage}
 }

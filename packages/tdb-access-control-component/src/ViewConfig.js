@@ -39,8 +39,11 @@ export const getListConfigBase = (limit,getActionButtons) => {
 
 export const getRoleListConfig = (limit,getActionButtons) => {
     const tabConfig= TerminusClient.View.table();
-    tabConfig.column_order("name","actions")
+    tabConfig.column_order("name","action","actions")
     tabConfig.column("name").header("Role Name")
+
+    tabConfig.column("action").header("Action List")
+    tabConfig.column("action").render(formatActions)
     tabConfig.column("actions").header(" ")
     tabConfig.column("actions").render(getActionButtons)
     tabConfig.pager("local")
@@ -48,11 +51,19 @@ export const getRoleListConfig = (limit,getActionButtons) => {
     return tabConfig
 }
 
+function formatActions (cell){
+    const columnId= cell.column.id
+    const columnAction = cell.row.original[columnId]
+    if(!Array.isArray(columnAction))return ""
+    return columnAction.map((item,index)=><p className="mb-0" key={`${index}__key`}>{item}</p>)
+    
+}
+
 function formatRoles (cell) {
     const columnId= cell.column.id
     const rolesList = cell.row.original[columnId]
     if(!Array.isArray(rolesList))return ""
-    return rolesList.map((item,index)=><p key={`${index}__key`}>{item["@id"]}</p>
+    return rolesList.map((item,index)=><p className="mb-0" key={`${index}__key`}>{item["@id"]}</p>
     )
 }
 

@@ -1,46 +1,53 @@
 //every component 
 import {UTILS} from '@terminusdb/terminusdb-client'
-
+import {filterCapability} from "./utils/searchResult"
 export const AccessControlDashboard = (clientAccessControl)=>{
 
     let __rolesList = []
     let __teamUserRoles = null // an array of roles
     let __teamUserActions = null
-    let __userDBRoles = null
-    let __dbUserActions = null
+
+    let __databasesUserRoles = null // all the dbs capabilities of present
+    let __dbUserRoles = null // the current database user roles
+    let __dbUserActions = null // the current database actions
+
     let __clientAccessControl = clientAccessControl
     //let __currentUser = 
 
     async function callGetRolesList(roleRemoveFilter){
-            try{
-               const list = await __clientAccessControl.getAccessRoles()
-               __rolesList= list
-               if(roleRemoveFilter){
-                     __rolesList = list.filter(item => !roleRemoveFilter[item["@id"]])
-               }
-              
-               return __rolesList
-            }catch(err){
-                console.log('I can not get the role list',err)
+        try{
+            const list = await __clientAccessControl.getAccessRoles()
+            __rolesList= list
+            if(roleRemoveFilter){
+                __rolesList = list.filter(item => !roleRemoveFilter[item["@id"]])
             }
+              
+            return __rolesList
+        }catch(err){
+            console.log('I can not get the role list',err)
+        }
     }
 
-          // review with database capability 
-            // before we have to fix team
+    // review with database capability 
+    // before we have to fix team
+    // if we have a database role we can see the database id no the database name but we use the database name to identify a
+    // database inside the dashboard and in the client
     async function callGetUserTeamRole(userName,orgName){
 		try{
 			const result = await __clientAccessControl.getTeamUserRoles(userName,orgName)
             let teamRoles = []
+            let dbUserRole = {}
             if(result && result.capability && result.capability.length>0){
                 if(result.capability.length ===1){
                     teamRoles = result.capability[0].role
                 }else{
                     const orgId = `Organization/${UTILS.encodeURISegment(orgName)}`
-                    const cap = result.capability.find(item=>item.scope === orgId)
-                    teamRoles = cap && cap.role ? cap.role : []
+                    const {role,databases} = filterCapability(result.capability,orgId)
+                    teamRoles = role || []
+                    dbUserRole = databases
                 }
             }        
-            setTeamActions(teamRoles)
+            setTeamActions(teamRoles,dbUserRole)
 		}catch(err){
             if(err.data && err.status === 404 && err.data["api:message"]){
                 throw new Error(err.data["api:message"])
@@ -67,30 +74,28 @@ export const AccessControlDashboard = (clientAccessControl)=>{
         return actionsObj
     }
 
-    const setTeamActions = (teamRoles,dbUserRole) =>{
+    const setTeamActions = (teamRoles,databasesUserRoles) =>{
        // const database = databaseRoles.find(element => element["name"]["@value"] === dataproduct);
         //const role = database ? database['role'] : teamRole
         __teamUserRoles = teamRoles
         __teamUserActions =  formatActionsRoles(teamRoles) 
-        __userDBRoles = dbUserRole
-        //if change the team I reset the __dbUserActions === at the teamActions
+       // all the database capabilities 
+        __databasesUserRoles = databasesUserRoles
+        // I have to find a way to set the db_user actions
+        __dbUserRoles = null
         __dbUserActions = null
     }
 
+    // ??
     const setDBUserActions = (id) =>{
-        if(!id) {
-            __dbUserActions = null
-            return
-        }
-        if(!Array.isArray(__userDBRoles)) return 
-        const database = __userDBRoles.find(element => element["name"]["@value"] === id);
-        const role = database ? database['role'] : null
-        //no role could be a new database
-        if(!role || role === __teamUserRole){
-            __dbUserActions = __teamUserActions         
-        }else{
-            __dbUserActions = formatActionsRoles(role)
-        }     
+        __dbUserActions = null
+        __dbUserRoles = null
+        if(!__databasesUserRoles) return 
+        const databaseRoles = __databasesUserRoles[id]
+        if(databaseRoles){
+            __dbUserRoles = databaseRoles
+            __dbUserActions = formatActionsRoles(databaseRoles)
+        }   
     }
 
     const isAdmin = () =>{
@@ -107,31 +112,43 @@ export const AccessControlDashboard = (clientAccessControl)=>{
         return __teamUserActions[DELETE_DATABASE] ? true : false
      }
 
+    
+    const checkDBManagmentAccess = (actionName) =>{
+        // no team roles the access is always false
+        if(!__teamUserActions)return false 
+        if( __teamUserActions[actionName]) return true 
+        if(__dbUserActions && __dbUserActions[actionName]) return true
+        return false
+    }
      //!!!TO BE REVIEW
      // I have to move this check at database-level
     const schemaWrite = () =>{
-     if(!__teamUserActions)return false 
-       return __teamUserActions[SCHEMA_WRITE_ACCESS] ? true : false
+       return checkDBManagmentAccess(SCHEMA_WRITE_ACCESS)
     }
 
     const classFrame = () =>{
-        if(!__teamUserActions)return false 
-          return __teamUserActions[CLASS_FRAME] ? true : false
+        return checkDBManagmentAccess(CLASS_FRAME)
     }
 
     const instanceRead = () =>{
-        if(!__teamUserActions)return false 
-          return __teamUserActions[INSTANCE_READ_ACCESS] ? true : false
+        return checkDBManagmentAccess(INSTANCE_READ_ACCESS)
     }
 
     const instanceWrite = () =>{
-        if(!__teamUserActions)return false 
-          return __teamUserActions[INSTANCE_WRITE_ACCESS] ? true : false
+        console.log("INSTANCE_WRITE_ACCESS", checkDBManagmentAccess(INSTANCE_WRITE_ACCESS))
+        return checkDBManagmentAccess(INSTANCE_WRITE_ACCESS)
     }
 
     const branch = () =>{
-        if(!__teamUserActions)return false 
-          return __teamUserActions[BRANCH] ? true : false
+        return checkDBManagmentAccess(BRANCH)
+    }
+
+    const commitRead = () =>{
+        return checkDBManagmentAccess(COMMIT_READ_ACCESS)
+    }
+
+    const commitWrite = () =>{
+        return checkDBManagmentAccess(COMMIT_WRITE_ACCESS)
     }
 
     const getRolesList = () =>{
@@ -147,8 +164,14 @@ export const AccessControlDashboard = (clientAccessControl)=>{
         return __teamUserRoles
     }
 
+    const getDatabaseUserRoles = () =>{
+        return __dbUserRoles
+    }
 
-    return {createDB,
+    return {getDatabaseUserRoles,
+            commitRead,
+            commitWrite,
+            createDB,
             classFrame,
             instanceRead,
             instanceWrite,
