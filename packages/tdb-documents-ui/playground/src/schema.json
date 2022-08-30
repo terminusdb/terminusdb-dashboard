@@ -1,0 +1,295 @@
+[
+    {
+        "@base": "terminusdb:///data/",
+        "@schema": "terminusdb:///schema#",
+        "@type": "@context"
+    },
+    {
+        "@abstract": [],
+        "@id": "Group",
+        "@type": "Class",
+        "capacity": "xsd:decimal",
+        "name": "xsd:string"
+    },
+    {
+        "@id": "Guy",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "attends_group_in_order": {
+            "@class": "Group",
+            "@type": "List"
+        },
+        "favorite_group": "Group",
+        "member_of": {
+            "@class": "Group",
+            "@type": "Set"
+        },
+        "second_favorite_group": {
+            "@class": "Group",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Art",
+        "@inherits": "Group",
+        "@key": {
+            "@fields": [
+                "name"
+            ],
+            "@type": "Lexical"
+        },
+        "@type": "Class"
+    },
+    {
+        "@id": "Dance",
+        "@inherits": "Group",
+        "@key": {
+            "@fields": [
+                "name"
+            ],
+            "@type": "Lexical"
+        },
+        "@type": "Class"
+    },
+    {
+        "@id": "Employee",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "DOB": {
+            "@class": "xsd:dateTime",
+            "@type": "Optional"
+        },
+        "designation": "xsd:string",
+        "likes_color": {
+            "@class": "Colors",
+            "@type": "Optional"
+        },
+        "name": "xsd:string",
+        "studied": {
+            "@class": "Subject",
+            "@type": "Set"
+        },
+        "works_as": {
+            "@class": "Jobs",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Music",
+        "@inherits": "Group",
+        "@key": {
+            "@fields": [
+                "name"
+            ],
+            "@type": "Lexical"
+        },
+        "@type": "Class"
+    },
+    {
+        "@id": "Student",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "favorite_subject": "Subject",
+        "second_favorite_subject": {
+            "@class": "Subject",
+            "@type": "Optional"
+        },
+        "studied": {
+            "@class": "Subject",
+            "@type": "Set"
+        },
+        "study_time_table": {
+            "@class": "Subject",
+            "@type": "List"
+        }
+    },
+    {
+        "@abstract": [],
+        "@id": "Subject",
+        "@subdocument": [],
+        "@type": "Class",
+        "Number_of_classes_attended": {
+            "@class": "xsd:integer",
+            "@type": "Optional"
+        },
+        "course_start_date": {
+            "@class": "xsd:dateTime",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Botony",
+        "@inherits": "Subject",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "Grade": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "number_of_assignments": {
+            "@class": "xsd:integer",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Maths",
+        "@inherits": "Subject",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "level": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "love_maths": {
+            "@class": "xsd:boolean",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Colors",
+        "@type": "Enum",
+        "@value": [
+            "Red",
+            "Blue",
+            "Yellow",
+            "Green"
+        ]
+    },
+    {
+        "@id": "UnorderedPerson",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "likes_color": {
+            "@class": "Colors",
+            "@type": "Set"
+        },
+        "lived_at": {
+            "@class": "Address",
+            "@type": "Set"
+        },
+        "nicknames": {
+            "@class": "xsd:string",
+            "@type": "Set"
+        },
+        "worked_as": {
+            "@class": "Jobs",
+            "@type": "Set"
+        }
+    },
+    {
+        "@id": "Zoology",
+        "@inherits": "Subject",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "Grade": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "Notes": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "OrderedPerson",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "likes_color": {
+            "@class": "Colors",
+            "@type": "List"
+        },
+        "to_do": {
+            "@class": "xsd:string",
+            "@type": "List"
+        }
+    },
+    {
+        "@documentation": {
+            "@comment": "",
+            "@properties": {
+                "AddressLine1": "Address Line 1",
+                "postalCode": "Postal Code"
+            }
+        },
+        "@id": "Address",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "AddressLine1": "xsd:string",
+        "Country": "xsd:string",
+        "postalCode": "xsd:string"
+    },
+    {
+        "@documentation": {
+            "@comment": "",
+            "@properties": {
+                "above18": "18 plus",
+                "permanentAddress": "Permanent Address"
+            }
+        },
+        "@id": "Person",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "Birthday": "xsd:dateTime",
+        "PhoneNumber": "xsd:decimal",
+        "Today": "xsd:dateTime",
+        "above18": "xsd:boolean",
+        "age": "xsd:decimal",
+        "email": "xsd:string",
+        "name": "xsd:string",
+        "permanentAddress": "Address",
+        "website": "xsd:string"
+    },
+    {
+        "@documentation": {
+            "@comment": "",
+            "@properties": {
+                "alternativeAddress": "Alternative Address"
+            }
+        },
+        "@id": "Info",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "alternativeAddress": {
+            "@class": "Address",
+            "@type": "Optional"
+        },
+        "nicknames": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Jobs",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "title": "xsd:string"
+    }
+]

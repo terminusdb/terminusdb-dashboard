@@ -20,7 +20,6 @@ import {DocumentControlObj} from '../hooks/DocumentControlContext'
 
 export const DocumentSummary = () => {
 
-
     const {dataProduct,organization} = useParams()
 
     const getUrl = (pageName)=> {
