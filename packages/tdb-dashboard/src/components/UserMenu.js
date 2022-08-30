@@ -25,14 +25,17 @@ export const UserMenu = ({organization}) => {
     if(!clientUser || !accessControlDashboard) return ""
     const isAdmin = accessControlDashboard.isAdmin()
 
-    function displayUserRoles (withUser=false){      
-        const teamRoles = accessControlDashboard.getTeamUserRoles()
-        if(!teamRoles)return ""
-        const roles = teamRoles.map((item, index)=> {
+    const TEAM_USER_ROLES = "getTeamUserRoles"
+    const DB_USER_ROLES = "getDatabaseUserRoles"
+
+    function displayUserRoles (methodName){      
+        const rolesArr = accessControlDashboard[methodName]()
+        if(!rolesArr)return ""
+        const roles = rolesArr.map((item, index)=> {
             return <span className ="text-dark ml-1 badge badge-info" key={`{key__${index}}`}>{item.name}</span>
         })
         return  <React.Fragment>
-                    <div className="mr-4 dropdown text-success pr-3">{roles} </div>
+                    <div className="mr-3 dropdown text-success pr-3">{roles} </div>
                 </React.Fragment>
     }
 
@@ -47,10 +50,10 @@ export const UserMenu = ({organization}) => {
                     <Dropdown.Toggle split className="bg-transparent border-0" vairant="info" id="profile_menu_arrow">
                     </Dropdown.Toggle>
                     <Dropdown.Menu >
-                       {isAdmin &&  clientUser.user === "admin" && <Dropdown.Item>
+                       {clientUser.user === "admin" && <Dropdown.Item>
                             <Nav.Link  as={RouterNavLink}
                                 title={"View Team Members"}  
-                                to={`/${organization}/administrator`}                    
+                                to={`/administrator`}                    
                                 id={"team_members"}>
                                     <AiOutlineUsergroupAdd className="mr-3 mb-1" />User Managment 
                             </Nav.Link>
@@ -61,7 +64,8 @@ export const UserMenu = ({organization}) => {
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-              {displayUserRoles(true)}
+              {displayUserRoles(TEAM_USER_ROLES)}
+              {displayUserRoles(DB_USER_ROLES)}
             </React.Fragment>
     }
 

@@ -31,3 +31,18 @@ export const searchResult = ({searchInvitation}) => {
     })
     return invites
 }
+
+export function filterCapability (capArr,orgId){
+    let role;
+    let databases= {}
+    capArr.forEach(cap => {
+        if(cap.scope === orgId){
+            role = cap.role
+        }else if(cap.scope.startsWith("UserDatabase")){
+            databases[cap.scope] = cap.role
+        }
+
+    })
+
+    return {role,databases}
+}

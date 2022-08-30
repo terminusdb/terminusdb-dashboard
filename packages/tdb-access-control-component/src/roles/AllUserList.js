@@ -95,9 +95,9 @@ export const AllUserList = ({accessControlDashboard,options}) => {
                             </h6>
                         </Col>
                         <Col >
-                            <button onClick={()=>setShowAdd(true)} style={{maxWidth:"200px"}} title="Create New Role"
+                            <button onClick={()=>setShowAdd(true)} style={{maxWidth:"200px"}} title="Create a new User"
                                     type="button" className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info">
-                                       Add User
+                                      Create a new User
                             </button>
                         </Col>
                     </Row>

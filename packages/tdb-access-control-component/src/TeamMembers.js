@@ -2,8 +2,8 @@
 import {Row, Tab, Tabs} from "react-bootstrap"
 import {NewMemberModal} from "./roles/NewMemberModal"
 import {INVITATION_TAB, MEMBERS_TAB} from "./constants"
-import {RiUserShared2Fill} from "react-icons/ri"
-import {FaUsers} from "react-icons/fa"
+import {RiTeamLine, RiUserShared2Fill} from "react-icons/ri"
+import {FaUsers,FaUserEdit,FaUserFriends} from "react-icons/fa"
 import {InvitationsList} from "./roles/InvitationsList"
 import {MembersList} from "./roles/MembersList"
 import {defaultSetting} from "./utils/default"
@@ -45,17 +45,17 @@ export const TeamMembers = ({organization,currentUser,accessControlDashboard,opt
                 </Tab>
             }
             { settings.tabs.ORGANIZATION_LIST && 
-                <Tab eventKey={"ORGANIZATION_LIST"}   title={<span><RiUserShared2Fill className="mr-1"/>{"ORGANIZATIONS"}</span>}>
+                <Tab eventKey={"ORGANIZATION_LIST"}   title={<span><FaUserFriends className="mr-1"/>{"TEAMS"}</span>}>
                     <OrganizationList options={settings}   accessControlDashboard={accessControlDashboard}/>
                 </Tab>
             }
             {settings.tabs.ALL_USER && 
-                <Tab eventKey={"ALL_USER"}   title={<span><RiUserShared2Fill className="mr-1"/>{"ALL THE USERS"}</span>}>
+                <Tab eventKey={"ALL_USER"}   title={<span><RiUserShared2Fill className="mr-1"/>{"USERS"}</span>}>
                     <AllUserList options={settings}   accessControlDashboard={accessControlDashboard}/>
                 </Tab>
             }
             { settings.tabs.ROLES_LIST && 
-                <Tab eventKey={"ROLES_LIST"}   title={<span><RiUserShared2Fill className="mr-1"/>{"ROLE List"}</span>}>
+                <Tab eventKey={"ROLES_LIST"}   title={<span><FaUserEdit className="mr-1"/>{"ROLES"}</span>}>
                     <RoleListTable options={settings}  accessControlDashboard={accessControlDashboard}/>
                 </Tab>
             }

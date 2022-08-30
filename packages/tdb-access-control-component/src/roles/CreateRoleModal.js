@@ -62,7 +62,7 @@ export const CreateRoleModal= ({show, setShow, accessControlDashboard,options,up
         for(let i=0; i<actArr.length; i+=2) {
            const item = actArr[i]
            const itemleft =  actArr[i+1]     
-           let row = <Row>
+           let row = <Row key={`row__${i}`}>
                             <Col>
                                 <Form.Check className="d-flex align-items-center mb-4" type="checkbox" key={item}  >
                                 <Form.Check.Input  name={item} id={item} className="p-3" type="checkbox" onClick={addAction} />
@@ -71,7 +71,7 @@ export const CreateRoleModal= ({show, setShow, accessControlDashboard,options,up
                             </Col>
                             {itemleft && <Col>
                                 <Form.Check className="d-flex align-items-center mb-4" type="checkbox" key={itemleft}  >
-                                <Form.Check.Input name={item}  id={itemleft} className="p-3" type="checkbox" onClick={addAction} />
+                                <Form.Check.Input name={itemleft}  id={itemleft} className="p-3" type="checkbox" onClick={addAction} />
                                 <Form.Check.Label className="ml-4">{itemleft}</Form.Check.Label>                 
                                 </Form.Check>
                            
@@ -84,7 +84,7 @@ export const CreateRoleModal= ({show, setShow, accessControlDashboard,options,up
 
     return <Modal show={show}  size="lg"onHide={(e) => setShow(false)}>
         <Modal.Header closeButton>
-            <h5 className="text-success mt-3 mb-3">{options.labels.createRole}</h5>
+            <h5 className="text-success mt-3 mb-3">{options.labels.addRole}</h5>
         </Modal.Header>
     <Modal.Body>
         {errorMessage &&  <Alert variant="danger"  onClose={() => setError(false)} dismissible>
@@ -101,14 +101,15 @@ export const CreateRoleModal= ({show, setShow, accessControlDashboard,options,up
                     required
                 />
             </Form.Group>
-                <h6 className="mt-3 mb-3">Scopes define the access for the role</h6>
+                <h6 className="mt-3 mb-3">The roles are grouping of actions that the user can perform.</h6>
+                <h6 className="mt-3 mb-3">Please select the actions for your role</h6>
                 <ActionList/>
             
         </Form>
     </Modal.Body>
     <Modal.Footer>
         <Button disabled={loading} className="btn-info" onClick={()=>{runCreateRole(errorMessage)}} id="create_new_team_button">
-            <BsFillPeopleFill className="mr-2"/>{loading ? 'Loading ...' : options.labels.createRole} 
+            <BsFillPeopleFill className="mr-2"/>{loading ? 'Sending Request ...' : options.labels.createRole} 
         </Button>
     </Modal.Footer>
     </Modal>

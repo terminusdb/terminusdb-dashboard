@@ -16,12 +16,20 @@ export const AddUserCapabilityModal = ({showModal, defaultUser, setShowModal, ti
 
 
     useEffect(() => {
-        if(rolesList.length===0)getRolesList()
+        if(rolesList.length===0)getRolesList({"Role/admin":true})
         if(!defaultUser)updateResultTable()
     }, [])
 
+    const filterTable = (result) =>{
+        //remove admin and anonymous users from the list
+        // they are the first and the second user send back in the array
+        result.shift();
+        result.shift();
+        return result
+    }
+
     const updateResultTable = () =>{
-        getResultTable(GET_ALL_USERS)
+        getResultTable(GET_ALL_USERS,filterTable)
     }
 
     const userId = useRef(null);
@@ -72,8 +80,8 @@ export const AddUserCapabilityModal = ({showModal, defaultUser, setShowModal, ti
                 rolesList={roles}>
             <Form onKeyPress={handleKeyPress}>
             {!defaultUser && <Form.Group className="mb-3">
-                <Form.Select ref={userName} onChange={()=>{setError(false)}}>
-                    <option value="NoSelect">Select The User Name</option>
+                <Form.Select ref={userName} onChange={()=>{setError(false)}} className="border-white text-white">
+                    <option value="NoSelect">Select an User Name</option>
                     {resultTable && resultTable.map(item=>{
                         return <option value={item["@id"]}>{item.name}</option>
                     })

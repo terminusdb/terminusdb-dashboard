@@ -1,5 +1,6 @@
 import React , { useState } from "react"
 import {UTILS} from "@terminusdb/terminusdb-client"
+import {filterCapability} from "../utils/searchResult"
 
 export const AccessControlHook=(accessControlDashboard,options)=> {
     //to load the items list
@@ -15,7 +16,7 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
     const [teamRequestAccessList,setTeamRequestAccessList] =useState([])
     
     //review
-    const [rolesList,setRolesList]=useState(accessControlDashboard.getRolesList())
+    const [rolesList,setRolesList]=useState([])
     const [resultTable,setResultTable]=useState([])
 
     const formatMessage = (err)=>{
@@ -53,11 +54,11 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
     /*
     * I can not use the general one because I need in accessControl
     */
-    async function getRolesList(){
+    async function getRolesList(roleRemoveFilter){
         resetStatus()
         const errorMessage = "I can not get the roles list"
         try{
-            const result = await accessControlDashboard.callGetRolesList()
+            const result = await accessControlDashboard.callGetRolesList(roleRemoveFilter)
             setRolesList (result.reverse())
             if(successMessage)setSuccessMessage(successMessage)
         }catch(err){
@@ -128,24 +129,8 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
 		}finally{
         	setLoading(false)
         }
-
     }
     
-    function filterCapability (capArr,orgId){
-        let role;
-        let databases= {}
-        capArr.forEach(cap => {
-            if(cap.scope === orgId){
-                role = cap.role
-            }else if(cap.scope.startsWith("UserDatabase")){
-                databases[cap.scope] = cap.role
-            }
-
-        })
-
-        return {role,databases}
-    }
-
     async function getOrgUsersLocal(orgName){
         setLoading(true)
 		try{
@@ -270,10 +255,44 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
         }
     }
 
+    async function createOrganizationRemote(teamName){
+        resetStatus()
+        const currentBaseUrl =clientAccessControl.baseURL
+        try{
+            /*
+            * I need to override the baseUrl for the remoteCall
+            */         
+           clientAccessControl.baseURL = currentBaseUrl+"/private"
+           await clientAccessControl.createOrganization(teamName)
+          
+           return true
+        }catch(err){
+           setError(formatMessage(err))
+           return false
+        }finally{
+            clientAccessControl.baseURL = currentBaseUrl
+            setLoading(false)
+        }
+   }
+
+
+    async function createOrganizationAndCapability(teamName,userId,roles){
+         resetStatus()
+         try{
+            const teamId = await clientAccessControl.createOrganization(teamName)
+            await clientAccessControl.manageCapability(userId,teamId,roles,"grant")
+            return true
+         }catch(err){
+            setError(formatMessage(err))
+            return false
+         }finally{
+        	setLoading(false)
+        }
+    }
     /*
     * local database
     */
-    async function manageCapability(teamId,operation,roles, username,password){
+    async function manageCapability(teamId,operation,roles, userId,password){
         setLoading(true)
 		try{
 			//const user = await clientAccessControl.addUser(name,password)
@@ -283,7 +302,7 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
                 }
                 else return item
             })
-            await clientAccessControl.manageCapability(username, teamId, rolesIds, operation)
+            await clientAccessControl.manageCapability(userId, teamId, rolesIds, operation)
             return true
 		}catch(err){
         	setError(formatMessage(err))
@@ -346,7 +365,9 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
         }
     }
     
-    return {getOrgUsersLocal,
+    return {createOrganizationAndCapability,
+            createOrganizationRemote,
+            getOrgUsersLocal,
             createElementByName,
             deleteElementByName,
             getResultTable,

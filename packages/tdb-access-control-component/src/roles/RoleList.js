@@ -1,8 +1,6 @@
 import React, {Fragment,useState} from "react"
 import {Modal, Button, Form,Alert} from "react-bootstrap"
 import {FiUserPlus} from "react-icons/fi"
-import {TERMINUS_DANGER,TERMINUS_SUCCESS} from "../constants"
-import {Alerts} from "../Alerts"
 
 export const RoleList = ({setRole,userRoles,rolesList,parentRole,type}) => {  
     let maxLength = Array.isArray(rolesList) ? rolesList.length : null

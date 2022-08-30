@@ -79,7 +79,7 @@ export const IconBarConfig = {
 // Cance New Data product
 export const CANCEL_BUTTON = {icon: "fas fa-times", variant:"outline-info", label: "Close"}
 //New Data product create button configurations
-export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create", title: "Create", icon: "fas fa-check", variant: "info"}
+export const CREATE_NEW_DATA_PRODUCT_BUTTON = {label: "Create Data Product", title: "Create", icon: "fas fa-check", variant: "info"}
 // New Data product Form configurations
 export const newDataProductForm = {
     id: {

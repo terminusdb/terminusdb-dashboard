@@ -1,24 +1,42 @@
 import React, {useState} from "react"
 import {Modal, Button, Form} from "react-bootstrap"
 import {BsFillPeopleFill} from "react-icons/bs"
-import {CreateNewOrg} from "../hooks/CreateNewOrg"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, TERMINUS_DANGER,TERMINUS_SUCCESS} from "./constants"
 import {Alerts} from "./Alerts"
 import { UTILS } from "@terminusdb/terminusdb-client"
+import {AccessControlHook} from "@terminusdb/terminusdb-access-control-component"
+import {WOQLClientObj} from '../init-woql-client'
 
 export const NewTeamModal = ({show, setShow}) => {
-    const {createNewOrg,teamCreated,loading,errorMessage,setError} =  CreateNewOrg()
-   
+    const {clientUser, accessControlDashboard} = WOQLClientObj()
+    const {createOrganizationAndCapability, createOrganizationRemote,setError,errorMessage,loading} = AccessControlHook(accessControlDashboard)
     const [teamName, setTeamName]=useState(false)
-   
-    function handleInvite (e){       
+    const [teamCreated, setTeamCreated] = useState(false)
+
+    function runCreateTeam (e){       
         if(!UTILS.checkValidName(teamName)) {
             setError("Team name is mandatory and can only contain underscores and alphanumeric characters.")
             return
-        }
-        else{
-            createNewOrg(teamName)
+        }       
+        createNewTeam().then(done=>{
+            if(done === true){
+                setTeamCreated(true)
+                const basename = process.env.BASE_URL  
+                window.location.replace(`${window.location.origin}/${basename}/${teamName}`)
+            }
+        })
+    }
+
+    function createNewTeam (){
+        if(clientUser.connection_type === "LOCAL" ){       
+            if(clientUser.user==="admin"){
+                return createOrganizationAndCapability(teamName,"User/admin",["Role/admin"]) 
+            }
+            setError("You can not create a new Team")        
+        }else{
+            // this is for the remote connection
+            return createOrganizationRemote(teamName)
         }
     }
 
@@ -53,8 +71,8 @@ export const NewTeamModal = ({show, setShow}) => {
 
         </Modal.Body>
         <Modal.Footer>
-        {!loading && <Button className="btn-info" onClick={handleInvite} id="create_new_team_button">
-                    <BsFillPeopleFill className="mr-2"/>Create a new Team
+        {!loading && <Button className="btn-info" onClick={runCreateTeam} id="create_new_team_button">
+                    <BsFillPeopleFill className="mr-2"/>Create Team
                 </Button>}
         {loading && <Loading message={`Creating a new team ...`} type={PROGRESS_BAR_COMPONENT}/>}
         </Modal.Footer>

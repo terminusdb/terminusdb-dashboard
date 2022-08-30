@@ -19,11 +19,11 @@ function getSettings (clientUser){
    if(clientUser.connection_type==="LOCAL") {
     return {
             labels:{
-                userListTitle:"Users and Organizations",
-                inviteAddText: "This section allow you to manage users and organizations, and grant rights over entities.",
-                addUser:"Add a user to the team",
-                addRole:"Add Role",
-                createRole: "Create a new Role"
+                userListTitle:"Users and Teams",
+                inviteAddText: "This section allow you to manage users and teams, and grant rights over entities.",
+                addRole:"Create a new Role",
+                createRole: "Create Role",
+                addUser:"Add a user to the team"
             },
             tabs:{
                 ALL_USER:true,
