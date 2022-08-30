@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
-import 'react-pro-sidebar/dist/css/styles.css'
+import 'react-pro-sidebar/dist/css/styles.css' 
 import {QueryPaneObj} from "../hooks/queryPaneContext"
 //import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl" 
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
@@ -52,6 +52,7 @@ export const DataProductDocuments = () => {
 
 
     async function handleClassClick (id) {
+        
         try{
             let db=woqlClient.db()
             const result = await woqlClient.getSchemaFrame(id, db)
@@ -71,6 +72,7 @@ export const DataProductDocuments = () => {
 
     useEffect(() => { // get count of document classes
         if(!documentClasses) return 
+        console.log(" i enter here ")
         let q=getCountOfDocumentClass(documentClasses)
         setQuery(q)
     }, [documentClasses])
@@ -187,10 +189,7 @@ export const DocumentExplorerDocuments = () => {
                     title={`View documents of type ${item["@id"]}`}
                     onClick={(e) => handleClassClick(item["@id"])}
                     disabled={disabled}>
-                    
-                        
                         <span className="text-gray">{item["@id"]}</span>
-                        
                 </Button>
                 {actionControl.write && <Button 
                     className="btn-create-document pro-item-content btn-sm" 

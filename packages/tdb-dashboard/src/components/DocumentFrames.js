@@ -130,6 +130,7 @@ export const DocumentFrames = () => {
     //console.log("documentObject", documentObject.message)
 
     //console.log("refreshedDocumentObject in doc frame", documentObjectWithFrames)
+    
     if(loading) return <Loading message={`Fetching frames ...`} type={PROGRESS_BAR_COMPONENT}/>
 
     return <main className="content mr-3 ml-5 w-100">

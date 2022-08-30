@@ -82,7 +82,13 @@ export const DocumentView = () => {
         if(documentClasses){
             setBarLoading(false)
         }
-    }, [documentClasses])
+    }, [documentClasses]) 
+
+    /*useEffect(() => {
+        if(!perDocumentCount) return 
+        if(!documentClasses) return 
+        setBarLoading(false)
+    }, [documentObjectWithFrames.update])*/
 
     useEffect(() => {
         setBarLoading(true)
@@ -110,6 +116,7 @@ export const DocumentView = () => {
 
     function extractDocuments(documentResults) {
         var extractedResults=[]
+        
         documentResults.map(item=> {
             var newJson={}
             for(var key in item){
@@ -124,8 +131,10 @@ export const DocumentView = () => {
                         newJson[key]=newArray
                     }
                 }
-                else if(item[key]["@id"]){ // object
-                    newJson[key]=item[key]["@id"]
+                else if(typeof item[key] === "object"){
+                    if(item[key].hasOwnProperty("@id")){ // object - we do not display sys json data as part of table
+                        newJson[key]=item[key]["@id"]
+                    }
                 }
                 else {
                     newJson[key]=item[key]
@@ -133,6 +142,7 @@ export const DocumentView = () => {
             }
             extractedResults.push(newJson)
         })
+        //console.log("extractedResults", extractedResults)
         return extractedResults
     }
 
@@ -188,7 +198,6 @@ export const DocumentView = () => {
         })
     }
 
-
     if(barloading){
         var message
         if(!documentObjectWithFrames.action) message = `Fetching documents of ${dataProduct}`
@@ -196,8 +205,6 @@ export const DocumentView = () => {
         else message =`Fecthing Info of ${documentObjectWithFrames.currentDocument}`
         return <Loading message={message}/>
     }
-
-    //console.log("documentResults", documentResults)
 
     if(!actionControl.read && !actionControl.write) {
         // info reader access control
@@ -285,6 +292,7 @@ export const DocumentView = () => {
                 documentObjectWithFrames.frames &&
                 documentObjectWithFrames.update &&
                 <DocumentFrames/>}
+
 
         </Row>
     </React.Fragment>

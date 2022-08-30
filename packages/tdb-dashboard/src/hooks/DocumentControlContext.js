@@ -9,18 +9,13 @@ import {addNewDocument, updateDocument, getDocumentFrame, getCurrentDocumentInfo
 export const DocumentControlProvider = ({children}) => {
     const {
         woqlClient,
-       // setSelectedDocument,
         selectedDocument,
         accessControlDashboard
     } = WOQLClientObj()
 
+
     // access control constants based on access control priviliges
     const [actionControl, setActionControl]=useState({})
-
-    //let tempControl={  read: true, write: true } // admin
-    //let tempControl={  read: true, write: false } // Data reader
-    //let tempControl={  read: false, write: false } // info reader
-
 
     useState(() => {
         if(accessControlDashboard) { 
@@ -29,11 +24,9 @@ export const DocumentControlProvider = ({children}) => {
                 write: false
             }
             if(accessControlDashboard.instanceRead()) {
-            //if(tempControl.read) {
                 control.read=true
             }
             if(accessControlDashboard.instanceWrite()) {
-            //if(tempControl.write) {
                 control.write=true
             }
             setActionControl(control)
@@ -136,6 +129,7 @@ export const DocumentControlProvider = ({children}) => {
             //setDocumentObjectWithFrames(docObj)
         }
     }, [originalFrames])
+
 
     return (
         <DocumentControlContext.Provider
