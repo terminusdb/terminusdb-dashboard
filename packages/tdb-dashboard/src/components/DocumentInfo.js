@@ -78,7 +78,7 @@ export const DocumentInfo = () => {
     }
 
     function onTraverse(clicked) {
-        console.log("clicked", clicked)
+       
         var previous = []
         if(Array.isArray(documentObject.previous)) {
             previous = documentObject.previous

@@ -5,7 +5,7 @@
     "./packages/react-worker",
     "./packages/tdb-react-layout",
     "./packages/tdb-access-control-component",
-    "./packages/tdb-dashboard",
-    "../terminusdb-documents-ui/src/index.js"
+    "./packages/tdb-documents-ui",
+    "./packages/tdb-dashboard"
   ]
 }

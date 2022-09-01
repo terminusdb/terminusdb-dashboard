@@ -222,3 +222,29 @@ export function displayIDOfLinkedDocuments (results) {
     return newResults
 }
 
+/**
+ * Note - maybe should move this logic to client.getDocumentClasses
+ * @param {*} classRes - document classes 
+ * @returns - returns formatted document classes withour prefixes
+ */
+export function formatClassResults(classRes) {
+    if(!Array.isArray(classRes)) return classRes
+    let formatted=[]
+    classRes.map(classes => {
+        let newFormatted={}
+        for(var item in classes) {
+            if(item === "@id") {
+                let variableID=classes["@id"]
+                let splitWords = classes[item].split(":")
+                if(splitWords.length > 1) { // prefix included in class name
+                    variableID=splitWords[1]
+                }
+                newFormatted["@id"]=variableID
+            }
+            else newFormatted[item]=classes[item]
+        }
+        formatted.push(newFormatted)
+    })
+    return formatted
+}
+
