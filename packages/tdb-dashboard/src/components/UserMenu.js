@@ -110,7 +110,8 @@ export const UserMenu = ({organization}) => {
                 </Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
-        {displayUserRoles()}
+        {displayUserRoles(TEAM_USER_ROLES)}
+        {displayUserRoles(DB_USER_ROLES)}
     </React.Fragment>
 }
 

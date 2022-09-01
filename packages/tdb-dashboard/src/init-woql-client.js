@@ -121,6 +121,10 @@ export const WOQLClientProvider = ({children, params}) => {
                  const testS = opts.server+'system/'
                  const access =  new TerminusClient.AccessControl(opts.server,accessCredential)
                  const clientAccessControl = new AccessControlDashboard(access)
+
+                 if(opts.connection_type !== "LOCAL"){
+                   await clientAccessControl.callGetRolesList()
+                 }
                 
                  if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
@@ -322,7 +326,6 @@ export const WOQLClientProvider = ({children, params}) => {
             if(opts.connection_type!== "LOCAL"){
                 hubClient.connectionConfig.api_extension = `${orgName}/api/`
                 //load the list of system roles
-                accessControlDash.callGetRolesList()
             }
             
             localStorage.setItem("Org", orgName)
