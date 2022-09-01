@@ -8,11 +8,11 @@ import { RoleListModal } from "./RoleList"
 //create user if do not exists and add to team
 export const ManageUserCapabilityModal = ({showModal, setShowModal, team, parentRole, currentRoleToUpdate, accessControlDashboard,options,updateTable}) => {
     if(!accessControlDashboard) return ""
-    const {successMessage,createUserRole,updateUserRole,rolesList,
+    const {successMessage,createUserRole,updateUserRole,
           loading,
           errorMessage} =  AccessControlHook(accessControlDashboard,options)
 
-    const roles = rolesList
+    const roles = accessControlDashboard.getRolesList()
 
     const changeUserRole = (userRoles) =>{
         //alert(role)

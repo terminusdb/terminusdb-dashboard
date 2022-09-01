@@ -5,7 +5,6 @@ import {AiOutlineDatabase} from "react-icons/ai"
 import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {getUsersListConfigLocal} from "../ViewConfig"
 import {AccessControlHook} from "../hooks/AccessControlHook"
-import {RoleListModal} from "./RoleList"
 import {UserDatabasesListLocal} from "./UserDatabasesListLocal"
 import {RevokeCapability } from "./RevokeCapability"
 import {AddUserCapabilityModal } from "./AddUserCapabilityModal"
