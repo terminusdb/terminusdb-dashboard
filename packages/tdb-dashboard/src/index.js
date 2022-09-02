@@ -7,7 +7,7 @@ import {auth0_conf} from '../auth_config'
 import {Auth0Provider} from "./react-auth0-spa"
 import {BrowserRouter,useNavigate} from "react-router-dom"
 require('./App.css')
-require('./Colors.css')
+//require('./Colors.css')
 
 function NavigationComponent(){
 
