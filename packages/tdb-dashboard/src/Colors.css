@@ -1,7 +1,7 @@
 /*** Pink: de7dd8, Purple: 855afc, Blue: 4c58d2, Yellow: f9d891  ***/
  /* mute: D2D3D9 */
- @import "https://bootswatch.com/5/darkly/bootstrap.css";
-:root {
+
+ :root {
     --color-pink: #de7dd8;
     --text-contrast-pink: #002856;
     --color-purple: #855afc;
