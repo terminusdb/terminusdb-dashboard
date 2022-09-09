@@ -1,26 +1,33 @@
 # terminusdb-dashboard
 Dashboard for TerminusDB
-How use the terminusdb dashboard with your local terminusdb instance.
+How to use the terminusdb dashboard source code with your local terminusdb instance.
 
-clone the repository
-https://github.com/terminusdb/terminusdb-dashboard.git
+**Clone the repository**
+```sh
+git clone https://github.com/terminusdb/terminusdb-dashboard.git
+```
 
-install all the dependency 
-
+**Install all the dependency** 
+```sh
 cd terminusdb-dashboard
 npm install
+```
 
-
-
-build the dashboard
-
+**Build the dashboard**
+Rename ENV.local to .env
+```sh
 cd terminusdb-dashboard/packages/tdb-dashboard
-
-rename ENV.local in .env
-
 cp ENV.local .env
 
 npm run build
+```
+You can find the builded version into terminusdb-dashboard/packages/tdb-dashboard/dist
+
+
+
+
+
+
 
 
 
