@@ -143,8 +143,8 @@ export const WOQLClientProvider = ({children, params}) => {
             //and don't need auth0 too
             if(opts.connection_type === 'LOCAL'){
                 setLoadingServer(true)
-                const user = localStorage.getItem("User") || opts.user
-                const key = localStorage.getItem("Key") || opts.key
+                const user = localStorage.getItem("Terminusdb-USER") 
+                const key = localStorage.getItem("Terminusdb-KEY")
                 const credentials  = {user ,key}                        
                 initWoqlClient(credentials,credentials)
 

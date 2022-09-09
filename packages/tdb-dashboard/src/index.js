@@ -6,8 +6,9 @@ import {localSettings} from "../localSettings"
 import {auth0_conf} from '../auth_config'
 import {Auth0Provider} from "./react-auth0-spa"
 import {BrowserRouter,useNavigate} from "react-router-dom"
+import {LoginModal} from "./components/LoginModal"
+
 require('./App.css')
-//require('./Colors.css')
 
 function NavigationComponent(){
 
@@ -31,6 +32,10 @@ function NavigationComponent(){
               <App />
           </WOQLClientProvider>
           </Auth0Provider>
+    }
+
+    if(localSettings && localSettings.connection_type=== "LOCAL" && !localStorage.getItem("Terminusdb-USER")){
+      return <LoginModal showModal={true} isCloseble={false}/>
     }
 
     return  <WOQLClientProvider params={localSettings}>

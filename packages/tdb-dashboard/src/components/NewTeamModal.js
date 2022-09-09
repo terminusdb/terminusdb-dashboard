@@ -22,8 +22,8 @@ export const NewTeamModal = ({show, setShow}) => {
         createNewTeam().then(done=>{
             if(done === true){
                 setTeamCreated(true)
-                const basename = process.env.BASE_URL  
-                window.location.replace(`${window.location.origin}/${basename}/${teamName}`)
+                const base = process.env.BASE_URL ? `/${process.env.BASE_URL}` : ""
+                window.location.replace(`${window.location.origin}${base}/${teamName}`)
             }
         })
     }

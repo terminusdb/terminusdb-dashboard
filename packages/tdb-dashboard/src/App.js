@@ -34,7 +34,7 @@ export function App (props){
     }
 
     if(connectionError) {
-        return <ServerError>{connectionError}</ServerError>
+        return <ServerError message={connectionError}/>
     }
 
     if(loading || loadingServer) {
