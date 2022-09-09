@@ -5,16 +5,16 @@ import {NavLink as RouterNavLink} from "react-router-dom"
 import {AiOutlineUser, AiOutlinePoweroff,AiOutlineUsergroupAdd} from "react-icons/ai"
 import {FaExchangeAlt} from "react-icons/fa"
 import {WOQLClientObj} from '../init-woql-client'
-import { LoginModal } from "./LoginModal";
 
 export const UserMenu = ({organization}) => {
     const { clientUser,accessControlDashboard} = WOQLClientObj()
     const redirect_uri=`${window.location.origin}/`
     
-    const [showModal, setShowModal] = useState(false)
-
-    function handleNew (evt) {
-        setShowModal(true)
+    function logoutLocalUser (evt) {
+        localStorage.removeItem("Terminusdb-USER") 
+        localStorage.removeItem("Terminusdb-KEY")
+        const base = process.env.BASE_URL ? `/${process.env.BASE_URL}` : "/"
+        window.location.replace(`${base}`) 
     }
 
     const logoutWithRedirect = () =>
@@ -42,7 +42,6 @@ export const UserMenu = ({organization}) => {
 
     if(clientUser.connection_type==="LOCAL"){
             return <React.Fragment>
-                    {showModal && <LoginModal setShowModal={setShowModal} showModal={showModal}/>}
                     <Dropdown className="mr-4" id="profile_menu">
                     <Button size="sm" className="bg-transparent border-0">
                     {clientUser.email}
@@ -58,9 +57,9 @@ export const UserMenu = ({organization}) => {
                                     <AiOutlineUsergroupAdd className="mr-3 mb-1" />User Managment 
                             </Nav.Link>
                         </Dropdown.Item>}
-                        <Dropdown.Item onClick={handleNew} className="text-success">
-                            <FaExchangeAlt className="mr-3 mb-1" />
-                            Change User
+                        <Dropdown.Item onClick={logoutLocalUser} >
+                            <AiOutlinePoweroff className="mr-3 mb-1" />
+                            Logout
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

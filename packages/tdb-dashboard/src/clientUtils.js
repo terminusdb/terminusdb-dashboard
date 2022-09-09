@@ -14,7 +14,7 @@ export function createClientUser(useAuth0,params){
         clientUser.user = clientUser.agentName
         clientUser.serverType = "TerminusX"
     }catch(err){
-        const lastuser = localStorage.getItem("User") || params.user
+        const lastuser = localStorage.getItem("Terminusdb-USER") //|| params.user
         clientUser = {email: lastuser } 
         clientUser.user = lastuser
         clientUser.serverType = "TerminusDB"

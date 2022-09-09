@@ -12,7 +12,7 @@ export const makeWOQLFromString =(str, lang)=>{
              let prelude = WOQL.emerge()
              var nw = eval(prelude + "\n" + str)
             // if(!nw) throw new Error("The ")
-             console.log(prelude)
+             //console.log(prelude)
              return nw;
         case "python":
             throw "Python is not supported for editing queries through the console";

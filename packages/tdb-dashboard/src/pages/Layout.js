@@ -29,7 +29,7 @@ export const Layout = (props) => {
                 <div className="main-content h-100">                      
                     <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
                     <div className="container-fluid " >
-                        { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
+                        { dataProduct  && <TimeTravelContainer dataProduct={dataProduct} show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                         {props.children}
                     </div>
                 </div>

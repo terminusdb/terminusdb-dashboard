@@ -96,7 +96,7 @@ export const QueryPane = ({queryObj}) => {
         <div className="query-pane-pallet mb-3 mt-3" >
             <Row className="w-100">
                 <Col md={12}>
-                   {queryError && <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>{queryError}</Alert>}
+                   {queryError && <Alert className = "text-break" variant="danger" onClose={() => setShowAlert(false)} dismissible>{queryError}</Alert>}
                 </Col>
                 {/*<Col md={10}>
                     <h1 className="h5 ml-3">
