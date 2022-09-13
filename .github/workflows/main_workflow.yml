@@ -84,7 +84,6 @@ jobs:
         cd packages/tdb-dashboard
         echo '
             CONNECTION_TYPE="LOCAL"
-            TERMINUSDB_SERVER=http://127.0.0.1:6363/
             TERMINUSDB_KEY=root
             FEEDBACK_URL="https://cloud.terminusdb.com/"
             BASE_URL="dashboard"

@@ -1,4 +1,4 @@
-const server = localStorage.getItem("terminusdb-server-override") || process.env.TERMINUSDB_SERVER 
+const server = localStorage.getItem("terminusdb-server-override") || process.env.TERMINUSDB_SERVER || window.location.origin
 
 //there is no default key
 //let key=  localStorage.getItem("terminusdb-key-override") || process.env.TERMINUSDB_KEY 
