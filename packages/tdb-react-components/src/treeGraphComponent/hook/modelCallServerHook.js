@@ -43,13 +43,15 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId, pendoMsgAfterCre
 
 	//lets see how use it
 
-	const validateJSONSchema = (jsonSchema) => { 
+	const validateJSONSchema = (jsonSchemaTmp) => { 
+		let jSchema = JSON.parse(jsonSchemaTmp);
 
-		jsonSchema = JSON.parse(jsonSchema);
 		// remove context element from array
-		jsonSchema.shift();
+		if(Array.isArray(jSchema)){
+			jSchema.shift();
+		}
 
-		for (const element of jsonSchema) {
+		for (const element of jSchema) {
 			//maybe we can trim and remove all the space start and end
 			if (!element['@id'] || element['@id'] === '' || element['@id'].indexOf(" ") > -1) {
 				throw  {name : "ValidationError", message :'Please enter a valid ID'};

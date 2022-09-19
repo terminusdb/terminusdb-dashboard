@@ -18,7 +18,8 @@ import {
     XSD_DATE,
     XDD_URL, 
     XSD_FLOAT,
-    XSD_LANGUAGE
+    XSD_LANGUAGE,
+    XSD_POSITIVE_INTEGER
 } from "../constants"
 
 
@@ -67,6 +68,7 @@ export function getURIUIWidget(title) {
 
 
 //get data type xsd: or xdd:
+// you can rewrite with an object
 export function getDataType(type) { 
     if(type === XSD_STRING) return STRING_TYPE 
     else if(type === XSD_FLOAT) return NUMBER_TYPE
@@ -74,6 +76,7 @@ export function getDataType(type) {
     else if(type === XSD_LANGUAGE) return STRING_TYPE
     else if(type === XDD_URL) return STRING_TYPE
     else if(type === SYS_JSON_TYPE) return JSON_TYPE
+    else if(type === XSD_POSITIVE_INTEGER) return NUMBER_TYPE
     else if(type === XSD_DECIMAL) return NUMBER_TYPE
     else if(type === XSD_INTEGER) return NUMBER_TYPE
     else if(type === XSD_BOOLEAN) return BOOLEAN_TYPE

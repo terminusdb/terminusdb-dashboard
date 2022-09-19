@@ -119,7 +119,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		setGraphUpdateLabel(Date.now());
 	}
 
-	const saveSchemaGraph=()=>{
+	const getSchemaGraph=()=>{
 		return mainGraphObj.getSchema()
 	}
 
@@ -145,7 +145,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	        removeElement,
 	        objectPropertyList,
 	        objPropsRelatedToClass,
-	        saveSchemaGraph,
+	        getSchemaGraph,
 	        updateParentsList,
 	        availableParentsList,
 	        objectChoicesList,
