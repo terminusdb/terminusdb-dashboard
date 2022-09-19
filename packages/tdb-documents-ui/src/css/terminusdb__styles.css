@@ -1,4 +1,5 @@
 
+
 .rjsf {
     width: 100%;
 }
@@ -20,6 +21,18 @@
     line-height: 1.5;
 }
 
+/** diffs ***/
+.tdb__diff__original > input {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.tdb__diff__changed > input {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
 
 /** selects ***/
 select, .rbt-input-main {
@@ -156,9 +169,16 @@ legend {
     height: 100%;
     margin: 0;
     padding: 0;
- }
+}
 
-
+.leaflet-container {
+    height: 400px;
+    width: 80%;
+    margin: 0 auto;
+}
+.leaflet-popup-content {
+    color: #000;
+}
 
  .norwayLink{
     color: #0078A8;

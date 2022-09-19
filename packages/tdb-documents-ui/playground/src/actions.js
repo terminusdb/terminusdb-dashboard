@@ -75,8 +75,12 @@ export function getInfoMessage (menuItem, setInfoMessage) {
  * @param {*} setType - function to set current document type to view in react form
  */
 export function setDocumentType (menuItem, setType) {
+   
     if(menuItem === menu.MANDATORY) {
         setType(menu.MANDATORY_DOCUMENT) 
+    }
+    else if(menu.DIFF_VIEWER) {
+        setType(menu.MANDATORY_DOCUMENT)
     }
     else if (menuItem === menu.OPTIONAL) {
         setType(menu.OPTIONAL_DOCUMENT)
@@ -182,7 +186,6 @@ export function setModeData (menuItem, mode, setData) {
     else if(menuItem === menu.MULTI_LANGUAGE) { // multi language
         setData(data.MULTI_LANGUAGE_DOCUMENT)
     }
-    
 }
 
 

@@ -28,7 +28,8 @@ import {
     isGeoJSONTypeSet,
     extractDocumentation,
     getLanguage,
-    isArrayType
+    isArrayType,
+    isGeometryCollection
 } from "./utils"
 import {
     DOCUMENTATION, 
@@ -36,6 +37,7 @@ import {
     COORDINATES
 } from "./constants"
 import {makeGeoFrames} from "./geoJSONTypeFrames/geoFrames"
+import {makeGeometryCollectionFrames} from "./geoJSONTypeFrames/makeGeometryCollectionFrames"
 import {makeGeoCollectionFrames} from "./geoJSONTypeFrames/geoCollectionFrames"
 
 function constructOptionalFrame (frame, item) {
@@ -94,6 +96,10 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
 
     for(var item in frame) {
+
+        if(item === "geometries") {
+            console.log("geometries")
+        }
 
         if(item === "@key") continue
         else if(item === "@type") continue
@@ -158,6 +164,12 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         else if (frame[item] && (item === COORDINATES) && isDocumentClassArrayType(frame[item])) { // coordinates for geo json
             let newGeoFrame=getModifiedGeoFrame(frame)
             let geoFrame = makeGeoFrames(newGeoFrame, item, uiFrame, mode, formData, documentation)
+            //set properties and ui
+            properties[item] = geoFrame.properties[item]
+            propertiesUI[item] = geoFrame.propertiesUI[item]
+        }
+        else if (frame[item] && isGeometryCollection(frame[item], mode)){ // Geometry collection
+            let geoFrame = makeGeometryCollectionFrames(frame[item], item, uiFrame, mode, formData, documentation)
             //set properties and ui
             properties[item] = geoFrame.properties[item]
             propertiesUI[item] = geoFrame.propertiesUI[item]

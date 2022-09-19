@@ -14,7 +14,6 @@ import {polygonType} from "./polygonType"
 
 
 function geoTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
-    console.log("uiFrames ....", uiFrame)
     if(frame.hasOwnProperty(DIMENSION) && frame[DIMENSION] === POINT_TYPE_DIMENSION)
         return pointType(frame, item, uiFrame, mode, formData, documentation)
     else if(frame.hasOwnProperty(DIMENSION) && frame[DIMENSION] === LINE_STRING_TYPE_DIMENSION) 

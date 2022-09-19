@@ -6,7 +6,6 @@ import icon from "../constants"
 import "leaflet-arrowheads"
 import L from "leaflet"
 
-
 export const LeafletMap = ({documents, onMarkerClick, zoom, center, icon}) => {
 
 	useEffect(() => {

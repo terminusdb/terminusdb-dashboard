@@ -13,6 +13,8 @@ export const GeoJSONLeafletMap = ({geojsonFeature, onMarkerClick, zoom, center, 
 		map()
 	}, [])
 
+	console.log("geojsonFeature", geojsonFeature)
+
 	const map = () => {
         let mapOptions = customMapOptions(zoom, center)
         let markerOptions= customMarkerOptions(icon)

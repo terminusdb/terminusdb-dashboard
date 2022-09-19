@@ -82,7 +82,7 @@ export const MenuList = () => {
 					</NavDropdown>
 
 					{/** Diff Viewer */}
-					{/*<Nav.Link onClick={(e) => handleClick(menu.DIFF_VIEWER)}>{menu.DIFF_VIEWER}</Nav.Link> */}
+					<Nav.Link onClick={(e) => handleClick(menu.DIFF_VIEWER)}>{menu.DIFF_VIEWER}</Nav.Link> 
 
 					{/** Multi Language */}
 					<Nav.Link onClick={(e) => handleClick(menu.MULTI_LANGUAGE)}>{menu.MULTI_LANGUAGE}</Nav.Link>

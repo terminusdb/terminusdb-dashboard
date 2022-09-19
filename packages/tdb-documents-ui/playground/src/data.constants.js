@@ -20,6 +20,27 @@ export const MANDATORY_DOCUMENT={
 	"website": "rack@rocking.com"
 }
 
+// use mandatory document for diff example
+export const DIFF_MANDATORY_DOCUMENT={
+	"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "Person",
+	"Birthday": "2022-08-15T12:59:46Z",
+	"PhoneNumber": 41912839283123140,
+	"Today": "2022-08-15T12:59:50Z",
+	"above18": true,
+	"age": 52,
+	"email": "rack@gmail.com",
+	"name": "Major Rock",
+	"permanentAddress": {
+		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+		"@type": "Address",
+		"AddressLine1": "somewhere ",
+		"Country": "New Zeeland",
+		"postalCode": "NZ29038"
+	},
+	"website": "rack@rocking.com"
+}
+
 // Optional Document 
 export const OPTIONAL_DOCUMENT = {
 	"@id": "Info/c4abb650ad1b8a952e738186508de20f5e9bb691a3945fd61b505964d3ce16db",
@@ -296,21 +317,6 @@ export const SYS_JSON_DOCUMENT={
 			]
 		}
 	]
-}
-
-// Diff Viewer data 
-export const OLD_VALUE= {
-	"@id": "Person/Jane",
-	"@type": "Person",
-	age: 18,
-	name: "Jane",
-}
-
-export const NEW_VALUE= {
-	"@id": "Person/Jane",
-	"@type": "Person",
-	age: 18,
-	name: "Janine",
 }
 
 // Multi language 

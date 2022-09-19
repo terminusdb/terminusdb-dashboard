@@ -1,64 +1,68 @@
 
 import React, {useState, useEffect} from "react"
-import ReactDiffViewer from 'react-diff-viewer'
-import {ButtonGroup, Button, Card, Modal} from "react-bootstrap"
-import {AiOutlineSwap, AiOutlineSwapRight, AiOutlineSwapLeft} from "react-icons/ai"
-import {BsCheck2Circle, BsPatchPlus} from "react-icons/bs"
 import Stack from 'react-bootstrap/Stack'
-
-const DisplayDiff = ({left, right, useDarkTheme, disableWordDiff, leftTitle, rightTitle, showDiffOnly}) => {
-    let wordDiff=true
-    if(disableWordDiff) wordDiff=disableWordDiff
-    return <ReactDiffViewer 
-        oldValue={JSON.stringify(left, null, 2)} 
-        newValue={JSON.stringify(right, null, 2)} 
-        splitView={true} 
-        useDarkTheme={useDarkTheme}
-        linesOffset={0}
-        leftTitle={leftTitle}
-        showDiffOnly={showDiffOnly}
-        rightTitle={rightTitle}
-        disableWordDiff={wordDiff}/>
-}
+import {FrameViewer} from "../FrameViewer"
+import {VIEW, ORIGINAL_VALUE, CHANGED_VALUE} from "../constants"
+import {Card} from "react-bootstrap"
 
 /**
  * 
  * @param {json} [oldValue] - Old value 
  * @param {json} [newValue] - New value 
- * @param {boolean} [useDarkTheme] - true to use dark theme
- * @param {boolean} [disableWordDiff] - true to enable word diff 
- * @returns - a rect component 
+ * @param {boolean} [frame] - frames
+ * @param {boolean} [type] - document type
+ * @returns - a react diff component 
  */
 
-export const DiffViewer = ({oldValue, newValue, useDarkTheme, disableWordDiff, patch, leftTitle, rightTitle}) => {
-    const [variant, setVariant] = useState("light")
-    const [textVariant, setTextVariant] = useState("text-dark")
-    const [displayLeft, setDisplayLeft] = useState(oldValue)
-    const [displayRight, setDisplayRight] = useState(newValue)
-    const [showDiffOnly, setShowDiffOnly] = useState(true)
+export const DiffViewer = ({frame, type, oldValue, newValue, diffPatch}) => {
 
-    useEffect(() => {
-        if(useDarkTheme) {
-            setVariant("secondary")
-            setTextVariant("text-gray")
-        }
-    }, [useDarkTheme])
+    if(!frame) return <div>{"Include frames to view Diffs"}</div>
+    if(!type) return <div>{"Include document type to view Diffs"}</div>
+    if(!diffPatch) return <div>{"Include diff patch JSON Object to view diffs"}</div>
 
-    return <div>
-        <Stack direction="horizontal" gap={2}>
-            {patch && <Button variant={variant} className={textVariant}>
-                Patch 
-            </Button>
+    let originalUIFrame={}
+    let changedUIFrame={}
+
+    for(var key in diffPatch) {
+        if(diffPatch[key].hasOwnProperty("@op") && 
+            frame.hasOwnProperty(type) &&
+            frame[type].hasOwnProperty(key)) {
+                originalUIFrame[key]={
+                    classNames: "text-danger  tdb__diff__original"
+                }
+                changedUIFrame[key]={
+                    classNames: "text-success   tdb__diff__changed"
+                }
             }
+    }
+    
 
-        </Stack>
-
-        <DisplayDiff left={displayLeft} 
-            right={displayRight} 
-            leftTitle={leftTitle}
-            showDiffOnly={showDiffOnly}
-            rightTitle={rightTitle}
-            useDarkTheme={useDarkTheme} 
-            disableWordDiff={disableWordDiff}/>
-    </div>
+    return <Stack direction="horizontal" gap={3}>
+        <Card>
+            <Card.Header>{ORIGINAL_VALUE}</Card.Header>
+            <Card.Body>
+                <FrameViewer
+                    frame={frame}
+                    uiFrame={originalUIFrame}
+                    type={type}
+                    formData={oldValue}
+                    mode={VIEW}
+                    hideSubmit={true}
+                />
+            </Card.Body>
+        </Card>
+        <Card>
+            <Card.Header>{CHANGED_VALUE}</Card.Header>
+            <Card.Body>
+                <FrameViewer
+                    frame={frame}
+                    uiFrame={changedUIFrame}
+                    type={type}
+                    formData={newValue}
+                    mode={VIEW}
+                    hideSubmit={true}
+                />
+            </Card.Body>
+        </Card>
+   </Stack>
 }

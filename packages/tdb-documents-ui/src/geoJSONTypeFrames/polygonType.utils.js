@@ -26,6 +26,48 @@ export function getPolygonTypeFilledValues (formData, item) {
 
 export function getPolygonCreateEditUI (item) {
     let ui={}
+    
+    let uiPolygon = {
+        "items": [
+            {
+                "ui:placeholder": `Enter latitude ...`,
+                classNames: "tdb__input  mt-3"
+            },
+            {
+                "ui:placeholder": `Enter longitude ...`,
+                classNames: "tdb__input  mb-3"
+            }
+        ],
+        "additionalItems":   [
+            {
+                "ui:placeholder": `Enter latitude ...`,
+                classNames: "tdb__input  mt-3"
+            },
+            {
+                "ui:placeholder": `Enter longitude ...`,
+                classNames: "tdb__input  mb-3"
+            }
+        ],
+        
+    }
+
+    ui[item] = {
+        "items": {
+            "ui:ArrayFieldTemplate": ArrayFieldTemplate,
+            "ui:options" : {
+                addable: true,
+                orderable: true,
+                removable: true
+            },
+            "items" : uiPolygon
+        }
+    }
+
+    return ui
+}
+
+export function getPolygonCreateEditUI_NOW (item) {
+    let ui={}
     let uiPolygon = {
         "ui:options" : {
             addable: true,

@@ -11,8 +11,6 @@ import {GeoJSONLeafletMap} from "./geoJSONLeafletMap"
 **  zoom                 - zoom im map
 **  scrollWheelZoom      - boolean to allow on scroll
 */
-
- 
 export const MapViewer = ({documents, zoom, scrollWheelZoom, display, onMarkerClick, polyLine, polygon, icon, geojsonFeature, center}) => {
 
 	let type=POINTS
@@ -25,7 +23,7 @@ export const MapViewer = ({documents, zoom, scrollWheelZoom, display, onMarkerCl
         return <React.Fragment>{"Cannot display empty documents on map"}</React.Fragment>
     }*/
 
-	console.log("polyLine ))))", polyLine)
+	//console.log("polyLine ))))", polyLine)
 
 	return <React.Fragment>
 		{

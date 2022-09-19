@@ -64,6 +64,14 @@ export const MULTIPOLYGON="MultiPolygon"
 export const POLYLINE="Polyline"
 export const GEOMETRY_COLLECTION="GeometryCollection"
 export const FEATURE_COLLECTION="FeatureCollection"
+// geometry arrays
+export const GEOMETRY_ARRAY=[
+    "GeometryCollection",
+    "LineString",
+   	"MultiPolygon",
+  	"Point",
+  	"Polygon"
+]
 
 export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
@@ -122,47 +130,6 @@ singleValue:(styles) => {
 }
 }
 
-/*export const SELECT_STYLES = {
-  control: (styles) => ({ ...styles, backgroundColor: '#fff', borderColor: "#ccc", width: "100%" }),
-  menu: (styles) => ({ ...styles, backgroundColor: '#fff', width: "100%" }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    return {
-      ...styles,
-      backgroundColor: isDisabled
-        ? undefined
-        : isSelected
-        ? "#fff"
-        : isFocused
-        ? "#fff"
-        : undefined,
-      color: isDisabled
-        ? '#000'
-        : isSelected,
-      cursor: isDisabled ? 'not-allowed' : 'default',
-
-      ':active': {
-        ...styles[':active'],
-        backgroundColor: !isDisabled
-          ? isSelected
-            ? "#f8f8f8"
-            : "#f8f8f8"
-          : undefined,
-      },
-    }
-  },
-  input: (styles) => {
-    return {
-        ...styles,
-        color: '#000'
-    }
-},
-singleValue:(styles) => {
-    return {
-        ...styles,
-        color: '#000'
-    }
-}
-}*/
 export const SELECT_STYLE_KEY="select_styles"
 
 //default subdocument background
@@ -189,4 +156,8 @@ export const JSON_EDITOR_HEIGHT="200px"
 export const JSON_EDITOR_WIDTH="100%"
 
 export const DEFAULT_LANGUAGE="en"
+
+// diff titles
+export const ORIGINAL_VALUE="Original Value"
+export const CHANGED_VALUE="Changed Value"
 

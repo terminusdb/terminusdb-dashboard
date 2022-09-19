@@ -1,93 +1,27 @@
 [
     {
         "@base": "terminusdb:///data/",
+        "@documentation": [
+            {
+                "@authors": [
+                    "Kitty Jose"
+                ],
+                "@description": "This is an example schema. We are using it to demonstrate the ability to display information in multiple languages about the same semantic content.",
+                "@language": "en",
+                "@title": "Example Schema"
+            },
+            {
+                "@authors": [
+                    "გავინ მენდელ-გლისონი"
+                ],
+                "@description": "ეს არის მაგალითის სქემა. ჩვენ ვიყენებთ მას, რათა ვაჩვენოთ ინფორმაციის მრავალ ენაზე ჩვენების შესაძლებლობა ერთი და იმავე სემანტიკური შინაარსის შესახებ.",
+                "@language": "ka",
+                "@title": "მაგალითი სქემა"
+            }
+        ],
         "@schema": "terminusdb:///schema#",
-        "@type": "@context"
-    },
-    {
-        "@abstract": [],
-        "@id": "Group",
-        "@type": "Class",
-        "capacity": "xsd:decimal",
-        "name": "xsd:string"
-    },
-    {
-        "@id": "Guy",
-        "@key": {
-            "@type": "Random"
-        },
-        "@type": "Class",
-        "attends_group_in_order": {
-            "@class": "Group",
-            "@type": "List"
-        },
-        "favorite_group": "Group",
-        "member_of": {
-            "@class": "Group",
-            "@type": "Set"
-        },
-        "second_favorite_group": {
-            "@class": "Group",
-            "@type": "Optional"
-        }
-    },
-    {
-        "@id": "Art",
-        "@inherits": "Group",
-        "@key": {
-            "@fields": [
-                "name"
-            ],
-            "@type": "Lexical"
-        },
-        "@type": "Class"
-    },
-    {
-        "@id": "Dance",
-        "@inherits": "Group",
-        "@key": {
-            "@fields": [
-                "name"
-            ],
-            "@type": "Lexical"
-        },
-        "@type": "Class"
-    },
-    {
-        "@id": "Employee",
-        "@key": {
-            "@type": "Random"
-        },
-        "@type": "Class",
-        "DOB": {
-            "@class": "xsd:dateTime",
-            "@type": "Optional"
-        },
-        "designation": "xsd:string",
-        "likes_color": {
-            "@class": "Colors",
-            "@type": "Optional"
-        },
-        "name": "xsd:string",
-        "studied": {
-            "@class": "Subject",
-            "@type": "Set"
-        },
-        "works_as": {
-            "@class": "Jobs",
-            "@type": "Optional"
-        }
-    },
-    {
-        "@id": "Music",
-        "@inherits": "Group",
-        "@key": {
-            "@fields": [
-                "name"
-            ],
-            "@type": "Lexical"
-        },
-        "@type": "Class"
+        "@type": "@context",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
     },
     {
         "@id": "Student",
@@ -106,139 +40,8 @@
         },
         "study_time_table": {
             "@class": "Subject",
-            "@type": "List"
-        }
-    },
-    {
-        "@abstract": [],
-        "@id": "Subject",
-        "@subdocument": [],
-        "@type": "Class",
-        "Number_of_classes_attended": {
-            "@class": "xsd:integer",
-            "@type": "Optional"
-        },
-        "course_start_date": {
-            "@class": "xsd:dateTime",
-            "@type": "Optional"
-        }
-    },
-    {
-        "@id": "Botony",
-        "@inherits": "Subject",
-        "@key": {
-            "@type": "Random"
-        },
-        "@subdocument": [],
-        "@type": "Class",
-        "Grade": {
-            "@class": "xsd:string",
-            "@type": "Optional"
-        },
-        "number_of_assignments": {
-            "@class": "xsd:integer",
-            "@type": "Optional"
-        }
-    },
-    {
-        "@id": "Maths",
-        "@inherits": "Subject",
-        "@key": {
-            "@type": "Random"
-        },
-        "@subdocument": [],
-        "@type": "Class",
-        "level": {
-            "@class": "xsd:string",
-            "@type": "Optional"
-        },
-        "love_maths": {
-            "@class": "xsd:boolean",
-            "@type": "Optional"
-        }
-    },
-    {
-        "@id": "Colors",
-        "@type": "Enum",
-        "@value": [
-            "Red",
-            "Blue",
-            "Yellow",
-            "Green"
-        ]
-    },
-    {
-        "@id": "UnorderedPerson",
-        "@key": {
-            "@type": "Random"
-        },
-        "@type": "Class",
-        "likes_color": {
-            "@class": "Colors",
-            "@type": "Set"
-        },
-        "lived_at": {
-            "@class": "Address",
-            "@type": "Set"
-        },
-        "nicknames": {
-            "@class": "xsd:string",
-            "@type": "Set"
-        },
-        "worked_as": {
-            "@class": "Jobs",
             "@type": "Set"
         }
-    },
-    {
-        "@id": "Zoology",
-        "@inherits": "Subject",
-        "@key": {
-            "@type": "Random"
-        },
-        "@subdocument": [],
-        "@type": "Class",
-        "Grade": {
-            "@class": "xsd:string",
-            "@type": "Optional"
-        },
-        "Notes": {
-            "@class": "xsd:string",
-            "@type": "Optional"
-        }
-    },
-    {
-        "@id": "OrderedPerson",
-        "@key": {
-            "@type": "Random"
-        },
-        "@type": "Class",
-        "likes_color": {
-            "@class": "Colors",
-            "@type": "List"
-        },
-        "to_do": {
-            "@class": "xsd:string",
-            "@type": "List"
-        }
-    },
-    {
-        "@documentation": {
-            "@comment": "",
-            "@properties": {
-                "AddressLine1": "Address Line 1",
-                "postalCode": "Postal Code"
-            }
-        },
-        "@id": "Address",
-        "@key": {
-            "@type": "Random"
-        },
-        "@subdocument": [],
-        "@type": "Class",
-        "AddressLine1": "xsd:string",
-        "Country": "xsd:string",
-        "postalCode": "xsd:string"
     },
     {
         "@documentation": {
@@ -285,11 +88,919 @@
         }
     },
     {
+        "@abstract": [],
+        "@documentation": [
+            {
+                "@comment": "An abstract Subject Class",
+                "@label": "Subject",
+                "@language": "en",
+                "@properties": {
+                    "Number_of_classes_attended": {
+                        "@comment": "Number of Classes Attended",
+                        "@label": "Classes Attended"
+                    },
+                    "course_start_date": {
+                        "@comment": "Course Start Date",
+                        "@label": "Start Date"
+                    }
+                }
+            },
+            {
+                "@comment": "აბსტრაქტული საგნობრივი კლასი",
+                "@label": "საგანი",
+                "@language": "ka",
+                "@properties": {
+                    "Number_of_classes_attended": {
+                        "@comment": "კლასების რაოდენობა",
+                        "@label": "კლასები დაესწრო"
+                    },
+                    "course_start_date": {
+                        "@comment": "კურსის დაწყების თარიღი",
+                        "@label": "Დაწყების თარიღი"
+                    }
+                }
+            }
+        ],
+        "@id": "Subject",
+        "@subdocument": [],
+        "@type": "Class",
+        "Number_of_classes_attended": {
+            "@class": "xsd:integer",
+            "@type": "Optional"
+        },
+        "course_start_date": {
+            "@class": "xsd:dateTime",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@documentation": [
+            {
+                "@comment": "An Address",
+                "@label": "Address",
+                "@language": "en",
+                "@properties": {
+                    "AddressLine1": {
+                        "@comment": "Address Line one",
+                        "@label": "Address Line 1"
+                    },
+                    "Country": {
+                        "@comment": "A Country ",
+                        "@label": "Country"
+                    },
+                    "postalCode": {
+                        "@comment": "A valid Postal Code",
+                        "@label": "Zip Code"
+                    }
+                }
+            },
+            {
+                "@comment": "მისამართი",
+                "@label": "მისამართი",
+                "@language": "ka",
+                "@properties": {
+                    "AddressLine1": {
+                        "@comment": "მისამართის ხაზი პირველი",
+                        "@label": "მისამართის ხაზი 1"
+                    },
+                    "Country": {
+                        "@comment": "Ქვეყანა",
+                        "@label": "ქვეყანა"
+                    },
+                    "postalCode": {
+                        "@comment": "მოქმედი საფოსტო კოდი",
+                        "@label": "Ზიპ კოდი"
+                    }
+                }
+            }
+        ],
+        "@id": "Address",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "AddressLine1": "xsd:string",
+        "Country": "xsd:string",
+        "postalCode": "xsd:string"
+    },
+    {
         "@id": "Jobs",
         "@key": {
             "@type": "Random"
         },
         "@type": "Class",
         "title": "xsd:string"
+    },
+    {
+        "@documentation": [
+            {
+                "@comment": "Maths",
+                "@label": "Maths",
+                "@language": "en",
+                "@properties": {
+                    "Number_of_classes_attended": {
+                        "@comment": "Number of Classes Attended",
+                        "@label": "Classes Attended"
+                    },
+                    "course_start_date": {
+                        "@comment": "Course Start Date",
+                        "@label": "Start Date"
+                    },
+                    "level": {
+                        "@comment": "Math level",
+                        "@label": "Level"
+                    },
+                    "love_maths": {
+                        "@comment": "a choice to love maths",
+                        "@label": "Do you like Maths?"
+                    }
+                }
+            },
+            {
+                "@comment": "მათემატიკა",
+                "@label": "მათემატიკა",
+                "@language": "ka",
+                "@properties": {
+                    "Number_of_classes_attended": {
+                        "@comment": "კლასების რაოდენობა",
+                        "@label": "კლასები დაესწრო"
+                    },
+                    "course_start_date": {
+                        "@comment": "კურსის დაწყების თარიღი",
+                        "@label": "Დაწყების თარიღი"
+                    },
+                    "level": {
+                        "@comment": "მათემატიკის დონე",
+                        "@label": "დონე"
+                    },
+                    "love_maths": {
+                        "@comment": "არჩევანი გიყვარდეს მათემატიკა",
+                        "@label": "მოგწონთ მათემატიკა?"
+                    }
+                }
+            }
+        ],
+        "@id": "Maths",
+        "@inherits": "Subject",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "level": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "love_maths": {
+            "@class": "xsd:boolean",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "UnorderedPerson",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "likes_color": {
+            "@class": "Colors",
+            "@type": "Set"
+        },
+        "lived_at": {
+            "@class": "Address",
+            "@type": "Set"
+        },
+        "nicknames": {
+            "@class": "xsd:string",
+            "@type": "Set"
+        },
+        "worked_as": {
+            "@class": "Jobs",
+            "@type": "Set"
+        }
+    },
+    {
+        "@id": "Dance",
+        "@inherits": "Group",
+        "@key": {
+            "@fields": [
+                "name"
+            ],
+            "@type": "Lexical"
+        },
+        "@type": "Class"
+    },
+    {
+        "@id": "Art",
+        "@inherits": "Group",
+        "@key": {
+            "@fields": [
+                "name"
+            ],
+            "@type": "Lexical"
+        },
+        "@type": "Class"
+    },
+    {
+        "@documentation": [
+            {
+                "@comment": "An example class",
+                "@label": "Example",
+                "@language": "en",
+                "@properties": {
+                    "address": {
+                        "@comment": "The current address for example",
+                        "@label": "Current Address"
+                    },
+                    "choice": {
+                        "@comment": "A thing to choose",
+                        "@label": "choice"
+                    },
+                    "example_sys": {
+                        "@comment": "example sys object to see working of language support",
+                        "@label": "Example JSON"
+                    },
+                    "name": {
+                        "@comment": "The name of the example object",
+                        "@label": "name"
+                    },
+                    "nickName": {
+                        "@comment": "A nick name for example",
+                        "@label": "Nick Name"
+                    },
+                    "previousAddress": {
+                        "@comment": "Previous Address",
+                        "@label": "Previous Address where example must have resided"
+                    },
+                    "scored": {
+                        "@comment": "Scored Grades",
+                        "@label": "Scored"
+                    },
+                    "studied": {
+                        "@comment": "favorite subject",
+                        "@label": "Studied"
+                    },
+                    "works_as": {
+                        "@comment": "Example works as",
+                        "@label": "Designation"
+                    }
+                }
+            },
+            {
+                "@comment": "მაგალითი კლასი",
+                "@label": "მაგალითი",
+                "@language": "ka",
+                "@properties": {
+                    "address": {
+                        "@comment": "მაგალითად, მიმდინარე მისამართი",
+                        "@label": "Ამჟამინდელი მისამართი"
+                    },
+                    "choice": {
+                        "@comment": "რაც უნდა აირჩიოთ",
+                        "@label": "არჩევანი"
+                    },
+                    "example_sys": {
+                        "@comment": "მაგალითი sys ობიექტის სანახავად მუშაობს ენის მხარდაჭერა",
+                        "@label": "მაგალითი JSON"
+                    },
+                    "name": {
+                        "@comment": "მაგალითის ობიექტის სახელი",
+                        "@label": "სახელი"
+                    },
+                    "nickName": {
+                        "@comment": "მაგალითად, მეტსახელი",
+                        "@label": "მეტსახელი"
+                    },
+                    "previousAddress": {
+                        "@comment": "წინა მისამართი, სადაც მაგალითი უნდა ყოფილიყო",
+                        "@label": "წინა მისამართი"
+                    },
+                    "scored": {
+                        "@comment": "ქულები დააგროვა",
+                        "@label": "გაიტანა"
+                    },
+                    "studied": {
+                        "@comment": "საყვარელი საგანი",
+                        "@label": "შეისწავლა"
+                    },
+                    "works_as": {
+                        "@comment": "მაგალითი მუშაობს როგორც",
+                        "@label": "მუშაობს როგორც"
+                    }
+                }
+            }
+        ],
+        "@id": "Example",
+        "@type": "Class",
+        "address": "Address",
+        "choice": "Choice",
+        "example_sys": "sys:JSON",
+        "name": "xsd:string",
+        "nickName": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "previousAddress": {
+            "@class": "Address",
+            "@type": "Set"
+        },
+        "scored": {
+            "@class": "Grades",
+            "@type": "Optional"
+        },
+        "studied": {
+            "@class": "Subject",
+            "@type": "Set"
+        },
+        "works_as": {
+            "@class": "Jobs",
+            "@type": "Set"
+        }
+    },
+    {
+        "@id": "Guy",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "attends_group_in_order": {
+            "@class": "Group",
+            "@type": "Set"
+        },
+        "favorite_group": "Group",
+        "member_of": {
+            "@class": "Group",
+            "@type": "Set"
+        },
+        "second_favorite_group": {
+            "@class": "Group",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Colors",
+        "@type": "Enum",
+        "@value": [
+            "Red",
+            "Blue",
+            "Yellow",
+            "Green"
+        ]
+    },
+    {
+        "@abstract": [],
+        "@documentation": [
+            {
+                "@comment": "An example class",
+                "@label": "Example",
+                "@language": "en",
+                "@properties": {
+                    "capacity": {
+                        "@comment": "Max number of people in group",
+                        "@label": "Capacity"
+                    },
+                    "name": {
+                        "@comment": "Title of the group",
+                        "@label": "Name"
+                    }
+                }
+            },
+            {
+                "@comment": "მაგალითი კლასი",
+                "@label": "მაგალითი",
+                "@language": "ka",
+                "@properties": {
+                    "capacity": {
+                        "@comment": "ადამიანების მაქსიმალური რაოდენობა ჯგუფში",
+                        "@label": "ტევადობა"
+                    },
+                    "name": {
+                        "@comment": "ჯგუფის სათაური",
+                        "@label": "სახელი"
+                    }
+                }
+            }
+        ],
+        "@id": "Group",
+        "@type": "Class",
+        "capacity": "xsd:decimal",
+        "name": "xsd:string"
+    },
+    {
+        "@id": "OrderedPerson",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "likes_color": {
+            "@class": "Colors",
+            "@type": "List"
+        },
+        "to_do": {
+            "@class": "xsd:string",
+            "@type": "List"
+        }
+    },
+    {
+        "@id": "Music",
+        "@inherits": "Group",
+        "@key": {
+            "@fields": [
+                "name"
+            ],
+            "@type": "Lexical"
+        },
+        "@type": "Class"
+    },
+    {
+        "@id": "Feature",
+        "@inherits": "GeoJSON",
+        "@type": "Class",
+        "@unfoldable": [],
+        "centerline": {
+            "@class": "Geometry",
+            "@type": "Optional"
+        },
+        "geometry": "Geometry",
+        "id": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "properties": {
+            "@class": "sys:JSON",
+            "@type": "Optional"
+        },
+        "title": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "type": "Feature_Type"
+    },
+    {
+        "@id": "Employee",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "DOB": {
+            "@class": "xsd:dateTime",
+            "@type": "Optional"
+        },
+        "designation": "xsd:string",
+        "likes_color": {
+            "@class": "Colors",
+            "@type": "Optional"
+        },
+        "name": "xsd:string",
+        "studied": {
+            "@class": "Subject",
+            "@type": "Set"
+        },
+        "works_as": {
+            "@class": "Jobs",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "FeatureCollection",
+        "@inherits": "GeoJSON",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "@unfoldable": [],
+        "crs": {
+            "@class": "sys:JSON",
+            "@type": "Optional"
+        },
+        "features": {
+            "@class": "Feature",
+            "@type": "Set"
+        },
+        "name": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "properties": {
+            "@class": "sys:JSON",
+            "@type": "Optional"
+        },
+        "type": "FeatureCollection_Type"
+    },
+    {
+        "@abstract": [],
+        "@id": "GeoJSON",
+        "@type": "Class",
+        "bbox": {
+            "@class": "xsd:decimal",
+            "@dimensions": 1,
+            "@type": "Array"
+        }
+    },
+    {
+        "@id": "FeatureCollection_Type",
+        "@type": "Enum",
+        "@value": [
+            "FeatureCollection"
+        ]
+    },
+    {
+        "@id": "Feature_Type",
+        "@type": "Enum",
+        "@value": [
+            "Feature"
+        ]
+    },
+    {
+        "@abstract": [],
+        "@id": "Geometry",
+        "@inherits": "GeoJSON",
+        "@type": "Class",
+        "@unfoldable": []
+    },
+    {
+        "@id": "GeometryCollection",
+        "@inherits": "Geometry",
+        "@type": "Class",
+        "geometries": {
+            "@class": "Geometry",
+            "@type": "Set"
+        },
+        "type": "GeometryCollection_Type"
+    },
+    {
+        "@id": "Teacher",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "DOB": {
+            "@class": "xsd:dateTime",
+            "@type": "Optional"
+        },
+        "comments": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "email": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "favorite_teacher": {
+            "@class": "xsd:boolean",
+            "@type": "Optional"
+        },
+        "likes_color": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "password": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "GeometryCollection_Type",
+        "@type": "Enum",
+        "@value": [
+            "GeometryCollection"
+        ]
+    },
+    {
+        "@id": "LineString",
+        "@inherits": "Geometry",
+        "@type": "Class",
+        "coordinates": {
+            "@class": "xsd:decimal",
+            "@dimensions": 2,
+            "@type": "Array"
+        },
+        "type": "LineString_Type"
+    },
+    {
+        "@id": "LineString_Type",
+        "@type": "Enum",
+        "@value": [
+            "LineString"
+        ]
+    },
+    {
+        "@id": "MultiPolygon",
+        "@inherits": "Geometry",
+        "@type": "Class",
+        "coordinates": {
+            "@class": "xsd:decimal",
+            "@dimensions": 3,
+            "@type": "Array"
+        },
+        "type": "MultiPolygon_Type"
+    },
+    {
+        "@documentation": [
+            {
+                "@comment": "A Score Card",
+                "@label": "ScoreCard",
+                "@language": "en",
+                "@values": {
+                    "Excellent": {
+                        "@comment": "Excellent",
+                        "@label": "Excellent"
+                    },
+                    "Fail": {
+                        "@comment": "Fail",
+                        "@label": "Fail"
+                    },
+                    "Outstanding": {
+                        "@comment": "Outstanding",
+                        "@label": "Outstanding"
+                    },
+                    "Poor": {
+                        "@comment": "Poor",
+                        "@label": "Poor"
+                    },
+                    "VeryGood": {
+                        "@comment": "VeryGood",
+                        "@label": "VeryGood"
+                    }
+                }
+            },
+            {
+                "@label": "არჩევანი",
+                "@language": "ka",
+                "@values": {
+                    "Excellent": {
+                        "@comment": "კია?",
+                        "@label": "დიახ"
+                    },
+                    "Fail": {
+                        "@comment": "კია?",
+                        "@label": "დიახ"
+                    },
+                    "Outstanding": {
+                        "@comment": "ან არის არა?",
+                        "@label": "არა"
+                    },
+                    "Poor": {
+                        "@comment": "კია?",
+                        "@label": "დიახ"
+                    },
+                    "VeryGood": {
+                        "@comment": "ან არის არა?",
+                        "@label": "არა"
+                    }
+                }
+            }
+        ],
+        "@id": "ScoreCard",
+        "@type": "Enum",
+        "@value": [
+            "Outstanding",
+            "Excellent",
+            "VeryGood",
+            "Poor",
+            "Fail"
+        ]
+    },
+    {
+        "@documentation": [
+            {
+                "@comment": "Grades of a person",
+                "@label": "Grades",
+                "@language": "en",
+                "@properties": {
+                    "comments": {
+                        "@comment": "comments to be noted",
+                        "@label": "Comments"
+                    },
+                    "score": {
+                        "@comment": "score",
+                        "@label": "Score"
+                    }
+                }
+            },
+            {
+                "@comment": "პიროვნების კლასები",
+                "@label": "შეფასებები",
+                "@language": "ka",
+                "@properties": {
+                    "comments": {
+                        "@comment": "უნდა აღინიშნოს კომენტარები",
+                        "@label": "კომენტარები"
+                    },
+                    "score": {
+                        "@comment": "ქულა",
+                        "@label": "ქულა"
+                    }
+                }
+            }
+        ],
+        "@id": "GradeReport",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "comments": "xsd:string",
+        "score": "ScoreCard"
+    },
+    {
+        "@id": "MultiPolygon_Type",
+        "@type": "Enum",
+        "@value": [
+            "MultiPolygon"
+        ]
+    },
+    {
+        "@id": "Name_Type",
+        "@type": "Enum",
+        "@value": [
+            "name"
+        ]
+    },
+    {
+        "@id": "Point",
+        "@inherits": "Geometry",
+        "@type": "Class",
+        "coordinates": {
+            "@class": "xsd:decimal",
+            "@dimensions": 1,
+            "@type": "Array"
+        },
+        "type": "Point_Type"
+    },
+    {
+        "@documentation": [
+            {
+                "@comment": "Grades of a person",
+                "@label": "Grades",
+                "@language": "en",
+                "@properties": {
+                    "grade": {
+                        "@comment": "Grades achieved",
+                        "@label": "Grade"
+                    },
+                    "marks": {
+                        "@comment": "Marks achieved",
+                        "@label": "Marks"
+                    },
+                    "report": {
+                        "@comment": "Report Card",
+                        "@label": "Report"
+                    }
+                }
+            },
+            {
+                "@comment": "პიროვნების კლასები",
+                "@label": "შეფასებები",
+                "@language": "ka",
+                "@properties": {
+                    "grade": {
+                        "@comment": "მიღწეული ქულები",
+                        "@label": "შეფასება"
+                    },
+                    "marks": {
+                        "@comment": "მიღწეული ნიშნები",
+                        "@label": "ნიშნები"
+                    },
+                    "report": {
+                        "@comment": "მოსწრების ფურცელი",
+                        "@label": "ანგარიში"
+                    }
+                }
+            }
+        ],
+        "@id": "Grades",
+        "@key": {
+            "@type": "Random"
+        },
+        "@oneOf": {
+            "grade": "xsd:string",
+            "marks": "xsd:decimal",
+            "report": "GradeReport"
+        },
+        "@subdocument": [],
+        "@type": "Class"
+    },
+    {
+        "@id": "Point_Type",
+        "@type": "Enum",
+        "@value": [
+            "Point"
+        ]
+    },
+    {
+        "@id": "Polygon",
+        "@inherits": "Geometry",
+        "@type": "Class",
+        "coordinates": {
+            "@class": "xsd:decimal",
+            "@dimensions": 3,
+            "@type": "Array"
+        },
+        "type": "Polygon_Type"
+    },
+    {
+        "@id": "Graduate",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "scored": {
+            "@class": "Grades",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@id": "Polygon_Type",
+        "@type": "Enum",
+        "@value": [
+            "Polygon"
+        ]
+    },
+    {
+        "@id": "ComputerStudent",
+        "@key": {
+            "@type": "Random"
+        },
+        "@type": "Class",
+        "likes": "sys:JSON",
+        "stores_as": {
+            "@class": "sys:JSON",
+            "@type": "Set"
+        }
+    },
+    {
+        "@id": "Zoology",
+        "@inherits": "Subject",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "Grade": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "Notes": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        }
+    },
+    {
+        "@documentation": [
+            {
+                "@comment": "A Choice of a thing",
+                "@label": "Choice",
+                "@language": "en",
+                "@values": {
+                    "no": {
+                        "@comment": "Or is it a no?",
+                        "@label": "no"
+                    },
+                    "yes": {
+                        "@comment": "Is it a yes?",
+                        "@label": "yes"
+                    }
+                }
+            },
+            {
+                "@label": "არჩევანი",
+                "@language": "ka",
+                "@values": {
+                    "no": {
+                        "@comment": "ან არის არა?",
+                        "@label": "არა"
+                    },
+                    "yes": {
+                        "@comment": "კია?",
+                        "@label": "დიახ"
+                    }
+                }
+            }
+        ],
+        "@id": "Choice",
+        "@type": "Enum",
+        "@value": [
+            "yes",
+            "no"
+        ]
+    },
+    {
+        "@id": "Botony",
+        "@inherits": "Subject",
+        "@key": {
+            "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "Grade": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+        },
+        "number_of_assignments": {
+            "@class": "xsd:integer",
+            "@type": "Optional"
+        }
     }
 ]

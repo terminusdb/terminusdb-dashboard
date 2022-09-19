@@ -75,7 +75,7 @@ export function getLineStringTypeViewUI (formData, uiFrame, item, dimension) {
         })
 
         let polyLine = {
-            color: uiFrame.hasOwnProperty("coordinates") ? uiFrame["coordinates"]["lineColor"] : "black",
+            color: uiFrame && uiFrame.hasOwnProperty("coordinates") ? uiFrame["coordinates"]["lineColor"] : "black",
             data: docs
         }
 

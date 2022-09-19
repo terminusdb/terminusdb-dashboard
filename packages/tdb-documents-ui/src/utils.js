@@ -17,7 +17,7 @@ import {
 	ENUM, 
 	VALUE_HASH_KEY, 
 	LIST, 
-	SYS_UNIT_DATA_TYPE, 
+	GEOMETRY_ARRAY, 
 	SUBDOCUMENT, 
 	ARRAY, 
 	COORDINATES, 
@@ -138,6 +138,25 @@ export const isPointType = (property, frame) => {
 	return false
 }
 
+// function to check if both arrays are identical
+function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index])
+}
+
+// returns true if frame is a geometry collection type 
+export const isGeometryCollection = (property, mode) => {
+	if(typeof property !== "object") return false
+	if(!property.hasOwnProperty("@class"))  return false
+	if(Array.isArray(property["@class"])) {
+		return arrayEquals(property["@class"], GEOMETRY_ARRAY)
+	}
+	return false
+}
+ 
+
 // returns true if @subdocuments and type class
 export const isSubDocumentAndClassType = (property, frame) => {
 	if(typeof property === "object") return false
@@ -148,7 +167,7 @@ export const isSubDocumentAndClassType = (property, frame) => {
 	}
 	return false
 }
- 
+
 // returns true if @type is Array and item is coordinates
 export const isDocumentClassArrayType = (frame) => {
 	if(typeof frame !== "object") return false
@@ -248,7 +267,7 @@ export function HideArrayFieldTemplate(props) {
 
 
 export function ArrayFieldTemplate(props) {
-	//console.log("props", props)
+	//console.log("props", props.title, props.className, props.canAdd)
 	var variant="dark"
 	if(props.schema.info==="SUBDOCUMENT") variant="secondary"
 

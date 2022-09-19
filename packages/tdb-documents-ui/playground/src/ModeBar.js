@@ -2,14 +2,20 @@ import React, {useState} from "react"
 import Stack from 'react-bootstrap/Stack'
 import {CREATE, EDIT, VIEW, MODE_HELP_TEXT} from "./constants"
 import {InitObj} from "./init"
+import {DIFF_VIEWER} from "./menu.constants"
 
 export const ModeBar = () => {
 
     const [checked, setChecked]=useState(CREATE)
     const {
 		mode,
-        setMode
+        setMode,
+        menuItem
 	} = InitObj()
+
+    if(menuItem === DIFF_VIEWER) {
+        return <div/>
+    }
 
     function handleChange (event) {
         setChecked(event.target.value)
