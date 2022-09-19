@@ -17,7 +17,7 @@ import {GRAPH_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
 
 export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
-    const {saveSchemaGraph} = GraphContextObj();
+    const {getSchemaGraph} = GraphContextObj();
     const {dataProduct} = WOQLClientObj()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
@@ -29,9 +29,18 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
     let branch = "main"
     let ref = ""
 
+    const onBlurHandler = (value) =>{
+        console.log("onBlurHandler",value)
+        console.log(Array.isArray(value),"onBlurHandlerIsArray")
+        setValue(value)
+    }
+
     async function getJSONSchema () {
-        const result = saveSchemaGraph()// await woqlClient.getDocument(params, dataProduct)
-        setJsonSchema(result)
+        //get the schema from the mainGraphObj
+        //the result is the schema in json format
+        const resultJson = getSchemaGraph()// await woqlClient.getDocument(params, dataProduct)
+        setJsonSchema(resultJson)
+        setValue(resultJson)
     }
     
     useEffect(() => {
@@ -41,16 +50,10 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
     }, [tab,dataProduct])
 
     const [editMode, setEditMode]=useState(false)
-	const [value, setValue]=useState(JSON.stringify(jsonSchema, null, 2)) 
+	const [value, setValue]=useState(false) 
+
 
     MODEL_BUILDER_EDITOR_OPTIONS.readOnly=!editMode
-
-    useEffect(() =>{
-        if(!jsonSchema) return
-        
-        setValue(JSON.stringify(jsonSchema, null, 2))
-       
-    }, [jsonSchema])
 
     function handleCommitMessage (e) {
         setCommitMessage(e.target.value)
@@ -62,7 +65,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
 
         if(value) {
             try{
-               
+                //save change in the server
                 await saveGraph(value, commitMsg)   
                 setLoading(false)
                 setEditMode(false)
@@ -113,7 +116,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
                     <CodeMirror  
                         onBlur={(editor, data) => {
                             const editorValue =editor.doc.getValue()
-                            setValue(editorValue)
+                            onBlurHandler(editorValue)
                         }}
                         value={jsonSchema}
                         options={MODEL_BUILDER_EDITOR_OPTIONS}
