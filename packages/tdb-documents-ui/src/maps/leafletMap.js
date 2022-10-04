@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createRef} from "react"
+import React, {useState, useEffect, useRef} from "react"
 import {MapContainer, TileLayer,  MapControl, withLeaflet, GeoJSON, Polyline} from 'react-leaflet'
 import {LATITUDE, LONGITUDE, POINTS, POLYGON, LAT, LNG, REFRESH} from "../constants"
 import {customMapOptions, customMarkerOptions} from "./markers"
@@ -6,7 +6,7 @@ import icon from "../constants"
 import "leaflet-arrowheads"
 import L from "leaflet"
 
-export const LeafletMap = ({documents, onMarkerClick, zoom, center, icon}) => {
+export const LeafletMap = ({documents, onMarkerClick, zoom, center, icon, bounds}) => {
 
 	useEffect(() => {
 		map()
@@ -17,6 +17,13 @@ export const LeafletMap = ({documents, onMarkerClick, zoom, center, icon}) => {
         let markerOptions= customMarkerOptions(icon)
 		
 		const map = L.map("map-leaflet-id", mapOptions)
+
+		if(bounds && Array.isArray(bounds) && bounds.length > 0){
+			map.setView([40.866667, 34.566667], 5) // center of maps 
+			map.fitBounds(bounds)
+			map.flyToBounds(bounds)
+		}
+
 		const tileLayer = new  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

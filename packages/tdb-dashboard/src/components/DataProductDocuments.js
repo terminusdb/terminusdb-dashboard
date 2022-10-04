@@ -10,7 +10,6 @@ import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
 import {getCountOfDocumentClass} from "../queries/GeneralQueries"
 import { executeQueryHook } from "../hooks/executeQueryHook"
-import {CREATE_DOCUMENT, FORM_VIEW} from "./constants"
 import {handleCreate} from "./documents.utils"
 import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
 import {Loading} from "./Loading"

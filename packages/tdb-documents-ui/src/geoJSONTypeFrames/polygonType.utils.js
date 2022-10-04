@@ -1,6 +1,6 @@
 
 import React from "react"
-import {ArrayFieldTemplate} from "../utils"
+import {ArrayFieldTemplate, setBounds} from "../utils"
 import {MapViewer} from "../maps/mapViewer"
 
 export function getPolygonTypeFilledValues (formData, item) {
@@ -36,18 +36,18 @@ export function getPolygonCreateEditUI (item) {
             {
                 "ui:placeholder": `Enter longitude ...`,
                 classNames: "tdb__input  mb-3"
-            }
+            } 
         ],
         "additionalItems":   [
             {
                 "ui:placeholder": `Enter latitude ...`,
                 classNames: "tdb__input  mt-3"
             },
-            {
+            {   
                 "ui:placeholder": `Enter longitude ...`,
                 classNames: "tdb__input  mb-3"
             }
-        ],
+        ]
         
     }
 
@@ -139,19 +139,22 @@ export function getPolygonTypeViewUI (formData, item, dimension) {
     function getMapComponent(props) {
         if(!formData.hasOwnProperty(item)) return <div/>
         let docs = []
+
         formData[item].map(fd => {
             docs.push(fd)
         })
 
-        let polyLine = {
+        let polygon = {
             color: "black",
-            data: docs
+            data: formData[item][0]
         }
+
+        let bounds=setBounds(formData)
 
         //let co = [{lat: formData[item][0], lng: formData[item][1]}]
         return <React.Fragment>
-            <span>{item}</span>
-            {dimension===3 && <MapViewer documents={docs} polygon={polyLine} scrollWheelZoom={true}/>}
+            <span>{props.name}</span>
+            {dimension===3 && <MapViewer documents={docs} polygon={polygon} scrollWheelZoom={true} bounds={bounds}/>}
         </React.Fragment>
     }
     ui[item] = {"ui:field": getMapComponent}

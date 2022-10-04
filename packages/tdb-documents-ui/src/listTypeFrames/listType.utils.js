@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
+import {ArrayFieldTemplate, HideArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle, checkIfKey} from "../utils"
 import {CREATE, DOCUMENT, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
 import JSONInput from 'react-json-editor-ajrm'
@@ -133,6 +133,18 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData, documenta
 export function getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
 
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
+
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
         const hidden =() => <div/>
@@ -152,9 +164,75 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
+
+    if(uiFrame.hasOwnProperty(item)) {
+
+        uiLayout= {
+            items: uiFrame[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: false,
+                orderable: true,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+        return uiLayout
+    }
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
+}
+
+// View set dubDocument type Diff UI Layout
+export function getDiffViewSetSubDocumentType(frame, item, formData, uiFrame) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item)
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props === "default") structure[props] = value
+                else structure[props] = frame.properties[item][props]
+            }
+            filledItems.push(structure)
+        })
+        let blankCount=uiFrame[item]["ui:diff"]
+        for(var count=0; count < blankCount; count++) {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props !== "default") {
+                    structure[props] = frame.properties[item][props]
+                }
+                structure["default"] = formData[item][0]
+            }
+            filledItems.push(structure)
+        }
+    }
+    
+    // get filled items
+    layout.items = filledItems
+
+    let uiLayout= {}
+
+    uiLayout= {
+        items: []
+    }
+
+    uiLayout.items.push(uiFrame[item][0])
+    uiLayout.items.push(uiFrame[item][1])
+    uiLayout.items.push(uiFrame[item][0])
+    uiLayout.items.push(uiFrame[item][1])
+
+    console.log("666 vfilledItems 666", layout, uiLayout)
+
+    return {layout: layout, uiLayout: uiLayout}
 }
 
 
@@ -282,14 +360,30 @@ export function getViewSetDataTypeLayout(frame, item, formData) {
     // additional items
     layout.additionalItems = properties
     return layout
-}
+} 
 
 // View set data type UI Layout
 export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
+
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
+
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
-        uiLayout={ "ui:widget" : "hidden" }
+        uiLayout={ 
+            "ui:widget" : "hidden",
+            "ui:ArrayFieldTemplate": HideArrayFieldTemplate
+        }
         return uiLayout
     }
     if(frame.hasOwnProperty("uiSchema")) {
@@ -298,7 +392,7 @@ export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
-                orderable: true,
+                orderable: true, 
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -308,7 +402,7 @@ export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
 }
-
+ 
 
 /**************   List Sys Data Types       *****************/
 // create set data type layout
@@ -686,7 +780,7 @@ export function getViewSetDocumentTypeLayout (frame, item, formData) {
 }
 
 // View set Document type UI Layout
-export function getViewSetDocumentTypeUILayout (frame, item, onSelect) {
+export function getViewSetDocumentTypeUILayout (frame, uiFrame,item, onSelect) {
     // getting ui layout for additional items
     let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {}
     for(var ui in frame.uiSchema[item]) {
@@ -763,6 +857,13 @@ export function getViewSetDocumentTypeUILayout (frame, item, onSelect) {
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"]
         }
     }
     return uiLayout
@@ -896,7 +997,7 @@ export function getViewSetEnumTypeLayout (frame, item, formData) {
 }
 
 // view set Enum type ui layout
-export function geViewSetEnumTypeUILayout (frame, item) {
+export function geViewSetEnumTypeUILayout (frame, uiFrame, item) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
 
@@ -909,6 +1010,12 @@ export function geViewSetEnumTypeUILayout (frame, item) {
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"]
         }
     }
     return uiLayout

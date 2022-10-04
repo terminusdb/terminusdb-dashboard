@@ -18,6 +18,7 @@ import {
     getEditSetSubDocumentTypeUILayout,
     getViewSetSubDocumentTypeLayout,
     getViewSetSubDocumentTypeUILayout,
+    getDiffViewSetSubDocumentType,
     getCreateSetDocumentTypeLayout,
     getCreateSetDocumentTypeUILayout,
     getEditSetDocumentTypeLayout,
@@ -82,7 +83,7 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, doc
 
     if (mode === VIEW) {
         layout=getViewSetEnumTypeLayout(frame, item, formData, documentation)
-        uiLayout=geViewSetEnumTypeUILayout(frame, item)
+        uiLayout=geViewSetEnumTypeUILayout(frame, uiFrame, item)
     }
 
     // schema
@@ -110,7 +111,7 @@ export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === VIEW) {
         layout=getViewSetDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect, documentation)
+        uiLayout=getViewSetDocumentTypeUILayout(frame, uiFrame, item, onSelect, documentation)
     }
 
     // schema
@@ -136,8 +137,15 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
     }
 
     if (mode === VIEW) {
-        layout=getViewSetSubDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame)
+        /*if(uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+            let uiDiffChanges=getDiffViewSetSubDocumentType(frame, item, formData, uiFrame, layout)
+            layout=uiDiffChanges.layout
+            uiLayout=uiDiffChanges.uiLayout
+        }*/
+        //else {
+            layout=getViewSetSubDocumentTypeLayout(frame, item, formData, documentation)
+            uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame)
+        //}
     }
 
     // schema

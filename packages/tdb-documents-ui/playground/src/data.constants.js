@@ -13,7 +13,7 @@ export const MANDATORY_DOCUMENT={
 	"permanentAddress": {
 		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
 		"@type": "Address",
-		"AddressLine1": "somewhere ",
+		"AddressLine1": "somewhere in Europe",
 		"Country": "New Zeeland",
 		"postalCode": "NZ29038"
 	},
@@ -21,25 +21,121 @@ export const MANDATORY_DOCUMENT={
 }
 
 // use mandatory document for diff example
-export const DIFF_MANDATORY_DOCUMENT={
+export const ORIGINAL_DIFF_MANDATORY_DOCUMENT={
 	"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
 	"@type": "Person",
-	"Birthday": "2022-08-15T12:59:46Z",
-	"PhoneNumber": 41912839283123140,
-	"Today": "2022-08-15T12:59:50Z",
-	"above18": true,
-	"age": 52,
-	"email": "rack@gmail.com",
-	"name": "Major Rock",
-	"permanentAddress": {
+	//"name": "John Rock",
+	//"otherNames": "Birth",
+	/*"website": "rack@rocking.com",
+	"current_job": "Jobs/33e3013112e6e76381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24",*/
+	/*"lives_at": {
 		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
 		"@type": "Address",
-		"AddressLine1": "somewhere ",
+		"AddressLine1": "Somewhere",
 		"Country": "New Zeeland",
-		"postalCode": "NZ29038"
-	},
-	"website": "rack@rocking.com"
+		"postalCode": "NZ29038",
+		"City":"Same"
+	}*/
+	/*"likes_color": "Yellow",*/
+	"nickNames": [
+		"Joe",
+		"Thor",
+		
+	],
+	"work_history": [
+		"Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda"
+	],
+	favorite_colors: [
+		"Yellow",
+		"Blue"
+	]
 }
+
+
+export const CHANGED_DIFF_MANDATORY_DOCUMENT={
+	"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "Person",
+	//"name": "Major Rock",
+	//"otherNames": "Rick",
+	/*"website": "rack@rocking.com",
+	"current_job": "Jobs/33e3013112e64ke6381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24",*/
+	/*"lives_at": {
+		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+		"@type": "Address",
+		"AddressLine1": "Anywhere",
+		"City":"Same",
+		//"Country": "New Zeeland",
+		"postalCode": "7834PG"
+	}*/
+	//"likes_color": "Blue",
+	"nickNames": [
+		"Joe",
+		"Ronny",
+		//"Mac",
+		//"New"
+		//"Merc"
+	],
+	"work_history": [
+		"Jobs/02e992d5393cc67897bcdb382015a9138a7662d88ce173a3332b83e371b8f7aa"
+	],
+	favorite_colors: [
+		"Red",
+		"Blue"
+	]
+}
+
+export const ORIGINAL_LIST={
+	"@id": "List/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "List",
+	"order": ["1", "2", "3"],
+	"sub": [{
+				"@id": "List/221f09a7f24a6505e68a9b9e7e60d465a4fa51b1d19499d3cd3b167dab8cdeae/lived/0/Address/7389328807039f27e7eb710367d82e97c7ac4d0068fb88f56d21de1d63339004",
+				"@type": "Address",
+				"AddressLine1": "first address",
+				"Country": "Ireland",
+				"postalCode": "D18 NP89",
+				"City": "first address"
+	},
+	{
+		"@id": "List/221f09a7f24a6505e68a9b9e7e60d465a4fa51b1d19499d3cd3b167dab8cdeae/lived/0/Address/7389328807039f27e7eb710367d82e97c7ac4d0068fb88f56d21de1d63339004",
+		"@type": "Address",
+		"AddressLine1": "second address",
+		"Country": "Ireland",
+		"postalCode": "D18 NP89",
+		"City": "second address"
+},
+{
+	"@id": "List/221f09a7f24a6505e68a9b9e7e60d465a4fa51b1d19499d3cd3b167dab8cdeae/lived/0/Address/7389328807039f27e7eb710367d82e97c7ac4d0068fb88f56d21de1d63339004",
+	"@type": "Address",
+	"AddressLine1": "third address",
+	"Country": "third Ireland",
+	"postalCode": "D18 NP89",
+	"City": "third address"
+}]
+}
+
+export const CHANGED_LIST={
+	"@id": "List/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "List",
+	"order": ["11", "22", "3"],
+	"sub": [{
+			"@id": "List/221f09a7f24a6505e68a9b9e7e60d465a4fa51b1d19499d3cd3b167dab8cdeae/lived/0/Address/7389328807039f27e7eb710367d82e97c7ac4d0068fb88f56d21de1d63339004",
+			"@type": "Address",
+			"AddressLine1": "first address change",
+			"Country": "Ireland change",
+			"postalCode": "D18 NP89 change",
+			"City": "first address"
+		},
+		{
+			"@id": "List/221f09a7f24a6505e68a9b9e7e60d465a4fa51b1d19499d3cd3b167dab8cdeae/lived/0/Address/7389328807039f27e7eb710367d82e97c7ac4d0068fb88f56d21de1d63339004",
+			"@type": "Address",
+			"AddressLine1": "second address change",
+			"Country": "Ireland change",
+			"postalCode": "D18 NP89",
+			"City": "second address change"
+}]
+}
+
 
 // Optional Document 
 export const OPTIONAL_DOCUMENT = {

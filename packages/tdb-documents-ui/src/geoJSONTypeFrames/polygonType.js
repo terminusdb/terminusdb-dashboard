@@ -45,7 +45,7 @@ export function polygonType (frame, item, uiFrame, mode, formData) {
 
     //schema
     properties[item] = layout
-    console.log("--- layout", layout)
+    
     //ui
     if(mode === VIEW) {
        let uiProperties=getPolygonTypeViewUI(formData, item, frame[DIMENSION]) 

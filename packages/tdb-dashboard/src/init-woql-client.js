@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient ,{UTILS} from '@terminusdb/terminusdb-client'
 import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER} from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
-import {getCountOfDocumentClass, getTotalNumberOfDocuments, getDocsQuery} from "./queries/GeneralQueries"
+import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
 import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-component"
 import {useLocation} from "react-router-dom"
@@ -59,9 +59,6 @@ export const WOQLClientProvider = ({children, params}) => {
     const [totalDocumentsQuery, setTotalDocumentsQuery]=useState(false)
     var [totalDocumentCountProvider]=executeQueryHook(woqlClient, totalDocumentsQuery)
 
-    const [docsQuery, setDocsQuery]=useState(false)
-    const [docs, setDocs]=useState(false)
-    var [docQueryResults]=executeQueryHook(woqlClient, docsQuery)
 
     const [frames, setFrames]=useState(false)
 
@@ -80,12 +77,6 @@ export const WOQLClientProvider = ({children, params}) => {
         
         return {organization:teamPath,dataProduct:dataPath,page}
     }
-
-    useEffect(() => {
-        const docJson = formatSchema(docQueryResults)
-        setDocs(docJson)
-    }, [docQueryResults])
-
 
     useEffect(() => {
         if(perDocumentCountProvider && documentClasses.length>0){
@@ -165,6 +156,7 @@ export const WOQLClientProvider = ({children, params}) => {
     function getUpdatedDocumentClasses(woqlClient) {
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
+            let test=[]
             setDocumentClasses(classRes)
             // get number document classes
             let q=getCountOfDocumentClass(classRes)
@@ -182,9 +174,6 @@ export const WOQLClientProvider = ({children, params}) => {
         const dataProduct = woqlClient.db()
         return woqlClient.getSchemaFrame(null, dataProduct).then((res) => {
             setFrames(res)
-            let docsQ=getDocsQuery()
-            setDocsQuery(docsQ)
-            //console.log("frames", JSON.stringify(res, null, 2))
         })
         .catch((err) =>  {
             console.log("Error in init woql while getting data frames of data product", err.message)
@@ -389,8 +378,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 totalDocumentCount,
                 setSelectedDocument,
                 selectedDocument,
-                frames,
-                docs
+                frames
             }}
         >
             {children}

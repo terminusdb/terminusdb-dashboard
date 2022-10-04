@@ -5,7 +5,7 @@ import Stack from 'react-bootstrap/Stack'
 
 
 // filled Select - view mode 
-export const FilledDocumentViewSelect = ({label, defaultValue, onTraverse, styles, description}) => {
+export const FilledDocumentViewSelect = ({label, defaultValue, required, onTraverse, styles, description}) => {
     const [clicked, setClicked]=useState(false)
 
         useEffect(() => {
@@ -19,12 +19,16 @@ export const FilledDocumentViewSelect = ({label, defaultValue, onTraverse, style
         }
 
         let color = "text-light"
+        
         if (styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
         return <React.Fragment>
             {/*<Form.Label className="control-label ">{label}</Form.Label> */}
             <Stack direction="horizontal" gap={3}>
-                <div>{label} </div>
+                <div>
+                    {label} 
+                    {required && <span className="required">*</span>}
+                </div>
                 <div className="ms-auto">{description} </div>
             </Stack>
             <span onClick={(e) => handleClick(e, defaultValue)} className={`tdb__span__select ${color}`}>
@@ -62,13 +66,16 @@ export const EmptyDocumentSelect = ({label, styles, placeholder, value, onChange
 }
 
 // filled Select - edit mode
-export const FilledDocumentSelect = ({label, styles, placeholder, defaultValue, onChange, loadOptions, handleInputChange, description}) => {
+export const FilledDocumentSelect = ({label, styles, labelCss, hideLabel, placeholder, defaultValue, onChange, loadOptions, handleInputChange, description}) => {
+   
+    let labelStyle = labelCss && labelCss.hasOwnProperty("classNames") ? labelCss["classNames"] : "text-light"
+    
     return <React.Fragment>
         {/*<Form.Label>{label} {/*<span class="required">*</span> </Form.Label>*/}
-        <Stack direction="horizontal" gap={3}>
-            <div>{label} </div>
+        {!hideLabel && <Stack direction="horizontal" gap={3}>
+            <div className={labelStyle}>{label} </div>
             <div className="ms-auto">{description} </div>
-        </Stack>
+        </Stack>}
         <AsyncSelect
             cacheOptions
             classNames="tdb__input"
@@ -82,3 +89,4 @@ export const FilledDocumentSelect = ({label, styles, placeholder, defaultValue, 
         />
     </React.Fragment>
 }
+

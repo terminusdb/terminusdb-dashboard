@@ -8,7 +8,7 @@ import L from "leaflet"
 import {customMapOptions, customMarkerOptions} from "./markers"
 import {MAP_OPTION, ARROW_OPTION, MARKER_OPTION} from "./map.constants"
 
-export const PolyLineLeafletMap = ({polyLine, onMarkerClick, center, zoom}) => {
+export const PolyLineLeafletMap = ({polyLine, onMarkerClick, center, zoom, bounds}) => {
 
 	useEffect(() => {
 		map()
@@ -18,6 +18,7 @@ export const PolyLineLeafletMap = ({polyLine, onMarkerClick, center, zoom}) => {
 
 	const map = () => {
 
+		const refFromCreateRef = createRef();
 		let mapOptions = customMapOptions(zoom, center)
         let markerOptions= customMarkerOptions(icon)
 
@@ -32,6 +33,12 @@ export const PolyLineLeafletMap = ({polyLine, onMarkerClick, center, zoom}) => {
 		)
 
 		tileLayer.addTo(map) 
+
+		if(bounds && Array.isArray(bounds) && bounds.length > 0){
+			map.setView([40.866667, 34.566667], 5) // center of maps 
+			map.fitBounds(bounds)
+			map.flyToBounds(bounds)
+		}
 
         //var polyline = L.polyline(polyLine.data, {color: polyLine.color}).addTo(map)
 		var polyline = L.polyline(polyLine.data, {color: polyLine.color}).addTo(map)

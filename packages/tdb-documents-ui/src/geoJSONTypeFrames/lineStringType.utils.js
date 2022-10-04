@@ -1,6 +1,6 @@
 
-import React, {useEffect, useState} from "react"
-import {ArrayFieldTemplate} from "../utils"
+import React from "react"
+import {ArrayFieldTemplate, setBounds} from "../utils"
 import {MapViewer} from "../maps/mapViewer"
 
 // get filled values from formData 
@@ -79,10 +79,12 @@ export function getLineStringTypeViewUI (formData, uiFrame, item, dimension) {
             data: docs
         }
 
+        let bounds=setBounds(formData)
+
         return <React.Fragment>
-            <span>{item}</span>
-            {dimension===2 && <MapViewer documents={docs} polyLine={polyLine} scrollWheelZoom={true}/>}
-            {dimension===3 && <MapViewer documents={docs} polygon={polyLine} scrollWheelZoom={true}/>}
+            <span>{props.name}</span>
+            {dimension===2 && <MapViewer documents={docs} polyLine={polyLine} scrollWheelZoom={true} bounds={bounds}/>}
+            {dimension===3 && <MapViewer documents={docs} polygon={polyLine} scrollWheelZoom={true} bounds={bounds}/>}
         </React.Fragment>
     }
 

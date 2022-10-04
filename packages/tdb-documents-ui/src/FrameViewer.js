@@ -23,7 +23,6 @@ import {transformData} from "./extract"
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 */
 export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate, language}){
-    
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
     const [readOnly, setReadOnly]=useState(false)
@@ -32,7 +31,6 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
     const [input, setInput]=useState({})
 
     const [message, setMessage]=useState(false)
-
 
     if(!frame) return <div>No schema provided!</div>
     if(!mode) return  <div>Please include a mode - Create/ Edit/ View</div>
@@ -56,7 +54,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
             //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
             console.log("schema", schema)
-            console.log("properties.uiSchema", uiFrame, properties.uiSchema)
+            console.log("properties.uiSchema", properties.uiSchema)
             //console.log("uiSchema", uiSchema)
 
             if(mode === VIEW) {

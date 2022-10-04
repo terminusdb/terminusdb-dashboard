@@ -180,19 +180,38 @@ export function getViewUILayout(frame, item, formData, onTraverse, uiFrame, docu
     // fields which belongs to subdocument sets and we do not want to hide the widget
     if(!isFilled(formData, item)
         && !frame.hasOwnProperty("info")) {
-        uiLayout={ "ui:widget" : "hidden" }
+            if(uiFrame && uiFrame.hasOwnProperty(item)) {
+                if(!uiFrame[item].hasOwnProperty("ui:field")) {
+                    uiLayout={ 
+                        "ui:widget" : "hidden"
+                    }
+                    return uiLayout
+                }
+            }
+            else {
+                uiLayout={
+                    "ui:widget" : "hidden"
+                }
+                return uiLayout
+            }
         return uiLayout
     }
     // extracting custom ui styles
     let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
     let description = getCommentFromDocumentation(item, documentation)
     function displayFilledSelect(props) {
+        let required=false
+        if (props.required) required=true
+
         return <FilledDocumentViewSelect
             label={label}
             description={description}
             styles={selectStyle}
             defaultValue={props.formData}
             onTraverse={onTraverse}
+            uiFrame={uiFrame}
+            item={item}
+            required={required}
         />
 
     }

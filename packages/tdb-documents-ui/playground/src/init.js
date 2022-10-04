@@ -24,7 +24,7 @@ export const InitProvider = ({children, config}) => {
     // Frame Viewer constants 
     const [uiFrames, setUIFrames]=useState({})
     const [mode, setMode]=useState(CREATE)
-    const [type, setType]=useState(MANDATORY_DOCUMENT)
+    const [type, setType]=useState("List")//useState(MANDATORY_DOCUMENT)
     const [data, setData]=useState({})
 
     // diff Viewer constanst 

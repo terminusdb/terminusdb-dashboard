@@ -32,7 +32,6 @@ export const DocumentFrames = () => {
     }
     const {
         frames,
-        docs,
         woqlClient
     } = WOQLClientObj()
 
@@ -67,6 +66,10 @@ export const DocumentFrames = () => {
     const onSelect = async (inp, type) => {
         let WOQL =  TerminusClient.WOQL
         var docType=`@schema:${type}`
+        /*let split = item["@id"].split(':')
+        if(split.length === 2){
+            docType=split[1]
+        }*/ 
         let q = WOQL.isa("v:Documents", docType)
         const results = await q.execute(woqlClient)
         .then((response) => {
@@ -184,7 +187,6 @@ export const DocumentFrames = () => {
                             <FrameViewer frame={frames}
                                 type={documentObjectWithFrames.type}
                                 mode={documentObjectWithFrames.action}
-                                documents={docs}
                                 onSubmit={onSubmit}
                                 onSelect={onSelect}
                                 formData={documentObjectWithFrames.filledFrame}

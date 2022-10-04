@@ -7,19 +7,19 @@ export function makeOptionalTypeFrames (frame, item, uiFrame, mode, formData) {
 
     let properties = {}, propertiesUI = {}, layout = {}, uiLayout={}
 
-    if(frame.hasOwnProperty("properties")) {
+    if(frame && frame.hasOwnProperty("properties")) {
         layout=frame.properties[item]
     }
 
-    if(frame.hasOwnProperty("uiSchema")) {
+    if(frame && frame.hasOwnProperty("uiSchema")) {
         uiLayout=frame.uiSchema[item]
     }
 
     // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    //let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
 
     properties[item] =  layout
-    propertiesUI[item] = addedCustomUI
+    propertiesUI[item] = uiLayout//addedCustomUI
 
     return {properties, propertiesUI}
 

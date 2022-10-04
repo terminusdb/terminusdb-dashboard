@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from "react"
-import {ListGroup, Container, Card, Row, Col, Button} from "react-bootstrap"
+import {ListGroup, Container, Card, Row, Col, Button, Stack} from "react-bootstrap"
 import {BiPlus, BiNetworkChart} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
 import {
@@ -63,8 +63,12 @@ export const DocumentSummary = () => {
                     <Button id={type} className="bg-transparent border-0 p-0 w-100" onClick={(e) => handleCardClick(type)}>
                         <Card bg="dark" style={{maxHeight: "220px", cursor: "pointer"}} >
                             <Card.Header className="bg-transparent border-0 d-flex text-wrap">
-                                <h4 className="col-md-8 text-muted text-left">{key}</h4>
-                                <h4 className="text-muted col-md-4 text-right">{val}/{getTotalNumberOfDocuments(totalDocumentCount)}</h4>
+                                <div>
+                                    <div class="hstack gap-3 minBreakpoint-xs">
+                                        <h6 className="fw-bold text-muted text-left">{key}</h6>
+                                        <h6 className="text-muted ms-auto text-right">{val}/{getTotalNumberOfDocuments(totalDocumentCount)}</h6>
+                                    </div>
+                                </div>
                             </Card.Header>
                             <Card.Body>
                                 <Row className="ml-3">
@@ -94,7 +98,6 @@ export const DocumentSummary = () => {
 
         return count
     }
-
 
     return  <main className="content  ml-5 w-100">
         <Container>

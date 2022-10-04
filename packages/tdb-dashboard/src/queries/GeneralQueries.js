@@ -1,29 +1,12 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {shortenURL, covertStringToId} from "../components/utils"
 
-//KITTY IF YOU DON'T NEED THIS FILE WE CAN REMOVE IT!!!!
-//I LEAVE THE FUNCTIONS FOR NOT BROKEN NOTHING
 export const ClassFromSchema = () => {
     let WOQL=TerminusClient.WOQL
     return WOQL.quad("v:Class ID", 'type', 'owl:Class', "schema/main").
         quad("v:Class ID", 'label', "v:Class Name", "schema/main")
 }
-//.lib().document_classes() removed
-export const getDocumentClasses = (dataProduct) => {
-   return
-   /* if(!dataProduct) return null
-    let WOQL=TerminusClient.WOQL
-    return WOQL.using(dataProduct).lib().document_classes()
-      .eq("v:Class ID", "v:Class")
-      .count("v:Count", WOQL.triple("v:Class Count", "type", "v:Class"))*/
-}
 
-export const getDocsTypeQuery=(type)=>{
-    let WOQL =  TerminusClient.WOQL
-    var docType=`@schema:${type}`
-    let q = WOQL.isa("v:Documents", docType)
-    return q
-}
 
 export const getDocsQuery = () =>{
     let WOQL =  TerminusClient.WOQL
@@ -74,37 +57,8 @@ export const getPropertyRelation = (id, dataProduct, woqlClient) => {
     return WOQL.limit(1).triple("v:Subject",  id, "v:Predicate")
 }
 
-
-//lib().classes removed
-export const getClassesLib = (dataProduct, woqlClient) => {
-    return
-   /* if(!dataProduct && !woqlClient)
-    let WOQL=TerminusClient.WOQL
-    let user=woqlClient.user()
-    let dp = `${user.id}/${dataProduct}`
-    return //WOQL.using(dp).lib().classes()*/
-}
-
-//WOQL.using(dp).lib().properties() removed from the woqlLibrary
-export const getPropertiesLib = (dataProduct, woqlClient) => {
-    return ''
-   /* if(!dataProduct && !woqlClient)
-    let WOQL=TerminusClient.WOQL
-    let user=woqlClient.user()
-    let dp = `${user.id}/${dataProduct}`
-    return WOQL.using(dp).lib().properties()*/
-}
-//WOQL.using(dp).lib().document_metadata() removed from the woqlLibrary
-export const getDocumentMetadataLib = (dataProduct, woqlClient) => {
-    return
-    /*if(!dataProduct && !woqlClient) return
-    let WOQL=TerminusClient.WOQL
-    let user=woqlClient.user()
-    let dp = `${user.id}/${dataProduct}`
-    return WOQL.using(dp).lib().document_metadata()*/
-}
-
 // query to store query object in query library database
+/** leave this here might use later on for dev  */
 export const storeQueries = (query, saveQueryName) => {
     let WOQL=TerminusClient.WOQL
     let id = covertStringToId(saveQueryName)
@@ -155,71 +109,7 @@ export const getStoredQueryObject = (id) => {
 
 }
 
-
-
-export const getPropertyMeta = () => {
-  return ''
-  let WOQL =  TerminusClient.WOQL
-  let gstr =  "schema/main"
-
-  return WOQL.and(
-    WOQL.lib().properties(false, false, gstr),
-    WOQL.quad("v:Property Domain", "label", "v:Domain Name", gstr)
-    .or(
-        WOQL.quad("v:Property Domain", "system:tag", "system:abstract", gstr).eq("v:Abstract Domain", "Yes"),
-        WOQL.and(
-            WOQL.not().quad("v:Property Domain", "system:tag", "system:abstract", gstr),
-            WOQL.eq("v:Abstract Domain", "No")
-        )
-    )
-    .or(
-        WOQL.sub("system:Document", "v:Property Domain").eq("v:Document Domain", "Yes"),
-        WOQL.and(
-            WOQL.not().sub("system:Document", "v:Property Domain"),
-            WOQL.eq("v:Document Domain", "No")
-        )
-    )
-    .opt().quad("v:Property Range", "label", "v:Range Name", gstr)
-        .or(
-            WOQL.quad("v:Property Range", "system:tag", "system:abstract", gstr).eq("v:Abstract Range", "Yes"),
-            WOQL.and(
-                WOQL.not().quad("v:Property Range", "system:tag", "system:abstract", gstr),
-                WOQL.eq("v:Abstract Range", "No")
-            )
-        )
-        .or(
-            WOQL.sub("system:Document", "v:Property Range").eq("v:Document Range", "Yes"),
-            WOQL.and(
-                WOQL.not().sub("system:Document", "v:Property Range"),
-                WOQL.eq("v:Document Range", "No")
-            )
-        )
-        .or(
-            WOQL.quad("v:Property Range", "owl:oneOf", "v:Any", gstr).eq("v:Enum Range", "Yes"),
-            WOQL.and(
-                WOQL.not().quad("v:Property Range", "owl:oneOf", "v:Any", gstr),
-                WOQL.eq("v:Enum Range", "No")
-            )
-        )
-  )
-}
-
-
 /**** Document Queries  ****/
-export const getDocumentsOfType = (doctype) => {
-    return ''
-   /* let WOQL =  TerminusClient.WOQL
-    return  WOQL.and(
-        WOQL.lib().document_metadata()
-    ).sub(doctype, "v:Type ID")*/
-}
-/*export const getDocumentsOfType = (doctype) => {
-    let WOQL =  TerminusClient.WOQL
-    return  WOQL.and(
-        WOQL.lib().document_metadata()
-    ).sub(doctype, "v:Type ID")
-}*/
-
 // get count of document class instance
 export const getCountOfDocumentClass = (documentClasses) => {
     let WOQL =  TerminusClient.WOQL
@@ -227,6 +117,10 @@ export const getCountOfDocumentClass = (documentClasses) => {
     documentClasses.map(item => { // set type of document
         let scmType="@schema:"+item["@id"]
         let variable="v:"+item["@id"]
+        let split = item["@id"].split(':')
+        if(split.length === 2){
+            scmType=split[1]
+        }
         CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
     })
 
@@ -241,6 +135,10 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
     documentClasses.map(item => { // set type of document
         let scmType="@schema:"+item["@id"]
         let variable="v:"+item["@id"]
+        let split = item["@id"].split(':')
+        if(split.length === 2){
+            scmType=split[1]
+        }
         variableList.push(variable)
         CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
     })
@@ -248,6 +146,3 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
     let q = WOQL.and(...CountArray, WOQL.sum(variableList, "v:Count"))
     return q
 }
-
-
-//triple("v:Doc", "rdf:type", "@schema:Organization").triple("v:Doc", "v:Properties", "v:Value")

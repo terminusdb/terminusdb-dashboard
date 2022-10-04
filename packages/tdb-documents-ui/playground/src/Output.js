@@ -3,7 +3,7 @@ import {FrameViewer, DiffViewer} from '@terminusdb/terminusdb-documents-ui'
 import {InitObj} from "./init"
 import {VIEW, CARD_OUTPUT_TITLE, CREATE} from "./constants"
 import Card from 'react-bootstrap/Card'
-import {SELECT_OPTIONS, MANDATORY_DOCUMENT, DIFF_MANDATORY_DOCUMENT} from "./data.constants"
+import {SELECT_OPTIONS, ORIGINAL_LIST, CHANGED_LIST, ORIGINAL_DIFF_MANDATORY_DOCUMENT, CHANGED_DIFF_MANDATORY_DOCUMENT} from "./data.constants"
 import Stack from 'react-bootstrap/Stack'
 import {Button, Col} from "react-bootstrap"
 import {FiCode} from "react-icons/fi"
@@ -70,19 +70,18 @@ export const Diff = () => {
 
     useEffect(async () => {
         if(tdbClient) {
-            let result_patch = await tdbClient.getDiff(MANDATORY_DOCUMENT, DIFF_MANDATORY_DOCUMENT)
+            let result_patch = await tdbClient.getDiff(ORIGINAL_LIST, CHANGED_LIST)
             setDiffPatch(result_patch)
-            console.log("result_patch", result_patch)
+            console.log("result_patch", JSON.stringify(result_patch, null, 2))
         }
     }, [])
 
-
     return <div className="w-100">
-        {diffPatch && <DiffViewer 
-            oldValue={MANDATORY_DOCUMENT} 
-            newValue={DIFF_MANDATORY_DOCUMENT}
+        {diffPatch && frames && <DiffViewer 
+            oldValue={ORIGINAL_LIST} 
+            newValue={CHANGED_LIST}
             frame={frames}
-            type={type}
+            type={"List"}
             diffPatch={diffPatch}/>}
     </div>
 }

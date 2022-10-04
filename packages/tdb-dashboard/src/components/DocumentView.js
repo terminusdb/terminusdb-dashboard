@@ -38,7 +38,7 @@ export const DocumentView = () => {
 
     const [tableConfig, setTableConfig] = useState(false)
     const [barloading, setBarLoading]=useState(true)
-
+    
     const {
         updateQuery,
         changeOrder,
@@ -47,7 +47,7 @@ export const DocumentView = () => {
         result,
         limit,
         start,
-        orderBy,
+        orderBy, 
         loading,
         rowCount,
         documentResults,
@@ -221,7 +221,6 @@ export const DocumentView = () => {
         </React.Fragment>
     }
 
-
     return <React.Fragment>
 
         {/*<Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>*/}
@@ -270,7 +269,7 @@ export const DocumentView = () => {
 
             {/* View document info on click of a row */}
             {
-                documentObjectWithFrames.action ==  VIEW_DOCUMENT &&
+                documentObjectWithFrames.action ===  VIEW_DOCUMENT &&
                 documentObjectWithFrames.filledFrame &&
                 <React.Fragment>
                     {isArray(documentObject.previous) && <span className="col-md-1 ml-5">

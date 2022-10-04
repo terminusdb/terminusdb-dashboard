@@ -4,14 +4,16 @@ export const JSON_TYPE="object"
 export const NUMBER_TYPE="number"
 export const BOOLEAN_TYPE="boolean"
 export const DATE_TYPE="string"
+export const RDF_LANG_STRING="rdf:langString"
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
 export const SYS_UNIT_TYPE_PREFIX = "sys:"
-export const XSD_STRING="xsd:string"
+export const XSD_STRING="xsd:string";;
 export const XSD_ANY_URI="xsd:anyURI"
 export const XDD_URL="xdd:url"
 export const XSD_FLOAT="xsd:float"
 export const XSD_DECIMAL="xsd:decimal"
+export const XSD_POSITIVE_INTEGER="xsd:positiveInteger"
 export const XSD_INTEGER="xsd:integer"
 export const XSD_DATE_TIME="xsd:dateTime"
 export const XSD_G_YEAR= "xsd:gYear"
@@ -59,11 +61,15 @@ export const REFRESH="refresh"
 
 // geo JSON constants 
 export const POINTS="Points"
+export const LINE_STRING_TYPE="LineString"
 export const POLYGON="Polygon"
 export const MULTIPOLYGON="MultiPolygon"
 export const POLYLINE="Polyline"
 export const GEOMETRY_COLLECTION="GeometryCollection"
 export const FEATURE_COLLECTION="FeatureCollection"
+export const GEOMETRIES="geometries"
+export const FEATURE="feature"
+export const B_BOX="bbox"
 // geometry arrays
 export const GEOMETRY_ARRAY=[
     "GeometryCollection",
@@ -158,6 +164,8 @@ export const JSON_EDITOR_WIDTH="100%"
 export const DEFAULT_LANGUAGE="en"
 
 // diff titles
-export const ORIGINAL_VALUE="Original Value"
-export const CHANGED_VALUE="Changed Value"
+export const ORIGINAL_VALUE="Original UI"
+export const CHANGED_VALUE="Changed UI"
+export const ORIGINAL_UI_FRAME="originalUIFrame"
+export const CHANGED_UI_FRAME="changedUIFrame"
 

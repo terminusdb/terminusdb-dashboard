@@ -7,7 +7,7 @@ import {
 
 //[[125.6, 10.1], [125.6, 15.1]] // two or more prositions
 export function lineStringType (frame, item, uiFrame, mode, formData) {
-    console.log("uiFrames ....", uiFrame)
+    console.log("frame .... LS", frame)
     let properties={}, propertiesUI={}
 
     var  layout= {
@@ -41,6 +41,7 @@ export function lineStringType (frame, item, uiFrame, mode, formData) {
         propertiesUI[item]=uiProperties[item]
     }
     else {
+        console.log("formData line string", formData, item,  frame[DIMENSION])
         let uiProperties=getLineStringTypeViewUI(formData, uiFrame, item, frame[DIMENSION]) 
         propertiesUI[item]=uiProperties[item]
     }

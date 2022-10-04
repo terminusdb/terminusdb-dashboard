@@ -126,7 +126,7 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, doc
 
     if (mode === VIEW) {
         layout=getViewSetEnumTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetEnumTypeUILayout(frame, item, formData)
+        uiLayout=getViewSetEnumTypeUILayout(frame, item, uiFrame, formData)
     }
 
     // schema

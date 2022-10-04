@@ -55,7 +55,8 @@ function ControlledGetDocumentQuery (woqlClient, document, queryLimit, queryStar
             params['count']=limit
             try{
                 const response = await woqlClient.getDocument(params, db)
-                const countResult = await executeCountQuery() 
+                const countResult = await executeCountQuery()
+                console.log("**rresponsee", response)
                 setDocumentResults(response)
                 setRowCount(countResult)
                
@@ -68,7 +69,13 @@ function ControlledGetDocumentQuery (woqlClient, document, queryLimit, queryStar
     }
 
     const executeCountQuery = () => {
-        let q = WOQL.count("v:Count", WOQL.triple("v:doc","rdf:type",`@schema:${document}`))
+        let scmType="@schema:"+document
+        // support for prefix
+        let split = document.split(':')
+        if(split.length === 2){
+            scmType=split[1]
+        }
+        let q = WOQL.count("v:Count", WOQL.triple("v:doc","rdf:type", scmType))
         return woqlClient.query(q)
         .then((cresult) => {
             return ((cresult && cresult.bindings && cresult.bindings.length) ? cresult.bindings[0]['Count']['@value'] : 0)

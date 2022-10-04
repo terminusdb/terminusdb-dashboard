@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, addCustomUI, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle, getLabelFromDocumentation} from "../utils"
-import {CREATE, DOCUMENT, EDIT, VIEW, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH} from "../constants"
+import {CREATE, EDIT, VIEW, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, COORDINATES} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
 import {Form} from "react-bootstrap"
 import JSONInput from 'react-json-editor-ajrm' 
@@ -312,6 +312,17 @@ export function getViewSetDataTypeLayout(frame, item, formData, documentation) {
 // View set data type UI Layout
 export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
         uiLayout={
@@ -319,7 +330,7 @@ export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
             "ui:options": {
                 addable: false,
                 orderable: false,
-                removable: false
+                removable: false 
             },
             "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
         }
@@ -330,18 +341,34 @@ export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
             items: frame.uiSchema[item],
             additionalItems: frame.uiSchema[item],
             "ui:options": {
-                addable: false,
+                addable: false, 
                 orderable: false,
                 removable: false
             }, 
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
-
+    
     // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout, formData)    
+
+    /*return {
+        additionalItems: {
+            classNames: "text-info"
+        },
+        items: [
+            {
+                        classNames: "text-warning"
+                
+            }
+        ],
+        "ui:ArrayFieldTemplate": ArrayFieldTemplate,
+        "ui:options": {addable: false, orderable: false, removable: false}
+    }*/
+
     return addedCustomUI
 }
+
 
 /**************   Set Sys Data Types       *****************/
 // create set sys data type layout
@@ -990,7 +1017,7 @@ export function getViewSetEnumTypeLayout (frame, item, formData, documentation) 
 }
 
 // view set Enum type ui layout
-export function getViewSetEnumTypeUILayout (frame, item, formData) {
+export function getViewSetEnumTypeUILayout (frame, item, uiFrame, formData) {
     let uiLayout= {}
 
     if(!isFilled(formData, item)) {
@@ -1018,7 +1045,15 @@ export function getViewSetEnumTypeUILayout (frame, item, formData) {
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
+    } 
+
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"]
+        }
     }
+
     return uiLayout
 }
 
@@ -1261,15 +1296,27 @@ export function getEditSetChoiceDocumentTypeLayout(frame, item, formData) {
 
                 frame.properties[item]["anyOf"].map(aOf => {
                     let documentClass=aOf.title
-
-                    if(value.includes(`${documentClass}/`)) {
-                        let structure = {}
-                        for(var props in aOf) {
-                            structure[props]=aOf[props]
+                    if(Array.isArray(value)) { // normal choice docs
+                        if(value.includes(`${documentClass}/`)) {
+                            let structure = {}
+                            for(var props in aOf) {
+                                structure[props]=aOf[props]
+                            }
+                            structure["properties"][documentClass]["default"] = value
+                            filledItems.push(structure)
                         }
-                        structure["properties"][documentClass]["default"] = value
-                        filledItems.push(structure)
                     }
+                    /*else { // geometries 
+                        if(typeof value === "object"
+                            && value.hasOwnProperty(COORDINATES)) {
+                                let structure = {}
+                                for(var props in aOf) {
+                                    structure[props]=aOf[props]
+                                }
+                                //structure["properties"][documentClass]["default"] = value[COORDINATES]
+                                filledItems.push(structure)
+                            }
+                    }*/
                 })
             }
         })

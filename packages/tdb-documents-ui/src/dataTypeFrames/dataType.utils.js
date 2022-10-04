@@ -25,9 +25,7 @@ import {
 export function getCreateLayout(frame, item, documentation) { 
     
     let label=getLabelFromDocumentation (item, documentation)
-    if(item === "comments") {
-        console.log("found it", label, documentation)
-    }
+
     let type=getDataType(frame[item])
     let layout = {
         type: type,
@@ -61,6 +59,7 @@ export function getCreateUILayout(frame, item, uiFrame, documentation) {
         uiLayout=getDateUIWidget(title)
     }
     // custom ui:schema - add to default ui schema
+   
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
 }
@@ -124,7 +123,7 @@ export function getViewLayout(frame, item, formData, documentation) {
         type: type,
         info: DATA_TYPE,
         title: label
-    }
+    } 
     if(frame[item] === XDD_URL) layout["format"]="email"
     let defaultValue = getDefaultValue(item, formData)
     if(frame[item] === XSD_ANY_URI) layout["format"]="uri"
@@ -140,12 +139,23 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     
     if(!isFilled(formData, item)
         && !frame.hasOwnProperty("info")) {
-        uiLayout={
-            "ui:widget" : "hidden"
-        }
-        return uiLayout
+            // to represent custom field - in diff viewer for example we want to show hidden field as a null field
+            if(uiFrame && uiFrame.hasOwnProperty(item)) {
+                if(!uiFrame[item].hasOwnProperty("ui:field")) {
+                    uiLayout={ 
+                        "ui:widget" : "hidden"
+                    }
+                    return uiLayout
+                }
+            }
+            else {
+                uiLayout={
+                    "ui:widget" : "hidden"
+                }
+                return uiLayout
+            }
     }
-
+ 
     let title = getTitle(item, checkIfKey(item, frame["@key"]), documentation)
 
     let uiLayout = {
@@ -164,7 +174,6 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     }
     let description = getCommentFromDocumentation(item, documentation)
     if(description) uiLayout["ui:description"]=description
-
 
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)

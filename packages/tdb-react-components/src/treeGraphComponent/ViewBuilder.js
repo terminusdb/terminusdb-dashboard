@@ -31,7 +31,7 @@ export const ViewBuilder = (props)=>{
 		  removeElement,
 		  objectPropertyList,
 		  objPropsRelatedToClass,
-		  saveSchemaGraph,isFocusOnNode,mainGraphObj,
+		  getSchemaGraph,isFocusOnNode,mainGraphObj,
 		  } = GraphContextObj();
 
 	
@@ -54,7 +54,7 @@ export const ViewBuilder = (props)=>{
 	}, [props.view]) 
 
 	const saveData=(commitMessage)=>{
-		const json = saveSchemaGraph();
+		const json = getSchemaGraph();
 		if(props.saveGraph) props.saveGraph(json, commitMessage)
 		
 	}

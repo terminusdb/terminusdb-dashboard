@@ -22,16 +22,46 @@
 }
 
 /** diffs ***/
-.tdb__diff__original > input {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
+.tdb__diff__original > input, 
+.tdb__diff__original > select {
+    color: #842029 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c2c7 !important;
 }
 
-.tdb__diff__changed > input {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc;
+/* document links & enum */
+.tdb__diff__original > span,
+.tdb__diff__enum__original > select  {
+    color: #e74c3c !important;
+    border: 0;
+}
+
+.text_diff_original_underline {
+    text-decoration-color: #842029 !important;
+}
+
+.tdb__diff__changed > input, 
+.tdb__diff__changed > select {
+    color: #0f5132 !important;
+    background-color: #d1e7dd !important;
+    border-color: #badbcc !important;
+}
+
+/* document links & enum */
+.tdb__diff__changed > span,
+.tdb__diff__enum__changed > select  {
+    color: #00bc8c !important;
+    border: 0;
+}
+
+
+.text_diff_changed_underline {
+    text-decoration-color: #0f5132 !important;
+}
+
+.diff__help__text {
+    font-size: 12px;
+    font-style: italic;
 }
 
 /** selects ***/
@@ -77,7 +107,7 @@ select, .rbt-input-main {
     background-color: transparent !important;
     background-image: none !important; /** hiding select carrot **/
     margin: 0px 0px 0px -10px !important;
-    color: #fff !important;
+    color: #fff ;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -195,7 +225,6 @@ legend {
     background-color: transparent !important;
     background-image: none !important; /** hiding select carrot **/
     margin: 0px 0px 0px 50px !important;
-    color: #fff !important;
     text-decoration: underline;
     cursor: pointer;
 }
