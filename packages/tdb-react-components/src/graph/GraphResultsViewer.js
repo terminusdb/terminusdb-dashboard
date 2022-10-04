@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 
 function GraphResultsViewer(config,result) {
+	console.log("link",JSON.stringify(result.edges,null,4))
 	this.svg;
 	this.visid = randomString(8);
 	this.currentDate = Date.now() / 1000; // nowish
@@ -223,9 +224,7 @@ GraphResultsViewer.prototype.initD3 = function(jqid) {
 		console.log('no svg')
 	}
 	/********************* Seed the data **************************/
-	this.svg = d3.select(jqid).append("svg")
-		.attr("width", this.width)
-		.attr("height", this.height);
+	this.svg = d3.select(jqid).append("svg").attr("width", this.width).attr("height", this.height);
 
 	var distanceFun = function(link){
 		return self.getLinkDistance(link);
@@ -278,10 +277,11 @@ GraphResultsViewer.prototype.zoomed = function() {
 		this.node_elements.attr("transform", d3.event.transform);
     if(this.link_elements)
         this.link_elements.attr("transform", d3.event.transform);
-    if(this.edgepaths)
-        this.edgepaths.attr("transform",  d3.event.transform);
+	if(this.path_items)
+        this.path_items.attr("transform",  d3.event.transform);
 
 }
+
 
 /***
  * updates the svg with the current nodes and links
@@ -316,74 +316,88 @@ GraphResultsViewer.prototype.updateGraph = function(nodes, links) {
 		.on("mouseout", function(d){ d3.select(this).style("cursor", "default"); })
 		.on('click', follow_node_wrapper);
 
-    node_enter.append("text")
+		node_enter.append("text")
 		.attr("x",  function(node){ return node.x})
 		.attr("y",  function(node){ return node.y})
+		.append("tspan")
 		.text(function(node) { return self.getNodeIconUnicode(node)})
 		.call(self.drag_drop)
 		.on("mouseover", function(d){ d3.select(this).style("cursor", "pointer"); })
 		.on("mouseout", function(d){ d3.select(this).style("cursor", "default"); })
 		.on('click', follow_node_wrapper);
 
+		
+
+	
 	// merge new and old nodes
 	this.node_elements = node_enter.merge(this.node_elements);
 
 	this.styleNodeElements();
 
 	// update LINKS ********************************************
-	this.link_elements  = this.link_group.selectAll("line").data(links);
+	
+	this.link_elements  = this.link_group.selectAll("path").data(links)
 
 	// remove old links
 	this.link_elements.exit().remove();
-	// enter and create new ones
-    var link_enter = this.link_elements.enter().append("line")
 
-    	// merge new and old links
+	// enter and create new ones
+    var link_enter = this.link_elements.enter().append("path")
+
+    // merge new and old links
 	this.link_elements = link_enter.merge(this.link_elements)
 
-	this.styleLinkElements();
+    this.styleLinkElements();
 
-    this.edgepaths = this.svg.selectAll(".edgepath").data(links)
-	this.edgepaths.exit().remove();
-	// enter and create new ones
-    var ep_enter = this.edgepaths
-        .enter()
-        .append('path')
-		.style("pointer-events", "none")
-		/*
-		to be review don't pass a number
-		.attr('d', function(d) {
-			console.log(d)
-			return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y
-		})*/
-        .attr('class', 'edgepath')
-        .attr('fill-opacity', 0)
-        .attr('stroke-opacity', 0)
-        .attr('fill', 'blue')
-        .attr('stroke', 'red')
-        .attr('id', function(d,i) {return 'edgepath'+i})
-    if(ep_enter) this.edgepaths = ep_enter.merge(this.edgepaths)
+	//var node_enter = this.svg.enter().append("g");
 
+	this.path_items = this.svg.selectAll('g.item').data(links)
+	this.path_items.exit().remove();
+	const ep_tems = this.path_items.enter().append('g')
+  					.classed('item', true);
 
-    this.edgelabels = this.svg.selectAll(".edgelabel").data(links)
-	this.edgelabels.exit().remove();
-    var el_enter = this.edgelabels
-        .enter()
-        .append('text')
+	ep_tems.append('path')
+	.style("pointer-events", "none")
+
+    .attr('class', 'edgepath')
+	.attr('fill-opacity', 0)
+	.attr('stroke-opacity', 0)
+	.attr('fill', 'blue')
+	.attr('stroke', 'red')
+	.attr('id', function(d,i) {return 'edgepath'+i})
+	
+	//to be review??
+	
+	
+	this.edgepaths = this.svg.selectAll(".edgepath").data(links)
+
+	//this.edgelabels = this.svg.selectAll(".edgelabel").data(links)
+	//this.edgelabels.exit().remove();
+    ep_tems.append('text')
         .attr('class', 'edgelabel')
-        .attr('dx', 40)
+		//.attr('dominant-baseline', 'central')
+       // .attr('dx', 50)
         .attr('dy', 0)
-        .attr('font-size', function(link){ return self.getEdgeIconSize(link)})
+		.attr('font-size', function(link){ return self.getEdgeIconSize(link)})
         .attr('fill', function(link){ return self.getEdgeIconColor(link)})
         .attr('id', function(d,i) {return 'edgelabel'+i})
-    if(el_enter) this.edgelabels = el_enter.merge(this.edgelabels)
-    this.edgelabels.append('textPath')
+
+    //if(el_enter) this.edgelabels = el_enter.merge(this.edgelabels)
+
+    this.edgelabels = this.svg.selectAll(".edgelabel").data(links)
+	/*this.edgelabels.append('textPath')
+		//this link the test with the path created
         .attr('xlink:href',function(d,i) {return '#edgepath'+i})
         .style("pointer-events", "none")
-        .text(function(d,i){return self.getEdgeIconText(d)});
+		.style("text-anchor","middle")
+		//.attr("startOffset","10%")
+		// this get the test to see in the link
+        .text(function(d,i){return self.getEdgeIconText(d)});*/
+
+	if(ep_tems) this.path_items = ep_tems.merge(this.path_items)		
 
 
-    //this.styleTextElements();
+   // this.styleTextElements();
 
 	//execute the current state of the pan-zoom transform
 	if(this.current_transform){
@@ -393,10 +407,37 @@ GraphResultsViewer.prototype.updateGraph = function(nodes, links) {
 	    	this.link_elements.attr("transform", this.current_transform);
         if(this.edgelabels)
 	    	this.edgelabels.attr("transform", this.current_transform);
-        if(this.edgepaths)
-	    	this.edgepaths.attr("transform", this.current_transform);
+		if(this.path_items ){
+			this.path_items.attr("transform", this.current_transform);
+		}
+        /*if(this.edgepaths)
+	    	this.edgepaths.attr("transform", this.current_transform);*/
 	}
 }
+function positionLink(d) {
+    var offset = 30;
+
+    var midpoint_x = (d.source.x + d.target.x) / 2;
+    var midpoint_y = (d.source.y + d.target.y) / 2;
+
+    var dx = (d.target.x - d.source.x);
+    var dy = (d.target.y - d.source.y);
+
+    var normalise = Math.sqrt((dx * dx) + (dy * dy));
+
+    var offSetX = midpoint_x + offset * (dy / normalise);
+    var offSetY = midpoint_y - offset * (dx / normalise);
+
+    return "M" + d.source.x + "," + d.source.y +
+        "S" + offSetX + "," + offSetY +
+        " " + d.target.x + "," + d.target.y;
+}
+
+
+function _linkArc(d){
+	return `M${d.source.x},${d.source.y}A0,0 0 0,1 ${d.target.x},${d.target.y}`}
+	
+var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]);
 
 GraphResultsViewer.prototype.updateSimulation = function(mode) {
 	var self = this;
@@ -409,13 +450,9 @@ GraphResultsViewer.prototype.updateSimulation = function(mode) {
 			.attr("x",  function(node){ return node.x})
 			.attr("y",  function(node){ return node.y});
 		self.link_elements
-			.attr('x1', function(link){ return link.source.x})
-			.attr('y1', function(link){ return link.source.y})
-			.attr('x2', function(link){ return link.target.x })
-            .attr('y2', function(link){ return link.target.y});
-        self.edgepaths
-            .attr('d', function(d) { var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
-                        return path});
+			.attr('d', _linkArc);
+		self.edgepaths
+            .attr('d', _linkArc);
     }
 	if(this.show_force){
 		this.simulation.nodes(this.nodes).on('tick', ticker).force('link').links(this.links);
@@ -443,14 +480,18 @@ GraphResultsViewer.prototype.styleNodeElements = function() {
 			var g = d3.select(this);
 			var sel = g.select("circle");
 			sel.select("title").remove();
-			sel.style("fill", self.getNodeColour(node));
+			sel.style("fill", function(d) { return color(d.text); })//self.getNodeColour(node));
 			sel.attr('r', self.getRadius(node));
+			sel.attr("stroke", "white")
+        	sel.attr("stroke-width", 3)
+			//sel.attr("opacity", 0.2)
 			sel.classed("highlighted", function(node) { return self.focusNodes.indexOf(node.id) != -1});
 			sel.append("title")
 				.classed("terminus-gnode-title", true)
 				.text(self.getNodeText(node));
 			var txt = g.select("text");
 			txt.select("title").remove();
+			txt.append("tspan").text(node.radius).attr("dy",-15)
 			txt.attr('text-anchor', 'middle')
 				//.attr('class','labelClassName')
 				.attr("title", self.getNodeText(node))
@@ -459,13 +500,14 @@ GraphResultsViewer.prototype.styleNodeElements = function() {
 				.style('font-weight', self.getNodeIconWeight(node))
 				.style('font-size', self.getNodeIconSize(node))
 				.style("fill", self.getNodeIconColour(node))
-				.text(self.getNodeIconUnicode(node))//"\uf061")
+				//.text(self.getNodeIconUnicode(node))//"\uf061")
 				.append("title")
 					.classed("terminus-gnode-title", true)
 					.text(self.getNodeText(node));
 		});
 	}
 }
+
 
 GraphResultsViewer.prototype.styleLinkElements = function() {
 	var self = this;
@@ -474,6 +516,7 @@ GraphResultsViewer.prototype.styleLinkElements = function() {
             var sel = d3.select(this);
             sel.select("title").remove();
             sel.text(self.getLinkText(link));
+			sel.attr('fill-opacity', 0)
 			sel.attr("stroke-width", self.getLineWidth(link));
 			sel.attr("marker-end", self.getEdgeArrow(link));
 			sel.style("stroke", self.getEdgeColour(link));
@@ -502,34 +545,61 @@ GraphResultsViewer.prototype.styleTextElements = function() {
 	}
 }
 
-
+//create arrow
 GraphResultsViewer.prototype.getEdgeArrow = function(edge) {
 	if(edge){
         var dir = this.getEdgeDirection(edge);
 
-		//if(dir){
+		const markerBoxWidth = 10  
+		const markerBoxHeight = 10
+
+		const refX = markerBoxWidth / 2
+		const refY = markerBoxHeight / 2
+
+		const markerWidth = markerBoxWidth / 2;
+		const markerHeight = markerBoxHeight / 2;
+
+		const arrowPoints = [[0, 0], [0, 7], [7, 3.5]];
+
+
+		/*.attr("viewBox", "0 -5 10 10")
+.attr("refX", function(d) { 
+   return force.nodes()[d.target].radius + 10;   // Add the marker's width               
+})
+.attr("refY", 0)
+.attr("markerWidth", 10)                         // markerWidth equals viewBox width
+.attr("markerHeight", 10)*/
+		//if(dir){ // "target": propValue,
+	
+			const id = `${edge.source}__${edge.target}__${edge.text}`
 			var col = this.getArrowColour(edge);
-			var reference;
 			this.svg.append("svg:defs").selectAll("marker")
-				.data([reference])
-				.enter().append("svg:marker")
-				.attr("id", String)
-				.attr("viewBox", "0 -5 10 10")
-				.attr("refX", 22)  // This sets how far back it sits, kinda
-				.attr("refY", 0)
-				.attr("markerWidth", this.getArrowWidth(edge))
-				.attr("markerHeight", this.getArrowHeight(edge))
+				.data([id])
+				.join("marker")
+				.attr("id", id)
+				//.attr("viewBox" , "0 0 10 10")
+				//.attr("viewBox", "0 -5 10 10")
+				//.attr("viewBox", [0, 0, markerBoxWidth, markerBoxHeight])//"0 -5 10 10")
+				//.attr("refX",5)// Math.ceil((this.getArrowOffset(edge) + 10))/edge.size)//22)  // This sets how far back it sits, kinda
+				.attr("refY", 3.5)
+				.attr("refX", (Math.ceil((this.getArrowOffset(edge) + 7+3)/edge.size)))
+				.attr("markerWidth", 7)//this.getArrowWidth(edge))
+				.attr("markerHeight", 7)//this.getArrowHeight(edge))
 				.attr("orient", "auto")
-				.attr("markerUnits", "userSpaceOnUse")
+				//The markerUnits attribute defines the coordinate system for the markerWidth 
+				// and markerHeight attributes and the contents of the <marker>.
+				//.attr("markerUnits", "userSpaceOnUse")
 				.append("svg:path")
-					.attr("d", dir)
-					.style("fill", col);
-				return "url(#" + reference + ")";
+					.attr('d', d3.line()(arrowPoints))	
+					//.attr("d", "M 0 0 L 10 5 L 0 10 z")
+					.style("fill", col)
+					.style("opacity", "1");
+				return "url(#" + id + ")";
 		//}
 	}
+
 	return "";
 }
-
 
 GraphResultsViewer.prototype.nodeSelected = function(selected_node) {
 	var self = this;
@@ -615,7 +685,9 @@ GraphResultsViewer.prototype.recentre = function(graph_node) {
 	//zoom.translate([dcx,dcy]); If we do zooming we'll need to do something here
 	this.node_elements.attr("transform", "translate("+ this.dcx + "," + this.dcy  + ")");
 	this.link_elements.attr("transform", "translate("+ this.dcx + "," + this.dcy  + ")");
-	this.edgepaths.attr("transform", "translate("+ this.dcx + "," + this.dcy  + ")");
+	this.path_items.attr("transform", "translate("+ this.dcx + "," + this.dcy  + ")");
+	
+	//this.edgepaths.attr("transform", "translate("+ this.dcx + "," + this.dcy  + ")");
 	//this.edgelabels.attr("transform", "translate("+ this.dcx + "," + this.dcy  + ")");
 }
 
@@ -829,6 +901,11 @@ GraphResultsViewer.prototype.getLinkText = function(edge) {
 GraphResultsViewer.prototype.getArrowWidth = function(edge) {
 	var w = (edge && edge.arrow && edge.arrow.width ? edge.arrow.width : this.defaults.edge.arrow.width);
 	return (this.scale_factor ? Math.min(this.scale_factor * w, w) : w);
+}
+
+GraphResultsViewer.prototype.getArrowOffset = function(edge) {
+	var w = (edge && edge.arrow && edge.arrow.offset ? edge.arrow.offset : 35)//this.defaults.edge.arrow.width);
+	return w
 }
 
 GraphResultsViewer.prototype.getArrowHeight = function(edge) {

@@ -3,7 +3,8 @@ import React from "react"
 import {Button, Form} from "react-bootstrap"
 import {
 	XSD_DATA_TYPE_PREFIX, 
-	XDD_DATA_TYPE_PREFIX, 
+	XDD_DATA_TYPE_PREFIX,
+	RDF_DATA_TYPE_PREFIX, 
 	POINT_TYPE, 
 	UI_FRAME_SELECT_STYLE, 
 	UI_FRAME_SUBDOCUMENT_STYLE, 
@@ -37,10 +38,12 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
 // returns true for properties which are of data types xsd and xdd
+const dataTypePrefix = {[XSD_DATA_TYPE_PREFIX]:true,
+						[XDD_DATA_TYPE_PREFIX]:true,
+						[RDF_DATA_TYPE_PREFIX]:true}
 export const isDataType = (property) => {
 	if(typeof property === "object") return false
-	if(property.substring(0, 4) === XSD_DATA_TYPE_PREFIX) return true
-	if(property.substring(0, 4) === XDD_DATA_TYPE_PREFIX) return true
+	return dataTypePrefix[ property.substring(0, 4)] || false
 }
 
 export const isSysDataType = (property) => {

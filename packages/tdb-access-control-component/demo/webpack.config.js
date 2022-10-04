@@ -30,9 +30,9 @@ module.exports = {
   resolve: {
     alias: {
       "@terminusdb/terminusdb-access-control-component": path.join(__dirname, '..', 'src/index.js'),
-      "@terminusdb/terminusdb-client": path.resolve('../terminusdb-client/index.js'),
-      "@terminusdb/terminusdb-react-table": path.resolve('../terminusdb-react-table/src/index.js'),
-      react: path.resolve('./node_modules/react')
+      "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js'),
+      "@terminusdb/terminusdb-react-table": path.resolve('../../../terminusdb-react-table/src/index.js'),
+      react: path.resolve('../../node_modules/react')
     },
     extensions: ['.js', '.jsx', '.json', '.css'],
   },

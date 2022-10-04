@@ -46,7 +46,7 @@ export const UserMenu = ({organization}) => {
                     <Button size="sm" className="bg-transparent border-0">
                     {clientUser.email}
                     </Button>
-                    <Dropdown.Toggle split className="bg-transparent border-0" vairant="info" id="profile_menu_arrow">
+                    <Dropdown.Toggle split className="bg-transparent border-0" variant="info" id="profile_menu_arrow">
                     </Dropdown.Toggle>
                     <Dropdown.Menu >
                        {clientUser.user === "admin" && <Dropdown.Item>

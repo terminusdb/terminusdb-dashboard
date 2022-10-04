@@ -20,7 +20,7 @@ export const getDocumentClasses = (dataProduct) => {
 
 export const getDocsTypeQuery=(type)=>{
     let WOQL =  TerminusClient.WOQL
-    var docType=`@schema:${type}`
+    var docType=checkIfPrefix(type)
     let q = WOQL.isa("v:Documents", docType)
     return q
 }
@@ -220,12 +220,18 @@ export const getDocumentsOfType = (doctype) => {
     ).sub(doctype, "v:Type ID")
 }*/
 
+const checkIfPrefix =(id)=>{
+    if(id.indexOf(":")>-1){
+        return id
+    }
+    return "@schema:"+id
+}
 // get count of document class instance
 export const getCountOfDocumentClass = (documentClasses) => {
     let WOQL =  TerminusClient.WOQL
     let CountArray=[]
     documentClasses.map(item => { // set type of document
-        let scmType="@schema:"+item["@id"]
+        let scmType=checkIfPrefix(item["@id"])
         let variable="v:"+item["@id"]
         CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
     })
@@ -239,7 +245,7 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
     let CountArray=[]
     let variableList = []
     documentClasses.map(item => { // set type of document
-        let scmType="@schema:"+item["@id"]
+        let scmType= checkIfPrefix(item["@id"])
         let variable="v:"+item["@id"]
         variableList.push(variable)
         CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
@@ -248,6 +254,3 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
     let q = WOQL.and(...CountArray, WOQL.sum(variableList, "v:Count"))
     return q
 }
-
-
-//triple("v:Doc", "rdf:type", "@schema:Organization").triple("v:Doc", "v:Properties", "v:Value")

@@ -83,7 +83,7 @@ export const DocumentControlProvider = ({children}) => {
         }
     }, [documentObject.update])
 
-    // on click of submit on create or edit
+
     useEffect(() => {
         if(!documentObject.submit) return
         if(!Object.keys(documentObject.frames)) return

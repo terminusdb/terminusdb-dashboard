@@ -26,6 +26,7 @@
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css/less --out-dir es6/css/less --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack",
+    "start01": "webpack serve --mode development  --open --progress --port 3000 --host localhost --config demo/webpack.config.js",
     "start": "webpack serve --mode development  --open --progress --port 3030 --host localhost --entry ./src --config ./webpack_dev.config.js --history-api-fallback",
     "test": "echo 'TODO: There should be tests created'",
     "lint": "eslint src",
