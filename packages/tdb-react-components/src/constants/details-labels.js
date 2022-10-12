@@ -25,8 +25,10 @@ export const PROPERTY_TYPE_BY_CLASS = {'string':'xsd:string',
 										'url':'xdd:url',
 										'email':'xdd:email',
 										'name':'xsd:Name',
-										'any URI':'xsd:anyURI'};
-
+										'NCname':'NCName',
+										'any URI':'xsd:anyURI',
+										'normalizedString': "xsd:normalizedString",
+										'lang string':'rdf:langString'}
 
 //decimal, integer ,  decimalRange,long, bite,short,
 export const PROPERTY_STRING_BY_RANGE={'string':'xsd:string',
@@ -36,7 +38,10 @@ export const PROPERTY_STRING_BY_RANGE={'string':'xsd:string',
 										'url':'xdd:url',
 										'email':'xdd:email',
 										'name':'xsd:Name',
-										'any URI':'xsd:anyURI'};
+										'NCname':'NCName',
+										'any URI':'xsd:anyURI',
+										'normalizedString': "xsd:normalizedString",
+										'lang string':'rdf:langString'}
 
 export const PROPERTY_NUMBER_BY_RANGE={ 'integer':'xsd:integer',
 										'decimal':'xsd:decimal',
@@ -116,8 +121,10 @@ export const STRING_TYPE_DATAPROVIDER={label: 'String Type',
 									  //{label:'RDFA', value:'rdfa'},
 									  {label:'Email', value:'xdd:email',description:'A valid email address.'},
 									  {	label:'Name', value:'xsd:Name', descriptyion:'A valid name'},
-									  {	label:'Any URI', value:'xsd:anyURI', descriptyion:'A valid URI'}
-									  //{label:'ID', value:'id'}
+									  {	label:'NCName', value:'xsd:NCName', descriptyion:'A valid NC name'},
+									  {	label:'Any URI', value:'xsd:anyURI', descriptyion:'A valid URI'},
+									  {	label:'NMTOKEN', value:'xsd:NMTOKEN', descriptyion:'A valid NM Token'},
+									  {	label:'Language String', value:'rdf:langString', descriptyion:'A language string'}
 									  ]}
 
 			

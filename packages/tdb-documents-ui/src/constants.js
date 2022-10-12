@@ -13,6 +13,11 @@ export const XSD_ANY_URI="xsd:anyURI"
 export const XSD_NMTOKEN="xsd:NMTOKEN" // XML NMTOKENs
 export const XSD_NAME="xsd:Name" // XML Names
 export const XSD_NCNAME="xsd:NCName" // XML NCNames
+export const XDD_URL="xdd:url"
+export const XSD_NORMALIZED_STRING="xsd:normalizedString"
+export const XSD_LANGUAGE="xsd:language"
+export const RDF_LANGSTRING ="rdf:langString"
+
 //Encoded binary data
 export const XSD_HEXBINARY="xsd:hexBinary" //Hex-encoded binary data
 export const XSD_BASE64BINARY="xsd:base64Binary" //Base64-encoded binary data
@@ -31,9 +36,7 @@ export const XSD_NONNEGATIVEINTEGER = "xsd:nonNegativeInteger" // |    Integer n
 export const XSD_NEGATIVEINTEGER = "xsd:negativeInteger" // |    Integer numbers <0 |
 export const XSD_NONPOSITIVEINTEGER = "xsd:nonPositiveInteger" //Integer numbers ≤0
 
-export const XDD_URL="xdd:url"
-export const XSD_NORMALIZED_STRING="xsd:normalizedString"
-export const XSD_TOKEN="xsd:NMTOKEN"
+
 export const XSD_DECIMAL="xsd:decimal"
 export const XSD_DOUBLE = "xsd:double"
 export const XSD_FLOAT= "xsd:float "
@@ -53,8 +56,7 @@ export const XSD_G_DAY= "xsd:gDay"
 export const XSD_TIME_DURATION= "xsd:duration"
 export const XSD_DATE= "xsd:date"
 export const XSD_BOOLEAN="xsd:boolean"
-export const XSD_LANGUAGE="xsd:language"
-export const RDF_LANGSTRING ="rdf:langString"
+
 
 
 //rdf:langString
