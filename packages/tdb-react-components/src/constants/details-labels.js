@@ -23,7 +23,9 @@ export const PROPERTY_TYPE_BY_CLASS = {'string':'xsd:string',
 										'base64Binary':'xsd:base64Binary',
 										'html':'xdd:html',
 										'url':'xdd:url',
-										'email':'xdd:email'};
+										'email':'xdd:email',
+										'name':'xsd:Name',
+										'any URI':'xsd:anyURI'};
 
 
 //decimal, integer ,  decimalRange,long, bite,short,
@@ -32,7 +34,9 @@ export const PROPERTY_STRING_BY_RANGE={'string':'xsd:string',
 										'base64Binary':'xsd:base64Binary',
 										'html':'xdd:html',
 										'url':'xdd:url',
-										'email':'xdd:email'};
+										'email':'xdd:email',
+										'name':'xsd:Name',
+										'any URI':'xsd:anyURI'};
 
 export const PROPERTY_NUMBER_BY_RANGE={ 'integer':'xsd:integer',
 										'decimal':'xsd:decimal',
@@ -110,7 +114,9 @@ export const STRING_TYPE_DATAPROVIDER={label: 'String Type',
 									  {label:'URL', value:'xdd:url' ,'description':'A valid url.'},
 									  {label:'HTML', value:'xdd:html', description:'A safe HTML string'},
 									  //{label:'RDFA', value:'rdfa'},
-									  {label:'Email', value:'xdd:email',description:'A valid email address.'}
+									  {label:'Email', value:'xdd:email',description:'A valid email address.'},
+									  {	label:'Name', value:'xsd:Name', descriptyion:'A valid name'},
+									  {	label:'Any URI', value:'xsd:anyURI', descriptyion:'A valid URI'}
 									  //{label:'ID', value:'id'}
 									  ]}
 

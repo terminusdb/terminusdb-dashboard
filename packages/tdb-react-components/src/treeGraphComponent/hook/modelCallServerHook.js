@@ -85,7 +85,7 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId, pendoMsgAfterCre
 			}
 		}
 	}
-	
+	//newSchema is a json
 	const saveGraphChanges= async (newSchema,commitMessage)=>{
 		if(newSchema!==undefined){
 			let ts = Date.now()
