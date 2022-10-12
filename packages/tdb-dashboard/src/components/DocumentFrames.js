@@ -64,9 +64,16 @@ export const DocumentFrames = () => {
     }, [documentObject.frames])
 
 
+    const checkIfPrefix =(id)=>{
+        if(id.indexOf(":")>-1){
+            return id
+        }
+        return "@schema:"+id
+    }
+
     const onSelect = async (inp, type) => {
         let WOQL =  TerminusClient.WOQL
-        var docType=`@schema:${type}`
+        var docType=checkIfPrefix(type)
         let q = WOQL.isa("v:Documents", docType)
         const results = await q.execute(woqlClient)
         .then((response) => {

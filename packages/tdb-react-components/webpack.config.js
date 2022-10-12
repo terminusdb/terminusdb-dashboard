@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     mode: 'production',
     entry: {
-       'tbd-react-components': path.join(__dirname, 'src/index.js'),
+       'tdb-react-components': path.join(__dirname, 'src/index.js'),
        'terminusdb-d3-graph': path.join(__dirname, 'src/indexGraph.js')
     },
     devtool: false,    
@@ -18,7 +18,7 @@ module.exports = {
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: 'tbd-react-components-main.css',
+        filename: 'tdb-react-components-main.css',
       })
     ],
     module: {

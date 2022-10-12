@@ -3,6 +3,7 @@ import GraphResultsViewer from './GraphResultsViewer'
 
 export const WOQLGraph = (props) => {
 
+
   const d3Container = useRef(null);
   let pconfig = props.config
   pconfig.onClick = props.onClick

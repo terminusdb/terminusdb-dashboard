@@ -45,8 +45,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	let _rootIndexObj={}
 
 	let _descendantsNode=new Map();
-
-	let _mainGraphElementsJson={};
+	// this is an array of objects
+	let _mainGraphElementsJson=[];
 
 	const deleteDocList = []
 	/*
