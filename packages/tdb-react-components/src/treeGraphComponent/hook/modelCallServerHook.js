@@ -27,13 +27,17 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId, pendoMsgAfterCre
 				const params={"as_list":true,"graph_type":"schema"}
 				//save with all the context so we can use it for update the schema
 				jsonSchema = await woqlClient.getDocument(params)
+				if(!Array.isArray(jsonSchema)){
+					setResultMainGraph([]);
+					throw Error(jsonSchema)
+				}
+				setResultMainGraph(jsonSchema);
 			}catch(err){
 				//tobe review
 				const message = errorMessageFormatter(err,err.message)	
 				//I have to reset the schema here not in finally 						
 				setReport({message:message, status: "error",err: err,time: Date.now() - ts,})
-			}finally{
-				setResultMainGraph(jsonSchema);
+			}finally{				
 				setLoading(false)
 			}	
     	}
