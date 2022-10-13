@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import {Container} from "react-bootstrap"
 import {MainNavBar} from '../components/MainNavBar'
 import SplitPane from 'react-split-pane'
@@ -9,10 +9,10 @@ import history from "../routing/history"
 import {DATA_PRODUCTS} from "../routing/constants"
 import { Outlet,useParams } from 'react-router-dom'
 import {LeftSideBar} from '../components/LeftSideBar'
+import {WOQLClientObj} from '../init-woql-client'
 
 export const Layout = (props) => {
     const { organization, dataProduct } = useParams();
-
     const [showTimeTravel, setShowTimeTravel] = useState(false)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
     
@@ -24,12 +24,11 @@ export const Layout = (props) => {
                     <div style={{position: "relative"}}>
                         {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
                     </div>
-                </div>
-                
+                </div>              
                 <div className="main-content h-100">                      
                     <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
                     <div className="container-fluid " >
-                        { dataProduct  && <TimeTravelContainer dataProduct={dataProduct} show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
+                        { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                         {props.children}
                     </div>
                 </div>

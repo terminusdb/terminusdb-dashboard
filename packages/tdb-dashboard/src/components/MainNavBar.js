@@ -7,14 +7,14 @@ import {WOQLClientObj} from '../init-woql-client'
 import {DATA_PRODUCTS} from "../routing/constants"
 import history from "../routing/history"
 import { UserMenu } from "./UserMenu";
-import {useNavigate,useParams} from "react-router-dom"
+import {useNavigate,useParams,useLocation} from "react-router-dom"
 
 export const MainNavBar = ({setShowTimeTravel}) => {
     const {woqlClient,changeOrganization,accessControlDashboard,clientUser} = WOQLClientObj()
     if(!clientUser || !woqlClient) return ""
     //we don't need setRoute
     const { organization, dataProduct } = useParams();
-    const currentPage = history.location.pathname
+    const currentPage = useLocation().pathname
 
     let navigate = useNavigate();
     function changeOrganizationHandler(orgName) {
@@ -24,7 +24,7 @@ export const MainNavBar = ({setShowTimeTravel}) => {
 
     return <Navbar className="navbar-dark bg-dark p-0 sticky-top main-navbar-shadow">           
         <div className="d-flex flex-grow-1 justify-content-end align-items-center">                    
-            {dataProduct && currentPage!==DATA_PRODUCTS &&
+            {dataProduct && currentPage!==`/${organization}/${dataProduct}` &&
             <React.Fragment>  
                 <h4 className="text-success ml-4 flex-grow-1 fw-bold mt-1" >
                     {dataProduct}

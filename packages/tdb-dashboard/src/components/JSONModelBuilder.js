@@ -30,8 +30,6 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
     let ref = ""
 
     const onBlurHandler = (value) =>{
-        console.log("onBlurHandler",value)
-        console.log(Array.isArray(value),"onBlurHandlerIsArray")
         setValue(value)
     }
 
