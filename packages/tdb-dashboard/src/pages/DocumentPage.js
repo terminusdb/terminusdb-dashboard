@@ -67,8 +67,6 @@ export const DocumentPage = (props) => {
             setError(null)
             const json = JSON.parse(createDoc.current.value)
             const dbNameValue = dbName.current.value || undefined//"test_profile"
-            //createDoc.current;
-            console.log("JSON______",json)
             const params={'graph_type':'schema'}
             if(replaceData.current.checked === true){
                 params['full_replace'] =true;
