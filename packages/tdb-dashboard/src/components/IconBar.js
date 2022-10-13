@@ -28,13 +28,14 @@ export const IconBar =  ({setShowFeedbackForm}) => {
         return match ? `nav-icon nav-product-model nav-link active` : `nav-icon nav-product-model nav-link ${basecss}`
     }
 
- // href="https://terminusdb.com"
+ 
     return <Navbar fixed expand={false} className="pt-2 navbar navbar-dark bg-dark h-100 nav-icon-bar">
         <Nav defaultActiveKey={IconBarConfig.dataProductView.key} className="flex-column">
             <Nav.Item >
                 <Nav.Link 
-                    href={`/`}
-                    className="nav-icon"                  
+                    as={RouterNavLink}
+                    to={`/`}
+                    className="nav-icon bg-transparent"                  
                     >
                     {IconBarConfig.logo.img}                
                 </Nav.Link>
