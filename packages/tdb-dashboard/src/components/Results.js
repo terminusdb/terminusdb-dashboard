@@ -24,7 +24,7 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
     const totalRows = queryResult.totalRows
 
     const bindings = (result && result.bindings) ? result.bindings : []
-    const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))
+  //const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))
 
     const {
         setSelectedDocument,

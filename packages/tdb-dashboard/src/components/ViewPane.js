@@ -38,7 +38,7 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
     }
 
     function handleView () {
-        console.log("viewConfig", viewConfig)
+        //console.log("viewConfig", viewConfig)
         
         const graph=TerminusClient.View.graph();
         graph.height(800).width("1500")
