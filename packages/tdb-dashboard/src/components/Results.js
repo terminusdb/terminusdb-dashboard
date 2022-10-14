@@ -15,7 +15,7 @@ import {DOCUMENT_EXPLORER} from "../routing/constants"
 import history from '../routing/history'
 import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Loading} from "./Loading"
-import {ViewPane} from "./ViewPane"
+//import {ViewPane} from "./ViewPane"
 
 export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loading})=>{
 
