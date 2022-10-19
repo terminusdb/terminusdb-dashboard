@@ -8,8 +8,8 @@
 describe('visit dashboard dev', () => {
     const dashboard = "/"//"https://dashboard-dev.terminusdb.com/"
 
-    let emailAddressOwner =  Cypress.env('COLLABORATOR_USER')
-    let ownerPass = Cypress.env('COLLABORATOR_USER')
+    let emailAddressOwner =  "collaborator@gmail.com"//Cypress.env('COLLABORATOR_USER')
+    let ownerPass = "collaborator@gmail.com"///Cypress.env('COLLABORATOR_USER')
 
     //const collaboratorEmail = 
 
