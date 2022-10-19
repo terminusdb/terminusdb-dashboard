@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from "react"
+import React from "react"
 import {FrameViewer} from "../FrameViewer"
 import {
     VIEW, 
@@ -13,14 +13,53 @@ import {generateDiffUIFrames} from "./diffViewer.utils"
 
 /**
  * 
- * @param {json} [oldValue] - Old value 
- * @param {json} [newValue] - New value 
- * @param {boolean} [frame] - frames
- * @param {boolean} [type] - document type
- * @returns - a react diff component 
- */ 
-export const DiffViewer = ({frame, type, oldValue, newValue, diffPatch}) => {
+ * @param {*} oldValueHeader Custom React Element to display in Card Header of old branch  
+ * @returns A React Element to display in Card Header of old branch
+ */
+ const OldValueHeader = ({oldValueHeader}) => {
+    if(oldValueHeader) return oldValueHeader
+    
+    return <React.Fragment>
+        {ORIGINAL_VALUE}
+        <Card.Subtitle className="mt-1 text-muted">
+            <small>Old Values are highlighted in 
+                <small className="text-danger fw-bold m-1">red</small>
+            </small>
+        </Card.Subtitle>
+    </React.Fragment>
+}
 
+/**
+ * 
+ * @param {*} newValueHeader Custom React Element to display in Card Header of tracking branch  
+ * @returns A React Element to display in Card Header of tracking branch
+ */
+const NewValueHeader = ({newValueHeader}) => {
+    if(newValueHeader) return newValueHeader
+    
+    return <React.Fragment>
+        {CHANGED_VALUE}
+        <Card.Subtitle className="mt-1 text-muted">
+            <small>Changes are highlighted in 
+                <small className="text-success fw-bold m-1">green</small>
+            </small>
+        </Card.Subtitle>
+    </React.Fragment>
+}
+
+
+/**
+ * 
+ * @param {*} frame schema frames of data product
+ * @param {*} type document type
+ * @param {*} oldValue old json document
+ * @param {*} newValue new json document
+ * @param {*} diffPatch diffPatch json object
+ * @param {*} oldValueHeader Custom React Element to display in Card Header of old branch  
+ * @param {*} newValueHeader Custom React Element to display in Card Header of tracking branch  
+ * @returns  
+ */
+ export const DiffViewer = ({frame, type, oldValue, newValue, diffPatch, oldValueHeader, newValueHeader}) => {
     if(!frame) return <div>{"Include frames to view Diffs"}</div>
     if(!type) return <div>{"Include document type to view Diffs"}</div>
     if(!diffPatch) return <div>{"Include diff patch JSON Object to view diffs"}</div>
@@ -29,16 +68,11 @@ export const DiffViewer = ({frame, type, oldValue, newValue, diffPatch}) => {
     let subFrame=frame[type]    
     let diffUIFrames=generateDiffUIFrames(frame, subFrame, type, oldValue, newValue, diffPatch)
 
-    return <Row>
+    return <Row> 
         <Col md={6}>
             <Card>  
                 <Card.Header>
-                    {ORIGINAL_VALUE}
-                    <Card.Subtitle className="mt-1 text-muted">
-                        <small>Old Values are highlighted in 
-                                <small className="text-danger fw-bold m-1">red</small>
-                        </small>
-                    </Card.Subtitle>
+                    <OldValueHeader oldValueHeader={oldValueHeader}/>
                 </Card.Header>
                 <Card.Body>
                     <FrameViewer
@@ -55,12 +89,7 @@ export const DiffViewer = ({frame, type, oldValue, newValue, diffPatch}) => {
         <Col md={6}>
             <Card>
                 <Card.Header>
-                    {CHANGED_VALUE}
-                    <Card.Subtitle className="mt-1 text-muted">
-                        <small>Changes are highlighted in 
-                            <small className="text-success fw-bold m-1">green</small>
-                        </small>
-                    </Card.Subtitle>
+                    <NewValueHeader newValueHeader={newValueHeader}/>
                 </Card.Header>
                 <Card.Body>
                     <FrameViewer
@@ -75,4 +104,4 @@ export const DiffViewer = ({frame, type, oldValue, newValue, diffPatch}) => {
             </Card>
         </Col>
    </Row>
-}
+ }

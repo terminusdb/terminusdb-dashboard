@@ -144,6 +144,17 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData, documenta
 export function getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData) {
     let uiLayout= {}
 
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
     
     //checkIfSysJSONFieldExists(frame)
 
@@ -176,6 +187,57 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
+}
+
+// View set dubDocument type Diff UI Layout
+export function getDiffViewSetSubDocumentType(frame, item, formData, uiFrame) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item)
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props === "default") structure[props] = value
+                else structure[props] = frame.properties[item][props]
+            }
+            filledItems.push(structure)
+        })
+        let blankCount=uiFrame[item]["ui:diff"]
+        for(var count=0; count < blankCount; count++) {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props !== "default") {
+                    structure[props] = frame.properties[item][props]
+                }
+                structure["default"] = formData[item][0]
+            }
+            filledItems.push(structure)
+        }
+    }
+    
+    // get filled items
+    layout.items = filledItems
+
+    let uiLayout= {}
+
+    uiLayout= {
+        items: []
+    }
+
+    uiLayout.items.push(uiFrame[item][0])
+    uiLayout.items.push(uiFrame[item][1])
+    uiLayout.items.push(uiFrame[item][0])
+    uiLayout.items.push(uiFrame[item][1])
+
+    console.log("666 vfilledItems 666", layout, uiLayout)
+
+    return {layout: layout, uiLayout: uiLayout}
 }
 
 
@@ -499,7 +561,8 @@ export function getEditSetSysDataTypeUILayout (frame, item, uiFrame, documentati
 export function getViewSetSysDataTypeLayout(frame, item, formData, documentation) {
     let layout={
         type: "array",
-        title: getSetTitle(item, documentation)
+        title: getSetTitle(item, documentation),
+        info: SYS_JSON_TYPE
     }
 
     // get default value and fill items of array
@@ -558,6 +621,14 @@ export function getViewSetSysDataTypeUILayout(frame, item, formData, uiFrame) {
             }, 
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
+    }
+
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"] 
+        }
+        return uiLayout
     }
 
     // custom ui:schema - add to default ui schema
@@ -620,7 +691,10 @@ export function getEditSetDocumentTypeLayout (frame, item, formData, documentati
         defaultValues.map(value => {
             let structure = {}
             for(var props in frame.properties[item]) {
-                if(props === "default") structure[props] = value
+                if(props === "default") {
+                    // this can be feature collection or normal document id 
+                    structure[props] = (typeof value === "object" && value.hasOwnProperty("@id")) ? value["@id"] : value
+                }
                 else structure[props] = frame.properties[item][props]
             }
             filledItems.push(structure)
@@ -683,7 +757,10 @@ export function getEditSetDocumentTypeUILayout (frame, item, uiFrame, onSelect, 
                 let label = getLabelFromDocumentation (item, documentation)
 
                 let returnElement = []
+                
                 if(props.formData){
+                    // this can be feature collection or normal document id 
+                    let defaultFormData = (typeof props.formData === "object" && props.formData.hasOwnProperty("@id")) ? props.formData["@id"] : props.formData
                     returnElement.push(
                         <FilledDocumentSelect
                             label={label}
@@ -691,7 +768,7 @@ export function getEditSetDocumentTypeUILayout (frame, item, uiFrame, onSelect, 
                             placeholder={props.uiSchema["ui:placeholder"]}
                             onChange={onChange}
                             loadOptions={loadOptions}
-                            defaultValue={props.formData}
+                            defaultValue={defaultFormData}
                             handleInputChange={handleInputChange}
                         />
                     )
@@ -707,7 +784,7 @@ export function getEditSetDocumentTypeUILayout (frame, item, uiFrame, onSelect, 
                     />
                 )
 
-                return returnElement
+                return <>{returnElement}</>
 
             }
 
@@ -1050,7 +1127,7 @@ export function getViewSetEnumTypeUILayout (frame, item, uiFrame, formData) {
     // diff viewer
     if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
         uiLayout={
-            "ui:field": uiFrame[item]["ui:diff"]
+            "ui:field": uiFrame[item]["ui:diff"] 
         }
     }
 
@@ -1067,7 +1144,7 @@ export function getCreateSetSubChoiceDocumentTypeLayout(frame, item, documentati
         additionalItems: frame.properties[item]
     }
     return layout
-}
+} 
 
 // create set Sub Choice Document type ui layout
 export function getCreateSetSubChoiceDocumentTypeUILayout (frame, item, uiFrame) {

@@ -38,6 +38,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
     if(!type) return  <div>Please include the type of document</div>
 
     let current = `${type}`
+    let formDataTemp=formData
 
     useEffect(() => {
         //try{
@@ -95,11 +96,14 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
 
 
     const handleSubmit = ({formData}) => {
-        //console.log("Data before extract: ",  formData)
         if(onSubmit) {
 
             var extracted = transformData(mode, schema.properties, formData, frame, current, type)
             if(!extracted.hasOwnProperty("@type")) extracted["@type"] = type
+            if(mode === EDIT &&  // append id in edit mode
+                !extracted.hasOwnProperty("@id") && 
+                formDataTemp.hasOwnProperty("@id")
+            ) extracted["@id"] = formDataTemp["@id"]
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))

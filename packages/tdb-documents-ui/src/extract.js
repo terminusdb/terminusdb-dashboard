@@ -11,8 +11,6 @@ export const transformData = (mode, schema, data, frame, current, type) => {
     //let currentFrame=frame[current]
     let formData = data
 
-    //console.log("data", data)
-
     for(var key in formData){
         if(formData[key] === undefined) continue // undefined
         //else if(formData[key] === SYS_UNIT_DATA_TYPE) return {[key] : []} // sys:Units

@@ -1,26 +1,7 @@
 import React from "react"
 import {Form} from "react-bootstrap"
 import Stack from 'react-bootstrap/Stack'
-import {
-    XSD_STRING,
-    XSD_DECIMAL,
-    XSD_DATE_TIME,
-    XSD_BOOLEAN,
-    XSD_INTEGER,
-    XSD_ANY_URI,
-    STRING_TYPE,
-    SYS_JSON_TYPE,
-    NUMBER_TYPE,
-    BOOLEAN_TYPE, 
-    DATE_TYPE,
-    JSON_TYPE,
-    XSD_G_YEAR,
-    XSD_DATE,
-    XDD_URL, 
-    XSD_FLOAT,
-    XSD_LANGUAGE,
-    XSD_POSITIVE_INTEGER
-} from "../constants"
+import * as DATATYPE from "../constants"
 
 
 // function to provide a ui widget to date
@@ -67,20 +48,28 @@ export function getURIUIWidget(title) {
 }
 
 
+const matchType ={
+    [DATATYPE.XSD_STRING] : DATATYPE.STRING_TYPE,
+    [DATATYPE.XSD_ANY_URI] : DATATYPE.STRING_TYPE,
+    [DATATYPE.XSD_LANGUAGE] : DATATYPE.STRING_TYPE,
+    [DATATYPE.RDF_LANGSTRING] :DATATYPE.STRING_TYPE,
+    [DATATYPE.XDD_URL] : DATATYPE.STRING_TYPE,
+
+    [DATATYPE.SYS_JSON_TYPE] : DATATYPE.JSON_TYPE,
+    [DATATYPE.XSD_DOUBLE] : DATATYPE.NUMBER_TYPE,
+    [DATATYPE.XSD_FLOAT] : DATATYPE.NUMBER_TYPE,
+    [DATATYPE.XSD_POSITIVE_INTEGER] : DATATYPE.NUMBER_TYPE,
+    [DATATYPE.XSD_DECIMAL] : DATATYPE.NUMBER_TYPE,
+    [DATATYPE.XSD_INTEGER] : DATATYPE.NUMBER_TYPE,
+    [DATATYPE.XSD_BOOLEAN] : DATATYPE.BOOLEAN_TYPE,
+
+    [DATATYPE.XSD_DATE_TIME] : DATATYPE.DATE_TYPE,
+    [DATATYPE.XSD_G_YEAR] : DATATYPE.DATE_TYPE,
+    [DATATYPE.XSD_DATE] : DATATYPE.STRING_TYPE
+} 
+
 //get data type xsd: or xdd:
 // you can rewrite with an object
 export function getDataType(type) { 
-    if(type === XSD_STRING) return STRING_TYPE 
-    else if(type === XSD_FLOAT) return NUMBER_TYPE
-    else if(type === XSD_ANY_URI) return STRING_TYPE
-    else if(type === XSD_LANGUAGE) return STRING_TYPE
-    else if(type === XDD_URL) return STRING_TYPE
-    else if(type === SYS_JSON_TYPE) return JSON_TYPE
-    else if(type === XSD_POSITIVE_INTEGER) return NUMBER_TYPE
-    else if(type === XSD_DECIMAL) return NUMBER_TYPE
-    else if(type === XSD_INTEGER) return NUMBER_TYPE
-    else if(type === XSD_BOOLEAN) return BOOLEAN_TYPE
-    else if(type === XSD_DATE_TIME) return DATE_TYPE 
-    else if(type === XSD_G_YEAR) return DATE_TYPE 
-    else if(type === XSD_DATE) return STRING_TYPE
+    return matchType[type]
 }

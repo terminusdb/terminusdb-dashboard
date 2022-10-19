@@ -37,7 +37,8 @@ import {
 import {
     DOCUMENTATION, 
     SUBDOCUMENT_CONSTRUCTED_FRAME, 
-    COORDINATES
+    COORDINATES,
+    ONEOFVALUES
 } from "./constants"
 import {makeGeoFrames} from "./geoJSONTypeFrames/geoFrames"
 import {makeGeometryCollectionFrames} from "./geoJSONTypeFrames/makeGeometryCollectionFrames"
@@ -111,12 +112,12 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
         }
-        else if(item === "@oneOf") { // datatype properties like xsd:/ xdd:
+        else if(item === ONEOFVALUES) { // datatype properties with oneOf
             let language=getLanguage(documentation)
             let frames = makeOneOfTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language)
             // current is the proeprty name - instead of @oneOf
-            properties["@oneOf"] = frames.properties[current]
-            propertiesUI["@oneOf"] = frames.propertiesUI[current]
+            properties[ONEOFVALUES] = frames.properties[current]
+            propertiesUI[ONEOFVALUES] = frames.propertiesUI[current]
         }
         else if(frame[item] && isSysDataType(frame[item])) { // datatype properties like sys:JSON
             let frames = makeSysDataTypeFrames(frame, item, uiFrame, mode, formData, documentation)

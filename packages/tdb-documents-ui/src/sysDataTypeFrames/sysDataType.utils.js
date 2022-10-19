@@ -142,14 +142,22 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     // fields which belongs to subdocument sets and we do not want to hide the widget
     
     // get label from documentation
-    let label = getLabelFromDocumentation (item, documentation)
+    let label = getLabelFromDocumentation (item, documentation) 
 
     if(!isFilled(formData, item)
         && !frame.hasOwnProperty("info")) {
-        uiLayout={
-            "ui:widget" : "hidden"
+        if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:field")) {
+            uiLayout={
+                "ui:field" : uiFrame[item]["ui:field"]
+            }
+            return uiLayout
         }
-        return uiLayout
+        else {
+            uiLayout={
+                "ui:widget" : "hidden"
+            }
+            return uiLayout
+        }
     }
 
     let uiLayout = {

@@ -19,7 +19,7 @@ import {
     XSD_DATE,
     XDD_URL,
     XSD_ANY_URI
-} from "../constants"
+} from "../constants" 
 
 // Create Layout
 export function getCreateLayout(frame, item, documentation) { 
@@ -136,6 +136,14 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     // hide widget if formData of item is empty
     // check for info - coz at this point there mayb be data
     // fields which belongs to subdocument sets and we do not want to hide the widget
+
+
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:field")) {
+        let uiLayout={
+            "ui:field": uiFrame[item]["ui:field"]
+        }
+        return uiLayout
+    }
     
     if(!isFilled(formData, item)
         && !frame.hasOwnProperty("info")) {

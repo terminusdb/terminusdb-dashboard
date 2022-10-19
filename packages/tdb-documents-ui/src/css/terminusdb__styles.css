@@ -21,12 +21,29 @@
     line-height: 1.5;
 }
 
+.tdb__input > input:focus {
+    color: #adb5bd;
+}
+
 /** diffs ***/
 .tdb__diff__original > input, 
 .tdb__diff__original > select {
     color: #842029 !important;
     background-color: #f8d7da !important;
     border-color: #f5c2c7 !important;
+}
+
+/** choice sub documents when choices have changed */
+.tdb__diff__original__bg {
+    border-radius: 6px;
+    border: 1px solid #842029;
+    padding: 10px;
+}
+
+/** choice sub documents highlight choice change */
+.tdb__diff__original__bg > div.panel-body > div.form-group > select {
+    background-color: #f8d7da !important;
+    color: #842029 !important;
 }
 
 /* document links & enum */
@@ -36,8 +53,24 @@
     border: 0;
 }
 
+.text_diff_select {
+    background-color: transparent !important;
+    border: 0 !important;
+}
+
+.text_diff_underline {
+    text-decoration: underline!important;
+}
+
 .text_diff_original_underline {
+    background-color: transparent !important;
+    border: 0 !important;
     text-decoration-color: #842029 !important;
+    text-decoration: underline!important;
+}
+
+.text_choice_documents {
+    margin: 0px 0px 0px 50px !important;
 }
 
 .tdb__diff__changed > input, 
@@ -45,6 +78,28 @@
     color: #0f5132 !important;
     background-color: #d1e7dd !important;
     border-color: #badbcc !important;
+}
+
+/** choice sub documents when choices have changed */
+.tdb__diff__changed__bg { 
+    border-radius: 6px;
+    border: 1px solid #0f5132;
+    padding: 10px;
+}
+
+.lift__padding{
+    padding: 10px 10px 0px 10px !important;
+}
+
+/** choice sub documents highlight choice change */
+.tdb__diff__changed__bg > div.panel-body > div.form-group > select {
+    background-color: #d1e7dd !important;
+    color: #0f5132 !important;
+}
+
+.removed__label {
+    margin-top: 90px;
+    position: absolute;
 }
 
 /* document links & enum */
@@ -56,7 +111,10 @@
 
 
 .text_diff_changed_underline {
+    background-color: transparent !important;
+    border: 0 !important;
     text-decoration-color: #0f5132 !important;
+    text-decoration: underline!important;
 }
 
 .diff__help__text {
@@ -250,4 +308,27 @@ div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
     margin-bottom: 10px;
 }
 
+.diff__subDocument__accordian {
+    background-color: #444 !important;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    margin-top: 1.5rem !important;
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    border-radius: var(--bs-card-border-radius);
+}
 
+.original_subDoc_diff_border {
+    border: 1px solid #dc3545;
+}
+
+.changed_subDoc_diff_border {
+    border: 1px solid #28a745;
+}
+
+div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(-n+3) {
+    display: none !important;
+}
+
+div.diff_react_viewer_changed > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(n+3) {
+    display: none !important;
+}

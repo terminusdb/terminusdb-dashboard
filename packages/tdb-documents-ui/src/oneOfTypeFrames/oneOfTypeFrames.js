@@ -109,9 +109,10 @@ function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formDa
     // ui schema
     propertiesUI[current] = addedCustomUI
 
+
     return {properties, propertiesUI}
 }
-
+ 
 // mandatory
 export function makeOneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language) {
     let madeFrames = oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language)

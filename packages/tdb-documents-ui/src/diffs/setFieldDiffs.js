@@ -1,289 +1,458 @@
 
-import React from "react"
-import {AiFillMinusCircle, AiFillPlusCircle} from "react-icons/ai"
+import React, {useState} from "react"
+import {AiFillMinusCircle} from "react-icons/ai" 
 import Stack from 'react-bootstrap/Stack'
-import {Row, Col} from "react-bootstrap"
-import {generateDiffUIFrames} from "./diffViewer.utils"
-import {ORIGINAL_UI_FRAME, CHANGED_UI_FRAME, SELECT_STYLES} from "../constants"
+import Card from 'react-bootstrap/Card'
+import Accordion from 'react-bootstrap/Accordion'
+import {
+    ORIGINAL_UI_FRAME, 
+    CHANGED_UI_FRAME, 
+    DATA_TYPE,
+    DOCUMENT,
+    INFO,
+    CHOICESUBCLASSES,
+    SUBDOCUMENT_TYPE,
+    ENUM,
+    SYS_JSON_TYPE
+} from "../constants"
 import {
     AFTER, 
     BEFORE, 
     REST,  
     PATCH, 
-    DIFF_ORIGINAL_SELECT_STYLES,
-    DIFF_CHANGED_SELECT_STYLES
+    OPERATION,
+    PATCH_LIST,
+    COPY_LIST,
+    KEEP_LIST,
+    SWAP_LIST,
+    SWAP_VALUE
 } from "./diff.constants" 
-import { map } from "leaflet"
-import {isDocumentType, isEnumType, getSubDocumentTitle} from "../utils"
-import {FilledDocumentSelect} from "../documentTypeFrames/DocumentSelects"
-import {showRemovedSubDocumentChanged, showRemovedSubDocumentOriginal} from "./subDocumentFieldDiffs"
+import {removedSubDocumentElement} from "./subDocumentFieldDiffs"
+import {displaySysJSONElements} from "./sysFieldDiffs"
 
-
-// get no change element ui
-function getNoChangeElement(value, item, fullFrame, frame) {
-
-    if(isDocumentType(frame[item], fullFrame)) {
-        return  <div className="mt-3 mb-3">
-            <FilledDocumentSelect
-                labelCss={{classNames: "text-light"}}
-                label={item}
-                styles={SELECT_STYLES}
-                defaultValue={value}
-            />
-        </div>
-    }
-
-
-    if(isEnumType(frame[item])) {
-        return <Row className={`form-group field field-number mb-3 w-100`}>
-                <Col className="text-light mr-5 col-md-6">
-                    {item}
-                </Col>
-                <Col className="text-light col-md-6">
-                    {value}
-                </Col>
-        </Row>
-    }
-
-    return <div className="form-group field field-number  tdb__input mb-3">
-        <label class="control-label" for={`root_${value}`}>
-            <span>
-                {item}
-            </span>
-        </label>
-        <input class="form-control" 
-            id={`root_${value}`} 
-            label={value}  
-            step="any" 
-            value={value}/>
-    </div>
-}
-
-// get changed element ui
-function getOriginalSetElement (value, item, css, fullFrame, frame) {
-
-    if(isDocumentType(frame[item], fullFrame)) {
-        return  <div className="mt-3 mb-3">
-            <FilledDocumentSelect
-                labelCss={{classNames: "text-danger"}}
-                label={item}
-                styles={DIFF_ORIGINAL_SELECT_STYLES}
-                defaultValue={value}
-            />
-        </div>
-    }
-
-    if(isEnumType(frame[item])) {
-        return <Row className={`form-group field field-number mb-3 w-100`}>
-                <Col className="text-danger mr-5 col-md-6">
-                    {item}
-                </Col>
-                <Col className="text-danger col-md-6">
-                    {value}
-                </Col>
-        </Row>
-    }
-
-    return <div className={`form-group field field-number ${css} mb-3`}>
-            <label class="control-label" for={`root_${value}`}>
-                <span>
-                    {item}
-                </span>
-            </label>
-            <input class="form-control" 
-                id={`root_${value}`} 
-                label={value}  
-                step="any" 
-                value={value}/>
-        </div>
-}
-
-// get changed element ui
-function getChangedSetElement (value, item, css, fullFrame, frame) {
-
-    if(isDocumentType(frame[item], fullFrame)) {
-        return <div className="mt-3 mb-3">
-            <FilledDocumentSelect
-                label={item}
-                labelCss={{classNames: "text-success"}}
-                styles={DIFF_CHANGED_SELECT_STYLES}
-                defaultValue={value}
-            />
-        </div>
-    }
-
-    if(isEnumType(frame[item])) {
-        return <Row className={`form-group field field-number mb-3 w-100`}>
-                <Col className="text-success mr-5 col-md-6">
-                    {item}
-                </Col>
-                <Col className="text-success col-md-6">
-                    {value}
-                </Col>
-        </Row>
-    }
-
-    return <div className={`form-group field field-number ${css} mb-3`}>
-            <label className="control-label" for={`root_${value}`}>
-                <span>
-                    {item}
-                </span>
-            </label>
-            <input className="form-control" 
-                id={`root_${value}`} 
-                label={value}  
-                step="any" 
-                value={value}/>
-        </div>
-}
-
-// get added original element ui 
-function getOriginalAddedElement (value, item, fullFrame, frame) {
-
-    if(isDocumentType(frame[item], fullFrame)) {
-        return  <div className={`form-group field field-number text-danger tdb__diff__original mt-3 mb-3`}>
-            <Stack direction="horizontal" gap={3}>
-                <div>{item}</div>
-                <div className={` ms-auto`}>
-                    <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                    <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                    <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                </div>
-            </Stack>
-            <FilledDocumentSelect
-                hideLabel={true}
-                labelCss={{classNames: "text-danger"}}
-                label={item}
-                styles={DIFF_ORIGINAL_SELECT_STYLES}
-                defaultValue={value}
-            />
-        </div>
-    }
-
-    if(isEnumType(frame[item])) {
-        return <Row className={`form-group field field-number mb-3 w-100`}>
-                <Col className={`text-danger col-md-6`}>
-                    <div className="text-danger">{item}</div>
-                </Col>
-                <Col className={`text-danger col-md-6 d-flex`}>
-                    <div>{value}</div>
-                    <div className={`text-danger ms-auto`}>
-                        <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                        <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                        <AiFillPlusCircle style={{fontSize: "16px"}}/>
+/**
+ * 
+ * @param {*} schema schema to control data types
+ * @param {*} label name of property
+ * @param {*} required is required property 
+ * @param {*} css css to control look and feel
+ * @returns a react element with deleted display
+ */
+ function getRemovedElements(schema, label, required, css, interest) {
+    let elements=[]
+    if(schema.hasOwnProperty(INFO)
+        && schema[INFO] === DATA_TYPE) {
+            elements.push(
+                <div className={`form-group field field-string  ${css}`}>
+                <Stack direction="horizontal" gap={3}>
+                    <label className="control-label" htmlFor={`root_${label}`}>
+                        <span>{label}</span>
+                        {required && <span className="required">*</span>}
+                        
+                    </label>
+                    <div className={`ms-auto ${css}`}>
+                        <AiFillMinusCircle/>
+                        <AiFillMinusCircle/>
+                        <AiFillMinusCircle/>
                     </div>
-                </Col>
-        </Row>
-    }
-
-    return <div className={`form-group field field-number text-danger tdb__diff__original mb-3`}>
-        <Stack direction="horizontal" gap={3}>
-            <div>{item}</div>
-            <div className={` ms-auto`}>
-                <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                <AiFillPlusCircle style={{fontSize: "16px"}}/>
+                </Stack>
+                <input className="form-control opacity-0" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
             </div>
-        </Stack>
-        <input className={`form-control `}
-            id={`root_${value}`} 
-            label={value}  
-            step="any" 
-            value={value}/>
-    </div>
-}
 
-
-// get added changed element ui 
-function getChangedAddedElement (value, item, fullFrame, frame) {
-
-    if(isDocumentType(frame[item], fullFrame)) {
-        return  <div className={`form-group field field-number text-success tdb__diff__changed mt-3 mb-3`}>
-            <Stack direction="horizontal" gap={3}>
-                <div>{item}</div>
-                <div className={` ms-auto`}>
-                    <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                    <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                    <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                </div>
-            </Stack>
-            <FilledDocumentSelect
-                hideLabel={true}
-                labelCss={{classNames: "text-success"}}
-                label={item}
-                styles={DIFF_CHANGED_SELECT_STYLES}
-                defaultValue={value}
-            />
-        </div>
-    }
-
-    if(isEnumType(frame[item])) {
-
-        return <Row className={`form-group field field-number mb-3 w-100`}>
-                <Col className={`text-success col-md-6`}>
-                    <div className="text-success">{item}</div>
-                </Col>
-                <Col className={`text-success col-md-6 d-flex`}>
-                    <div>{value}</div>
-                    <div className={`text-success ms-auto`}>
-                        <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                        <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                        <AiFillPlusCircle style={{fontSize: "16px"}}/>
+            )
+        }
+    if(schema.hasOwnProperty(INFO) && 
+        schema[INFO] === DOCUMENT) {
+            elements.push(
+                <div className={`form-group field field-string  ${css}`}>
+                <Stack direction="horizontal" gap={3}>
+                    <label className="control-label" htmlFor={`root_${label}`}>
+                        <span>{label}</span>
+                        {required && <span className="required">*</span>}
+                        
+                    </label>
+                    <div className={`ms-auto ${css}`}>
+                        <AiFillMinusCircle/>
+                        <AiFillMinusCircle/>
+                        <AiFillMinusCircle/>
                     </div>
-                </Col>
-        </Row>
-    }
-
-    return <div className={`form-group field field-number text-success tdb__diff__changed mb-3`}>
-        <Stack direction="horizontal" gap={3}>
-            <div >{item}</div>
-            <div className={` ms-auto`}>
-                <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                <AiFillPlusCircle style={{fontSize: "16px"}}/>
-                <AiFillPlusCircle style={{fontSize: "16px"}}/>
+                </Stack>
+                <input className="form-control opacity-0" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
             </div>
-        </Stack>
-        <input className={`form-control `}
-            id={`root_${value}`} 
-            label={value}  
-            step="any" 
-            value={value}/>
-    </div>
+
+            )
+    }
+    if(schema.hasOwnProperty(INFO) && 
+        schema[INFO] === ENUM) {
+            elements.push(
+                <div className={`form-group field field-string  ${css}`}>
+                <Stack direction="horizontal" gap={3}>
+                    <label className="control-label" htmlFor={`root_${label}`}>
+                        <span>{label}</span>
+                        {required && <span className="required">*</span>}
+                        
+                    </label>
+                    <div className={`ms-auto ${css}`}>
+                        <AiFillMinusCircle/>
+                        <AiFillMinusCircle/>
+                        <AiFillMinusCircle/>
+                    </div>
+                </Stack>
+                <input className="form-control opacity-0" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
+            </div>
+
+            )
+    }
+    if(schema.hasOwnProperty(INFO) && 
+        schema[INFO] === SUBDOCUMENT_TYPE) {
+            let subDocCss = interest === BEFORE ? {color: "text-danger", borderStyle: "border-danger"} : {color: "text-success", borderStyle: "border-success"}
+            elements.push(
+                removedSubDocumentElement(subDocCss, label)
+            )
+    }
+    return elements
 }
 
-// get removed original element ui 
-function getRemovedElement (item, css, fullFrame, frame) {
-
-    if(isEnumType(frame[item])) {
-        return <Row className={`form-group field field-number mb-3 w-100`}>
-                <Col className={`${css}  mr-5 col-md-6`}>
-                    {item}
-                </Col>
-                <Col className={`${css} col-md-6`}>
-                    <AiFillMinusCircle style={{fontSize: "16px"}}/>
-                    <AiFillMinusCircle style={{fontSize: "16px"}}/>
-                    <AiFillMinusCircle style={{fontSize: "16px"}}/>
-                </Col>
-        </Row>
-    }
-
-
-    return <div className={`form-group field field-number ${css} mb-3`}>
-        <Stack direction="horizontal" gap={3}>
-            <div className={css}>{item}</div>
-            <div className={`${css} ms-auto`}>
-                <AiFillMinusCircle style={{fontSize: "16px"}}/>
-                <AiFillMinusCircle style={{fontSize: "16px"}}/>
-                <AiFillMinusCircle style={{fontSize: "16px"}}/>
+/**
+ * 
+ * @param {*} value value to display 
+ * @param {*} schema schema to control data types
+ * @param {*} label name of property
+ * @param {*} required is required property 
+ * @param {*} css css to control look and feel
+ * @returns a react element with values controlled by css to display diffs
+ */
+ function displayElements(value, schema, label, required, css, interest) {
+    let elements=[]
+    if(schema.hasOwnProperty(INFO) && 
+        schema[INFO] === DATA_TYPE) {
+        elements.push(
+            <div className={`form-group field field-string ${css} mb-3`}>
+                <label className="control-label" htmlFor={`root_${label}`}>
+                    <span>{label}</span>
+                    {required && <span className="required">*</span>}
+                    
+                </label>
+                <input value={value} className="form-control" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
             </div>
-        </Stack>
-        <input className="form-control opacity-0" 
-            id={`root_${item}`} 
-            step="any" 
-            value={item}/>
-    </div>
+        )
+    }
+    if(schema.hasOwnProperty(INFO) && 
+        schema[INFO] === DOCUMENT) {
+            let inputSelectCss="text_diff_select"
+            if(interest) {
+                if(interest === BEFORE) {
+                    css="text-danger"
+                    inputSelectCss="text-danger text_diff_select text_diff_underline"
+                }
+                else {
+                    css="text-success"
+                    inputSelectCss="text-success text_diff_select text_diff_underline"
+                }
+            }
+            elements.push(
+                <div className={`form-group field field-string ${css}  mb-3`}>
+                    <label className="control-label" htmlFor={`root_${label}`}>
+                        <span>{label}</span>
+                        {required && <span className="required">*</span>}
+                    </label>
+                    <input value={value} className={`form-control ${inputSelectCss}`} readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
+                </div>
+            )
+    }
+    if(schema.hasOwnProperty(INFO) && 
+        schema[INFO] === ENUM) {
+            let inputSelectCss="text_diff_select"
+            if(interest) {
+                if(interest === BEFORE) {
+                    css="text-danger"
+                    inputSelectCss="text-danger text_diff_select"
+                }
+                else {
+                    css="text-success"
+                    inputSelectCss="text-success text_diff_select"
+                }
+            }
+            elements.push(
+                <div className={`form-group field field-string ${css}  mb-3`}>
+                    <label className="control-label" htmlFor={`root_${label}`}>
+                        <span>{label}</span>
+                        {required && <span className="required">*</span>}
+                    </label>
+                    <input value={value} className={`form-control ${inputSelectCss}`} readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
+                </div>
+            )
+    }
+    return elements
 }
 
+/**
+ * 
+* @param {*} diffPatch diff object
+ * @param {*} item current property
+ * @param {*} formData formData - can be old or new value
+ * @param {*} startFormDataIndex start index to loop through formdata to understand changes 
+ * @param {*} schema schema to control data types
+ * @param {*} label  name of property
+ * @param {*} required is required property 
+ * @param {*} interest BEFORE or AFTER
+ * @param {*} css css to control look and feel
+ * @param {*} fullFrame full frame
+ * @param {*} frame frame of interest
+ * @param {*} type document type
+ * @returns 
+ */
+function displaySubDocumentElements(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
+    let renderElements=[], elementSchema=schema, currentChoice=false, choiceCss="tdb__input"
+ 
+    for(var fds=0; fds<formData[item].length; fds++) {
+        let fields=[], hasChanged=false
+        if(schema.hasOwnProperty(INFO) && schema[INFO] === CHOICESUBCLASSES) {
+            // get choice schema
+            for(var its=0; its<schema.items.length; its++) {
+                if(schema.items[its].hasOwnProperty("title") && schema.items[its]["title"] === formData[item][fds]["@type"]) {
+                    currentChoice=formData[item][fds]["@type"]
+                    elementSchema=schema.items[its]
+                    break
+                }
+            }
+        }
+        if(Array.isArray(choicesEqualSet)) choiceCss=choicesEqualSet[fds] 
+        for(var subDocKey in formData[item][fds]) {
+            if(subDocKey==="@id") continue 
+            else if(subDocKey==="@type") continue
+            else if(diffPatch[fds] && diffPatch[fds].hasOwnProperty(subDocKey)) {
+                let rest=doOperation(diffPatch[fds][subDocKey], item, formData, startFormDataIndex, elementSchema.properties[subDocKey], elementSchema.properties[subDocKey].title, required, interest, css, fullFrame, frame, type, choicesEqualSet)
+                fields.push(rest)
+                hasChanged=true
+            }
+            else {
+                let elements=displayElements(formData[item][fds][subDocKey], elementSchema.properties[subDocKey], elementSchema.properties[subDocKey].title, required, "tdb__input mb-3", null)
+                fields.push(elements)
+            }
+        }
+
+        if(currentChoice) { // choice subdocuments
+            renderElements.push(
+                <Card bg="secondary" className={`p-4 mb-3 mt-3 ${choiceCss}`}>
+                    <div class="lead">
+                        <div class="tdb__subdocument__collapse_headers" style={{padding: "14px", marginLeft: "-5px", marginBottom: "5px", zIndex: "-1", cursor: "pointer", background: "linear-gradient(to right, rgb(4, 114, 182), white)"}}>
+                            <span style={{color: "white"}}>
+                                <h6 style={{display: "contents"}}>{item}</h6>
+                            </span>
+                        </div>
+                        <hr/>
+                    </div>
+                    <input value={currentChoice} className="form-control" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
+                    <Card bg="secondary" className="p-4 mb-3 mt-3 border-dark">
+                        {fields}
+                    </Card>
+                </Card>
+            )
+        }
+        else {
+           
+            let accordianCss="border-0"
+            if(hasChanged) {
+                if(interest === BEFORE) accordianCss="original_subDoc_diff_border"
+                else accordianCss="changed_subDoc_diff_border"
+            }
+            renderElements.push(
+                <Accordion className=" mb-3 mt-3 " bsPrefix={`diff__subDocument__accordian ${accordianCss}`}>
+                    <Accordion.Item eventKey="0" flush >
+                        <Accordion.Header>
+                            <div class="lead w-100">
+                                <div class="tdb__subdocument__collapse_headers" style={{padding: "14px", marginLeft: "-5px", marginBottom: "5px", zIndex: "-1", cursor: "pointer", background: "linear-gradient(to right, rgb(4, 114, 182), white)"}}>
+                                    <span style={{color: "white"}}>
+                                        <h6 style={{display: "contents"}}>{item}</h6>
+                                    </span>
+                                </div>
+                                <hr/>
+                            </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                            {fields}
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
+            )
+        }
+    }
+    return renderElements
+}
+
+/**
+ * 
+ * @param {*} diffPatch diff object
+ * @param {*} item current property
+ * @param {*} formData formData - can be old or new value
+ * @param {*} startFormDataIndex start index to loop through formdata to understand changes 
+ * @param {*} schema schema to control data types
+ * @param {*} label  name of property
+ * @param {*} required is required property 
+ * @param {*} interest BEFORE or AFTER
+ * @param {*} css css to control look and feel
+ * @returns 
+ */
+function doOperation(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
+    let renderElements=[], currentFormDataIndex=startFormDataIndex
+   
+    if(Array.isArray(diffPatch)) { // simple swapValue Operation 
+        let isSubDocumentType=true
+        diffPatch.map(diffs => {
+            if(diffs.hasOwnProperty(interest)) {
+                isSubDocumentType=false
+                let elements=displayElements(diffs[interest], schema, label, required, css, interest)
+                renderElements.push( <>
+                    {elements}
+                </>)
+            }
+        })
+        if(isSubDocumentType) { // subdocument 
+            let subDocumentElement=displaySubDocumentElements(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) 
+            renderElements.push(subDocumentElement)
+        }
+    }
+    else if(Object.keys(diffPatch).length>0 && 
+        diffPatch.hasOwnProperty(OPERATION)){
+            // copy set operation 
+            if(diffPatch[OPERATION] === COPY_LIST) {
+                if(diffPatch.hasOwnProperty(REST)) {
+                    if(Array.isArray(diffPatch[REST])) {
+                        let copyTill=diffPatch[REST][0][interest]
+                        // break when first match found
+                        for(var index=startFormDataIndex; index < formData[item].length ; index++) {
+                            if(copyTill === formData[item][index]){
+                                currentFormDataIndex=index+diffPatch[REST].length
+                                break
+                            }  
+                            let elements=displayElements(formData[item][index], schema, label, required, "tdb__input mb-3", null)
+                            renderElements.push( <>
+                                {elements}
+                            </>)
+                        }
+                    }
+                    if(Object.keys(diffPatch[REST]).length>0 && 
+                        diffPatch[REST].hasOwnProperty(interest)) {
+                        let copyTill= diffPatch[REST][BEFORE].length>0 ? diffPatch[REST][BEFORE][0] : diffPatch[REST][AFTER][0]
+                        let skipToNext=diffPatch[REST][BEFORE].length>0 ? diffPatch[REST][BEFORE].length : diffPatch[REST][AFTER].length>0 
+                        // break when first match found
+                        for(var index=startFormDataIndex; index < formData[item].length ; index++) {
+                            if(copyTill === formData[item][index]){
+                                currentFormDataIndex=index+skipToNext
+                                break
+                            }  
+                            let elements=displayElements(formData[item][index], schema, label, required, "tdb__input mb-3", null)
+                            renderElements.push( <>
+                                {elements}
+                            </>)
+                        }
+                    }
+                    let rest=doOperation(diffPatch[REST], item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet)
+                    renderElements.push(rest)
+                }
+            }
+            // patch list operation 
+            if(diffPatch[OPERATION] === PATCH_LIST) { 
+                if(diffPatch[PATCH][0].hasOwnProperty(interest)) {
+                    let copyTill=diffPatch[PATCH][0][interest]
+                    // break when first match found
+                    for(var index=startFormDataIndex; index < formData[item].length ; index++) {
+                        if(copyTill === formData[item][index]){
+                            currentFormDataIndex=index+diffPatch[PATCH].length
+                            break
+                        }  
+                        let elements=displayElements(formData[item][index], schema, label, required, "tdb__input mb-3", null)
+                        renderElements.push( <>
+                            {elements}
+                        </>)
+                    }
+                    // stitch in patch object 
+                    diffPatch[PATCH].map(patch => {
+                        let elements=displayElements(patch[interest], schema, label, required, css, interest)
+                        renderElements.push( <>
+                            {elements}
+                        </>)
+                    })
+                }
+                else {
+                    let subDocumentElement=displaySubDocumentElements(diffPatch[PATCH], item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) 
+                    renderElements.push(subDocumentElement)
+                }
+                // loop throught the rest list to see what has been changed
+                if(diffPatch.hasOwnProperty(REST)) {
+                    let rest=doOperation(diffPatch[REST], item, formData, currentFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet)
+                    renderElements.push(rest)
+                } 
+            }
+            // swap list operation 
+            if(diffPatch[OPERATION] === SWAP_LIST) {
+                diffPatch[interest].map(diff => {
+                    let elements=displayElements(diff, schema, label, required, css, interest)
+                    renderElements.push( <>
+                        {elements}
+                    </>)
+                })
+                if(diffPatch[interest].length === 0) {
+                    let oppInterest=interest === BEFORE ? AFTER : BEFORE
+                    for(var count=0; count < diffPatch[oppInterest].length; count ++) {
+                        let elements=getRemovedElements(schema, label, required, css, interest)
+                        renderElements.push( <>
+                            {elements}
+                        </>)
+                    }
+                }
+            }
+            // keep list opeartion 
+            if(diffPatch[OPERATION] === KEEP_LIST) {
+                for(var index=startFormDataIndex; index < formData[item].length ; index++) { 
+                    let elements=displayElements(formData[item][index], schema, label, required, "tdb__input mb-3", null)
+                    renderElements.push( <>
+                        {elements}
+                    </>)
+                }
+            }
+            // swap value operation 
+            if(diffPatch[OPERATION] === SWAP_VALUE) {
+                let elements=displayElements(diffPatch[interest], schema, label, required, css, interest)
+                renderElements.push( <>
+                    {elements}
+                </>)
+            }
+    }
+    return renderElements
+}
+
+
+function checkIfChoicesAreSame(item, oldValue, newValue, interest) {
+    let choiceEqualSet=[]
+
+    if(oldValue.hasOwnProperty(item)) {
+        for(var index =0; index < oldValue[item].length; index ++ ) {
+            if(oldValue[item][index]["@type"] === newValue[item][index]["@type"]) {
+                // choice equal 
+                choiceEqualSet.push("tdb__input")
+            }
+            else {
+                if(interest === BEFORE) choiceEqualSet.push("text-danger tdb__diff__original")
+                else choiceEqualSet.push("text-success tdb__diff__changed")
+            }
+        }
+    }
+    return choiceEqualSet
+}
+
+/**
+ * 
+ * @param {*} fullFrame fullFrame of data product
+ * @param {*} frame frame of document type of interest 
+ * @param {*} diffPatch diff object
+ * @param {*} item current property
+ * @param {*} type current document type of interest
+ * @param {*} oldValue old form data 
+ * @param {*} newValue new form data
+ * @returns 
+ */
 export function getSetFieldDiffs (fullFrame, frame, diffPatch, item, type, oldValue, newValue) {
     let diffUIFrames={
         originalUIFrame: {
@@ -294,590 +463,54 @@ export function getSetFieldDiffs (fullFrame, frame, diffPatch, item, type, oldVa
         }
     }
 
-    let originalElements=[], changedElements=[]
-
-    // old value
-    function getOriginalUIFrame () {
-        let elements = []
-
-        oldValue[item].map(oldVal => {
-
-            let match=false 
-
-            //original - rest - normal swap value 
-            if(diffPatch[item].hasOwnProperty(REST)) {
-                if(Array.isArray(diffPatch[item][REST])){
-                    diffPatch[item][REST].map(re => {
-                        if(re[BEFORE] && re[BEFORE] === oldVal) {
-                            match=true
-                            originalElements.push(re[BEFORE])
-                            elements.push(
-                                getOriginalSetElement(re[BEFORE], item, "text-danger tdb__diff__original", fullFrame, frame)
-                            )
-                        }
-                    })
-                }
-                else {
-                    //changed - patch - for enum diffs
-                    if(diffPatch[item][REST].hasOwnProperty(PATCH)) {
-                        diffPatch[item][REST][PATCH].map(patch => {
-                            if(patch[BEFORE] && patch[BEFORE] === oldVal) {
-                                match=true
-                                changedElements.push(patch[BEFORE])
-                                elements.push(
-                                    getOriginalSetElement(patch[BEFORE], item, "text-danger tdb__diff__original", fullFrame, frame)
-                                )
-                            }
-                        })
-                    } // enum diffs
-                    if(diffPatch[item][REST].hasOwnProperty(REST)) {
-                        if(diffPatch[item][REST][REST].hasOwnProperty(BEFORE)) {
-                            // if elements added
-                            if(diffPatch[item][REST][REST][BEFORE].length > 0) {
-                                diffPatch[item][REST][REST][BEFORE].map(bef => {
-                                    if(bef === oldVal) {
-                                        match=true
-                                        changedElements.push(bef)
-                                        elements.push(
-                                            getOriginalAddedElement(bef, item, fullFrame, frame)
-                                        )
-                                    }
-                                })
-                            }
-                        }
-                    }
-                }
-            }
-
-            //original - patch 
-            if(diffPatch[item].hasOwnProperty(PATCH)) {
-                diffPatch[item][PATCH].map(patch => {
-                    if(patch[BEFORE] && patch[BEFORE] === oldVal) {
-                        match=true
-                        originalElements.push(patch[BEFORE])
-                        elements.push(
-                            getOriginalSetElement(patch[BEFORE], item, "text-danger tdb__diff__original", fullFrame, frame)
-                        )
-                    }
-                })
-            }
-
-            //original - patch List 
-            if(diffPatch[item][REST].hasOwnProperty(REST)) {
-                // patch list 
-                if(diffPatch[item][REST][REST].hasOwnProperty(PATCH)) {
-                    diffPatch[item][REST][REST][PATCH].map(patch => {
-                        if(patch[BEFORE] && patch[BEFORE] === oldVal) {
-                            match=true
-                            originalElements.push(patch[BEFORE])
-                            elements.push(
-                                getOriginalSetElement(patch[BEFORE], item, "text-danger tdb__diff__original", fullFrame, frame)
-                            )
-                        }
-                    })
-                }
-
-                //added - swap list 
-                if(diffPatch[item][REST][REST].hasOwnProperty(REST)) {
-                    if(diffPatch[item][REST][REST][REST].hasOwnProperty(REST)) {
-                        if(diffPatch[item][REST][REST][REST][REST].hasOwnProperty(BEFORE)) {
-                            if(diffPatch[item][REST][REST][REST][REST][BEFORE].length > 0) { // if elements added
-                                diffPatch[item][REST][REST][REST][REST][BEFORE].map(bef => {    
-                                    if(bef === oldVal) {
-                                        match=true
-                                        originalElements.push(bef)
-                                        elements.push(
-                                            getOriginalAddedElement(bef, item, fullFrame, frame)
-                                        )
-                                    }
-                                })
-                            }
-                        }
-                    }
-                    if(diffPatch[item][REST][REST][REST].hasOwnProperty(BEFORE)) { // for enums
-                        if(diffPatch[item][REST][REST][REST][BEFORE].length > 0) { // if elements added
-                            diffPatch[item][REST][REST][REST][BEFORE].map(bef => {    
-                                if(bef === oldVal) {
-                                    match=true
-                                    originalElements.push(bef)
-                                    elements.push(
-                                        getOriginalAddedElement(bef, item, fullFrame, frame)
-                                    )
-                                }
-                            })
-                        }
-                    }
-                }
-            }
-
-            
-            // no change 
-            if(!match) {
-                originalElements.push(oldVal)
-                elements.push(
-                    getNoChangeElement(oldVal, item, fullFrame, frame)
-                )
-            }
-        })
-
-        // add removed items if any 
-        if(newValue[item].length > oldValue[item].length) {
-            let diff=newValue[item].length-oldValue[item].length
-            for(var times=0; times<diff; times++) {
-                elements.push(
-                    getRemovedElement(item, "text-danger", fullFrame, frame)
-                )
-            }
-        }
-
-        console.log("originalElements", originalElements)
-
-        return <div className="field field-array field-array-fixed-items">
-            <span className="control-label">{item}</span>
-            {elements}
-        </div>
-
+    // no change in set - hence not available in diff patch object
+    if(!diffPatch.hasOwnProperty(item)) {
+        return diffUIFrames
     }
 
-    // changed value
-    function getChangedUIFrame () {
-        let elements = []
-
-        newValue[item].map(newVal => {
-
-            let match=false 
-
-            //original - rest - normal swap value 
-            if(diffPatch[item].hasOwnProperty(REST)) {
-                if(Array.isArray(diffPatch[item][REST])) {
-                    diffPatch[item][REST].map(re => {
-                        if(re[AFTER] && re[AFTER] === newVal) {
-                            match=true
-                            originalElements.push(re[AFTER])
-                            elements.push(
-                                getChangedSetElement(re[AFTER], item, "text-success tdb__diff__changed", fullFrame, frame)
-                            )
-                        }
-                    })
-                }
-                else {
-                    //changed - patch - for enum diffs
-                    if(diffPatch[item][REST].hasOwnProperty(PATCH)) {
-                        diffPatch[item][REST][PATCH].map(patch => {
-                            if(patch[AFTER] && patch[AFTER] === newVal) {
-                                match=true
-                                changedElements.push(patch[AFTER])
-                                elements.push(
-                                    getChangedSetElement(patch[AFTER], item, "text-success tdb__diff__changed", fullFrame, frame)
-                                )
-                            }
-                        })
-                    } // enum diffs
-                    if(diffPatch[item][REST].hasOwnProperty(REST)) {
-                        if(diffPatch[item][REST][REST].hasOwnProperty(AFTER)) {
-                            // if elements added
-                            if(diffPatch[item][REST][REST][AFTER].length > 0) {
-                                diffPatch[item][REST][REST][AFTER].map(aft => {
-                                    if(aft === newVal) {
-                                        match=true
-                                        changedElements.push(aft)
-                                        elements.push(
-                                            getChangedAddedElement(aft, item, fullFrame, frame)
-                                        )
-                                    }
-                                })
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            //changed - patch 
-            if(diffPatch[item].hasOwnProperty(PATCH)) {
-                diffPatch[item][PATCH].map(patch => {
-                    if(patch[AFTER] && patch[AFTER] === newVal) {
-                        match=true
-                        changedElements.push(patch[AFTER])
-                        elements.push(
-                            getChangedSetElement(patch[AFTER], item, "text-success tdb__diff__changed", fullFrame, frame)
-                        )
-                    }
-                })
-            }
-
-            //changed - patch List 
-            if(diffPatch[item][REST].hasOwnProperty(REST)) {
-                // patch list 
-                if(diffPatch[item][REST][REST].hasOwnProperty(PATCH)) {
-                    diffPatch[item][REST][REST][PATCH].map(patch => {
-                        if(patch[AFTER] && patch[AFTER] === newVal) {
-                            match=true
-                            changedElements.push(patch[AFTER])
-                            elements.push(
-                                getChangedSetElement(patch[AFTER], item, "text-success tdb__diff__changed", fullFrame, frame)
-                            )
-                        }
-                    })
-                }
-
-                //added - swap list 
-                if(diffPatch[item][REST][REST].hasOwnProperty(REST)) {
-                    if(diffPatch[item][REST][REST][REST].hasOwnProperty(REST)) {
-                        if(diffPatch[item][REST][REST][REST][REST].hasOwnProperty(AFTER)) {
-                            // if elements added
-                            if(diffPatch[item][REST][REST][REST][REST][AFTER].length > 0) {
-                                diffPatch[item][REST][REST][REST][REST][AFTER].map(aft => {
-                                    if(aft === newVal) {
-                                        match=true
-                                        changedElements.push(aft)
-                                        elements.push(
-                                            getChangedAddedElement(aft, item, fullFrame, frame)
-                                        )
-                                    }
-                                })
-                            }
-                        }
-                    }
-                    if(diffPatch[item][REST][REST][REST].hasOwnProperty(AFTER)) { // for enums
-                        if(diffPatch[item][REST][REST][REST][AFTER].length > 0) { // if elements added
-                            diffPatch[item][REST][REST][REST][AFTER].map(aft => {    
-                                if(aft === newVal) {
-                                    match=true
-                                    originalElements.push(aft)
-                                    elements.push(
-                                        getChangedAddedElement(aft, item, fullFrame, frame)
-                                    )
-                                }
-                            })
-                        }
-                    }
-                }
-            }
-
-            // no change 
-            if(!match) {
-                changedElements.push(newVal)
-                elements.push(
-                    getNoChangeElement(newVal, item, fullFrame, frame)
-                )
-            }
-        })
-
-        // add removed items if any 
-        if(oldValue[item].length > newValue[item].length) {
-            let diff=oldValue[item].length-newValue[item].length
-            for(var times=0; times<diff; times++) {
-                elements.push(
-                    getRemovedElement(item, "text-success", fullFrame, frame)
-                )
-            }
+    function getOriginalUIFrame(props) {
+        let renderElements=[]
+        if(props.schema.hasOwnProperty(INFO) && 
+            props.schema[INFO] === CHOICESUBCLASSES) {
+                let choiceEqualSet=checkIfChoicesAreSame(item, oldValue, newValue, BEFORE)
+                renderElements=doOperation(diffPatch[item], item, oldValue, 0, props.schema, props.name, props.required, BEFORE, "text-danger tdb__diff__original mb-3", fullFrame, frame, type, choiceEqualSet)
         }
-
-        console.log("changedElements", changedElements)
-
-        return <div className="field field-array field-array-fixed-items">
-            <span className="control-label">{item}</span>
-            {elements}
-        </div>
+        else if (props.schema.hasOwnProperty(INFO) && 
+            props.schema.info === SYS_JSON_TYPE) {
+                let sysJSONElement=displaySysJSONElements(diffPatch, item, oldValue, newValue, props.schema, props.name, props.required, BEFORE, "css", fullFrame, frame, type) 
+                renderElements.push(sysJSONElement)
+        }
+        else renderElements=doOperation(diffPatch[item], item, oldValue, 0, props.schema.items[0], props.name, props.required, BEFORE, "text-danger tdb__diff__original mb-3", fullFrame, frame, type, null)
+        return <>
+            {renderElements}
+        </>
     }
-    
-    if(frame[item].hasOwnProperty("@class")) { // subDocument
-        let classDocument=frame[item]["@class"]
-        let constructedFrame=fullFrame.hasOwnProperty(classDocument) ? fullFrame[classDocument] : {}
 
-        let subDiffUIFrames={
-            originalUIFrame: {
-                [item]:[]
-            }, 
-            changedUIFrame: {
-                [item]:[]
-            }
+    function getChangedUIFrame(props) {
+        let renderElements=[]
+        if(props.schema.hasOwnProperty(INFO) && 
+            props.schema[INFO] === CHOICESUBCLASSES) {
+                let choiceEqualSet=checkIfChoicesAreSame(item, oldValue, newValue, AFTER)
+                renderElements=doOperation(diffPatch[item], item, newValue, 0, props.schema, props.name, props.required, AFTER, "text-success tdb__diff__changed mb-3", fullFrame, frame, type, choiceEqualSet)
         }
-
-        // when swap value
-        if(diffPatch.hasOwnProperty(item) && Array.isArray(diffPatch[item])) {
-            for(var len=0; len<oldValue[item].length; len++) {
-                let subDocumentDiff = generateDiffUIFrames(fullFrame, constructedFrame, type, oldValue[item][len], newValue[item][len], diffPatch[item][len])
-    
-                const hidden =(props) => {
-                    return <div></div>
-                }
-                //original
-                subDocumentDiff[ORIGINAL_UI_FRAME]["@type"]={"ui:field": hidden}
-                subDocumentDiff[ORIGINAL_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                subDocumentDiff[ORIGINAL_UI_FRAME]["ui:field"]="collapsible" 
-                subDocumentDiff[ORIGINAL_UI_FRAME]["collapse"]={
-                    field: "ObjectField",
-                    classNames:"tdb__subdocument__collapse_headers"
-                }
-                subDocumentDiff[ORIGINAL_UI_FRAME]["classNames"]=`card border-success p-4 mt-4 mb-4`
-                subDocumentDiff[ORIGINAL_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                
-                //changed 
-                subDocumentDiff[CHANGED_UI_FRAME]["@type"]={"ui:field": hidden}
-                subDocumentDiff[CHANGED_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                subDocumentDiff[CHANGED_UI_FRAME]["ui:field"]="collapsible" 
-                subDocumentDiff[CHANGED_UI_FRAME]["collapse"]={
-                    field: "ObjectField",
-                    classNames:"tdb__subdocument__collapse_headers"
-                }
-                subDocumentDiff[CHANGED_UI_FRAME]["classNames"]=`card border-danger p-4 mt-4 mb-4`
-                subDocumentDiff[CHANGED_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                
-                subDiffUIFrames[ORIGINAL_UI_FRAME][item].push(subDocumentDiff[ORIGINAL_UI_FRAME])
-                subDiffUIFrames[CHANGED_UI_FRAME][item].push(subDocumentDiff[CHANGED_UI_FRAME])
-                diffUIFrames=subDiffUIFrames
-            }
+        else if (props.schema.hasOwnProperty(INFO) && 
+            props.schema.info === SYS_JSON_TYPE) {
+                let sysJSONElement=displaySysJSONElements(diffPatch, item, oldValue, newValue, props.schema, props.name, props.required, AFTER, "css", fullFrame, frame, type) 
+                renderElements.push(sysJSONElement)
         }
-        // when element removed
-        if(diffPatch.hasOwnProperty(item) && Object.keys(diffPatch[item]).length > 0) {
-            for(var len=0; len<oldValue[item].length; len++) {
-
-                if(diffPatch[item].hasOwnProperty(PATCH) && diffPatch[item][PATCH][len]) {
-                    let subDocumentDiff = generateDiffUIFrames(fullFrame, constructedFrame, type, oldValue[item][len], newValue[item][len], diffPatch[item][PATCH][len])
-                    let originalUIBorder="border-danger", changedUIBorder="border-success"
-
-                    const hidden =(props) => {
-                        return <div></div>
-                    }
-                    
-                    // no change 
-                    if( JSON.stringify(subDocumentDiff[ORIGINAL_UI_FRAME]) === JSON.stringify(subDocumentDiff[CHANGED_UI_FRAME]) ){
-                        originalUIBorder="bg-secondary"
-                        changedUIBorder="bg-secondary"
-                    }
-
-                    //original
-                    subDocumentDiff[ORIGINAL_UI_FRAME]["@type"]={"ui:field": hidden}
-                    subDocumentDiff[ORIGINAL_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                    subDocumentDiff[ORIGINAL_UI_FRAME]["ui:field"]="collapsible" 
-                    subDocumentDiff[ORIGINAL_UI_FRAME]["collapse"]={
-                        field: "ObjectField",
-                        classNames:"tdb__subdocument__collapse_headers"
-                    }
-                    subDocumentDiff[ORIGINAL_UI_FRAME]["classNames"]=`card ${originalUIBorder} p-4 mt-4 mb-4`
-                    subDocumentDiff[ORIGINAL_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                    
-                    //changed 
-                    subDocumentDiff[CHANGED_UI_FRAME]["@type"]={"ui:field": hidden}
-                    subDocumentDiff[CHANGED_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                    subDocumentDiff[CHANGED_UI_FRAME]["ui:field"]="collapsible" 
-                    subDocumentDiff[CHANGED_UI_FRAME]["collapse"]={
-                        field: "ObjectField",
-                        classNames:"tdb__subdocument__collapse_headers"
-                    }
-                    subDocumentDiff[CHANGED_UI_FRAME]["classNames"]=`card ${changedUIBorder} p-4 mt-4 mb-4`
-                    subDocumentDiff[CHANGED_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                    
-                    subDiffUIFrames[ORIGINAL_UI_FRAME][item].push(subDocumentDiff[ORIGINAL_UI_FRAME])
-                    subDiffUIFrames[CHANGED_UI_FRAME][item].push(subDocumentDiff[CHANGED_UI_FRAME])
-                    diffUIFrames=subDiffUIFrames
-                }
-            }
-            // get ui for removed elements in original UI 
-            if(diffPatch[item].hasOwnProperty(REST)) {
-                if(diffPatch[item][REST].hasOwnProperty(BEFORE) && 
-                    Array.isArray(diffPatch[item][REST][BEFORE]) && 
-                    diffPatch[item][REST][BEFORE].length > 0) {
-                        
-                        diffPatch[item][REST][BEFORE].map(diff => {
-                            let subDocumentDiff={
-                                [ORIGINAL_UI_FRAME]: {},
-                                [CHANGED_UI_FRAME]: {}
-                            }
-    
-                            const hidden =(props) => {
-                                return <div></div>
-                            }
-
-                            for(var diffItem in diff) {
-                                if(diffItem === "@id") continue 
-                                if(diffItem === "@type") continue 
-                                subDocumentDiff[ORIGINAL_UI_FRAME][diffItem]={["classNames"]: "text-danger tdb__diff__original"}
-                                subDocumentDiff[CHANGED_UI_FRAME][diffItem]={["ui:field"]: hidden}
-                            }
-    
-                            //original
-                            subDocumentDiff[ORIGINAL_UI_FRAME]["@type"]={"ui:field": hidden}
-                            subDocumentDiff[ORIGINAL_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                            subDocumentDiff[ORIGINAL_UI_FRAME]["ui:field"]="collapsible" 
-                            subDocumentDiff[ORIGINAL_UI_FRAME]["collapse"]={
-                                field: "ObjectField",
-                                classNames:"tdb__subdocument__collapse_headers"
-                            }
-                            subDocumentDiff[ORIGINAL_UI_FRAME]["classNames"]=`card border-danger p-4 mt-4 mb-4`
-                            subDocumentDiff[ORIGINAL_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                            
-                            const Message =(props) => {
-                                return <div>Message</div>
-                            }
-                            
-                            
-                            subDocumentDiff[CHANGED_UI_FRAME]["collapse"]={
-                                field: "ObjectField",
-                                classNames:"tdb__subdocument__collapse_headers"
-                            }
-                            subDocumentDiff[CHANGED_UI_FRAME]["classNames"]=`card bg-secondary p-4 mt-4 mb-4`
-                            subDocumentDiff[CHANGED_UI_FRAME]["ui:title"]=getSubDocumentTitle(item)
-                            
-                            subDiffUIFrames[ORIGINAL_UI_FRAME][item].push(subDocumentDiff[ORIGINAL_UI_FRAME])
-                            //subDocumentDiff[CHANGED_UI_FRAME]["ui:diff"]=Message
-                            subDiffUIFrames[CHANGED_UI_FRAME][item].push(subDocumentDiff[CHANGED_UI_FRAME])
-                            subDiffUIFrames[CHANGED_UI_FRAME][item]["ui:diff"]=2
-                            
-
-                        })
-                        
-                        diffUIFrames=subDiffUIFrames
-                    }
-            }
-
-            // get ui for removed elements in changed UI 
-            if(diffPatch[item].hasOwnProperty(REST)) {
-                if(diffPatch[item][REST].hasOwnProperty(AFTER) && 
-                    Array.isArray(diffPatch[item][REST][AFTER]) && 
-                    diffPatch[item][REST][AFTER].length > 0) {
-                        
-                        diffPatch[item][REST][AFTER].map(diff => {
-                            let subDocumentDiff={
-                                [ORIGINAL_UI_FRAME]: {},
-                                [CHANGED_UI_FRAME]: {}
-                            }
-    
-                            const hidden =(props) => {
-                                return <div></div>
-                            }
-
-                            for(var diffItem in diff) {
-                                if(diffItem === "@id") continue 
-                                if(diffItem === "@type") continue 
-                                subDocumentDiff[CHANGED_UI_FRAME][diffItem]={["classNames"]: "text-danger tdb__diff__original"}
-                            }
-    
-                            //original
-                            subDocumentDiff[CHANGED_UI_FRAME]["@type"]={"ui:field": hidden}
-                            subDocumentDiff[CHANGED_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                            subDocumentDiff[CHANGED_UI_FRAME]["ui:field"]="collapsible" 
-                            subDocumentDiff[CHANGED_UI_FRAME]["collapse"]={
-                                field: "ObjectField",
-                                classNames:"tdb__subdocument__collapse_headers"
-                            }
-                            subDocumentDiff[CHANGED_UI_FRAME]["classNames"]=`card border-success p-4 mt-4 mb-4`
-                            subDocumentDiff[CHANGED_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                            
-                            subDocumentDiff[ORIGINAL_UI_FRAME]["ui:field"]=showRemovedSubDocumentOriginal
-
-                            subDiffUIFrames[CHANGED_UI_FRAME][item].push(subDocumentDiff[CHANGED_UI_FRAME])
-                            subDiffUIFrames[ORIGINAL_UI_FRAME][item].push(subDocumentDiff[ORIGINAL_UI_FRAME])
-
-
-                        })
-                        
-                        diffUIFrames=subDiffUIFrames
-                    }
-            }
-
-            // If only one item and has @after & @before
-            if(diffPatch[item].hasOwnProperty(BEFORE) && 
-                Array.isArray(diffPatch[item][BEFORE]) && 
-                diffPatch[item][BEFORE].length > 0) {
-                    
-                    diffPatch[item][BEFORE].map(diff => {
-                        let subDocumentDiff={
-                            [ORIGINAL_UI_FRAME]: {},
-                            [CHANGED_UI_FRAME]: {}
-                        }
-
-                        const hidden =(props) => {
-                            return <div></div>
-                        }
-
-                        for(var diffItem in diff) {
-                            if(diffItem === "@id") continue 
-                            if(diffItem === "@type") continue 
-                            subDocumentDiff[ORIGINAL_UI_FRAME][diffItem]={["classNames"]: "text-danger tdb__diff__original"}
-                            //subDocumentDiff[CHANGED_UI_FRAME][diffItem]={["ui:field"]: hidden}
-                        }
-
-                        //original
-                        subDocumentDiff[ORIGINAL_UI_FRAME]["@type"]={"ui:field": hidden}
-                        subDocumentDiff[ORIGINAL_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                        subDocumentDiff[ORIGINAL_UI_FRAME]["ui:field"]="collapsible" 
-                        subDocumentDiff[ORIGINAL_UI_FRAME]["collapse"]={
-                            field: "ObjectField",
-                            classNames:"tdb__subdocument__collapse_headers"
-                        }
-                        subDocumentDiff[ORIGINAL_UI_FRAME]["classNames"]=`card border-danger p-4 mt-4 mb-4`
-                        subDocumentDiff[ORIGINAL_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                        
-                        const TEST = (props) => <>HELLO</>
-                        subDocumentDiff[CHANGED_UI_FRAME]["ui:field"]=TEST
-                        subDiffUIFrames[ORIGINAL_UI_FRAME][item].push(subDocumentDiff[ORIGINAL_UI_FRAME])
-                        subDiffUIFrames[CHANGED_UI_FRAME][item].push(subDocumentDiff[CHANGED_UI_FRAME])
-
-                    })
-                    
-                    diffUIFrames=subDiffUIFrames
-                }
-
-            // If only one item and has @after & @before
-            if(diffPatch[item].hasOwnProperty(AFTER) && 
-                Array.isArray(diffPatch[item][AFTER]) && 
-                diffPatch[item][AFTER].length > 0) {
-                    
-                    diffPatch[item][AFTER].map(diff => {
-                        let subDocumentDiff={
-                            [ORIGINAL_UI_FRAME]: {},
-                            [CHANGED_UI_FRAME]: {}
-                        }
-
-                        const hidden =(props) => {
-                            return <div></div>
-                        }
-
-                        for(var diffItem in diff) {
-                            if(diffItem === "@id") continue 
-                            if(diffItem === "@type") continue 
-                            subDocumentDiff[CHANGED_UI_FRAME][diffItem]={["classNames"]: "text-danger tdb__diff__original"}
-                            //subDocumentDiff[CHANGED_UI_FRAME][diffItem]={["ui:field"]: hidden}
-                        }
-
-                        //original
-                        subDocumentDiff[CHANGED_UI_FRAME]["@type"]={"ui:field": hidden}
-                        subDocumentDiff[CHANGED_UI_FRAME]["@documentation"]={"ui:field": hidden}
-                        subDocumentDiff[CHANGED_UI_FRAME]["ui:field"]="collapsible" 
-                        subDocumentDiff[CHANGED_UI_FRAME]["collapse"]={
-                            field: "ObjectField",
-                            classNames:"tdb__subdocument__collapse_headers"
-                        }
-                        subDocumentDiff[CHANGED_UI_FRAME]["classNames"]=`card bg-success p-4 mt-4 mb-4`
-                        subDocumentDiff[CHANGED_UI_FRAME]["ui:title"]=getSubDocumentTitle(item) 
-                        
-                        
-                        subDiffUIFrames[CHANGED_UI_FRAME][item].push(subDocumentDiff[CHANGED_UI_FRAME])
-
-                    })
-                    
-                    diffUIFrames=subDiffUIFrames
-                }
-            
-
-        }
-        console.log("subDiffUIFrames", subDiffUIFrames)
-
+        else renderElements=doOperation(diffPatch[item], item, newValue, 0, props.schema.items[0], props.name, props.required, AFTER, "text-success tdb__diff__changed mb-3", fullFrame, frame, type, null)
+        return <>
+        {renderElements}
+        </>
     }
-    else { // other types
-        diffUIFrames[ORIGINAL_UI_FRAME][item] = {
-            "ui:diff": getOriginalUIFrame
-        }
-    
-        diffUIFrames[CHANGED_UI_FRAME][item] = {
-            "ui:diff": getChangedUIFrame
-        }
-    }
-    
 
-    console.log("**** diffUIFrames", diffUIFrames)
+
+    diffUIFrames[ORIGINAL_UI_FRAME][item] = {
+        "ui:diff": getOriginalUIFrame 
+    }
+    diffUIFrames[CHANGED_UI_FRAME][item] = {
+        "ui:diff": getChangedUIFrame
+    }
+
     return diffUIFrames
 }

@@ -240,7 +240,7 @@ export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, fo
     return layout
 }
 
-export function getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSelect) {
+export function getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSelect) { 
     function getViewChoice (props) {
         const [clicked, setClicked]=useState(false)
 
@@ -254,9 +254,12 @@ export function getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSele
         }
 
         if(!frame.hasOwnProperty(item)) return <div/>
+       
+        if (!props.formData)  return <div/>
+        if (Object.keys(props.formData).length === 0) return <div/>
 
         return <React.Fragment>
-            <Form.Label className="control-label">{item}</Form.Label>
+            {/*<Form.Label className="control-label">{item}</Form.Label>*/}
             <span onClick={(e) => handleClick(e, props.formData)}
                 className="tdb__span__select text-light">
                     {props.formData}
@@ -269,6 +272,9 @@ export function getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSele
         "ui:field": getViewChoice
     }
 
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("classNames")) {
+        uiLayout["classNames"]=uiFrame[item]["classNames"]
+    }
 
     return uiLayout
 }

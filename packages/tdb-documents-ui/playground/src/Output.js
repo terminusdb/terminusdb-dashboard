@@ -3,7 +3,7 @@ import {FrameViewer, DiffViewer} from '@terminusdb/terminusdb-documents-ui'
 import {InitObj} from "./init"
 import {VIEW, CARD_OUTPUT_TITLE, CREATE} from "./constants"
 import Card from 'react-bootstrap/Card'
-import {SELECT_OPTIONS, ORIGINAL_LIST, CHANGED_LIST, ORIGINAL_DIFF_MANDATORY_DOCUMENT, CHANGED_DIFF_MANDATORY_DOCUMENT} from "./data.constants"
+import {SELECT_OPTIONS, ORIGINAL_LIST, CHANGED_LIST, ORIGINAL_TEST_LIST, CHANGED_TEST_LIST, ORIGINAL_DIFF_MANDATORY_DOCUMENT, CHANGED_DIFF_MANDATORY_DOCUMENT} from "./data.constants"
 import Stack from 'react-bootstrap/Stack'
 import {Button, Col} from "react-bootstrap"
 import {FiCode} from "react-icons/fi"
@@ -70,7 +70,7 @@ export const Diff = () => {
 
     useEffect(async () => {
         if(tdbClient) {
-            let result_patch = await tdbClient.getDiff(ORIGINAL_LIST, CHANGED_LIST)
+            let result_patch = await tdbClient.getDiff(ORIGINAL_TEST_LIST, CHANGED_TEST_LIST)
             setDiffPatch(result_patch)
             console.log("result_patch", JSON.stringify(result_patch, null, 2))
         }
@@ -78,10 +78,10 @@ export const Diff = () => {
 
     return <div className="w-100">
         {diffPatch && frames && <DiffViewer 
-            oldValue={ORIGINAL_LIST} 
-            newValue={CHANGED_LIST}
+            oldValue={ORIGINAL_TEST_LIST} 
+            newValue={CHANGED_TEST_LIST}
             frame={frames}
-            type={"List"}
+            type={"ComputerStudent"}
             diffPatch={diffPatch}/>}
     </div>
 }

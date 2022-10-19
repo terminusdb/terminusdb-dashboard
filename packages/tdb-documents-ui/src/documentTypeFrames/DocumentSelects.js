@@ -70,7 +70,7 @@ export const FilledDocumentSelect = ({label, styles, labelCss, hideLabel, placeh
    
     let labelStyle = labelCss && labelCss.hasOwnProperty("classNames") ? labelCss["classNames"] : "text-light"
     
-    return <React.Fragment>
+    return <React.Fragment> 
         {/*<Form.Label>{label} {/*<span class="required">*</span> </Form.Label>*/}
         {!hideLabel && <Stack direction="horizontal" gap={3}>
             <div className={labelStyle}>{label} </div>

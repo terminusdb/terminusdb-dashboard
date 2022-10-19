@@ -2,6 +2,12 @@ export const REST="@rest"
 export const BEFORE="@before"
 export const AFTER="@after"
 export const PATCH="@patch"
+export const OPERATION="@op"
+export const PATCH_LIST="PatchList"
+export const COPY_LIST="CopyList"
+export const SWAP_VALUE="SwapValue"
+export const KEEP_LIST="KeepList"
+export const SWAP_LIST="SwapList"
 
 export const SUBDOCUMENT_DOSENT_EXIST = "No SubDocument to display"
 
