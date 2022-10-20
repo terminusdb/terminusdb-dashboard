@@ -1,3 +1,4 @@
+import { localSettings } from "../../localSettings";
 export function getOptions(token){
 
 	const options = {
@@ -17,8 +18,8 @@ export function getBaseUrl(){
     * link to the node server
     */
 	let remote_url = ''
-    if(process.env.TERMINUSDB_SERVER){
-        remote_url += process.env.TERMINUSDB_SERVER.endsWith('/') ? process.env.TERMINUSDB_SERVER : process.env.TERMINUSDB_SERVER+'/'
+    if(localSettings.server){
+        remote_url += localSettings.server.endsWith('/') ? localSettings.server : localSettings.server+'/'
     }
     return `${remote_url}api`
 }

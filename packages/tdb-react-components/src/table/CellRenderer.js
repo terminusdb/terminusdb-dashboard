@@ -377,9 +377,10 @@ export const HTMLRenderer = ({value, type, column, row, cell, view, args, prefix
 }
 
 function isEmptyValue(val){
+    if(!val)return false
     if(val == "system:unknown") return true
     if(val === "") return true
-    if(val && typeof val == "object" && val['@value'] === "") return true
+    if(typeof val == "object" && val['@value'] === "") return true
     if(Array.isArray(val) && val.length == 0) return true
     if(Array.isArray(val) && val.length == 1 && isEmptyValue(val[1])) return true
     return false

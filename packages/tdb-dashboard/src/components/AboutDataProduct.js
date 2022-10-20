@@ -4,6 +4,7 @@ import {timeConverter} from "../pages/utils"
 import {Col, Button} from "react-bootstrap"
 import {DATA_PRODUCT_HEALTHY} from "../pages/constants"
 import {HealthModal} from "./HealthModal"
+import {localSettings} from "../../localSettings"
 
 export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor}) =>{
 
@@ -23,7 +24,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
     const [healthText, setHealthText]=useState(false)
     
     const getCloneUrl = () =>{
-        return `${process.env.TERMINUSDB_SERVER }${organization}/${organization}/${dataProduct}`
+        return `${localSettings.server}${organization}/${organization}/${dataProduct}`
     }
 
     useEffect(() => {
