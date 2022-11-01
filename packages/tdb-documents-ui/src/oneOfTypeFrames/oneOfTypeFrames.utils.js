@@ -10,6 +10,7 @@ import {isDataType, extractDocumentation} from "../utils"
 export function getViewDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language) {
     var layout = {}, frame
     let documentClassIRI = `${documentClass}`
+    if(typeof documentClass === "object" && documentClass.hasOwnProperty("@class")) documentClassIRI=documentClass["@class"]
     let extractedDocumentation={}
 
     if(isDataType(documentClassIRI)) {
@@ -83,6 +84,7 @@ export function getViewDocumentLayout(documentClass, fullFrame, current, item, u
 export function getCreateDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language) {
     var layout = {}, frame={}
     let documentClassIRI = `${documentClass}`
+    if(typeof documentClass === "object" && documentClass.hasOwnProperty("@class")) documentClassIRI=documentClass["@class"]
     let extractedDocumentation={}
 
     if(isDataType(documentClassIRI)) {
