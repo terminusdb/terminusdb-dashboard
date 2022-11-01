@@ -116,8 +116,6 @@ export const getStoredQueryObject = (id) => {
 }
 
 /**** Document Queries  ****/
-<<<<<<< HEAD
-=======
 export const getDocumentsOfType = (doctype) => {
     return ''
    /* let WOQL =  TerminusClient.WOQL
@@ -138,7 +136,6 @@ const checkIfPrefix =(id)=>{
     }
     return "@schema:"+id
 }
->>>>>>> ee5d3b3794054f702fa558f5563e1e61ae3ef6a1
 // get count of document class instance
 export const getCountOfDocumentClass = (documentClasses) => {
     let WOQL =  TerminusClient.WOQL
@@ -174,8 +171,4 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
 
     let q = WOQL.and(...CountArray, WOQL.sum(variableList, "v:Count"))
     return q
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ee5d3b3794054f702fa558f5563e1e61ae3ef6a1

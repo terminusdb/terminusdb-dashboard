@@ -79,7 +79,7 @@ function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formDa
         info: ONEOFVALUES,
         title: item,
         description: `Choose ${item} from the list ...`,
-        anyOf: sortedArray.length===0 ? sortedArray : anyOfArray
+        anyOf: sortedArray.length===0 ? anyOfArray : sortedArray
     }
 
     //ui layout
