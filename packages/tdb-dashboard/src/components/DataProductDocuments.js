@@ -71,7 +71,7 @@ export const DataProductDocuments = () => {
 
     useEffect(() => { // get count of document classes
         if(!documentClasses) return 
-        console.log(" i enter here ")
+        //console.log(" i enter here ")
         let q=getCountOfDocumentClass(documentClasses)
         setQuery(q)
     }, [documentClasses])

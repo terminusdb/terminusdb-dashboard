@@ -7,6 +7,12 @@ export const ClassFromSchema = () => {
         quad("v:Class ID", 'label', "v:Class Name", "schema/main")
 }
 
+export const getDocsTypeQuery=(type)=>{
+    let WOQL =  TerminusClient.WOQL
+    var docType=checkIfPrefix(type)
+    let q = WOQL.isa("v:Documents", docType)
+    return q
+}
 
 export const getDocsQuery = () =>{
     let WOQL =  TerminusClient.WOQL
@@ -110,12 +116,35 @@ export const getStoredQueryObject = (id) => {
 }
 
 /**** Document Queries  ****/
+<<<<<<< HEAD
+=======
+export const getDocumentsOfType = (doctype) => {
+    return ''
+   /* let WOQL =  TerminusClient.WOQL
+    return  WOQL.and(
+        WOQL.lib().document_metadata()
+    ).sub(doctype, "v:Type ID")*/
+}
+/*export const getDocumentsOfType = (doctype) => {
+    let WOQL =  TerminusClient.WOQL
+    return  WOQL.and(
+        WOQL.lib().document_metadata()
+    ).sub(doctype, "v:Type ID")
+}*/
+
+const checkIfPrefix =(id)=>{
+    if(id.indexOf(":")>-1){
+        return id
+    }
+    return "@schema:"+id
+}
+>>>>>>> ee5d3b3794054f702fa558f5563e1e61ae3ef6a1
 // get count of document class instance
 export const getCountOfDocumentClass = (documentClasses) => {
     let WOQL =  TerminusClient.WOQL
     let CountArray=[]
     documentClasses.map(item => { // set type of document
-        let scmType="@schema:"+item["@id"]
+        let scmType=checkIfPrefix(item["@id"])
         let variable="v:"+item["@id"]
         let split = item["@id"].split(':')
         if(split.length === 2){
@@ -133,7 +162,7 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
     let CountArray=[]
     let variableList = []
     documentClasses.map(item => { // set type of document
-        let scmType="@schema:"+item["@id"]
+        let scmType= checkIfPrefix(item["@id"])
         let variable="v:"+item["@id"]
         let split = item["@id"].split(':')
         if(split.length === 2){
@@ -145,4 +174,8 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
 
     let q = WOQL.and(...CountArray, WOQL.sum(variableList, "v:Count"))
     return q
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ee5d3b3794054f702fa558f5563e1e61ae3ef6a1

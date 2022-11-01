@@ -10,8 +10,6 @@ const connection_type = process.env.CONNECTION_TYPE
 
 export const localSettings = {
     server : server,
-    //key : key,
-    //user: userName,
     connection_type :connection_type
 }
 

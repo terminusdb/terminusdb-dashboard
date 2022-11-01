@@ -26,6 +26,7 @@
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css/less --out-dir es6/css/less --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack",
+    "start01": "webpack serve --mode development  --open --progress --port 3000 --host localhost --config demo/webpack.config.js",
     "start": "webpack serve --mode development  --open --progress --port 3030 --host localhost --entry ./src --config ./webpack_dev.config.js --history-api-fallback",
     "test": "echo 'TODO: There should be tests created'",
     "lint": "eslint src",
@@ -43,7 +44,7 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
-    "@terminusdb/terminusdb-client": "^10.0.19",
+    "@terminusdb/terminusdb-client": "^10.0.23",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.5",
     "codemirror": "^5.59.1",

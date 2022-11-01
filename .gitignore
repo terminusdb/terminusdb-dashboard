@@ -13,3 +13,5 @@ node_modules/
 lerna-debug.log
 packages/tdb-dashboard/local_file
 *.DS_Store
+
+packages/tdb-dashboard/cypress.config_local.js

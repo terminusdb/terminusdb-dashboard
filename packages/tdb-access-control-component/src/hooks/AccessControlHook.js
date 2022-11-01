@@ -20,9 +20,11 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
     const [resultTable,setResultTable]=useState([])
 
     const formatMessage = (err)=>{
-        let message = err.message
+        let message = err.message || ''
         if(err.data && err.data["api:message"]){
             message = err.data["api:message"]
+        }else if (message.indexOf("but an object with that id already exists")){
+            message = "The Team name already exists, Please choose another name"
         }
         return message
     }
@@ -258,13 +260,8 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
     async function createOrganizationRemote(teamName){
         resetStatus()
         const currentBaseUrl =clientAccessControl.baseURL
-        try{
-            /*
-            * I need to override the baseUrl for the remoteCall
-            */         
-           clientAccessControl.baseURL = currentBaseUrl+"/private"
-           await clientAccessControl.createOrganization(teamName)
-          
+        try{       
+            await clientAccessControl.createOrganizationRemote(teamName)
            return true
         }catch(err){
            setError(formatMessage(err))

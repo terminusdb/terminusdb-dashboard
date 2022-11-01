@@ -3,7 +3,7 @@ import React, {useState,useEffect} from 'react';
 import {WOQLGraph} from '@terminusdb/terminusdb-react-components';
 import TerminusClient from '@terminusdb/terminusdb-client'
 import person from './person-graph.json';
-import bike from './bike-journey.json';
+import bike from './bike-data.json';
 import seshat from './seshat-data.json';
 /*
 *
@@ -17,7 +17,7 @@ export const GraphApp= (props) =>{
   let resultData={};
 
 
-	const server=process.env.API_URL;
+  const server=process.env.API_URL;
   const key=process.env.API_KEY
   const db=process.env.API_DB
 
@@ -42,7 +42,10 @@ export const GraphApp= (props) =>{
       */
       //
 
-      //woqlGraphConfig.edges(["v:Start", "v:Duration"], ["v:Duration", "v:End"]).text("v:Duration")
+      woqlGraphConfig.edges(["v:Start", "v:Duration"], ["v:Duration", "v:End"]).text("v:Duration")
+     /* woqlGraphConfig.edge("v:Property Domain", "v:Property Range").size(2).text("v:Property Name").arrow({width: 50, height: 20})
+      .icon({label: true, color: [109,98,100], size: 0.8})*/
+ 
       woqlGraphConfig.node("Start").text("Start_Label").icon({label: true, color:[0,0,0]}).color([35, 132, 113]).size(30)
 
       woqlGraphConfig.node("End").text("End_Label").icon({label: true, color:[0,0,0]}).color([243, 183, 115]).size(30)
@@ -64,6 +67,10 @@ export const GraphApp= (props) =>{
 
   }else{
       resultData=person;
+      woqlGraphConfig.edge("Mother", "Person").size(2).text("Person").arrow({width: 50, height: 20})
+      .icon({label: true, color: [109,98,100], size: 0.8})
+
+
       woqlGraphConfig.node("Mother").text("Mother_Name").color([60, 219, 11])//.size(10)
 
       woqlGraphConfig.node("Mother","Mother_Name").in("motherOfMaria01").color([255, 0, 255])//.size(10)

@@ -5,6 +5,7 @@ import {MdExpandLess, MdExpandMore} from "react-icons/md"
 
 export const CellRenderer = ({value, column, row, cell, view, args, depth, prefixes})=>{
     depth = depth || 0
+    if(!value) return ""
     if(isEmptyValue(value)){
         return ""
     }
@@ -47,7 +48,7 @@ export const CellRenderer = ({value, column, row, cell, view, args, depth, prefi
             args={args}
         />
     }
-    else if(typeof value == "object" && typeof value['@value'] != "undefined"){
+    else if(typeof value == "object" && typeof value['@value'] !== "undefined"){
         if(args && args.types){
             return <span>
                 <LiteralRenderer
@@ -376,6 +377,7 @@ export const HTMLRenderer = ({value, type, column, row, cell, view, args, prefix
 }
 
 function isEmptyValue(val){
+    if(!val)return false
     if(val == "system:unknown") return true
     if(val === "") return true
     if(typeof val == "object" && val['@value'] === "") return true
