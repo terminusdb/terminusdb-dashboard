@@ -19,12 +19,12 @@ export const InitProvider = ({children, config}) => {
     const [tdbClient, setTDBClient] = useState(false)
     const [connectionError, setConnectionError] = useState(false)
     const [frames, setFrames] = useState(false)
-    const [menuItem, setMenuItem] = useState("Diff")//useState(MANDATORY) 
+    const [menuItem, setMenuItem] = useState(MANDATORY) //useState("Diff")//useState(MANDATORY) 
     
     // Frame Viewer constants 
     const [uiFrames, setUIFrames]=useState({})
     const [mode, setMode]=useState(CREATE)
-    const [type, setType]=useState("List")//useState(MANDATORY_DOCUMENT)
+    const [type, setType]=useState(MANDATORY_DOCUMENT)//useState("List")//useState(MANDATORY_DOCUMENT)
     const [data, setData]=useState({})
 
     // diff Viewer constanst 
@@ -84,7 +84,7 @@ export const InitProvider = ({children, config}) => {
         if(!frames) return
         clearBuffers()
         getInfoMessage(menuItem, setInfoMessage)
-        setDocumentType(menuItem, setType)
+        setDocumentType(menuItem, setType) 
         setModeData(menuItem, mode, setData)
         setExampleUIFrames(menuItem, mode, setUIFrames)
         setExampleCodeData(uiFrames, data, menuItem, mode, setExampleCode, language)

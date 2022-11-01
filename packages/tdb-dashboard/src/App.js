@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react" 
 import {Routes,Route,useNavigate} from "react-router-dom"
 import {Loading} from "./components/Loading"
 import {SERVER_LOADING_MESSAGE} from "./components/constants"
@@ -53,7 +53,7 @@ export function App (props){
 }
 
 function getRoutes(clientUser,isAdmin){
-    if(localSettings.connection_type==="LOCAL"){
+    if(localSettings.connection_type==="LOCAL"){ 
     return <React.Fragment>
         <Route index element={<Home/>} />
             { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}

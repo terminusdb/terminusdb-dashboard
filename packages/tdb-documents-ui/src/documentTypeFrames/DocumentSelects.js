@@ -45,23 +45,24 @@ export const EmptyDocumentSelect = ({label, styles, placeholder, value, onChange
             <div>{label} </div>
             <div className="ms-auto">{description} </div>
         </Stack>
-        <span className="mt-5"></span>
-        {value && <AsyncSelect
-                classNames="tdb__input"
-                styles={styles}
-                value={value}
-                onChange={onChange}
-                loadOptions={loadOptions}
-                onInputChange={handleInputChange}
-        />}
-        {!value && <AsyncSelect
-                classNames="tdb__input"
-                styles={styles}
-                placeholder={placeholder}
-                onChange={onChange}
-                loadOptions={loadOptions}
-                onInputChange={handleInputChange}
-        />}
+        <span className="mt-5" data-cy={`test_cy_${label}`}>
+            {value && <AsyncSelect
+                    classNames="tdb__input"
+                    styles={styles}
+                    value={value}
+                    onChange={onChange}
+                    loadOptions={loadOptions}
+                    onInputChange={handleInputChange}
+            />}
+            {!value && <AsyncSelect
+                    classNames="tdb__input"
+                    styles={styles}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    loadOptions={loadOptions}
+                    onInputChange={handleInputChange}
+            />}
+        </span>
     </React.Fragment>
 }
 
@@ -76,17 +77,19 @@ export const FilledDocumentSelect = ({label, styles, labelCss, hideLabel, placeh
             <div className={labelStyle}>{label} </div>
             <div className="ms-auto">{description} </div>
         </Stack>}
-        <AsyncSelect
-            cacheOptions
-            classNames="tdb__input"
-            styles={styles}
-            placeholder={placeholder}
-            onChange={onChange}
-            loadOptions={loadOptions}
-            defaultOptions
-            defaultValue={{value: defaultValue, label: defaultValue}}
-            onInputChange={handleInputChange}
-        />
+        <span data-cy={`test_cy_${label}`}>
+            <AsyncSelect
+                cacheOptions
+                classNames="tdb__input"
+                styles={styles}
+                placeholder={placeholder}
+                onChange={onChange}
+                loadOptions={loadOptions}
+                defaultOptions
+                defaultValue={{value: defaultValue, label: defaultValue}}
+                onInputChange={handleInputChange}
+            />
+        </span>
     </React.Fragment>
 }
 

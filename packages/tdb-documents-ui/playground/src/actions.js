@@ -79,8 +79,8 @@ export function setDocumentType (menuItem, setType) {
     if(menuItem === menu.MANDATORY) {
         setType(menu.MANDATORY_DOCUMENT) 
     }
-    else if(menu.DIFF_VIEWER) {
-        setType(menu.MANDATORY_DOCUMENT)
+    else if(menuItem ===menu.DIFF_VIEWER) {
+        setType(menu.DIFF_DOCUMENT)
     }
     else if (menuItem === menu.OPTIONAL) {
         setType(menu.OPTIONAL_DOCUMENT)

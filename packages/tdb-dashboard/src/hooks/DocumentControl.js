@@ -120,7 +120,7 @@ export async function getDocumentsOfClassOfInterest (woqlClient, classOfInterest
 
 // gets info of a chosen document ID
 export const getCurrentDocumentInfo = async (woqlClient, documentObject, asList, setResult, setError) =>{
-    try{
+    try{ 
         let db=woqlClient.db()
         let params={}
         params['id'] = documentObject.currentDocument
@@ -185,7 +185,7 @@ export async function getEnums(woqlClient, setEnums, setLoading, setReportAlert)
     })
 }
 
-export async function deleteDocument  (woqlClient, setDocumentObject, documentObject) {
+export async function deleteDocument  (woqlClient, setDocumentObject, documentObject) { 
     let db=woqlClient.db()
 
     const params={}

@@ -1680,7 +1680,7 @@ export const getEditSetOneOfTypeUILayout = (frame, item, layout, uiFrame) => {
 // view set oneOf Document type layout
 export function getViewSetOneOfTypeLayout(frame, item, formData) {
     let layout={
-        type: "array",
+        type: "array", 
         title: getSetTitle(item),
         //items: frame.properties[item],
         //additionalItems: frame.properties[item]

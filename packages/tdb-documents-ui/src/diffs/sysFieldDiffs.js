@@ -1,26 +1,20 @@
 
 import React from "react"
 import ReactDiffViewer from 'react-diff-viewer' 
-import {BEFORE, AFTER} from "./diff.constants"
+import {BEFORE, AFTER, JSON_DIFF_STYLES} from "./diff.constants"
 import {ORIGINAL_UI_FRAME, CHANGED_UI_FRAME} from "../constants"
 import {AiFillMinusCircle} from "react-icons/ai"
 import Stack from 'react-bootstrap/Stack'
 
 export function displaySysJSONElements (diffPatch, item, oldValue, newValue, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
     let renderElements=[]
-    console.log("oldValue", oldValue)
-
+   
     if(interest === BEFORE) {
-        if(!oldValue.hasOwnProperty(item)) {
-            renderElements.push(<div/>)
-            return renderElements
-        }
-    
         for(var index=0; index < oldValue[item].length; index ++) {
             let data=newValue.hasOwnProperty(item) ? newValue[item][index] : {}
             renderElements.push(
                 <React.Fragment>
-                    <label className="control-label" htmlFor={`root_${label}`}>
+                    <label className="control-label mt-3" htmlFor={`root_${label}`}>
                         <span>{label}</span>
                         {required && <span className="required">*</span>}
                     </label>
@@ -31,6 +25,7 @@ export function displaySysJSONElements (diffPatch, item, oldValue, newValue, sch
                             useDarkTheme={true}
                             linesOffset={0}
                             showDiffOnly={true}
+                            styles={JSON_DIFF_STYLES}
                             disableWordDiff={true}/>
                     </div>
                 </React.Fragment>
@@ -39,16 +34,11 @@ export function displaySysJSONElements (diffPatch, item, oldValue, newValue, sch
     }
     
     if(interest === AFTER) {
-        if(!newValue.hasOwnProperty(item)) {
-            renderElements.push(<div/>)
-            return renderElements
-        }
-    
         for(var index=0; index < newValue[item].length; index ++) {
             let data=oldValue.hasOwnProperty(item) ? oldValue[item][index] : {}
             renderElements.push(
                 <React.Fragment>
-                    <label className="control-label" htmlFor={`root_${label}`}>
+                    <label className="control-label mt-3" htmlFor={`root_${label}`}>
                         <span>{label}</span>
                         {required && <span className="required">*</span>}
                     </label>
@@ -59,11 +49,78 @@ export function displaySysJSONElements (diffPatch, item, oldValue, newValue, sch
                             useDarkTheme={true}
                             linesOffset={0}
                             showDiffOnly={true}
+                            styles={JSON_DIFF_STYLES}
                             disableWordDiff={true}/>
                     </div>
                 </React.Fragment>
             )
         }
+    }
+
+    // some elements might be removed here
+    if(interest===AFTER && oldValue[item].length > newValue[item].length) { 
+        let difference = oldValue[item].length - newValue[item].length -1
+
+        for(var times=difference; times<oldValue[item].length ; times++) {
+            let elements=[]
+            elements.push(<div className="opacity-0">{"{"}</div>)
+            for(var thing in oldValue[item][times]) {
+                elements.push(
+                    <div className="opacity-0 mb-1">{oldValue[item][times][thing]}</div>
+                )
+            }
+            elements.push(<div className="opacity-0">{"}"}</div>)
+            renderElements.push(
+                <React.Fragment>
+                    <Stack direction="horizontal" gap={3}>
+                        <label className="control-label mt-3" htmlFor={`root_${label}`}>
+                            <span>{label}</span>
+                            {required && <span className="required">*</span>}
+                        </label>
+                        <div className="ms-auto text-success">
+                            <AiFillMinusCircle/>
+                            <AiFillMinusCircle/>
+                            <AiFillMinusCircle/>
+                        </div>
+                    </Stack>
+                    <div className="bg-secondary border-radius-4 ">{elements}</div>
+                </React.Fragment>
+            )
+        }
+    }
+
+    // some elements might be removed here
+    if(interest===BEFORE && newValue[item].length > oldValue[item].length) { 
+        let difference = newValue[item].length - oldValue[item].length -1
+
+        
+        for(var times=difference; times<newValue[item].length ; times++) {
+            let elements=[]
+            elements.push(<div className="opacity-0">{"{"}</div>)
+            for(var thing in newValue[item][times]) {
+                elements.push(
+                    <div className="opacity-0 mb-1">{newValue[item][times][thing]}</div>
+                )
+            }
+            elements.push(<div className="opacity-0">{"}"}</div>)
+            renderElements.push(
+                <React.Fragment>
+                    <Stack direction="horizontal" gap={3}>
+                        <label className="control-label mt-3" htmlFor={`root_${label}`}>
+                            <span>{label}</span>
+                            {required && <span className="required">*</span>}
+                        </label>
+                        <div className="ms-auto text-danger">
+                            <AiFillMinusCircle/>
+                            <AiFillMinusCircle/>
+                            <AiFillMinusCircle/>
+                        </div>
+                    </Stack>
+                    <div className="bg-secondary border-radius-4 ">{elements}</div>
+                </React.Fragment>
+            )
+        }
+        
     }
 
     return renderElements
@@ -93,6 +150,7 @@ export const getSysJSONFieldDiffs = (diffPatch, item,  oldValue, newValue) =>{
                     newValue={JSON.stringify(data, null, 2)} 
                     useDarkTheme={true}
                     linesOffset={0}
+                    styles={JSON_DIFF_STYLES}
                     showDiffOnly={true}
                     disableWordDiff={true}/>
             </div>
@@ -114,6 +172,7 @@ export const getSysJSONFieldDiffs = (diffPatch, item,  oldValue, newValue) =>{
                     newValue={JSON.stringify(props.formData, null, 2)} 
                     useDarkTheme={true}
                     linesOffset={0}
+                    styles={JSON_DIFF_STYLES}
                     showDiffOnly={true}
                     disableWordDiff={true}/>
             </div>

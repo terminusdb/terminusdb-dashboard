@@ -361,8 +361,8 @@ export function ArrayFieldTemplate(props) {
 				{props.canAdd && (
 					<div className="row">
 						<p className="col-xs-3 col-xs-offset-9 array-item-add text-right">
-							<Button variant="light" className="text-dark" type="button" onClick={props.onAddClick}>
-									<BiPlus className="mr-2"/>{`Add ${props.title}`}
+							<Button data-cy={`add_${props.title}`} variant="light" className="text-dark" type="button" onClick={props.onAddClick}>
+									<BiPlus className="mr-2"/> <label>{`Add ${props.title}`}</label>
 							</Button>
 						</p>
 					</div>

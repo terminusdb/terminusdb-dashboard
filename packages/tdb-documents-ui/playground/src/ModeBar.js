@@ -10,6 +10,7 @@ export const ModeBar = () => {
     const {
 		mode,
         setMode,
+        setData,
         menuItem
 	} = InitObj()
 
@@ -19,6 +20,7 @@ export const ModeBar = () => {
 
     function handleChange (event) {
         setChecked(event.target.value)
+        setData({})
         setMode(event.target.value) 
     }
 
@@ -29,6 +31,7 @@ export const ModeBar = () => {
                     <input
                         type="radio"
                         name="letter"
+                        data-cy="create_mode"
                         value={CREATE}
                         checked={checked === CREATE}
                         onChange={handleChange}
@@ -42,6 +45,7 @@ export const ModeBar = () => {
                         type="radio"
                         name="letter"
                         value={EDIT}
+                        data-cy="edit_mode"
                         checked={checked === EDIT}
                         onChange={handleChange}
                     />{" "}
@@ -54,6 +58,7 @@ export const ModeBar = () => {
                         type="radio"
                         name="letter"
                         value={VIEW}
+                        data-cy="view_mode"
                         checked={checked === VIEW}
                         onChange={handleChange}
                     />{" "}

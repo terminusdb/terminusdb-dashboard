@@ -6,15 +6,18 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import {NAVBAR_TITLE} from "./constants"
+import {setDocumentType} from "./actions"
 
 export const MenuList = () => {
 
 	const {
-		setMenuItem
-	} = InitObj()
+		setMenuItem,
+		setType
+	} = InitObj() 
 
 	function handleClick(clicked) {
-		if(setMenuItem) setMenuItem(clicked)
+		//if(setType) setDocumentType(clicked, setType) 
+		if(setMenuItem) setMenuItem(clicked) 
 	}
 
 	return <Navbar bg="light" expand="lg" fixed="top">
@@ -23,14 +26,15 @@ export const MenuList = () => {
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="me-auto">
-					<Nav.Link onClick={(e) => handleClick(menu.MANDATORY)}>{menu.MANDATORY}</Nav.Link>
-					<Nav.Link onClick={(e) => handleClick(menu.OPTIONAL)}>{menu.OPTIONAL}</Nav.Link>
-					<Nav.Link onClick={(e) => handleClick(menu.SET)}>{menu.SET}</Nav.Link>
-					<Nav.Link onClick={(e) => handleClick(menu.LIST)}>{menu.LIST}</Nav.Link> 
+					<Nav.Link data-cy={menu.MANDATORY} onClick={(e) => handleClick(menu.MANDATORY)}>{menu.MANDATORY}</Nav.Link>
+					<Nav.Link data-cy={menu.OPTIONAL} onClick={(e) => handleClick(menu.OPTIONAL)}>{menu.OPTIONAL}</Nav.Link>
+					<Nav.Link data-cy={menu.SET} onClick={(e) => handleClick(menu.SET)}>{menu.SET}</Nav.Link>
+					<Nav.Link data-cy={menu.LIST} onClick={(e) => handleClick(menu.LIST)}>{menu.LIST}</Nav.Link> 
 
 					{/* CHOCIE OPTION */}
-					<NavDropdown title={menu.ADVANCED_CHOICES} id="basic-nav-dropdown">
-						<NavDropdown.Item onClick={(e) => handleClick(menu.CHOICE_SUBDOCUMENTS)}>
+					<NavDropdown data-cy={menu.ADVANCED_CHOICES} title={menu.ADVANCED_CHOICES} id="basic-nav-dropdown">
+						<NavDropdown.Item data-cy={menu.DATA_CY_CHOICE_SUB_DOCUMENTS} 
+							onClick={(e) => handleClick(menu.CHOICE_SUBDOCUMENTS)}>
 							{menu.CHOICE_SUBDOCUMENTS} 
 						</NavDropdown.Item>
 						<NavDropdown.Item onClick={(e) => handleClick(menu.CHOICE_CLASSES)}>

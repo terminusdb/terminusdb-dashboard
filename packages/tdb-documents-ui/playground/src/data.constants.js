@@ -15,6 +15,7 @@ export const MANDATORY_DOCUMENT={
 		"@type": "Address",
 		"AddressLine1": "somewhere in Europe",
 		"Country": "New Zeeland",
+		"City": "City",
 		"postalCode": "NZ29038"
 	},
 	"website": "rack@rocking.com"
@@ -110,9 +111,14 @@ export const ORIGINAL_TEST_LIST={
 			maybe: "what"
 		},
 		{
+			key: 'xyz',
+			same: "g",
+		},
+		{
 			key: 'abc',
 			same: "no",
 		}
+		
 	]
 }
 
@@ -182,11 +188,7 @@ export const CHANGED_TEST_LIST= {
 			key: 'value',
 			same: "yes",
 			maybe: "what"
-		},
-		/*{
-			key: 'xyz',
-			same: "g",
-		}*/
+		}
 	]
 }
   /*{
@@ -443,11 +445,11 @@ export const OPTIONAL_DOCUMENT = {
 	"@id": "Info/c4abb650ad1b8a952e738186508de20f5e9bb691a3945fd61b505964d3ce16db",
 	"@type": "Info",
 	"alternativeAddress": {
-		"@id": "Info/c4abb650ad1b8a952e738186508de20f5e9bb691a3945fd61b505964d3ce16db/alternativeAddress/Address/d7c84cd4f7814eba7ed4109217b8244ae332b05298d2db2bb3f1953db1d2fbd4",
 		"@type": "Address",
 		"AddressLine1": "Rockbrook avenue",
 		"Country": "Australia",
-		"postalCode": "3298"
+		"postalCode": "3298",
+		"City": "Sydney"
 	},
 	"nicknames": "Tommy"
 }
@@ -466,6 +468,7 @@ export const SET_DOCUMENT = {
 			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/4f4fdae34ab4fa3b6297750917503a7137f75dc11589792de707e7a6d3502db3",
 			"@type": "Address",
 			"AddressLine1": "anywhere",
+			"City": "Nice", 
 			"Country": "France",
 			"postalCode": "FR27836"
 		},
@@ -473,6 +476,7 @@ export const SET_DOCUMENT = {
 			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/7aaeeb6b983710a0adbc75de8f7d8104278df427124beadc6644b35b9d6c30af",
 			"@type": "Address",
 			"AddressLine1": "somewhere",
+			"City": "Berlin", 
 			"Country": "Germany",
 			"postalCode": "GER02398"
 		}
@@ -492,6 +496,24 @@ export const SET_DOCUMENT = {
 export const LIST_DOCUMENT = {
 	"@id": "OrderedPerson/c92d269b0dce719299bf86fc19f2065937ec4ef82d8a2a53702867a326d6144b",
 	"@type": "OrderedPerson",
+	"hangs_out_at" : [
+		{
+			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/4f4fdae34ab4fa3b6297750917503a7137f75dc11589792de707e7a6d3502db3",
+			"@type": "Address",
+			"AddressLine1": "anywhere",
+			"City": "Nice", 
+			"Country": "France",
+			"postalCode": "FR27836"
+		},
+		{
+			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/7aaeeb6b983710a0adbc75de8f7d8104278df427124beadc6644b35b9d6c30af",
+			"@type": "Address",
+			"AddressLine1": "somewhere",
+			"City": "Berlin", 
+			"Country": "Germany",
+			"postalCode": "GER02398"
+		}
+	],
 	"likes_color": [
 		"Blue",
 		"Green",
@@ -506,9 +528,9 @@ export const LIST_DOCUMENT = {
 
 // Defined list to match with searched text for Document Links 
 export const SELECT_OPTIONS = [
-	{ value: 'Jobs/Designer', label: 'Web Designer' },
-	{ value: 'Jobs/Lecturer', label: 'Lecturer' },
-	{ value: 'Jobs/Writter', label: 'Writter' }
+	{ value: 'Jobs/33e3013112e6e76381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24', label: 'Designer' },
+	{ value: 'Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda', label: 'Lecturer' },
+	{ value: 'Jobs/csd4bddb166325e704e3w68da237ed87e1c2de1dd23ae103431f974eaeefbbda', label: 'Writter' }
 ]
 
 // choice sub document
@@ -520,7 +542,7 @@ export const CHOICE_SUB_DOCUMENT= {
 		"@type": "Botony",
 		"Grade": "A",
 		"Number_of_classes_attended": 4,
-		"course_start_date": "2022-08-17T09:21:09Z",
+		"course_start_date": "2022-08-17T09:21:09Z", 
 		"number_of_assignments": 5
 	},
 	"second_favorite_subject": {

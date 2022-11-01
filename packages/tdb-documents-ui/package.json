@@ -5,16 +5,14 @@
   "main": "src/index.js",
   "module": "es6/index",
   "jsnext:main": "es6/index",
-  "jest": {
-    "testEnvironment": "jsdom"
-  },
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack --mode production",
     "playground": "webpack serve --mode development  --open --progress --port 3033 --host localhost --config playground/webpack.config.js",
-    "test": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config test/webpack.config.js",
+    "testDb": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config test/webpack.config.js",
     "lint": "eslint src",
-    "autofix": "eslint src --fix"
+    "autofix": "eslint src --fix",
+    "cypress": "npx cypress open"
   },
   "repository": {
     "type": "git",
@@ -36,6 +34,18 @@
     "react": "^16.10.3",
     "react-dom": "^16.10.3"
   },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.19.1",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
@@ -47,6 +57,7 @@
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
+    "cypress": "^10.10.0",
     "dotenv-webpack": "^8.0.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
@@ -60,7 +71,7 @@
   "dependencies": {
     "@terminusdb/rjsf-core": "^4.0.5",
     "@terminusdb/terminusdb-client": "^10.0.19",
-    "babel-jest": "^27.4.6",
+    "acorn": "^8.8.0",
     "bootstrap": "^5.1.3",
     "dotenv": "^16.0.1",
     "highlight.js": "^11.6.0",

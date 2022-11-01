@@ -96,3 +96,12 @@ export const DIFF_CHANGED_SELECT_STYLES={
   }
   }
 
+// default json diff 
+export const JSON_DIFF_STYLES={
+  variables: {
+      dark: {
+          addedBackground: "#00bc8c"
+      }
+  }
+}
+

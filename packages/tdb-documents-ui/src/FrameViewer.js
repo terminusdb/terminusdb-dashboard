@@ -106,6 +106,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
             ) extracted["@id"] = formDataTemp["@id"]
             onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
+            return extracted
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
         }
     }
@@ -146,7 +147,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
         submitButtonCss=uiFrame[SUBMIT_BUTTON_STYLE_KEY]
     }*/
 
-    return <React.Fragment>
+    return <div data-cy="frame_viewer">
         {schema && message && message}
         {schema && <Form schema={schema}
             uiSchema={uiSchema}
@@ -162,7 +163,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
             FieldTemplate={FieldTemplate}
         />
     }
-    </React.Fragment>
+    </div>
  }
 
 

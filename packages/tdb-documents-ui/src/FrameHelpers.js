@@ -103,7 +103,9 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
 export function getProperties (fullFrame, current, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
     for(var item in frame) {
-
+        if(item === "alternative_names") {
+            console.log("alternative_names")
+        }
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue
@@ -267,11 +269,6 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
         }
-
-        /*else if(frame[item] && item===B_BOX && isArrayType(frame[item])){ // bbox
-
-
-        }*/
         else if(frame[item] && isArrayType(frame[item])) { // Array (dimension 1 is treated like Sets )
             let constructedSetFrame = constructSetFrame(frame[item], item)
 
@@ -284,7 +281,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             propertiesUI[item] = setFrames.propertiesUI[item]
         }
     }
-
+ 
     return {
         properties: properties,
         required: required,
