@@ -56,7 +56,7 @@ export const DocumentFrames = () => {
     }
 
     useEffect(() =>{
-        if(documentObject.frames) {
+        if(Object.keys(documentObject.frames).length > 0) {
             setLoading(false)
             //documentObject.loading = <Loading message={`Fetching frames ...`} type={PROGRESS_BAR_COMPONENT}/>
         }
@@ -187,6 +187,13 @@ export const DocumentFrames = () => {
                         {/*(currentView==FORM_VIEW) && documentObjectWithFrames.frames && <FrameViewer/> */}
 
                         {(currentView==FORM_VIEW) && documentObjectWithFrames.frames &&
+                            /*<FrameViewer frame={frames}
+                                type={documentObjectWithFrames.type}
+                                mode={documentObjectWithFrames.action}
+                                onSubmit={onSubmit}
+                                onSelect={onSelect}
+                                formData={documentObjectWithFrames.filledFrame}
+                            />*/
                             <FrameViewer frame={frames}
                                 type={documentObjectWithFrames.type}
                                 mode={documentObjectWithFrames.action}

@@ -1,8 +1,14 @@
-import React from "react"
+import React, {useState} from "react"
+const parse = require('html-react-parser')
+import CodeMirror from '@uiw/react-codemirror'
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
+import { html, htmlLanguage } from '@codemirror/lang-html'
+import { languages } from '@codemirror/language-data'
+import ReactMarkdown from 'react-markdown'
 import {Form} from "react-bootstrap"
 import Stack from 'react-bootstrap/Stack'
 import * as DATATYPE from "../constants"
-
+import {getRowHeight} from "../utils"
 
 // function to provide a ui widget to date
 export function getDateUIWidget(title) {
@@ -31,6 +37,21 @@ export function getDateTimeUIWidget (title) {
         ]
     }
     uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
+    return uiLayout
+}
+
+
+
+// function to provide a ui widget to textarea for xsd:string types
+export function getTextareaUIWidget(title, placeholder, data) {
+    let uiLayout = {} 
+    uiLayout["ui:widget"] = "textarea",
+    uiLayout["ui:title"] = title,
+    uiLayout["ui:placeholder"] = placeholder,
+    uiLayout["classNames"] = "tdb__input mb-3 mt-3"
+    uiLayout["ui:options"] = {
+        "rows": data ? getRowHeight(data) : 1
+    }
     return uiLayout
 }
 
@@ -73,3 +94,182 @@ const matchType ={
 export function getDataType(type) { 
     return matchType[type]
 }
+
+
+export function getCreateHTMLUI(props) {
+    const [code, setCode]=useState(``)
+    function onChange(data) {
+        props.onChange(data)
+        setCode(data)
+    }
+
+    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
+        }
+    }
+   
+    return <React.Fragment>
+        <Stack direction="horizontal" gap={3}>
+            <div>
+                {props.name} 
+                {/*props.required && <span className="required">*</span>*/}
+            </div>
+        </Stack>
+        <CodeMirror onChange={onChange} 
+            value={code} 
+            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
+            lineNumbers={false}
+            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
+            extensions={[html({ base: htmlLanguage, codeLanguages: languages })]} />
+    </React.Fragment>
+
+}
+
+export function getEditHTMLUI(props) {
+    let value = props.formData ? props.formData : ``
+    const [code, setCode]=useState(value)
+
+    function onChange(data) {
+        props.onChange(data)
+        setCode(data)
+    }
+
+    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.formData ? "auto" : props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
+        }
+    }
+
+    return <React.Fragment>
+        <Stack direction="horizontal" gap={3}>
+            <div>
+                {props.name} 
+                {/*props.required && <span className="required">*</span>*/}
+            </div>
+        </Stack>
+        <CodeMirror onChange={onChange} 
+            value={code} 
+            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
+            lineNumbers={false}
+            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
+            extensions={[html({ base: htmlLanguage, codeLanguages: languages })]} />
+    </React.Fragment>
+
+}
+
+export function getViewHTMLUI(props) {
+    let value = props.formData ? props.formData : ``
+
+    return <React.Fragment>
+        <Stack direction="horizontal" gap={3}>
+            <div>
+                {props.name} 
+                {/*props.required && <span className="required">*</span>*/}
+            </div>
+        </Stack>
+        {parse(value)}
+    </React.Fragment>
+
+}
+
+export function getCreateMarkDownUI(props) {
+    const [code, setCode]=useState(``)
+
+    function onChange(data) {
+        props.onChange(data)
+        setCode(data)
+    }
+
+    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
+        }
+    }
+
+    return <React.Fragment>
+        <Stack direction="horizontal" gap={3}>
+            <div>
+                {props.name} 
+                {/*props.required && <span className="required">*</span>*/}
+            </div>
+        </Stack>
+        <CodeMirror onChange={onChange} 
+            value={code} 
+            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
+            lineNumbers={false}
+            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
+            extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]} />
+    </React.Fragment>
+
+}
+
+export function getEditMarkDownUI(props) {
+    let value = props.formData ? props.formData : ``
+    const [code, setCode]=useState(value)
+
+    function onChange(data) {
+        props.onChange(data)
+        setCode(data)
+    }
+
+    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.formData ? "auto" : props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
+        }
+        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
+            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
+        }
+    }
+
+    return <React.Fragment>
+        <Stack direction="horizontal" gap={3}>
+            <div>
+                {props.name} 
+                {/*props.required && <span className="required">*</span>*/}
+            </div>
+        </Stack>
+        <CodeMirror onChange={onChange} 
+            value={code} 
+            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
+            lineNumbers={false}
+            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
+            extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]} />
+    </React.Fragment>
+}
+
+export function getViewMarkDownUI(props) {
+    if(props.formData) {
+        return <React.Fragment>
+            <Stack direction="horizontal" gap={3}>
+                <div>
+                    {props.name} 
+                    {/*props.required && <span className="required">*</span>*/}
+                </div>
+            </Stack><ReactMarkdown>{props.formData}</ReactMarkdown>
+        </React.Fragment>
+    }
+    return <div/>
+}
+

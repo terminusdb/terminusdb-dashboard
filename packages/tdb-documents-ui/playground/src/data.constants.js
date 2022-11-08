@@ -35,7 +35,7 @@ export const ORIGINAL_DIFF_MANDATORY_DOCUMENT={
 		"AddressLine1": "Somewhere",
 		"Country": "New Zeeland",
 		"postalCode": "NZ29038",
-		"City":"Same"
+		"City":"Same" 
 	}
 	/*"likes_color": "Yellow",*/
 	/*"nickNames": [
@@ -102,13 +102,13 @@ export const CHANGED_DIFF_MANDATORY_DOCUMENT={
     }*/
 
 export const ORIGINAL_TEST_LIST={
-	"@id": "ComputerStudent/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
-	"@type": "ComputerStudent",
-	stores_as: [
+	"@id": "justAThing/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "justAThing",
+	blah: [
 		{
 			key: 'jose',
 			same: "yes",
-			maybe: "what"
+			maybe: "what" 
 		},
 		{
 			key: 'xyz',

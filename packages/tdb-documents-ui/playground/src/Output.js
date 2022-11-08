@@ -9,9 +9,6 @@ import {Button, Col} from "react-bootstrap"
 import {FiCode} from "react-icons/fi"
 import {DIFF_VIEWER, MULTI_LANGUAGE} from "./menu.constants"
 import Form from 'react-bootstrap/Form'
-import { getDiffViewSetSubDocumentType } from "../../src/setTypeFrames/setType.utils"
-
-
 
 const FormView = () => {
     const {

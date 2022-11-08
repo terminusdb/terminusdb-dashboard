@@ -4,11 +4,11 @@ import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Card, Row, Col, Button} from "react-bootstrap"
 import {WOQLTable} from '@terminusdb-live/tdb-react-components'
 import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
-import {getDocumentOfTypeTabConfig} from "./ViewConfig"
+import {getDocumentOfTypeTabConfig} from "./ViewConfig" 
 import {WOQLClientObj} from '../init-woql-client'
 import {SearchBox} from "./SearchBox"
 import {getDocumentTools, getDeleteTool, getCopyIDTool} from "./DocumentActions"
-import {DocumentFrames} from "./DocumentFrames"
+import {DocumentFrames} from "./DocumentFrames" 
 import {DocumentInfo} from "./DocumentInfo"
 import {getColumnsFromResults, displayIDOfLinkedDocuments, isArray} from "./utils"
 import {NoDocumentsAvailable} from "./NoDocumentsAvailable"
@@ -120,7 +120,7 @@ export const DocumentView = () => {
         documentResults.map(item=> {
             var newJson={}
             for(var key in item){
-                if(Array.isArray(item[key])){
+                if(Array.isArray(item[key]) && item[key].length > 0){
                     var type = item[key][0]["@type"]
                     if(frames[`terminusdb:///schema#${type}`] && frames[`terminusdb:///schema#${type}`]["@subdocument"]){
                         // this is a subdocument

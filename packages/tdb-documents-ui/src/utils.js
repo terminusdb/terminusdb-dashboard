@@ -29,7 +29,10 @@ import {
 	SELECTED_LANGUAGE,
 	DEFAULT_LANGUAGE,
 	RDF_LANG_STRING	,
-	FEATURE
+	FEATURE,
+	METADATA,
+	RENDER_AS,
+	WIDGET
 } from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
@@ -382,6 +385,7 @@ export function isFilled (formData, item){
 	if(Array.isArray(formData)) return true
 	if(formData.hasOwnProperty(item) && Array.isArray(formData[item]) && formData[item].length) return true
 	if(formData.hasOwnProperty(item) && formData[item]) return true
+	if(formData.hasOwnProperty(item) && formData[item] === 0) return true
 	return false
 }
 
@@ -920,4 +924,41 @@ export function extractChoiceDocumentLabels(frame, choice, language) {
 			})
 		}
 	return extracted
+}
+
+
+/**
+ * 
+ * @param {*} frame frame of interest
+ * @param {*} item item of interest
+ * @returns metadata render widget type
+ */
+export function checkForMetaData (frame, item) {
+    if(frame.hasOwnProperty(METADATA) && 
+        frame[METADATA].hasOwnProperty(RENDER_AS) && 
+        frame[METADATA][RENDER_AS].hasOwnProperty(item) &&
+        frame[METADATA][RENDER_AS][item].hasOwnProperty(WIDGET)) {
+            return frame[METADATA][RENDER_AS][item][WIDGET]
+    }
+    return false
+}
+
+
+/**
+ * 
+ * @param {*} frame frame of interest
+ * @param {*} item item of interest
+ * @returns metadata json type
+ */
+ export function getMetaData (frame, item) {
+    if(frame.hasOwnProperty(METADATA)) {
+        return frame[METADATA]
+    }
+    return false
+}
+
+/** function to get row height to display in textareas for xsd:string */
+export function getRowHeight(data) {
+	if(Array.isArray(data)) return 1
+    return data.split(/\r\n|\r|\n/).length
 }

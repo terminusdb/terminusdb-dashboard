@@ -8,6 +8,10 @@ import {
     ORIGINAL_UI_FRAME, 
     CHANGED_UI_FRAME
 } from "../constants"
+import {
+    OPERATION,
+    INSERT
+} from "./diff.constants"
 import {Card, Row, Col} from "react-bootstrap"
 import {generateDiffUIFrames} from "./diffViewer.utils"
 
@@ -65,9 +69,55 @@ const NewValueHeader = ({newValueHeader}) => {
     if(!diffPatch) return <div>{"Include diff patch JSON Object to view diffs"}</div>
     if(!frame.hasOwnProperty(type)) return <div>{`Frame of type ${type} not found`}</div>
 
+
+    if(diffPatch.hasOwnProperty(OPERATION) && diffPatch[OPERATION] === INSERT) {
+        let uiJson = {
+            classNames: "p-3 text-dark inserted"
+        }
+        let hideUIJson = {
+            classNames: "hide__opacity p-3"
+        }
+        return <Row> 
+            <Col md={6}>
+                <Card>  
+                    <Card.Header>
+                        <OldValueHeader oldValueHeader={oldValueHeader}/>
+                    </Card.Header>
+                    <Card.Body>
+                        <FrameViewer
+                            frame={frame}
+                            uiFrame={hideUIJson}
+                            type={type}
+                            formData={newValue}
+                            mode={VIEW}
+                            hideSubmit={true}
+                        />
+                    </Card.Body>
+                </Card>
+            </Col>
+            <Col md={6}>
+                <Card>
+                    <Card.Header>
+                        <NewValueHeader newValueHeader={newValueHeader}/>
+                    </Card.Header>
+                    <Card.Body>
+                        <FrameViewer
+                            frame={frame}
+                            uiFrame={uiJson}
+                            type={type}
+                            formData={newValue}
+                            mode={VIEW}
+                            hideSubmit={true}
+                        />
+                    </Card.Body>
+                </Card>
+            </Col>
+        </Row>
+    }
+
     let subFrame=frame[type]    
     let diffUIFrames=generateDiffUIFrames(frame, subFrame, type, oldValue, newValue, diffPatch)
-
+ 
     return <Row> 
         <Col md={6}>
             <Card>  

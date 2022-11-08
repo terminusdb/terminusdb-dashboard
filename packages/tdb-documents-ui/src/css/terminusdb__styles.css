@@ -14,8 +14,12 @@
     color: #f9d891 !important;
 }
 
-.tdb__input > input, .tdb__input > select, .tdb__view__enum__input > select{
-    color: #adb5bd;
+.tdb__input > input, 
+.tdb__input > select, 
+.tdb__view__enum__input > select,
+.tdb__input > textarea
+{
+    color: #adb5bd !important;
     background-color: transparent !important;
     border-color: rgb(102, 102, 102) !important;
     line-height: 1.5;
@@ -331,4 +335,17 @@ div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.c
 
 div.diff_react_viewer_changed > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(n+3) {
     display: none !important;
+}
+
+div.inserted { 
+    background-color: #badbcc;
+    border-radius: 4px;
+}
+
+div.inserted * {
+    color: #444 !important;
+}
+
+.hide__opacity {
+    opacity: 0 !important;
 }

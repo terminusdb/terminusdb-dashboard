@@ -80,7 +80,14 @@ export const transformData = (mode, schema, data, frame, current, type) => {
                 if(transformed && Object.keys(transformed).length)
                     transformedArray.push(transformed)
             })
-            if(Array.isArray(transformedArray) && transformedArray.length) {
+            if(Array.isArray(transformedArray) && transformedArray.length === 0) {
+                if(schema.hasOwnProperty(key) && 
+                    schema[key].hasOwnProperty("info") && 
+                    schema[key]["info"] === SYS_UNIT_DATA_TYPE) {
+                        extracted[key] = formData[key]
+                    }
+            }
+            else if(Array.isArray(transformedArray) && transformedArray.length) {
                 // populate only if not empty
                 extracted[key] = transformedArray
             }

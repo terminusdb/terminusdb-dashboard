@@ -204,7 +204,7 @@ import {displaySysJSONElements} from "./sysFieldDiffs"
  */
 function displaySubDocumentElements(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
     let renderElements=[], elementSchema=schema, currentChoice=false, choiceCss="tdb__input"
- 
+    if(!formData.hasOwnProperty(item)) return renderElements
     for(var fds=0; fds<formData[item].length; fds++) {
         let fields=[], hasChanged=false
         if(schema.hasOwnProperty(INFO) && schema[INFO] === CHOICESUBCLASSES) {

@@ -85,6 +85,25 @@ export const ONEOFVALUES="@oneOf"
 export const COORDINATES="coordinates"
 export const INFO="info"
 
+// Meta data constants
+export const METADATA="@metadata"
+export const RENDER_AS="render_as"
+export const WIDGET="widget"
+export const CODE_MIRROR_MIN_HEIGHT="minHeight"
+export const CODE_MIRROR_LINE_NUMBERS="displayLines"
+export const CODE_MIRROR_THEME="theme"
+
+export const BASIC_CODE_MIRROR_CONFIG =  {
+  [CODE_MIRROR_MIN_HEIGHT]:"100px", 
+  [CODE_MIRROR_LINE_NUMBERS]:true, 
+  [CODE_MIRROR_THEME]:"dark"
+}
+
+// Meta data types
+export const MARKDOWN="markdown"
+export const HTML="HTML"
+
+
 // geo frame constants
 export const ARRAY="Array"
 export const DIMENSION= "@dimensions"
