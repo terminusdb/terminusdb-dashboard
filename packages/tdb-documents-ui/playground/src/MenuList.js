@@ -37,7 +37,8 @@ export const MenuList = () => {
 							onClick={(e) => handleClick(menu.CHOICE_SUBDOCUMENTS)}>
 							{menu.CHOICE_SUBDOCUMENTS} 
 						</NavDropdown.Item>
-						<NavDropdown.Item onClick={(e) => handleClick(menu.CHOICE_CLASSES)}>
+						<NavDropdown.Item data-cy={menu.DATA_CY_CHOICE_DOCUMENTS} 
+							onClick={(e) => handleClick(menu.CHOICE_CLASSES)}>
 							{menu.CHOICE_CLASSES} 
 						</NavDropdown.Item> 
 						<NavDropdown.Item onClick={(e) => handleClick(menu.ONE_OF)}>

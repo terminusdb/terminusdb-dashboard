@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Card, Row, Col, Button} from "react-bootstrap"
 import {WOQLTable} from '@terminusdb-live/tdb-react-components'
@@ -228,7 +227,7 @@ export const DocumentView = () => {
         <Row className="mt-5 w-100">
 
         {/* Display summary cards with number of document classes available */}
-        {perDocumentCount && !documentObjectWithFrames.action && (!documentResults) && <DocumentSummary/>}
+        {perDocumentCount && !documentObjectWithFrames.action && (!documentResults) && !tableConfig && <DocumentSummary/>}
 
         {/* No document available for a chosen document class card */}
         {(documentClasses.length==0) && <DocumentSummary/>}

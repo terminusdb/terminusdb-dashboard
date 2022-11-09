@@ -64,7 +64,7 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            <TDBReactButton   onClick={handleCreate} className= "float-right" config={CREATE_NEW_BRANCH_BUTTON}/>
+            <TDBReactButton  onClick={handleCreate} className= "float-right" config={CREATE_NEW_BRANCH_BUTTON}/>
         </Modal.Footer>
     </Modal>
 }

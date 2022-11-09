@@ -101,6 +101,7 @@ export function getCreateUILayout(frame, item, layout, uiFrame, onSelect, docume
                 }
 
                 return <React.Fragment>
+                    <span>{item}</span>
                     <span>{choice}</span>
                     <AsyncSelect
                         cacheOptions
@@ -119,8 +120,6 @@ export function getCreateUILayout(frame, item, layout, uiFrame, onSelect, docume
             uiLayout["info"]={"ui:widget": "hidden"}
         })
     }
-    console.log("!!! create layout", layout, uiLayout)
-
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
 
