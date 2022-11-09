@@ -1,5 +1,5 @@
 import React, {useState,useMemo} from "react"
-import {WOQLTable} from '@terminusdb-live/tdb-react-components'
+import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {Card} from "react-bootstrap"
 import {tableViewConfigLocal} from "../../functions/ViewConfig"
 

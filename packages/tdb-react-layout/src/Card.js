@@ -1,6 +1,6 @@
 
 import React from "react"
-import {Card, Row, Col} from '@themesberg/react-bootstrap';
+import {Card, Row, Col} from 'react-bootstrap';
 
 export const CardWidget = (props) => {
 

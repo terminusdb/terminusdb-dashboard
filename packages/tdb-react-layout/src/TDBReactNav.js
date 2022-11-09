@@ -1,6 +1,6 @@
 import React from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
-import {Nav} from '@themesberg/react-bootstrap'
+import {Nav} from 'react-bootstrap'
 
 export const TDBReactNav= (props) =>{
     

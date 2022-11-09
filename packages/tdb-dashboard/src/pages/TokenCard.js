@@ -4,13 +4,12 @@ import {AccessTokenHook} from "../hooks/AccessTokenHook"
 import {BsClipboard} from "react-icons/bs"
 import {Alerts} from "../components/Alerts"
 import {TERMINUS_SUCCESS} from "../components/constants"
-import {WOQLTable} from '@terminusdb-live/tdb-react-components'
+import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import TerminusClient from "@terminusdb/terminusdb-client"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import {getTokenListConfig} from "../components/ViewConfig"
 
 export const TokenCard=({organization})=>{
-
 	const {getToken,
 			token,
 			loading,

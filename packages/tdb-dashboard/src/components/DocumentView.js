@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react"
 import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Card, Row, Col, Button} from "react-bootstrap"
-import {WOQLTable} from '@terminusdb-live/tdb-react-components'
-import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
+import {WOQLTable,ControlledGetDocumentQuery} from '@terminusdb/terminusdb-react-table'
+//import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
 import {getDocumentOfTypeTabConfig} from "./ViewConfig" 
 import {WOQLClientObj} from '../init-woql-client'
 import {SearchBox} from "./SearchBox"

@@ -6,6 +6,7 @@
     "./packages/tdb-react-layout",
     "./packages/tdb-access-control-component",
     "./packages/tdb-documents-ui",
+    "./packages/tdb-react-table",
     "./packages/tdb-dashboard"
   ]
 }
