@@ -1,0 +1,93 @@
+{
+  "name": "@terminusdb/terminusdb-react-table",
+  "version": "0.0.7",
+  "description": "Table for terminusdb",
+  "main": "src/index",
+  "module": "es6/index",
+  "jsnext:main": "es6/index",
+  "sideEffects": [
+    "./*/index.js"
+  ],
+  "files": [
+    "*.md",
+    "src",
+    "es6"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "table",
+    "react-component",
+    "terminusdb"
+  ],
+  "scripts": {
+    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js'",
+    "build": "npm run build-es6 && webpack --mode production",
+    "start": "webpack serve --mode development  --open --progress --port 3000 --host localhost --config demo/webpack.config.js",
+    "startold": "webpack-dev-server --progress --port 3000 --host localhost --content-base demo --inline --config demo/webpack.config.js",
+    "test": "echo 'TODO: There should be tests created'",
+    "lint": "eslint src",
+    "autofix": "eslint src --fix"
+  },
+  "pre-commit": [],
+  "pre-push": [
+    "test",
+    "lint"
+  ],
+  "repository": {},
+  "author": "terminusdb group",
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.0",
+    "@terminusdb/terminusdb-client": "^10.0.12",
+    "apollo-client": "^2.6.10",
+    "classnames": "^2.2.5",
+    "date-fns": "^2.28.0",
+    "graphql": "^16.6.0",
+    "react-apollo": "^3.1.5",
+    "react-bootstrap": "^2.1.2",
+    "react-csv": "^2.2.2",
+    "react-icon": "^1.0.0",
+    "react-icons": "^4.3.1",
+    "react-table": "^7.8.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/plugin-proposal-export-default-from": "^7.7.4",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@babel/runtime": "^7.6.3",
+    "babel-loader": "^8.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv-webpack": "^7.1.0",
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-react": "^7.16.0",
+    "pre-commit": "^1.1.3",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-hot-loader": "^1.3.0",
+    "react-router-dom": "^5.1.2",
+    "rimraf": "^2.7.1",
+    "webpack": "^5.68.0",
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "license": "APACHE"
+}

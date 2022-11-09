@@ -1,7 +1,6 @@
 import * as d3 from 'd3';
 
 function GraphResultsViewer(config,result) {
-	console.log("link",JSON.stringify(result.edges,null,4))
 	this.svg;
 	this.visid = randomString(8);
 	this.currentDate = Date.now() / 1000; // nowish
@@ -303,7 +302,10 @@ GraphResultsViewer.prototype.updateGraph = function(nodes, links) {
 
 	/*Create and place the "blocks" containing the circle and the text */
     var node_enter = this.node_elements.enter().append("g");
+	node_enter.attr("transform", function (d) { return "translate(" + d.x + ","+ d.y + ")" ;});
 
+	//node_enter. attr("y",  function(node){ return node.y})
+	
 	// enter and create new ones
 	node_enter.append("circle")
 		.style('opacity', 0.99)
@@ -314,17 +316,16 @@ GraphResultsViewer.prototype.updateGraph = function(nodes, links) {
 		.call(self.drag_drop)
 		.on("mouseover", function(d){ d3.select(this).style("cursor", "pointer"); })
 		.on("mouseout", function(d){ d3.select(this).style("cursor", "default"); })
-		.on('click', follow_node_wrapper);
+		.on('click', follow_node_wrapper)
 
-		node_enter.append("text")
+		/*node_enter.append("text")
 		.attr("x",  function(node){ return node.x})
 		.attr("y",  function(node){ return node.y})
 		.append("tspan")
-		.text(function(node) { return self.getNodeIconUnicode(node)})
-		.call(self.drag_drop)
-		.on("mouseover", function(d){ d3.select(this).style("cursor", "pointer"); })
-		.on("mouseout", function(d){ d3.select(this).style("cursor", "default"); })
-		.on('click', follow_node_wrapper);
+
+
+		.text(function(node) { return self.getNodeIconUnicode(node)})*/
+		
 
 		
 
@@ -437,7 +438,7 @@ function positionLink(d) {
 function _linkArc(d){
 	return `M${d.source.x},${d.source.y}A0,0 0 0,1 ${d.target.x},${d.target.y}`}
 	
-var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]);
+//var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]);
 
 GraphResultsViewer.prototype.updateSimulation = function(mode) {
 	var self = this;
@@ -472,38 +473,57 @@ GraphResultsViewer.prototype.updateSimulation = function(mode) {
 		}
 	}
 }
-
+//function(d) { return color(d.text); })
 GraphResultsViewer.prototype.styleNodeElements = function() {
+	//const nodeImg= this.getNodeImage({id:"Part/3020",radius:30,image:"https://cdn.rebrickable.com/media/parts/elements/4211395.jpg"})
 	var self = this;
 	if(this.node_elements){
 		this.node_elements.each(function(node){
 			var g = d3.select(this);
 			var sel = g.select("circle");
 			sel.select("title").remove();
-			sel.style("fill", function(d) { return color(d.text); })//self.getNodeColour(node));
 			sel.attr('r', self.getRadius(node));
 			sel.attr("stroke", "white")
         	sel.attr("stroke-width", 3)
 			//sel.attr("opacity", 0.2)
 			sel.classed("highlighted", function(node) { return self.focusNodes.indexOf(node.id) != -1});
-			sel.append("title")
+			
+			
+
+			if(node.image){
+				sel.style("fill", "#fff")
+				sel.style("fill", function(node){return self.getNodeImage(node)})
+			}else{
+				g.append("text")
+				.attr("x",  function(node){ return node.x})
+				.attr("y",  function(node){ return node.y})
+				.append("tspan")
+				.text(function(node) { return self.getNodeIconUnicode(node)})
+			
+
+				sel.style("fill", self.getNodeColour(node));
+				sel.append("title")
 				.classed("terminus-gnode-title", true)
 				.text(self.getNodeText(node));
-			var txt = g.select("text");
-			txt.select("title").remove();
-			txt.append("tspan").text(node.radius).attr("dy",-15)
-			txt.attr('text-anchor', 'middle')
-				//.attr('class','labelClassName')
-				.attr("title", self.getNodeText(node))
-				.attr('dominant-baseline', 'central')
-				.style('font-family', "'" + self.fontfam + "'")
-				.style('font-weight', self.getNodeIconWeight(node))
-				.style('font-size', self.getNodeIconSize(node))
-				.style("fill", self.getNodeIconColour(node))
-				//.text(self.getNodeIconUnicode(node))//"\uf061")
-				.append("title")
-					.classed("terminus-gnode-title", true)
-					.text(self.getNodeText(node));
+				var txt = g.select("text");
+
+				txt.select("title").remove();
+				//to see a text in the right top corner
+				if(node.toptext)txt.append("tspan").text(node.toptext).attr("dy",-15)
+				txt.attr('text-anchor', 'middle')
+					//.attr('class','labelClassName')
+					.attr("title", self.getNodeText(node))
+					.attr('dominant-baseline', 'central')
+					.style('font-family', "'" + self.fontfam + "'")
+					.style('font-weight', self.getNodeIconWeight(node))
+					.style('font-size', self.getNodeIconSize(node))
+					.style("fill", self.getNodeIconColour(node))
+				//	.text(self.getNodeIconUnicode(node))//"\uf061")
+					.append("title")
+						.classed("terminus-gnode-title", true)
+						.text(self.getNodeText(node));
+			
+				}
 		});
 	}
 }
@@ -545,6 +565,28 @@ GraphResultsViewer.prototype.styleTextElements = function() {
 	}
 }
 
+GraphResultsViewer.prototype.getNodeImage = function (node){
+	const getHas = node.id.substring(node.id.indexOf("/")+1)
+	const imgId = `image__${getHas}` 
+	this.svg.append('svg:defs').selectAll("pattern")
+	.data([imgId])
+	.join("pattern")
+
+//	defs.append("svg:pattern")
+	.attr("id", imgId )
+    .attr("width", node.radius*2)
+    .attr("height", node.radius*2)
+    .attr("patternUnits", "objectBoundingBox")
+    .append("svg:image")
+	.attr("width", node.radius*2)
+    .attr("height", node.radius*2)
+    .attr("xlink:href", node.image)
+    .attr("x", 0)
+    .attr("y", 0);
+	return `url(#${imgId})`
+}
+
+
 //create arrow
 GraphResultsViewer.prototype.getEdgeArrow = function(edge) {
 	if(edge){
@@ -577,10 +619,6 @@ GraphResultsViewer.prototype.getEdgeArrow = function(edge) {
 				.data([id])
 				.join("marker")
 				.attr("id", id)
-				//.attr("viewBox" , "0 0 10 10")
-				//.attr("viewBox", "0 -5 10 10")
-				//.attr("viewBox", [0, 0, markerBoxWidth, markerBoxHeight])//"0 -5 10 10")
-				//.attr("refX",5)// Math.ceil((this.getArrowOffset(edge) + 10))/edge.size)//22)  // This sets how far back it sits, kinda
 				.attr("refY", 3.5)
 				.attr("refX", (Math.ceil((this.getArrowOffset(edge) + 7+3)/edge.size)))
 				.attr("markerWidth", 7)//this.getArrowWidth(edge))
@@ -588,7 +626,6 @@ GraphResultsViewer.prototype.getEdgeArrow = function(edge) {
 				.attr("orient", "auto")
 				//The markerUnits attribute defines the coordinate system for the markerWidth 
 				// and markerHeight attributes and the contents of the <marker>.
-				//.attr("markerUnits", "userSpaceOnUse")
 				.append("svg:path")
 					.attr('d', d3.line()(arrowPoints))	
 					//.attr("d", "M 0 0 L 10 5 L 0 10 z")
@@ -819,9 +856,21 @@ GraphResultsViewer.prototype.getNodeIconSize = function(node) {
 	}
 	return (this.getMultiplier(node) + "em");
 }
+// this can be usefull to convert rex color to Rgb
+function rexToRgb(rexStr ){
+    if(typeof rexStr!=="string")return []
+    var aRgbHex = rexStr.match(/.{1,2}/g);
+    if(aRgbHex.length!==3) return []
+    return [
+        parseInt(aRgbHex[0], 16),
+        parseInt(aRgbHex[1], 16),
+        parseInt(aRgbHex[2], 16)
+        ]
+}
 
 GraphResultsViewer.prototype.getNodeColour = function(node) {
-	var col = (node && node.color ? node.color : this.defaults.node.color);
+	const col = (node && node.color ? node.color : this.defaults.node.color);
+	if(typeof col === "string")return col
 	if(this.isFringe(node)){
 		return "rgba("+col.join(",")+",0.25)";
 	}
@@ -840,7 +889,7 @@ GraphResultsViewer.prototype.getNodeIconUnicode= function(node) {
 		if(node.icon.unicode){
 			return node.icon.unicode;
 		}
-		if(node.icon.label === true)	return this.getNodeText(node);
+		if(node.icon.label === true) return this.getNodeText(node);
 		else if(node.icon.label) return node.icon.label;
 	}
 	return this.defaults.node.icon.unicode;
@@ -851,7 +900,8 @@ GraphResultsViewer.prototype.getNodeIconWeight = function(node) {
 }
 
 GraphResultsViewer.prototype.getNodeIconColour = function(node) {
-	var col = (node && node.icon && node.icon.color ? node.icon.color : this.defaults.node.icon.color );
+	const col = (node && node.icon && node.icon.color ? node.icon.color : this.defaults.node.icon.color );
+	if(typeof col === "string") return col
 	if(this.isFringe(node)){
 		return "rgba("+col.join(",")+",0.25)";
 	}

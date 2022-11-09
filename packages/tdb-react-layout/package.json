@@ -44,7 +44,6 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "@themesberg/react-bootstrap": "^1.4.1", 
     "prop-types": "^15.6.0",
     "re-resizable": "^6.9.0",
     "react-bootstrap": "^1.6.5",

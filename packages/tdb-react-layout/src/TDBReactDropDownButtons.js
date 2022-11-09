@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import { Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
+import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
  
 export const TDBReactDropDownButtons = (props) => {
     let config=props.config || {}

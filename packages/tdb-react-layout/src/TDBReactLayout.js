@@ -1,9 +1,9 @@
 import React from "react"
 import {useWorker} from "@terminusdb-live/react-worker"
-import {Row} from '@themesberg/react-bootstrap';
+import {Row} from 'react-bootstrap';
 import {TDBReactCard} from './TDBReactCard'
 import {TDBReactCardList} from './TDBReactCardList'  
-import {Card} from '@themesberg/react-bootstrap';
+import {Card} from 'react-bootstrap';
   
 export const TDBReactLayout = (props) =>{
     if(!props.config) return ''

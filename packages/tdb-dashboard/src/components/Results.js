@@ -1,5 +1,6 @@
 import React, {useState,useMemo} from "react"
-import {WOQLTable, WOQLGraph} from '@terminusdb-live/tdb-react-components'
+import {WOQLGraph} from '@terminusdb-live/tdb-react-components'
+import { WOQLTable } from "@terminusdb/terminusdb-client"
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
 import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constants"

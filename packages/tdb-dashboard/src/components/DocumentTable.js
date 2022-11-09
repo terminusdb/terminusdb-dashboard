@@ -1,7 +1,6 @@
 
 import React, {useState, useEffect} from "react"
-import {WOQLTable} from '@terminusdb-live/tdb-react-components'
-import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
+import {WOQLTable,ControlledGetDocumentQuery} from '@terminusdb/terminusdb-react-table'
 import {getDocumentOfTypeTabConfig} from "./ViewConfig"
 import {NoDocumentsAvailable} from "./NoDocumentsAvailable"
 import {WOQLClientObj} from '../init-woql-client'
