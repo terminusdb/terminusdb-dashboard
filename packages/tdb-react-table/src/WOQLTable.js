@@ -9,7 +9,7 @@ import { matchType } from './ColumnFilters';
 //import './style.css'
 
 //this only render the logic of do the query is in an external hook
-export const WOQLTable = ({bindings, result, view, freewidth, query, start, limit, orderBy, totalRows, setLimits, setOrder, setFilters,onRefresh,dowloadConfig})=>{
+export const WOQLTable = ({bindings, result, view, freewidth, query, start, filtersBy ,limit, orderBy, totalRows, setLimits, setOrder, setFilters,onRefresh,dowloadConfig})=>{
     let wt = TerminusClient.View.table()
     if(view)  wt.loadJSON(view.table, view.rules)
     
@@ -102,7 +102,7 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
                 if(filter){
                     const filterComp = matchType[filter.type]
                     col.Filter = filterComp
-                    col.options = filter.dataprovider
+                    col.options = filter.options
                 }
 
             }else{
@@ -120,7 +120,8 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
         else colstruct.Header = " "
         return [colstruct]
     }
-    if(!data || !data.length) return null
+    // I visualize the empty data too
+    if(!Array.isArray(data)) return null
 
     let headers=[] 
     let csvData=[]
@@ -158,12 +159,14 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
                 freewidth={freewidth}
                 view={woqt}
                 orderBy={orderBy}
+                filtersBy={filtersBy}
                 pages={pages}
                 pageNumber={pagenum}
                 rowCount={totalRows}
                 setLimits={setLimits}
                 setOrder={setOrder}
                 onRefresh={onRefresh}
+                
             />
         </React.Fragment>
     )

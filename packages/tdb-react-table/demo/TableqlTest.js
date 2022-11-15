@@ -63,9 +63,10 @@ function Test() {
          documentResults} = ControlledGraphqlQuery(ELEMENT_QUERY, "Element", 10,0,{},{});
     
 
-    const result = documentResults ? documentResults.Element : []
+    const result = [] // documentResults ? documentResults.Element : []
 
     const tableConfig= TerminusClient.View.table();
+    tableConfig.column_order("image_url","id")
     tableConfig.column("image_url").width(100).renderer({type: "image",options:{"width":"80px"}})
     tableConfig.column("image_url").filterable(false).header(" ")
      // tableConfig.column("material").filter({type:"list",dataprovider:material})

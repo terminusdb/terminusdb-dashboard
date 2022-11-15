@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useQuery} from "@apollo/client";
 
-export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, queryStart, order, filterBy) { 
+export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, queryStart, order, filter) { 
     const [limit, setLimit] = useState(queryLimit || 10)
     const [start, setStart] = useState(queryStart || 0)
     const [orderBy, setOrderBy] = useState(order||false)
@@ -9,18 +9,32 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     const [hasNextPage, setHasNextPage] = useState(true)
     const [loaded, setLoaded] = useState(false)
     const [controlledRefresh, setControlledRefresh] = useState(0)
-    const [filters, setFilters] = useState(filterBy || {})
+ 
+    //filter is the filter formatted for the query
+    let filterTable  = []
+    if (filter){
+      const keys = Object.keys(filter)
+      keys.forEach(propN =>{
+        
+         const operator = Object.keys(filter[propN])[0]
+
+         filterTable.push({id:propN, value:{value:filter[propN][operator],operator:operator}})
+      })
+    }
+
+    console.log("filterTable",filterTable,filter)
   
-    const {loading, error, data, fetchMore } = useQuery(graphqlQuery, {variables:{offset:0 , limit:10}});
+    const [filterBy, setFilters] = useState(filterTable)
+    const [queryFilters, setQueryFilters] = useState(filter || {})
+  
+    const {loading, error, data, fetchMore } = useQuery(graphqlQuery, {variables:{offset:0 , limit:10, orders:{},filter:queryFilters}});
 
-    //console.log("graphqlQuery",documentType, queryLimit, queryStart, order, filterBy)
-
-   // console.log("graphqlQuery",limit, start, orderBy, filters)
    useEffect(() => {
         setLimit(queryLimit)
         setStart(0)
         setOrderBy(false)
-        setFilters({})
+        //we see for the tablefilter
+        setQueryFilters(filter || {})
     }, [graphqlQuery])
 
     const changeLimits =(currentlimit,currentpage)=>{
@@ -28,7 +42,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
          setLimit(currentlimit)
         
          fetchMore({
-             variables:{offset:currentpage , limit:currentlimit+1, ...filters},
+             variables:{offset:currentpage , limit:currentlimit+1, filters:queryFilters},
              updateQuery: (prev, { fetchMoreResult }) => {
                //if (!fetchMoreResult) return prev;
                if(!Array.isArray(fetchMoreResult[documentType]))return []
@@ -42,17 +56,31 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
            })
      }
 
+     //"filter": {"rgb": {"regex": "FFFFF"}}
+
      const changeFilters = (filtersArr) =>{
-        const filters = {}
+        const filtersTmp = {}
         if(Array.isArray(filtersArr)){
           filtersArr.forEach(item=>{
-            filters[item.id] = item.value
+            // value has operator:value {"eq":"myvalue"}
+            const value = {[item.value.operator]: item.value.value}
+            if(item.varPath){
+
+              const level01 = Object.keys(item.varPath)[0]
+              if(!filtersTmp[level01] ) filtersTmp[level01] = {}
+
+              const level02 = Object.keys(item.varPath[level01])[0]
+              filtersTmp[level01][level02] = value
+
+            }else
+            filtersTmp[item.id] = value
           })
         }
+        setFilters(filtersArr)
+        setQueryFilters(filtersTmp)
        // console.log("callSetFilters",filters)
-        setFilters(filters)
         fetchMore({
-          variables:{offset:start , limit:limit+1, orderBy:{}, ...filters},
+          variables:{offset:start , limit:limit+1, orderBy:{}, filter:filtersTmp},
   
           updateQuery: (prev, { fetchMoreResult }) => {
             //if (!fetchMoreResult) return prev;
@@ -80,7 +108,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
         }
         setOrderBy(orderByArr)
         fetchMore({
-          variables:{offset:start , limit:limit+1, orderBy:orderByObj},
+          variables:{offset:start , limit:limit+1, orderBy:orderByObj,filter:queryFilters},
   
           updateQuery: (prev, { fetchMoreResult }) => {
             //if (!fetchMoreResult) return prev;
@@ -117,6 +145,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
         changeLimits,
         changeFilters,
         orderBy,
+        filterBy,
        // controlledDocument,
         limit,
         start,
