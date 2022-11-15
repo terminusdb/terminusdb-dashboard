@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, HideArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle, checkIfKey} from "../utils"
-import {CREATE, CHOICESUBCLASSES, SYS_JSON_TYPE, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
+import {CREATE, CHOICESUBCLASSES, DOCUMENT, SYS_JSON_TYPE, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
 import JSONInput from 'react-json-editor-ajrm'
 import locale    from 'react-json-editor-ajrm/locale/en'
@@ -1408,8 +1408,8 @@ export function getEditSetChoiceDocumentTypeUILayout (frame, item) {
 export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
     let layout={
         type: "array",
-        title: getSetTitle(item), 
-        //items: frame.properties[item],
+        title: getSetTitle(item)
+        //items: frame.properties[item], 
         //additionalItems: frame.properties[item]
     }
 
@@ -1426,7 +1426,8 @@ export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
                     //if(aOf.title === value["@type"]) {
                         let structure = {
                             type: "string",
-                            default: value
+                            default: value,
+                            info: DOCUMENT
                         }
                         /*for(var props in aOf) {
                             structure[props]=aOf[props]
@@ -1460,7 +1461,7 @@ export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
 // view set Choice Document type ui layout
 export function getViewSetChoiceDocumentTypeUILayout (frame, item, uiFrame, formData) {  
     //console.log("uiFrame ****", uiFrame)
-    let uiLayout= {}
+    let uiLayout= {} 
 
     if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
         uiLayout["ui:field"]=uiFrame[item]["ui:diff"]

@@ -100,9 +100,9 @@ export function getDocumentFieldDiffs(diffPatch, key) {
     // property has been added 
     if(diffPatch[key].hasOwnProperty("@before") && 
         diffPatch[key]["@before"] === null) {
-            diffUIFrames[ORIGINAL_UI_FRAME][key]["ui:field"]=showRemovedElementOriginal
-            diffUIFrames[CHANGED_UI_FRAME][key]["ui:field"]=showAddedElementChanged
-        }
+        diffUIFrames[ORIGINAL_UI_FRAME][key]["ui:field"]=showRemovedElementOriginal
+        diffUIFrames[CHANGED_UI_FRAME][key]["ui:field"]=showAddedElementChanged
+    }
     // adding css classNames
     diffUIFrames[ORIGINAL_UI_FRAME][key]["classNames"]="text-danger tdb__diff__original mb-3"
     diffUIFrames[CHANGED_UI_FRAME][key]["classNames"]="text-success tdb__diff__changed mb-3"

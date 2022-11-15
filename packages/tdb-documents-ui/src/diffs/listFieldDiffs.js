@@ -26,6 +26,7 @@ import {
     SWAP_LIST,
     SWAP_VALUE
 } from "./diff.constants" 
+import {getLabel} from "./setFieldDiffs"
 import {removedSubDocumentElement} from "./subDocumentFieldDiffs"
 
 /**
@@ -59,10 +60,14 @@ import {removedSubDocumentElement} from "./subDocumentFieldDiffs"
 
             )
         }
-    if(schema.hasOwnProperty(INFO) && 
+    if(schema.hasOwnProperty(INFO) &&  
         schema[INFO] === DOCUMENT) {
             elements.push(
-                <div className={`form-group field field-string  ${css}`}>
+                <div className={`form-group field field-string ${css}`} style={{marginLeft: "10px"}}>
+                    <AiFillMinusCircle/>
+                    <AiFillMinusCircle/>
+                    <AiFillMinusCircle/>
+                {/*<div className={`form-group field field-string  ${css}`}>
                 <Stack direction="horizontal" gap={3}>
                     <label className="control-label" htmlFor={`root_${label}`}>
                         <span>{label}</span>
@@ -76,6 +81,7 @@ import {removedSubDocumentElement} from "./subDocumentFieldDiffs"
                     </div>
                 </Stack>
                 <input className="form-control opacity-0" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
+            */}
             </div>
 
             )
@@ -364,6 +370,7 @@ function doOperation(diffPatch, item, formData, startFormDataIndex, schema, labe
                             {elements}
                         </>)
                     }
+                    renderElements.push(getLabel(label, type)) 
                     // stitch in patch object 
                     diffPatch[PATCH].map(patch => {
                         let elements=displayElements(patch[interest], schema, label, required, css, interest)

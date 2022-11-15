@@ -23,14 +23,7 @@ export const FilledDocumentViewSelect = ({label, defaultValue, required, onTrave
         if (styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
         return <React.Fragment>
-            {/*<Form.Label className="control-label ">{label}</Form.Label> */}
-            <Stack direction="horizontal" gap={3}>
-                <div>
-                    {label} 
-                    {required && <span className="required">*</span>}
-                </div>
-                <div className="ms-auto">{description} </div>
-            </Stack>
+            <div className="ms-auto">{description} </div>
             <span onClick={(e) => handleClick(e, defaultValue)} className={`tdb__span__select ${color}`}>
                 {defaultValue}
             </span>
@@ -41,11 +34,8 @@ export const FilledDocumentViewSelect = ({label, defaultValue, required, onTrave
 export const EmptyDocumentSelect = ({label, styles, placeholder, value, onChange, loadOptions, handleInputChange, description}) => {
 
     return <React.Fragment>
-        <Stack direction="horizontal" gap={3}>
-            <div>{label} </div>
+        <span data-cy={`test_cy_${label}`}>
             <div className="ms-auto">{description} </div>
-        </Stack>
-        <span className="mt-5" data-cy={`test_cy_${label}`}>
             {value && <AsyncSelect
                     classNames="tdb__input"
                     styles={styles}
@@ -67,17 +57,11 @@ export const EmptyDocumentSelect = ({label, styles, placeholder, value, onChange
 }
 
 // filled Select - edit mode
-export const FilledDocumentSelect = ({label, styles, labelCss, hideLabel, placeholder, defaultValue, onChange, loadOptions, handleInputChange, description}) => {
+export const FilledDocumentSelect = ({label, styles, placeholder, defaultValue, onChange, loadOptions, handleInputChange, description}) => {
    
-    let labelStyle = labelCss && labelCss.hasOwnProperty("classNames") ? labelCss["classNames"] : "text-light"
-    
     return <React.Fragment> 
-        {/*<Form.Label>{label} {/*<span class="required">*</span> </Form.Label>*/}
-        {!hideLabel && <Stack direction="horizontal" gap={3}>
-            <div className={labelStyle}>{label} </div>
-            <div className="ms-auto">{description} </div>
-        </Stack>}
         <span data-cy={`test_cy_${label}`}>
+            <div className="ms-auto">{description} </div>
             <AsyncSelect
                 cacheOptions
                 classNames="tdb__input"

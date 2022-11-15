@@ -9,7 +9,6 @@ import {
 import {DOCUMENT, SELECT_STYLES} from "../constants"
 import {EmptyDocumentSelect, FilledDocumentSelect, FilledDocumentViewSelect} from "./DocumentSelects"
 
-
 // create layout
 export function getCreateLayout (frame, item) {
     let layout= {
@@ -121,29 +120,34 @@ export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame, d
         let description = getCommentFromDocumentation(item, documentation)
 
         if (defaultValue) {
-            return <FilledDocumentSelect
-                label={label}
+            return <React.Fragment>
+                {label}
+                <FilledDocumentSelect
+                    label={label}
+                    styles={selectStyle}
+                    placeholder={props.uiSchema["ui:placeholder"]}
+                    onChange={onChange}
+                    loadOptions={loadOptions}
+                    defaultValue={defaultValue}
+                    description={description}
+                    handleInputChange={handleInputChange}
+                />
+            </React.Fragment>
+        }
+
+        return <React.Fragment>
+                {label}
+                <EmptyDocumentSelect
+                label={props.name}
                 styles={selectStyle}
                 placeholder={props.uiSchema["ui:placeholder"]}
                 onChange={onChange}
                 loadOptions={loadOptions}
-                defaultValue={defaultValue}
+                value={value}
                 description={description}
                 handleInputChange={handleInputChange}
             />
-        }
-
-        return <EmptyDocumentSelect
-            label={props.name}
-            styles={selectStyle}
-            placeholder={props.uiSchema["ui:placeholder"]}
-            onChange={onChange}
-            loadOptions={loadOptions}
-            value={value}
-            description={description}
-            handleInputChange={handleInputChange}
-        />
-
+        </React.Fragment>
     }
 
     uiLayout = {
@@ -203,16 +207,19 @@ export function getViewUILayout(frame, item, formData, onTraverse, uiFrame, docu
         let required=false
         if (props.required) required=true
 
-        return <FilledDocumentViewSelect
-            label={label}
-            description={description}
-            styles={selectStyle}
-            defaultValue={props.formData}
-            onTraverse={onTraverse}
-            uiFrame={uiFrame}
-            item={item}
-            required={required}
-        />
+        return <React.Fragment>
+            {label}
+            <FilledDocumentViewSelect
+                label={label}
+                description={description}
+                styles={selectStyle}
+                defaultValue={props.formData}
+                onTraverse={onTraverse}
+                uiFrame={uiFrame}
+                item={item}
+                required={required}
+            />
+        </React.Fragment>
 
     }
 

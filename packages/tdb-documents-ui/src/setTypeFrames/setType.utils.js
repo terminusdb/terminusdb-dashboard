@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, addCustomUI, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle, getLabelFromDocumentation} from "../utils"
-import {CREATE, EDIT, VIEW, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, COORDINATES} from "../constants"
+import {CREATE, EDIT, VIEW, DOCUMENT, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, COORDINATES} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
 import {Form} from "react-bootstrap"
 import JSONInput from 'react-json-editor-ajrm' 
@@ -857,10 +857,17 @@ export function getViewSetDocumentTypeLayout (frame, item, formData, documentati
 // View set Document type UI Layout
 export function getViewSetDocumentTypeUILayout (frame, item, onSelect, uiFrame, formData, onTraverse, documentation) {
     // getting ui layout for additional items
-    let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {}
+    let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {} 
 
     // hide widget if formData of item is empty
-    if(!isFilled(formData, item)) {
+    if(!isFilled(formData, item)) { 
+        // diff viewer
+        if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+            uiLayout={
+                "ui:field": uiFrame[item]["ui:diff"]
+            }
+            return uiLayout
+        }
         uiLayout={
             "ui:widget" : 'hidden',
             "ui:options": {
@@ -912,17 +919,8 @@ export function getViewSetDocumentTypeUILayout (frame, item, onSelect, uiFrame, 
                             defaultValue={props.formData}
                             onTraverse={onTraverse} 
                             styles={selectStyle}/>
-                        /*<FilledDocumentSelect
-                            label={props.name}
-                            styles={selectStyle}
-                            placeholder={props.uiSchema["ui:placeholder"]}
-                            onChange={onChange}
-                            loadOptions={loadOptions}
-                            defaultValue={props.formData}
-                            handleInputChange={handleInputChange}
-                        />*/
                     )
-                }
+                } 
                 else returnElement.push(
                     <EmptyDocumentSelect
                         label={label}
@@ -963,6 +961,12 @@ export function getViewSetDocumentTypeUILayout (frame, item, onSelect, uiFrame, 
         uiFrame[item]["ui:widget"] === "hidden") {
             uiLayout={"ui:widget": 'hidden', "ui:ArrayFieldTemplate": HideArrayFieldTemplate}
         }
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"]
+        }
+    }
     return uiLayout
 }
 
@@ -1451,7 +1455,8 @@ export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
             let structure = {
                 type: 'string',
                 tilte: item,
-                default: value
+                default: value,
+                info: DOCUMENT
             }
             filledItems.push(structure)
         })
@@ -1460,65 +1465,69 @@ export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
 
     // get filled items
     layout["items"] = filledItems
+    layout["additionalItems"] = {
+        type: 'string',
+        tilte: item,
+        info: DOCUMENT
+    }
     return layout
 }
 
 // view set Choice Document type ui layout
-export function getViewSetChoiceDocumentTypeUILayout (frame, item, onTraverse) {
-    let uiLayout= {}
+export function getViewSetChoiceDocumentTypeUILayout (frame, item, uiFrame, onTraverse) {
+    let uiLayout= {} 
 
-        function getViewSetChoice(props){
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout["ui:field"]=uiFrame[item]["ui:diff"]
+        return uiLayout
+    }
+    function getViewSetChoice(props){
 
-            const [clicked, setClicked]=useState(false)
+        const [clicked, setClicked]=useState(false)
 
-            useEffect(() => {
-                if(!clicked) return
-                if(onTraverse) onTraverse(clicked)
-            }, [clicked])
+        useEffect(() => {
+            if(!clicked) return
+            if(onTraverse) onTraverse(clicked)
+        }, [clicked])
 
-            const handleClick = (e, val) => { // view if on traverse function defined
-                setClicked(val)
-            }
-
-            let filledUis = []
-
-            if(Array.isArray(props.formData)) {
-                props.formData.map(value => {
-                    filledUis.push(
-                        <React.Fragment>
-                            <div onClick={(e) => handleClick(e, value)}
-                                className="tdb__span__select text-light">
-                                    {value}
-                            </div>
-                        </React.Fragment>
-                    )
-                })
-
-                return <React.Fragment>
-                    <Form.Label className="control-label">{item}</Form.Label>
-                    {filledUis}
-                </React.Fragment>
-            }
-            // if not array - then theres no filled value avail
-            return<div/>
-        }
-        uiLayout = {
-            "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-            //classNames: "tdb__input mb-3 mt-3",
-            "ui:field": getViewSetChoice,
-            "ui:options": {
-                addable: false,
-                orderable: false,
-                removable: false
-            },
-            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        const handleClick = (e, val) => { // view if on traverse function defined
+            setClicked(val)
         }
 
-        /*uiLayout= {
-            items: frame.uiSchema[item],
-            additionalItems: frame.uiSchema[item],
+        let filledUis = []
 
-        }*/
+        if(Array.isArray(props.formData)) {
+            props.formData.map(value => {
+                filledUis.push(
+                    <React.Fragment>
+                        <div onClick={(e) => handleClick(e, value)}
+                            className="tdb__span__select text-light">
+                                {value}
+                        </div>
+                    </React.Fragment>
+                )
+            })
+
+            return <React.Fragment>
+                <Form.Label className="control-label">{item}</Form.Label>
+                {filledUis}
+            </React.Fragment>
+        }
+        // if not array - then theres no filled value avail
+        return<div/>
+    }
+    uiLayout = {
+        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        //classNames: "tdb__input mb-3 mt-3",
+        "ui:field": getViewSetChoice,
+        "ui:options": {
+            addable: false,
+            orderable: false,
+            removable: false
+        },
+        "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+    } 
+
 
 
     return uiLayout

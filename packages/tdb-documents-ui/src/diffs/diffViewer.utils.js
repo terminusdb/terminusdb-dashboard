@@ -102,7 +102,8 @@ export function generateDiffUIFrames (fullFrame, frame, type, oldValue, newValue
         if (frame[item] && isListType(frame[item])) { // list 
             if(diffPatch.hasOwnProperty(item)) { 
                 let constructedListFrame = constructOptionalFrame(frame[item], item)
-                let listField=getListFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
+                let listField=getSetFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
+                //let listField=getListFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
                 diffUIFrames[ORIGINAL_UI_FRAME][item]=listField[ORIGINAL_UI_FRAME][item]
                 diffUIFrames[CHANGED_UI_FRAME][item]=listField[CHANGED_UI_FRAME][item]
             }

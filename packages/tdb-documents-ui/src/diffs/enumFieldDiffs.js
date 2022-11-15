@@ -62,7 +62,7 @@ function showRemovedElementOriginal(props) {
 
 // function to show added element for changed
 function showAddedElementChanged(props) {
-    return <div className="form-group field field-string  text-success tdb__diff__enum__changed">
+    return <div className="form-group field field-string mb-4 text-success tdb__diff__enum__changed">
         <Stack direction="horizontal" gap={3}>
             <label className="control-label" htmlFor={`root_${props.name}`}>
                 <span>{props.name}</span>

@@ -30,6 +30,15 @@ import {
 import {removedSubDocumentElement} from "./subDocumentFieldDiffs"
 import {displaySysJSONElements} from "./sysFieldDiffs"
 
+/** returns a label field */
+export function getLabel(label, required, interest) { 
+    let css = interest === BEFORE ? "text-danger" : "text-success"
+    return <label className="control-label" htmlFor={`root_${label}`}>
+        <span className={css}>{label}</span>
+        {required && <span className="required">*</span>}
+    </label>
+}
+
 /**
  * 
  * @param {*} schema schema to control data types
@@ -45,11 +54,11 @@ import {displaySysJSONElements} from "./sysFieldDiffs"
             elements.push(
                 <div className={`form-group field field-string  ${css}`}>
                 <Stack direction="horizontal" gap={3}>
-                    <label className="control-label" htmlFor={`root_${label}`}>
+                   { /*<label className="control-label" htmlFor={`root_${label}`}>
                         <span>{label}</span>
                         {required && <span className="required">*</span>}
                         
-                    </label>
+                    </label>*/}
                     <div className={`ms-auto ${css}`}>
                         <AiFillMinusCircle/>
                         <AiFillMinusCircle/>
@@ -64,42 +73,23 @@ import {displaySysJSONElements} from "./sysFieldDiffs"
     if(schema.hasOwnProperty(INFO) && 
         schema[INFO] === DOCUMENT) {
             elements.push(
-                <div className={`form-group field field-string  ${css}`}>
-                <Stack direction="horizontal" gap={3}>
-                    <label className="control-label" htmlFor={`root_${label}`}>
-                        <span>{label}</span>
-                        {required && <span className="required">*</span>}
-                        
-                    </label>
-                    <div className={`ms-auto ${css}`}>
-                        <AiFillMinusCircle/>
-                        <AiFillMinusCircle/>
-                        <AiFillMinusCircle/>
-                    </div>
-                </Stack>
-                <input className="form-control opacity-0" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
-            </div>
-
+                <div className={`form-group field field-string ${css}`} style={{marginLeft: "10px"}}>
+                    <AiFillMinusCircle className="mb-2 mt-1"/>
+                    <AiFillMinusCircle className="mb-2 mt-1"/>
+                    <AiFillMinusCircle className="mb-2 mt-1"/>
+                </div>
             )
     }
     if(schema.hasOwnProperty(INFO) && 
         schema[INFO] === ENUM) {
             elements.push(
-                <div className={`form-group field field-string  ${css}`}>
-                <Stack direction="horizontal" gap={3}>
-                    <label className="control-label" htmlFor={`root_${label}`}>
-                        <span>{label}</span>
-                        {required && <span className="required">*</span>}
-                        
-                    </label>
-                    <div className={`ms-auto ${css}`}>
-                        <AiFillMinusCircle/>
+                <div className={`form-group field field-string `} style={{marginBottom: "38px"}}>
+                    <div className={`${css}`}>
+                        <AiFillMinusCircle style={{marginLeft: "10px"}}/>
                         <AiFillMinusCircle/>
                         <AiFillMinusCircle/>
                     </div>
-                </Stack>
-                <input className="form-control opacity-0" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
-            </div>
+                </div>
 
             )
     }
@@ -128,15 +118,10 @@ import {displaySysJSONElements} from "./sysFieldDiffs"
         schema[INFO] === DATA_TYPE) {
         elements.push(
             <div className={`form-group field field-string ${css} mb-3`}>
-                <label className="control-label" htmlFor={`root_${label}`}>
-                    <span>{label}</span>
-                    {required && <span className="required">*</span>}
-                    
-                </label>
                 <input value={value} className="form-control" readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
             </div>
         )
-    }
+    } 
     if(schema.hasOwnProperty(INFO) && 
         schema[INFO] === DOCUMENT) {
             let inputSelectCss="text_diff_select"
@@ -145,20 +130,27 @@ import {displaySysJSONElements} from "./sysFieldDiffs"
                     css="text-danger"
                     inputSelectCss="text-danger text_diff_select text_diff_underline"
                 }
-                else {
+                else { 
                     css="text-success"
                     inputSelectCss="text-success text_diff_select text_diff_underline"
                 }
             }
-            elements.push(
-                <div className={`form-group field field-string ${css}  mb-3`}>
-                    <label className="control-label" htmlFor={`root_${label}`}>
-                        <span>{label}</span>
-                        {required && <span className="required">*</span>}
-                    </label>
-                    <input value={value} className={`form-control ${inputSelectCss}`} readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
-                </div>
-            )
+            if(Array.isArray(value)) {
+                value.map(val => {
+                    elements.push( 
+                        <div className={`form-group field field-string ${css} mb-1`}>
+                            <input value={val} className={`form-control ${inputSelectCss}`} readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
+                        </div>
+                    )
+                })
+            }
+            else {
+                elements.push( 
+                    <div className={`form-group field field-string ${css} mb-1`}>
+                        <input value={value} className={`form-control ${inputSelectCss}`} readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
+                    </div>
+                )
+            }
     }
     if(schema.hasOwnProperty(INFO) && 
         schema[INFO] === ENUM) {
@@ -175,10 +167,6 @@ import {displaySysJSONElements} from "./sysFieldDiffs"
             }
             elements.push(
                 <div className={`form-group field field-string ${css}  mb-3`}>
-                    <label className="control-label" htmlFor={`root_${label}`}>
-                        <span>{label}</span>
-                        {required && <span className="required">*</span>}
-                    </label>
                     <input value={value} className={`form-control ${inputSelectCss}`} readOnly={true} id={`root_${label}`} label={label} required="" placeholder="xsd:string" type="text"/>
                 </div>
             )
@@ -296,9 +284,22 @@ function displaySubDocumentElements(diffPatch, item, formData, startFormDataInde
  */
 function doOperation(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
     let renderElements=[], currentFormDataIndex=startFormDataIndex
-   
+    if(item === "asset_history") {
+        console.log("asset_history")
+    } 
     if(Array.isArray(diffPatch)) { // simple swapValue Operation 
         let isSubDocumentType=true
+        if(schema && schema.hasOwnProperty(INFO) && schema[INFO] === DOCUMENT) {
+            // display label for DOCUMENT types
+            renderElements.push( 
+                <div className={`form-group field field-string ${css} mt-3`}>
+                    <label className="control-label" htmlFor={`root_${label}`}>
+                        <span>{label}</span>
+                        {required && <span className="required">*</span>}
+                    </label>
+                </div>
+            )
+        }
         diffPatch.map(diffs => {
             if(diffs.hasOwnProperty(interest)) {
                 isSubDocumentType=false
@@ -366,7 +367,8 @@ function doOperation(diffPatch, item, formData, startFormDataIndex, schema, labe
                         renderElements.push( <>
                             {elements}
                         </>)
-                    }
+                    } 
+                    renderElements.push(getLabel(label, type, interest)) 
                     // stitch in patch object 
                     diffPatch[PATCH].map(patch => {
                         let elements=displayElements(patch[interest], schema, label, required, css, interest)
@@ -414,12 +416,22 @@ function doOperation(diffPatch, item, formData, startFormDataIndex, schema, labe
             }
             // swap value operation 
             if(diffPatch[OPERATION] === SWAP_VALUE) {
-                let elements=displayElements(diffPatch[interest], schema, label, required, css, interest)
-                renderElements.push( <>
-                    {elements}
-                </>)
+                renderElements.push(getLabel(label, type, interest)) 
+                if(diffPatch[interest] === null) {
+                    // removed items
+                    let oppInterest=interest === BEFORE ? AFTER : BEFORE
+                    for(var count=0; count < diffPatch[oppInterest].length; count ++) {
+                        let elements=getRemovedElements(schema, label, required, css, interest)
+                        renderElements.push( <> {elements} </>)
+                    }
+                }
+                else {
+                    let elements=displayElements(diffPatch[interest], schema, label, required, css, interest)
+                    renderElements.push( <> {elements} </>)
+                }
             }
     }
+    
     return renderElements
 }
 
@@ -480,7 +492,11 @@ export function getSetFieldDiffs (fullFrame, frame, diffPatch, item, type, oldVa
                 let sysJSONElement=displaySysJSONElements(diffPatch, item, oldValue, newValue, props.schema, props.name, props.required, BEFORE, "css", fullFrame, frame, type) 
                 renderElements.push(sysJSONElement)
         }
-        else renderElements=doOperation(diffPatch[item], item, oldValue, 0, props.schema.items[0], props.name, props.required, BEFORE, "text-danger tdb__diff__original mb-3", fullFrame, frame, type, null)
+        else {
+            // we pass schema as additionalItems (there maybe cases when Item's emmpty)
+            let schema = props.schema.hasOwnProperty("additionalItems") ? props.schema.additionalItems : props.schema.items[0]
+            renderElements=doOperation(diffPatch[item], item, oldValue, 0, schema, props.name, props.required, BEFORE, "text-danger tdb__diff__original mb-3", fullFrame, frame, type, null)
+        }
         return <>
             {renderElements}
         </>
@@ -498,7 +514,10 @@ export function getSetFieldDiffs (fullFrame, frame, diffPatch, item, type, oldVa
                 let sysJSONElement=displaySysJSONElements(diffPatch, item, oldValue, newValue, props.schema, props.name, props.required, AFTER, "css", fullFrame, frame, type) 
                 renderElements.push(sysJSONElement)
         }
-        else renderElements=doOperation(diffPatch[item], item, newValue, 0, props.schema.items[0], props.name, props.required, AFTER, "text-success tdb__diff__changed mb-3", fullFrame, frame, type, null)
+        else {
+            let schema = props.schema.hasOwnProperty("additionalItems") ? props.schema.additionalItems : props.schema.items[0]
+            renderElements=doOperation(diffPatch[item], item, newValue, 0, schema, props.name, props.required, AFTER, "text-success tdb__diff__changed mb-3", fullFrame, frame, type, null)
+        }
         return <>
         {renderElements}
         </>

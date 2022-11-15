@@ -124,7 +124,7 @@ const NewValueHeader = ({newValueHeader}) => {
                 <Card.Header>
                     <OldValueHeader oldValueHeader={oldValueHeader}/>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body> 
                     <FrameViewer
                         frame={frame}
                         uiFrame={diffUIFrames[ORIGINAL_UI_FRAME]}

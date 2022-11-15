@@ -33,7 +33,7 @@ function getCreateDocumentLayout(documentClass, fullFrame){
         }
     }
     return layout
-}
+} 
 // get edit layout of document class
 function getEditDocumentLayout(documentClass, formData){
 
@@ -101,7 +101,6 @@ export function getCreateUILayout(frame, item, layout, uiFrame, onSelect, docume
                 }
 
                 return <React.Fragment>
-                    <span>{item}</span>
                     <span>{choice}</span>
                     <AsyncSelect
                         cacheOptions

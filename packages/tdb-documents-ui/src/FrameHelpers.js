@@ -114,8 +114,8 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
     for(var item in frame) {
         
-        if(item === "favorite_group") {
-            console.log("favorite_group")
+        if(item === "elements") {
+            console.log("elements")
         }
         if(item === "@key") continue
         else if(item === "@type") continue

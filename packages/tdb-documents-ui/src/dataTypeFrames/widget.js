@@ -35,8 +35,43 @@ export function getDateTimeUIWidget (title) {
             1980,
             2030
         ]
-    }
+    } 
     uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
+    return uiLayout
+}
+
+function displayDate(props) { 
+    if(props.formData) {
+        let date = new Date(props.formData); console.log()
+        return <div className="tdb__input">
+            <label className="control-label" htmlFor={`root_${props.name}`}>
+                <span>{props.name}</span>
+                {props.required && <span className="required">*</span>}
+            </label>
+            <input value={date.toUTCString()}  
+                className="form-control" 
+                readOnly={true} 
+                id={`root_${props.name}`} 
+                label={props.name} 
+                required="" 
+                placeholder="xsd:string" 
+                type="text"/>
+        </div>
+    }
+    return <div/>
+}
+
+
+// function to provide a ui widget to dateTime
+export function getDateTimeViewUIWidget (title) {
+    let uiLayout = {} 
+    uiLayout["ui:field"]=displayDate
+    return uiLayout
+}
+
+export function getDateViewUIWidget(title) {
+    let uiLayout = {}
+    uiLayout["ui:field"]=displayDate
     return uiLayout
 }
 
@@ -74,10 +109,11 @@ const matchType ={
     [DATATYPE.XSD_ANY_URI] : DATATYPE.STRING_TYPE,
     [DATATYPE.XSD_LANGUAGE] : DATATYPE.STRING_TYPE,
     [DATATYPE.RDF_LANGSTRING] :DATATYPE.STRING_TYPE,
-    [DATATYPE.XDD_URL] : DATATYPE.STRING_TYPE,
+    [DATATYPE.XDD_URL] : DATATYPE.STRING_TYPE, 
 
     [DATATYPE.SYS_JSON_TYPE] : DATATYPE.JSON_TYPE,
     [DATATYPE.XSD_DOUBLE] : DATATYPE.NUMBER_TYPE,
+    [DATATYPE.XSD_NONNEGATIVEINTEGER] : DATATYPE.NUMBER_TYPE,
     [DATATYPE.XSD_FLOAT] : DATATYPE.NUMBER_TYPE,
     [DATATYPE.XSD_POSITIVE_INTEGER] : DATATYPE.NUMBER_TYPE,
     [DATATYPE.XSD_DECIMAL] : DATATYPE.NUMBER_TYPE,

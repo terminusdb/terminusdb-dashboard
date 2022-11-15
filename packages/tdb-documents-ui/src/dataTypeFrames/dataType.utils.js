@@ -20,7 +20,9 @@ import {
     getCreateMarkDownUI,
     getEditMarkDownUI,
     getViewMarkDownUI, 
-    getTextareaUIWidget
+    getTextareaUIWidget,
+    getDateTimeViewUIWidget,
+    getDateViewUIWidget
 } from "./widget" 
 import {
     XSD_DATE_TIME,
@@ -44,7 +46,7 @@ export function getCreateLayout(frame, item, documentation) {
     let type=getDataType(frame[item]) 
     let layout = {
         type: type,
-        info: DATA_TYPE,
+        info: DATA_TYPE, 
         title: label
     }
     // store metadata object here 
@@ -228,10 +230,10 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
         classNames: "tdb__input mb-3 mt-3"
     } 
     if(frame[item] === XSD_DATE_TIME) {
-        uiLayout=getDateTimeUIWidget(title) // if xsd:dateTime, use a separate widget to display
+        uiLayout=getDateTimeViewUIWidget(title) // if xsd:dateTime, use a separate widget to display
     }
     else if(frame[item] === XSD_DATE) {
-        uiLayout=getDateUIWidget(title)
+        uiLayout=getDateViewUIWidget(title)
     }
     else if(frame[item] === XSD_ANY_URI) {
         uiLayout=getURIUIWidget(title)

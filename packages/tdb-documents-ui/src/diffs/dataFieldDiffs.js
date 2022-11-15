@@ -17,7 +17,7 @@ function showNoChange(props) {
 }
 
 // function to show added element for original
-function showOriginal(props) {
+function showOriginal(props) { 
     return <div className="form-group field field-string text-danger tdb__diff__original mb-3">
         <label className="control-label" htmlFor={`root_${props.name}`}>
             <span>{props.name}</span>
@@ -150,7 +150,7 @@ export function getDataFieldDiffs(diffPatch, item) {
     
     else {
         // when changed
-        diffUIFrames[ORIGINAL_UI_FRAME][item]["ui:field"]=showOriginal
+        diffUIFrames[ORIGINAL_UI_FRAME][item]["ui:field"]=showOriginal 
         diffUIFrames[CHANGED_UI_FRAME][item]["ui:field"]=showChanged
     }
     

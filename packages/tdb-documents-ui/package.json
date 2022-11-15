@@ -10,6 +10,7 @@
     "build": "npm run build-es6 && rimraf dist && webpack --mode production",
     "playground": "webpack serve --mode development  --open --progress --port 3033 --host localhost --config playground/webpack.config.js",
     "testDb": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config test/webpack.config.js",
+    "diff": "webpack serve --mode development  --open --progress --port 3034 --host localhost --config diff/webpack.config.js",
     "lint": "eslint src",
     "autofix": "eslint src --fix",
     "cypress": "npx cypress open"
@@ -84,6 +85,7 @@
     "acorn": "^8.8.0",
     "bootstrap": "^5.1.3",
     "codemirror": "^6.0.1",
+    "cypress-plugin-snapshots": "^1.4.4",
     "dotenv": "^16.0.1",
     "highlight.js": "^11.6.0",
     "html-react-parser": "^3.0.4",

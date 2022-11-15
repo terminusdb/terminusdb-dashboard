@@ -98,7 +98,7 @@ export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData, o
 
     if (mode === VIEW) {
         layout=getViewSetChoiceDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item, onTraverse)
+        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item, uiFrame, onTraverse)
     }
 
     // schema
