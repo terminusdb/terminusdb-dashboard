@@ -114,9 +114,6 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
     for(var item in frame) {
         
-        if(item === "elements") {
-            console.log("elements")
-        }
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue
@@ -189,7 +186,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             required.push(item) 
         }
         else if (frame[item] && isOptionalType(frame[item])) { // optional 
-            let constructedOptionalFrame = constructOptionalFrame(frame[item], item, getMetaData(frame, item))
+            let constructedOptionalFrame = constructOptionalFrame(frame[item], item, getMetaData(frame))
             let optionalProperties = getProperties(fullFrame, item, constructedOptionalFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             let optionalFrames = makeOptionalTypeFrames(optionalProperties, item, uiFrame, mode, formData) 
            
@@ -251,7 +248,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             required.push(item)
         }
         else if (frame[item] && isSetType(frame[item])) { //set
-            let constructedSetFrame = constructSetFrame(frame[item], item, getMetaData(frame, item))
+            let constructedSetFrame = constructSetFrame(frame[item], item, getMetaData(frame))
 
             let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
        
@@ -263,7 +260,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
         }
         else if (frame[item] && isListType(frame[item])) { //list
-            let constructedListFrame = constructSetFrame(frame[item], item, getMetaData(frame, item))
+            let constructedListFrame = constructSetFrame(frame[item], item, getMetaData(frame))
 
             let listProperties = getProperties(fullFrame, item, constructedListFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             let listFrames = makeListTypeFrames(listProperties, item, uiFrame, mode, formData, onTraverse, onSelect, fullFrame, documentation)
@@ -281,7 +278,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             required.push(item)
         }
         else if(frame[item] && isArrayType(frame[item])) { // Array (dimension 1 is treated like Sets )
-            let constructedSetFrame = constructSetFrame(frame[item], item, getMetaData(frame, item))
+            let constructedSetFrame = constructSetFrame(frame[item], item, getMetaData(frame))
 
             let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
        
