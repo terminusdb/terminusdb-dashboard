@@ -28,8 +28,8 @@ const ELEMENT_QUERY = gql` query ElementQuery($offset: Int, $limit: Int,$orderBy
 
 
 const COLOR_QUERY = gql`
-  query ColorQuery($offset: Int, $limit: Int, $orderBy:Color_Ordering ,$rgb : String , $name:String ) {
-    Color(offset: $offset, limit: $limit, orderBy:$orderBy, rgb:$rgb , name:$name) {
+  query ColorQuery($offset: Int, $limit: Int, $orderBy:Color_Ordering ) {
+    Color(offset: $offset, limit: $limit, orderBy:$orderBy) {
         id
         rgb
         name
@@ -60,15 +60,15 @@ function Test() {
          limit,
          start,
          loading,
-         documentResults} = ControlledGraphqlQuery(ELEMENT_QUERY, "Element", 10,0,{},{});
+         documentResults} = ControlledGraphqlQuery(COLOR_QUERY, "Color", 10,0,{},{});
     
 
-    const result = [] // documentResults ? documentResults.Element : []
+    const result =  documentResults ? documentResults.Color : []
 
     const tableConfig= TerminusClient.View.table();
-    tableConfig.column_order("image_url","id")
-    tableConfig.column("image_url").width(100).renderer({type: "image",options:{"width":"80px"}})
-    tableConfig.column("image_url").filterable(false).header(" ")
+   // tableConfig.column_order("image_url","id")
+   // tableConfig.column("image_url").width(100).renderer({type: "image",options:{"width":"80px"}})
+    //tableConfig.column("image_url").filterable(false).header(" ")
      // tableConfig.column("material").filter({type:"list",dataprovider:material})
     //   tabConfig.column_order("Time", "Author", "Commit ID", "Message", "Copy Commit ID")
      //  tabConfig.column("Commit ID")
