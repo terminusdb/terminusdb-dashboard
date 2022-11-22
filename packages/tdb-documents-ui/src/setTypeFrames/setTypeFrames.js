@@ -71,7 +71,7 @@ export function makeSetSubChoiceTypeFrames (frame, item, uiFrame, mode, formData
 
     if (mode === VIEW) {
         layout=getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetChoiceSubDocumentTypeUILayout(frame, item, formData)
+        uiLayout=getViewSetChoiceSubDocumentTypeUILayout(frame, item, formData, uiFrame)
     }
 
     // schema

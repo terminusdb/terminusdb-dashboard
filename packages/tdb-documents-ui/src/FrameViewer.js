@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react"
 import Form from "@terminusdb/rjsf-core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
-import {TDB_SCHEMA, SUBMIT_BUTTON_STYLE_KEY, VIEW, EDIT, CREATE, DOCUMENTATION} from "./constants"
-import {Alert, Button} from "react-bootstrap"
-import {isValueHashDocument, getValueHashMessage, extractDocumentation} from "./utils"
+import {METADATA, VIEW, EDIT, CREATE} from "./constants"
+import {Alert} from "react-bootstrap"
+import {isValueHashDocument, getValueHashMessage, extractDocumentation, getOrderFromMetaData} from "./utils"
 import {transformData} from "./extract"
 
 /*
@@ -32,61 +32,58 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
 
     const [message, setMessage]=useState(false)
 
-    if(!frame) return <div>No schema provided!</div>
-    if(!mode) return  <div>Please include a mode - Create/ Edit/ View</div>
-    if(mode === VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
-    if(!type) return  <div>Please include the type of document</div>
-
     let current = `${type}`
     let formDataTemp=formData
 
     useEffect(() => {
         //try{
-            let documentation= extractDocumentation(frame, current, language)
-            let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, documentation)
-            
-            let schema = {
-                type: "object",
-                properties: properties.properties,
-                required: properties.required,
-                dependencies: properties.dependencies,
-            }
-            //console.log("schema", JSON.stringify(schema, null, 2))
-            //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
+            if(frame, uiFrame, type, mode, formData) {
+                let documentation= extractDocumentation(frame, current, language)
+                let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, documentation)
+                
+                let schema = {
+                    type: "object",
+                    properties: properties.properties,
+                    required: properties.required,
+                    dependencies: properties.dependencies,
+                }
+                //console.log("schema", JSON.stringify(schema, null, 2))
+                //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
-            console.log("schema", schema)
-            console.log("properties.uiSchema", properties.uiSchema)
-            //console.log("uiSchema", uiSchema)
+                console.log("schema", schema)
+                console.log("properties.uiSchema", properties.uiSchema)
+                //console.log("uiSchema", uiSchema)
 
-            if(mode === VIEW) {
-                setReadOnly(true)
-                setInput(formData)
-            }
-            else if(mode === CREATE) setInput(formData)
-            else if(mode === EDIT && isValueHashDocument(frame[current])) {
-                setInput(formData)
-                setMessage(getValueHashMessage())
-                setReadOnly(true)
-            }
-            else if(onChange) { // form nested frame viewers
-                setInput(formData)
-            }
-            else {
-                setReadOnly(false)
-                setInput({})
-            }
-            setSchema(schema)
-            const uiSchema = properties.uiSchema
+                if(mode === VIEW) {
+                    setReadOnly(true)
+                    setInput(formData)
+                }
+                else if(mode === CREATE) setInput(formData)
+                else if(mode === EDIT && isValueHashDocument(frame[current])) {
+                    setInput(formData)
+                    setMessage(getValueHashMessage())
+                    setReadOnly(true)
+                }
+                else if(onChange) { // form nested frame viewers
+                    setInput(formData)
+                }
+                else {
+                    setReadOnly(false)
+                    setInput({})
+                }
+                setSchema(schema)
+                const uiSchema = properties.uiSchema
 
-            // get form level ui schema 
-            if(uiFrame && uiFrame.hasOwnProperty("classNames")) uiSchema["classNames"]= uiFrame.classNames
-            if(uiFrame && uiFrame.hasOwnProperty("ui:order")) uiSchema["ui:order"]=uiFrame["ui:order"]
-            if(uiFrame && uiFrame.hasOwnProperty("ui:title")) uiSchema["ui:title"]= uiFrame["ui:title"]
-            if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
-            
-            // order is set to place @documentation field at the start of the document
-            uiSchema["ui:order"] = ["@documentation", "*"]
-            setUISchema(uiSchema)
+                // get form level ui schema 
+                if(uiFrame && uiFrame.hasOwnProperty("classNames")) uiSchema["classNames"]= uiFrame.classNames
+                if(uiFrame && uiFrame.hasOwnProperty("ui:order")) uiSchema["ui:order"]=uiFrame["ui:order"]
+                if(uiFrame && uiFrame.hasOwnProperty("ui:title")) uiSchema["ui:title"]= uiFrame["ui:title"]
+                if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
+                
+                // order is set to place @documentation field at the start of the document
+                uiSchema["ui:order"] = getOrderFromMetaData(frame)
+                setUISchema(uiSchema)
+            }
         //}
         //catch(e) {
           //  setError("An error has occured in generating frames. Err - ", e)
@@ -94,11 +91,17 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
 
     }, [frame, uiFrame, type, mode, formData, language]) 
 
+    if(!frame) return <div>No schema provided!</div>
+    if(!mode) return  <div>Please include a mode - Create/ Edit/ View</div>
+    if(mode === VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
+    if(!type) return  <div>Please include the type of document</div>
+
+    
 
     const handleSubmit = ({formData}) => {
         if(onSubmit) {
-
-            var extracted = transformData(mode, schema.properties, formData, frame, current, type)
+            //console.log("Before submit: ", formData)
+            var extracted = transformData(mode, schema.properties, formData, frame, type)
             if(!extracted.hasOwnProperty("@type")) extracted["@type"] = type
             if(mode === EDIT &&  // append id in edit mode
                 !extracted.hasOwnProperty("@id") && 
@@ -146,7 +149,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
     if(uiFrame && Object.keys(uiFrame).length && uiFrame.hasOwnProperty(SUBMIT_BUTTON_STYLE_KEY)) {
         submitButtonCss=uiFrame[SUBMIT_BUTTON_STYLE_KEY]
     }*/
-
+ 
     return <div data-cy="frame_viewer">
         {schema && message && message}
         {schema && <Form schema={schema}
@@ -167,6 +170,3 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
  }
 
 
- /*<pre>
-    {JSON.stringify(schema, null, 2)}
-</pre>*/

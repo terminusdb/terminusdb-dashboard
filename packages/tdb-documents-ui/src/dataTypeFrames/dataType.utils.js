@@ -34,7 +34,8 @@ import {
     RENDER_AS,
     MARKDOWN,
     HTML,
-    XSD_STRING
+    XSD_STRING,
+    XDD_HTML
 } from "../constants" 
 
 
@@ -81,6 +82,9 @@ export function getCreateUILayout(frame, item, uiFrame, documentation) {
     }
     else if(frame[item] === XSD_STRING) {
         uiLayout=getTextareaUIWidget(title, XSD_STRING)
+    }
+    else if (frame[item] === XDD_HTML) {
+        uiLayout["ui:field"]=getCreateHTMLUI
     }
 
     let metaType=checkForMetaData(frame, item)
@@ -149,6 +153,9 @@ export function getEditUILayout(frame, item, formData, uiFrame, documentation) {
     else if(frame[item] === XSD_STRING) {
         let data = formData.hasOwnProperty(item) ?  formData[item] : null
         uiLayout=getTextareaUIWidget(title, XSD_STRING, data)
+    }
+    else if (frame[item] === XDD_HTML) {
+        uiLayout["ui:field"]=getEditHTMLUI
     }
     let description = getCommentFromDocumentation(item, documentation)
     if(description) uiLayout["ui:description"]=description
@@ -240,6 +247,9 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     }
     else if(frame[item] === XSD_STRING) {
         uiLayout=getTextareaUIWidget(title, XSD_STRING, formData[item])
+    }
+    else if (frame[item] === XDD_HTML) {
+        uiLayout["ui:field"]=getViewHTMLUI
     }
     let description = getCommentFromDocumentation(item, documentation)
     if(description) uiLayout["ui:description"]=description

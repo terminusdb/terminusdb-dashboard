@@ -191,10 +191,10 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
         else if (frame[item] && isOptionalType(frame[item])) { // optional 
             let constructedOptionalFrame = constructOptionalFrame(frame[item], item, getMetaData(frame, item))
             let optionalProperties = getProperties(fullFrame, item, constructedOptionalFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
-            let optionalFrames = makeOptionalTypeFrames(optionalProperties, item, uiFrame, mode, formData)
-
+            let optionalFrames = makeOptionalTypeFrames(optionalProperties, item, uiFrame, mode, formData) 
+           
             //set properties and ui
-            properties[item] = optionalFrames.properties[item]
+            properties[item] = optionalFrames.properties[item] 
             propertiesUI[item] = optionalFrames.propertiesUI[item]
         }
         else if(frame[item] && isPointType(frame[item], fullFrame)) {

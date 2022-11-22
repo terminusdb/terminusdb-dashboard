@@ -32,7 +32,8 @@ import {
 	FEATURE,
 	METADATA,
 	RENDER_AS,
-	WIDGET
+	WIDGET,
+	ORDER_AS
 } from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
@@ -947,14 +948,28 @@ export function checkForMetaData (frame, item) {
 /**
  * 
  * @param {*} frame frame of interest
- * @param {*} item item of interest
  * @returns metadata json type
  */
- export function getMetaData (frame, item) {
+ export function getMetaData (frame) {
     if(frame.hasOwnProperty(METADATA)) {
         return frame[METADATA]
     }
     return false
+}
+
+/**
+ * 
+ * @param {*} frame frame of interest
+ * @returns metadata json type
+ */
+export function getOrderFromMetaData(frame) {
+	let metaDataFrame=getMetaData(frame)
+	if(!metaDataFrame) return metaDataFrame
+	if(metaDataFrame.hasOwnProperty(ORDER_AS)) {
+		const orderArray = ["@documentation"].concat(metaDataFrame[ORDER_AS]) 
+		return orderArray
+	}
+	return false
 }
 
 /** function to get row height to display in textareas for xsd:string */

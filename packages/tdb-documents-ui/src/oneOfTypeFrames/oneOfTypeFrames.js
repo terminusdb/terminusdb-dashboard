@@ -58,8 +58,9 @@ function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formDa
             let documentName=fr[oneOf]
             let currentChoice=oneOf
             if(documentName !== SYS_UNIT_DATA_TYPE) {
-                if(mode!==VIEW)
+                if(mode!==VIEW){
                     anyOfArray.push(getCreateDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language))
+                }
                 else anyOfArray.push(getViewDocumentLayout(documentName, fullFrame, currentChoice, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language))
             }
             else if(documentName === SYS_UNIT_DATA_TYPE) {
@@ -73,6 +74,9 @@ function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formDa
 
 
     let sortedArray = sortOneOfs (anyOfArray, formData, mode)
+
+    /*@type: "Test"
+    normal: "asdsadasd" */
 
     let layout = {
         type: 'object',
@@ -108,6 +112,39 @@ function oneOfTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formDa
     properties[current] = layout
     // ui schema
     propertiesUI[current] = addedCustomUI
+
+    
+    // diffs
+    if(mode === VIEW) {
+        if(uiFrame && uiFrame.hasOwnProperty(current) && uiFrame[current].hasOwnProperty("ui:diff")) {
+            for(let diff in uiFrame[current]["ui:diff"]) {
+                if(uiLayout.hasOwnProperty(diff)) {
+                    if(uiFrame[current]["ui:diff"][diff].hasOwnProperty("ui:field")) {
+                        uiLayout[diff]={"ui:field":uiFrame[current]["ui:diff"][diff]["ui:field"]}
+                    }
+                    else {
+                        // fill in properties 
+                        for(let it in uiFrame[current]["ui:diff"][diff]){
+                            if(uiLayout[diff].hasOwnProperty(it)){
+                                uiLayout[diff][it]=uiFrame[current]["ui:diff"][diff][it]
+                            } 
+                            if(it === "styleObject") {
+                                // subdocuments border css for diffs
+                                var css=""
+                                for(let style in uiFrame[current]["ui:diff"][diff]["styleObject"]) {
+                                    css=css + " " + uiFrame[current]["ui:diff"][diff]["styleObject"][style]
+                                }
+                                uiLayout[diff]["classNames"] = uiLayout[diff]["classNames"] + " " + css
+                            }
+                        }
+                    }
+                }
+            }
+            
+            propertiesUI[current] = uiLayout
+        }
+    }
+    
 
 
     return {properties, propertiesUI}

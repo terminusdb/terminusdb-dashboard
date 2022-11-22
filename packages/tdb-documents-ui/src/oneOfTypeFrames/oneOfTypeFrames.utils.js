@@ -78,7 +78,19 @@ export function getViewDocumentLayout(documentClass, fullFrame, current, item, u
 
     return layout
 }
- 
+
+// fills in default filled values from form data 
+function fillDefaultValues(formData, current, exractedProperties) {
+    for(let fds in formData[current]) {
+        if(exractedProperties.properties.hasOwnProperty(fds)) { // if filled values exists
+            exractedProperties.properties[fds]["default"]=formData[current][fds]
+            if(typeof formData[current][fds] === "object") {
+                fillDefaultValues(formData[current], fds, exractedProperties.properties[fds])
+            }
+        }
+    }
+    return exractedProperties
+}
 
 // get layout of document class
 export function getCreateDocumentLayout(documentClass, fullFrame, current, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language) {
@@ -95,8 +107,23 @@ export function getCreateDocumentLayout(documentClass, fullFrame, current, item,
         frame = fullFrame[documentClassIRI]
     }
 
-    let exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, {}, onTraverse, onSelect, extractedDocumentation)
+    let exractedProperties={}
+    exractedProperties = getProperties (fullFrame, current, frame, uiFrame, mode, {}, onTraverse, onSelect, extractedDocumentation)
+    
     if(!isDataType(documentClassIRI)) {
+        // add subdocument type as @type field
+        exractedProperties.properties["@type"]={
+            type: "string",
+            title: documentClass["@class"],
+            default: documentClass["@class"]
+        }
+        exractedProperties.properties["@choice"]={
+            type: "string",
+            title: current,
+            default: current
+        }
+    }
+    else if(isDataType(documentClassIRI)) {
         // add subdocument type as @type field
         exractedProperties.properties["@type"]={
             type: "string",
@@ -110,28 +137,20 @@ export function getCreateDocumentLayout(documentClass, fullFrame, current, item,
         }
     }
 
-    //console.log("exractedProperties", exractedProperties)
-
-    // add on form Data 
     if(mode === EDIT && formData && formData.hasOwnProperty(current)) {
         if(typeof formData[current] === "object") {
-            for(var fds in formData[current]) {
-                if(exractedProperties.properties.hasOwnProperty(fds)) { // if filled values exists
-                    exractedProperties.properties[fds]["default"]=formData[current][fds]
-                }
-            }
+            fillDefaultValues(formData, current, exractedProperties)
         }
         else { // data types
             exractedProperties.properties[current]["default"]=formData[current]
         }
     }
 
-    if(!isDataType(documentClassIRI)) { 
-        // hide @type field
-        exractedProperties.uiSchema["@type"]={"ui:widget": "hidden"}
-        // hide @choice field
-        exractedProperties.uiSchema["@choice"]={"ui:widget": "hidden"}
-    } 
+   
+    // hide @type field
+    exractedProperties.uiSchema["@type"]={"ui:widget": "hidden"}
+    // hide @choice field
+    exractedProperties.uiSchema["@choice"]={"ui:widget": "hidden"}
     
     layout = {
         title: current,
@@ -139,6 +158,7 @@ export function getCreateDocumentLayout(documentClass, fullFrame, current, item,
         properties: exractedProperties.properties,
         uiProperties: exractedProperties.uiSchema
     }
+    
     return layout
 }
 

@@ -19,6 +19,7 @@ export const XSD_HEXBINARY="xsd:hexBinary" //Hex-encoded binary data
 export const XSD_BASE64BINARY="xsd:base64Binary" //Base64-encoded binary data
 
 // Limited-range integer numbers
+export const XDD_HTML="xdd:html"
 export const XSD_BYTE =  "xsd:byte" //  -128…+127 (8 bit) 
 export const XSD_SHORT = "xsd:short" //    -32768…+32767 (16 bit) 
 export const XSD_INT =  "xsd:int" //   -2147483648…+2147483647 (32 bit) |
@@ -88,6 +89,7 @@ export const INFO="info"
 // Meta data constants
 export const METADATA="@metadata"
 export const RENDER_AS="render_as"
+export const ORDER_AS="order_as"
 export const WIDGET="widget"
 export const CODE_MIRROR_MIN_HEIGHT="minHeight"
 export const CODE_MIRROR_LINE_NUMBERS="displayLines"

@@ -4,6 +4,7 @@ import {AiFillMinusCircle} from "react-icons/ai"
 import Stack from 'react-bootstrap/Stack'
 import Card from 'react-bootstrap/Card'
 import Accordion from 'react-bootstrap/Accordion'
+import {FrameViewer} from "../FrameViewer"
 import {
     ORIGINAL_UI_FRAME, 
     CHANGED_UI_FRAME, 
@@ -13,7 +14,8 @@ import {
     CHOICESUBCLASSES,
     SUBDOCUMENT_TYPE,
     ENUM,
-    SYS_JSON_TYPE
+    SYS_JSON_TYPE,
+    ONEOFVALUES
 } from "../constants"
 import {
     AFTER, 
@@ -29,6 +31,7 @@ import {
 } from "./diff.constants" 
 import {removedSubDocumentElement} from "./subDocumentFieldDiffs"
 import {displaySysJSONElements} from "./sysFieldDiffs"
+import {generateDiffUIFrames} from "./diffViewer.utils"
 
 /** returns a label field */
 export function getLabel(label, required, interest) { 
@@ -122,7 +125,7 @@ export function getLabel(label, required, interest) {
             </div>
         )
     } 
-    if(schema.hasOwnProperty(INFO) && 
+    else if(schema.hasOwnProperty(INFO) && 
         schema[INFO] === DOCUMENT) {
             let inputSelectCss="text_diff_select"
             if(interest) {
@@ -152,7 +155,7 @@ export function getLabel(label, required, interest) {
                 )
             }
     }
-    if(schema.hasOwnProperty(INFO) && 
+    else if(schema.hasOwnProperty(INFO) && 
         schema[INFO] === ENUM) {
             let inputSelectCss="text_diff_select"
             if(interest) {
@@ -221,8 +224,9 @@ function displaySubDocumentElements(diffPatch, item, formData, startFormDataInde
         }
 
         if(currentChoice) { // choice subdocuments
+            let borderCss= interest === BEFORE ? "border-danger" : "border-success"
             renderElements.push(
-                <Card bg="secondary" className={`p-4 mb-3 mt-3 ${choiceCss}`}>
+                <Card bg="secondary" className={`p-4 mb-3 mt-3 ${choiceCss} ${borderCss}`}>
                     <div class="lead">
                         <div class="tdb__subdocument__collapse_headers" style={{padding: "14px", marginLeft: "-5px", marginBottom: "5px", zIndex: "-1", cursor: "pointer", background: "linear-gradient(to right, rgb(4, 114, 182), white)"}}>
                             <span style={{color: "white"}}>
@@ -284,21 +288,12 @@ function displaySubDocumentElements(diffPatch, item, formData, startFormDataInde
  */
 function doOperation(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
     let renderElements=[], currentFormDataIndex=startFormDataIndex
-    if(item === "asset_history") {
-        console.log("asset_history")
-    } 
+    
     if(Array.isArray(diffPatch)) { // simple swapValue Operation 
         let isSubDocumentType=true
         if(schema && schema.hasOwnProperty(INFO) && schema[INFO] === DOCUMENT) {
             // display label for DOCUMENT types
-            renderElements.push( 
-                <div className={`form-group field field-string ${css} mt-3`}>
-                    <label className="control-label" htmlFor={`root_${label}`}>
-                        <span>{label}</span>
-                        {required && <span className="required">*</span>}
-                    </label>
-                </div>
-            )
+            renderElements.push(getLabel(label, required, interest))
         }
         diffPatch.map(diffs => {
             if(diffs.hasOwnProperty(interest)) {
@@ -310,6 +305,7 @@ function doOperation(diffPatch, item, formData, startFormDataIndex, schema, labe
             }
         })
         if(isSubDocumentType) { // subdocument 
+            renderElements.push(getLabel(label, required, interest))
             let subDocumentElement=displaySubDocumentElements(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) 
             renderElements.push(subDocumentElement)
         }
@@ -378,6 +374,7 @@ function doOperation(diffPatch, item, formData, startFormDataIndex, schema, labe
                     })
                 }
                 else {
+                    renderElements.push(getLabel(label, required, interest))
                     let subDocumentElement=displaySubDocumentElements(diffPatch[PATCH], item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) 
                     renderElements.push(subDocumentElement)
                 }
@@ -454,6 +451,39 @@ function checkIfChoicesAreSame(item, oldValue, newValue, interest) {
     return choiceEqualSet
 }
 
+function displayOneOfElements(diffPatch, item, oldValue, newValue, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
+    if(!Array.isArray(diffPatch[item])) return false
+    let elements=[]
+    diffPatch[item].map(diff => {
+        if(Object.keys(diff).length > 0){
+            let constructedFrame={}
+
+            let classDocument=frame[item]["@class"]
+            if(fullFrame.hasOwnProperty(classDocument)) {
+                for(let its in fullFrame[classDocument][ONEOFVALUES][0]){
+                    if(its === Object.keys(diff)[0]) {
+                        constructedFrame={[its]: fullFrame[classDocument][ONEOFVALUES][0][its]}
+                    }
+                }
+            }
+
+
+            let test = generateDiffUIFrames(fullFrame, constructedFrame, type, oldValue, newValue, diff)
+            console.log("test", test)
+            //elements.push(<>{Object.keys(diff)[0]}</>)
+            //elements.push(<>{test}</>)
+            elements.push(<FrameViewer frame={fullFrame}
+                type={"wht"}
+                uiFrame={test[ORIGINAL_UI_FRAME]}
+                //uiFrame={frUIFrame}
+                formData={oldValue}
+                hideSubmit={true}
+                mode="View"/>)
+        }
+    }) 
+    return elements
+}
+
 /**
  * 
  * @param {*} fullFrame fullFrame of data product
@@ -480,12 +510,17 @@ export function getSetFieldDiffs (fullFrame, frame, diffPatch, item, type, oldVa
         return diffUIFrames
     }
 
-    function getOriginalUIFrame(props) {
+    function getOriginalUIFrame(props) { 
         let renderElements=[]
         if(props.schema.hasOwnProperty(INFO) && 
             props.schema[INFO] === CHOICESUBCLASSES) {
                 let choiceEqualSet=checkIfChoicesAreSame(item, oldValue, newValue, BEFORE)
                 renderElements=doOperation(diffPatch[item], item, oldValue, 0, props.schema, props.name, props.required, BEFORE, "text-danger tdb__diff__original mb-3", fullFrame, frame, type, choiceEqualSet)
+        }
+        else if(props.schema.hasOwnProperty(INFO) && 
+            props.schema[INFO] === ONEOFVALUES) {
+                let oneOfElement=displayOneOfElements(diffPatch, item, oldValue, newValue, props.schema, props.name, props.required, BEFORE, "css", fullFrame, frame, type) 
+                renderElements.push(oneOfElement)
         }
         else if (props.schema.hasOwnProperty(INFO) && 
             props.schema.info === SYS_JSON_TYPE) {

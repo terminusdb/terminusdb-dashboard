@@ -1,4 +1,11 @@
-import {ONEOFVALUES, CREATE, SYS_JSON_TYPE, COORDINATES, CHOICECLASSES, CHOICESUBCLASSES, POINT_TYPE, SYS_UNIT_DATA_TYPE} from "./constants"
+import {
+    ONEOFVALUES, 
+    COORDINATES, 
+    CHOICECLASSES, 
+    POINT_TYPE, 
+    SYS_UNIT_DATA_TYPE
+} from "./constants"
+import { isDataType } from "./utils"
 
 // return true if only @type is available
 function checkIfNotFilled (json){
@@ -6,14 +13,19 @@ function checkIfNotFilled (json){
     return false
 }
 
-export const transformData = (mode, schema, data, frame, current, type) => {
+/*
+**  mode     - current mode 
+**  schema   - schema of document
+**  data      - data extracted from form 
+**  frame      - frames of data product
+**  type  - filled value of the document
+*/
+export const transformData = (mode, schema, data, frame, type) => {
     var extracted={}
     //let currentFrame=frame[current]
     let formData = data
-
     for(var key in formData){
         if(formData[key] === undefined) continue // undefined
-        //else if(formData[key] === SYS_UNIT_DATA_TYPE) return {[key] : []} // sys:Units
         else if(key === ONEOFVALUES) { 
             //@oneOf
             let sysUnit=false, newOneOfData={}
@@ -30,7 +42,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
             }
             else {
                 let oneOfData=formData[key]
-                if(oneOfData.hasOwnProperty("@choice")) {
+                if(oneOfData.hasOwnProperty("@choice") && !isDataType(oneOfData["@type"])) {
                     let choice = oneOfData["@choice"]
                     let choiceData = {}
                     for(var cds in oneOfData) {
@@ -44,7 +56,10 @@ export const transformData = (mode, schema, data, frame, current, type) => {
                 }
                 else {
                     // normal data types
-                    newOneOfData=oneOfData
+                    let choice=oneOfData["@choice"]
+                    newOneOfData={
+                        [choice]: oneOfData[choice]
+                    }
                 }
                 
             }
@@ -75,7 +90,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
                         let k = Object.keys(temp)[0]
                         transformed = temp[k]
                     }
-                    else transformed=transformData(mode, schema, fd, frame, current, type)
+                    else transformed=transformData(mode, schema, fd, frame, type)
                 }
                 if(transformed && Object.keys(transformed).length)
                     transformedArray.push(transformed)
@@ -102,7 +117,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
                 extracted[key] = temp[k]
             }
             else {
-                let transformed=transformData(mode, schema, formData[key], frame, current, type)
+                let transformed=transformData(mode, schema, formData[key], frame, type)
                 if(key === POINT_TYPE) return transformed
                 if(transformed) extracted[key]=transformed
             }
@@ -120,10 +135,7 @@ export const transformData = (mode, schema, data, frame, current, type) => {
                 extracted[key] = formData[key]
         }
     }
-
     if(checkIfNotFilled(extracted)) return null
-
-
     return extracted
 }
 

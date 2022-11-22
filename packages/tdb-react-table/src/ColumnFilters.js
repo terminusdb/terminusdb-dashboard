@@ -1,13 +1,19 @@
 import React, {useState} from 'react'
 
 export const matchType = {"list":SelectColumnFilter,
-                          "number":SliderColumnFilter}
-
+                          "number":SliderColumnFilter,
+                          "default":DefaultColumnFilter,
+                          "string":DefaultColumnFilter}
+//preFilteredRows
 export function DefaultColumnFilter({
-    column: { filterValue, preFilteredRows, setFilter },
+    column: { filterValue, options , setFilter },
   }) {
-    const [value, setValue] = useState(filterValue)
+    const operator = options && options.operator ? options.operator : "regex"
+    const startValue = filterValue ? filterValue.value : null
+    const [value, setValue] = useState(startValue)
 
+    const variablePath = options && options.varPath ? options.varPath : undefined
+    
     return (
       <input
         value={value || ''}
@@ -15,7 +21,11 @@ export function DefaultColumnFilter({
           if (ev.key === 'Enter') {
             // Do code here
             ev.preventDefault();
-            setFilter(value)
+            if(!value) {
+              setFilter(undefined)
+            }else{
+              setFilter({value:value, operator:operator, varPath:variablePath})
+            }
           }
         }}
         onChange={e => {
@@ -29,31 +39,26 @@ export function DefaultColumnFilter({
     )
   }
 
-export function SelectColumnFilter({
-    column: { filterValue, setFilter, options, id },
-  }) {
 
-    
-    // Calculate the options for filtering
-    // using the preFilteredRows
-    /*const options = React.useMemo(() => {
-      const options = new Set()
-      preFilteredRows.forEach(row => {
-        options.add(row.values[id])
-      })
-      return [...options.values()]
-    }, [id, preFilteredRows])*/
-  
-    // Render a multi-select box
+export function SelectColumnFilter({
+  column: { filterValue, setFilter, options, id }}) {
+    // options && options.operator ? options.operator :
+    const dataprovider = options ? options.dataprovider : []
+    const operator = "eq"
+    const variablePath = options && options.varPath ? options.varPath : undefined
+    const value = filterValue ? filterValue.value : ""
     return (
       <select
-        value={filterValue}
+        value={value}
         onChange={e => {
-          setFilter(e.target.value || undefined)
+          const vv = e.target.value
+          if(e.target.value === "") {
+            setFilter(undefined)
+          }else setFilter({value:e.target.value, operator:operator, varPath:variablePath})
         }}
       >
         <option value="">All</option>
-        {Array.isArray(options) && options.map((option, i) => (
+        {Array.isArray(dataprovider) && dataprovider.map((option, i) => (
           <option key={i} value={option}>
             {option}
           </option>
@@ -80,7 +85,7 @@ export function SelectColumnFilter({
           max={max}
           value={filterValue || min}
           onChange={e => {
-            setFilter(parseInt(e.target.value, 10))
+            setFilter({operator:"eq",value:e.target.value})//parseInt(e.target.value, 10)} )//{eq:parseInt(e.target.value, 10)})
           }}
         />
         <button onClick={() => setFilter(undefined)}>Off</button>

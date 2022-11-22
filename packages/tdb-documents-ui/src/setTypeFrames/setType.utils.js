@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, addCustomUI, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle, getLabelFromDocumentation} from "../utils"
-import {CREATE, EDIT, VIEW, DOCUMENT, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, COORDINATES} from "../constants"
-import {FilledDocumentSelect, EmptyDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
+import {ArrayFieldTemplate, addCustomUI, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle, getLabelFromDocumentation, isRdfLangString} from "../utils"
+import {CREATE, EDIT, VIEW, CHOICESUBCLASSES, DOCUMENT, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, COORDINATES} from "../constants"
+import {FilledDocumentSelect, EmptyDocumentSelect, FilledDocumentViewSelect, DocumentSearch} from "../documentTypeFrames/DocumentSelects"
 import {Form} from "react-bootstrap"
 import JSONInput from 'react-json-editor-ajrm' 
 import locale    from 'react-json-editor-ajrm/locale/en'
@@ -136,7 +136,7 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData, documenta
         }
     }
     // additional items
-    //layout.additionalItems = properties
+    //layout.additionalItems = properties 
     return layout
 }
 
@@ -234,8 +234,6 @@ export function getDiffViewSetSubDocumentType(frame, item, formData, uiFrame) {
     uiLayout.items.push(uiFrame[item][1])
     uiLayout.items.push(uiFrame[item][0])
     uiLayout.items.push(uiFrame[item][1])
-
-    console.log("666 vfilledItems 666", layout, uiLayout)
 
     return {layout: layout, uiLayout: uiLayout}
 }
@@ -720,7 +718,7 @@ export function getEditSetDocumentTypeLayout (frame, item, formData, documentati
 
 // edit set Document type ui layout
 export function getEditSetDocumentTypeUILayout (frame, item, uiFrame, onSelect, documentation) {
-    //console.log("***** frame.uiSchema[item]," , frame.uiSchema[item])
+    
     // getting ui layout for additional items 
     let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {}
     for(var ui in frame.uiSchema[item]) {
@@ -730,62 +728,72 @@ export function getEditSetDocumentTypeUILayout (frame, item, uiFrame, onSelect, 
     }
 
     // getting the layout to put correct st values
-    for( var ui in frame.uiSchema[item] ) {
+    for( var ui in frame.uiSchema[item] ) { 
         if(ui === "ui:field") {
             function displayFilledSetSelect(props) {
 
-                // loadOptions on AsyncSelect
-                const loadOptions = async (inputValue, callback) => {
-                    let type = frame.properties[item]["linked_to"]
-                    let opts = await onSelect(inputValue, type)
-                    callback(opts)
-                    return opts
-                }
-
-                // handle input change on AsyncSelect
-                const handleInputChange = (newValue) => {
-                    const inputValue = newValue.replace(/\W/g, '');
-                    return inputValue
-                }
-
-                function onChange(e) {
-                    props.onChange(e.value)
-                }
-
+                let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : null
                 // extracting custom ui styles
                 let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
                 let label = getLabelFromDocumentation (item, documentation)
-
-                let returnElement = []
+                // this can be feature collection or normal document id 
+                let defaultFormData = (typeof props.formData === "object" && props.formData.hasOwnProperty("@id")) ? props.formData["@id"] : props.formData
                 
-                if(props.formData){
-                    // this can be feature collection or normal document id 
-                    let defaultFormData = (typeof props.formData === "object" && props.formData.hasOwnProperty("@id")) ? props.formData["@id"] : props.formData
-                    returnElement.push(
-                        <FilledDocumentSelect
+                if(typeof onSelect === "function") {
+                    // loadOptions on AsyncSelect
+                    const loadOptions = async (inputValue, callback) => {
+                        let type = frame.properties[item]["linked_to"]
+                        let opts = await onSelect(inputValue, type)
+                        callback(opts)
+                        return opts
+                    }
+
+                    // handle input change on AsyncSelect
+                    const handleInputChange = (newValue) => {
+                        const inputValue = newValue.replace(/\W/g, '');
+                        return inputValue
+                    }
+
+                    function onChange(e) {
+                        props.onChange(e.value)
+                    }
+                    let returnElement = []
+                    if(props.formData){
+                          returnElement.push(
+                            <FilledDocumentSelect
+                                label={label}
+                                styles={selectStyle}
+                                placeholder={props.uiSchema["ui:placeholder"]}
+                                onChange={onChange}
+                                loadOptions={loadOptions}
+                                defaultValue={defaultFormData}
+                                handleInputChange={handleInputChange}
+                            />
+                        )
+                    }
+                    else returnElement.push(
+                        <EmptyDocumentSelect
                             label={label}
                             styles={selectStyle}
                             placeholder={props.uiSchema["ui:placeholder"]}
                             onChange={onChange}
                             loadOptions={loadOptions}
-                            defaultValue={defaultFormData}
                             handleInputChange={handleInputChange}
                         />
                     )
+
+                    return <>{returnElement}</>
+
                 }
-                else returnElement.push(
-                    <EmptyDocumentSelect
-                        label={label}
-                        styles={selectStyle}
-                        placeholder={props.uiSchema["ui:placeholder"]}
-                        onChange={onChange}
-                        loadOptions={loadOptions}
-                        handleInputChange={handleInputChange}
-                    />
-                )
-
-                return <>{returnElement}</>
-
+                       
+                // simply sents back component
+                return <DocumentSearch 
+                    label={label}
+                    linked_to={linked_to} 
+                    value={defaultFormData}
+                    display={onSelect ? onSelect : <>No Component to display ...</>}
+                    onChange={props.onChange}/>
+                
             }
 
             modifiedUiLayout[ui] = displayFilledSetSelect
@@ -1247,6 +1255,7 @@ export function getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, doc
         type: "array",
         title: getSetTitle(item, documentation),
         items: frame.properties[item],
+        info: CHOICESUBCLASSES
         //additionalItems: frame.properties[item]
     }
 
@@ -1289,8 +1298,19 @@ export function getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, doc
 }
 
 // view set Sub Choice Document type ui layout
-export function getViewSetChoiceSubDocumentTypeUILayout (frame, item, formData) {
+export function getViewSetChoiceSubDocumentTypeUILayout (frame, item, formData, uiFrame) {
     let uiLayout= {}
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
 
     if(!isFilled(formData, item)) {
         uiLayout={
@@ -1553,8 +1573,82 @@ export function getEditSetOneOfTypeLayout(frame, item, formData) {
         return layout
     }
 
+    function fillDefaultValues(fAnyOf, props, value) {
+        let gatherProperties={}
+        for(let key in fAnyOf.properties[props]) {
+            gatherProperties[key] = fAnyOf.properties[props][key]
+            if(fAnyOf.properties[props].type === "object") {
+                gatherProperties["properties"]={}
+                gatherProperties["type"]="object"
+                for(let item in fAnyOf.properties[props].properties) {
+                    gatherProperties["properties"][item]=fillDefaultValues(fAnyOf.properties[props], item, value[props])
+                }
+            }
+        }  
+        // set default value
+        if(!gatherProperties.hasOwnProperty("default")){
+            gatherProperties["default"] = !value[props] ? value : value[props]
+        }
+        else if (!gatherProperties["default"]) {
+            gatherProperties["default"] = !value[props] ? value : value[props]
+        }
+        return gatherProperties
+    }
+
     // get filled frames
     defaultValue.map(value => {
+
+        if(frame.properties[item].hasOwnProperty("properties")
+        && frame.properties[item]["properties"].hasOwnProperty("@oneOf")
+        && frame.properties[item]["properties"]["@oneOf"].hasOwnProperty("anyOf")) {
+            let filledAnyOfs=frame.properties[item]["properties"]["@oneOf"]["anyOf"]
+            filledAnyOfs.map(fAnyOf => {
+                let title=fAnyOf.title
+                let structure = {}
+
+                if(value.hasOwnProperty(title)){ // match
+                    let filledProperties={}
+
+                    for(let props in fAnyOf.properties) {
+                        let gatherProperties=fillDefaultValues(fAnyOf, props, value[title])
+                        filledProperties[props] = gatherProperties
+                    }
+
+                    let anyOfStructure={
+                        type: "object",
+                        title: title,
+                        properties: filledProperties,
+                        uiProperties: fAnyOf.uiProperties,
+                        //default: value[title]
+                    }
+
+                    // anyOf structure
+                    structure = {
+                        type: 'object',
+                        info: ONEOFVALUES,
+                        title: item,
+                        anyOf: [anyOfStructure]
+                    }
+
+                }
+                // oneOf structure
+                if(Object.keys(structure).length) {
+                    //filledItems.push(structure)
+                    filledItems.push({
+                        properties: {
+                            "@oneOf": structure,
+                            "@type": {type: 'string', title: item, default: item}
+                        }
+                    })
+                }
+            })
+        }
+
+    })
+
+    
+
+    /*defaultValue.map(value => {
 
         if(frame.properties[item].hasOwnProperty("properties")
         && frame.properties[item]["properties"].hasOwnProperty("@oneOf")
@@ -1572,8 +1666,12 @@ export function getEditSetOneOfTypeLayout(frame, item, formData) {
                         for(var key in fAnyOf.properties[props]) {
                             gatherProperties[key] = fAnyOf.properties[props][key]
                         }
-                        if(!gatherProperties.hasOwnProperty("default")) {
+                        // set default value
+                        if(!gatherProperties.hasOwnProperty("default")){
                             gatherProperties["default"] = value[title][props]
+                        }
+                        else if (!gatherProperties["default"]) {
+                            //gatherProperties["default"] = value[title]
                         }
                         filledProperties[props] = gatherProperties
                     }
@@ -1609,9 +1707,9 @@ export function getEditSetOneOfTypeLayout(frame, item, formData) {
             })
         }
 
-    })
+    })*/
 
-    console.log("filledItems", filledItems)
+    //console.log("filledItems", filledItems)
 
     // get filled items
     layout["items"] = filledItems
@@ -1691,11 +1789,8 @@ export function getViewSetOneOfTypeLayout(frame, item, formData) {
     let layout={
         type: "array", 
         title: getSetTitle(item),
-        //items: frame.properties[item],
-        //additionalItems: frame.properties[item]
+        info: ONEOFVALUES
     }
-
-    //console.log("frame.properties[item]",frame.properties[item])
 
     let filledItems=[]
     let defaultValue = (formData && Array.isArray(formData[item])) ? formData[item] : null
@@ -1716,7 +1811,7 @@ export function getViewSetOneOfTypeLayout(frame, item, formData) {
             filledAnyOfs.map(fAnyOf => {
                 let title=fAnyOf.title
                 let structure = {}
-
+                
                 if(value.hasOwnProperty(title)){ // match
                     let filledProperties={}
 
@@ -1726,20 +1821,11 @@ export function getViewSetOneOfTypeLayout(frame, item, formData) {
                             gatherProperties[key] = fAnyOf.properties[props][key]
                         }
                         if(!gatherProperties.hasOwnProperty("default")) {
-                            gatherProperties["default"] = value[title][props]
-                        }
-                        else if (!gatherProperties["default"]) {
-                            gatherProperties["default"] = value[title][props]
+                            // can be normal data type or subdocument
+                            gatherProperties["default"] = !value[title][props] ? value[title] : value[title][props]
                         }
                         filledProperties[props] = gatherProperties
                     }
-                    //console.log("filledProperties",filledProperties)
-
-                    /*@choice: {ui:widget: 'hidden'}
-                    @type: {ui:widget: 'hidden'}
-                    date_range: {ui:widget: 'hidden'}
-                    value: {ui:widget: 'hidden', classNames: 'tdb__input mb-3 mt-3', ui:title: {…}}
-                    [[Prototype]]: Object */
 
                     let newUiProperties={}
                     for(var uiProp in fAnyOf.uiProperties) {
@@ -1816,11 +1902,12 @@ export function getViewSetOneOfTypeLayout(frame, item, formData) {
 
 // view set oneOf Document type ui layout
 export const getViewSetOneOfTypeUILayout = (frame, item, layout, uiFrame, formData) => {
-
+    let uiLayout = {}, itemsLayout=[], itemCount=0
+    
     if(!isFilled(formData, item)) {
         uiLayout={
             "ui:widget" : 'hidden',
-            "ui:options": {
+            "ui:options": { 
                 addable: false,
                 orderable: false,
                 removable: false
@@ -1835,7 +1922,7 @@ export const getViewSetOneOfTypeUILayout = (frame, item, layout, uiFrame, formDa
         classNames: `card ${subDocuemntBg} p-4 mt-4 mb-4`
 
     }
-    let uiLayout = {}, itemsLayout=[], itemCount=0
+    
 
     //console.log("layout", layout)
 
@@ -1879,16 +1966,9 @@ export const getViewSetOneOfTypeUILayout = (frame, item, layout, uiFrame, formDa
         return uiLayout
     }
 
-
-    //console.log("uiItemsLayout", uiItemsLayout)
-
-
-
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
-            //items: uiItemsLayout,
             items: itemsLayout,
-            //additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
                 orderable: false,
@@ -1897,6 +1977,27 @@ export const getViewSetOneOfTypeUILayout = (frame, item, layout, uiFrame, formDa
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
+
+    if(uiFrame && uiFrame.hasOwnProperty("styleObject")) {
+        // alter css here for diffs 
+        function alterCssForDiffs(properties) {
+            if(properties.hasOwnProperty("classNames")){
+                properties["classNames"]+= ` ${uiFrame["styleObject"]["headingClassNames"]} ${uiFrame["styleObject"]["bgClassNames"]}`
+                for(let subProps in properties) {
+                    alterCssForDiffs(properties[subProps])
+                }
+            }
+            return
+        }
+        layout.items.map(it => {
+            for(let uiProp in it.properties[ONEOFVALUES]["anyOf"][0]["uiProperties"]){
+                if(uiProp === "@type") continue
+                if(uiProp === "@choice") continue
+                alterCssForDiffs(it.properties[ONEOFVALUES]["anyOf"][0]["uiProperties"][uiProp])
+            }
+        })
+    } 
+    
 
     return uiLayout
 }

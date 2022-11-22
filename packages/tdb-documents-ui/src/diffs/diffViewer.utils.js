@@ -44,6 +44,23 @@ export function generateDiffUIFrames (fullFrame, frame, type, oldValue, newValue
                 diffUIFrames[CHANGED_UI_FRAME][item]=dataField[CHANGED_UI_FRAME][item]
             }
         } 
+        if (frame[item] && isListType(frame[item])) { // list 
+            if(diffPatch.hasOwnProperty(item)) { 
+                let constructedListFrame = constructOptionalFrame(frame[item], item)
+                let listField=getSetFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
+                //let listField=getListFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
+                diffUIFrames[ORIGINAL_UI_FRAME][item]=listField[ORIGINAL_UI_FRAME][item]
+                diffUIFrames[CHANGED_UI_FRAME][item]=listField[CHANGED_UI_FRAME][item]
+            }
+        }
+        if (frame[item] && isSetType(frame[item])) { //set 
+            if(diffPatch.hasOwnProperty(item)) { 
+                let constructedSetFrame = constructOptionalFrame(frame[item], item)
+                let setField=getSetFieldDiffs(fullFrame, constructedSetFrame, diffPatch, item, type, oldValue, newValue)
+                diffUIFrames[ORIGINAL_UI_FRAME][item]=setField[ORIGINAL_UI_FRAME][item]
+                diffUIFrames[CHANGED_UI_FRAME][item]=setField[CHANGED_UI_FRAME][item]
+            }
+        }
         if(frame[item] && isOptionalType(frame[item])) { // optional
             if(diffPatch.hasOwnProperty(item)) {
                 let constructedOptionalFrame = constructOptionalFrame(frame[item], item)
@@ -95,26 +112,11 @@ export function generateDiffUIFrames (fullFrame, frame, type, oldValue, newValue
             }
         }
         if(item === ONEOFVALUES) { // oneOf
-            let diffUI=getOneOfFieldDiffs(fullFrame, frame, diffPatch, item, type, oldValue, newValue)
-            diffUIFrames[ORIGINAL_UI_FRAME][item]=diffUI[ORIGINAL_UI_FRAME][item]
-            diffUIFrames[CHANGED_UI_FRAME][item]=diffUI[CHANGED_UI_FRAME][item]
-        }
-        if (frame[item] && isListType(frame[item])) { // list 
-            if(diffPatch.hasOwnProperty(item)) { 
-                let constructedListFrame = constructOptionalFrame(frame[item], item)
-                let listField=getSetFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
-                //let listField=getListFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=listField[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=listField[CHANGED_UI_FRAME][item]
-            }
-        }
-        if (frame[item] && isSetType(frame[item])) { //set 
-            if(diffPatch.hasOwnProperty(item)) { 
-                let constructedSetFrame = constructOptionalFrame(frame[item], item)
-                let setField=getSetFieldDiffs(fullFrame, constructedSetFrame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=setField[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=setField[CHANGED_UI_FRAME][item]
-            }
+            //if(diffPatch.hasOwnProperty(frame[item])) { 
+                let diffUI=getOneOfFieldDiffs(fullFrame, frame, diffPatch, item, type, oldValue, newValue)
+                diffUIFrames[ORIGINAL_UI_FRAME][type]=diffUI[ORIGINAL_UI_FRAME][type]
+                diffUIFrames[CHANGED_UI_FRAME][type]=diffUI[CHANGED_UI_FRAME][type]
+            //}
         }
     }
 

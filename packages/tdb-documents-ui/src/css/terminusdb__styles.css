@@ -45,7 +45,9 @@
 }
 
 /** choice sub documents highlight choice change */
-.tdb__diff__original__bg > div.panel-body > div.form-group > select {
+.tdb__diff__original__bg > div.panel-body > div.form-group > select,
+.tdb__diff__original__textrea > textarea,
+.tdb__diff__original__textrea > input {
     background-color: #f8d7da !important;
     color: #842029 !important;
 }
@@ -96,7 +98,9 @@
 }
 
 /** choice sub documents highlight choice change */
-.tdb__diff__changed__bg > div.panel-body > div.form-group > select {
+.tdb__diff__changed__bg > div.panel-body > div.form-group > select,
+.tdb__diff__changed__textrea > textarea,
+.tdb__diff__changed__textrea > input {
     background-color: #d1e7dd !important;
     color: #0f5132 !important;
 }
@@ -348,4 +352,12 @@ div.inserted * {
 
 .hide__opacity {
     opacity: 0 !important;
+}
+
+.modal-dialog{
+    overflow-y: initial;
+}
+.modal-body{
+    max-height: 80vh;
+    overflow-y: auto;
 }

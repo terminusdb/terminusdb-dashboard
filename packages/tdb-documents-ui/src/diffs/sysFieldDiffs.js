@@ -2,7 +2,7 @@
 import React from "react"
 import ReactDiffViewer from 'react-diff-viewer' 
 import {BEFORE, AFTER, JSON_DIFF_STYLES} from "./diff.constants"
-import {ORIGINAL_UI_FRAME, CHANGED_UI_FRAME} from "../constants"
+import {ORIGINAL_UI_FRAME, CHANGED_UI_FRAME, SYS_UNIT_DATA_TYPE} from "../constants"
 import {AiFillMinusCircle} from "react-icons/ai"
 import Stack from 'react-bootstrap/Stack'
 
@@ -138,7 +138,13 @@ export const getSysJSONFieldDiffs = (diffPatch, item,  oldValue, newValue) =>{
 
     // function to show original view
     function showOriginal(props) {
-        let data=newValue.hasOwnProperty(item) ? newValue : {}
+        if(props.formData === SYS_UNIT_DATA_TYPE) {
+            return  <label className="control-label text-success" htmlFor={`root_${props.name}`}>
+                <span>{props.name}</span>
+                {props.required && <span className="required">*</span>}
+            </label>
+        }
+        let data=(newValue && newValue.hasOwnProperty(item)) ? newValue : {}
         return   <React.Fragment>
             <label className="control-label" htmlFor={`root_${props.name}`}>
                 <span>{props.name}</span>
@@ -160,7 +166,13 @@ export const getSysJSONFieldDiffs = (diffPatch, item,  oldValue, newValue) =>{
 
     // function to show changed view
     function showChanged(props) {
-        let data=oldValue.hasOwnProperty(item) ? oldValue : {}
+        if(props.formData === SYS_UNIT_DATA_TYPE) {
+            return  <label className="control-label text-success" htmlFor={`root_${props.name}`}>
+                <span>{props.name}</span>
+                {props.required && <span className="required">*</span>}
+            </label>
+        }
+        let data=(oldValue && oldValue.hasOwnProperty(item)) ? oldValue : {}
         return  <React.Fragment>
             <label className="control-label" htmlFor={`root_${props.name}`}>
                 <span>{props.name}</span>

@@ -134,7 +134,6 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, doc
 export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
 
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
-    console.log("*** KJ enter", mode, frame, item)
     if (mode === CREATE) {
         layout=getCreateSetDocumentTypeLayout(frame, item, documentation)
         uiLayout=getCreateSetDocumentTypeUILayout(frame, item) 

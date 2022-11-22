@@ -73,7 +73,7 @@ const CheckDropdownItem = React.forwardRef(
 export const CheckboxDropdown = ({ allColumns,getToggleHideAllColumnsProps }) => {
   return (
     <Dropdown>
-      <Dropdown.Toggle variant="primary" id="dropdown-basic">
+      <Dropdown.Toggle variant="primary" id="dropdown-basic" className="bg-light text-dark">
         <TbColumns></TbColumns>
       </Dropdown.Toggle>
 

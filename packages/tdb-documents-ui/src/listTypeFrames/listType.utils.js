@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, HideArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle, checkIfKey} from "../utils"
 import {CREATE, CHOICESUBCLASSES, DOCUMENT, SYS_JSON_TYPE, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
-import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
+import {FilledDocumentSelect, EmptyDocumentSelect, DocumentSearch} from "../documentTypeFrames/DocumentSelects"
 import JSONInput from 'react-json-editor-ajrm'
 import locale    from 'react-json-editor-ajrm/locale/en'
 
@@ -933,7 +933,7 @@ export function getEditSetDocumentTypeLayout (frame, item, formData) {
 }
 
 // edit set Document type ui layout
-export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
+export function getEditSetDocumentTypeUILayout (frame, item, onSelect, documentation) {
 
     // getting ui layout for additional items
     let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {}
@@ -948,49 +948,65 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
         if(ui === "ui:field") {
             function displayFilledSetSelect(props) {
 
-                // loadOptions on AsyncSelect
-                const loadOptions = async (inputValue, callback) => {
-                    let opts = await onSelect(inputValue, frame[item])
-                    callback(opts)
-                    return opts
-                }
+                let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : null
+                // extracting custom ui styles
+                let label = getLabelFromDocumentation (item, documentation)
+                // this can be feature collection or normal document id 
+                let defaultFormData = (typeof props.formData === "object" && props.formData.hasOwnProperty("@id")) ? props.formData["@id"] : props.formData
 
-                // handle input change on AsyncSelect
-                const handleInputChange = (newValue) => {
-                    const inputValue = newValue.replace(/\W/g, '');
-                    return inputValue
-                }
+                if(typeof onSelect === "function") {
+                    // loadOptions on AsyncSelect
+                    const loadOptions = async (inputValue, callback) => {
+                        let opts = await onSelect(inputValue, frame[item])
+                        callback(opts)
+                        return opts
+                    }
 
-                function onChange(e) {
-                    props.onChange(e.value)
-                }
+                    // handle input change on AsyncSelect
+                    const handleInputChange = (newValue) => {
+                        const inputValue = newValue.replace(/\W/g, '');
+                        return inputValue
+                    }
 
-                let returnElement = []
-                if(props.formData){
-                    returnElement.push(
-                        <FilledDocumentSelect
+                    function onChange(e) {
+                        props.onChange(e.value)
+                    }
+
+                    let returnElement = []
+                    if(props.formData){
+                        returnElement.push(
+                            <FilledDocumentSelect
+                                label={props.name}
+                                styles={SELECT_STYLES}
+                                placeholder={props.uiSchema["ui:placeholder"]}
+                                onChange={onChange}
+                                loadOptions={loadOptions}
+                                defaultValue={props.formData}
+                                handleInputChange={handleInputChange}
+                            />
+                        )
+                    }
+                    else returnElement.push(
+                        <EmptyDocumentSelect
                             label={props.name}
                             styles={SELECT_STYLES}
                             placeholder={props.uiSchema["ui:placeholder"]}
                             onChange={onChange}
                             loadOptions={loadOptions}
-                            defaultValue={props.formData}
                             handleInputChange={handleInputChange}
                         />
                     )
-                }
-                else returnElement.push(
-                    <EmptyDocumentSelect
-                        label={props.name}
-                        styles={SELECT_STYLES}
-                        placeholder={props.uiSchema["ui:placeholder"]}
-                        onChange={onChange}
-                        loadOptions={loadOptions}
-                        handleInputChange={handleInputChange}
-                    />
-                )
 
-                return returnElement
+                    return returnElement
+                }
+            
+                // simply sents back component
+                return <DocumentSearch 
+                    label={label}
+                    linked_to={linked_to} 
+                    value={defaultFormData}
+                    display={onSelect ? onSelect : <>No Component to display ...</>}
+                    onChange={props.onChange}/>
 
             }
 
@@ -1004,7 +1020,7 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
             items: modifiedUiLayout,
-            additionalItems: additionalItemsUiStruct,
+            additionalItems: modifiedUiLayout,
             "ui:options": {
                 addable: true,
                 orderable: true,

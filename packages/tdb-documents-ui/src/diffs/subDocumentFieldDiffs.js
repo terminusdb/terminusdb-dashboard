@@ -62,18 +62,22 @@ export function getSubDocumentFieldDiffs (fullFrame, frame, diffPatch, item, typ
     // if values are same then dont do anything
     if(JSON.stringify(oldValue) === JSON.stringify(newValue)) return diffUIFrames
 
-    let subDocumentDiff = generateDiffUIFrames(fullFrame, constructedFrame, type, oldValue, newValue, diffPatch[item])
+    let extractedOldValue=oldValue.hasOwnProperty(item) ? oldValue[item] : {}
+    let extractedNewValue=newValue.hasOwnProperty(item) ? newValue[item] : {}
+    let subDocumentDiff = generateDiffUIFrames(fullFrame, constructedFrame, type, extractedOldValue, extractedNewValue, diffPatch[item])
                 
     diffUIFrames[ORIGINAL_UI_FRAME][item]=subDocumentDiff[ORIGINAL_UI_FRAME]
     diffUIFrames[CHANGED_UI_FRAME][item]=subDocumentDiff[CHANGED_UI_FRAME]
 
     diffUIFrames[CHANGED_UI_FRAME][item]["styleObject"]={
         headingClassNames: "text-success",
-        borderClassNames: "border-success"
+        borderClassNames: "border-success",
+        bgClassNames: "tdb__diff__changed__textrea"
     }
     diffUIFrames[ORIGINAL_UI_FRAME][item]["styleObject"]={
         headingClassNames: "text-danger",
-        borderClassNames: "border-danger"
+        borderClassNames: "border-danger",
+        bgClassNames: "tdb__diff__original__textrea"
     }
 
     if(diffPatch[item].hasOwnProperty(BEFORE) && diffPatch[item][BEFORE] === null){

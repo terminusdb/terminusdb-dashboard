@@ -1,6 +1,7 @@
 import React,{useEffect, useMemo} from 'react';
 import { useTable, usePagination,  useSortBy, useFilters } from 'react-table'
 import {BiRefresh} from "react-icons/bi"
+import {MdOutlineResetTv} from "react-icons/md"
 import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink,Button} from "react-bootstrap" //replace;
 import {CheckboxDropdown} from "./ColumsVisibilityComponent"
 import { DefaultColumnFilter } from './ColumnFilters';
@@ -10,7 +11,7 @@ import { DefaultColumnFilter } from './ColumnFilters';
  * sort - no, local, remote
  */ 
 
-export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh})=>{
+export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh})=>{
 
     pagesizes = pagesizes || [5, 10, 20, 30, 40, 50]
     let pager = view.config.pager()
@@ -29,7 +30,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
         manualSortBy:pager === "remote" ? true : false,
         pageCount : pages || 1,
         initialState : {
-            filters : [],
+            filters : filtersBy || [],
             pageSize : view.config.pagesize() || 10,
             pageIndex : pageNumber || 0,
             sortBy : woql_to_order(orderBy),
@@ -48,7 +49,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        
+        setAllFilters,
         prepareRow,
       //  columns,
         page, // Instead of using 'rows', we'll use page,
@@ -83,7 +84,12 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
 
     useEffect(() => {
         if(pager === "remote" && sortBy!== ut_config.initialState.sortBy){
-           // let worder = order_to_woql(sortBy)
+            let worder = order_to_woql(sortBy)
+            //old method with woql
+            if(!setFilters){
+                setOrder(worder)
+                return 
+            }
             if(setOrder) setOrder(sortBy)
         }
     }, [sortBy])
@@ -110,15 +116,16 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
      return (
         <span>
         <div className='d-flex justify-content-end'>
+        {setFilters && <Button title="Reset filters" className="bg-light text-dark" onClick={() => setAllFilters([])}><MdOutlineResetTv/></Button>}
         <CheckboxDropdown allColumns={allColumns} getToggleHideAllColumnsProps={getToggleHideAllColumnsProps}/>
         </div>
         <div className="h-4" />
             <Table {...getTableProps()} hover >
                      <thead>
-                        {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                            <><th>
+                        {headerGroups.map((headerGroup,index) => (
+                        <tr {...headerGroup.getHeaderGroupProps()} key={`header__${index}`}>
+                            {headerGroup.headers.map((column,index) => (
+                            <><th key={`column__${index}`}>
                                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.render('Header')}
                                     <span>
@@ -140,9 +147,9 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
                 {page.map((row, i) => {
                     prepareRow(row)
                     return (
-                        <tr {...row.getRowProps(getRowProps(row, view))}>
-                            {row.cells.map(cell => {
-                                return <td {...cell.getCellProps([
+                        <tr {...row.getRowProps(getRowProps(row, view))} key={`page__${i}`} >
+                            {row.cells.map((cell,i) => {
+                                return <td key={`cell__${i}`} {...cell.getCellProps([
                                     getColumnProps(cell.column, view, freewidth),
                                     getCellProps(cell, view),
                                 ])}>
@@ -154,7 +161,8 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
                 })}
                 </tbody>
             </Table>
-            {pager &&
+            {data.length === 0 && <h4>No Result Data</h4>}
+            {pager && data.length>0 &&
                 <Row md={12} className="mr-0 ml-0">
                     <Col md={3} className="d-flex justify-content-center align-items-center">                      
                         <button onClick={() => 
@@ -180,8 +188,8 @@ export const TableComponent = ({columns, data, view, pages, freewidth, orderBy, 
                             onChange={e => {
                                 setPageSize(Number(e.target.value))
                             }}>
-                            {pagesizes.map(pageSizeItem => {
-                                return <option key={pageSizeItem} value={pageSizeItem}>
+                            {pagesizes.map((pageSizeItem,i) => {
+                                return <option key={pageSizeItem} value={pageSizeItem} key={`pageSize__${i}`}>
                                             Show {pageSizeItem}
                                         </option>   
                             })}
