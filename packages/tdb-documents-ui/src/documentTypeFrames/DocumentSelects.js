@@ -90,6 +90,8 @@ export const FilledDocumentSelect = ({label, styles, placeholder, defaultValue, 
 // empty Select - edit mode
 export const DocumentSearch = ({label, onChange, value, required, linked_to, display, description}) => {
 
+    console.log("DocumentSearch",  linked_to)
+
     // modal constants
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
@@ -99,7 +101,7 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
     const [selected, setSelected]=useState(value ? value : false)
 
     // pass props 
-    const displayComponent = React.cloneElement(display, { setSelected: setSelected })
+    const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked_to})
 
     useEffect(() => {
         if(selected && onChange) onChange(selected)
@@ -130,11 +132,11 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
                 </Button>
             </div>
         </Stack>
-        {selected && <>
+        {selected && selected.original && <>
             <AiOutlineCheck className="text-success mr-2"/>
             <small>{"Selected: "}</small>
             <div className="d-flex tdb__input">
-                <label className="text-decoration-underline">{selected}</label>
+                <label className="text-decoration-underline">{selected.original.id}</label>
                 {!required && <Button className="btn btn-sm bg-transparent border-0 text-danger"
                         title={`Click here to search for a ${linked_to}`}
                         onClick={handleClear}>

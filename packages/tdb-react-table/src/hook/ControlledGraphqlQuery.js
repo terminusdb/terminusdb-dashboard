@@ -9,6 +9,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     const [rowCount, setRowCount] = useState(0)
   //  const [hasNextPage, setHasNextPage] = useState(true)
     const [controlledRefresh, setControlledRefresh] = useState(0)
+   // const [data, setData] = useState(null)
  
     //filter is the filter formatted for the query
     let filterTable  = []
@@ -17,7 +18,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     const [filterBy, setFilters] = useState(filterTable)
     const [queryFilters, setQueryFilters] = useState(false)
 
-    const {loading, error, data, fetchMore } = useQuery(graphqlQuery, {onComplete:onCompleteCall, 
+    const {loading, error, fetchMore,data} = useQuery(graphqlQuery, {onComplete:onCompleteCall, 
       variables:{"offset":start , "limit":limit+1, 
       "orderBy":orderBy || {}, "filter":queryFilters || {}}});
 
@@ -53,13 +54,13 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     //remove the extra element
     const onCompleteCall = (data) =>{
         if(!Array.isArray(data[documentType]))return []
-        setRowCount(limit*start+data[documentType].length)
-        if(data[documentType].length<(limit+1)){
+        const rowCountTmp  = limit*start+data[documentType].length
+        if(data[documentType].length === (limit+1)){
          //setHasNextPage(false)
-          return data 
+           data[documentType].pop()
         }
-        data[documentType].pop()
-        return data
+        setRowCount(limit*start+data[documentType].length)
+        setData(data)
     }
 
     const useFetchMore = (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
