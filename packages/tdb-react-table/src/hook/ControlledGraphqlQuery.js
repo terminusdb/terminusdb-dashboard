@@ -38,7 +38,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
   }, [documentType])
 
 
-  const formatFilterForTable = () =>{
+  function formatFilterForTable(){
     if (filter){
       const keys = Object.keys(filter)
       keys.forEach(propN =>{
@@ -52,7 +52,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
   }
 
     //remove the extra element
-    const onCompleteCall = (data) =>{
+    function onCompleteCall(data){
         if(!Array.isArray(data[documentType]))return []
         const rowCountTmp  = limit*start+data[documentType].length
         if(data[documentType].length === (limit+1)){
