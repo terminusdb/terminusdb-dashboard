@@ -104,7 +104,10 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
     const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked_to})
 
     useEffect(() => {
-        if(selected && onChange) onChange(selected)
+        if(selected && selected.hasOwnProperty("id") && onChange) {
+            //console.log("selected", selected)
+            onChange(selected.id)
+        }
     }, [selected])
 
     function handleClear(e) { 
@@ -132,11 +135,11 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
                 </Button>
             </div>
         </Stack>
-        {selected  && <>
+        {selected && selected.hasOwnProperty("label") && <>
             <AiOutlineCheck className="text-success mr-2"/>
             <small>{"Selected: "}</small>
             <div className="d-flex tdb__input">
-                <label className="text-decoration-underline">{selected.id}</label>
+                <label className="text-decoration-underline">{selected.label}</label>
                 {!required && <Button className="btn btn-sm bg-transparent border-0 text-danger"
                         title={`Click here to search for a ${linked_to}`}
                         onClick={handleClear}>

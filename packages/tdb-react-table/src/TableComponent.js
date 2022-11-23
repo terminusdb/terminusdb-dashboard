@@ -73,12 +73,13 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
 
     
     let rowCountStr = ""
+    let total= ""
     if(pager){
         let st = ((pageSize * pageIndex) + 1)
         let en = page.length + st - 1
         rowCountStr = "Record " + st + " to " + en
         if(rowCount){
-            rowCountStr += " of " + rowCount
+            total += " of " + rowCount
         }
     } 
 
@@ -165,24 +166,26 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
             {pager && data.length>0 &&
                 <Row md={12} className="mr-0 ml-0">
                     <Col md={3} className="d-flex justify-content-center align-items-center">                      
-                        <button onClick={() => 
+                        <button id="table_previous" onClick={() => 
                             previousPage()} 
                             disabled={!canPreviousPage}>
                         {'<'}
                         </button>{' '}
-                        <button onClick={() => 
+                        <button id="table_next" onClick={() => 
                             nextPage()} 
                             disabled={!canNextPage}>
                         {'>'}
                         </button>{' '}                      
                     </Col>
                     <Col md={6} className="d-flex justify-content-center align-items-center">
-                         <span>
+                        
+                        <span id="table_page_number">
                             Page{' '}
                             <strong className="mr-3">
                                 {pageIndex  + 1} of {pageCount}
                             </strong>
                         </span>
+                      
                        
                         <select value={pageSize}
                             onChange={e => {
@@ -194,7 +197,9 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
                                         </option>   
                             })}
                         </select>
-                        <div className="ml-4">{rowCountStr}</div>
+                    
+                       
+                        <div className="ml-4" >{rowCountStr}<span id="table_row_total">{total}</span></div>
                     </Col>
                     <Col md={3} className="d-flex justify-content-center align-items-center">
                         <div className="tdb__toolbar__base">

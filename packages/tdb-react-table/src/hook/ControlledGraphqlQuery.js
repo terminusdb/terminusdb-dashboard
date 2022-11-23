@@ -18,7 +18,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     const [filterBy, setFilters] = useState(filterTable)
     const [queryFilters, setQueryFilters] = useState(false)
 
-    const {loading, error, fetchMore,data} = useQuery(graphqlQuery, {onComplete:onCompleteCall, 
+    const {loading, error, fetchMore,data} = useQuery(graphqlQuery, {onCompleted:onCompleteCall, 
       variables:{"offset":start , "limit":limit+1, 
       "orderBy":orderBy || {}, "filter":queryFilters || {}}});
 
@@ -28,7 +28,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     useEffect( () => {
       // we reset all the filter if the document name change
       if(documentType){
-        setLimit(queryStart || 10)
+        setLimit(queryLimit || 10)
         setOrderBy(order || false)
         setStart(queryStart || 0)
         setQueryFilters(filter || false)
@@ -59,7 +59,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
          //setHasNextPage(false)
            data[documentType].pop()
         }
-        setRowCount(limit*start+data[documentType].length)
+        setRowCount(rowCountTmp)
         setData(data)
     }
 
