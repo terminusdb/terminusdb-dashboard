@@ -118,7 +118,9 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData, documenta
         defaultValues.map(value => {
             let structure = {}
             for(var props in frame.properties[item]) {
-                if(props === "default") structure[props] = value
+                if(props === "default") {
+                    structure[props] = value
+                }
                 else structure[props] = frame.properties[item][props]
             }
             filledItems.push(structure)
@@ -141,8 +143,8 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData, documenta
 }
 
 // View set subDocument type UI Layout
-export function getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData) {
-    let uiLayout= {}
+export function getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData, layout) {
+    let uiLayout= {} 
 
     if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
         return {
@@ -172,9 +174,34 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData
         return uiLayout
     }
 
+    function displayExtractedFilled(props) {
+        return <>
+            <label className="text-dark">{props.name}</label>
+            <span className="text-decoration-underline">{props.formData}</span>
+        </>
+    }
+
+    function extractUISchema() {
+        // delete ui field here 
+        if(frame && frame["properties"].hasOwnProperty(item) && 
+        frame["properties"][item].hasOwnProperty("properties")) {
+            for(let its in frame["properties"][item]["properties"]){
+                if(frame["properties"][item]["properties"][its].hasOwnProperty("info") && 
+                    frame["properties"][item]["properties"][its]["info"] === DOCUMENT) {
+                    if(frame["uiSchema"][item][its].hasOwnProperty("ui:field")) {
+                        frame["uiSchema"][item][its]["ui:field"]=displayExtractedFilled
+                        //frame["uiSchema"][item][its]["ui:title"]= <label className="text-gray">{its}</label>
+                    }
+                }
+            }
+        }
+        return frame.uiSchema[item]
+    }
+
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
-            items: frame.uiSchema[item],
+            items: extractUISchema(),
+            //items: frame.uiSchema[item],
             //additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,

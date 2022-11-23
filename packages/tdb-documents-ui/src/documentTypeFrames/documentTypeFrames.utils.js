@@ -116,7 +116,7 @@ export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame, d
     let uiLayout= {}
     let label = getLabelFromDocumentation (item, documentation)
 
-    function displayFilledSelect(props) {
+    function displayFilledSelect(props) { 
         const [value, setValue]=useState(props.formData ? {value: props.formData, label: props.formData} : null)// select value
         let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : null
         // extracting custom ui styles

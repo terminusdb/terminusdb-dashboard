@@ -90,8 +90,6 @@ export const FilledDocumentSelect = ({label, styles, placeholder, defaultValue, 
 // empty Select - edit mode
 export const DocumentSearch = ({label, onChange, value, required, linked_to, display, description}) => {
 
-    console.log("DocumentSearch",  linked_to)
-
     // modal constants
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
@@ -107,6 +105,7 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
         if(selected && selected.hasOwnProperty("id") && onChange) {
             //console.log("selected", selected)
             onChange(selected.id)
+            setShow(false)
         }
     }, [selected])
 

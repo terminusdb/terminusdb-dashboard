@@ -181,7 +181,7 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === VIEW) {
         layout=getViewSetSubDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData)
+        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData, layout)
     }
 
     // schema
