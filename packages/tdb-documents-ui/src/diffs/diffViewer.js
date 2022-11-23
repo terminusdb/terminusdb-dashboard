@@ -72,7 +72,7 @@ const NewValueHeader = ({newValueHeader}) => {
 
     if(diffPatch.hasOwnProperty(OPERATION) && diffPatch[OPERATION] === INSERT) {
         let uiJson = {
-            classNames: "p-3 text-dark inserted"
+            classNames: "p-3 inserted"
         }
         let hideUIJson = {
             classNames: "hide__opacity p-3"
@@ -117,7 +117,7 @@ const NewValueHeader = ({newValueHeader}) => {
 
     let subFrame=frame[type]    
     let diffUIFrames=generateDiffUIFrames(frame, subFrame, type, oldValue, newValue, diffPatch)
- 
+  
     return <Row> 
         <Col md={6}>
             <Card>  

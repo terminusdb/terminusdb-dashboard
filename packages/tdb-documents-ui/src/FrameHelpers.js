@@ -113,6 +113,10 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
 export function getProperties (fullFrame, current, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
     for(var item in frame) {
+
+        if(item === "inventory") {
+            console.log("inventory")
+        }
         
         if(item === "@key") continue
         else if(item === "@type") continue

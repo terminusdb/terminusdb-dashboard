@@ -25,6 +25,7 @@
     line-height: 1.5;
 }
 
+
 .tdb__input > input:focus {
     color: #adb5bd;
 }
@@ -342,11 +343,15 @@ div.diff_react_viewer_changed > table.css-1ri4lr5-diff-container > tbody > tr.cs
 }
 
 div.inserted { 
-    background-color: #badbcc;
+    background-color: #badbcc !important;
     border-radius: 4px;
 }
 
 div.inserted * {
+    color: #444 !important;
+}
+
+div.inserted * input {
     color: #444 !important;
 }
 

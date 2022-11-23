@@ -137,8 +137,8 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     let headingColor = uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("styleObject") && uiFrame[item]["styleObject"].hasOwnProperty("headingClassNames") ? uiFrame[item]["styleObject"]["headingClassNames"] : false
     uiLayout["ui:title"]=getSubDocumentTitle(item, documentation, headingColor) 
     let borderColor = uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("styleObject") && uiFrame[item]["styleObject"].hasOwnProperty("borderClassNames") ? uiFrame[item]["styleObject"]["borderClassNames"] : false
-
-    uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4 ${borderColor}`
+    let backgroundColor = uiFrame && uiFrame.hasOwnProperty("classNames") ? uiFrame["classNames"] : ""
+    uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4 ${borderColor} ${backgroundColor}`
     let description = getCommentFromDocumentation(item, documentation, true)
     uiLayout["ui:description"]=getSubDocumentDescription(item, description) 
     // custom   ui:schema - add to default ui schema
