@@ -1,6 +1,5 @@
 import React, {useState,useMemo} from "react"
-import {WOQLGraph} from '@terminusdb-live/tdb-react-components'
-import { WOQLTable } from "@terminusdb/terminusdb-client"
+import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
 import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constants"
@@ -141,10 +140,11 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
                         orderBy={queryResult.orderBy}
                         setLimits={setLimits}
                         setOrder={setOrder}
-                        query={woql}
+                        query={false}
                         loading={loading}
                         totalRows={queryResult.totalRows}
-                    />}
+                    />
+                    }
                 {currentView==JSON_VIEW &&
                     <CodeMirror
                         value={JSON.stringify(bindings, null, 2)}
@@ -157,6 +157,26 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
         </React.Fragment>
         )
 }
+
+/*
+
+
+
+
+ <WOQLTable
+                                result={extractedResults}
+                                freewidth={true}
+                                view={(tableConfig ? tableConfig.json() : {})}
+                                limit={limit}
+                                start={start}
+                                orderBy={orderBy}
+                                setLimits={changeLimits}
+                                setOrder={changeOrder}
+                                resultColumns={getColumnsFromResults(extractedResults)}
+                                query={false}
+                                loading={loading}
+                                totalRows={rowCount}
+                            />*/
 
 /*
   {currentView==GRAPH_VIEW && <div className="graph-bg-color">
