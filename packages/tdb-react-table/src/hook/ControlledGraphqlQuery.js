@@ -141,7 +141,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
             orderByObj[item.id] = item.desc === true ? "DESC" : "ASC"
           }) 
         }
-        setOrderBy(orderByArr)
+        setOrderBy(orderByObj)
         console.log("changeOrder" ,orderByArr, queryFilters)
         if(fetchMore)useFetchMore(limit,start,orderByObj,queryFilters)  
       }

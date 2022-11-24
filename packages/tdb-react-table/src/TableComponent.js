@@ -186,13 +186,12 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
                             </strong>
                         </span>
                       
-                       
                         <select value={pageSize}
                             onChange={e => {
                                 setPageSize(Number(e.target.value))
                             }}>
                             {pagesizes.map((pageSizeItem,i) => {
-                                return <option key={pageSizeItem} value={pageSizeItem} key={`pageSize__${i}`}>
+                                return <option  value={pageSizeItem} key={`pageSize__${i}`}>
                                             Show {pageSizeItem}
                                         </option>   
                             })}
