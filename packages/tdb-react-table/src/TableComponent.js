@@ -96,13 +96,10 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
     }, [sortBy])
 
     useEffect(() => {
-        //if(pager === "remote" ){
-           // let worder = order_to_woql(sortBy)
            console.log(filters)
            if(pager === "remote" && filters!== ut_config.initialState.filters){
                 if(setFilters)setFilters(filters)
            }
-        //}
     }, [filters])
 
     
@@ -126,7 +123,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
                         {headerGroups.map((headerGroup,index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={`header__${index}`}>
                             {headerGroup.headers.map((column,index) => (
-                            <><th key={`column__${index}`}>
+                            <th key={`column__${index}`}>
                                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.render('Header')}
                                     <span>
@@ -139,7 +136,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
                                 </div>
                                 <div className="mt-3">{setFilters && column.canFilter ? column.render("Filter") : ""}</div>
                                
-                                </th></>
+                                </th>
                             ))}
                         </tr>
                         ))}

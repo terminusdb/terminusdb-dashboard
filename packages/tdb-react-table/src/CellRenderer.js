@@ -266,26 +266,30 @@ export const ImageRenderer = ({value, type, column, row, cell, view, args, prefi
 }
 
 export const StringRenderer = ({value, type, column, row, cell, view, args, prefixes})=>{
-    let maxlen = (args && args.maxlen ? args.maxlen : 200)
-    let maxword = (args && args.maxword ? args.maxword : 32)
-    let txt = shortenedText(value, maxlen, maxword)
-    let sf = (txt == value || args && args.full)
-    let canTruncate = !(txt == value)
-    const [showingFull, setShowingFull] = useState(sf)
+    //let maxlen = (args && args.maxlen ? args.maxlen : 200)
+    //let maxword = (args && args.maxword ? args.maxword : 32)
+   // let txt = shortenedText(value, maxlen, maxword)
+    //let sf = (txt == value || args && args.full)
+    //let canTruncate = !(txt == value)
+    //const [showingFull, setShowingFull] = useState(sf)
     const toggleFull = (e) => {
         e.stopPropagation()
         setShowingFull(!showingFull)
     }
+    let strValue = value
+    if(typeof value === "object"){
+        strValue=value["@value"]
+    }
     return (<span>
-        {showingFull && 
-            <span title={"String Type: " + type}>{value} </span>
-        }
+           <span title={"String Type: " + type}>{strValue} </span>
+           </span>)
+    /*       
         {!showingFull &&
             <span title={"Type: " + type + ", Value: " + value}>{txt} </span>
         }
         {/*canTruncate &&
             <button onClick={toggleFull}> {(showingFull ? "less" : "more")} </button>
-        */}
+        }
         {canTruncate && showingFull && <span className="" title={"Show Less"} onClick={toggleFull}>
             <MdExpandLess color="#0055bb" className=''/>
         </span>
@@ -294,7 +298,7 @@ export const StringRenderer = ({value, type, column, row, cell, view, args, pref
             <MdExpandMore color="#0055bb" className=''/>
         </span>
         }
-    </span>)
+    */
 }
 
 export const ArrayRenderer = ({depth, value, column, row, cell, view, args, prefixes})=>{
