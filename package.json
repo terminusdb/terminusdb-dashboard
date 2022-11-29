@@ -1,5 +1,6 @@
 {
-  "name": "terminusdb-react",
+  "name": "terminusdb-dashboard",
+  "private": true,
   "workspaces": [
     "./packages/tdb-react-components",
     "./packages/react-worker",

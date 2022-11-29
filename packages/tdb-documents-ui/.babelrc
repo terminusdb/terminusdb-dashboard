@@ -1,6 +1,7 @@
 {
   "sourceType": "unambiguous",
   "presets": [
-    ["@babel/preset-env", {"corejs": "3.25", "useBuiltIns": "entry"}]
+    ["@babel/preset-env", {"corejs": "3.25", "useBuiltIns": "entry"}],
+    ["@babel/preset-react", {"corejs": "3.25", "useBuiltIns": "entry"}]
   ]
 }
