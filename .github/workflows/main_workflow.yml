@@ -115,4 +115,4 @@ jobs:
       if: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/v') }}
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npm run publish --ws
+      run: npm publish --ws
