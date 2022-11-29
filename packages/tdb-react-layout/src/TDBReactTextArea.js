@@ -1,5 +1,5 @@
 import React from "react"
-import { Form, InputGroup } from '@themesberg/react-bootstrap';
+import { Form, InputGroup } from 'react-bootstrap';
 
 export const TDBReactTextArea = (props) =>{
     let config=props.config || {}

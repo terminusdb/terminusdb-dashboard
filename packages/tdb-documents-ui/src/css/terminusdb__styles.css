@@ -1,4 +1,5 @@
 
+
 .rjsf {
     width: 100%;
 }
@@ -13,13 +14,122 @@
     color: #f9d891 !important;
 }
 
-.tdb__input > input, .tdb__input > select, .tdb__view__enum__input > select{
-    color: #adb5bd;
+.tdb__input > input, 
+.tdb__input > select, 
+.tdb__view__enum__input > select,
+.tdb__input > textarea
+{
+    color: #adb5bd !important;
     background-color: transparent !important;
     border-color: rgb(102, 102, 102) !important;
     line-height: 1.5;
 }
 
+
+.tdb__input > input:focus {
+    color: #adb5bd;
+}
+
+/** diffs ***/
+.tdb__diff__original > input, 
+.tdb__diff__original > select {
+    color: #842029 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c2c7 !important;
+}
+
+/** choice sub documents when choices have changed */
+.tdb__diff__original__bg {
+    border-radius: 6px;
+    border: 1px solid #842029;
+    padding: 10px;
+}
+
+/** choice sub documents highlight choice change */
+.tdb__diff__original__bg > div.panel-body > div.form-group > select,
+.tdb__diff__original__textrea > textarea,
+.tdb__diff__original__textrea > input {
+    background-color: #f8d7da !important;
+    color: #842029 !important;
+}
+
+/* document links & enum */
+.tdb__diff__original > span,
+.tdb__diff__enum__original > select  {
+    color: #e74c3c !important;
+    border: 0;
+}
+
+.text_diff_select {
+    background-color: transparent !important;
+    border: 0 !important;
+}
+
+.text_diff_underline {
+    text-decoration: underline!important;
+}
+
+.text_diff_original_underline {
+    background-color: transparent !important;
+    border: 0 !important;
+    text-decoration-color: #842029 !important;
+    text-decoration: underline!important;
+}
+
+.text_choice_documents {
+    margin: 0px 0px 0px 50px !important;
+}
+
+.tdb__diff__changed > input, 
+.tdb__diff__changed > select {
+    color: #0f5132 !important;
+    background-color: #d1e7dd !important;
+    border-color: #badbcc !important;
+}
+
+/** choice sub documents when choices have changed */
+.tdb__diff__changed__bg { 
+    border-radius: 6px;
+    border: 1px solid #0f5132;
+    padding: 10px;
+}
+
+.lift__padding{
+    padding: 10px 10px 0px 10px !important;
+}
+
+/** choice sub documents highlight choice change */
+.tdb__diff__changed__bg > div.panel-body > div.form-group > select,
+.tdb__diff__changed__textrea > textarea,
+.tdb__diff__changed__textrea > input {
+    background-color: #d1e7dd !important;
+    color: #0f5132 !important;
+}
+
+.removed__label {
+    margin-top: 90px;
+    position: absolute;
+}
+
+/* document links & enum */
+.tdb__diff__changed > span,
+.tdb__diff__enum__changed > select  {
+    color: #00bc8c !important;
+    border: 0;
+}
+
+
+.text_diff_changed_underline {
+    background-color: transparent !important;
+    border: 0 !important;
+    text-decoration-color: #0f5132 !important;
+    text-decoration: underline!important;
+}
+
+.diff__help__text {
+    font-size: 12px;
+    font-style: italic;
+}
 
 /** selects ***/
 select, .rbt-input-main {
@@ -64,7 +174,7 @@ select, .rbt-input-main {
     background-color: transparent !important;
     background-image: none !important; /** hiding select carrot **/
     margin: 0px 0px 0px -10px !important;
-    color: #fff !important;
+    color: #fff ;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -156,9 +266,16 @@ legend {
     height: 100%;
     margin: 0;
     padding: 0;
- }
+}
 
-
+.leaflet-container {
+    height: 400px;
+    width: 80%;
+    margin: 0 auto;
+}
+.leaflet-popup-content {
+    color: #000;
+}
 
  .norwayLink{
     color: #0078A8;
@@ -175,7 +292,6 @@ legend {
     background-color: transparent !important;
     background-image: none !important; /** hiding select carrot **/
     margin: 0px 0px 0px 50px !important;
-    color: #fff !important;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -201,4 +317,52 @@ div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
     margin-bottom: 10px;
 }
 
+.diff__subDocument__accordian {
+    background-color: #444 !important;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    margin-top: 1.5rem !important;
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    border-radius: var(--bs-card-border-radius);
+}
 
+.original_subDoc_diff_border {
+    border: 1px solid #dc3545;
+}
+
+.changed_subDoc_diff_border {
+    border: 1px solid #28a745;
+}
+
+div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(-n+3) {
+    display: none !important;
+}
+
+div.diff_react_viewer_changed > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(n+3) {
+    display: none !important;
+}
+
+div.inserted { 
+    background-color: #badbcc !important;
+    border-radius: 4px;
+}
+
+div.inserted * {
+    color: #444 !important;
+}
+
+div.inserted * input {
+    color: #444 !important;
+}
+
+.hide__opacity {
+    opacity: 0 !important;
+}
+
+.modal-dialog{
+    overflow-y: initial;
+}
+.modal-body{
+    max-height: 80vh;
+    overflow-y: auto;
+}

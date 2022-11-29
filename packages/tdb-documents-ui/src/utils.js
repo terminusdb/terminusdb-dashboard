@@ -10,7 +10,7 @@ import {
 	UI_FRAME_SUBDOCUMENT_STYLE, 
 	VIEW,
 	DIMENSION, 
-	ONEOFVALUES, 
+	B_BOX, 
 	OPTIONAL, 
 	SET, 
 	ONEOFCLASSES, 
@@ -18,7 +18,7 @@ import {
 	ENUM, 
 	VALUE_HASH_KEY, 
 	LIST, 
-	SYS_UNIT_DATA_TYPE, 
+	GEOMETRY_ARRAY, 
 	SUBDOCUMENT, 
 	ARRAY, 
 	COORDINATES, 
@@ -27,7 +27,13 @@ import {
 	SYS_UNIT_TYPE_PREFIX,
 	DOCUMENTATION,
 	SELECTED_LANGUAGE,
-	DEFAULT_LANGUAGE	
+	DEFAULT_LANGUAGE,
+	RDF_LANG_STRING	,
+	FEATURE,
+	METADATA,
+	RENDER_AS,
+	WIDGET,
+	ORDER_AS
 } from "./constants"
 import {BiKey, BiPlus} from "react-icons/bi"
 import {RiDeleteBin5Fill} from "react-icons/ri"
@@ -44,6 +50,13 @@ const dataTypePrefix = {[XSD_DATA_TYPE_PREFIX]:true,
 export const isDataType = (property) => {
 	if(typeof property === "object") return false
 	return dataTypePrefix[ property.substring(0, 4)] || false
+}
+
+// returns true for properties which are of data types is rdf:langString
+export const isRdfLangString = (property) => {
+	if(typeof property === "object") return false
+	if(property === RDF_LANG_STRING) return true
+	return false
 }
 
 export const isSysDataType = (property) => {
@@ -141,6 +154,54 @@ export const isPointType = (property, frame) => {
 	return false
 }
 
+// function to check if both arrays are identical
+function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index])
+}
+
+// returns true if frame is a geometry collection type 
+export const isGeometryCollection = (property, mode) => {
+	if(mode !== VIEW) return
+	if(typeof property !== "object") return false
+	if(!property.hasOwnProperty("@class"))  return false
+	if(Array.isArray(property["@class"])) {
+		return arrayEquals(property["@class"], GEOMETRY_ARRAY)
+	}
+	return false
+}
+
+// returns true if frame is a feature collection type 
+export const isFeatureCollection = (property, mode) => {
+	if(mode !== VIEW) return
+	if(typeof property !== "object") return false
+	if(!property.hasOwnProperty("@class"))  return false
+	if(!property.hasOwnProperty("@type"))  return false
+	if(property["@class"] === "Feature") { // feature collection 
+		return true
+	}
+	return false
+}
+
+// returns true if frame is a geometry type 
+export const isGeometry = (property, mode) => {
+	if(mode !== VIEW) return
+	if(Array.isArray(property)) {
+		return arrayEquals(property, GEOMETRY_ARRAY) 
+	}
+	if(typeof property === "object") {
+		if(property.hasOwnProperty("@class")) {
+			if(Array.isArray(property["@class"])) {
+				return arrayEquals(property, GEOMETRY_ARRAY) 
+			}
+		}
+	}
+	return false
+}
+ 
+
 // returns true if @subdocuments and type class
 export const isSubDocumentAndClassType = (property, frame) => {
 	if(typeof property === "object") return false
@@ -151,7 +212,7 @@ export const isSubDocumentAndClassType = (property, frame) => {
 	}
 	return false
 }
- 
+
 // returns true if @type is Array and item is coordinates
 export const isDocumentClassArrayType = (frame) => {
 	if(typeof frame !== "object") return false
@@ -170,7 +231,21 @@ export const getModifiedGeoFrame = (frame) => {
 		frame["type"].hasOwnProperty("@values")) {
 			newFrame["info"]=frame["type"]["@values"][0]
 	}
+	if(frame.hasOwnProperty(B_BOX)) {
+		newFrame[B_BOX]=frame[B_BOX]
+	}
 	return newFrame
+}
+
+// setBounds converts geo json bound to bounds format supported in leaflet 
+export function setBounds(formData) {
+	if(!formData.hasOwnProperty(B_BOX)) return []
+	if(formData[B_BOX].length<4) return []
+	//[west,south,east,north]
+	let westSouth=[formData[B_BOX][0], formData[B_BOX][1]]
+	let eastNorth=[formData[B_BOX][2], formData[B_BOX][3]]
+	let bounds=[westSouth, eastNorth]
+	return bounds
 }
 
 // returns true for properties ponting to an enum class
@@ -190,10 +265,10 @@ export const isArrayType = (frame) => {
 
 
 // field array to display field titles
-export function getSubDocumentTitle(item, documentation) {
+export function getSubDocumentTitle(item, documentation, color) {
 	let title=[]
 	let label=getLabelFromDocumentation(item, documentation)
-	title.push(<h6 style={{display: "contents"}}>{label}</h6>)
+	title.push(<h6 className={color} style={{display: "contents"}}>{label}</h6>)
 	//<GoFileSubmodule className="mr-2"/>
 	return title
 }
@@ -251,7 +326,7 @@ export function HideArrayFieldTemplate(props) {
 
 
 export function ArrayFieldTemplate(props) {
-	//console.log("props", props)
+	//console.log("props", props.title, props.className, props.canAdd)
 	var variant="dark"
 	if(props.schema.info==="SUBDOCUMENT") variant="secondary"
 
@@ -290,8 +365,8 @@ export function ArrayFieldTemplate(props) {
 				{props.canAdd && (
 					<div className="row">
 						<p className="col-xs-3 col-xs-offset-9 array-item-add text-right">
-							<Button variant="light" className="text-dark" type="button" onClick={props.onAddClick}>
-									<BiPlus className="mr-2"/>{`Add ${props.title}`}
+							<Button data-cy={`add_${props.title}`} variant="light" className="text-dark" type="button" onClick={props.onAddClick}>
+									<BiPlus className="mr-2"/> <label>{`Add ${props.title}`}</label>
 							</Button>
 						</p>
 					</div>
@@ -311,6 +386,7 @@ export function isFilled (formData, item){
 	if(Array.isArray(formData)) return true
 	if(formData.hasOwnProperty(item) && Array.isArray(formData[item]) && formData[item].length) return true
 	if(formData.hasOwnProperty(item) && formData[item]) return true
+	if(formData.hasOwnProperty(item) && formData[item] === 0) return true
 	return false
 }
 
@@ -511,14 +587,15 @@ export function addCustomUI (item, uiFrame, uiLayout) {
 				&& uiItems !== "ui:placeholder"
 				&& uiItems !== "ui:description"
 				&& uiItems !== "ui:title"
+				&& uiItems !== "ui:field"
 				&& uiItems !== "classNames") {
                 let uiDefault = defaultUILayout[uiItems]
-                defaultUILayout[uiItems] = `${uiDefault} ${uiFrame[item][uiItems]}`
+				defaultUILayout[uiItems] = `${uiDefault} ${uiFrame[item][uiItems]}`
             }
             else defaultUILayout[uiItems] = uiFrame[item][uiItems]
         }
     }
-	//console.log("defaultUILayout", item, defaultUILayout)
+	
 	if(defaultUILayout && defaultUILayout.hasOwnProperty("ui:widget") && defaultUILayout["ui:widget"] === "hidden") {
 		if(defaultUILayout.hasOwnProperty("ui:ArrayFieldTemplate")){
 			// array type - set or list
@@ -529,7 +606,46 @@ export function addCustomUI (item, uiFrame, uiLayout) {
 		}
 		else defaultUILayout={"ui:widget": 'hidden'}
 	}
+	
 	return defaultUILayout
+}
+
+// add custom ui layout to existing default ui layout for subdocuments
+export function addCustomUISubDocuments(item, uiFrame, uiLayout) {
+	if(!uiFrame) return uiLayout
+	if(!Object.keys(uiFrame).length) return uiLayout
+
+	let newUILayout = uiLayout
+    
+	if(uiFrame && uiFrame.hasOwnProperty(item)) {
+        for (var keys in uiFrame[item]) {
+            if(uiLayout.hasOwnProperty(keys)) {
+                for(var ui in uiLayout[keys]) {
+                    if(uiFrame[item][keys].hasOwnProperty(ui)){
+                        let newUI = `${uiLayout[keys][ui]} ${uiFrame[item][keys][ui]}`
+						console.log("newUI", newUI)
+                        newUILayout[keys][ui]=newUI
+                    }
+                    else {
+                        newUILayout[keys][ui]=uiLayout[keys][ui]
+                    }
+                }
+            }
+        }
+        
+        for(var keys in uiFrame[item]) {
+            if(newUILayout.hasOwnProperty(keys)) {
+                for(var otherItems in uiFrame[item][keys]) {
+                    // stitch custom ui frames to new ui layout
+                    if(!newUILayout[keys].hasOwnProperty(otherItems)) {
+                        newUILayout[keys][otherItems]=uiFrame[item][keys][otherItems]
+                    }
+                }
+            }
+        }
+    }
+    
+	return newUILayout
 }
 
 // function to check if custom uiFrame has select_style defined
@@ -798,7 +914,8 @@ export function extractChoiceDocumentLabels(frame, choice, language) {
 		"@label":choice
 	}
 	if(frame.hasOwnProperty(choice) && 
-		frame[choice].hasOwnProperty(DOCUMENTATION)){
+		frame[choice].hasOwnProperty(DOCUMENTATION) &&
+		Array.isArray(frame[choice][DOCUMENTATION])){
 			frame[choice][DOCUMENTATION].map(doc => {
 				if(doc["@language"] === language) {
 					if (doc.hasOwnProperty("@label"))  extracted["@label"]=doc["@label"]
@@ -808,4 +925,55 @@ export function extractChoiceDocumentLabels(frame, choice, language) {
 			})
 		}
 	return extracted
+}
+
+
+/**
+ * 
+ * @param {*} frame frame of interest
+ * @param {*} item item of interest
+ * @returns metadata render widget type
+ */
+export function checkForMetaData (frame, item) {
+    if(frame.hasOwnProperty(METADATA) && 
+        frame[METADATA].hasOwnProperty(RENDER_AS) && 
+        frame[METADATA][RENDER_AS].hasOwnProperty(item) &&
+        frame[METADATA][RENDER_AS][item].hasOwnProperty(WIDGET)) {
+            return frame[METADATA][RENDER_AS][item][WIDGET]
+    }
+    return false
+}
+
+
+/**
+ * 
+ * @param {*} frame frame of interest
+ * @returns metadata json type
+ */
+ export function getMetaData (frame) {
+    if(frame.hasOwnProperty(METADATA)) {
+        return frame[METADATA]
+    }
+    return false
+}
+
+/**
+ * 
+ * @param {*} frame frame of interest
+ * @returns metadata json type
+ */
+export function getOrderFromMetaData(frame) {
+	let metaDataFrame=getMetaData(frame)
+	if(!metaDataFrame) return metaDataFrame
+	if(metaDataFrame.hasOwnProperty(ORDER_AS)) {
+		const orderArray = ["@documentation"].concat(metaDataFrame[ORDER_AS]) 
+		return orderArray
+	}
+	return false
+}
+
+/** function to get row height to display in textareas for xsd:string */
+export function getRowHeight(data) {
+	if(Array.isArray(data)) return 1
+    return data.split(/\r\n|\r|\n/).length
 }

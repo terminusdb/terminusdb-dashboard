@@ -8,6 +8,7 @@ import {
     extractUIFrameSubDocumentTemplate
 } from "../utils"
 import {SUBDOCUMENT_TYPE} from "../constants"
+import {addCustomUISubDocuments} from "../utils"
 
 
 // create layout
@@ -117,24 +118,34 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
-        uiLayout={ "ui:widget" : "hidden" }
+        if( uiFrame && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:field")) {
+            uiLayout={"ui:field": uiFrame[item]["ui:field"]}
+        }
+        else uiLayout={ "ui:widget" : "hidden" }
         return uiLayout
     }
 
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout=frame["uiSchema"]
     }
-    uiLayout["ui:field"]="collapsible"
+    uiLayout["ui:field"]="collapsible" 
     uiLayout["collapse"]={
         field: "ObjectField",
         classNames:"tdb__subdocument__collapse_headers"
-    }
-    uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4`
+    } 
+
+    let headingColor = uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("styleObject") && uiFrame[item]["styleObject"].hasOwnProperty("headingClassNames") ? uiFrame[item]["styleObject"]["headingClassNames"] : false
+    uiLayout["ui:title"]=getSubDocumentTitle(item, documentation, headingColor) 
+    let borderColor = uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("styleObject") && uiFrame[item]["styleObject"].hasOwnProperty("borderClassNames") ? uiFrame[item]["styleObject"]["borderClassNames"] : false
+    let backgroundColor = uiFrame && uiFrame.hasOwnProperty("classNames") ? uiFrame["classNames"] : ""
+    uiLayout["classNames"]=`card ${subDocuemntBg} p-4 mt-4 mb-4 ${borderColor} ${backgroundColor}`
     let description = getCommentFromDocumentation(item, documentation, true)
     uiLayout["ui:description"]=getSubDocumentDescription(item, description) 
-    uiLayout["ui:title"]=getSubDocumentTitle(item, documentation) 
-    // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-    return addedCustomUI
-}
+    // custom   ui:schema - add to default ui schema
+
+    return uiLayout
+    
+    //let addedCustomUI=addCustomUISubDocuments(item, uiFrame, uiLayout)
+    //return addedCustomUI
+} 
 //  classNames: `card ${subDocumentStyles} p-4 mt-4 mb-4`,

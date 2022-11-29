@@ -3,17 +3,17 @@ import {getTitle, getDefaultValue, addCustomUI, checkIfKey, isFilled, getLabelFr
 import JSONInput from 'react-json-editor-ajrm'
 import locale    from 'react-json-editor-ajrm/locale/en'
 import {
-    XSD_DATE_TIME,
     SYS_JSON_TYPE,
+    SYS_UNIT_DATA_TYPE,
     DATA_TYPE,
-    XSD_DATE,
     JSON_EDITOR_HEIGHT,
     JSON_EDITOR_WIDTH
 } from "../constants"
 import {
     getCreateJSONWidget, 
     getViewJSONWidget,
-    getDataType
+    getDataType,
+    getCreateSysUnitWidget
 } from "./widget"
 
 // Create Layout
@@ -23,6 +23,11 @@ export function getCreateLayout(frame, item) {
         type: type,
         info: DATA_TYPE,
         title: item
+    }
+    // pass sys unit related info 
+    if(type === "array" && frame[item]===SYS_UNIT_DATA_TYPE) {
+        layout["default"]=[]
+        layout["info"]=SYS_UNIT_DATA_TYPE
     }
     return layout 
 }
@@ -41,6 +46,10 @@ export function getCreateUILayout(frame, item, uiFrame, documentation) {
         let label = getLabelFromDocumentation (item, documentation)
         uiLayout=getCreateJSONWidget(item, label)
     }
+    else if(frame[item] === SYS_UNIT_DATA_TYPE) { // if sys:Unit
+        let label = getLabelFromDocumentation (item, documentation)
+        uiLayout=getCreateSysUnitWidget(item, label)
+    }
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
@@ -56,8 +65,13 @@ export function getEditLayout(frame, item, formData) {
     } 
     // get default value
     let defaultValue=getDefaultValue(item, formData)
-    
     if(defaultValue) layout["default"]=defaultValue
+    // pass sys unit related info 
+    if(type === "array" && frame[item]===SYS_UNIT_DATA_TYPE) {
+        layout["default"]=[]
+        layout["type"]="array"
+        layout["info"]=SYS_UNIT_DATA_TYPE
+    }
     return layout
 }
 
@@ -113,10 +127,16 @@ export function getEditUILayout (frame, item, defaultValue, uiFrame, documentati
         </React.Fragment>
     }
 
-    uiLayout = {
-        "ui:placeholder": `Search for ${label} ...`,
-        classNames: "tdb__input mb-3 mt-3",
-        "ui:field": displayEditJSONInput
+    if(frame[item] === SYS_JSON_TYPE) {
+        uiLayout = {
+            "ui:placeholder": `Search for ${label} ...`,
+            classNames: "tdb__input mb-3 mt-3",
+            "ui:field": displayEditJSONInput
+        }
+    }
+    else if(frame[item] === SYS_UNIT_DATA_TYPE) { // if sys:Unit
+        let label = getLabelFromDocumentation (item, documentation)
+        uiLayout=getCreateSysUnitWidget(item, label)
     }
     return uiLayout
 }
@@ -132,6 +152,11 @@ export function getViewLayout(frame, item, formData) {
     }
     let defaultValue = getDefaultValue(item, formData)
     if(defaultValue) layout["default"]= defaultValue
+    // pass sys unit related info 
+    if(type === "array" && frame[item]===SYS_UNIT_DATA_TYPE) {
+        layout["default"]=[]
+        layout["info"]=SYS_UNIT_DATA_TYPE
+    }
     return layout
 }
 
@@ -142,14 +167,22 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     // fields which belongs to subdocument sets and we do not want to hide the widget
     
     // get label from documentation
-    let label = getLabelFromDocumentation (item, documentation)
+    let label = getLabelFromDocumentation (item, documentation) 
 
     if(!isFilled(formData, item)
         && !frame.hasOwnProperty("info")) {
-        uiLayout={
-            "ui:widget" : "hidden"
+        if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:field")) {
+            uiLayout={
+                "ui:field" : uiFrame[item]["ui:field"]
+            }
+            return uiLayout
         }
-        return uiLayout
+        else {
+            uiLayout={
+                "ui:widget" : "hidden"
+            }
+            return uiLayout
+        }
     }
 
     let uiLayout = {
@@ -164,6 +197,10 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
         if(fd) uiLayout=getViewJSONWidget(item, fd, label)
         else if(isFilled(formData, item)) uiLayout=getViewJSONWidget(item, formData, label)
         else uiLayout={"ui:widget": "hidden"}
+    }
+    else if(frame[item] === SYS_UNIT_DATA_TYPE) { // if sys:Unit
+        let label = getLabelFromDocumentation (item, documentation)
+        uiLayout=getCreateSysUnitWidget(item, label)
     }
 
     // custom ui:schema - add to default ui schema

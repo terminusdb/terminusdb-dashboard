@@ -1,6 +1,6 @@
 
 import React from "react"
-import {ArrayFieldTemplate} from "../utils"
+import {ArrayFieldTemplate, setBounds} from "../utils"
 import {MapViewer} from "../maps/mapViewer"
 import {DIMENSION} from "../constants"
 
@@ -105,17 +105,19 @@ export function getMultiPolygonTypeViewUI (formData, item, dimension) {
         let docs = []
         formData[item].map(fd => {
             docs.push(fd)
-        })
+        }) 
 
-        let polyLine = {
+        let multiPolygon = {
             color: "black",
             data: docs
         }
 
+        let bounds=setBounds(formData)
+
         //let co = [{lat: formData[item][0], lng: formData[item][1]}]
         return <React.Fragment>
             <span>{item}</span>
-            {dimension===3 && <MapViewer documents={docs} polygon={polyLine} scrollWheelZoom={true}/>}
+            {dimension===3 && <MapViewer documents={docs} polygon={multiPolygon} scrollWheelZoom={true} bounds={bounds}/>}
         </React.Fragment>
     }
     ui[item] = {"ui:field": getMapComponent}

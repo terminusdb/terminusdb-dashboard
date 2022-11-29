@@ -7,11 +7,13 @@ import "leaflet-arrowheads"
 import L from "leaflet"
 
 
-export const GeoJSONLeafletMap = ({geojsonFeature, onMarkerClick, zoom, center, icon}) => {
+export const GeoJSONLeafletMap = ({geojsonFeature, onMarkerClick, zoom, center, icon, bounds}) => {
 
 	useEffect(() => {
 		map()
 	}, [])
+
+	console.log("geojsonFeature", geojsonFeature)
 
 	const map = () => {
         let mapOptions = customMapOptions(zoom, center)
@@ -22,6 +24,12 @@ export const GeoJSONLeafletMap = ({geojsonFeature, onMarkerClick, zoom, center, 
 
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         })
+
+		if(bounds && Array.isArray(bounds) && bounds.length > 0){
+			map.setView([40.866667, 34.566667], 5) // center of maps 
+			map.fitBounds(bounds)
+			map.flyToBounds(bounds)
+		}
  
 		tileLayer.addTo(map)
 

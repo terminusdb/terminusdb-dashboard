@@ -19,10 +19,10 @@
  export {queryEditorRunnerHook} from "./queryeditor/hook/queryEditorRunnerHook"
 
  /*WOQL Table*/
- export {WOQLTable} from './table/WOQLTable';
- export {ControlledWOQLTable} from './table/ControlledTable';
- export {ControlledQueryHook} from './table/ControlledQuery';
- export {ControlledGetDocumentQuery} from "./table/ControlledGetDocumentQuery"
+ //export {WOQLTable} from './table/WOQLTable';
+ //export {ControlledWOQLTable} from './table/ControlledTable';
+ //export {ControlledQueryHook} from './table/ControlledQuery';
+ //export {ControlledGetDocumentQuery} from "./table/ControlledGetDocumentQuery"
 
 /*WOQL Graph*/
  export {WOQLGraph} from './graph/GraphComponent';

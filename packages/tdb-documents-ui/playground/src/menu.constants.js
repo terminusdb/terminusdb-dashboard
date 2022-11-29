@@ -1,6 +1,6 @@
 export const MANDATORY="Mandatory"
 export const OPTIONAL="Optional"
-export const LIST="List"
+export const LIST="List" 
 export const SET="Set"
 export const ADVANCED_CHOICES="Advanced" // Advanced Choice documents menu title
 export const CHOICE_DOCUMENTS="Choice Classes" // Choice documents
@@ -23,6 +23,7 @@ export const MULTI_LANGUAGE="Multi Language" // Multi Language Support
 
 // Document names corresponding to menu item selected 
 export const MANDATORY_DOCUMENT="Person"
+export const DIFF_DOCUMENT="ComputerScience"
 export const OPTIONAL_DOCUMENT="Info"
 export const SET_DOCUMENT="UnorderedPerson"
 export const LIST_DOCUMENT="OrderedPerson"
@@ -44,5 +45,7 @@ export const SYS_JSON_DOCUMENT="ComputerStudent"
 /** Multi language support document */
 export const MULTI_LANGUAGE_DOCUMENT="Example"
 
-
+/** data-cy constants to test using cypress */
+export const DATA_CY_CHOICE_SUB_DOCUMENTS="choice_sub_documents"
+export const DATA_CY_CHOICE_DOCUMENTS="choice_documents"
 

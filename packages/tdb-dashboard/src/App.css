@@ -945,3 +945,10 @@ pre.CodeMirror-line  > span > span.cm-string {
   }
 
 
+.table td{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+

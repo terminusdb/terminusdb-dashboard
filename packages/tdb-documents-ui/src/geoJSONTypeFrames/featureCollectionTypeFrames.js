@@ -5,9 +5,6 @@ import {
 
 function getFeatureCollectionTypeViewUI(formData, item) {
     let ui={}
-
-    /** fake data for now */
-    //let tempFormData = GEO_JSON_FORM_DATA
     let tempFormData =formData
  
     function getFeatureCollectionMapComponent(props) {

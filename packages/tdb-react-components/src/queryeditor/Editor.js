@@ -3,7 +3,7 @@ require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
 require('codemirror/theme/shadowfox.css');
 require('codemirror/mode/javascript/javascript.js');
-require('codemirror/mode/python/python.js');
+require('codemirror/mode/python/python.js'); 
 import {UnControlled as CodeMirror} from 'react-codemirror2';
 import {EDITOR_READ_OPTIONS, EDITOR_WRITE_OPTIONS} from "./constants.querypane"
 
@@ -17,7 +17,7 @@ export const CodeViewer = ({text, language, theme}) => {
         cmoptions['jsonld'] = true
     }
 
-    return (<CodeMirror value={ text } options={ cmoptions } className="readOnly"/>)
+    return (<CodeMirror value={ text } options={ cmoptions } className="readOnly" />)
 }
 
 export const CodeEditor = ({text, language, onChange, onBlur, theme}) => {

@@ -71,7 +71,7 @@ export function makeSetSubChoiceTypeFrames (frame, item, uiFrame, mode, formData
 
     if (mode === VIEW) {
         layout=getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetChoiceSubDocumentTypeUILayout(frame, item, formData)
+        uiLayout=getViewSetChoiceSubDocumentTypeUILayout(frame, item, formData, uiFrame)
     }
 
     // schema
@@ -98,7 +98,7 @@ export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData, o
 
     if (mode === VIEW) {
         layout=getViewSetChoiceDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item, onTraverse)
+        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item, uiFrame, onTraverse)
     }
 
     // schema
@@ -126,7 +126,7 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, doc
 
     if (mode === VIEW) {
         layout=getViewSetEnumTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetEnumTypeUILayout(frame, item, formData)
+        uiLayout=getViewSetEnumTypeUILayout(frame, item, uiFrame, formData)
     }
 
     // schema
@@ -181,7 +181,7 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === VIEW) {
         layout=getViewSetSubDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData)
+        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData, layout)
     }
 
     // schema

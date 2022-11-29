@@ -1,6 +1,6 @@
 
 import React, {useState} from "react"
-import { Form } from '@themesberg/react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 export const TDBReactSelect = (props) => {
 

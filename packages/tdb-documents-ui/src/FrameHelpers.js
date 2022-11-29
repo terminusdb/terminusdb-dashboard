@@ -28,23 +28,42 @@ import {
     isGeoJSONTypeSet,
     extractDocumentation,
     getLanguage,
-    isArrayType
+    isArrayType,
+    isGeometryCollection,
+    isGeometry,
+    isRdfLangString,
+    getMetaData,
+    isFeatureCollection
 } from "./utils"
 import {
     DOCUMENTATION, 
     SUBDOCUMENT_CONSTRUCTED_FRAME, 
-    COORDINATES
+    COORDINATES,
+    ONEOFVALUES,
+    METADATA
 } from "./constants"
 import {makeGeoFrames} from "./geoJSONTypeFrames/geoFrames"
+import {makeGeometryCollectionFrames} from "./geoJSONTypeFrames/makeGeometryCollectionFrames"
+import {makeGeometryFrames} from "./geoJSONTypeFrames/makeGeometryFrames"
 import {makeGeoCollectionFrames} from "./geoJSONTypeFrames/geoCollectionFrames"
+import {makeFeatureCollectionFrames} from "./geoJSONTypeFrames/makeFeatureCollectionFrames"
+import {makeRdfLangDataTypeFrames} from "./rdfLanguageString/rdfLanguageString"
 
-function constructOptionalFrame (frame, item) {
+export function constructOptionalFrame (frame, item, metadata) {
     let optionalFrame = {[item]: frame["@class"]}
+    if(metadata) {
+        // extract metaData and append to optionalFrame
+        optionalFrame[METADATA]=metadata
+    }
     return optionalFrame
 }
 
-function constructSetFrame (frame, item) {
+export function constructSetFrame (frame, item, metadata) {
     let setFrame = {[item]: frame["@class"]}
+    if(metadata) {
+        // extract metaData and append to setFrame
+        setFrame[METADATA]=metadata
+    }
     return setFrame
 }
 
@@ -66,11 +85,13 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
             constructedFrame["info"]=SUBDOCUMENT_CONSTRUCTED_FRAME
     } 
     let documentation= extractDocumentation(fullFrame, item, language)
+    // pass only subdocument ui frame
+    let newUIFrame=uiFrame && uiFrame.hasOwnProperty(current) ? uiFrame[current] : uiFrame
     let subDocumentFrames = getProperties(
             fullFrame,
             current,
             constructedFrame,
-            uiFrame,
+            newUIFrame,
             mode,
             subDocumentFormData,
             onTraverse,
@@ -90,11 +111,13 @@ function constructSubDocumentFrame (fullFrame, current, frame, item, uiFrame, mo
 
 
 export function getProperties (fullFrame, current, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
-
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
-
     for(var item in frame) {
 
+        if(item === "inventory") {
+            console.log("inventory")
+        }
+        
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue
@@ -103,12 +126,12 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
         }
-        else if(item === "@oneOf") { // datatype properties like xsd:/ xdd:
+        else if(item === ONEOFVALUES) { // datatype properties with oneOf
             let language=getLanguage(documentation)
             let frames = makeOneOfTypeFrames(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language)
             // current is the proeprty name - instead of @oneOf
-            properties["@oneOf"] = frames.properties[current]
-            propertiesUI["@oneOf"] = frames.propertiesUI[current]
+            properties[ONEOFVALUES] = frames.properties[current]
+            propertiesUI[ONEOFVALUES] = frames.propertiesUI[current]
         }
         else if(frame[item] && isSysDataType(frame[item])) { // datatype properties like sys:JSON
             let frames = makeSysDataTypeFrames(frame, item, uiFrame, mode, formData, documentation)
@@ -121,6 +144,35 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
             required.push(item)
+        }
+        else if(frame[item] && isRdfLangString(frame[item])) { // datatype properties like xsd:/ xdd:
+            let frames = makeRdfLangDataTypeFrames(frame, item, uiFrame, mode, formData, documentation)
+            properties[item] = frames.properties[item]
+            propertiesUI[item] = frames.propertiesUI[item]
+            required.push(item)
+        }
+        else if (frame[item] && isGeometry(frame[item], mode)){ // Geometry 
+            if(item === "centerline") {
+                properties[item] ={}
+                propertiesUI[item] = {}
+                return
+            }
+            let geoFrame = makeGeometryFrames(frame[item], item, uiFrame, mode, formData, documentation)
+            //set properties and ui
+            properties[item] =geoFrame.properties[item]
+            propertiesUI[item] = geoFrame.propertiesUI[item]
+        }
+        else if (frame[item] && isGeometryCollection(frame[item], mode)){ // Geometry collection
+            let geoFrame = makeGeometryCollectionFrames(frame[item], item, uiFrame, mode, formData, documentation)
+            //set properties and ui
+            properties[item] = geoFrame.properties[item]
+            propertiesUI[item] = geoFrame.propertiesUI[item]
+        }
+        else if (frame[item] && isFeatureCollection(frame[item], mode)){ // Geometry collection
+            let geoFrame = makeFeatureCollectionFrames(frame[item], item, uiFrame, mode, formData, documentation)
+            //set properties and ui
+            properties[item] = geoFrame.properties[item]
+            propertiesUI[item] = geoFrame.propertiesUI[item]
         }
         else if (frame[item] && isChoiceSubDocumentType(frame[item])) { // choice Sub Document
             //let constructedChoiceFrame = constructOptionalFrame(frame[item], item)
@@ -138,12 +190,12 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             required.push(item) 
         }
         else if (frame[item] && isOptionalType(frame[item])) { // optional 
-            let constructedOptionalFrame = constructOptionalFrame(frame[item], item)
+            let constructedOptionalFrame = constructOptionalFrame(frame[item], item, getMetaData(frame))
             let optionalProperties = getProperties(fullFrame, item, constructedOptionalFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
-            let optionalFrames = makeOptionalTypeFrames(optionalProperties, item, uiFrame, mode, formData)
-
+            let optionalFrames = makeOptionalTypeFrames(optionalProperties, item, uiFrame, mode, formData) 
+           
             //set properties and ui
-            properties[item] = optionalFrames.properties[item]
+            properties[item] = optionalFrames.properties[item] 
             propertiesUI[item] = optionalFrames.propertiesUI[item]
         }
         else if(frame[item] && isPointType(frame[item], fullFrame)) {
@@ -161,7 +213,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             //set properties and ui
             properties[item] = geoFrame.properties[item]
             propertiesUI[item] = geoFrame.propertiesUI[item]
-        }
+        } 
         else if (frame[item] && isSetType(frame[item]) && isGeoJSONTypeSet(frame, mode)) { //geo json set
             let newGeoCollectionFrame=constructCollectionFrame(fullFrame, frame[item]["@class"])
             let geoCollectionFrame=makeGeoCollectionFrames(newGeoCollectionFrame, item, uiFrame, mode, formData)
@@ -191,7 +243,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             //set properties and ui
             properties[item] = frames.properties[item]
             propertiesUI[item] = frames.propertiesUI[item]
-        }
+        } 
         else if(frame[item] && isDocumentType(frame[item], fullFrame)) { //link documents 
             let frames = makeDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             //set properties and ui
@@ -200,7 +252,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             required.push(item)
         }
         else if (frame[item] && isSetType(frame[item])) { //set
-            let constructedSetFrame = constructSetFrame(frame[item], item)
+            let constructedSetFrame = constructSetFrame(frame[item], item, getMetaData(frame))
 
             let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
        
@@ -212,7 +264,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
 
         }
         else if (frame[item] && isListType(frame[item])) { //list
-            let constructedListFrame = constructSetFrame(frame[item], item)
+            let constructedListFrame = constructSetFrame(frame[item], item, getMetaData(frame))
 
             let listProperties = getProperties(fullFrame, item, constructedListFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             let listFrames = makeListTypeFrames(listProperties, item, uiFrame, mode, formData, onTraverse, onSelect, fullFrame, documentation)
@@ -230,7 +282,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             required.push(item)
         }
         else if(frame[item] && isArrayType(frame[item])) { // Array (dimension 1 is treated like Sets )
-            let constructedSetFrame = constructSetFrame(frame[item], item)
+            let constructedSetFrame = constructSetFrame(frame[item], item, getMetaData(frame))
 
             let setProperties = getProperties(fullFrame, item, constructedSetFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
        
@@ -241,7 +293,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             propertiesUI[item] = setFrames.propertiesUI[item]
         }
     }
-
+ 
     return {
         properties: properties,
         required: required,

@@ -18,6 +18,7 @@ import {
     getEditSetSubDocumentTypeUILayout,
     getViewSetSubDocumentTypeLayout,
     getViewSetSubDocumentTypeUILayout,
+    getDiffViewSetSubDocumentType,
     getCreateSetDocumentTypeLayout,
     getCreateSetDocumentTypeUILayout,
     getEditSetDocumentTypeLayout,
@@ -35,8 +36,44 @@ import {
     getEditSetChoiceDocumentTypeLayout,
     getEditSetChoiceDocumentTypeUILayout,
     getViewSetChoiceDocumentTypeLayout,
-    getViewSetChoiceDocumentTypeUILayout
+    getViewSetChoiceDocumentTypeUILayout,
+    getCreateSetSubChoiceDocumentTypeLayout,
+    getCreateSetSubChoiceDocumentTypeUILayout,
+    getEditSetChoiceSubDocumentTypeLayout,
+    getEditSetChoiceSubDocumentTypeUILayout,
+    getViewSetChoiceSubDocumentTypeLayout,
+    getViewSetChoiceSubDocumentTypeUILayout,
+
 } from "./listType.utils"
+
+
+
+// set sub choice document types
+export function makeSetSubChoiceTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
+    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
+
+    if (mode === CREATE) {
+        layout=getCreateSetSubChoiceDocumentTypeLayout(frame, item, documentation)
+        uiLayout=getCreateSetSubChoiceDocumentTypeUILayout(frame, item, uiFrame)
+    }
+
+    if (mode === EDIT) {
+        layout=getEditSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation)
+        uiLayout=getEditSetChoiceSubDocumentTypeUILayout(frame, item, uiFrame)
+    }
+
+    if (mode === VIEW) {
+        layout=getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation)
+        uiLayout=getViewSetChoiceSubDocumentTypeUILayout(frame, item, uiFrame, formData)
+    }
+
+    // schema
+    properties[item]=layout
+    // ui schema
+    propertiesUI[item]=uiLayout
+
+    return {properties, propertiesUI}
+}
 
 // set choice document types
 export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData) {
@@ -54,7 +91,7 @@ export function makeSetChoiceTypeFrames (frame, item, uiFrame, mode, formData) {
 
     if (mode === VIEW) {
         layout=getViewSetChoiceDocumentTypeLayout(frame, item, formData)
-        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item)
+        uiLayout=getViewSetChoiceDocumentTypeUILayout(frame, item, uiFrame, formData)
     }
 
     // schema
@@ -82,7 +119,7 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, doc
 
     if (mode === VIEW) {
         layout=getViewSetEnumTypeLayout(frame, item, formData, documentation)
-        uiLayout=geViewSetEnumTypeUILayout(frame, item)
+        uiLayout=geViewSetEnumTypeUILayout(frame, uiFrame, item)
     }
 
     // schema
@@ -97,7 +134,6 @@ export function  makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, doc
 export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
 
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
-    console.log("*** KJ enter", mode, frame, item)
     if (mode === CREATE) {
         layout=getCreateSetDocumentTypeLayout(frame, item, documentation)
         uiLayout=getCreateSetDocumentTypeUILayout(frame, item) 
@@ -110,7 +146,7 @@ export function makeSetDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === VIEW) {
         layout=getViewSetDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetDocumentTypeUILayout(frame, item, onSelect, documentation)
+        uiLayout=getViewSetDocumentTypeUILayout(frame, uiFrame, item, onSelect, documentation, formData)
     }
 
     // schema
@@ -136,8 +172,28 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
     }
 
     if (mode === VIEW) {
-        layout=getViewSetSubDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame)
+        let uiDiffFound=false, modifiedUiFrame=[], diffCount=0
+        if(uiFrame && uiFrame.hasOwnProperty(item) && Array.isArray(uiFrame[item])) {
+            uiFrame[item].map(ui => {
+                if(ui.hasOwnProperty("ui:diff")) {
+                    uiDiffFound=true
+                    diffCount+=1
+                    modifiedUiFrame.push({"ui:field": ui["ui:diff"]})
+                    //console.log("ui", ui, frame.uiSchema[item])
+                    //modifiedUiFrame.push(frame.uiSchema[item])
+                }
+                else modifiedUiFrame.push(ui)
+            })
+        }
+        if(uiDiffFound) {
+            let uiDiffChanges=getDiffViewSetSubDocumentType(frame, item, formData, uiFrame, modifiedUiFrame, diffCount)
+            layout=uiDiffChanges.layout
+            uiLayout=uiDiffChanges.uiLayout
+        }
+        else {
+            layout=getViewSetSubDocumentTypeLayout(frame, item, formData, documentation)
+            uiLayout=getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame)
+        }
     }
 
     // schema
@@ -227,7 +283,7 @@ export const makeListTypeFrames = (frame, item, uiFrame, mode, formData, onTrave
             && frame["properties"][item]["info"] === SUBDOCUMENT_TYPE)
             madeFrames=makeSubDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
     }
-
+ 
     // set Document Types
     if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
@@ -243,13 +299,27 @@ export const makeListTypeFrames = (frame, item, uiFrame, mode, formData, onTrave
             madeFrames=makeSetEnumTypeFrames(frame, item, uiFrame, mode, formData, documentation)
     }
 
+    // set Choice subDocument classes
+    if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
+        if(frame["properties"][item].hasOwnProperty("info")
+            && frame["properties"][item]["info"] === CHOICESUBCLASSES)
+            madeFrames=makeSetSubChoiceTypeFrames(frame, item, uiFrame, mode, formData, documentation)
+    }
+
     // set Choice Document classes
-   
-    else if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
+    if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
+        if(frame["properties"][item].hasOwnProperty("info")
+            && frame["properties"][item]["info"] === CHOICECLASSES)
+            madeFrames=makeSetChoiceTypeFrames(frame, item, uiFrame, mode, formData,onTraverse)
+    }
+
+    // set Choice Document classes
+    
+    /*if(frame.hasOwnProperty("properties") && frame["properties"].hasOwnProperty(item)) {
         if(frame["properties"][item].hasOwnProperty("info")
             && frame["properties"][item]["info"] === CHOICESUBCLASSES)
             madeFrames=makeSetChoiceTypeFrames(frame, item, uiFrame, mode, formData)
-    }
+    }*/
 
     
 

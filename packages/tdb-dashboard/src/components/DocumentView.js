@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from "react"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Card, Row, Col, Button} from "react-bootstrap"
-import {WOQLTable} from '@terminusdb-live/tdb-react-components'
-import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
-import {getDocumentOfTypeTabConfig} from "./ViewConfig"
+import {WOQLTable,ControlledGetDocumentQuery} from '@terminusdb/terminusdb-react-table'
+//import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
+import {getDocumentOfTypeTabConfig} from "./ViewConfig" 
 import {WOQLClientObj} from '../init-woql-client'
 import {SearchBox} from "./SearchBox"
 import {getDocumentTools, getDeleteTool, getCopyIDTool} from "./DocumentActions"
-import {DocumentFrames} from "./DocumentFrames"
+import {DocumentFrames} from "./DocumentFrames" 
 import {DocumentInfo} from "./DocumentInfo"
 import {getColumnsFromResults, displayIDOfLinkedDocuments, isArray} from "./utils"
 import {NoDocumentsAvailable} from "./NoDocumentsAvailable"
@@ -38,7 +37,7 @@ export const DocumentView = () => {
 
     const [tableConfig, setTableConfig] = useState(false)
     const [barloading, setBarLoading]=useState(true)
-
+    
     const {
         updateQuery,
         changeOrder,
@@ -47,7 +46,7 @@ export const DocumentView = () => {
         result,
         limit,
         start,
-        orderBy,
+        orderBy, 
         loading,
         rowCount,
         documentResults,
@@ -120,7 +119,7 @@ export const DocumentView = () => {
         documentResults.map(item=> {
             var newJson={}
             for(var key in item){
-                if(Array.isArray(item[key])){
+                if(Array.isArray(item[key]) && item[key].length > 0){
                     var type = item[key][0]["@type"]
                     if(frames[`terminusdb:///schema#${type}`] && frames[`terminusdb:///schema#${type}`]["@subdocument"]){
                         // this is a subdocument
@@ -221,7 +220,6 @@ export const DocumentView = () => {
         </React.Fragment>
     }
 
-
     return <React.Fragment>
 
         {/*<Row className="mt-4"><h2 className="text-success fw-bold ml-3"> {dataProduct} </h2></Row>*/}
@@ -229,7 +227,7 @@ export const DocumentView = () => {
         <Row className="mt-5 w-100">
 
         {/* Display summary cards with number of document classes available */}
-        {perDocumentCount && !documentObjectWithFrames.action && (!documentResults) && <DocumentSummary/>}
+        {perDocumentCount && !documentObjectWithFrames.action && (!documentResults) && !tableConfig && <DocumentSummary/>}
 
         {/* No document available for a chosen document class card */}
         {(documentClasses.length==0) && <DocumentSummary/>}
@@ -270,7 +268,7 @@ export const DocumentView = () => {
 
             {/* View document info on click of a row */}
             {
-                documentObjectWithFrames.action ==  VIEW_DOCUMENT &&
+                documentObjectWithFrames.action ===  VIEW_DOCUMENT &&
                 documentObjectWithFrames.filledFrame &&
                 <React.Fragment>
                     {isArray(documentObject.previous) && <span className="col-md-1 ml-5">

@@ -1,8 +1,4 @@
-import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getSetTitle, getTitle, getOptionalSelect, checkIfKey, getDefaultValue, removeDefaultsFromSubDocumentFrame, removeDefaultsFromDataFrame} from "../utils"
-import {CREATE, DATA, VIEW, EDIT, DOCUMENT, DIMENSION, ONEOFSUBDOCUMENTS, ONEOFCLASSES, GEO_CORDINATES} from "../constants"
-import {Form} from "react-bootstrap"
-import {MapViewer} from "../maps/mapViewer"
+import {VIEW, EDIT, DIMENSION} from "../constants"
 import {
     getMultiPolygonTypeFilledValues,
     getMultiPolygonCreateEditUI,

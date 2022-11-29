@@ -13,23 +13,443 @@ export const MANDATORY_DOCUMENT={
 	"permanentAddress": {
 		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
 		"@type": "Address",
-		"AddressLine1": "somewhere ",
+		"AddressLine1": "somewhere in Europe",
 		"Country": "New Zeeland",
+		"City": "City",
 		"postalCode": "NZ29038"
 	},
 	"website": "rack@rocking.com"
 }
+
+// use mandatory document for diff example
+export const ORIGINAL_DIFF_MANDATORY_DOCUMENT={
+	"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "Person",
+	//"name": "John Rock",
+	//"otherNames": "Birth",
+	/*"website": "rack@rocking.com",
+	"current_job": "Jobs/33e3013112e6e76381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24",*/
+	"lives_at": {
+		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+		"@type": "Address",
+		"AddressLine1": "Somewhere",
+		"Country": "New Zeeland",
+		"postalCode": "NZ29038",
+		"City":"Same" 
+	}
+	/*"likes_color": "Yellow",*/
+	/*"nickNames": [
+		"Joe",
+		"Thor",
+		
+	],
+	"work_history": [
+		"Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda"
+	],
+	favorite_colors: [
+		"Yellow",
+		"Blue"
+	]*/
+}
+
+
+export const CHANGED_DIFF_MANDATORY_DOCUMENT={
+	"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "Person",
+	//"name": "Major Rock",
+	//"otherNames": "Rick",
+	/*"website": "rack@rocking.com",
+	"current_job": "Jobs/33e3013112e64ke6381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24",*/
+	"lives_at": {
+		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+		"@type": "Address",
+		"AddressLine1": "Anywhere",
+		"City":"Same",
+		//"Country": "New Zeeland",
+		"postalCode": "7834PG"
+	}
+	//"likes_color": "Blue",
+	/*"nickNames": [
+		"Joe",
+		"Ronny",
+		//"Mac",
+		//"New"
+		//"Merc"
+	],
+	"work_history": [
+		"Jobs/02e992d5393cc67897bcdb382015a9138a7662d88ce173a3332b83e371b8f7aa"
+	],
+	favorite_colors: [
+		"Red",
+		"Blue"
+	]*/
+}
+
+/* Guy set does not work
+
+    "attends_group_in_order": {
+        "@class": "Group",
+        "@type": "Set"
+    },
+    "favorite_group": "Group",
+    "member_of": {
+        "@class": "Group",
+        "@type": "Set"
+    },
+    "second_favorite_group": {
+        "@class": "Group",
+        "@type": "Optional"
+    }*/
+
+export const ORIGINAL_TEST_LIST={
+	"@id": "justAThing/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "justAThing",
+	blah: [
+		{
+			key: 'jose',
+			same: "yes", 
+			maybe: "what" 
+		},
+		{
+			key: 'xyz',
+			same: "g",
+		},
+		{
+			key: 'abc',
+			same: "no",
+		}
+		
+	]
+}
+
+/*{
+	"@id": "TEST/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "TEST",
+	/*work_as: [
+		"Jobs/123fg4bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/abc929ddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/33e3013112e6e76381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24",
+		"Jobs/72884bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda"
+	]*/
+	/*title: [
+		"kitty_change",
+		"jose"
+	],*/
+	/*lives_at: [
+		{
+			"@id": "Person/82a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "same first address",
+			"City":"Same",
+			"Country": "New Zeeland",
+			"postalCode": "72a8a2778b"
+		},
+		{
+			"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "original first address",
+			"City":"Same",
+			"Country": "New Zeeland",
+			"postalCode": "72a8a2778b"
+		},
+		{
+			"@id": "Person/9addd78bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "original second address",
+			"City":"Same",
+			"Country": "New Zeeland",
+			"postalCode": "PGD"
+		},
+		{
+			"@id": "Person/4444bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "same to test",
+			"City":"Somwhere",
+			"Country": "New Zeeland",
+			"postalCode": "99"
+		},
+		{
+			"@id": "Person/4987c4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "KK place",
+			"City":"Kochi",
+			"Country": "India",
+			"postalCode": "Ind289"
+		},
+	]*/
+//}*/
+
+export const CHANGED_TEST_LIST= { 
+	"@id": "ComputerStudent/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "ComputerStudent",
+	stores_as: [
+		{
+			key: 'value',
+			same: "yes",
+			maybe: "what"
+		}
+	]
+}
+  /*{
+	
+	"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51",
+	"@type": "Student",
+	"study_time_table": [
+		{
+			 "@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/study_time_table/0/Zoology/d0cade9042e0baee8e0b91a8ed0e85ec09db40084d0ff56532d92a454ff67c57",
+			 "@type": "Zoology",
+			 "Grade": "A",
+			 "Notes": "Best student",
+			 "Number_of_classes_attended": 5,
+			 "course_start_date": "2022-08-17T09:22:06Z"
+		},
+		{
+			  "@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/study_time_table/1/Botony/be10b1f3c70c1fe28eb52ad3113352356ae53d3375436ae6719abe019dc28f76",
+			 "@type": "Botony",
+			 "Grade": "B+",
+			 "Number_of_classes_attended": 5,
+			 "course_start_date": "2022-08-17T09:22:32Z",
+			 "number_of_assignments": 4
+		},
+		{
+			"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/study_time_table/1/Botony/be10b1f3c70c1fe28eb52ad3113352356ae53d3375436ae6719abe019dc28f76",
+		   "@type": "Botony",
+		   "Grade": "B+",
+		   "Number_of_classes_attended": 5,
+		   "course_start_date": "2022-08-17T09:22:32Z",
+		   "number_of_assignments": 4
+	  },
+		{
+			"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/studied/Maths/666ce31233a834b895f4c42e72b0b5250188ea4dcf2f2bb8bc0dc32e710ceb26",
+			"@type": "Maths",
+			"Number_of_classes_attended": 45,
+			"course_start_date": "2022-08-17T09:21:37Z",
+			"level": "Medium",
+			"love_maths": true
+		  }
+	 ]*/
+//}
+/*{
+	"@id": "TEST/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "TEST",
+	/*work_as: [
+		"Jobs/adfg4bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/abc929ddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/72884bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/a9114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/k23bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda",
+		"Jobs/123fg4bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda"
+	]*/
+	/*title: [
+		"kitty",
+		"jose"
+	],*/
+	/*lives_at: [
+		{
+			"@id": "Person/82a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "same first address",
+			"City":"Same",
+			"Country": "New Zeeland",
+			"postalCode": "72a8a2778b"
+		},
+		{
+			"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "changed first address",
+			"City":"Same",
+			"Country": "New Zeeland",
+			"postalCode": "PGD"
+		},
+		{	
+			"@id": "Person/9addd78bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",	
+			"@type": "Address",	
+			"AddressLine1": "original second address",	
+			"City":"Same",	
+			"Country": "New Zeeland",	
+			"postalCode": "PGD"	
+		},
+		{
+			"@id": "Person/4444bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "same to test",
+			"City":"Somwhere",
+			"Country": "New Zeeland",
+			"postalCode": "99"
+		},
+		{
+			"@id": "Person/4987c4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "same place",
+			"City":"different",
+			"Country": "India",
+			"postalCode": "Ind289"
+		},
+	]*/
+//}
+
+export const ORIGINAL_LIST={
+	"@id": "List/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "List",
+	title: "something",
+	/*name: [
+		"maggi",
+		"efghhhhhh"
+	]*/
+	name: [
+		"kitty",
+		"nutty",
+		"frutty",
+		"tuti"
+	],
+	/*name: [
+		"kitty_before",
+		"100",
+		"jose",
+		"same",
+	]*/
+	name: [
+		"kitty",
+		"100_before",
+		"jose",
+		"same",
+		"200_before",
+		"300_before",
+		"same_again",
+		"400_before",
+		
+	]
+}
+
+export const CHANGED_LIST={
+	"@id": "List/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "List",
+	title: "something changed",
+	/*name: [
+		"maggi_ch",
+		"efghhhhhh_ch"
+	]*/
+	/*name: [
+		"",
+		"",
+		"frutty",
+		"nutty",
+		
+	],*/
+	/*name: [
+		"kitty",
+		"100",
+		"jose",
+		"same"
+	]*/
+	name: [
+		"kitty",
+		"100_changed",
+		"jose",
+		"same",
+		"200_changed",
+		"300_changed",
+		"same_again",
+		"400_changed",
+		"magic",
+		"magic_1"
+	]
+}
+// set subdocuments 
+/*{
+	"@id": "List/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "List",
+	"lives_at": [
+		{
+		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+		"@type": "Address",
+		"AddressLine1": "original first address",
+		"City":"Same",
+		"Country": "New Zeeland",
+		"postalCode": "72a8a2778b"
+		},
+		{
+			"@id": "Person/9999asdjbafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "original address 9999",
+			"City":"Same",
+			"Country": "New Zeeland",
+			"postalCode": "7834PG"
+		}
+	]
+}*/
+/*
+export const CHANGED_LIST={
+	"@id": "List/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "List",
+	"lives_at": [
+		{
+		"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+		"@type": "Address",
+		"AddressLine1": "changed addressAnywhere",
+		"City":"Same",
+		//"Country": "New Zeeland",
+		"postalCode": "7834PG"
+		},
+		{
+			"@id": "Person/9999asdjbafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587/permanentAddress/Address/5879ec85b65bb0caaa03f48e99073a9d4302c31ec3c3a382889a12980899e95f",
+			"@type": "Address",
+			"AddressLine1": "changed second address 9999",
+			"City":"Same",
+			"Country": "New Zeeland",
+			"postalCode": "7834PG"
+		}
+	]
+}*/
+	/*"favorite_subject": {
+		"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/favorite_subject/Botony/aef9f22fe04ece720d19f6630edcad27f85e546810a907e4724ee0b57aba4b52",
+		"@type": "Botony",
+		"Grade": "A+",
+		"Number_of_classes_attended": 6,
+		"course_start_date": "2022-08-17T09:21:09Z",
+		"number_of_assignments": 5
+	}
+}*/
+
+/**
+ * "favorite_subject": {
+		"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/studied/Maths/666ce31233a834b895f4c42e72b0b5250188ea4dcf2f2bb8bc0dc32e710ceb26",
+      	"@type": "Maths",
+      	"Number_of_classes_attended": 45,
+      	"course_start_date": "2022-08-17T09:21:37Z",
+      	"level": "Medium",
+      	"love_maths": true
+	}
+ */
+
+/**
+ * "@id": "List/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "List",
+	"favorite_subject": {
+		"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/favorite_subject/Botony/aef9f22fe04ece720d19f6630edcad27f85e546810a907e4724ee0b57aba4b52",
+		"@type": "Botony",
+		"Grade": "A+",
+		"Number_of_classes_attended": 6,
+		"course_start_date": "2022-08-17T09:21:09Z",
+		"number_of_assignments": 5
+	}
+ */
+
+
+
 
 // Optional Document 
 export const OPTIONAL_DOCUMENT = {
 	"@id": "Info/c4abb650ad1b8a952e738186508de20f5e9bb691a3945fd61b505964d3ce16db",
 	"@type": "Info",
 	"alternativeAddress": {
-		"@id": "Info/c4abb650ad1b8a952e738186508de20f5e9bb691a3945fd61b505964d3ce16db/alternativeAddress/Address/d7c84cd4f7814eba7ed4109217b8244ae332b05298d2db2bb3f1953db1d2fbd4",
 		"@type": "Address",
 		"AddressLine1": "Rockbrook avenue",
 		"Country": "Australia",
-		"postalCode": "3298"
+		"postalCode": "3298",
+		"City": "Sydney"
 	},
 	"nicknames": "Tommy"
 }
@@ -48,6 +468,7 @@ export const SET_DOCUMENT = {
 			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/4f4fdae34ab4fa3b6297750917503a7137f75dc11589792de707e7a6d3502db3",
 			"@type": "Address",
 			"AddressLine1": "anywhere",
+			"City": "Nice", 
 			"Country": "France",
 			"postalCode": "FR27836"
 		},
@@ -55,6 +476,7 @@ export const SET_DOCUMENT = {
 			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/7aaeeb6b983710a0adbc75de8f7d8104278df427124beadc6644b35b9d6c30af",
 			"@type": "Address",
 			"AddressLine1": "somewhere",
+			"City": "Berlin", 
 			"Country": "Germany",
 			"postalCode": "GER02398"
 		}
@@ -74,6 +496,24 @@ export const SET_DOCUMENT = {
 export const LIST_DOCUMENT = {
 	"@id": "OrderedPerson/c92d269b0dce719299bf86fc19f2065937ec4ef82d8a2a53702867a326d6144b",
 	"@type": "OrderedPerson",
+	"hangs_out_at" : [
+		{
+			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/4f4fdae34ab4fa3b6297750917503a7137f75dc11589792de707e7a6d3502db3",
+			"@type": "Address",
+			"AddressLine1": "anywhere",
+			"City": "Nice", 
+			"Country": "France",
+			"postalCode": "FR27836"
+		},
+		{
+			"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf/lived_at/Address/7aaeeb6b983710a0adbc75de8f7d8104278df427124beadc6644b35b9d6c30af",
+			"@type": "Address",
+			"AddressLine1": "somewhere",
+			"City": "Berlin", 
+			"Country": "Germany",
+			"postalCode": "GER02398"
+		}
+	],
 	"likes_color": [
 		"Blue",
 		"Green",
@@ -88,9 +528,9 @@ export const LIST_DOCUMENT = {
 
 // Defined list to match with searched text for Document Links 
 export const SELECT_OPTIONS = [
-	{ value: 'Jobs/Designer', label: 'Web Designer' },
-	{ value: 'Jobs/Lecturer', label: 'Lecturer' },
-	{ value: 'Jobs/Writter', label: 'Writter' }
+	{ value: 'Jobs/33e3013112e6e76381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24', label: 'Designer' },
+	{ value: 'Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda', label: 'Lecturer' },
+	{ value: 'Jobs/csd4bddb166325e704e3w68da237ed87e1c2de1dd23ae103431f974eaeefbbda', label: 'Writter' }
 ]
 
 // choice sub document
@@ -102,7 +542,7 @@ export const CHOICE_SUB_DOCUMENT= {
 		"@type": "Botony",
 		"Grade": "A",
 		"Number_of_classes_attended": 4,
-		"course_start_date": "2022-08-17T09:21:09Z",
+		"course_start_date": "2022-08-17T09:21:09Z", 
 		"number_of_assignments": 5
 	},
 	"second_favorite_subject": {
@@ -296,21 +736,6 @@ export const SYS_JSON_DOCUMENT={
 			]
 		}
 	]
-}
-
-// Diff Viewer data 
-export const OLD_VALUE= {
-	"@id": "Person/Jane",
-	"@type": "Person",
-	age: 18,
-	name: "Jane",
-}
-
-export const NEW_VALUE= {
-	"@id": "Person/Jane",
-	"@type": "Person",
-	age: 18,
-	name: "Janine",
 }
 
 // Multi language 

@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import {FrameViewer, DiffViewer} from '@terminusdb/terminusdb-documents-ui'
 import {InitObj} from "./init"
 import {VIEW, CARD_OUTPUT_TITLE, CREATE} from "./constants"
 import Card from 'react-bootstrap/Card'
-import {SELECT_OPTIONS, OLD_VALUE, NEW_VALUE} from "./data.constants"
+import {SELECT_OPTIONS, ORIGINAL_LIST, CHANGED_LIST, ORIGINAL_TEST_LIST, CHANGED_TEST_LIST, ORIGINAL_DIFF_MANDATORY_DOCUMENT, CHANGED_DIFF_MANDATORY_DOCUMENT} from "./data.constants"
 import Stack from 'react-bootstrap/Stack'
 import {Button, Col} from "react-bootstrap"
 import {FiCode} from "react-icons/fi"
@@ -33,7 +33,8 @@ const FormView = () => {
     function handleSelect(inp) {
         let options=SELECT_OPTIONS, matched=[]
         options.map(item => {
-            if(item.value.toUpperCase() === inp.toUpperCase()){
+            if(item.label.toUpperCase().startsWith(inp.toUpperCase())) {
+            //if(item.label.toUpperCase() === inp.toUpperCase()){
                 matched.push(item)
             }
         })
@@ -55,21 +56,49 @@ const FormView = () => {
     />
 }
 
-export const Viewer = () => {
-    const {
-        menuItem
-	} = InitObj()
-
-    if(menuItem === DIFF_VIEWER) {
-        return <DiffViewer 
-            oldValue={OLD_VALUE} 
-            newValue={NEW_VALUE}
-            useDarkTheme={true}
-            leftTitle={'Old Value'}
-            rightTitle={'New Value'}/>
-    }
+export const Diff = () => {
     
-    return <FormView/>
+    const {
+        frames,
+        type,
+        tdbClient,
+        diffPatch, 
+        setDiffPatch
+	} = InitObj() 
+
+    if(!frames) return "LOADING ..."
+    if(!type) return "LOADING ..."
+
+    useEffect(() => { 
+        async function getDiffs(tdbClient) {
+            let result_patch = await tdbClient.getJSONDiff(ORIGINAL_TEST_LIST, CHANGED_TEST_LIST)
+            setDiffPatch(result_patch)
+            console.log("result_patch", result_patch)
+        }
+        if(tdbClient) {
+            getDiffs(tdbClient)
+        }
+    }, [])
+
+    return <div className="w-100">
+        {diffPatch && frames && <DiffViewer 
+            oldValue={ORIGINAL_TEST_LIST} 
+            newValue={CHANGED_TEST_LIST}
+            frame={frames}
+            type={"ComputerStudent"}
+            diffPatch={diffPatch}/>}
+    </div>
+}
+
+const TestTextArea = () => {
+    const {
+        data
+    }  = InitObj()
+    
+    return <textarea data-cy="data-reader" 
+        className="opacity-0"  
+        value={JSON.stringify(data, null, 2)}>
+    </textarea>
 }
 
 
@@ -96,6 +125,10 @@ export const Output = () => {
     let label=type
     if(!type) label=menuItem
 
+    if(menuItem === DIFF_VIEWER) {
+        return <Diff/>
+    }
+
     return <React.Fragment>
         {menuItem === MULTI_LANGUAGE && <Form>
             <Form.Group as={Col} md="12" className="tdb__input mb-3">
@@ -115,7 +148,8 @@ export const Output = () => {
                 </Stack>
             </Card.Header>
             <Card.Body>
-                <Viewer/>
+                <FormView/>
+                <TestTextArea/>
             </Card.Body>
         </Card>
     </React.Fragment>

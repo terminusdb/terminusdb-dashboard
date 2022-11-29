@@ -1,5 +1,5 @@
 import React from "react"
-//import {Button} from '@themesberg/react-bootstrap';
+//import {Button} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {TDBReactBadge} from "./TDBReactBadge"
 
