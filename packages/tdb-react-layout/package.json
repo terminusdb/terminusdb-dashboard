@@ -1,6 +1,7 @@
 {
   "name": "@terminusdb-live/tdb-react-layout",
   "version": "0.1.0",
+  "private": true,
   "description": "react hook library for manage terminusdb layouts",
   "main": "src/index",
   "module": "es6/index",
