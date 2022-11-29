@@ -22,7 +22,7 @@ import {transformData} from "./extract"
 **  FieldTemplate - a js function which you can pass at root level of FrameViewer to alter look and feel of fields
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 */
-export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate, language}){
+export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate, language}){
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
     const [readOnly, setReadOnly]=useState(false)
@@ -37,7 +37,7 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
 
     useEffect(() => {
         //try{
-            if(frame, uiFrame, type, mode, formData) {
+            if(frame, uiFrame, type, mode) { //formData
                 let documentation= extractDocumentation(frame, current, language)
                 let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, documentation)
                 
@@ -107,9 +107,9 @@ export function FrameViewer({frame, uiFrame, type, mode, submitButton, formData,
                 !extracted.hasOwnProperty("@id") && 
                 formDataTemp.hasOwnProperty("@id")
             ) extracted["@id"] = formDataTemp["@id"]
-            onSubmit(extracted)
+            //onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
-            return extracted
+            //return extracted
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
         }
     }
