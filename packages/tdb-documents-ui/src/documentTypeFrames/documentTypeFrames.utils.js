@@ -177,7 +177,7 @@ export function getEditUILayout (frame, item, onSelect, defaultValue, uiFrame, d
         return <DocumentSearch 
             label={label}
             linked_to={linked_to} 
-            value={defaultValue}
+            value={{id: props.formData, label: props.formData}}
             display={onSelect ? onSelect : <>No Component to display ...</>}
             description={description}
             required={props.required}

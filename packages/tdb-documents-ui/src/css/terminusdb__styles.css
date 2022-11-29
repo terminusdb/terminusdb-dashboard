@@ -32,6 +32,7 @@
 
 /** diffs ***/
 .tdb__diff__original > input, 
+.tdb__diff__original > textarea,
 .tdb__diff__original > select {
     color: #842029 !important;
     background-color: #f8d7da !important;
@@ -81,6 +82,7 @@
 }
 
 .tdb__diff__changed > input, 
+.tdb__diff__changed > textarea,
 .tdb__diff__changed > select {
     color: #0f5132 !important;
     background-color: #d1e7dd !important;
@@ -319,7 +321,7 @@ div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
 
 .diff__subDocument__accordian {
     background-color: #444 !important;
-    padding: 1.5rem !important;
+    padding: 0.5rem !important;
     margin-bottom: 1.5rem !important;
     margin-top: 1.5rem !important;
     border: var(--bs-card-border-width) solid var(--bs-card-border-color);
@@ -347,11 +349,16 @@ div.inserted {
     border-radius: 4px;
 }
 
-div.inserted * {
+div.deleted { 
+    background-color: #f8d7da !important;
+    border-radius: 4px;
+}
+
+div.inserted *, div.deleted * {
     color: #444 !important;
 }
 
-div.inserted * input {
+div.inserted * input, div.deleted * input {
     color: #444 !important;
 }
 

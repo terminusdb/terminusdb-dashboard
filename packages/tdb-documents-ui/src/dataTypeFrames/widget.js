@@ -85,7 +85,7 @@ export function getTextareaUIWidget(title, placeholder, data) {
     uiLayout["ui:placeholder"] = placeholder,
     uiLayout["classNames"] = "tdb__input mb-3 mt-3"
     uiLayout["ui:options"] = {
-        "rows": data ? getRowHeight(data) : 1
+        "rows": data ? getRowHeight(data) : 1 
     }
     return uiLayout
 }

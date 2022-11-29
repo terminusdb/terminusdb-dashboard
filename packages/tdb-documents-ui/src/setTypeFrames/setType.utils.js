@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react"
 import {ArrayFieldTemplate, addCustomUI, checkIfKey, getSetChoiceEmptyFrames, HideArrayFieldTemplate, extractUIFrameSelectTemplate, extractUIFrameSubDocumentTemplate, getSubDocumentTitle, getTitle, getDefaultValue, isFilled, getSetTitle, getLabelFromDocumentation, isRdfLangString} from "../utils"
-import {CREATE, EDIT, VIEW, CHOICESUBCLASSES, DOCUMENT, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, COORDINATES} from "../constants"
+import {CREATE, EDIT, VIEW, CHOICESUBCLASSES, DOCUMENT, SELECT_STYLES, SYS_JSON_TYPE, JSON_TYPE, ONEOFVALUES, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, COORDINATES, DATA_TYPE} from "../constants"
 import {FilledDocumentSelect, EmptyDocumentSelect, FilledDocumentViewSelect, DocumentSearch} from "../documentTypeFrames/DocumentSelects"
 import {Form} from "react-bootstrap"
 import JSONInput from 'react-json-editor-ajrm' 
 import locale    from 'react-json-editor-ajrm/locale/en'
+
 
 /**************   Set SubDocuments Types       *****************/
 // create set subDocument type layout
@@ -40,22 +41,45 @@ export function getCreateSetSubDocumentTypeUILayout (frame, item, uiFrame) {
     return addedCustomUI
 }
 
+
 // edit set subDocument type layout
 export function getEditSetSubDocumentTypeLayout (frame, item, formData, documentation) {
     
     let layout={
         type: "array",
-        title: getSetTitle(item, documentation), 
-        items: frame.properties[item],
-        additionalItems: frame.properties[item]
+        title: getSetTitle(item, documentation)
     }
 
+
+    var properties = frame.properties[item].properties, check=[], newProperties={}
     // get default value and fill items of array 
-    let defaultValues=getDefaultValue(item, formData)
-    let filledItems=[]
+    var defaultValues=getDefaultValue(item, formData)
+
+
     if(Array.isArray(defaultValues) && defaultValues.length) {
         defaultValues.map(value => {
-            let structure = {}
+            newProperties={}
+            for(var props in properties) {
+                if(value.hasOwnProperty(props)) {
+                    let newJson={}
+                    for(var subProps in properties[props]) {
+                        newJson[subProps] =  properties[props][subProps]
+                        newJson["default"]= value[props]
+                    }
+                    newProperties[props]=newJson
+                }
+                else newProperties[props]=properties[props]
+            }
+            check.push(newProperties)
+        })
+    }
+
+
+    
+    var filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            var structure = {}
             for(var props in frame.properties[item]) {
                 if(props === "default") structure[props] = value
                 else structure[props] = frame.properties[item][props]
@@ -64,9 +88,13 @@ export function getEditSetSubDocumentTypeLayout (frame, item, formData, document
         })
     }
 
-    // get filled items
-    if(Array.isArray(filledItems) && filledItems.length){
 
+    filledItems.map((filled, index) => {
+        filled.properties=check[index]
+    })
+
+    // fill additional items
+    if(Array.isArray(filledItems) && filledItems.length){
         layout.items = filledItems
         let properties = {}
         // get additional items
@@ -78,10 +106,12 @@ export function getEditSetSubDocumentTypeLayout (frame, item, formData, document
         // additional items
         layout.additionalItems = properties
     }
-   
+
     return layout
 }
 
+
+// edit set subDocument type ui layout
 // edit set subDocument type ui layout
 export function getEditSetSubDocumentTypeUILayout (frame, item, uiFrame) {
     let uiLayout= {}
@@ -102,6 +132,68 @@ export function getEditSetSubDocumentTypeUILayout (frame, item, uiFrame) {
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
 }
+/*export function getEditSetSubDocumentTypeUILayout (frame, item, uiFrame, onSelect) {
+    let uiLayout= {}
+    function displayExtractedDocumentFilled(props) { 
+        return <> 
+            <label className="text-light">{props.name}</label>
+            <span className="text-decoration-underline">{props.formData}</span>
+        </>
+    }
+
+    function displayExtractedAdditionalDocument (props) {
+        return  <DocumentSearch
+            label={props.name}
+            linked_to={props.schema.linked_to}
+            display={onSelect ? onSelect : <>No Component to display ...</>}
+            required={props.required}
+            onChange={props.onChange}
+        />
+    }
+    console.log("frame.uiSchema[item]", frame.uiSchema[item])
+    function extractUISchema() {
+        // delete ui field here 
+        if(frame && frame["properties"].hasOwnProperty(item) && 
+            frame["properties"][item].hasOwnProperty("properties")) {
+            for(let its in frame["properties"][item]["properties"]){
+                if(frame["properties"][item]["properties"][its].hasOwnProperty("info") && 
+                    frame["properties"][item]["properties"][its]["info"] === DOCUMENT) {
+                    if(frame["uiSchema"][item][its].hasOwnProperty("ui:field")) {
+                        frame["uiSchema"][item][its]["ui:field"]=displayExtractedDocumentFilled
+                        //frame["uiSchema"][item][its]["ui:title"]= <label className="text-gray">{its}</label>
+                    }
+                }
+                /*else if(frame["properties"][item]["properties"][its].hasOwnProperty("info") && 
+                    frame["properties"][item]["properties"][its]["info"] === DATA_TYPE) {
+                        frame["uiSchema"][item][its]["ui:field"]=displayExtractedDocumentFilled
+                }*/
+            /*}
+        }
+        return frame.uiSchema[item]
+    }
+
+    
+
+    
+
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            //items: frame.uiSchema[item],
+            //additionalItems: frame.uiSchema[item],
+            items: extractUISchema(),
+            additionalItems: extractAdditionalUISchema(),
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
+} */
 
 
 // View set subDocument type Layout
@@ -138,7 +230,7 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData, documenta
         }
     }
     // additional items
-    //layout.additionalItems = properties 
+    layout.additionalItems = properties 
     return layout
 }
 
@@ -176,7 +268,7 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, uiFrame, formData
 
     function displayExtractedFilled(props) {
         return <>
-            <label className="text-dark">{props.name}</label>
+            <label className="text-light">{props.name}</label>
             <span className="text-decoration-underline">{props.formData}</span>
         </>
     }
