@@ -92,6 +92,10 @@ export function getViewUILayout(frame, item, formData, uiFrame, documentation) {
     // fields which belongs to subdocument sets and we do not want to hide the widget
     if(!isFilled(formData, item)
         && !frame.hasOwnProperty("info")) {
+            if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:field")){
+                uiLayout={ "ui:field" : uiFrame[item]["ui:field"]}
+                return uiLayout
+            }
         uiLayout={ "ui:widget" : "hidden" }
         return uiLayout
     }

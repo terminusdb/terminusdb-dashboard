@@ -4,6 +4,7 @@ export const JSON_TYPE="object"
 export const NUMBER_TYPE="number"
 export const BOOLEAN_TYPE="boolean"
 export const DATE_TYPE="string"
+export const RDF_LANG_STRING="rdf:langString"
 export const RDF_DATA_TYPE_PREFIX = "rdf:"
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
@@ -23,6 +24,7 @@ export const XSD_HEXBINARY="xsd:hexBinary" //Hex-encoded binary data
 export const XSD_BASE64BINARY="xsd:base64Binary" //Base64-encoded binary data
 
 // Limited-range integer numbers
+export const XDD_HTML="xdd:html"
 export const XSD_BYTE =  "xsd:byte" //  -128…+127 (8 bit) 
 export const XSD_SHORT = "xsd:short" //    -32768…+32767 (16 bit) 
 export const XSD_INT =  "xsd:int" //   -2147483648…+2147483647 (32 bit) |
@@ -84,6 +86,27 @@ export const CHOICESUBCLASSES="ChoiceSubClasses"
 export const CHOICECLASSES="ChoiceClasses"
 export const ONEOFVALUES="@oneOf"
 export const COORDINATES="coordinates"
+export const INFO="info"
+
+// Meta data constants
+export const METADATA="@metadata"
+export const RENDER_AS="render_as"
+export const ORDER_AS="order_as"
+export const WIDGET="widget"
+export const CODE_MIRROR_MIN_HEIGHT="minHeight"
+export const CODE_MIRROR_LINE_NUMBERS="displayLines"
+export const CODE_MIRROR_THEME="theme"
+
+export const BASIC_CODE_MIRROR_CONFIG =  {
+  [CODE_MIRROR_MIN_HEIGHT]:"100px", 
+  [CODE_MIRROR_LINE_NUMBERS]:true, 
+  [CODE_MIRROR_THEME]:"dark"
+}
+
+// Meta data types
+export const MARKDOWN="markdown"
+export const HTML="HTML"
+
 
 // geo frame constants
 export const ARRAY="Array"
@@ -101,11 +124,23 @@ export const REFRESH="refresh"
 
 // geo JSON constants 
 export const POINTS="Points"
+export const LINE_STRING_TYPE="LineString"
 export const POLYGON="Polygon"
 export const MULTIPOLYGON="MultiPolygon"
 export const POLYLINE="Polyline"
 export const GEOMETRY_COLLECTION="GeometryCollection"
 export const FEATURE_COLLECTION="FeatureCollection"
+export const GEOMETRIES="geometries"
+export const FEATURE="feature"
+export const B_BOX="bbox"
+// geometry arrays
+export const GEOMETRY_ARRAY=[
+    "GeometryCollection",
+    "LineString",
+   	"MultiPolygon",
+  	"Point",
+  	"Polygon"
+]
 
 export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
@@ -164,47 +199,6 @@ singleValue:(styles) => {
 }
 }
 
-/*export const SELECT_STYLES = {
-  control: (styles) => ({ ...styles, backgroundColor: '#fff', borderColor: "#ccc", width: "100%" }),
-  menu: (styles) => ({ ...styles, backgroundColor: '#fff', width: "100%" }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    return {
-      ...styles,
-      backgroundColor: isDisabled
-        ? undefined
-        : isSelected
-        ? "#fff"
-        : isFocused
-        ? "#fff"
-        : undefined,
-      color: isDisabled
-        ? '#000'
-        : isSelected,
-      cursor: isDisabled ? 'not-allowed' : 'default',
-
-      ':active': {
-        ...styles[':active'],
-        backgroundColor: !isDisabled
-          ? isSelected
-            ? "#f8f8f8"
-            : "#f8f8f8"
-          : undefined,
-      },
-    }
-  },
-  input: (styles) => {
-    return {
-        ...styles,
-        color: '#000'
-    }
-},
-singleValue:(styles) => {
-    return {
-        ...styles,
-        color: '#000'
-    }
-}
-}*/
 export const SELECT_STYLE_KEY="select_styles"
 
 //default subdocument background
@@ -231,4 +225,10 @@ export const JSON_EDITOR_HEIGHT="200px"
 export const JSON_EDITOR_WIDTH="100%"
 
 export const DEFAULT_LANGUAGE="en"
+
+// diff titles
+export const ORIGINAL_VALUE="Original UI"
+export const CHANGED_VALUE="Changed UI"
+export const ORIGINAL_UI_FRAME="originalUIFrame"
+export const CHANGED_UI_FRAME="changedUIFrame"
 

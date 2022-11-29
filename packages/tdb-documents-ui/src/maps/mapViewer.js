@@ -11,35 +11,38 @@ import {GeoJSONLeafletMap} from "./geoJSONLeafletMap"
 **  zoom                 - zoom im map
 **  scrollWheelZoom      - boolean to allow on scroll
 */
-
- 
-export const MapViewer = ({documents, zoom, scrollWheelZoom, display, onMarkerClick, polyLine, polygon, icon, geojsonFeature, center}) => {
-
-	let type=POINTS
-	if(display) type=display
-
-    /*if(!Array.isArray(documents)) {
-        return <React.Fragment>{"Please, Include valid documents to display on map"}</React.Fragment>
-    }
-    if(!documents.length) {
-        return <React.Fragment>{"Cannot display empty documents on map"}</React.Fragment>
-    }*/
-
-	console.log("polyLine ))))", polyLine)
+export const MapViewer = ({documents, zoom, scrollWheelZoom, display, onMarkerClick, polyLine, polygon, icon, geojsonFeature, center, bounds}) => {
 
 	return <React.Fragment>
 		{
 			documents && !polyLine && !polygon &&
-				<LeafletMap documents={documents} onMarkerClick = {onMarkerClick} zoom={zoom} icon={icon} center={center}/>
+				<LeafletMap documents={documents} 
+					onMarkerClick = {onMarkerClick} 
+					zoom={zoom} 
+					icon={icon} 
+					center={center} 
+					bounds={bounds}/>
 		}
 		{
-			polyLine && <PolyLineLeafletMap polyLine={polyLine} onMarkerClick = {onMarkerClick} zoom={zoom} center={center}/>
+			polyLine && <PolyLineLeafletMap polyLine={polyLine} 
+				onMarkerClick = {onMarkerClick} 
+				bounds={bounds}
+				zoom={zoom} 
+				center={center}/>
 		}
 		{
-			polygon && <PolygonLeafletMap polygon={polygon} onMarkerClick = {onMarkerClick} zoom={zoom} center={center}/>
+			polygon && <PolygonLeafletMap polygon={polygon} 
+				onMarkerClick = {onMarkerClick} 
+				bounds={bounds}
+				zoom={zoom} 
+				center={center}/>
 		}
 		{
-			geojsonFeature && <GeoJSONLeafletMap geojsonFeature={geojsonFeature} center={center} zoom={zoom} icon={icon}/>
+			geojsonFeature && <GeoJSONLeafletMap geojsonFeature={geojsonFeature} 
+				center={center} 
+				bounds={bounds}
+				zoom={zoom} 
+				icon={icon}/>
 		}
 	</React.Fragment>
 }

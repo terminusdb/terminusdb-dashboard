@@ -15,25 +15,26 @@ import {
 
 
 export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
-    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
+    let properties={}, propertiesUI={}, layout ={}, uiLayout={}, addedCustomUI
 
     if (mode === CREATE) {
         layout=getCreateLayout(frame, item)
         uiLayout=getCreateUILayout(frame, item, uiFrame, documentation)
+        // custom ui:schema - add to default ui schema
+        addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     }
 
     if (mode === EDIT) {
         layout=getEditLayout(frame, item, formData)
         uiLayout=getEditUILayout(frame, item, formData, uiFrame, documentation)
+        // custom ui:schema - add to default ui schema
+        addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     }
 
     if (mode === VIEW) {
         layout=getViewLayout(frame, item, formData)
-        uiLayout=getViewUILayout(frame, item, formData, uiFrame, documentation)
-    }
-
-    // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+        addedCustomUI=getViewUILayout(frame, item, formData, uiFrame, documentation)
+    }   
 
     // schema
     properties[item]=layout

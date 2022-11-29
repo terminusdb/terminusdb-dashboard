@@ -221,8 +221,13 @@ export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, fo
 
 // View UI Layout
 export function getViewUILayout(frame, item, layout, uiFrame, documentation) {
+
     // hide widget if formData of item is empty
     if(!layout.hasOwnProperty("anyOf")) {
+        if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+            uiLayout=uiFrame[item]["ui:diff"]
+            return uiLayout
+        }
         uiLayout={ "ui:widget" : "hidden" }
         return uiLayout
     }
@@ -242,6 +247,18 @@ export function getViewUILayout(frame, item, layout, uiFrame, documentation) {
                 }
             }
         })
+    }
+
+    // check if there is a diff 
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        let newDiffUILayout={}
+        for(var things in uiLayout) {
+            if(uiFrame[item]["ui:diff"].hasOwnProperty(things)) {
+                newDiffUILayout[things]=uiFrame[item]["ui:diff"][things]
+            }
+            else newDiffUILayout[things]=uiLayout[things]
+        }
+        return newDiffUILayout
     }
 
     return uiLayout

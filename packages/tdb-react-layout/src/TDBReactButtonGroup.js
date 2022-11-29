@@ -1,5 +1,5 @@
 import React from "react"
-import {ButtonGroup, Button} from '@themesberg/react-bootstrap';
+import {ButtonGroup, Button} from 'react-bootstrap';
 
 export const TDBReactButtonGroup = (props) => {
 

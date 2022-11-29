@@ -1,9 +1,206 @@
 import React, {useState, useEffect} from "react"
-import {ArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle} from "../utils"
-import {CREATE, DOCUMENT, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
-import {FilledDocumentSelect, EmptyDocumentSelect} from "../documentTypeFrames/DocumentSelects"
+import {ArrayFieldTemplate, HideArrayFieldTemplate, getLabelFromDocumentation, addCustomUI, getSubDocumentTitle, getSubDocumentDescription, getDefaultValue, isFilled, getSetTitle, checkIfKey} from "../utils"
+import {CREATE, CHOICESUBCLASSES, DOCUMENT, SYS_JSON_TYPE, JSON_EDITOR_HEIGHT, JSON_EDITOR_WIDTH, EDIT, VIEW, SELECT_STYLES, SUBDOCUMENT_TYPE} from "../constants"
+import {FilledDocumentSelect, EmptyDocumentSelect, DocumentSearch} from "../documentTypeFrames/DocumentSelects"
 import JSONInput from 'react-json-editor-ajrm'
 import locale    from 'react-json-editor-ajrm/locale/en'
+
+/**************   Set Sub Choice Document Types       *****************/
+// create set Sub Choice Document type layout
+export function getCreateSetSubChoiceDocumentTypeLayout(frame, item, documentation) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item, documentation), //getSetTitle(item),
+        items: frame.properties[item],
+        additionalItems: frame.properties[item]
+    }
+    return layout
+} 
+
+// create set Sub Choice Document type ui layout
+export function getCreateSetSubChoiceDocumentTypeUILayout (frame, item, uiFrame) {
+    let uiLayout= {}
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
+
+}
+
+// edit set Sub Choice Document type layout
+export function getEditSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation) {
+    //console.log("!!!! CHOICE SET frame", frame)
+    let layout={
+        type: "array",
+        title: getSetTitle(item, documentation),
+        items: frame.properties[item],
+        additionalItems: frame.properties[item]
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            if(frame.properties[item].hasOwnProperty("anyOf")) {
+
+                frame.properties[item]["anyOf"].map(aOf => {
+                    if(aOf.title === value["@type"]) {
+                        let structure = {}
+                        for(var props in aOf) {
+                            structure[props]=aOf[props]
+                        }
+                        structure["default"] = value
+                        filledItems.push(structure)
+                    }
+                })
+            }
+        })
+    }
+
+    //console.log("filledItems", filledItems)
+
+    // get filled items
+    if(Array.isArray(filledItems) && filledItems.length)
+        layout.items = filledItems
+
+    let properties = {}
+    // get additional items
+    for(var props in frame.properties[item]) {
+        if(props !== "default"){
+            properties[props] = frame.properties[item][props]
+        }
+    }
+    // additional items
+    layout.additionalItems = properties
+    return layout
+}
+
+// edit set Sub Choice Document type ui layout
+export function getEditSetChoiceSubDocumentTypeUILayout (frame, item, uiFrame) {
+    let uiLayout= {}
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: true,
+                orderable: false,
+                removable: true
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    // custom ui:schema - add to default ui schema
+    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
+    return addedCustomUI
+}
+
+// view set Sub Choice Document type layout
+export function getViewSetChoiceSubDocumentTypeLayout(frame, item, formData, documentation) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item, documentation),
+        items: frame.properties[item],
+        info: CHOICESUBCLASSES
+        //additionalItems: frame.properties[item]
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            if(frame.properties[item].hasOwnProperty("anyOf")) {
+
+                frame.properties[item]["anyOf"].map(aOf => {
+                    if(aOf.title === value["@type"]) {
+                        let structure = {}
+                        for(var props in aOf) {
+                            structure[props]=aOf[props]
+                        }
+                        structure["default"] = value
+                        filledItems.push(structure)
+                    }
+                })
+            }
+        })
+    }
+
+    //console.log("filledItems", filledItems)
+
+    // get filled items
+    layout.items = filledItems
+
+    let properties = {}
+    // get additional items
+    for(var props in frame.properties[item]) {
+        if(props !== "default"){
+            properties[props] = frame.properties[item][props]
+        }
+    }
+    // additional items
+    //layout.additionalItems = properties
+    return layout
+}
+
+// view set Sub Choice Document type ui layout
+export function getViewSetChoiceSubDocumentTypeUILayout (frame, item, uiFrame, formData) { 
+    let uiLayout= {}
+
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
+
+    if(!isFilled(formData, item)) {
+        uiLayout={
+            "ui:widget" : 'hidden',
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+        return uiLayout
+    }
+
+
+    if(frame.hasOwnProperty("uiSchema")) {
+        uiLayout= {
+            items: frame.uiSchema[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    return uiLayout
+}
 
 /**************   Set SubDocuments Types       *****************/ 
 // create set subDocument type layout 
@@ -133,10 +330,29 @@ export function getViewSetSubDocumentTypeLayout(frame, item, formData, documenta
 export function getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
 
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
+
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
-        const hidden =() => <div/>
-        uiLayout={ "ui:widget" : hidden }
+        uiLayout={
+            "ui:widget" : 'hidden',
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
         return uiLayout
     }
 
@@ -152,9 +368,135 @@ export function getViewSetSubDocumentTypeUILayout(frame, item, formData, uiFrame
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
+
+    if(uiFrame.hasOwnProperty(item)) { 
+
+        uiLayout= {
+            items: uiFrame[item],
+            additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: false,
+                orderable: true,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+        return uiLayout
+    }
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
+}
+
+// View set subDocument type UI Layout
+export function getDiffViewSetSubDocumentType(frame, item, formData, uiFrame, modifiedUiFrame, diffCount) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item)
+    }, uiLayout= {}
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props === "default") structure[props] = value
+                else structure[props] = frame.properties[item][props]
+            }
+            filledItems.push(structure)
+        })
+    }
+
+    for(var removedDiff=0; removedDiff<diffCount ; removedDiff++) {
+        filledItems.push(frame.properties[item])
+    }
+
+    // get filled items
+    layout.items = filledItems
+
+    console.log("modifiedUiFrame", modifiedUiFrame, uiFrame)
+
+    //if(uiFrame.hasOwnProperty(item)) { 
+
+        uiLayout= {
+            items: modifiedUiFrame,
+            //additionalItems: frame.uiSchema[item],
+            "ui:options": {
+                addable: false,
+                orderable: true,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+        //return uiLayout
+    //}
+
+    /*if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }*/
+    return {layout: layout, uiLayout:uiLayout}
+}
+
+
+// View set dubDocument type Diff UI Layout
+export function getDiffViewSetSubDocumentType_JUNK(frame, item, formData, uiFrame) {
+    let layout={
+        type: "array",
+        title: getSetTitle(item)
+    }
+
+    // get default value and fill items of array
+    let defaultValues=getDefaultValue(item, formData)
+    let filledItems=[]
+    if(Array.isArray(defaultValues) && defaultValues.length) {
+        defaultValues.map(value => {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props === "default") structure[props] = value
+                else structure[props] = frame.properties[item][props]
+            }
+            filledItems.push(structure)
+        })
+        let blankCount=uiFrame[item]["ui:diff"]
+        for(var count=0; count < blankCount; count++) {
+            let structure = {}
+            for(var props in frame.properties[item]) {
+                if(props !== "default") {
+                    structure[props] = frame.properties[item][props]
+                }
+                structure["default"] = formData[item][0]
+            }
+            filledItems.push(structure)
+        }
+    }
+    
+    // get filled items
+    layout.items = filledItems
+
+    let uiLayout= {}
+
+    uiLayout= {
+        items: []
+    }
+
+    uiLayout.items.push(uiFrame[item][0])
+    uiLayout.items.push(uiFrame[item][1])
+    uiLayout.items.push(uiFrame[item][0])
+    uiLayout.items.push(uiFrame[item][1])
+
+    console.log("666 vfilledItems 666", layout, uiLayout)
+
+    return {layout: layout, uiLayout: uiLayout}
 }
 
 
@@ -282,14 +624,30 @@ export function getViewSetDataTypeLayout(frame, item, formData) {
     // additional items
     layout.additionalItems = properties
     return layout
-}
+} 
 
 // View set data type UI Layout
 export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
     let uiLayout= {}
+
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item] && uiFrame[item].hasOwnProperty("ui:diff")) {
+        return {
+            "ui:field": uiFrame[item]["ui:diff"],
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false 
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+    }
+
     // hide widget if formData of item is empty
     if(!isFilled(formData, item)) {
-        uiLayout={ "ui:widget" : "hidden" }
+        uiLayout={ 
+            "ui:widget" : "hidden",
+            "ui:ArrayFieldTemplate": HideArrayFieldTemplate
+        }
         return uiLayout
     }
     if(frame.hasOwnProperty("uiSchema")) {
@@ -298,7 +656,7 @@ export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
             additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
-                orderable: true,
+                orderable: true, 
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
@@ -308,7 +666,7 @@ export function getViewSetDataTypeUILayout(frame, item, formData, uiFrame) {
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
 }
-
+ 
 
 /**************   List Sys Data Types       *****************/
 // create set data type layout
@@ -439,7 +797,8 @@ export function getEditListSysDataTypeUILayout (frame, item, uiFrame, documentat
 export function getViewListSysDataTypeLayout(frame, item, formData) {
     let layout={
         type: "array",
-        title: getSetTitle()
+        title: getSetTitle(),
+        info: SYS_JSON_TYPE
     }
 
     // get default value and fill items of array
@@ -491,6 +850,14 @@ export function getViewListSysDataTypeUILayout(frame, item, formData, uiFrame) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"] 
+        }
+        return uiLayout
+    }
+
     // custom ui:schema - add to default ui schema
     let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
     return addedCustomUI
@@ -566,7 +933,7 @@ export function getEditSetDocumentTypeLayout (frame, item, formData) {
 }
 
 // edit set Document type ui layout
-export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
+export function getEditSetDocumentTypeUILayout (frame, item, onSelect, documentation) {
 
     // getting ui layout for additional items
     let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {}
@@ -581,49 +948,65 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
         if(ui === "ui:field") {
             function displayFilledSetSelect(props) {
 
-                // loadOptions on AsyncSelect
-                const loadOptions = async (inputValue, callback) => {
-                    let opts = await onSelect(inputValue, frame[item])
-                    callback(opts)
-                    return opts
-                }
+                let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : null
+                // extracting custom ui styles
+                let label = getLabelFromDocumentation (item, documentation)
+                // this can be feature collection or normal document id 
+                let defaultFormData = (typeof props.formData === "object" && props.formData.hasOwnProperty("@id")) ? props.formData["@id"] : props.formData
 
-                // handle input change on AsyncSelect
-                const handleInputChange = (newValue) => {
-                    const inputValue = newValue.replace(/\W/g, '');
-                    return inputValue
-                }
+                if(typeof onSelect === "function") {
+                    // loadOptions on AsyncSelect
+                    const loadOptions = async (inputValue, callback) => {
+                        let opts = await onSelect(inputValue, frame[item])
+                        callback(opts)
+                        return opts
+                    }
 
-                function onChange(e) {
-                    props.onChange(e.value)
-                }
+                    // handle input change on AsyncSelect
+                    const handleInputChange = (newValue) => {
+                        const inputValue = newValue.replace(/\W/g, '');
+                        return inputValue
+                    }
 
-                let returnElement = []
-                if(props.formData){
-                    returnElement.push(
-                        <FilledDocumentSelect
+                    function onChange(e) {
+                        props.onChange(e.value)
+                    }
+
+                    let returnElement = []
+                    if(props.formData){
+                        returnElement.push(
+                            <FilledDocumentSelect
+                                label={props.name}
+                                styles={SELECT_STYLES}
+                                placeholder={props.uiSchema["ui:placeholder"]}
+                                onChange={onChange}
+                                loadOptions={loadOptions}
+                                defaultValue={props.formData}
+                                handleInputChange={handleInputChange}
+                            />
+                        )
+                    }
+                    else returnElement.push(
+                        <EmptyDocumentSelect
                             label={props.name}
                             styles={SELECT_STYLES}
                             placeholder={props.uiSchema["ui:placeholder"]}
                             onChange={onChange}
                             loadOptions={loadOptions}
-                            defaultValue={props.formData}
                             handleInputChange={handleInputChange}
                         />
                     )
-                }
-                else returnElement.push(
-                    <EmptyDocumentSelect
-                        label={props.name}
-                        styles={SELECT_STYLES}
-                        placeholder={props.uiSchema["ui:placeholder"]}
-                        onChange={onChange}
-                        loadOptions={loadOptions}
-                        handleInputChange={handleInputChange}
-                    />
-                )
 
-                return returnElement
+                    return returnElement
+                }
+            
+                // simply sents back component
+                return <DocumentSearch 
+                    label={label}
+                    linked_to={linked_to} 
+                    value={defaultFormData}
+                    display={onSelect ? onSelect : <>No Component to display ...</>}
+                    onChange={props.onChange}/>
 
             }
 
@@ -637,7 +1020,7 @@ export function getEditSetDocumentTypeUILayout (frame, item, onSelect) {
     if(frame.hasOwnProperty("uiSchema")) {
         uiLayout= {
             items: modifiedUiLayout,
-            additionalItems: additionalItemsUiStruct,
+            additionalItems: modifiedUiLayout,
             "ui:options": {
                 addable: true,
                 orderable: true,
@@ -686,13 +1069,26 @@ export function getViewSetDocumentTypeLayout (frame, item, formData) {
 }
 
 // View set Document type UI Layout
-export function getViewSetDocumentTypeUILayout (frame, item, onSelect) {
+export function getViewSetDocumentTypeUILayout (frame, uiFrame,item, onSelect, documentation, formData) {
     // getting ui layout for additional items
     let additionalItemsUiStruct={}, uiLayout= {}, modifiedUiLayout = {}
     for(var ui in frame.uiSchema[item]) {
         if(ui !== "ui:field"){
             additionalItemsUiStruct[ui] = frame.uiSchema[item][ui]
         }
+    }
+
+    if(!isFilled(formData, item)) {
+        uiLayout={
+            "ui:widget" : 'hidden',
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+        return uiLayout
     }
 
     // getting the layout to put correct st values
@@ -763,6 +1159,13 @@ export function getViewSetDocumentTypeUILayout (frame, item, onSelect) {
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"]
         }
     }
     return uiLayout
@@ -896,7 +1299,7 @@ export function getViewSetEnumTypeLayout (frame, item, formData) {
 }
 
 // view set Enum type ui layout
-export function geViewSetEnumTypeUILayout (frame, item) {
+export function geViewSetEnumTypeUILayout (frame, uiFrame, item) {
     let uiLayout= {}
     if(frame.hasOwnProperty("uiSchema")) {
 
@@ -909,6 +1312,12 @@ export function geViewSetEnumTypeUILayout (frame, item) {
                 removable: false
             },
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
+        }
+    }
+    // diff viewer
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout={
+            "ui:field": uiFrame[item]["ui:diff"]
         }
     }
     return uiLayout
@@ -1015,29 +1424,35 @@ export function getEditSetChoiceDocumentTypeUILayout (frame, item) {
 export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
     let layout={
         type: "array",
-        title: getSetTitle(item),
-        items: frame.properties[item],
-        additionalItems: frame.properties[item]
+        title: getSetTitle(item)
+        //items: frame.properties[item], 
+        //additionalItems: frame.properties[item]
     }
+
+    //console.log("frame.properties[item]", frame)
 
     // get default value and fill items of array
     let defaultValues=getDefaultValue(item, formData)
     let filledItems=[]
     if(Array.isArray(defaultValues) && defaultValues.length) {
         defaultValues.map(value => {
-            if(frame.properties[item].hasOwnProperty("anyOf")) {
+            //if(frame.properties[item].hasOwnProperty("anyOf")) {
 
-                frame.properties[item]["anyOf"].map(aOf => {
-                    if(aOf.title === value["@type"]) {
-                        let structure = {}
-                        for(var props in aOf) {
+                //frame.properties[item]["anyOf"].map(aOf => {
+                    //if(aOf.title === value["@type"]) {
+                        let structure = {
+                            type: "string",
+                            default: value,
+                            info: DOCUMENT
+                        }
+                        /*for(var props in aOf) {
                             structure[props]=aOf[props]
                         }
-                        structure["default"] = value
+                        structure["default"] = value*/
                         filledItems.push(structure)
-                    }
-                })
-            }
+                    //}
+                //})
+            //}
         })
     }
 
@@ -1048,23 +1463,44 @@ export function getViewSetChoiceDocumentTypeLayout(frame, item, formData) {
 
     let properties = {}
     // get additional items
-    for(var props in frame.properties[item]) {
+    /*for(var props in frame.properties[item]) {
         if(props !== "default"){
             properties[props] = frame.properties[item][props]
         }
     }
     // additional items
-    layout.additionalItems = properties
+    layout.additionalItems = properties*/
+    
     return layout
 }
 
 // view set Choice Document type ui layout
-export function getViewSetChoiceDocumentTypeUILayout (frame, item) {
-    let uiLayout= {}
-    if(frame.hasOwnProperty("uiSchema")) {
+export function getViewSetChoiceDocumentTypeUILayout (frame, item, uiFrame, formData) {  
+    //console.log("uiFrame ****", uiFrame)
+    let uiLayout= {} 
+
+    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("ui:diff")) {
+        uiLayout["ui:field"]=uiFrame[item]["ui:diff"]
+        return uiLayout
+    }
+
+    if(!isFilled(formData, item)) {
+        uiLayout={
+            "ui:widget" : 'hidden',
+            "ui:options": {
+                addable: false,
+                orderable: false,
+                removable: false
+            },
+            "ui:ArrayFieldTemplate" : HideArrayFieldTemplate
+        }
+        return uiLayout
+    }
+        
+    if(frame.hasOwnProperty("uiSchema")) { 
         uiLayout= {
             items: frame.uiSchema[item],
-            additionalItems: frame.uiSchema[item],
+            //additionalItems: frame.uiSchema[item],
             "ui:options": {
                 addable: false,
                 orderable: true,
@@ -1073,6 +1509,8 @@ export function getViewSetChoiceDocumentTypeUILayout (frame, item) {
             "ui:ArrayFieldTemplate" : ArrayFieldTemplate
         }
     }
+
+    console.log("uiLayout ___ ", uiLayout)
 
     return uiLayout
 }

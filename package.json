@@ -2,9 +2,10 @@
   "name": "terminusdb-dashboard",
   "private": true,
   "workspaces": [
-    "./packages/tdb-react-components",
     "./packages/react-worker",
     "./packages/tdb-react-layout",
+    "./packages/tdb-react-table",
+    "./packages/tdb-react-components",
     "./packages/tdb-access-control-component",
     "./packages/tdb-documents-ui",
     "./packages/tdb-dashboard"

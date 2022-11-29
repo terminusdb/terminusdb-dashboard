@@ -56,7 +56,7 @@ export const DocumentControlProvider = ({children}) => {
         }
     }, [selectedDocument])
 
-    // on change of document view to JSON or frame
+    // on change of document view to JSON or frame 
     useEffect(() => {
         let docObj = documentObjectWithFrames
         docObj = documentObject.view

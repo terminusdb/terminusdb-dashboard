@@ -100,7 +100,7 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, limi
             if(freewidth) return col
             return addColumnDimensions(item, col, woqt)
         })
-        let colstruct = {columns:listOfColumns}
+        let colstruct = {columns:listOfColumns} 
         if(woqt.config.header()) colstruct.Header = woqt.config.header()
         else colstruct.Header = " "
         return [colstruct]

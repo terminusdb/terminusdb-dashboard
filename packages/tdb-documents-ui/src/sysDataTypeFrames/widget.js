@@ -16,6 +16,7 @@ import {
     JSON_TYPE,
     XSD_G_YEAR,
     XSD_DATE,
+    SYS_UNIT_DATA_TYPE,
     JSON_EDITOR_HEIGHT,
     JSON_EDITOR_WIDTH
 } from "../constants"
@@ -23,6 +24,7 @@ import {
 //get data type xsd: or xdd:
 export function getDataType(type) { 
     if(type === SYS_JSON_TYPE) return JSON_TYPE
+    else  if(type === SYS_UNIT_DATA_TYPE) return "array"
     return XSD_STRING // return basic string
 }
 
@@ -51,6 +53,20 @@ export function getCreateJSONWidget(item, label) {
     }
     uiLayout["ui:description"] = "Enter a valid JSON object below"
     uiLayout["ui:field"] = displayCreateJSONInput
+    return uiLayout
+}
+
+/**  function to display sys:Unit types in create mode*/
+export function getCreateSysUnitWidget(item, label) {
+    let uiLayout = {}
+
+    function displayCreateSysUnit(props) {
+        
+        return <div className="d-flex">
+            <span>{label}</span>
+        </div>
+    }
+    uiLayout["ui:field"] = displayCreateSysUnit
     return uiLayout
 }
 

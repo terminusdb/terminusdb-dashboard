@@ -13,7 +13,7 @@ function InitComponent () {
         dataProduct: process.env.DATA_PRODUCT
     }
 
-    console.log(" --- config --- ", config)
+    //console.log(" --- config --- ", config) 
 
     return <InitProvider config={config}>
         <App />

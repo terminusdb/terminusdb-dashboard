@@ -52,9 +52,5 @@ export const makeDocumentTypeFrames = (frame, item, uiFrame, mode, formData, onT
     let madeFrames = documentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
     let properties = madeFrames.properties
     let propertiesUI = madeFrames.propertiesUI
-    /*if(frame.hasOwnProperty("required")) {
-        let required=frame.required
-        return {properties, propertiesUI, required}
-    }*/
     return {properties, propertiesUI}
 }

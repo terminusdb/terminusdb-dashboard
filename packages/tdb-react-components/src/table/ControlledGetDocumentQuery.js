@@ -55,7 +55,8 @@ function ControlledGetDocumentQuery (woqlClient, document, queryLimit, queryStar
             params['count']=limit
             try{
                 const response = await woqlClient.getDocument(params, db)
-                const countResult = await executeCountQuery() 
+                const countResult = await executeCountQuery()
+                console.log("**rresponsee", response)
                 setDocumentResults(response)
                 setRowCount(countResult)
                

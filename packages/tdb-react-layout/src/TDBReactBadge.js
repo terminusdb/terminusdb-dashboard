@@ -1,5 +1,5 @@
 import React from "react"
-import { Badge } from '@themesberg/react-bootstrap'
+import { Badge } from 'react-bootstrap'
 
 export const TDBReactBadge = (props) =>{
     let variant = props.variant || "dark"

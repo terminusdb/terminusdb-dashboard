@@ -22,7 +22,6 @@ export const DocumentInfo = () => {
     const {
         woqlClient,
         documentClasses,
-        docs,
         frames
     } = WOQLClientObj()
 
@@ -64,7 +63,7 @@ export const DocumentInfo = () => {
         </React.Fragment>
     }
 
-    function handleEdit () {
+    function handleEdit () { 
         setDocumentObject({
             action: EDIT_DOCUMENT,
             type: documentObjectWithFrames.type,
@@ -101,11 +100,13 @@ export const DocumentInfo = () => {
 
     const DocumentContents = ({documentObject, currentView}) => {
 
+        //console.log("documentObject", documentObject)
+
         if (currentView == JSON_VIEW) return <JsonDocument documentObject={documentObject}/>
         return <FrameViewer frame={frames}
+            hideSubmit={true}
             type={documentObjectWithFrames.type}
             mode={documentObjectWithFrames.action}
-            documents={docs}
             formData={documentObjectWithFrames.filledFrame}
             onTraverse={onTraverse}
         />

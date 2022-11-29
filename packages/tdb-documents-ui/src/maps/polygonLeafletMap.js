@@ -8,7 +8,7 @@ import L from "leaflet"
 import {MAP_OPTION, ARROW_OPTION, MARKER_OPTION} from "./map.constants"
 import {customMapOptions, customMarkerOptions} from "./markers"
 
-export const PolygonLeafletMap = ({polygon, onMarkerClick, zoom, center}) => {
+export const PolygonLeafletMap = ({polygon, onMarkerClick, zoom, center, bounds}) => {
 
 	useEffect(() => {
 		map()
@@ -29,6 +29,12 @@ export const PolygonLeafletMap = ({polygon, onMarkerClick, zoom, center}) => {
 				'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 			}
 		)
+
+		if(bounds && Array.isArray(bounds) && bounds.length > 0){
+			map.setView([40.866667, 34.566667], 5) // center of maps 
+			map.fitBounds(bounds)
+			map.flyToBounds(bounds)
+		}
 
 		tileLayer.addTo(map)
         var polygonMap = L.polygon(polygon.data, { color: 'purple', smoothFactor: 5 }).addTo(map)
