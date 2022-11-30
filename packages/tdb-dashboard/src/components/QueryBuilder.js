@@ -1,11 +1,9 @@
 import React, {useState} from "react"
-import {Card, OverlayTrigger, Col} from "react-bootstrap"
+import {Card, OverlayTrigger, Col,Button} from "react-bootstrap"
 import {USE_QUERY_CONFIG} from "./constants"
 import {BsClipboard} from "react-icons/bs"
 import {trimWOQL, copyToClipboard} from "./utils"
 import {queryDescription} from "../queryDescription"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
-
 
 export const QueryBuilder = ({showQueryBuilder}) => {
  
@@ -30,9 +28,9 @@ export const QueryBuilder = ({showQueryBuilder}) => {
                 {info.examples && <React.Fragment>
                     <h6 className="text-info fw-bold mt-3">Examples</h6>
                     <code>{info.examples[0]}</code> <br/>
-                    <TDBReactButton 
-                        config={USE_QUERY_CONFIG} 
-                        onClick={(e) => handleExampleCopy(info.examples)}/>
+                    <Button {...USE_QUERY_CONFIG} onClick={(e) => handleExampleCopy(info.examples)}>
+                        <i className={USE_QUERY_CONFIG.icon}/>{USE_QUERY_CONFIG.label}
+                    </Button>
                 </React.Fragment> }
                 
             </Card.Body>

@@ -25,12 +25,12 @@ import {
     OPERATION,
     PATCH_LIST,
     COPY_LIST,
-    KEEP_LIST,
+    KEEP_LIST, 
     SWAP_LIST,
     SWAP_VALUE
 } from "./diff.constants" 
 import {removedSubDocumentElement} from "./subDocumentFieldDiffs"
-import {displaySysJSONElements} from "./sysFieldDiffs"
+import {displaySysJSONElements} from "./sysFieldDiffs" 
 import {generateDiffUIFrames} from "./diffViewer.utils"
 
 /** returns a label field */
@@ -42,6 +42,7 @@ export function getLabel(label, required, interest) {
     </label>
 }
 
+
 /**
  * 
  * @param {*} schema schema to control data types
@@ -52,6 +53,7 @@ export function getLabel(label, required, interest) {
  */
  function getRemovedElements(schema, label, required, css, interest) {
     let elements=[]
+    if(!schema) return elements
     if(schema.hasOwnProperty(INFO)
         && schema[INFO] === DATA_TYPE) {
             elements.push(
@@ -196,7 +198,7 @@ export function getLabel(label, required, interest) {
 function displaySubDocumentElements(diffPatch, item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) {
     let renderElements=[], elementSchema=schema, currentChoice=false, choiceCss="tdb__input"
     if(!formData.hasOwnProperty(item)) return renderElements
-    for(var fds=0; fds<formData[item].length; fds++) {
+    for(let fds=0; fds<formData[item].length; fds++) {
         let fields=[], hasChanged=false
         if(schema.hasOwnProperty(INFO) && schema[INFO] === CHOICESUBCLASSES) {
             // get choice schema
@@ -209,9 +211,16 @@ function displaySubDocumentElements(diffPatch, item, formData, startFormDataInde
             }
         }
         if(Array.isArray(choicesEqualSet)) choiceCss=choicesEqualSet[fds] 
-        for(var subDocKey in formData[item][fds]) {
+        for(let subDocKey in formData[item][fds]) {
             if(subDocKey==="@id") continue 
             else if(subDocKey==="@type") continue
+            else if(diffPatch[fds] === undefined) {
+                // there is no diff here means the remaining is available in REST & is newly added
+                hasChanged=true
+                fields.push(getLabel(subDocKey, required, interest))
+                let elements=displayElements(formData[item][fds][subDocKey], elementSchema.properties[subDocKey], elementSchema.properties[subDocKey].title, required, css, null)
+                fields.push(elements)
+            }
             else if(diffPatch[fds] && diffPatch[fds].hasOwnProperty(subDocKey)) {
                 let rest=doOperation(diffPatch[fds][subDocKey], item, formData, startFormDataIndex, elementSchema.properties[subDocKey], elementSchema.properties[subDocKey].title, required, interest, css, fullFrame, frame, type, choicesEqualSet)
                 fields.push(rest)
@@ -423,10 +432,24 @@ function doOperation(diffPatch, item, formData, startFormDataIndex, schema, labe
                     }
                 }
                 else {
-                    let elements=displayElements(diffPatch[interest], schema, label, required, css, interest)
-                    renderElements.push( <> {elements} </>)
+                    if(schema && schema.hasOwnProperty(INFO) && schema[INFO]===SUBDOCUMENT_TYPE) {
+                        let subDocumentElement=displaySubDocumentElements(diffPatch[interest], item, formData, startFormDataIndex, schema, label, required, interest, css, fullFrame, frame, type, choicesEqualSet) 
+                        renderElements.push( <> {subDocumentElement} </>)
+                    }
+                    else {
+                        let elements=displayElements(diffPatch[interest], schema, label, required, css, interest)
+                        renderElements.push( <> {elements} </>)
+                    }
                 }
             }
+    }
+    else if(!diffPatch.hasOwnProperty(OPERATION)) {
+        //can be either a diff patch of newly added elements
+        renderElements.push(getLabel(label, type, interest)) 
+        let elements=displayElements(diffPatch, schema, label, required, "tdb__input mb-3", null)
+        renderElements.push( <>
+            {elements}
+        </>)
     }
     
     return renderElements
@@ -469,7 +492,7 @@ function displayOneOfElements(diffPatch, item, oldValue, newValue, schema, label
 
 
             let test = generateDiffUIFrames(fullFrame, constructedFrame, type, oldValue, newValue, diff)
-            console.log("test", test)
+            //console.log("test", test)
             //elements.push(<>{Object.keys(diff)[0]}</>)
             //elements.push(<>{test}</>)
             elements.push(<FrameViewer frame={fullFrame}

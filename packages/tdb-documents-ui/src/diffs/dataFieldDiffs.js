@@ -1,8 +1,9 @@
 import React from "react"
 import {AiFillMinusCircle, AiFillPlusCircle} from "react-icons/ai"
 import Stack from 'react-bootstrap/Stack'
-import {ORIGINAL_UI_FRAME, CHANGED_UI_FRAME} from "../constants"
+import {ORIGINAL_UI_FRAME, CHANGED_UI_FRAME, STRING_TYPE} from "../constants"
 import {BEFORE, AFTER} from "./diff.constants"
+import {getRowHeight} from "../utils"
 
 // function to show added element if no change
 function showNoChange(props) {
@@ -16,15 +17,28 @@ function showNoChange(props) {
     </div>
 }
 
+/**
+ * function to return textarea if type string else an input box
+ * @param {*} props with state of element 
+ * @returns 
+ */
+function getFieldDisplay(props) {
+    if(props.schema.type === STRING_TYPE) {
+        return <textarea className="form-control" readOnly={true} id={`root_${props.name}`} label={props.name} rows={getRowHeight(props.formData)}>
+            {props.formData}
+        </textarea>
+    }
+    return <input value={props.formData} className="form-control" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
+}
+
 // function to show added element for original
 function showOriginal(props) { 
     return <div className="form-group field field-string text-danger tdb__diff__original mb-3">
         <label className="control-label" htmlFor={`root_${props.name}`}>
             <span>{props.name}</span>
             {props.required && <span className="required">*</span>}
-            
         </label>
-        <input value={props.formData} className="form-control" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
+        {getFieldDisplay(props)}
     </div>
 }
 
@@ -34,9 +48,8 @@ function showChanged(props) {
         <label className="control-label" htmlFor={`root_${props.name}`}>
             <span>{props.name}</span>
             {props.required && <span className="required">*</span>}
-            
         </label>
-        <input value={props.formData} className="form-control" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
+        {getFieldDisplay(props)}
     </div>
 }
 
@@ -115,7 +128,7 @@ function showAddedElementChanged(props) {
         <input value={props.formData} className="form-control" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
     </div>
 }
-
+ 
 // ALL SWAP VALUE OPERATIONS
 export function getDataFieldDiffs(diffPatch, item) {
 

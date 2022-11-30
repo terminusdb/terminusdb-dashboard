@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {ToggleButtonGroup,ToggleButton} from 'react-bootstrap';
 
-export const TDBReactToggleButtonGroup = (props) => {
+export const TDBToggleButtonGroup = (props) => {
 
     let config = props.config || []
     function handleOnClick(e) {
@@ -22,4 +22,3 @@ export const TDBReactToggleButtonGroup = (props) => {
             )}
         </ToggleButtonGroup>
 }
-    

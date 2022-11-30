@@ -68,7 +68,7 @@ function ControlledQueryHook(woqlClient, query, results, queryLimit, queryStart,
                 }
                 processSuccessfulResult(response, tstart)
             }catch(err){
-                processErrorResult(error, tstart)
+                processErrorResult(err, tstart)
             }finally{
                 setLoading(false)
             }

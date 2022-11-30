@@ -259,9 +259,13 @@ export const LiteralRenderer = ({value, column, row, cell, view, args, prefixes}
 }
 
 export const ImageRenderer = ({value, type, column, row, cell, view, args, prefixes})=>{
+    let strValue = value
+    if(typeof value === "object"){
+        strValue=value["@value"]
+    }
     const width = args.options &&  args.options.width ? args.options.width : "80px"
     return <div className="d-flex justify-content-center">
-                <img src={value} width={width} style={{border: "3px solid #444", borderRadius:"25%"}}></img>
+                <img src={strValue} width={width} style={{border: "3px solid #444", borderRadius:"25%"}}></img>
             </div>
 }
 
@@ -376,43 +380,67 @@ export const shortenedText = (text, max_cell_size, max_word_size) => {
 
 
 export const NumberRenderer = ({value, type, column, row, cell, view, args, prefixes})=>{
+    let strValue = value
+    if(typeof value === "object"){
+        strValue=value["@value"]
+    }
+
     let fmt = args.format || "commas"
     if(fmt == "bytes"){
-        value = TerminusClient.UTILS.TypeHelper.formatBytes(value)
+        strValue = TerminusClient.UTILS.TypeHelper.formatBytes(strValue)
     }
     if(fmt == "commas"){
-        value = TerminusClient.UTILS.TypeHelper.numberWithCommas(value)
+        strValue = TerminusClient.UTILS.TypeHelper.numberWithCommas(strValue)
     }
-    return <span title={"Numeric Type: " + type}>{value}</span>
+    return <span title={"Numeric Type: " + type}>{strValue}</span>
 }
 
 export const TimeRenderer = ({value, type, column, row, cell, view, args, prefixes})=>{
     let d, fstr
-    if(typeof value == "number"){
-        if(!isNaN(parseFloat(value))){
-            d = new Date(parseFloat(value*1000))
-         }else {
-             return <span>{value}</span>
-         }
-    }else {
-        d = new Date(value)
-    }
-    if(args && args.format) fstr = args.format
-    else fstr = (type == "xsd:date" ? "d MMM yy" : "MMM d, yyyy - HH:mm:ss")
+    try{
+        let strValue = value
+        if(typeof value === "object"){
+            strValue=value["@value"]
+        }
+    
+        if(typeof strValue == "number"){
+            if(!isNaN(parseFloat(strValue))){
+                d = new Date(parseFloat(strValue*1000))
+            }else {
+                return <span>{strValue}</span>
+            }
+        }else {
+            d = new Date(strValue)
+        }
+        if(args && args.format) fstr = args.format
+        else fstr = (type == "xsd:date" ? "d MMM yy" : "MMM d, yyyy - HH:mm:ss")
 
-    if(d instanceof Date && !isNaN(d)){
-        return <span title={"Temporal Type: " + type}>{format(d, fstr)}</span>
-    }else {
-        return <span>{value}</span>
+        if(d instanceof Date && !isNaN(d)){
+            return <span title={"Temporal Type: " + type}>{format(d, fstr)}</span>
+        }else {
+            return <span>{strValue}</span>
+        }
+    }catch(err){
+        console.log("CellRender Error")
+        return ""
     }
 }
 
 export const RangeRenderer = ({value, type, column, row, cell, view, args, prefixes})=>{
-    return <span title={"Range Type: " + type}>{value}</span>
+    let strValue = value
+    if(typeof value === "object"){
+        strValue=value["@value"]
+    }
+
+    return <span title={"Range Type: " + type}>{strValue}</span>
 }
 
 export const HTMLRenderer = ({value, type, column, row, cell, view, args, prefixes})=>{
-    return <span title={"HTML Type: " + type}>{value}</span>
+    let strValue = value
+    if(typeof value === "object"){
+        strValue=value["@value"]
+    }
+    return <span title={"HTML Type: " + type}>{strValue}</span>
 }
 // to be check
 function isEmptyValue(val){

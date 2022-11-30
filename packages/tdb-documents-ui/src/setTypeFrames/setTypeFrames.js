@@ -171,12 +171,12 @@ export function makeSubDocumentTypeFrames (frame, item, uiFrame, mode, formData,
 
     if (mode === CREATE) {
         layout=getCreateSetSubDocumentTypeLayout(frame, item, documentation)
-        uiLayout=getCreateSetSubDocumentTypeUILayout(frame, item, uiFrame)
+        uiLayout=getCreateSetSubDocumentTypeUILayout(frame, item, uiFrame, onSelect)
     }
 
     if (mode === EDIT) {
         layout=getEditSetSubDocumentTypeLayout(frame, item, formData, documentation)
-        uiLayout=getEditSetSubDocumentTypeUILayout(frame, item, uiFrame)
+        uiLayout=getEditSetSubDocumentTypeUILayout(frame, item, uiFrame, onSelect)
     }
 
     if (mode === VIEW) {

@@ -114,10 +114,6 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
     let properties = {}, propertiesUI = {}, dependencies= {}, required = [], fields={}
     for(var item in frame) {
 
-        if(item === "inventory") {
-            console.log("inventory")
-        }
-        
         if(item === "@key") continue
         else if(item === "@type") continue
         else if(item === "@subdocument") continue

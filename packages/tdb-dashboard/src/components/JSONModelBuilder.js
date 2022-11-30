@@ -5,7 +5,7 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/ayu-dark.css'
 require('codemirror/mode/css/css')
 require('codemirror/mode/javascript/javascript')
-import 'codemirror/addon/display/autorefresh.js'
+//import 'codemirror/addon/display/autorefresh.js'
 import {PROGRESS_BAR_COMPONENT, TERMINUS_SUCCESS} from "./constants"
 import {Loading} from "./Loading"
 import {MODEL_BUILDER_EDITOR_OPTIONS} from "./constants"

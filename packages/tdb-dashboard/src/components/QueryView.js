@@ -1,9 +1,8 @@
 import React from "react"
 import {QueryPane} from "./QueryPane"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_PANE_CONFIG} from "./constants"
 import {QueryPaneObj} from "../hooks/queryPaneContext"
-import {Row} from "react-bootstrap"
+import {Button, Row} from "react-bootstrap"
 
 export const QueryView = (props) => {
     const {queryPaneList, addQueryPane} = QueryPaneObj()
@@ -12,9 +11,11 @@ export const QueryView = (props) => {
     const QueryPaneBox = (props) => {
         return (
             <div id={props.id}>
-                <TDBReactButton config={NEW_PANE_CONFIG} 
+                <Button {...NEW_PANE_CONFIG} 
                     onClick={() => {addQueryPane()}} 
-                />
+                >
+                     <i className={NEW_PANE_CONFIG.icon}/>
+                    <span className="ml-1">{NEW_PANE_CONFIG.label}</span></Button>
                
               <QueryPane queryObj={props.queryObj}/>                
           </div>

@@ -134,11 +134,11 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
                 </Button>
             </div>
         </Stack>
-        {selected && selected.hasOwnProperty("label") && <>
+        {selected && selected.hasOwnProperty("id") && selected.id && <>
             <AiOutlineCheck className="text-success mr-2"/>
             <small>{"Selected: "}</small>
             <div className="d-flex tdb__input">
-                <label className="text-decoration-underline">{selected.label}</label>
+                <label className="text-decoration-underline">{selected.label ? selected.label : selected.id}</label>
                 {!required && <Button className="btn btn-sm bg-transparent border-0 text-danger"
                         title={`Click here to search for a ${linked_to}`}
                         onClick={handleClear}>

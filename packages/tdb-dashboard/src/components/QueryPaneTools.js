@@ -1,13 +1,10 @@
 import React, {useState} from "react"
-import {TDBReactButton, TDBReactTextArea, TDBReactToggleButtonGroup} from '@terminusdb-live/tdb-react-layout'
+import {TDBToggleButtonGroup} from './layout/TDBToggleButtonGroup'
 import {RUN_QUERY_CONFIG, COPY_QUERY_CONFIG, QUERY_BUILDER_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
-import {Col, Row, Button, Modal } from "react-bootstrap"
+import {Col, Row, Button, Modal, Form ,InputGroup} from "react-bootstrap"
 import {BiChevronUp, BiChevronDown} from "react-icons/bi"
-import {BsClipboard, BsUpload, BsDownload} from "react-icons/bs"
 import {copyToClipboard} from "./utils"
 import {QueryPaneObj} from '../hooks/queryPaneContext'
-import {makeWOQLFromString, makeWOQLIntoString} from "@terminusdb-live/tdb-react-components"
-import {JSONLD, JS} from "./constants"
 
 export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageChange}) => {
 
@@ -77,14 +74,21 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
         </Modal.Header>
         <Modal.Body className="p-5">
             <h6>Enter an optional reason for update here</h6>
-            <TDBReactTextArea config ={COMMIT_TEXT_AREA}/>
+
+        <Form>
+        <Form.Group className="mb-3">
+            <InputGroup>
+            <Form.Control type="text" placeholder={COMMIT_TEXT_AREA.placeholder}/>
+            </InputGroup>
+        </Form.Group>
+        </Form>
         </Modal.Body>
         <Modal.Footer>
-      
-           <TDBReactButton 
-                className="pt-2 pb-2 pr-4 pl-4"
-                config={RUN_QUERY_CONFIG} 
-                onClick={(e) => handleClick()}/>
+        <Button className="pt-2 pb-2 pr-4 pl-4"
+                {...RUN_QUERY_CONFIG} 
+                onClick={(e) => handleClick()}>
+                 <i className={RUN_QUERY_CONFIG.icon}/>{RUN_QUERY_CONFIG.label}   
+        </Button>
         </Modal.Footer>
     </Modal>
     }
@@ -93,24 +97,20 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
         <Row className="w-100"> 
             <Col md={10}>
 
-                <TDBReactToggleButtonGroup selected={queryObj.editorObj.language} type={"TOGGLE"} config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
+                <TDBToggleButtonGroup selected={queryObj.editorObj.language} type={"TOGGLE"} config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
 
-                <TDBReactButton 
-                    config={COPY_QUERY_CONFIG} 
-                    onClick={(e) => copyToClipboard(queryObj.editorObj.text)}/>
+                <Button {...COPY_QUERY_CONFIG} className={"mr-1 mb-1 m-1  btn btn-light btn-sm"} onClick={(e) => copyToClipboard(queryObj.editorObj.text)}>
+                    <i className={`${COPY_QUERY_CONFIG.icon} me-2`}/>{COPY_QUERY_CONFIG.label}  
+                </Button>
             </Col> 
             <Col md={2} className="d-flex justify-content-end">
 
                 <Button className={"mr-1 mb-1 m-1 pt-2 pb-2 pr-4 pl-4"} type="submit"
                     variant={RUN_QUERY_CONFIG.variant} title={RUN_QUERY_CONFIG.title} id={RUN_QUERY_CONFIG.id} 
                     onClick={(e)=>handleRunQuery(e)}>
-                      
-                            {RUN_QUERY_CONFIG.label}
+                    <i className={RUN_QUERY_CONFIG.icon}/>  
+                    <span className="ml-2">{RUN_QUERY_CONFIG.label}</span>
                 </Button>
-              {/*  <TDBReactButton 
-                    className="pt-2 pb-2 pr-4 pl-4"
-                    config={RUN_QUERY_CONFIG} 
-onClick={()=>{handleRunQuery()}}/> */}
 
                 <PopCommitModal commitModal={commitModal} setCommitModal={setCommitModal}/>
                 {queryObj.editorPanelIsOpen && 
@@ -132,13 +132,5 @@ onClick={()=>{handleRunQuery()}}/> */}
     
 }
 
-
-
-/** Commenting query builder as of now
- * <TDBReactButton 
-                    config={QUERY_BUILDER_CONFIG}  
-                    onClick={(e) => QueryBuilderChange(queryObj.id, !queryObj.queryBuilderObj.isOpen)}/>
- * 
-*/
  
                     

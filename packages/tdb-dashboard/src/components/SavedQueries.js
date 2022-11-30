@@ -1,10 +1,9 @@
 import React from "react"
-
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {getStoredQueryObject} from "../queries/GeneralQueries"
 import {isArray} from "./utils"
 import {SavedQueriesControl} from "../hooks/SavedQueriesControl"
 import {QueryPaneObj} from "../hooks/queryPaneContext" 
+import { Button } from "react-bootstrap"
 
 export const SavedQueries = (props) => {
 
@@ -33,8 +32,11 @@ export const SavedQueries = (props) => {
             }
             
             for(var item in lts){
+                const element = lts[item];
                 elements.push(
-                    <TDBReactButton key={`button_${item}`} config={lts[item]} onClick={handleClick}/>
+                    <Button key={`button_${item}`} {...element} onClick={handleClick}>
+                        {element.label}
+                    </Button>
                 )
             }
 

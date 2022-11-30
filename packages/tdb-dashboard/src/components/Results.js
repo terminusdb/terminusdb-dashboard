@@ -3,7 +3,8 @@ import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
 import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constants"
-import {TDBReactCollapse, TDBReactResizable} from '@terminusdb-live/tdb-react-layout'
+import {TDBCollapse} from './layout/TDBCollapse'
+import {TDBReactResizable} from './layout/TDBReactResizable'
 import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
 import {UnControlled as CodeMirror} from 'react-codemirror2'
@@ -116,7 +117,7 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
                              currentView={currentView}
                              queryRunTime={queryRunTime}/>
             {/*<ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/> */}
-            <TDBReactCollapse isExpanded={queryObj.resultPanelIsOpen}>            
+            <TDBCollapse isExpanded={queryObj.resultPanelIsOpen}>            
                 {/*currentView==GRAPH_VIEW &&
                     <React.Fragment>
                     <ViewPane queryObj={queryObj} setGraphConfig={setGraphConfig}/>
@@ -152,7 +153,7 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
                         options={options}
                     />
                 }
-            </TDBReactCollapse>
+            </TDBCollapse>
         </TDBReactResizable>
         </React.Fragment>
         )

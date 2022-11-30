@@ -1,18 +1,19 @@
 import React, {useState, useEffect} from "react"
 import {QueryPane} from "./QueryPane"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {NEW_PANE_CONFIG} from "./constants"
 import {QueryPaneObj} from "../hooks/queryPaneContext"
-import { NavItem } from "react-bootstrap"
+import { Button, NavItem } from "react-bootstrap"
 export const View = (props) => {
     const {queryPaneList,addQueryPane} = QueryPaneObj()
 
     const QueryPaneBox = (props) => {
         return (
             <div id={props.id}>
-                <TDBReactButton config={NEW_PANE_CONFIG} 
+                <Button {...NEW_PANE_CONFIG} 
                     onClick={() => {addQueryPane()}} 
-                />
+                >
+                   {NEW_PANE_CONFIG.icon} {NEW_PANE_CONFIG.label} 
+                </Button>
                 <QueryPane id={props.id} queryObj={props.queryObj} name={props.name}/>                
           </div>
         )

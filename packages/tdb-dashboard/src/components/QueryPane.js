@@ -1,16 +1,14 @@
 import React, {useState, useEffect} from "react"
-import {TDBReactCollapse} from '@terminusdb-live/tdb-react-layout'
+import {TDBCollapse} from './layout/TDBCollapse'
 import {queryEditorRunnerHook} from '@terminusdb-live/tdb-react-components'
 import {PROGRESS_BAR_COMPONENT} from './constants.js'
 import {Results} from "./Results"
 import {Row, Col, Card,Alert} from "react-bootstrap"
-// import {QueryEditor} from "./QueryEditor"
 import {WOQLClientObj} from '../init-woql-client'
 import {QueryPaneTools} from "./QueryPaneTools"
 import {ResultErrors} from "./Errors"
 import {Loading} from "./Loading"
 import {QueryPaneObj} from '../hooks/queryPaneContext'
-//import {WOQLEditorControlled} from '@terminusdb-live/tdb-react-components'
 import {WOQLEditor} from '@terminusdb-live/tdb-react-components'
 import {makeWOQLFromString, makeWOQLIntoString} from "@terminusdb-live/tdb-react-components"
 import {LANGUAGE_LIST} from './constants.js'
@@ -98,24 +96,8 @@ export const QueryPane = ({queryObj}) => {
                 <Col md={12}>
                    {queryError && <Alert className = "text-break" variant="danger" onClose={() => setShowAlert(false)} dismissible>{queryError}</Alert>}
                 </Col>
-                {/*<Col md={10}>
-                    <h1 className="h5 ml-3">
-                        {name} , Explore the 
-                        <strong className="brand-color ml-1 mr-1">{dataProduct} </strong>
-                        data product
-                    </h1>
-                </Col>*/}
-                {/*<Col md={2} className="d-flex justify-content-end pr-4">
-                    {queryObj.mainPanelIsOpen && <TDBReactButton 
-                        config={COLLAPSE_BUTTON_GROUP} 
-                        onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
-
-                    {!queryObj.mainPanelIsOpen && <TDBReactButton 
-                        config={UNCOLLAPSE_BUTTON_GROUP} 
-                        onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
-                    </Col>*/} 
             </Row> 
-            <TDBReactCollapse isExpanded={queryObj.mainPanelIsOpen}>
+            <TDBCollapse isExpanded={queryObj.mainPanelIsOpen}>
                 <Card>
                     <Card.Header className="d-flex">
                         <QueryPaneTools queryObj={queryObj}
@@ -125,7 +107,7 @@ export const QueryPane = ({queryObj}) => {
                          />    
                     </Card.Header>
                     <Card.Body>
-                        <TDBReactCollapse isExpanded={queryObj.editorPanelIsOpen}> 
+                        <TDBCollapse isExpanded={queryObj.editorPanelIsOpen}> 
                             <Row className="w-100">
                                 <Col md={size}> 
                                 <div className="editor-pallet">
@@ -138,7 +120,7 @@ export const QueryPane = ({queryObj}) => {
                                 {/*queryObj.queryBuilderObj.isOpen && <Col md={12 - size}>
                                     <QueryBuilder/></Col>*/}   
                             </Row>                       
-                        </TDBReactCollapse>
+                        </TDBCollapse>
                         <div className="pallet mb-3 mt-4">
                          {loading && <Loading message={`Executing Query`} type={PROGRESS_BAR_COMPONENT}/>}  
                          {!loading && bindings && bindings.length>0 &&  totalRows && 
@@ -156,17 +138,7 @@ export const QueryPane = ({queryObj}) => {
                          </div>              
                     </Card.Body>
                 </Card>               
-            </TDBReactCollapse>
+            </TDBCollapse>
         </div>
     </React.Fragment>
 }
-/*<WOQLEditorControlled 
-languages={LANGUAGE_LIST}
-startLanguage={queryObj.editorObj.language || "js"}  
-setWOQLQuery={handleWOQLQueryChange} 
-initcontent={queryObj.editorObj.text}
-query={queryObj.editorObj.query}
-editable={true}
-setMainError={handleError}
-showLanguageSwitcher={false} 
-theme="dark"/>*/

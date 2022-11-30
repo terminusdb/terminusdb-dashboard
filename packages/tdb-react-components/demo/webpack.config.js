@@ -30,7 +30,6 @@ module.exports = (env, argv) => ({
     alias: {
       "@terminusdb/terminusdb-react-components": path.join(__dirname, '..', 'src/index.js'),
       "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js'), 
-      "@terminusdb-live/tdb-react-layout": path.resolve('../tdb-react-layout/src/index.js'),
       react: path.resolve('../../node_modules/react')
     },
     fallback: { "https": false },

@@ -10,7 +10,8 @@ import {
 } from "../constants"
 import {
     OPERATION,
-    INSERT
+    INSERT,
+    DELETE
 } from "./diff.constants"
 import {Card, Row, Col} from "react-bootstrap"
 import {generateDiffUIFrames} from "./diffViewer.utils"
@@ -106,6 +107,51 @@ const NewValueHeader = ({newValueHeader}) => {
                             uiFrame={uiJson}
                             type={type}
                             formData={newValue}
+                            mode={VIEW}
+                            hideSubmit={true}
+                        />
+                    </Card.Body>
+                </Card>
+            </Col>
+        </Row>
+    }
+
+    if(diffPatch.hasOwnProperty(OPERATION) && diffPatch[OPERATION] === DELETE) {
+        let uiJson = {
+            classNames: "p-3 deleted"
+        }
+        let hideUIJson = {
+            classNames: "hide__opacity p-3"
+        }
+        return <Row> 
+            <Col md={6}>
+                <Card>  
+                    <Card.Header>
+                        <OldValueHeader oldValueHeader={oldValueHeader}/>
+                    </Card.Header>
+                    <Card.Body>
+                        <FrameViewer
+                            frame={frame}
+                            uiFrame={uiJson}
+                            type={type}
+                            formData={oldValue}
+                            mode={VIEW}
+                            hideSubmit={true}
+                        />
+                    </Card.Body>
+                </Card>
+            </Col>
+            <Col md={6}>
+                <Card>
+                    <Card.Header>
+                        <NewValueHeader newValueHeader={newValueHeader}/>
+                    </Card.Header>
+                    <Card.Body>
+                        <FrameViewer
+                            frame={frame}
+                            type={type}
+                            uiFrame={hideUIJson}
+                            formData={oldValue}
                             mode={VIEW}
                             hideSubmit={true}
                         />

@@ -3,8 +3,6 @@ import {Container, Card, CardGroup, Badge, Button} from "react-bootstrap"
 import {LeftSideBar} from "../components/LeftSideBar"
 import {Layout} from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
-import {FaClone} from "react-icons/fa"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CLONE_DATA_PRODUCT_CONFIG} from "../components/constants"
 import {EXAMPLES_PRODUCTS} from "../routing/constants"
 
@@ -26,7 +24,10 @@ export const ExampleProducts = (props) => {
                         </Card.Text>
                     </Card.Body>
                     <Card.Footer className="text-right bg-transparent w-100 border-0">
-                        <TDBReactButton config={CLONE_DATA_PRODUCT_CONFIG}/>
+                        <Button {...CLONE_DATA_PRODUCT_CONFIG}>
+                            <i className={CLONE_DATA_PRODUCT_CONFIG.icon}/>               
+                            {CLONE_DATA_PRODUCT_CONFIG.label}
+                        </Button>
                     </Card.Footer>
                 </Card>
                 <Card className="mr-3">
@@ -41,7 +42,11 @@ export const ExampleProducts = (props) => {
                         </Card.Text>
                     </Card.Body>
                     <Card.Footer className="text-right bg-transparent w-100 border-0">
-                        <TDBReactButton config={CLONE_DATA_PRODUCT_CONFIG}/>
+                        <Button {...CLONE_DATA_PRODUCT_CONFIG}>
+                        <i className={CLONE_DATA_PRODUCT_CONFIG.icon}/> 
+                           
+                            {CLONE_DATA_PRODUCT_CONFIG.label}
+                        </Button>
                     </Card.Footer>
                 </Card>
                 <Card className="mr-3">
@@ -56,7 +61,10 @@ export const ExampleProducts = (props) => {
                         </Card.Text>
                     </Card.Body>
                     <Card.Footer className="text-right bg-transparent w-100 border-0">
-                        <TDBReactButton config={CLONE_DATA_PRODUCT_CONFIG}/>
+                        <Button {...CLONE_DATA_PRODUCT_CONFIG}>
+                        <i className={CLONE_DATA_PRODUCT_CONFIG.icon}/> 
+                            {CLONE_DATA_PRODUCT_CONFIG.label}
+                        </Button>
                     </Card.Footer>
                 </Card>
             </CardGroup>
