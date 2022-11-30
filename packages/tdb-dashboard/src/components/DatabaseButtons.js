@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+/*import React, { useEffect } from 'react';
 import {TDBReactWorkerButtonGroup} from '@terminusdb-live/tdb-react-layout';
 import {DOCUMENT_CLASS_BUTTONS_CONFIG, PROPERTY_BUTTONS_CONFIG, DOCUMENT_CLASS_LABEL, PROPERTIES_LABEL, NO_PROPERTIES} from "./constants.js"
 import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
@@ -36,9 +36,8 @@ export const DatabaseButtons = () => {
     return <React.Fragment>
         {/*<hr className="my-3 mr-3 border-indigo dropdown-divider nav-bar-dropdown-divider" role="separator"></hr>
         <p className="text-muted">Connected to - <strong className="text-info">{dataProduct}</strong></p>*/}
-        <p className="nav-labels text-muted">{DOCUMENT_CLASS_LABEL}</p>
+       /* <p className="nav-labels text-muted">{DOCUMENT_CLASS_LABEL}</p>
         <div className="flex-column mt-3 mb-5">
-            {/*<TDBReactWorkerButtonGroup  onLoad="https://hub-dev.dcm.ist/api/workers/admin/cg6zav1618490058380" config={DOCUMENT_CLASS_BUTTONS_CONFIG} onClick={handleClassButtonClick}/>*/}
             <TDBReactWorkerButtonGroup startData={classes} config={DOCUMENT_CLASS_BUTTONS_CONFIG} onClick={handleClassButtonClick}/>
             
         </div>
@@ -59,4 +58,4 @@ export const DatabaseButtons = () => {
         </React.Fragment>
         }
     </React.Fragment>
-}
+}*/

@@ -98,22 +98,6 @@ export const QueryPane = ({queryObj}) => {
                 <Col md={12}>
                    {queryError && <Alert className = "text-break" variant="danger" onClose={() => setShowAlert(false)} dismissible>{queryError}</Alert>}
                 </Col>
-                {/*<Col md={10}>
-                    <h1 className="h5 ml-3">
-                        {name} , Explore the 
-                        <strong className="brand-color ml-1 mr-1">{dataProduct} </strong>
-                        data product
-                    </h1>
-                </Col>*/}
-                {/*<Col md={2} className="d-flex justify-content-end pr-4">
-                    {queryObj.mainPanelIsOpen && <TDBReactButton 
-                        config={COLLAPSE_BUTTON_GROUP} 
-                        onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
-
-                    {!queryObj.mainPanelIsOpen && <TDBReactButton 
-                        config={UNCOLLAPSE_BUTTON_GROUP} 
-                        onClick={() => setQpExpanded((prevExpanded) => !prevExpanded)}/>}
-                    </Col>*/} 
             </Row> 
             <TDBReactCollapse isExpanded={queryObj.mainPanelIsOpen}>
                 <Card>

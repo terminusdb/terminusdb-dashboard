@@ -2,7 +2,6 @@
 import React, {useState} from "react"
 import {Card, Button, Form} from "react-bootstrap"
 import {WOQLClientObj} from '../init-woql-client'
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {SEND_FEEDBACK_CONFIG} from "./constants"
 import {SendEmailHook} from "../hooks/SendEmailHook"
 import {Alerts} from "../components/Alerts"
@@ -64,7 +63,10 @@ export const Feedback = ({setShowFeedbackForm}) => {
                 </Form.Group>
             </Form>
             <div className="float-right">
-                <TDBReactButton onClick={sendFeedback} config={SEND_FEEDBACK_CONFIG}/>
+                <Button onClick={sendFeedback} {...SEND_FEEDBACK_CONFIG}>
+                    <i className={SEND_FEEDBACK_CONFIG.icon}/> 
+                    {SEND_FEEDBACK_CONFIG.label} 
+                </Button>
             </div>
         </div>
     </Card>

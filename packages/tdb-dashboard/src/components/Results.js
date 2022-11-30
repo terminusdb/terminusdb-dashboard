@@ -3,7 +3,8 @@ import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {ResultController} from "./ResultController"
 import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
 import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constants"
-import {TDBReactCollapse, TDBReactResizable} from '@terminusdb-live/tdb-react-layout'
+import { TDBReactCollapse } from "./layout/TDBReactCollapse"
+import {TDBReactResizable} from './layout/TDBReactResizable'
 import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
 import {WOQLClientObj} from '../init-woql-client'
 import {UnControlled as CodeMirror} from 'react-codemirror2'

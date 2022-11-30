@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {CREATE_NEW_BRANCH_BUTTON, newBranchForm, TERMINUS_DANGER} from "./constants"
 import {Form, Button, Modal} from "react-bootstrap"
 import {Loading} from "./Loading"
@@ -64,7 +63,9 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            <TDBReactButton  onClick={handleCreate} className= "float-right" config={CREATE_NEW_BRANCH_BUTTON}/>
+            <Button onClick={handleCreate} className= "float-right" {...CREATE_NEW_BRANCH_BUTTON}>
+                <i className={CREATE_NEW_BRANCH_BUTTON.icon}/> {CREATE_NEW_BRANCH_BUTTON.label}
+            </Button>
         </Modal.Footer>
     </Modal>
 }

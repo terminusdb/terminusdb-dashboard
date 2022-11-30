@@ -2,8 +2,6 @@
 import React, {useState,useRef} from "react"
 import {Row, Col, Form, Card, Button} from 'react-bootstrap'
 import {branchActionConfig, squashFormConfig, resetFormConfig, deleteFormConfig, RESET_BUTTON_CONFIG, CANCEL_BUTTON, SQUASH_BUTTON_CONFIG,DELETE_BUTTON_CONFIG, IconBarConfig} from './constants'
-import {BiGitMerge} from "react-icons/bi"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {AiOutlineUndo, AiOutlineCompress, AiOutlineDelete, AiOutlineCheckCircle} from "react-icons/ai"
 import {BranchControl} from "../hooks/BranchControl"
 
@@ -100,8 +98,11 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
             {showForm === RESET_FORM && <Card variant="dark" border="light" className="mt-5">
                 <Card.Header>
                     <b>{resetFormConfig.title}</b>
-                    <TDBReactButton onClick={(e) => setShowForm(false)} className= "cancel-button" config={CANCEL_BUTTON}/>
-                </Card.Header>
+                    <Button onClick={(e) => setShowForm(false)} 
+                        className= "cancel-button" variant={CANCEL_BUTTON.variant}>
+                        <i className={CANCEL_BUTTON.icon}/>{CANCEL_BUTTON.label}
+                    </Button>
+                 </Card.Header>
                 <Card.Body>
                     <Card.Text className="text-muted">
                         {resetFormConfig.description}
@@ -110,8 +111,11 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
                         <Form.Group className="mb-3">
                             <Form.Control required id={resetFormConfig.id} type={"text"} onBlur={handleOnBlur} placeholder={resetFormConfig.placeholder} />
                         </Form.Group>
-                        
-                        <TDBReactButton id="reset_branch_button" onClick={submitReset} className= "float-right" config={RESET_BUTTON_CONFIG}/>
+                        <Button onClick={submitReset} title ={RESET_BUTTON_CONFIG.title} 
+                          className= "float-right" variant={RESET_BUTTON_CONFIG.variant}>
+                            <i className={RESET_BUTTON_CONFIG.icon}/> {RESET_BUTTON_CONFIG.label}
+                        </Button>
+
                     </Form>
                 </Card.Body>
             </Card>}
@@ -119,7 +123,9 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
             {showForm === SQUASH_FORM && <Card variant="dark" border="danger" className="mt-5">
                 <Card.Header>
                         <b>{squashFormConfig.title}</b>
-                        <TDBReactButton onClick={(e) => setShowForm(false)} className= "cancel-button" config={CANCEL_BUTTON}/>
+                        <Button onClick={(e) => setShowForm(false)} className= "cancel-button" variant={CANCEL_BUTTON.variant}>
+                            <i className={CANCEL_BUTTON.icon}/> {CANCEL_BUTTON.label}
+                        </Button>
                     </Card.Header>
                     <Card.Body>
                         <Card.Text className="text-muted">
@@ -129,7 +135,10 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
                             <Form.Group className="mb-3">
                                 <Form.Control ref={squashDescription} required id={squashFormConfig.id} type={"text"} onBlur={handleOnBlur} placeholder={squashFormConfig.placeholder} />
                             </Form.Group>
-                            <TDBReactButton id="squash_branch_button" onClick={submitSquash} className= "mr-1 mb-1 m-1 float-right btn btn-danger btn-sm" config={SQUASH_BUTTON_CONFIG}/>
+                            <Button onClick={submitSquash}  className= "float-right" {...SQUASH_BUTTON_CONFIG}>
+                                <i className={SQUASH_BUTTON_CONFIG.icon}/> {SQUASH_BUTTON_CONFIG.label}
+                            </Button>
+
                         </Form>
                     </Card.Body>
                 </Card>
@@ -138,7 +147,9 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
             {showForm === DELETE_FORM  && <Card variant="dark" border="danger" className="mt-5">
                     <Card.Header>
                         <b>{deleteFormConfig.title}</b>
-                        <TDBReactButton onClick={(e) => setShowForm(false)} className= "cancel-button" config={CANCEL_BUTTON}/>
+                        <Button onClick={(e) => setShowForm(false)} className= "cancel-button" variant={CANCEL_BUTTON.variant}>
+                        <i className={CANCEL_BUTTON.icon}/> {CANCEL_BUTTON.label}
+                        </Button>
                     </Card.Header>
                     <Card.Body>
                         <Card.Text className="text-muted">
@@ -149,14 +160,12 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
                                 <Form.Control required id={deleteFormConfig.id} type={"text"} onBlur={enterBranchName} placeholder={deleteFormConfig.placeholder} />
                             
                             </Form.Group>
-                            <button id="delete_branch_button" title="Delete Branch" type="submit" className="mr-1 mb-1 m-1 float-right btn btn-danger btn-sm" {...disabledDelete}>Delete Branch</button>
+                            <button id="delete_branch_button" title="Delete Branch" type="submit" className="mr-1 mb-1 m-1 float-right btn btn-danger btn-sm" 
+                            {...disabledDelete}>Delete Branch</button>
                         </Form>
                     </Card.Body>
                 </Card>
             }
         </Col>
   </Row>
-}
-
-//    <TDBReactButton  {...disabledDelete} className= "float-right" config={DELETE_BUTTON_CONFIG}/>
-                        
+}                        

@@ -1,5 +1,4 @@
-import {MainLayout} from "@terminusdb-live/tdb-react-layout"
-import React,{useState} from "react"
+/*import React,{useState} from "react"
 import {FileReader} from '../components/import/FileReader'
 import {FileTable} from '../components/import/FileTable'
 
@@ -13,4 +12,4 @@ export const ImportData = (props) => {
         <FileTable result={result} title={fileName}/>
     </MainLayout>
 
-}
+}*/

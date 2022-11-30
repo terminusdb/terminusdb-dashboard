@@ -2,7 +2,6 @@
 import React, {useState} from "react"
 import {Modal, Button, Form} from "react-bootstrap" 
 import {CREATE_NEW_DATA_PRODUCT_BUTTON, newDataProductForm} from "./constants"
-import {TDBReactButton} from '@terminusdb-live/tdb-react-layout'
 import {FaPlus} from "react-icons/fa"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
