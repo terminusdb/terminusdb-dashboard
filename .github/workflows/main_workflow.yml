@@ -116,4 +116,8 @@ jobs:
       if: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/v') }}
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npm publish --ws
+      run: |
+        npm publish --workspace packages/tdb-access-control-component \
+          --workspace packages/tdb-documents-ui \
+          --workspace packages/tdb-react-components \
+          --workspace packages/tdb-react-table
