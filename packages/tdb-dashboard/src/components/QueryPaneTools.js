@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {TDBReactToggleButtonGroup} from './layout/TDBReactToggleButtonGroup'
+import {TDBToggleButtonGroup} from './layout/TDBToggleButtonGroup'
 import {RUN_QUERY_CONFIG, COPY_QUERY_CONFIG, QUERY_BUILDER_CONFIG, SAVE_QUERY_CONFIG, ACTIONS_QUERY_BUTTON_GROUP, SAVE_QUERY_NAME_TEXT_AREA, UNCOLLAPSE_BUTTON_GROUP, COMMIT_TEXT_AREA, LANGUAGE_SWITCHER_BUTTON_GROUP, COLLAPSE_BUTTON_GROUP} from './constants.js'
 import {Col, Row, Button, Modal, Form ,InputGroup} from "react-bootstrap"
 import {BiChevronUp, BiChevronDown} from "react-icons/bi"
@@ -97,7 +97,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
         <Row className="w-100"> 
             <Col md={10}>
 
-                <TDBReactToggleButtonGroup selected={queryObj.editorObj.language} type={"TOGGLE"} config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
+                <TDBToggleButtonGroup selected={queryObj.editorObj.language} type={"TOGGLE"} config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
 
                 <Button {...COPY_QUERY_CONFIG} className={"mr-1 mb-1 m-1  btn btn-light btn-sm"} onClick={(e) => copyToClipboard(queryObj.editorObj.text)}>
                     <i className={`${COPY_QUERY_CONFIG.icon} me-2`}/>{COPY_QUERY_CONFIG.label}  

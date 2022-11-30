@@ -1,8 +1,7 @@
-
 import React, {useState} from "react"
 import useCollapse from 'react-collapsed';
 
-export const TDBReactCollapse = (props) => {
+export const TDBCollapse = (props) => {
     let isExpanded = props.isExpanded
     const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
 

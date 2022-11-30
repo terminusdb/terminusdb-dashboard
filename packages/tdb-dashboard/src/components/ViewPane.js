@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {Card, Row, Col, Button} from 'react-bootstrap';
-import {TDBReactCollapse} from './layout/TDBReactCollapse'
+import {TDBCollapse} from './layout/TDBCollapse'
 import {TDBReactSelect} from './layout/TDBReactSelect'
 import {TDBReactColorPallet} from './layout/TDBReactColotPallet'
 import TerminusClient from '@terminusdb/terminusdb-client'
@@ -109,9 +109,9 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
         onClick={() => setShowConfig((prevExpanded) => !prevExpanded)}>
          <i className={SETTINGS_UNCOLLAPSE_BUTTON_GROUP.icon}/>
           {SETTINGS_UNCOLLAPSE_BUTTON_GROUP.label}
-        </Button>}}
+        </Button>}
 
-    <TDBReactCollapse isExpanded={showConfig}>
+    <TDBCollapse isExpanded={showConfig}>
             <Card border="light" className="shadow-sm">
                 <Card.Body>
                     <Row>
@@ -147,6 +147,6 @@ export const ViewPane = ({queryObj,setGraphConfig}) => {
                     </Row>
                 </Card.Body>
             </Card>
-        </TDBReactCollapse>
+        </TDBCollapse>
     </React.Fragment>
 }
