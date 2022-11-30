@@ -107,9 +107,9 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 !extracted.hasOwnProperty("@id") && 
                 formDataTemp.hasOwnProperty("@id")
             ) extracted["@id"] = formDataTemp["@id"]
-            //onSubmit(extracted)
+            onSubmit(extracted)
             console.log("Data submitted: ",  extracted)
-            //return extracted
+            return extracted
             //console.log("Data submitted: ",  JSON.stringify(extracted, null, 2))
         }
     }
