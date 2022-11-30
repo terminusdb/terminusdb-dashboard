@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb/terminusdb-react-table",
-  "version": "0.0.7",
+  "version": "5.0.0",
   "description": "Table for terminusdb",
   "main": "src/index",
   "module": "es6/index",
