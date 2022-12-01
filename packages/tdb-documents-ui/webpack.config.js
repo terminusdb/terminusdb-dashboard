@@ -68,7 +68,7 @@ module.exports = {
             }
           ]
         }
-      ],
+      ]},
       externals: {
         react: {
           root: 'React',
@@ -90,5 +90,4 @@ module.exports = {
         }
       },
       target: 'node'
-    }
 }
