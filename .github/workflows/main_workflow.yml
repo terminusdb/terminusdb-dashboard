@@ -14,10 +14,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
     - run: npm i
     - name: Build
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' }}
@@ -73,10 +73,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
     - run: npm i
     - name: Build local dashboard
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' || startsWith(github.ref, 'refs/tags/v') }}
@@ -105,10 +105,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
         registry-url: 'https://registry.npmjs.org'
     - name: Build packages
       run: npm i && npm run build --ws
