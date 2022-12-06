@@ -36,7 +36,8 @@ To release a new version, simply follow these steps:
 3. Commit these new package.json files
 4. Make a PR, make sure the tests pass and let someone else code-review and approve
 5. Merge the PR to main and wait for the tests to pass
-6. Tag the new release with `git tag vYOUR_VERSION_NUMBER` (for example: `git tag v5.0.0`)
+6. Tag the new release with `git tag vYOUR_VERSION_NUMBER` (for example: `git tag v5.0.0`) in you local machine
+   and push the tag in git `git push origin vYOUR_VERSION_NUMBER`
 7. The packages are now on npm
 How to use the terminusdb dashboard source code with your local terminusdb instance.
 
