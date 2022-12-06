@@ -268,6 +268,8 @@ GraphResultsViewer.prototype.initD3 = function(jqid) {
 	// Append graphic element to svg which are groups for graph elements
 	this.link_group = this.svg.append("g").classed("links", true);
 	this.node_group = this.svg.append("g").classed("nodes", true);
+
+	this.image_group = this.svg.append("g").classed("images", true);
 }
 
 GraphResultsViewer.prototype.zoomed = function() {
@@ -302,9 +304,6 @@ GraphResultsViewer.prototype.updateGraph = function(nodes, links) {
 
 	/*Create and place the "blocks" containing the circle and the text */
     var node_enter = this.node_elements.enter().append("g");
-	node_enter.attr("transform", function (d) { return "translate(" + d.x + ","+ d.y + ")" ;});
-
-	//node_enter. attr("y",  function(node){ return node.y})
 	
 	// enter and create new ones
 	node_enter.append("circle")
@@ -317,17 +316,6 @@ GraphResultsViewer.prototype.updateGraph = function(nodes, links) {
 		.on("mouseover", function(d){ d3.select(this).style("cursor", "pointer"); })
 		.on("mouseout", function(d){ d3.select(this).style("cursor", "default"); })
 		.on('click', follow_node_wrapper)
-
-		/*node_enter.append("text")
-		.attr("x",  function(node){ return node.x})
-		.attr("y",  function(node){ return node.y})
-		.append("tspan")
-
-
-		.text(function(node) { return self.getNodeIconUnicode(node)})*/
-		
-
-		
 
 	
 	// merge new and old nodes
@@ -386,14 +374,6 @@ GraphResultsViewer.prototype.updateGraph = function(nodes, links) {
     //if(el_enter) this.edgelabels = el_enter.merge(this.edgelabels)
 
     this.edgelabels = this.svg.selectAll(".edgelabel").data(links)
-	/*this.edgelabels.append('textPath')
-		//this link the test with the path created
-        .attr('xlink:href',function(d,i) {return '#edgepath'+i})
-        .style("pointer-events", "none")
-		.style("text-anchor","middle")
-		//.attr("startOffset","10%")
-		// this get the test to see in the link
-        .text(function(d,i){return self.getEdgeIconText(d)});*/
 
 	if(ep_tems) this.path_items = ep_tems.merge(this.path_items)		
 
@@ -473,61 +453,74 @@ GraphResultsViewer.prototype.updateSimulation = function(mode) {
 		}
 	}
 }
+
+
+GraphResultsViewer.prototype.getNodeId = function(id){
+	return id.replace("/","__")
+}
+
 //function(d) { return color(d.text); })
 GraphResultsViewer.prototype.styleNodeElements = function() {
 	//const nodeImg= this.getNodeImage({id:"Part/3020",radius:30,image:"https://cdn.rebrickable.com/media/parts/elements/4211395.jpg"})
 	var self = this;
 	if(this.node_elements){
 		this.node_elements.each(function(node){
-			var g = d3.select(this);
-			var sel = g.select("circle");
-			sel.select("title").remove();
-			sel.attr('r', self.getRadius(node));
-			sel.attr("stroke", "white")
-        	sel.attr("stroke-width", 3)
-			//sel.attr("opacity", 0.2)
-			sel.classed("highlighted", function(node) { return self.focusNodes.indexOf(node.id) != -1});
-			
-			
-
-			if(node.image){
-				sel.style("fill", "#fff")
-				sel.style("fill", function(node){return self.getNodeImage(node)})
-			}else{
-				g.append("text")
-				.attr("x",  function(node){ return node.x})
-				.attr("y",  function(node){ return node.y})
-				.append("tspan")
-				.text(function(node) { return self.getNodeIconUnicode(node)})
-			
-
-				sel.style("fill", self.getNodeColour(node));
-				sel.append("title")
-				.classed("terminus-gnode-title", true)
-				.text(self.getNodeText(node));
-				var txt = g.select("text");
-
-				txt.select("title").remove();
-				//to see a text in the right top corner
-				if(node.toptext)txt.append("tspan").text(node.toptext).attr("dy",-15)
-				txt.attr('text-anchor', 'middle')
-					//.attr('class','labelClassName')
-					.attr("title", self.getNodeText(node))
-					.attr('dominant-baseline', 'central')
-					.style('font-family', "'" + self.fontfam + "'")
-					.style('font-weight', self.getNodeIconWeight(node))
-					.style('font-size', self.getNodeIconSize(node))
-					.style("fill", self.getNodeIconColour(node))
-				//	.text(self.getNodeIconUnicode(node))//"\uf061")
-					.append("title")
-						.classed("terminus-gnode-title", true)
-						.text(self.getNodeText(node));
-			
-				}
+		var gNode = d3.select(this);
+		gNode.attr("id",self.getNodeId(node.id))
+		var sel = gNode.select("circle");
+		self.styleNode(gNode, sel,node,self)
 		});
 	}
 }
 
+GraphResultsViewer.prototype.styleNode = function (g,sel,node,self){
+	//sel.attr("id",node.id)
+	sel.select("title").remove();
+	
+	sel.attr('r', this.getRadius(node));
+	sel.attr("stroke", "white")
+	sel.attr("stroke-width", 3)
+		//sel.attr("opacity", 0.2)
+	sel.classed("highlighted", function(node) { return self.focusNodes.indexOf(node.id) != -1});
+	
+	if(node.image){
+		sel.style("fill", "#fff")
+		sel.style("fill", function(node){return self.getNodeImage(node)})
+	}else{	
+		g.select("text").remove();	
+		
+		g.append("text")
+		.attr("x",  function(node){ return node.x})
+		.attr("y",  function(node){ return node.y})
+		.append("tspan")
+		.text(function(node) { return self.getNodeIconUnicode(node)})
+		sel.style("fill", self.getNodeColour(node));
+
+	}	
+	//to be review
+		sel.append("title")
+		.classed("terminus-gnode-title", true)
+		.text(self.getNodeText(node));
+		var txt = g.select("text");
+
+		txt.select("title").remove();
+		//to see a text in the right top corner
+		if(node.toptext)txt.append("tspan").text(node.toptext).attr("dy",-15)
+		txt.attr('text-anchor', 'middle')
+			//.attr('class','labelClassName')
+			.attr("title", self.getNodeText(node))
+			.attr('dominant-baseline', 'central')
+			.style('font-family', "'" + self.fontfam + "'")
+			.style('font-weight', self.getNodeIconWeight(node))
+			.style('font-size', self.getNodeIconSize(node))
+			.style("fill", self.getNodeIconColour(node))
+		//	.text(self.getNodeIconUnicode(node))//"\uf061")
+			.append("title")
+				.classed("terminus-gnode-title", true)
+				.text(self.getNodeText(node));
+	
+		//}
+}
 
 GraphResultsViewer.prototype.styleLinkElements = function() {
 	var self = this;
@@ -567,19 +560,24 @@ GraphResultsViewer.prototype.styleTextElements = function() {
 
 GraphResultsViewer.prototype.getNodeImage = function (node){
 	const getHas = node.id.substring(node.id.indexOf("/")+1)
-	const imgId = `image__${getHas}` 
-	this.svg.append('svg:defs').selectAll("pattern")
+	const imgId = `image__${getHas}`
+	const pathId = `path__${getHas}` 
+
+	this.image_group.select(`#${pathId}`).remove()
+
+	const radius = this.getRadius(node)
+	this.image_group.append('svg:defs').attr("id",pathId).
+	selectAll("pattern")
 	.data([imgId])
 	.join("pattern")
-
 //	defs.append("svg:pattern")
 	.attr("id", imgId )
-    .attr("width", node.radius*2)
-    .attr("height", node.radius*2)
+    .attr("width", radius*2)
+    .attr("height", radius*2)
     .attr("patternUnits", "objectBoundingBox")
     .append("svg:image")
-	.attr("width", node.radius*2)
-    .attr("height", node.radius*2)
+	.attr("width", radius*2)
+    .attr("height",radius*2)
     .attr("xlink:href", node.image)
     .attr("x", 0)
     .attr("y", 0);
@@ -602,18 +600,8 @@ GraphResultsViewer.prototype.getEdgeArrow = function(edge) {
 		const markerHeight = markerBoxHeight / 2;
 
 		const arrowPoints = [[0, 0], [0, 7], [7, 3.5]];
-
-
-		/*.attr("viewBox", "0 -5 10 10")
-.attr("refX", function(d) { 
-   return force.nodes()[d.target].radius + 10;   // Add the marker's width               
-})
-.attr("refY", 0)
-.attr("markerWidth", 10)                         // markerWidth equals viewBox width
-.attr("markerHeight", 10)*/
-		//if(dir){ // "target": propValue,
 	
-			const id = `${edge.source}__${edge.target}__${edge.text}`
+		const id = `${edge.source}__${edge.target}__${edge.text}`
 			var col = this.getArrowColour(edge);
 			this.svg.append("svg:defs").selectAll("marker")
 				.data([id])
@@ -640,20 +628,30 @@ GraphResultsViewer.prototype.getEdgeArrow = function(edge) {
 
 GraphResultsViewer.prototype.nodeSelected = function(selected_node) {
 	var self = this;
-	if(this.selected_id == selected_node.id && this.selection_grows){
-		this.selection_grows = false;
-		this.styleNodeElements();
+	const previewSelected = this.selected_id
+	const previewNode = this.nodeSelectedObj 
+	
+	this.selected_id = selected_node.id
+	this.nodeSelectedObj = selected_node
+
+	if(previewSelected === selected_node.id ){//&& this.selection_grows){
+		this.selected_id = null
+	}else if(previewSelected){
+		//if preview selected
+		const gNodeP = this.node_group.select(`#${this.getNodeId(previewSelected)}`)
+		const gCircleP = gNodeP.select("circle")
+		this.styleNode(gNodeP,gCircleP,previewNode,this)
 	}
-	else {
-		this.selection_grows = true;
-		this.selected_id = selected_node.id;
-        this.styleNodeElements();
-        if(this.onClick) this.onClick(selected_node.id, selected_node)
+	//change the style of current clicked node
+	const gNode = this.node_group.select(`#${this.getNodeId(selected_node.id)}`)
+	const gCircle = gNode.select("circle")
+	this.styleNode(gNode,gCircle,selected_node,this)
+	if(this.onClick) this.onClick(selected_node.id, selected_node)
+   
 		//this.browser.nodeSelected(selected_node);
-		if(this.isFringe(selected_node)){
-			//this.browser.followNode(selected_node);
-		}
-	}
+	//if(this.isFringe(selected_node)){
+		//this.browser.followNode(selected_node);
+	//}
 }
 
 GraphResultsViewer.prototype.getScaleTransform = function(x, y, scale_factor){
@@ -787,7 +785,7 @@ GraphResultsViewer.prototype.setConfigOptions = function(config) {
  */
 GraphResultsViewer.prototype.getMultiplier = function(node) {
 	var mult = (node && node.size ? node.size : 1);
-	if(node.id == this.selected_id && this.selection_grows){
+	if(node.id == this.selected_id ){//&& this.selection_grows){
 		mult = mult * 2;
 	}
 	return mult;
