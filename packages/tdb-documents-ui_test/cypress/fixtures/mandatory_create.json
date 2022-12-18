@@ -1,0 +1,18 @@
+{
+	"@type": "Person",
+	"Birthday": "2022-08-15T12:59:46.000Z",
+	"PhoneNumber": 353912839283123140,
+	"Today": "2022-08-15T12:59:50.000Z",
+	"above18": true,
+	"age": 22,
+	"email": "rack@gmail.com",
+	"name": "John Rock",
+	"permanentAddress": {
+		"@type": "Address",
+		"AddressLine1": "somewhere in Europe",
+		"Country": "New Zeeland",
+		"City": "City",
+		"postalCode": "NZ29038"
+	},
+	"website": "rack@rocking.com"
+}

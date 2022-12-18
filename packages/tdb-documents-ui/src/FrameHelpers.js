@@ -209,7 +209,7 @@ export function getProperties (fullFrame, current, frame, uiFrame, mode, formDat
             //set properties and ui
             properties[item] = geoFrame.properties[item]
             propertiesUI[item] = geoFrame.propertiesUI[item]
-        } 
+        }  
         else if (frame[item] && isSetType(frame[item]) && isGeoJSONTypeSet(frame, mode)) { //geo json set
             let newGeoCollectionFrame=constructCollectionFrame(fullFrame, frame[item]["@class"])
             let geoCollectionFrame=makeGeoCollectionFrames(newGeoCollectionFrame, item, uiFrame, mode, formData)
