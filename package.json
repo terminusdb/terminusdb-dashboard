@@ -5,7 +5,7 @@
     "./packages/tdb-react-table",
     "./packages/tdb-react-components",
     "./packages/tdb-access-control-component",
-    "./packages/tdb-documents-ui",
+    "./packages/tdb-documents-ui_test",
     "./packages/tdb-dashboard"
   ]
 }

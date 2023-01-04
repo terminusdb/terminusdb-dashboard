@@ -1,0 +1,43 @@
+{
+	"@id": "UnorderedPerson/3ca7d7a9c64ca2bc8319d83bca14b71697528ebb8536024e3e1795cbd049acdf",
+	"@type": "UnorderedPerson",
+	"likes_color": [
+		"Green",
+		"Blue",
+		"Yellow",
+		"Red"
+	],
+	"lived_at": [
+		{	
+			"@type": "Address",
+			"AddressLine1": "anywhere",
+			"City": "FLorence", 
+			"Country": "Italy",
+			"postalCode": "IT-ED2"
+		},
+		{
+			"@type": "Address",
+			"AddressLine1": "somewhere",
+			"City": "Berlin", 
+			"Country": "Germany",
+			"postalCode": "GER02398"
+		},
+		{
+			"@type": "Address",
+			"AddressLine1": "EKM",
+			"City": "Kochi", 
+			"Country": "India",
+			"postalCode": "23434IN"
+		}
+	],
+	"nicknames": [
+		"Adam",
+		"Choo",
+		"Luca",
+		"Major"
+	],
+	"worked_as": [
+		"Jobs/33e3013112e6e76381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24",
+		"Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda"
+	]
+}

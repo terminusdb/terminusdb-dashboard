@@ -1,0 +1,19 @@
+{
+	"@id": "Person/72a8a2778bafbc4290f59ca851e0307c6918f7205207d93ac1b2a1f796a94587",
+	"@type": "Person",
+	"Birthday": "2022-08-15T12:59:46Z",
+	"website": "rack@rocker.com",
+	"PhoneNumber": 353912839283002,
+	"Today": "2022-08-15T12:59:50Z",
+	"above18": true,
+	"age": 22,
+	"email": "abcd@gmail.com",
+	"name": "John Rock",
+	"permanentAddress": {
+		"@type": "Address",
+		"AddressLine1": "An address in New Zeeland",
+		"Country": "New Zeeland",
+		"City": "City",
+		"postalCode": "NZ29038"
+	}
+}
