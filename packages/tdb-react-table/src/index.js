@@ -1,4 +1,5 @@
  /*WOQL Table*/
+ export {GraphqlTable} from './GraphqlTable';
  export {WOQLTable} from './WOQLTable';
  export {ControlledWOQLTable} from './ControlledTable';
  export {ControlledQueryHook} from './hook/ControlledQuery';

@@ -11,16 +11,16 @@ import { DefaultColumnFilter } from './ColumnFilters';
  * sort - no, local, remote
  */ 
 
-export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh})=>{
+export const ReactTableComponent = ({columns, data, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh})=>{
 
     console.log("COLUMS", JSON.stringify(columns,null,4))
 
     pagesizes = pagesizes || [5, 10, 20, 30, 40, 50]
-    let pager = view.config.pager()
+    let pager = "remote"//config.pager()
 
     rowCount = rowCount || data.length 
     
-    const startPageSize= view.config.pagesize() || 10
+    const startPageSize=  10
     const startPageNumber = pageNumber || 0
     let ut_config = {
         columns,
@@ -33,19 +33,11 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
         pageCount : pages || 1,
         initialState : {
             filters : filtersBy || [],
-            pageSize : view.config.pagesize() || 10,
+            pageSize : 10,
             pageIndex : pageNumber || 0,
-            sortBy : woql_to_order(orderBy),
+            //sortBy : orderBy,
         }
     }
-
-    /*const defaultColumn = React.useMemo(
-        () => ({
-          // Let's set up our default Filter UI
-          Filter: DefaultColumnFilter,
-        }),
-        []
-      )*/
 
     const {
         getTableProps,
@@ -73,6 +65,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
 
 
 
+    
     let rowCountStr = ""
     let total= ""
     if(pager){
@@ -85,19 +78,19 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
     } 
 
     useEffect(() => {
-        if(pager === "remote" && sortBy!== ut_config.initialState.sortBy){
-            let worder = order_to_woql(sortBy)
+        if(pager === "remote" && sortBy!== orderBy ){//ut_config.initialState.sortBy){
+            //let worder = order_to_woql(sortBy)
             //old method with woql
-            if(!setFilters){
-                setOrder(worder)
-                return 
-            }
+            //if(!setFilters){
+              //  setOrder(worder)
+               // return 
+            //}
             if(setOrder) setOrder(sortBy)
         }
     }, [sortBy])
 
     useEffect(() => {
-           console.log(filters)
+           //console.log(filters)
            if(pager === "remote" && filters!== ut_config.initialState.filters){
                 if(setFilters)setFilters(filters)
            }
@@ -135,8 +128,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
                                             : ''}
                                     </span>
                                 </div>
-                                <div className="mt-3">{setFilters && column.canFilter ? column.render("Filter") : ""}</div>
-                               
+                                <div className="mt-3">{setFilters && column.canFilter ? column.render("Filter") : ""}</div>                          
                                 </th>
                             ))}
                         </tr>
@@ -146,11 +138,11 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
                 {page.map((row, i) => {
                     prepareRow(row)
                     return (
-                        <tr {...row.getRowProps(getRowProps(row, view))} key={`page__${i}`} >
+                        <tr {...row.getRowProps(getRowProps(row, config))} key={`page__${i}`} >
                             {row.cells.map((cell,i) => {
                                 return <td key={`cell__${i}`} {...cell.getCellProps([
-                                    getColumnProps(cell.column, view, freewidth),
-                                    getCellProps(cell, view),
+                                    getColumnProps(cell.column, config, freewidth),
+                                    getCellProps(cell, config),
                                 ])}>
                                     {cell.render("Cell")}
                                 </td>
@@ -214,7 +206,7 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
 
 
 function getCellProps(cell, view){
-    let cs = {}
+   /* let cs = {}
     if(view.hasCellClick(cell.row.original, cell.column.id)){
         let onc = view.getCellClick(cell.row.original, cell.column.id)
         if(onc){
@@ -224,19 +216,17 @@ function getCellProps(cell, view){
             cs.style = { cursor: "pointer"}
         }
     }
-    return cs
+    return cs*/
+    return {}
 }
 
-function getRowProps(row, view){
+function getRowProps(row, config){
     let cs = {}
-    if(view.hasRowClick(row.original)){
-        let onc = view.getRowClick(row.original)
-        if(onc){
-            cs.onClick = function(){
-                onc(row)
-            }
-            cs.style = { cursor: "pointer"}
+    if(config.rowCLick){
+        cs.onClick = function(){
+            config.rowCLick(row.original)
         }
+        cs.style = { cursor: "pointer"}
     }
     return cs
 }
@@ -244,49 +234,19 @@ function getRowProps(row, view){
 
 function getColumnProps(column, view, freewidth){
     let cstyle = {}
-    if(freewidth){
+    /*if(freewidth){
         cstyle = view.getColumnDimensions(column.id)
-    }
-    else {
-        if(column.width){
+    }*/
+    if(column.width){
             cstyle.width = column.width
         }
-        if(column.maxWidth){
+    if(column.maxWidth){
             cstyle.maxWidth = column.maxWidth
         }
-        if(column.minWidth){
+     if(column.minWidth){
             cstyle.minWidth = column.minWidth
         }
-    }
     return {
         style: cstyle
     }
-}
-
-const order_to_woql = (lorder) => {
-    if(lorder.length == 0) return false
-    if(!Array.isArray(lorder)) return false
-    let orderarr = []
-    for(var i = 0; i<lorder.length; i++){
-        orderarr.push(lorder[i].id)
-        orderarr.push(lorder[i].desc ? "desc" : "asc")
-    }
-    return orderarr
-}
-
-const woql_to_order = (ob) => {
-    if(!ob) return []
-    let order = []
-    if(!Array.isArray(ob)) ob = [ob]
-    for(var i = 0; i<ob.length; i++){
-        if(ob[i] == "asc" || ob[i] == "desc"){
-
-        }
-        else {
-            let nub = {id: ob[i], desc: false}
-            if(i+1<ob.length && ob[i+1] == "desc") nub.desc=true
-            order.push(nub)
-        }
-    }
-    return order
 }

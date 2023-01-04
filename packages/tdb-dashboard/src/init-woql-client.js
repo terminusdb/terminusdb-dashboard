@@ -33,6 +33,8 @@ export const WOQLClientProvider = ({children, params}) => {
     const [branches, setBranches] = useState(false)
     const [chosenCommit,setChosenCommit]=useState({})
 
+    const [documentTablesConfig,setDocumentTablesConfig]=useState({})
+
 
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -154,6 +156,11 @@ export const WOQLClientProvider = ({children, params}) => {
 
     //get all the Document Classes (no abstract or subdocument)
     function getUpdatedDocumentClasses(woqlClient) {
+        // to be review I'm adding get table config here
+        woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/organizations/terminuscms/db/lego/tables').then(result=>{
+            setDocumentTablesConfig(result)
+        })
+
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
             let test=[]
@@ -355,6 +362,7 @@ export const WOQLClientProvider = ({children, params}) => {
     return (
         <WOQLContext.Provider
             value={{
+                documentTablesConfig,
                 saveSidebarState,
                 sidebarStateObj,
                 clientUser,

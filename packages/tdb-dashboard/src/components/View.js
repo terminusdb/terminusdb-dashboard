@@ -12,7 +12,8 @@ export const View = (props) => {
                 <Button {...NEW_PANE_CONFIG} 
                     onClick={() => {addQueryPane()}} 
                 >
-                   {NEW_PANE_CONFIG.icon} {NEW_PANE_CONFIG.label} 
+                     <i className={NEW_PANE_CONFIG.icon}/>
+                  {NEW_PANE_CONFIG.label} 
                 </Button>
                 <QueryPane id={props.id} queryObj={props.queryObj} name={props.name}/>                
           </div>

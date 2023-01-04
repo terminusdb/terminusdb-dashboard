@@ -87,3 +87,5 @@ return {line1: 'You have been invited',
 
 export const MEMBERS_TAB="Members"
 export const INVITATION_TAB="Invitations"
+
+export const CREATE_PATH = "__CREATE__DOC__"

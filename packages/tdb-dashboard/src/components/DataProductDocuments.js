@@ -13,14 +13,22 @@ import { executeQueryHook } from "../hooks/executeQueryHook"
 import {handleCreate} from "./documents.utils"
 import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
 import {Loading} from "./Loading"
+import {NEW_DOC} from "../routing/constants"
+
+import {useParams, useNavigate} from "react-router-dom"
 
 export const DataProductDocuments = () => {
+
+   // const {dataProduct,organization} = useParams()
+
     const {
         woqlClient, 
         documentClasses,
         saveSidebarState,
         sidebarStateObj,
     } = WOQLClientObj()
+
+    const navigate = useNavigate()
     
     if(!woqlClient) return ""
     //you can  get the current dataproduct from the url or from woqlclient
@@ -181,6 +189,10 @@ export const DocumentExplorerDocuments = () => {
     })
 
     const DocumentMenu = ({item}) => { 
+        function newDocHandler (doctype){
+            navigate(`${doctype}/${NEW_DOC}`)
+        }
+
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
             <ButtonGroup>
                 <Button className="pro-item-content btn-sm" 
@@ -194,7 +206,7 @@ export const DocumentExplorerDocuments = () => {
                     className="btn-create-document pro-item-content btn-sm" 
                     variant="dark" 
                     title={`Add a new ${item["@id"]}`}
-                    onClick={(e) => handleCreate(item["@id"], documentObject, setDocumentObject)}
+                    onClick={(e) => newDocHandler(item["@id"])}//handleCreate(item["@id"], documentObject, setDocumentObject)}
                 > 
                         <Badge variant="dark">
                             <BiPlus style={{fontSize: "14px"}} color="#fff" />
