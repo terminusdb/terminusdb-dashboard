@@ -1,0 +1,10 @@
+{
+	"@id": "Guy/4489199036b83dbf79a6e7527a1594fbd416d11b9dde2f8a67fe6fa495dae433",
+	"@type": "Guy",
+	"favorite_group": "Art/Charcoal%20Art%20Group",
+	"member_of": [
+	  "Art/Pastel%20Art%20Group",
+	  "Dance/Dance%20Everyday"
+	],
+	"second_favorite_group": "Dance/Dance%20Everyday"
+}

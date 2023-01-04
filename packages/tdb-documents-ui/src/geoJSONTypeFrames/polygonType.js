@@ -22,7 +22,7 @@ export function polygonType (frame, item, uiFrame, mode, formData) {
         }
     }
 
-    // get filled values 
+    // get filled values  
     if(mode === EDIT) {
         let filled=getPolygonTypeFilledValues(formData, item)
         polygonLayout["items"]=filled

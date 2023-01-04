@@ -1,0 +1,20 @@
+
+
+div.editor {
+    height: 500px;
+}
+
+.demo-css {
+    background: red !important;
+    padding: 20px;
+}
+
+
+.tdb__input > input, .form-control{
+    /*color: #000 !important;*/
+}
+
+.offcanvas { 
+    width: 700px !important;
+}
+
