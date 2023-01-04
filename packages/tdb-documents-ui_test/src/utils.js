@@ -254,6 +254,7 @@ export const extractFrames = (frame, item, metadata) => {
 /**
  * 
  * @param {*} frame frame of interest
+<<<<<<< HEAD
  * @param {*} property field name
  * @returns true if property has been defined in @metadata and is set to render as markdown
  */
@@ -273,6 +274,8 @@ export function checkIfRenderedAsMarkdown(frame, property, diffPatch) {
 /**
  * 
  * @param {*} frame frame of interest
+=======
+>>>>>>> 016fb4099452768cf2c4aad1c25049196510c028
  * @returns metadata json type
  */
  export function getOrderFromMetaData(frame) {

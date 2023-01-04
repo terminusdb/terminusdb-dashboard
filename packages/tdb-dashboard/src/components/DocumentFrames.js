@@ -175,15 +175,15 @@ export const DocumentFrames = () => {
                         </span>
                         <ToggleJsonAndFormControl onClick={handleClick} documentObjectWithFrames={documentObjectWithFrames}/>
                     </Card.Header>
-                    <Card.Body className="text-break">
+                      <Card.Body className="text-break">
                         {documentObject.message && documentObject.message}
-                        {documentObjectWithFrames.frames &&
+                        {/*documentObjectWithFrames.frames &&
                             documentObjectWithFrames.frames["@documentation"] &&
                             documentObjectWithFrames.frames["@documentation"]["@comment"] &&
                             <p className="text-muted fw-bold ml-3">
                             {documentObjectWithFrames.frames["@documentation"]["@comment"]}
                         </p>
-                        }
+                        */}
                         {/*(currentView==FORM_VIEW) && documentObjectWithFrames.frames && <FrameViewer/> */}
 
                         {(currentView==FORM_VIEW) && documentObjectWithFrames.frames &&

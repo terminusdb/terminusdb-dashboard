@@ -35,7 +35,11 @@ module.exports = (env, argv) => ({
   resolve: {
     alias: {
       "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js'),
+<<<<<<< HEAD
       //"@terminusdb/terminusdb-documents-ui": path.resolve('../tdb-documents-ui_test/src/index.js')            
+=======
+      "@terminusdb/terminusdb-documents-ui": path.resolve('../tdb-documents-ui_test/src/index.js')      
+>>>>>>> 016fb4099452768cf2c4aad1c25049196510c028
     },
     fallback: { "https": false },
     extensions: ['.js', '.jsx', '.json'],

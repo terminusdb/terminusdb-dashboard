@@ -135,7 +135,8 @@ export const DocumentExplorerDocuments = () => {
     const {
         saveSidebarState,
         sidebarStateObj, 
-        documentClasses
+        perDocumentCount,
+        documentClasses, 
     } = WOQLClientObj()
 
     //console.log("documentClasses", documentClasses)
@@ -178,7 +179,7 @@ export const DocumentExplorerDocuments = () => {
     useEffect(() => {
         // disable document clicks if role - info reader
         if(!actionControl.write && !actionControl.read) setDisabled(true)
-    })
+    }) 
 
     const DocumentMenu = ({item}) => { 
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
