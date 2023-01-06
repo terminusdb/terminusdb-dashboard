@@ -31,10 +31,6 @@
     "url": "https://github.com/terminusdb/terminusdb-documents-ui/issues"
   },
   "homepage": "https://github.com/terminusdb/terminusdb-documents-ui#readme",
-  "peerDependencies": {
-    "react": "^16.10.3",
-    "react-dom": "^16.10.3"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -46,6 +42,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "peerDependencies": { 
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -97,12 +97,10 @@
     "leaflet-arrowheads": "^1.4.0",
     "leaflet-geometryutil": "^0.10.0",
     "prismjs": "^1.28.0",
-    "react": "^16.10.3",
     "react-bootstrap": "^2.1.2",
     "react-bootstrap-typeahead": "^6.0.0-alpha.9",
     "react-codemirror2": "^7.2.1",
     "react-diff-viewer": "^3.1.1",
-    "react-dom": "^16.10.3",
     "react-icons": "^4.3.1",
     "react-json-editor-ajrm": "^2.5.13",
     "react-jsonschema-form": "^1.8.1",
