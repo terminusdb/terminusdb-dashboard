@@ -6,7 +6,9 @@ import {BiCode, BiBookReader} from "react-icons/bi"
 import {MdBubbleChart} from "react-icons/md"
 import {SiGithubactions} from "react-icons/si"
 import {BsBookmarkPlus} from "react-icons/bs"
-import {DATA_PRODUCTS,PRODUCT_EXPLORER,PRODUCT_MODELS, PRODUCT_MANAGE, DOCUMENT_EXPLORER, FEEDBACK, EXAMPLES_PRODUCTS} from "../routing/constants"
+import * as PATH from "../routing/constants"
+import {GrGraphQl} from "react-icons/gr"
+import {BiGitPullRequest} from "react-icons/bi"
 
 //User Messages
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusX Cloud ... "
@@ -34,44 +36,56 @@ export const IconBarConfig = {
     dataProductView: {
         title: "Data Products",
         key:"data_products",
-        path: DATA_PRODUCTS,
+        path: PATH.DATA_PRODUCTS,
         icon: <AiOutlineDatabase size={24}/>
     },
     dataProductExplorer: {
         title: "Data Product Explorer",
         key: "data_products_explorer",
-        path: PRODUCT_EXPLORER,
+        path: PATH.PRODUCT_EXPLORER,
         icon: <BiCode size={24}/>
     },
     dataProductModal:{
         title: "Data Product Model",
         key: "data_products_model",
-        path: PRODUCT_MODELS,
+        path: PATH.PRODUCT_MODELS,
         icon: <MdBubbleChart size={24}/>
     },
     dataProductManage: {
         title: "Manage Data Product",
         key: "manage_data_product",
-        path: PRODUCT_MANAGE,
+        path: PATH.PRODUCT_MANAGE,
         icon: <SiGithubactions size={24}/>
     },
     documentExplorer: {
         title: "Document Explorer",
         key: "document_explorer",
-        path: DOCUMENT_EXPLORER,
+        path: PATH.DOCUMENT_EXPLORER,
         icon: <BsFileEarmarkCheck size={24}/>
     },
     feedback: {
         title: "Feedback",
         key:"feedback",
-        path: FEEDBACK,
+        path: PATH.FEEDBACK,
         icon: <AiOutlineMail size={24}/>
     },
     tutorials: {
         title: "Example Data Products",
         key: "example_data_products",
-        path: EXAMPLES_PRODUCTS,
+        path: PATH.EXAMPLES_PRODUCTS,
         icon: <BsBookmarkPlus size={24}/>
+    },
+    graphiql :{
+        title: "Graphiql interface",
+        key: "graphiql_interface",
+        path: PATH.GRAPHIQL,
+        icon: <GrGraphQl size={24}/>
+    },
+    changes :{
+        title: "Data Products Change Requests",
+        key: "data_product_changes",
+        path: PATH.CHANGE_REQUESTS,
+        icon: <BiGitPullRequest size={24}/>
     }
 }
 
@@ -445,3 +459,34 @@ export const DOCUMENT_PREFIX= {
     "@schema": "terminusdb:///schema#",
     "@type": "@context"
 }
+
+export const DIFFS_PER_PAGE_LIMIT=5
+
+// CR statuses
+export const OPEN="Open"
+export const MERGED="Merged"
+export const SUBMITTED="Submitted"
+export const REJECTED="Rejected"
+
+// CR actions
+export const COMMENT="Comment"
+export const APPROVE="Approve"
+export const REJECT="Reject"
+
+// Document types
+export const THEME="Theme"
+export const LEGO_SET="LegoSet"
+
+// tabs 
+export const DIFFS="Diffs"
+export const MESSAGES="Messages"
+
+// consts
+export const TRACKING_BRANCH="tracking_branch"
+
+// actions 
+export const CREATE="Create"
+export const EDIT="Edit"
+export const VIEW="View"
+export const DELETE="Delete"
+export const VIEW_LIST="List"

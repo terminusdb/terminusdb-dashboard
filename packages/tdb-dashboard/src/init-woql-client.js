@@ -35,6 +35,9 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const [documentTablesConfig,setDocumentTablesConfig]=useState({})
 
+    const [currentCRObject, setCurrentCRObject]=useState(false)
+    const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
+    const [currentChangeRequest,setCurrentChangeRequest] = useState(null)
 
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -116,7 +119,8 @@ export const WOQLClientProvider = ({children, params}) => {
                  const clientAccessControl = new AccessControlDashboard(access)
 
                  if(opts.connection_type !== "LOCAL"){
-                   await clientAccessControl.callGetRolesList()
+                   const rolesList = await clientAccessControl.callGetRolesList()
+                   hasRebaseRole(rolesList)
                  }
                 
                  if(defOrg){
@@ -157,9 +161,9 @@ export const WOQLClientProvider = ({children, params}) => {
     //get all the Document Classes (no abstract or subdocument)
     function getUpdatedDocumentClasses(woqlClient) {
         // to be review I'm adding get table config here
-        woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/organizations/terminuscms/db/lego/tables').then(result=>{
+       /*woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/organizations/terminuscms/db/lego/tables').then(result=>{
             setDocumentTablesConfig(result)
-        })
+        })*/
 
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
@@ -359,9 +363,26 @@ export const WOQLClientProvider = ({children, params}) => {
         sidebarStateObj[name]=value
     }
 
+    const hasRebaseRole=(teamUserRoles)=>{
+        try{
+            const actions = teamUserRoles.capability[0].role[0].action
+            if(actions.find(element=>element==="rebase")){
+                setTeamUserRoleMerge(true)
+            }
+        }catch(err){
+            console.log(err)
+        }
+
+    }
+
     return (
         <WOQLContext.Provider
             value={{
+                currentChangeRequest,
+                setCurrentChangeRequest,
+                userHasMergeRole,
+                currentCRObject, 
+                setCurrentCRObject,
                 documentTablesConfig,
                 saveSidebarState,
                 sidebarStateObj,

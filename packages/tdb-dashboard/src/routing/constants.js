@@ -19,3 +19,5 @@ export const CHANGE_REQUESTS = "change_requests"
 export const NEW_DOC = "___NEW_DOC___"
 export const EDIT_DOC = "___EDIT_DOC___"
 export const MEMBERS = "members"
+
+export const GRAPHIQL = "graphiql"

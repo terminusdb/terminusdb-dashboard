@@ -6,7 +6,7 @@ import {ProductsExplorer} from "./pages/ProductsExplorer"
 import * as PATH from "./routing/constants"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
-import { DocumentList } from "./pages/DocumentsList"
+//import { DocumentList } from "./pages/DocumentsList"
 import {DocumentsList01} from  "./pages/DocumentsList01"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
@@ -26,6 +26,7 @@ import {Home} from "./pages/Home"
 import {ChangeRequests} from "./pages/ChangeRequests"
 import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
+import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 
 export function App (props){
     let navigate = useNavigate();
@@ -92,12 +93,12 @@ function getRoutes(clientUser,isAdmin){
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
             <Route path=":dataProduct" >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
-                
-               
+                <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
                 <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
                     <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
                 </Route>
+                             
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">
@@ -117,6 +118,14 @@ function getRoutes(clientUser,isAdmin){
         <Route path="*" element={<div>Not Found 404 !!!!</div >} />
     </React.Fragment>
 }
+
+
+/*
+\ <Route path={PATH.CHANGE_REQUESTS} >
+                    <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
+                    <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
+                </Route>
+*/
 
 /* <Route path={"test"} element={<PrivateRoute component={DocumentList}/>} />    */
 /*
