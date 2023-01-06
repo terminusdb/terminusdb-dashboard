@@ -8,8 +8,9 @@ import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-comp
 import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
+import { getCurrentDocumentInfo } from './hooks/DocumentControl'
 export const WOQLContext = React.createContext()
-export const WOQLClientObj = () => useContext(WOQLContext)
+export const WOQLClientObj = () => useContext(WOQLContext) 
 
 export const WOQLClientProvider = ({children, params}) => {
     //the client user can be the local user or the auth0 user in terminusX
@@ -24,7 +25,8 @@ export const WOQLClientProvider = ({children, params}) => {
     const [loadingServer, setLoadingServer] = useState(false)
     const [connectionError, setError] = useState(false)
 
-   // const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
+    // to control document interface chosen document
+    //const [currentDocument, setCurrentDocument] = useState(false) 
     const [branchesReload,setBranchReload] =useState(0)
     const [branch, setBranch] = useState("main")
     const [ref, setRef] = useState(false)

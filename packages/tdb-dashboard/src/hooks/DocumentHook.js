@@ -1,18 +1,26 @@
 import React, {useState,useEffect} from "react";
-import * as actions from "../components/constants"
-import {extractID} from "../components/utils";
+import * as CONST from "../components/constants"
+import { useNavigate, useParams } from "react-router-dom";
 
-// create a new document
-export function CreateDocumentHook(client, document, mode, setLoading, navigate, setErrorMsg) {
+/**
+ * Create a new document
+ * @param {*} client TerminusDB Client
+ * @param {*} document document JSON
+ * @param {*} setLoading constant for loading
+ * @param {*} setErrorMsg constant to store error message
+ */
+export function CreateDocumentHook(client, document, setLoading, setErrorMsg) {
     const [result, setResult] = useState(false)
+    const {organization, dataProduct, type}=useParams()
+    const navigate = useNavigate()
  
     async function addDocument() {
         try{
             setLoading(true)
             const res = await client.addDocument(document, null, client.db())
-            let type=document["@type"]
+            //let type=document["@type"]
             setResult(res)
-            if(navigate) navigate(`/documents/${type}`)
+            navigate(`/${organization}/${dataProduct}/documents/${type}`)
             setLoading(false)
         }
         catch(err){ 
@@ -22,7 +30,7 @@ export function CreateDocumentHook(client, document, mode, setLoading, navigate,
     }
 
     useEffect(() => {
-        if (Object.keys(document).length && mode === actions.CREATE) addDocument()
+        if (Object.keys(document).length) addDocument()
     }, [document])
 
     return result
@@ -30,8 +38,10 @@ export function CreateDocumentHook(client, document, mode, setLoading, navigate,
 
 
 // delete documents
-export function DeleteDocumentHook(client, documentId, type, mode, navigate, updated, setLoading, setErrorMsg) {
+export function DeleteDocumentHook(client, documentId, type, clickedDelete, setLoading, setErrorMsg) {
     const [result, setResult] = useState(false)
+    const {organization, dataProduct}=useParams()
+    const navigate=useNavigate()
 
     async function deleteDocument() {
         try{
@@ -40,7 +50,7 @@ export function DeleteDocumentHook(client, documentId, type, mode, navigate, upd
             params['id'] = documentId
             let commitMsg=`Deleting document ${documentId}` 
             const res = await client.deleteDocument(params, client.db(), commitMsg)
-            if(navigate) navigate(`/documents/${type}`)
+            navigate(`/${organization}/${dataProduct}/documents/${type}`)
             setLoading(false)
         }
         catch(err){
@@ -50,20 +60,26 @@ export function DeleteDocumentHook(client, documentId, type, mode, navigate, upd
     }
 
     useEffect(() => {
-        if (documentId && mode === actions.DELETE) deleteDocument()
-    }, [documentId, updated])
+        // delete doc only if user has clicked on delete document 
+        if (documentId && clickedDelete) deleteDocument()
+    }, [documentId, clickedDelete])
 
     return result
 }
 
-export function GetDocumentHook(client, documentId, mode, setData, updated, setErrorMsg){// setLoading, setSuccessMsg, setErrorMsg) {
+/**
+ * View a document
+ * @param {*} client TerminusDB Client
+ * @param {*} documentID documentID to be viewed 
+ * @param {*} setData constant to store document JSON
+ * @param {*} setLoading constant for loading
+ * @param {*} setErrorMsg constant to store error message
+ */
+export function GetDocumentHook(client, documentId, setData, setLoading, setErrorMsg){// setLoading, setSuccessMsg, setErrorMsg) {
         const [result, setResult] = useState(false)
-        const [loading, setLoading] = useState(false)
-        const [error, setError] = useState(false)
     
         async function getDocument() {
             try{
-                console.log("result", client, documentId)
                 let params={}
                 params['id']=documentId
                 if(setLoading) setLoading(true)
@@ -81,16 +97,23 @@ export function GetDocumentHook(client, documentId, mode, setData, updated, setE
     
 
         useEffect(() => {
-            if (documentId && updated && mode === actions.VIEW) getDocument()
-        }, [documentId, updated])
+            if (documentId) getDocument()
+        }, [documentId])
     
         return result
 }
 
 
-// edit documents
-export function EditDocumentHook(client, extractedUpdate, mode, setLoading, setUpdated, setView) {
+/**
+ * Edit a document
+ * @param {*} client TerminusDB Client
+ * @param {*} extractedUpdate extracted data from Form
+ * @param {*} setLoading constant for loading
+ * @param {*} setErrorMsg constant to store error message
+ */
+export function EditDocumentHook(client, extractedUpdate, setLoading, setErrorMsg) {
     const [result, setResult] = useState(false)
+    const navigate=useNavigate()
 
     async function updateDocument() {
         try{
@@ -102,23 +125,55 @@ export function EditDocumentHook(client, extractedUpdate, mode, setLoading, setU
             setLoading(true)
             const res = await client.updateDocument(update, params, client.db(), commitMsg)
             setLoading(false)
-            if(setView) setView("View")
-            // use updated constant to refresh updated view in UI 
-            if(setUpdated) setUpdated(Date.now()) 
+            navigate(-1)
         }
         catch(err){
-           //setErrorMsg(err.message)
-           //setLoading(false)
-           console.log("err.message", err.message)
+           setErrorMsg(err.message)
+           setLoading(false)
        }
     }
 
     useEffect(() => {
-        if (extractedUpdate && extractedUpdate.hasOwnProperty("@id") && mode === actions.EDIT) updateDocument()
+        if (extractedUpdate) updateDocument()
     }, [extractedUpdate])
 
     return result
 }
+
+
+/**
+ * 
+ * @param {*} client TerminusDB Client
+ * @param {*} branch branch to get document from
+ * @param {*} documentID documentID clicked from diff accordians
+ * @param {*} setValue Constant to set document JSON
+ * @param {*} setError Constant to catch error 
+ * @returns An array of documents from tracking branch
+ */
+export function GetDocumentByBranches(client, branch, documentID, setValue, setError, refresh){
+    const [result, setResult] = useState(false)
+
+    async function getDocument() {
+        try{
+            const clientCopy = client.copy()
+            clientCopy.checkout(branch) 
+            let value = await clientCopy.getDocument({id: documentID})
+            if(setValue) setValue(value)         
+        }
+        catch(err){
+           if(setError) setError(err.message)
+           if(setValue) setValue(false)
+       }
+    }
+
+    useEffect(() => {
+        if (documentID && branch && refresh) getDocument()
+    }, [documentID, branch, refresh])
+
+    return result
+}
+
+
 
 /**
  * 
@@ -151,82 +206,3 @@ export function GetDiffList(woqlClient, changeRequestID, setError){
 
     return result
 }
-
-
-/**
- * 
- * @param {*} client TerminusDB Client
- * @param {*} branch branch to get document from
- * @param {*} documentID documentID clicked from diff accordians
- * @param {*} setValue Constant to set document JSON
- * @param {*} setError Constant to catch error 
- * @returns An array of documents from tracking branch
- */
-export function GetDocumentByBranches(client, branch, documentID, setValue, setError, refresh){
-    const [result, setResult] = useState(false)
-
-    async function getDocument() {
-        try{
-            const clientCopy = client.copy()
-            clientCopy.checkout(branch) 
-            let value = await clientCopy.getDocument({id: documentID})
-            if(setValue) setValue(value)
-            
-        }
-        catch(err){
-           if(setError) setError(err.message)
-           if(setValue) setValue(false)
-       }
-    }
-
-    useEffect(() => {
-        if (documentID && branch && refresh) getDocument()
-    }, [documentID, branch, refresh])
-
-    return result
-}
-
-
-/**
- * 
- * @param {*} client - TerminusDB Client 
- * @param {*} documentName - name of document 
- * @param {*} type - type of document
- * @param {*} setData - function to get results 
- * @param {*} setLoading - loading function
- * @param {*} setErrorMsg - error function 
- * @returns document details matching name of document
- */ 
-export function GetDocumentByNameForWebsiteHook(client, documentName, type, setData, setLoading, setErrorMsg) {
-    const [result, setResult] = useState(false)
-    
-    async function getDocument() {
-        try{
-            const queryTemplate = {"name": documentName, "@type": type}
-            const params = {
-                "as_list":true,
-                //id: "LegoSet/0042ce33085eef3e9a9c2f57423ffba1da63e67f0bc435388a52aa0fb70962c2"
-                query:queryTemplate
-            }
-            if(setLoading) setLoading(true)
-            const res = await client.getDocument(params)
-            if(setData) setData(res)
-            setResult(res)
-            if(setLoading) setLoading(false)
-            return res
-        }
-        catch(err){
-            if(setLoading) setLoading(false)
-            if(setErrorMsg) setErrorMsg(err.message)
-        }
-    }
-
-    useEffect(() => {
-        if (client && documentName) getDocument()
-    }, [client, documentName])
-
-    return result
-
-}
-
-

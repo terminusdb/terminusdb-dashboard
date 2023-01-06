@@ -27,6 +27,7 @@ import {ChangeRequests} from "./pages/ChangeRequests"
 import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
 import {GraphIqlEditor} from "./pages/GraphIqlEditor"
+import {PageNotFound} from "./pages/PageNotFound"
 
 export function App (props){
     let navigate = useNavigate();
@@ -98,7 +99,7 @@ function getRoutes(clientUser,isAdmin){
                     <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
                     <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
                 </Route>
-                             
+
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">
@@ -110,12 +111,13 @@ function getRoutes(clientUser,isAdmin){
                             </Route> 
                     </Route>
                 </Route>
+
                 <Route path={PATH.PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
                 <Route path={PATH.PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />                    
             </Route>
         </Route>
                  
-        <Route path="*" element={<div>Not Found 404 !!!!</div >} />
+        <Route path="*" element={<PageNotFound/>} />
     </React.Fragment>
 }
 

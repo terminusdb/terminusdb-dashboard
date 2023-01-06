@@ -7,5 +7,8 @@
     "./packages/tdb-access-control-component",
     "./packages/tdb-documents-ui_test",
     "./packages/tdb-dashboard"
-  ]
+  ],
+  "dependencies": {
+    "jsonlint-mod": "^1.7.6"
+  }
 }

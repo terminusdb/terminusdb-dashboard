@@ -14,7 +14,6 @@ import {handleCreate} from "./documents.utils"
 import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
-
 import {useParams, useNavigate} from "react-router-dom"
 
 export const DataProductDocuments = () => {
@@ -190,8 +189,15 @@ export const DocumentExplorerDocuments = () => {
     }) 
 
     const DocumentMenu = ({item}) => { 
-        function newDocHandler (doctype){
-            navigate(`${doctype}/${NEW_DOC}`)
+
+        const navigate = useNavigate() 
+
+        function newDocHandler (docType){
+            navigate(`${docType}/${NEW_DOC}`) 
+        }
+
+        function handleDocumentClick(docType) {
+            navigate(`${docType}`)
         }
 
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
@@ -199,7 +205,7 @@ export const DocumentExplorerDocuments = () => {
                 <Button className="pro-item-content btn-sm" 
                     variant="dark" 
                     title={`View documents of type ${item["@id"]}`}
-                    onClick={(e) => handleClassClick(item["@id"])}
+                    onClick={(e) => handleDocumentClick(item["@id"])}
                     disabled={disabled}>
                         <span className="text-gray">{item["@id"]}</span>
                 </Button>
