@@ -120,6 +120,7 @@ export const copyToClipboard = (str) => {
     document.body.removeChild(el);
 }
 
+
 export function trimWOQL (str) {
     let check = "WOQL."
     if(str.includes(check)) {

@@ -27,12 +27,23 @@ body{
 
 
 
-/* ---------- css for cowduck image with clouds ---------- */
-img.cow_duck_image {
-  position: absolute;
-  top:0;
-  left:0
+/* ---------- css for cowduck image 404 ---------- */
+
+.tdb__page__not__found__text {
+  font-family: montserrat,sans-serif;
 }
+ 
+div.tdb__page__not__found__heading {
+  font-size: 146px;
+  font-weight: 700;
+  margin: 0;
+}
+
+img.cowduck__border {
+  /*margin: 20px;*/
+}
+
+
 /* ---------- css for cowduck image with clouds ---------- */
 
 img.user-avatar {
@@ -611,8 +622,8 @@ input {
 
 /* ---------- feedback form ---------- */
 .cowduck-feedback-avatar{
-  height: 10rem !important;
-  width: 10rem !important;
+  height: 13rem !important;
+  width: 13rem !important;
   min-height: 10rem !important;
   min-width: 10rem !important;
   display: flex;
@@ -678,9 +689,12 @@ input {
 }
 
 .CodeMirror {
-  height: auto !important;
   min-height: 400px !important;/*150px !important;*/
-  height: 400px !important;
+  height: auto !important;
+}
+
+.CodeMirror-scroll {
+  min-height: 400px !important;
 }
 
 pre.CodeMirror-line  > span > span.cm-string {
@@ -950,5 +964,10 @@ pre.CodeMirror-line  > span > span.cm-string {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 200px;
+}
+
+#json_type_field-warning-box svg {
+  height: 15px;
+  width: 15px;
 }
 

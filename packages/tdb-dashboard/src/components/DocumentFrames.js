@@ -203,7 +203,7 @@ export const DocumentFrames = () => {
                             />
 
                         }
-
+ 
                         {(currentView==JSON_VIEW) &&  documentObjectWithFrames.frames && <JsonFrameViewer/>
                         }
                     </Card.Body>

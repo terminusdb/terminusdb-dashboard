@@ -28,7 +28,7 @@ export const Loading = (props) => {
         </Row>
     }
 
-    return <div className="loading-parent">
+    return <div className="loading-parent w-100">
         <Container className="loading-bar-align justify-content-center">
             <LoadingBar message={props.message} type={props.type}/>
         </Container>

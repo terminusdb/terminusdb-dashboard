@@ -245,7 +245,7 @@ export const DocumentView = () => {
                                     <h6>Documents of type - <strong className="text-success">{documentObjectWithFrames.type}</strong></h6>
                                 </Card.Header>
                                 <Card.Body>
-                                    <WOQLTable
+                                    <WOQLTable 
                                         result={extractedResults}
                                         freewidth={true}
                                         view={(tableConfig ? tableConfig.json() : {})}

@@ -7,7 +7,7 @@ import { JSON_VIEW, FORM_VIEW } from "./constants"
 
 export const ToggleJsonAndFormControl = ({onClick}) => {
 
-    return <ButtonGroup aria-label="json_form_toggle" className="mr-2 text-nowrap float-right">
+    return <ButtonGroup aria-label="json_form_toggle" className=" ms-auto text-nowrap float-right">
         <Button variant="light"  type="button" title="Form View" onClick={(e) => onClick(FORM_VIEW)} className="btn-sm btn d-flex text-dark">
             <BiTable className="m-1"/>
             FORM

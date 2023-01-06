@@ -26,6 +26,7 @@ import {Home} from "./pages/Home"
 import {ChangeRequests} from "./pages/ChangeRequests"
 import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
+import {PageNotFound} from "./pages/PageNotFound"
 
 export function App (props){
     let navigate = useNavigate();
@@ -88,11 +89,11 @@ function getRoutes(clientUser,isAdmin){
             <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
             <Route path = {PATH.PROFILE} element = {<PrivateRoute component={Profile}/>} />  
            {isAdmin &&  <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>}
-           {!isAdmin &&  <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}
+           {!isAdmin &&  <Route path="administrator" element={<PageNotFound/>}/>} 
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
             <Route path=":dataProduct" >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
-                
+                 
                
                 <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
@@ -114,7 +115,7 @@ function getRoutes(clientUser,isAdmin){
             </Route>
         </Route>
                  
-        <Route path="*" element={<div>Not Found 404 !!!!</div >} />
+        <Route path="*" element={<PageNotFound/>} />
     </React.Fragment>
 }
 

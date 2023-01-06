@@ -16,6 +16,6 @@ export const PROFILE = "profile"
 export const TEAM_MEMBERS = "members"
 
 export const CHANGE_REQUESTS = "change_requests"
-export const NEW_DOC = "___NEW_DOC___"
-export const EDIT_DOC = "___EDIT_DOC___"
+export const NEW_DOC = "_CREATE_"
+export const EDIT_DOC = "_EDIT_"
 export const MEMBERS = "members"

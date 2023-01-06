@@ -345,7 +345,9 @@ export const NEW_OBJECT = "NEW_OBJECT"
 
 export const CREATE_DOCUMENT = "Create"
 export const EDIT_DOCUMENT = "Edit"
+export const UPDATE_DOCUMENT = "Update"
 export const VIEW_DOCUMENT = "View"
+export const DELETE_DOCUMENT = "Delete"
 export const GET_FRAMES_DOCUMENT = "Frames"
 
 // GRAPH_TYPES
