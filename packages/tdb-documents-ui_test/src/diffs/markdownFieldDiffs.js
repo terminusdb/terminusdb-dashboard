@@ -10,7 +10,7 @@ function getMDContent(name, oldValue, newValue, css) {
             <ReactDiffViewer 
                 oldValue={oldValue} 
                 newValue={newValue} 
-                useDarkTheme={true}
+                useDarkTheme={true} 
                 linesOffset={0}
                 showDiffOnly={true}
                 styles={DIFFCONST.JSON_DIFF_STYLES}
@@ -32,8 +32,8 @@ export function getMarkdownFieldDiffs(item, oldValue, newValue) {
 
     }
 
-    originalUIFrame["ui:diff"]=getOriginalMD
-    changedUIFrame["ui:diff"]=getChangedMD
+    originalUIFrame[DIFF]=getOriginalMD
+    changedUIFrame[DIFF]=getChangedMD
 
     return {originalUIFrame, changedUIFrame}
 }

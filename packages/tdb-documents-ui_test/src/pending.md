@@ -1,7 +1,8 @@
 - add language support for enums 
 
-- finish  @documentation to choice sub documents - fix legend & documentation 
-- finish one ofs
+- finish  @documentation to choice sub documents - fix legend & documentation ✅ 
+- finish  @documentation to choice documents - fix legend & documentation
+- finish one ofs - @documentation
 
 - array dimensions
 
@@ -18,6 +19,8 @@
 - check if key - should be editable if not filled
 
 - fix labels under set and list 
+
+- align label and input properly in form - css
 
 
 DONE LIST 

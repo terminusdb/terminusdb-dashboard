@@ -121,7 +121,7 @@ export function getFormat(frame, item) {
     }*/
     else if(frame[item] === CONST.XSD_ANY_URI && mode === CONST.VIEW) {
         /** display a uri widget for anyURI type in View Mode */
-        return widget.getURIUIWidget(item) 
+        return widget.getURIUIWidget(item, uiFrame) 
     }
     // In all other cases, return back standard UI Layout
     let uiLayout= {

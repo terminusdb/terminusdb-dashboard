@@ -6,7 +6,7 @@ import {getDataFieldDiffs} from "./dataFieldDiffs"
 import Card from 'react-bootstrap/Card';
 import {showRemovedSubDocument, showRemovedElementOriginal, showRemovedElementChanged} from "./diffComponents"
 
-/**
+/** 
  * 
  * @param {*} data - form data to be displayed 
  * @param {*} css - css to display in red or green for difss
@@ -93,10 +93,21 @@ const SubDocumentTypeDiff = ({data, cssArray, schema}) => {
         if(property === "@type") continue
         if(schema.items.properties[property].info === CONST.DATA_TYPE) {
             let css="tdb__input"
-            cssArray.map(arr => {
-                if(arr.hasOwnProperty(property)) css=arr[property]
-            })
+            if(cssArray) {
+                cssArray.map(arr => {
+                    if(arr.hasOwnProperty(property)) css=arr[property]
+                })
+            }
             elements.push(<DataTypeDiff data={data[property]} css={css} label={property}/>)
+        }
+        if(schema.items.properties[property].info === CONST.DOCUMENT) {
+            let css="tdb__input"
+            if(cssArray) {
+                cssArray.map(arr => {
+                    if(arr.hasOwnProperty(property)) css=arr[property]
+                })
+            }
+            elements.push(<LinkTypeDiff data={data[property]} css={css} label={property}/>)
         }
     }
     return <Card bg="secondary" className=" p-4 mt-4 mb-4 tdb__subdocument__card">

@@ -31,12 +31,13 @@ export function getTextareaUIWidget(placeholder, mode, data) {
     return uiLayout 
 }
 
-// function for URI in View mode
-export function getURIUIWidget(title) {
+// function for URI in View mode 
+export function getURIUIWidget(title, uiFrame) {
     let uiLayout = {} 
+    let css = uiFrame && uiFrame.hasOwnProperty(title) ? uiFrame[title][CONST.CLASSNAME] : ``
     function displayURI(props) {
-        return <Stack direction="horizontal" gap={3}>
-            <Form.Label>{title}</Form.Label>
+        return <Stack direction="horizontal" gap={3}  className={css}>
+            <Form.Label>{title}</Form.Label> 
             <a href={props.formData} className="text-light" target="_blank">{props.formData}</a>
         </Stack>
     }

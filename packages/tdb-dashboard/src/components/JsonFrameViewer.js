@@ -63,7 +63,7 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
     }
 
     function handleSubmit(data) {
-        if(setExtracted) setExtracted(data)
+        if(setExtracted) setExtracted(JSON.parse(data))
     }
     
     //console.log("json", json, typeof json)
