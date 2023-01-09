@@ -140,34 +140,6 @@ export function EditDocumentHook(client, extractedUpdate, setLoading, setErrorMs
     return result
 }
 
-/**
- * 
- * @param {*} client TerminusDB Client
- * @param {*} changeRequestID Change Request ID
- * @param {*} setError Constant to catch error 
- * @returns diff list from branches
- */
-export function GetDiffList(client, changeRequestID, setError){
-    const [result, setResult] = useState(false)
-
-    async function getDiffList() {
-        try{
-            //let id = extractID(changeRequestID)
-            const result = await client.sendCustomRequest("GET", `http://localhost:3035/changes/${changeRequestID}/diff`)
-            setResult(result)
-        }
-        catch(err){
-            if(setError) setError(err.message)
-       }
-    } 
-
-    useEffect(() => {
-        if (changeRequestID && client) getDiffList()
-    }, [changeRequestID, client])
-
-    return result
-}
-
 
 /**
  * 
@@ -186,8 +158,7 @@ export function GetDocumentByBranches(client, branch, documentID, setValue, setE
             const clientCopy = client.copy()
             clientCopy.checkout(branch) 
             let value = await clientCopy.getDocument({id: documentID})
-            if(setValue) setValue(value)
-            
+            if(setValue) setValue(value)         
         }
         catch(err){
            if(setError) setError(err.message)
@@ -204,3 +175,34 @@ export function GetDocumentByBranches(client, branch, documentID, setValue, setE
 
 
 
+/**
+ * 
+ * @param {*} client TerminusDB Client
+ * @param {*} changeRequestID Change Request ID
+ * @param {*} setError Constant to catch error 
+ * @returns diff list from branches
+ */
+export function GetDiffList(woqlClient, changeRequestID, setError){
+    const [result, setResult] = useState(false)
+
+    async function getDiffList() {
+        try{
+            const client = woqlClient.copy()
+            client.connectionConfig.api_extension = 'api/'
+            const baseUrl = client.connectionConfig.dbBase("changes")
+
+            //let id = extractID(changeRequestID)
+            const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff`)
+            setResult(result)
+        }
+        catch(err){
+            if(setError) setError(err.message)
+       }
+    } 
+
+    useEffect(() => {
+        if (changeRequestID && woqlClient) getDiffList()
+    }, [changeRequestID, woqlClient])
+
+    return result
+}

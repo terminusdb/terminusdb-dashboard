@@ -2,6 +2,7 @@ import React  from "react"
 import {Nav,Navbar} from "react-bootstrap"
 import { NavLink as RouterNavLink, useResolvedPath , useMatch} from "react-router-dom";
 import {AiOutlineMail} from "react-icons/ai"
+
 import {IconBarConfig} from  "./constants" 
 import {useParams} from 'react-router-dom'
 
@@ -84,7 +85,29 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     id={IconBarConfig.dataProductExplorer.key}>
                     {IconBarConfig.dataProductExplorer.icon}
                 </Nav.Link>
-            </Nav.Item> 
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.graphiql.title} 
+                    className="nav-icon nav-product-expolorer" 
+                    {...disabled}
+                    to={getUrl(IconBarConfig.graphiql.path)} 
+                    
+                    id={IconBarConfig.graphiql.key}>
+                    {IconBarConfig.graphiql.icon}
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.changes.title} 
+                    className="nav-icon nav-product-expolorer" 
+                    {...disabled}
+                    to={getUrl(IconBarConfig.changes.path)} 
+                    
+                    id={IconBarConfig.changes.key}>
+                    {IconBarConfig.changes.icon}
+                </Nav.Link>
+            </Nav.Item>
             <hr className="my-3" role="separator"></hr>
             <div className="nav-icons-bottom">
                 <hr className="my-3" role="separator"></hr>

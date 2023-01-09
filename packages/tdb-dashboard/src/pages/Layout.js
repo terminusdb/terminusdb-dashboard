@@ -5,7 +5,6 @@ import SplitPane from 'react-split-pane'
 import {IconBar} from "../components/IconBar"
 import {TimeTravelContainer} from "../components/TimeTravelContainer"
 import {Feedback} from "./Feedback"
-import history from "../routing/history"
 import {DATA_PRODUCTS} from "../routing/constants"
 import { Outlet,useParams } from 'react-router-dom'
 import {LeftSideBar} from '../components/LeftSideBar'
@@ -15,6 +14,8 @@ export const Layout = (props) => {
     const { organization, dataProduct } = useParams();
     const [showTimeTravel, setShowTimeTravel] = useState(false)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
+
+    const mainClassName = props.mainClassName || "container-fluid"
     
     return <Container fluid className="p-0 flex-row">
             <SplitPane split="vertical" minSize={70} defaultSize={340} primary="first" allowResize={false}>
@@ -27,7 +28,7 @@ export const Layout = (props) => {
                 </div>              
                 <div className="ml-1 main-content h-100">                      
                     <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
-                    <div className="container-fluid " >
+                    <div className={mainClassName} >
                         { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                         {props.children}
                     </div>

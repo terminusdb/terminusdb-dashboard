@@ -37,7 +37,7 @@ module.exports = (env, argv) => ({
       "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js')          
     },
     fallback: { "https": false },
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: [ '.js', '.jsx', '.json'],
   },
   module: {
      rules : [
