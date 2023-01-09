@@ -71,3 +71,4 @@ PLAYGROUND
 
 DASHBOARD 
 - fix json code mirror - cursor is always at end
+- fix prefix document View ID routing

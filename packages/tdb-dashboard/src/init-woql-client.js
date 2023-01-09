@@ -23,6 +23,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [accessControlDashboard, setAccessControl] = useState(null)
 
     const [loadingServer, setLoadingServer] = useState(false)
+    const [documentLoading, setDocumentLoading] = useState(false)
     const [connectionError, setError] = useState(false)
 
     // to control document interface chosen document
@@ -166,7 +167,7 @@ export const WOQLClientProvider = ({children, params}) => {
        /*woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/organizations/terminuscms/db/lego/tables').then(result=>{
             setDocumentTablesConfig(result)
         })*/
-
+        setDocumentLoading(true)
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
             let test=[]
@@ -176,6 +177,7 @@ export const WOQLClientProvider = ({children, params}) => {
             setQuery(q)
             let totalQ=getTotalNumberOfDocuments(classRes)
             setTotalDocumentsQuery(totalQ)
+            setDocumentLoading(false)
         })
         .catch((err) =>  {
             console.log("Error in init woql while getting classes of data product", err.message)
@@ -409,7 +411,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 totalDocumentCount,
                 setSelectedDocument,
                 selectedDocument,
-                frames
+                frames,
+                documentLoading, 
+                setDocumentLoading
             }}
         >
             {children}
