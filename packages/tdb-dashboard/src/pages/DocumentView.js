@@ -10,13 +10,18 @@ import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {GetDocumentHook, DeleteDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
+import {DocumentControlObj} from "../hooks/DocumentControlContext"
 
 
-const DisplayDocumentBody = ({view, setLoading, setErrorMsg}) => {
+const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     const { 
         woqlClient, 
         frames
     } = WOQLClientObj()
+
+    const {
+        view
+    } = DocumentControlObj()
 
     const {type, id} = useParams()
     
@@ -67,20 +72,19 @@ export const DocumentView = () => {
     }
 
     return <main className="content mt-5 w-100 document__interface__main">
-        {errorMsg && <Alert variant={"danger"} className="ml-5 mr-5">
+        {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}
-        <Card className="mr-5 bg-dark">
+        <Card className="mr-3 bg-dark">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
                 <Header mode={CONST.VIEW_DOCUMENT} 
                     type={type} 
-                    setView={setView} 
                     id={id} 
                     setClickedDelete={setClickedDelete}
                     startCRMode={startCRMode}/>
             </Card.Header>
             <Card.Body className="text-break">
-                <DisplayDocumentBody view={view} setLoading={setLoading} setErrorMsg={setErrorMsg}/>
+                <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
             </Card.Body>
         </Card>
     </main>

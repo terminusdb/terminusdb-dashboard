@@ -2,25 +2,45 @@ import React from "react"
 import * as CONST from "./constants"
 import Stack from 'react-bootstrap/Stack'
 import {FaTimes} from "react-icons/fa"
+import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import Button from "react-bootstrap/Button"
 import {useNavigate, useParams} from "react-router-dom";
 import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import * as PATH from "../routing/constants"
-import {FiCopy} from "react-icons/fi"
+import {FiCopy} from "react-icons/fi" 
 import {copyToClipboard} from "./utils"
+import {HiMagnifyingGlass} from "react-icons/hi2"
+
+const ViewFramesButton = () => {
+
+    const {
+        setShowFrames
+    } = DocumentControlObj()
+
+    function handleViewFrames () {
+        setShowFrames(Date.now())
+    }
+
+    return <Button variant="light" 
+        className="text-dark ms-auto btn btn-sm" 
+        title={`View Document Frames`}
+        onClick={handleViewFrames}>
+            <HiMagnifyingGlass/> {"Frames"} 
+    </Button>
+}
 
 /**
  * 
  * @param {*} id document ID 
  * @returns copy document ID to clipboard
  */
-const CopyButton = ({id}) => {
+export const CopyButton = ({text, title, label, css}) => {
     return <Button variant="transparent" 
-        className="text-light" 
-        title={`Copy Document ID`}
-        onClick={(e) => copyToClipboard(id)}>
-            <FiCopy/>
+        className={`text-light ${css}`}
+        title={title}
+        onClick={(e) => copyToClipboard(text)}>
+            <FiCopy/> {label && <span>{label}</span>}
     </Button>
 }
 
@@ -50,6 +70,7 @@ const CloseButton = ({type}) => {
 const CreateHeader = ({type, setView}) => {
     return <Stack direction="horizontal" gap={3} className="w-100">
         <strong className="text-success ml-1 h6 fw-bold">{CONST.CREATE_DOCUMENT}: {type}</strong>
+        <ViewFramesButton/>
         <ToggleJsonAndFormControl onClick={setView}/>
         <CloseButton type={type}/>
     </Stack>
@@ -64,10 +85,11 @@ const CreateHeader = ({type, setView}) => {
  */
 const EditHeader = ({type, id, setView}) => {
     return <Stack direction="horizontal" gap={3} className="w-100">
-        <div> 
+        <div className="col-md-7"> 
             <strong className="text-success ml-1 h6 fw-bold">{CONST.EDIT_DOCUMENT}: {id}</strong>
-            <CopyButton id={id}/>
+            <CopyButton text={id} title={`Copy Document ID`}/>
         </div> 
+        <ViewFramesButton/>
         <ToggleJsonAndFormControl onClick={setView}/>
         <CloseButton type={type}/>
     </Stack>
@@ -96,10 +118,11 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
     }
 
     return <Stack direction="horizontal" gap={3} className="w-100">
-        <div> 
+        <div className="col-md-7"> 
             <strong className="text-success ml-1 h6 fw-bold">{CONST.VIEW_DOCUMENT}: {type}/{id}</strong>
-            <CopyButton id={`${type}/${id}`}/>
+            <CopyButton text={`${type}/${id}`} title={`Copy Document ID`}/>
         </div>
+        <ViewFramesButton/>
         <ToggleJsonAndFormControl onClick={setView}/>
         <div className="d-flex">
             <Button variant="light" 
@@ -129,8 +152,12 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
  * @param {*} startCRMode CR Mode
  * @param {*} setView useState constant to set view in Form or JSON View
  * @returns 
- */
-export const Header = ({mode, type, id, startCRMode, setView, setClickedDelete}) => {
+ */ 
+export const Header = ({mode, type, id, startCRMode, setClickedDelete}) => {
+    const {
+        setView
+    } = DocumentControlObj()
+
     let matchHeader ={
         [CONST.CREATE_DOCUMENT] : <CreateHeader type={type} setView={setView}/>,
         [CONST.EDIT_DOCUMENT]   : <EditHeader type={type} id={id} setView={setView}/>,

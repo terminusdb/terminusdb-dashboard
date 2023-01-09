@@ -35,7 +35,7 @@ import * as helper from "./helpers"
  */
 export function getUILayout(frame, item, uiFrame, mode, formData, documentation) { 
     //let title = util.getTitle(item, util.checkIfKey(item, frame["@key"]), documentation)
-    let data = formData.hasOwnProperty(item) ?  formData[item] : null
+    let data = formData && formData.hasOwnProperty(item) ?  formData[item] : null
     let uiLayout=helper.getUIBasedOnType(frame, item, uiFrame, mode, data, documentation)
     // if property is lexical key then make read only
     if(mode !== CONST.CREATE && frame && frame.hasOwnProperty("@key") && util.checkIfKey(item, frame["@key"])) {

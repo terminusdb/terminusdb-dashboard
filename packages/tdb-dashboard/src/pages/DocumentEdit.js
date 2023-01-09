@@ -1,4 +1,4 @@
-import React, {useState}  from "react";
+import React, {useEffect, useState}  from "react";
 import {WOQLClientObj} from '../init-woql-client'
 import Card from "react-bootstrap/Card"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
@@ -10,6 +10,7 @@ import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {EditDocumentHook, GetDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
+import {DocumentControlObj} from "../hooks/DocumentControlContext"
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -49,11 +50,17 @@ const onSelect = async (inp, type) => {
     return results
 }
 
-const DisplayDocumentBody = ({view, setLoading, setErrorMsg}) => {
+const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     const { 
         woqlClient, 
         frames
     } = WOQLClientObj()
+
+    const {
+        view,
+        jsonContent,
+        setJsonContent
+    } = DocumentControlObj()
 
     const {type, id} = useParams()
     let documentID=`${type}/${id}`
@@ -67,13 +74,21 @@ const DisplayDocumentBody = ({view, setLoading, setErrorMsg}) => {
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
     const editResult = EditDocumentHook(woqlClient, extracted, setLoading, setErrorMsg)  
     
+    useEffect(() => {
+        if(jsonContent) setData(jsonContent)
+    }, [jsonContent])
 
     // function which extracts data from document form 
     function handleSubmit(data) {
         setExtracted(data)
     }
+    
+    // function which detects a change 
+    function handleChange(data) {
+        setData(data)
+    }
 
-   if(!data || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
+    if(!data || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
 
     // JSON View
     if(view === CONST.JSON_VIEW) {
@@ -85,6 +100,7 @@ const DisplayDocumentBody = ({view, setLoading, setErrorMsg}) => {
         type={type}
         mode={CONST.EDIT_DOCUMENT}
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onSelect={onSelect}   
         formData={data}
         hideSubmit={false}
@@ -98,7 +114,7 @@ export const DocumentEdit = () => {
     let documentID=`${type}/${id}`
 
     // constants to display document body in Form or JSON View
-    const [view, setView]=useState(CONST.FORM_VIEW)
+    const [view, setView]=useState(CONST.FORM_VIEW) 
     const [loading, setLoading]=useState(false)
     const [errorMsg, setErrorMsg]=useState(false)
 
@@ -108,15 +124,15 @@ export const DocumentEdit = () => {
     }
  
     return <main className="content mt-5 w-100 document__interface__main">
-        {errorMsg && <Alert variant={"danger"} className="ml-5 mr-5">
+        {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}
-        <Card className="mr-5 bg-dark">
+        <Card className="mr-3 bg-dark">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
-                <Header mode={CONST.EDIT_DOCUMENT} id={documentID} type={type} setView={setView}/>
+                <Header mode={CONST.EDIT_DOCUMENT} id={documentID} type={type}/>
             </Card.Header>
             <Card.Body className="text-break">
-                <DisplayDocumentBody view={view} setLoading={setLoading} setErrorMsg={setErrorMsg}/>
+                <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
             </Card.Body>
         </Card>
     </main>

@@ -148,27 +148,8 @@ export const DocumentExplorerDocuments = () => {
 
     //console.log("documentClasses", documentClasses)
     const {
-        setDocumentObject,
-        documentObject,
         actionControl
     } = DocumentControlObj()
-
-    // on select of a class
-    function handleClassClick (id) {
-        let docObj = {
-            type: id,
-            action: false,
-            view: documentObject.view,
-            submit: false,
-            currentDocument: false,
-            frames: {},
-            filledFrame: {},
-            message: false,
-            loading: false,
-            update:false
-        }
-        setDocumentObject(docObj)
-    } 
 
     const [loading, setLoading]=useState(false)
 

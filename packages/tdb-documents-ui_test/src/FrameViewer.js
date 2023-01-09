@@ -85,7 +85,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 }
                 setSchema(schema)
                 const uiSchema = properties.uiSchema
-
+ 
                 // get form level ui schema 
                 if(uiFrame && uiFrame.hasOwnProperty("classNames")) uiSchema["classNames"]= uiFrame.classNames
                 if(uiFrame && uiFrame.hasOwnProperty("ui:order")) uiSchema["ui:order"]=uiFrame["ui:order"]
@@ -111,7 +111,21 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
     if(mode === CONST.VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
     if(!type) return  <div>Please include the type of document</div>
 
-    
+    const handleChange = ({formData}) => {
+        if(onChange) {
+            var extracted = transformData(mode, schema.properties, formData, frame, type)
+            if(extracted && !extracted.hasOwnProperty("@type")) extracted["@type"] = type
+
+            if(mode === CONST.EDIT &&  // append id in edit mode
+                extracted && 
+                !extracted.hasOwnProperty("@id") && 
+                formDataTemp.hasOwnProperty("@id")) {
+                    extracted["@id"] = formDataTemp["@id"]
+            }
+            onChange(extracted)
+        }
+    }
+
     /**
      * 
      * @param {*} formData - data extracted from the form 
@@ -122,9 +136,10 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
             //console.log("Before submit: ", formData)
 
             var extracted = transformData(mode, schema.properties, formData, frame, type)
-            if(!extracted.hasOwnProperty("@type")) extracted["@type"] = type
+            if(extracted && !extracted.hasOwnProperty("@type")) extracted["@type"] = type
 
             if(mode === CONST.EDIT &&  // append id in edit mode
+                extracted && 
                 !extracted.hasOwnProperty("@id") && 
                 formDataTemp.hasOwnProperty("@id")) {
                     extracted["@id"] = formDataTemp["@id"]
@@ -155,7 +170,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
             //formData={input}
             //formData={formData}
             formData={processedFormData}
-            //onChange={({formData}) => handleChange(formData)}
+            //onChange={handleChange}
             fields={{
                 collapsible: CollapsibleField
             }}

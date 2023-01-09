@@ -10,6 +10,7 @@ import * as CONST from "./constants"
 
 // return true if only @type is available
 function checkIfNotFilled (json){
+    if(!json) return false
     if(Object.keys(json).length === 1 && json.hasOwnProperty("@type")) return true
     return false
 }
@@ -98,7 +99,7 @@ export const transformData = (mode, schema, data, frame, type) => {
                     transformedArray.push(fd)
                 }
                 else {
-                    if(fd.hasOwnProperty("info") && fd.info === CHOICECLASSES){
+                    if(fd && fd.hasOwnProperty("info") && fd.info === CHOICECLASSES){
                         let temp = fd
                         delete temp.info
                         // at this stage there should be only 1 elemenet in frame[key]

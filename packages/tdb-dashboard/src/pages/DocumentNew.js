@@ -9,6 +9,7 @@ import {Header} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {CreateDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
+import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
 
 const checkIfPrefix =(id)=>{
@@ -49,30 +50,41 @@ const onSelect = async (inp, type) => {
     return results
 }
 
-const DisplayDocumentBody = ({view, setLoading, setErrorMsg}) => {
+const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     const { 
         woqlClient, 
         frames
     } = WOQLClientObj()
 
+    const {
+        view,
+        jsonContent,
+        setJsonContent
+    } = DocumentControlObj()
+
     const {type} = useParams()
     
     // constants for extracted data 
     const [extracted, setExtracted]=useState({})
-
+ 
     // hook to create a new document  
     const createResult = CreateDocumentHook(woqlClient, extracted, setLoading, setErrorMsg) 
 
     // function which extracts data from document form 
     function handleSubmit(data) {
         setExtracted(data)
+    } 
+
+    // function which detects a change 
+    function handleChange(data) {
+        setJsonContent(data)
     }
 
     if(!frames) return  <Loading message={`Fetching frames for document type ${type} ...`}/>
 
     // JSON View
-    if(view === CONST.JSON_VIEW) {
-        return <JsonFrameViewer mode={CONST.CREATE_DOCUMENT} setExtracted={setExtracted}/>
+    if(view === CONST.JSON_VIEW) { 
+        return <JsonFrameViewer jsonData={jsonContent} mode={CONST.CREATE_DOCUMENT} setExtracted={setExtracted}/>
     }
 
     // Form View
@@ -80,18 +92,18 @@ const DisplayDocumentBody = ({view, setLoading, setErrorMsg}) => {
         type={type}
         mode={CONST.CREATE_DOCUMENT}
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onSelect={onSelect}   
-        formData={extracted}
+        formData={jsonContent}
+        //formData={extracted}
         hideSubmit={false}
-        //onTraverse={onTraverse}
     />
 }
 
 export const DocumentNew = () => {   
 
     const {type} = useParams()
-    // constants to display document body in Form or JSON View
-    const [view, setView]=useState(CONST.FORM_VIEW)
+    
     const [loading, setLoading]=useState(false)
     const [errorMsg, setErrorMsg]=useState(false)
 
@@ -101,15 +113,15 @@ export const DocumentNew = () => {
     }
 
     return <main className="content mt-5 w-100 document__interface__main">
-        {errorMsg && <Alert variant={"danger"} className="ml-5 mr-5">
+        {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}
-        <Card className="mr-5 bg-dark">
+        <Card className="mr-3 bg-dark">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
-                <Header mode={CONST.CREATE_DOCUMENT} type={type} setView={setView}/>
+                <Header mode={CONST.CREATE_DOCUMENT} type={type}/>
             </Card.Header>
             <Card.Body className="text-break">
-                <DisplayDocumentBody view={view} setLoading={setLoading} setErrorMsg={setErrorMsg}/>
+                <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
             </Card.Body>
         </Card>
     </main>

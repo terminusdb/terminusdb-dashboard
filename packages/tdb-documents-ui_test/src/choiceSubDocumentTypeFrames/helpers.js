@@ -3,13 +3,15 @@ import * as CONST from "../constants"
 import {getProperties} from "../FrameHelpers"
 
  
-
+ 
 function getDocumentLayout(choiceSubDocument, args) {
     let {fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation} = args
 
     let choiceSubDocumentFrame = fullFrame[choiceSubDocument]
 
-    let exractedProperties = getProperties(fullFrame, item, choiceSubDocumentFrame, uiFrame, mode, formData, onTraverse, onSelect, documentation) 
+    // get documentation from frame
+    let extractedDocumentation= choiceSubDocumentFrame.hasOwnProperty(CONST.DOCUMENTATION) ? choiceSubDocumentFrame[CONST.DOCUMENTATION] : []
+    let exractedProperties = getProperties(fullFrame, item, choiceSubDocumentFrame, uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation) 
 
     //console.log("exractedProperties sub", exractedProperties)
     exractedProperties.properties["@type"]={
