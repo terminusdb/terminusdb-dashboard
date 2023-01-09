@@ -224,13 +224,21 @@ export const isArrayType = (frame, item) => {
 
 
 /***  util functions to extract frame from Optional/ Set/ List */
-export const extractFrames = (frame, item, metadata) => {
-	if(!frame.hasOwnProperty("@class")) {
+export const extractFrames = (frame, item, language) => {
+	if(!frame.hasOwnProperty(item)) { 
+		throw new Error (`Extracted frame does not have ${item} defined ... `)
+	}
+	if(!frame[item].hasOwnProperty("@class")) { 
 		throw new Error (`Extracted frame does not have @class defined ... `)
 	}
-	let extracted = {[item]: frame["@class"]}
-    if(metadata) {
-        // extract metaData and append to optionalFrame
+	let extracted = {[item]: frame[item]["@class"]}
+	// extract documentation to append to optional/set or list frmaes
+	let documentation=extractDocumentation(frame, item)
+	if(documentation){
+		extracted[CONST.DOCUMENTATION]=documentation
+	}
+    if(getMetaData(frame[item])) {
+        // extract metaData and append to optional/set or list frmaes
         extracted[CONST.METADATA]=metadata
     }
     return extracted
@@ -244,7 +252,7 @@ export const extractFrames = (frame, item, metadata) => {
  * @param {*} frame frame of interest
  * @returns metadata json type
  */
- export function getMetaData (frame) {
+ export function getMetaData (frame) { 
     if(frame.hasOwnProperty(CONST.METADATA)) {
         return frame[CONST.METADATA]
     }
@@ -254,7 +262,6 @@ export const extractFrames = (frame, item, metadata) => {
 /**
  * 
  * @param {*} frame frame of interest
-<<<<<<< HEAD
  * @param {*} property field name
  * @returns true if property has been defined in @metadata and is set to render as markdown
  */
@@ -274,8 +281,6 @@ export function checkIfRenderedAsMarkdown(frame, property, diffPatch) {
 /**
  * 
  * @param {*} frame frame of interest
-=======
->>>>>>> 016fb4099452768cf2c4aad1c25049196510c028
  * @returns metadata json type
  */
  export function getOrderFromMetaData(frame) {

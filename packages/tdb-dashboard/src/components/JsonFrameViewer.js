@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import * as CONST from "./constants"
 import Button from "react-bootstrap/Button"
 import { UnControlled as CodeMirror } from "react-codemirror2";
@@ -27,16 +27,20 @@ import 'codemirror/addon/fold/comment-fold';
 import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/display/placeholder.js'
 import {useParams} from "react-router-dom"
+import {DocumentControlObj} from "../hooks/DocumentControlContext"
 
-function displayJson(json) {
-    if(json) return JSON.stringify(json, null, 2)
-    return false
-}
 
 export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
+    const {
+        setJsonContent
+    } = DocumentControlObj()
 
-    const [value, setValue]=useState(displayJson(jsonData))
+    const [json, setJSON]=useState(false) 
     const {type} = useParams()
+
+    useEffect(() => {
+        if(jsonData) setJSON(JSON.stringify(jsonData, null, 2))
+    }, [jsonData])
     
     let cmOptions={
         gutters: ["CodeMirror-lint-markers"],
@@ -51,9 +55,9 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
         viewportMargin: Infinity,
         indentWithTabs: true,
         tabSize: 2,
-        //extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-        //foldGutter: true,
-        //gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
         placeholder: `Start adding a JSON document of type ${type}...`,
         readOnly: mode===CONST.VIEW_DOCUMENT ? true : false
     }
@@ -61,18 +65,35 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
     function handleSubmit(data) {
         if(setExtracted) setExtracted(data)
     }
-
+    
+    //console.log("json", json, typeof json)
     return <React.Fragment>
         <CodeMirror
-            value={value}
+            value={json}
             options={cmOptions}
             onChange={(editor, data, value) => {
-                setValue(value)
+                //console.log("value", value, typeof value)
+                setJSON(value)
+                if(mode !== CONST.VIEW_DOCUMENT && setJsonContent) setJsonContent(JSON.parse(value))
             }}
         />
-        <Button className="btn btn-sm mt-2 float-left" variant="info" onClick={(e) => handleSubmit(value)}>
-            {"Submit"}
-        </Button>
+        {mode!==CONST.VIEW_DOCUMENT && 
+            <Button className="btn mt-2 float-left" variant="info" onClick={(e) => handleSubmit(json)}>
+                {"Submit"}
+            </Button>
+        }
     </React.Fragment>
 
 }
+
+/***
+ * let newOptions = {
+        noHScroll: false,
+        autoCursor:false,
+        theme: "eclipse",
+        lineNumbers: true,
+        minWidth: "900px",
+        json: true,
+        jsonld: true
+    }
+ */

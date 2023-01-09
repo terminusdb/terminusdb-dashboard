@@ -21,7 +21,7 @@ import {FiHelpCircle} from "react-icons/fi"
 	if(!documentation) return enumDocumentation
 	if(!Array.isArray(documentation)) return enumDocumentation
 	let valueArray=[]
-	documentation.map(doc => {
+	documentation.map(doc => { 
 		if (doc.hasOwnProperty(CONST.SELECTED_LANGUAGE)) { // search documentation to display selected language from UI 
 			if(doc["@language"] === doc["@selectedLanguge"]) { // language match found
 				if(doc.hasOwnProperty("@label")) {

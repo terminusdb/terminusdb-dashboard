@@ -14,7 +14,7 @@ const LabelComponent =({label, documentation, isKey}) => {
 }
 
 const SubDocumentLabelComponent =({label, documentation, isKey}) => { 
-    return <div className="d-flex h6"> 
+    return <div className="d-flex h6 subdoc__label"> 
         {getPropertyLabelFromDocumentation (label, documentation)}
         {util.displayIfKeyField(isKey, label)}
     </div>
@@ -22,7 +22,7 @@ const SubDocumentLabelComponent =({label, documentation, isKey}) => {
 
 const EnumLabelComponent =({frame, label, documentation, isKey}) => { 
     let values=frame[label]["@values"]
-    return <div className="d-flex hd">
+    return <div className="d-flex hd enum__label">
         {getLabelFromEnumDocumentation (label, documentation, values)}
         {util.displayIfKeyField(isKey, label)}
     </div>

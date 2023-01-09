@@ -83,7 +83,7 @@ export function ArrayFieldTemplate(props) {
                     )}
 
                     {element.hasRemove && <Button  variant={variant} 
-                        className="mb-3 tdb__array__item__list bg-transparent border-0" 
+                        className="mb-3 tdb__array__item__list bg-transparent border-0 " 
                         title="Delete" 
                         onClick={element.onDropIndexClick(element.index)}>
                         <RiDeleteBin5Fill className="text-danger" style={{fontSize: "25px"}}/>
@@ -94,7 +94,7 @@ export function ArrayFieldTemplate(props) {
         {props.canAdd && (
             <div className="row">
                 <p className="col-xs-3 col-xs-offset-9 array-item-add text-right"> 
-                    <Button data-cy={`add_${label}`} variant="light" className="text-dark" type="button" onClick={props.onAddClick}>
+                    <Button data-cy={`add_${label}`} variant="light" className="btn-sm text-dark" type="button" onClick={props.onAddClick}>
                         <BiPlus className="mr-2"/> <label>{`Add `} {arrayButtonLabel}</label>
                     </Button> 
                 </p>

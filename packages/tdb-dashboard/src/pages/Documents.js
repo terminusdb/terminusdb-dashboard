@@ -3,7 +3,7 @@ import {DocumentSummary} from "../components/DocumentSummary"
 
 export const Documents = () => {   
 
-    return <div>
+    return <div className="w-100">
 
         <DocumentSummary></DocumentSummary>
     </div>

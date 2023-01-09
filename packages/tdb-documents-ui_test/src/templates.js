@@ -5,11 +5,14 @@ import * as CONST from "./constants"
 
 const DisplayLabel = ({schema, id, label}) => {
 
+	if(!schema.hasOwnProperty(CONST.INFO)) return <div/>
+	if(schema[CONST.INFO] === undefined) return <div/>
+	if(schema.info === CONST.CHOICESUBCLASSES) return <div/>
 	if(schema.info === CONST.SUBDOCUMENT_TYPE) return <div/>
 	if(schema.info === CONST.LIST) return <div/>
 	if(schema.info === CONST.SET) return <div/>
 
-	return <label className="control-label" htmlFor={id}>{label}</label>
+	return <label className={`control-label`} htmlFor={id}>{label}</label>
 }
 
 /**

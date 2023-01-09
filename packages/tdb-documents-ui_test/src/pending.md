@@ -17,6 +17,8 @@
 
 - check if key - should be editable if not filled
 
+- fix labels under set and list 
+
 
 DONE LIST 
 PLAYGROUND 
@@ -61,3 +63,8 @@ PLAYGROUND
 --- markdown WWYSIG editor with preview button  ✅ 
 --- nomal diff checker diff for markdown  ✅ 
 --- ui order for classes & sub documents ... ✅ 
+
+
+
+DASHBOARD 
+- fix json code mirror - cursor is always at end

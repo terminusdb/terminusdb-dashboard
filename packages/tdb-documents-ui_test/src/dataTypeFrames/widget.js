@@ -196,7 +196,7 @@ export function getViewMarkdownUI(formData, name, uiFrame) {
         };
 
         return <div className={`d-block ${css} w-100`}>
-            <div className="mb-3">{name} </div>
+            {/*<div className="mb-3">{name} </div>*/}
             <div className="w-100">
                 <MDEditor
                     value={code}

@@ -18,6 +18,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
         else if(item === "@key") continue
         else if(item === "@type") continue 
         else if(item === "@id") continue
+        else if(item === "@inherits") continue
         else if(item === CONST.SUBDOCUMENT) continue
         else if(item === CONST.DOCUMENTATION) continue
         else if(util.isFeatureCollection(frame[item], mode)) {
@@ -32,7 +33,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             //set property layout & uiLayout
             properties[item] = featureCollectionFrames.layout
             propertiesUI[item] = featureCollectionFrames.uiLayout
-        }
+        } 
         else if(util.isMandatory(frame, item)) {
             let mandatoryFrames=makeMandatoryFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             
@@ -42,8 +43,8 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             //set property as required since Mandatory
             required.push(item)
         }
-        else if(util.isOptional(frame, item)) {
-            let extractedFrames = util.extractFrames(frame[item], item, util.getMetaData(frame))
+        else if(util.isOptional(frame, item)) { 
+            let extractedFrames = util.extractFrames(frame, item)
             let optional = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, formData, onTraverse, onSelect, documentation)
             let optionalFrames = makeOptionalFrames(optional, item, uiFrame, mode, formData, documentation) 
            
@@ -52,8 +53,8 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             propertiesUI[item] = optionalFrames.uiLayout
         }
         else if(util.isSet(frame, item)) {
-            let extractedFrames = util.extractFrames(frame[item], item, util.getMetaData(frame))
-            let setFormData=formData.hasOwnProperty(item) ? formData[item] : formData
+            let extractedFrames = util.extractFrames(frame, item)
+            let setFormData=formData && formData.hasOwnProperty(item) ? formData[item] : formData
             let extractedProperties = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, setFormData, onTraverse, onSelect, documentation)
             let setFrames = makeSetFrames(extractedProperties, item, uiFrame, mode, setFormData, documentation) 
             
@@ -62,8 +63,8 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             propertiesUI[item] = setFrames.uiLayout
         }
         else if(util.isList(frame, item)) {
-            let extractedFrames = util.extractFrames(frame[item], item, util.getMetaData(frame))
-            let setFormData=formData.hasOwnProperty(item) ? formData[item] : formData
+            let extractedFrames = util.extractFrames(frame, item)
+            let setFormData=formData && formData.hasOwnProperty(item) ? formData[item] : formData
             let extractedProperties = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, setFormData, onTraverse, onSelect, documentation)
             let listFrames = makeListFrames(extractedProperties, item, uiFrame, mode, setFormData, documentation) 
            

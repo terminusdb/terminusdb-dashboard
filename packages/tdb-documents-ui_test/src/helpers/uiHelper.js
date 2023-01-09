@@ -65,12 +65,6 @@ export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTr
 
     let generatedLabel=generateLabel(frame, item, documentation)
     generatedCustomUI["ui:title"]=generatedLabel
-
-    // hide non filled data from View mode
-    /*if(mode === CONST.VIEW && formData && !formData.hasOwnProperty(item)) {
-        generatedCustomUI={}
-        generatedCustomUI["ui:widget"]="hidden"//util.hidden
-    }*/
     
     return generatedCustomUI
 }

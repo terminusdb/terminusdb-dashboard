@@ -6,8 +6,7 @@ import * as util from "./diffComponents"
 
 function getMDContent(name, oldValue, newValue, css) {
     return <>
-        {name}
-        <div className={`${css} w-100`}>
+        <div className={`${css} w-100 markdown_diff`}>
             <ReactDiffViewer 
                 oldValue={oldValue} 
                 newValue={newValue} 

@@ -269,12 +269,6 @@ div.array-item > div {
     width: 100% !important;
 }
 
-/** hide control label for arrays */
-div.tdb__array__frames .control-label {
-    /*display: none;*/
-    opacity: 0 !important;
-}
-
 /** display control label of subdcouments for arrays */
 .tdb__subdocument__card  .control-label {
     /*display: none;*/
@@ -318,20 +312,38 @@ select > option {
 
 
 legend {
-    display: none;
+    display: none !important;
 }
 
 /** display legend for geo/ choice sub document frames */
 .tdb__geo__input legend,
 .tdb__multipolygon__input legend,
 .choice_subdocument_title legend,
-.choice_subdocument_title .control-label, 
+/*.choice_subdocument_title .control-label, */
 .tdb__array__frames legend, 
 .tdb__rdf legend,
 .tdb__array__frames span.control-label { 
     display: block !important; 
     font-size: 1rem;
     /*margin-top: -38px;*/
+}
+
+/** hide labels for sets/ lists*/ 
+div.array-item label.control-label {
+    visibility: hidden;
+}
+
+/** display all control label of properties for sets/ list */
+div.array-item label.control-label #tdb__property__name__label {
+    visibility: initial;
+}
+
+
+.tdb__frame__viewer  .control-label {
+    width: 10rem;
+    overflow-wrap: break-word;
+    color: white;
+    /*display: flex;*/
 }
 
 /** hide choice selector in edit & view mode for choice sub document */
@@ -346,6 +358,19 @@ legend {
     margin-bottom: 1rem;
 }
 
+/* choice sub document card bg */
+div.panel div.choice_subdocument_title fieldset{
+    border: 1px solid rgba(0,0,0,0.175);
+    padding: 20px;
+    background: rgba(68, 68, 68);
+    border-radius: 4px;
+    margin-bottom: 4rem;
+}
+
+/** hide label for @type (mostly used in sub docs & choice docs */
+label[for="root_@type"] {
+    display: none;
+}
 
 .field-description {
     color: #888;
@@ -435,6 +460,12 @@ div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.c
     display: none !important;
 }
 
+div.w-md-editor-toolbar ul li button svg {
+    width: 15px;
+    height: 15px;
+    color: white;
+}
+
 /** make line width 10% */
 div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.css-1a6arsc-code-fold > td.css-jbzd4j-code-fold-gutter  {
     width: 10% !important;
@@ -485,6 +516,10 @@ div.inserted * input, div.deleted * input {
     display: flex;
 }
 
+.tdb__frame__viewer div.form-group div.markdown_diff {
+    display: block;
+}
+
 .tdb__frame__viewer  div.form-group > input,
 .tdb__frame__viewer  div.form-group > textarea,
 .tdb__frame__viewer  div.form-group > a {
@@ -496,12 +531,6 @@ div.inserted * input, div.deleted * input {
     width: 100%;
 }
 
-.tdb__frame__viewer  .control-label {
-    width: 10rem;
-    overflow-wrap: break-word;
-    color: white;
-    /*display: flex;*/
-}
 
 /** stylize checkbox input for bool fields */
 div.checkbox label input {
@@ -541,4 +570,5 @@ div.tdb__array__items__css button.tdb__documentation__help {
 label:empty{
     display: none  !important;
 }
+
 

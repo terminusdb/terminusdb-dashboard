@@ -18,7 +18,7 @@ export const Layout = (props) => {
     const mainClassName = props.mainClassName || "container-fluid"
     
     return <Container fluid className="p-0 flex-row">
-            <SplitPane split="vertical" minSize={70} defaultSize={350} primary="first" allowResize={false}>
+            <SplitPane split="vertical" minSize={70} defaultSize={340} primary="first" allowResize={false}>
                 <div className="side-black h-100 d-flex">
                     <IconBar setShowFeedbackForm={setShowFeedbackForm} />
                     {organization && <LeftSideBar/>}
@@ -26,7 +26,7 @@ export const Layout = (props) => {
                         {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
                     </div>
                 </div>              
-                <div className="main-content h-100">                      
+                <div className="ml-1 main-content h-100">                      
                     <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
                     <div className={mainClassName} >
                         { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          

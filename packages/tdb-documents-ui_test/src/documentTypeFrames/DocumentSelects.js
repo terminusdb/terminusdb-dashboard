@@ -61,10 +61,10 @@ export const DocumentView = ({label, required, value, onTraverse, description, s
     if(!value) return <div/>
  
     return <React.Fragment>
-        <div className="control-label">
+        {/*<div className="control-label">
             {label}
-            {/*required && <span className="required">*</span>*/}
-        </div>
+            {/*required && <span className="required">*</span>*//*}
+        </div>*/}
         {/*<div className="ms-auto">{description} </div>*/}
         <span onClick={(e) => handleClick(e, value)} className={`tdb__span__select ${color} text-break`}>
             {value}

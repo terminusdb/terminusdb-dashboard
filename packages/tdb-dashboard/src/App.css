@@ -91,7 +91,7 @@ img.user-avatar {
   border-left: 1px solid rgba(255, 255, 255, 0) !important;
   border-right: 1px solid rgba(255, 255, 255, 0) !important;
   cursor: col-resize;
-  background: #535557;
+  background: inherit;
 }
 
 div.SplitPane {
@@ -113,6 +113,11 @@ div.SplitPane  .horizontal {
 }
 .Pane2 {
   background-color: transparent;
+}
+
+.Resizer.vertical {
+  border-left: 0 !important;
+  border-right: 0 !important;
 }
 /* ---------- Split Pane resizing css ---------- */
 
@@ -985,5 +990,21 @@ pre.CodeMirror-line  > span > span.cm-string {
 #json_type_field-warning-box svg {
   height: 15px;
   width: 15px;
+}
+
+.tdb__frame__display {
+  /*width: 100%;*/
+}
+
+.tdb__frame__display {
+  animation: 3s tdb__frame__display;
+}
+@keyframes tdb__frame__display {
+  from {
+    /*margin-left: 100%;*/
+  }
+  to {
+    margin-left: 0%;
+  }
 }
 
