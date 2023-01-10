@@ -6,7 +6,7 @@ import {ProductsExplorer} from "./pages/ProductsExplorer"
 import * as PATH from "./routing/constants"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
-//import { DocumentList } from "./pages/DocumentsList"
+import { DocumentList } from "./pages/DocumentsList"
 import {DocumentsList01} from  "./pages/DocumentsList01"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
@@ -95,6 +95,7 @@ function getRoutes(clientUser,isAdmin){
             <Route path=":dataProduct" >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
                 <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
+                
                 <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
                     <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
@@ -105,6 +106,7 @@ function getRoutes(clientUser,isAdmin){
                         <Route path=":type">
                             <Route index element={<PrivateRoute component={DocumentsList01}/>} /> 
                             <Route path={PATH.NEW_DOC} element={<PrivateRoute component={DocumentNew}/>} /> 
+                            <Route path="test"  element={<PrivateRoute component={DocumentList}/>} /> 
                             <Route path=":id" >
                                 <Route index element={<PrivateRoute component={DocumentView}/>} /> 
                                 <Route path={PATH.EDIT_DOC} element={<PrivateRoute component={DocumentEdit}/>} /> 

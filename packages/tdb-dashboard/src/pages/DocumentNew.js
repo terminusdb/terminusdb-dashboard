@@ -1,4 +1,4 @@
-import React, {useState}  from "react";
+import React, {useState,useEffect}  from "react";
 import {WOQLClientObj} from '../init-woql-client'
 import Card from "react-bootstrap/Card"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
@@ -11,6 +11,7 @@ import {CreateDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
+import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -101,11 +102,28 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
 }
 
 export const DocumentNew = () => {   
+    const { 
+        setChangeRequestBranch, branch
+    } = WOQLClientObj()
 
+    const [showModal, setShowModal] = useState(false)
     const {type} = useParams()
     
     const [loading, setLoading]=useState(false)
     const [errorMsg, setErrorMsg]=useState(false)
+
+    useEffect(() => {
+        if(branch === "main"){
+            setShowModal(true)
+        }/*else {
+            setShowModal(false)
+        }*/
+	},[branch])
+
+    const updateViewMode =(newBranchName, changeRequestId)=>{
+        setChangeRequestBranch(newBranchName, changeRequestId)
+       // setCurrentMode(currentMode)
+    }
 
     // create a change request before editing document
     const startCRMode = (mode) => {
@@ -116,13 +134,18 @@ export const DocumentNew = () => {
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}
-        <Card className="mr-3 bg-dark">
-            <Card.Header className="justify-content-between d-flex w-100 text-break">
-                <Header mode={CONST.CREATE_DOCUMENT} type={type}/>
-            </Card.Header>
-            <Card.Body className="text-break">
-                <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
-            </Card.Body>
-        </Card>
+        {showModal && <CreateChangeRequestModal showModal={showModal}
+                type={type} 
+                setShowModal={setShowModal} 
+                updateViewMode={updateViewMode}/>}
+        {branch !== "main" &&    
+            <Card className="mr-3 bg-dark">
+                <Card.Header className="justify-content-between d-flex w-100 text-break">
+                    <Header mode={CONST.CREATE_DOCUMENT} type={type}/>
+                </Card.Header>
+                <Card.Body className="text-break">
+                    <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
+                </Card.Body>
+            </Card>}
     </main>
 }

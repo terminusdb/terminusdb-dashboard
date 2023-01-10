@@ -128,6 +128,15 @@ export const WOQLClientProvider = ({children, params}) => {
                  if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
                  }
+
+                 const lastBranch = localStorage.getItem("TERMINUSCMS_BRANCH")            
+                 if(lastBranch){
+                     dbClient.checkout(lastBranch)
+                     const lastChangeRequest = localStorage.getItem("TERMINUSCMS_CHANGE_REQUEST_ID")
+                     setBranch(lastBranch)
+                     setCurrentChangeRequest(lastChangeRequest)
+                 }
+
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
@@ -163,9 +172,9 @@ export const WOQLClientProvider = ({children, params}) => {
     //get all the Document Classes (no abstract or subdocument)
     function getUpdatedDocumentClasses(woqlClient) {
         // to be review I'm adding get table config here
-       /*woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/organizations/terminuscms/db/lego/tables').then(result=>{
+        woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/tables/team01/test01').then(result=>{
             setDocumentTablesConfig(result)
-        })*/
+        })
 
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
@@ -274,6 +283,17 @@ export const WOQLClientProvider = ({children, params}) => {
         setBranchReload(Date.now())
     }
 
+
+    function setChangeRequestBranch(branchName,changeRequestId){
+        woqlClient.checkout(branchName)
+        localStorage.setItem("TERMINUSCMS_BRANCH",branchName)
+        localStorage.setItem("TERMINUSCMS_CHANGE_REQUEST_ID",changeRequestId)
+        // set the change_request brach and reset the commit 
+        setBranch(branchName)
+        setRef(null)
+        setChosenCommit({})
+        setCurrentChangeRequest(changeRequestId) 
+    }
  
    // const currentPage = history.location.pathname
 
@@ -380,6 +400,7 @@ export const WOQLClientProvider = ({children, params}) => {
     return (
         <WOQLContext.Provider
             value={{
+                setChangeRequestBranch,
                 currentChangeRequest,
                 setCurrentChangeRequest,
                 userHasMergeRole,

@@ -11,6 +11,8 @@ import {EditDocumentHook, GetDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
+import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
+
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -109,6 +111,9 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
 }
 
 export const DocumentEdit = () => {   
+    const { 
+        setChangeRequestBranch, branch
+    } = WOQLClientObj()
 
     const {type, id} = useParams()
     let documentID=`${type}/${id}`
@@ -117,23 +122,40 @@ export const DocumentEdit = () => {
     const [view, setView]=useState(CONST.FORM_VIEW) 
     const [loading, setLoading]=useState(false)
     const [errorMsg, setErrorMsg]=useState(false)
+    const [showModal, setShowModal] = useState(false)
 
+    useEffect(() => {
+        if(branch === "main"){
+            setShowModal(true)
+        }/*else {
+            setShowModal(false)
+        }*/
+	},[branch])
     // create a change request before editing document
     const startCRMode = (mode) => {
         // logic to start CR mode
+    }
+
+    const updateViewMode =(newBranchName, changeRequestId)=>{
+        setChangeRequestBranch(newBranchName, changeRequestId)
+       // setCurrentMode(currentMode)
     }
  
     return <main className="content mt-5 w-100 document__interface__main">
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}
-        <Card className="mr-3 bg-dark">
+        {showModal && <CreateChangeRequestModal showModal={showModal}
+                type={type} 
+                setShowModal={setShowModal} 
+                updateViewMode={updateViewMode}/>}
+        {branch !== "main" && <Card className="mr-3 bg-dark">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
                 <Header mode={CONST.EDIT_DOCUMENT} id={documentID} type={type}/>
             </Card.Header>
             <Card.Body className="text-break">
                 <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
             </Card.Body>
-        </Card>
+        </Card>}
     </main>
 }
