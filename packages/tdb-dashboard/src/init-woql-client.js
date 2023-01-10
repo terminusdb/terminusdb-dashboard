@@ -175,13 +175,8 @@ export const WOQLClientProvider = ({children, params}) => {
         // to be review I'm adding get table config here
         woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/tables/team01/test01').then(result=>{
             setDocumentTablesConfig(result)
-<<<<<<< HEAD
         })
-
-=======
-        })*/
         setDocumentLoading(true)
->>>>>>> 1d3bcc48bb59763b428993a0f341021f88ce089f
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
             let test=[]
