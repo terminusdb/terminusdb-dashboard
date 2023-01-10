@@ -141,7 +141,7 @@ export const DocumentEdit = () => {
        // setCurrentMode(currentMode)
     }
  
-    return <main className="content mt-5 w-100 document__interface__main">
+    return <main className="content w-100 document__interface__main">
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}

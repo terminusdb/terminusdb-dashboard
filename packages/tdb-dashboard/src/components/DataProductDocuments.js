@@ -148,7 +148,9 @@ export const DocumentExplorerDocuments = () => {
 
     //console.log("documentClasses", documentClasses)
     const {
-        actionControl
+        actionControl,
+        setShowFrames,
+        setJsonContent
     } = DocumentControlObj()
 
     const [loading, setLoading]=useState(false)
@@ -173,11 +175,15 @@ export const DocumentExplorerDocuments = () => {
 
         const navigate = useNavigate() 
 
+        // on click of Create mew document 
         function newDocHandler (docType){
             navigate(`${docType}/${NEW_DOC}`) 
         }
 
+        // on click of View document lists
         function handleDocumentClick(docType) {
+            setShowFrames(false) 
+            setJsonContent(false) 
             navigate(`${docType}`)
         }
 

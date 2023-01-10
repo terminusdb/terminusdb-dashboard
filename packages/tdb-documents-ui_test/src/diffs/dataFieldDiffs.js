@@ -41,7 +41,7 @@ function getClassNamesForDiffs(diff) {
 // ALL SWAP VALUE OPERATIONS
 export function getDataFieldDiffs(diff) {
 
-    if(!diff.hasOwnProperty(DIFFCONST.OPERATION)) {
+    if(!diff.hasOwnProperty(DIFFCONST.OPERATION)) { 
         let originalUIFrame=[], changedUIFrame=[]
         //diff of sub documents 
         for(let properties in diff){ 

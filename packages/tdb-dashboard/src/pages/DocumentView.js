@@ -24,6 +24,10 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     } = DocumentControlObj()
 
     const {type, id} = useParams()
+
+    function onTraverse(clicked) {
+        console.log("clicked", clicked)
+    }
     
     // constants to store document data 
     const [data, setData]=useState(false)
@@ -45,7 +49,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
         mode={CONST.VIEW_DOCUMENT}
         formData={data}
         hideSubmit={true}
-        //onTraverse={onTraverse}
+        onTraverse={onTraverse}
     />
 }
 
@@ -71,7 +75,7 @@ export const DocumentView = () => {
         // logic to start CR mode
     }
 
-    return <main className="content mt-5 w-100 document__interface__main">
+    return <main className="content w-100 document__interface__main">
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}

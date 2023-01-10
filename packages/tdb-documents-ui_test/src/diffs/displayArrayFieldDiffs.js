@@ -6,7 +6,7 @@ import {getDataFieldDiffs} from "./dataFieldDiffs"
 import Card from 'react-bootstrap/Card';
 import {showRemovedSubDocument, showRemovedElementOriginal, showRemovedElementChanged} from "./diffComponents"
 
-/**
+/** 
  * 
  * @param {*} data - form data to be displayed 
  * @param {*} css - css to display in red or green for difss
@@ -87,16 +87,29 @@ const LinkTypeDiff = ({data, css, label})=> {
  * @param {*} schema - schema of subdocument
  * @returns each subdocument card per array 
  */
-const SubDocumentTypeDiff = ({data, cssArray, schema}) => {
+const SubDocumentTypeDiff = ({data, cssElement, schema}) => {
     let elements=[]
     for(let property in schema.items.properties) {
         if(property === "@type") continue
         if(schema.items.properties[property].info === CONST.DATA_TYPE) {
             let css="tdb__input"
-            cssArray.map(arr => {
-                if(arr.hasOwnProperty(property)) css=arr[property]
-            })
+            if(Array.isArray(cssElement)) {
+                cssElement.map(arr => {
+                    if(arr.hasOwnProperty(property)) css=arr[property]
+                })
+            }
+            else css=cssElement
             elements.push(<DataTypeDiff data={data[property]} css={css} label={property}/>)
+        }
+        if(schema.items.properties[property].info === CONST.DOCUMENT) {
+            let css="tdb__input"
+            if(Array.isArray(cssElement)) {
+                cssElement.map(arr => {
+                    if(arr.hasOwnProperty(property)) css=arr[property]
+                })
+            }
+            else css=cssElement
+            elements.push(<LinkTypeDiff data={data[property]} css={css} label={property}/>)
         }
     }
     return <Card bg="secondary" className=" p-4 mt-4 mb-4 tdb__subdocument__card">
@@ -105,7 +118,6 @@ const SubDocumentTypeDiff = ({data, cssArray, schema}) => {
         </Card.Body>
     </Card>
 }
-
 
 
 /**
@@ -118,9 +130,14 @@ const SubDocumentTypeDiff = ({data, cssArray, schema}) => {
  */
 export function displayElements(formData, item, schema, tagUI) {  
     //console.log("props in doff", props, tagOriginalUI)
-    if(!formData) return <div/>
-
     let elements =[]
+    if(!formData) {
+        /*elements.push(deletedElements(formData, item, schema, tagUI))
+        return <div className="d-block w-100">{elements}</div>*/
+        return <div/>
+    }
+
+    
     elements.push(<label class="">{item}</label>)
 
     if(!schema.items) {
@@ -137,7 +154,7 @@ export function displayElements(formData, item, schema, tagUI) {
     else if(schema.items.info === CONST.SUBDOCUMENT_TYPE) {
         formData.map((data, index) => {
             let css=tagUI[item][index]
-            elements.push(<SubDocumentTypeDiff data={data} cssArray={css} schema={schema}/>)
+            elements.push(<SubDocumentTypeDiff data={data} cssElement={css} schema={schema}/>)
         })
         elements.push(<RemovedSubDocumentElements formData={formData} tagUI={tagUI} item={item} schema={schema}/>)
     }

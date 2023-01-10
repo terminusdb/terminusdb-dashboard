@@ -35,27 +35,27 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
         setJsonContent
     } = DocumentControlObj()
 
-    const [json, setJSON]=useState(false) 
+    const [data, setData]=useState(false) 
     const {type} = useParams()
 
     useEffect(() => {
-        if(jsonData) setJSON(JSON.stringify(jsonData, null, 2))
+        if(jsonData) setData(jsonData)
     }, [jsonData])
     
     let cmOptions={
-        gutters: ["CodeMirror-lint-markers"],
+        //gutters: ["CodeMirror-lint-markers"],
         mode: "application/ld+json",
         theme: "material-darker",
         lineNumbers: true,
         lineWrapping: true,
-        lint: true,
+        //lint: true,
         matchBrackets: true,
         autoCloseBrackets: true,
         height: "auto", 
-        viewportMargin: Infinity,
+        //viewportMargin: Infinity,
         indentWithTabs: true,
         tabSize: 2,
-        extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+        //extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
         foldGutter: true,
         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
         placeholder: `Start adding a JSON document of type ${type}...`,
@@ -66,19 +66,19 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
         if(setExtracted) setExtracted(data)
     }
     
-    //console.log("json", json, typeof json)
     return <React.Fragment>
         <CodeMirror
-            value={json}
+            value={JSON.stringify(data, null, 2)}
             options={cmOptions}
             onChange={(editor, data, value) => {
-                //console.log("value", value, typeof value)
-                setJSON(value)
+                console.log("value", value, typeof value)
+                setData(JSON.parse(value))
+                // setting constant to maintain value between form & json view
                 if(mode !== CONST.VIEW_DOCUMENT && setJsonContent) setJsonContent(JSON.parse(value))
             }}
         />
         {mode!==CONST.VIEW_DOCUMENT && 
-            <Button className="btn mt-2 float-left" variant="info" onClick={(e) => handleSubmit(json)}>
+            <Button className="btn mt-2 float-left" variant="info" onClick={(e) => handleSubmit(data)}>
                 {"Submit"}
             </Button>
         }

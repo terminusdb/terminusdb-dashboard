@@ -59,7 +59,7 @@ export function addCustomUI (item, generatedUILayout, uiFrame){
 				break
 			}
 			case CONST.DIFF: {
-				console.log("uiFrame[item]", uiFrame[item])
+				//console.log("uiFrame[item]", uiFrame[item])
 				customUI["ui:field"]=uiFrame[item][CONST.DIFF]
 			}
 			default:

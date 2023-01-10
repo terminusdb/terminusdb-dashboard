@@ -252,8 +252,10 @@ export const LABEL="@label"
 
 /** UI Frame constants */
 export const CLASSNAME="classNames"
+export const FORMAT="format"
 export const PLACEHOLDER="placeholder"
 export const DIFF="diffElement"
 export const TITLE="title"
 export const DESCRIPTION="description"
 export const HIDDEN="hidden"
+export const URI="uri"

@@ -23,6 +23,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [accessControlDashboard, setAccessControl] = useState(null)
 
     const [loadingServer, setLoadingServer] = useState(false)
+    const [documentLoading, setDocumentLoading] = useState(false)
     const [connectionError, setError] = useState(false)
 
     // to control document interface chosen document
@@ -174,8 +175,13 @@ export const WOQLClientProvider = ({children, params}) => {
         // to be review I'm adding get table config here
         woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/tables/team01/test01').then(result=>{
             setDocumentTablesConfig(result)
+<<<<<<< HEAD
         })
 
+=======
+        })*/
+        setDocumentLoading(true)
+>>>>>>> 1d3bcc48bb59763b428993a0f341021f88ce089f
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
             let test=[]
@@ -185,6 +191,7 @@ export const WOQLClientProvider = ({children, params}) => {
             setQuery(q)
             let totalQ=getTotalNumberOfDocuments(classRes)
             setTotalDocumentsQuery(totalQ)
+            setDocumentLoading(false)
         })
         .catch((err) =>  {
             console.log("Error in init woql while getting classes of data product", err.message)
@@ -430,7 +437,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 totalDocumentCount,
                 setSelectedDocument,
                 selectedDocument,
-                frames
+                frames,
+                documentLoading, 
+                setDocumentLoading
             }}
         >
             {children}

@@ -43,7 +43,7 @@ export const ViewDocumentFrames = () => {
         throw new Error (`Something's not right ... Frame is missing document type ${type} ...`)
     }
 
-    return <Card className="mt-5 tdb__frame__display" style={{width: "50%"}}>
+    return <Card className="tdb__frame__display" style={{width: "50%"}}>
         <Card.Header>
             {`Frames of `}
             <span className="fw-bold">{type}</span>

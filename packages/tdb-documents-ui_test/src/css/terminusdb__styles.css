@@ -47,6 +47,11 @@ input.tdb__diff__original,
     border-color: #f5c2c7 !important;
 }
 
+/* for boolean type */
+.tdb__diff__original div.checkbox {
+    color: #f8d7da !important;
+}
+
 .tdb__diff__original__subDocuments,
 .tdb__diff__original .tdb__markdown__view { 
     border: 1px solid #842029 !important;
@@ -74,6 +79,7 @@ input.tdb__diff__original,
 
 /* document links & enum */
 .tdb__diff__original > span,
+.tdb__diff__original a,
 .tdb__diff__enum__original > select  {
     color: #e74c3c !important;
     border: 0;
@@ -95,6 +101,8 @@ span.tdb__diff__original__diff__view {
     color: #e74c3c !important;
     text-decoration-color: #842029 !important;
     text-decoration: underline!important; 
+    word-wrap: break-word !important;
+    word-break: break-word !important;
 }
 
 .text_choice_documents {
@@ -109,6 +117,11 @@ input.tdb__diff__changed,
     color: #0f5132 !important;
     background-color: #d1e7dd !important;
     border-color: #badbcc !important;
+}
+
+/* for boolean type */
+.tdb__diff__changed div.checkbox {
+    color: #d1e7dd !important;
 }
 
 .tdb__diff__changed .tdb__markdown__view,
@@ -143,6 +156,7 @@ input.tdb__diff__changed,
 
 /* document links & enum */
 .tdb__diff__changed > span,
+.tdb__diff__changed a,
 .tdb__diff__enum__changed > select  {
     color: #00bc8c !important;
     border: 0;
@@ -150,6 +164,8 @@ input.tdb__diff__changed,
 
 .tdb__input__diff__view{
     text-decoration: underline;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
 }
 
 .text_diff_changed_underline,
@@ -159,6 +175,8 @@ span.tdb__diff__changed__diff__view {
     color: #00bc8c !important;
     text-decoration-color: #0f5132 !important;
     text-decoration: underline!important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
 }
 
 .diff__help__text {
@@ -269,7 +287,13 @@ div.array-item > div {
     width: 100% !important;
 }
 
+.form-label {
+    width: 9rem;
+}
+
 /** display control label of subdcouments for arrays */
+
+
 .tdb__subdocument__card  .control-label {
     /*display: none;*/
     opacity: 100 !important;
@@ -329,8 +353,15 @@ legend {
 }
 
 /** hide labels for sets/ lists*/ 
-div.array-item label.control-label {
+div.array-item label.control-label,
+div.array-item div.control-label {
     visibility: hidden;
+}
+
+/** display sub document labels for arrays */
+div.array-item div.tdb__subdocument__card label.control-label,
+div.array-item div.tdb__subdocument__card div.control-label {
+    visibility: initial;
 }
 
 /** display all control label of properties for sets/ list */
@@ -520,15 +551,20 @@ div.inserted * input, div.deleted * input {
     display: block;
 }
 
+/*
 .tdb__frame__viewer  div.form-group > input,
 .tdb__frame__viewer  div.form-group > textarea,
 .tdb__frame__viewer  div.form-group > a {
     margin-left: 1rem; 
-}
+}*/
 
 
 .tdb__frame__viewer  fieldset { 
     width: 100%;
+}
+
+.diff__removed__icon__spacing {
+    gap: 5rem !important;
 }
 
 
@@ -570,5 +606,28 @@ div.tdb__array__items__css button.tdb__documentation__help {
 label:empty{
     display: none  !important;
 }
+
+
+/** ---- css to align labels and input in same line --- */
+form.rjsf {
+    display:grid;
+    /*grid-template-columns: max-content max-content;*/
+    grid-gap:7px;
+}
+form.rjsf span.control-label,
+form.rjsf div.control-label,
+form.rjsf label.form-label,
+form.rjsf label.control-label { 
+  text-align:left; 
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  word-break: break-all;
+  min-width: 10rem;
+  width: 10rem;
+}
+form.rjsf span.control-label:after { content: "";  }
+form.rjsf div.control-label:after { content: "";  }
+form.rjsf label.form-label:after { content: "";  }
+form.rjsf label.control-label:after { content: "";  }
 
 

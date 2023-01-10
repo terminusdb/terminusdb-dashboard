@@ -9,6 +9,7 @@ import {handleCreate} from "./documents.utils"
 import {Nav} from "react-bootstrap"
 import {NavLink as RouterNavLink , useParams, useNavigate} from "react-router-dom"
 import {DocumentControlObj} from '../hooks/DocumentControlContext'
+import {Loading} from "../components/Loading"
 
 export const DocumentSummary = () => {
 
@@ -22,7 +23,8 @@ export const DocumentSummary = () => {
 
     const {
         perDocumentCount,
-        totalDocumentCount,
+        totalDocumentCount, 
+        documentLoading
     } = WOQLClientObj()
 
     const {
@@ -94,6 +96,8 @@ export const DocumentSummary = () => {
 
         return count
     }
+
+    if(documentLoading) return  <Loading message={`Fetching documents ...`}/>
 
     return  <main className="content  ml-5 w-100">
         <Container>
