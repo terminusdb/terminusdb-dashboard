@@ -46,19 +46,19 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
         //gutters: ["CodeMirror-lint-markers"],
         mode: "application/ld+json",
         theme: "material-darker",
-        //lineNumbers: true,
-        //lineWrapping: true,
+        lineNumbers: true,
+        lineWrapping: true,
         //lint: true,
-        //matchBrackets: true,
-        //autoCloseBrackets: true,
+        matchBrackets: true,
+        autoCloseBrackets: true,
         height: "auto", 
         //viewportMargin: Infinity,
         indentWithTabs: true,
         tabSize: 2,
         //extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-        //foldGutter: true,
-        //gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-        //placeholder: `Start adding a JSON document of type ${type}...`,
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        placeholder: `Start adding a JSON document of type ${type}...`,
         readOnly: mode===CONST.VIEW_DOCUMENT ? true : false
     }
 
@@ -66,7 +66,6 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
         if(setExtracted) setExtracted(data)
     }
     
-    console.log("json", data, typeof data)
     return <React.Fragment>
         <CodeMirror
             value={JSON.stringify(data, null, 2)}

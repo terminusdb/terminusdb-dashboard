@@ -36,10 +36,10 @@ export function getURIUIWidget(title, uiFrame) {
     let uiLayout = {} 
     let css = uiFrame && uiFrame.hasOwnProperty(title) ? uiFrame[title][CONST.CLASSNAME] : ``
     function displayURI(props) {
-        return <Stack direction="horizontal" gap={3}  className={css}>
+        return <div className={css}>
             <Form.Label>{title}</Form.Label> 
             <a href={props.formData} className="text-light" target="_blank">{props.formData}</a>
-        </Stack>
+        </div>
     }
     uiLayout["ui:field"] = displayURI
     return uiLayout

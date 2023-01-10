@@ -551,11 +551,12 @@ div.inserted * input, div.deleted * input {
     display: block;
 }
 
+/*
 .tdb__frame__viewer  div.form-group > input,
 .tdb__frame__viewer  div.form-group > textarea,
 .tdb__frame__viewer  div.form-group > a {
     margin-left: 1rem; 
-}
+}*/
 
 
 .tdb__frame__viewer  fieldset { 
@@ -605,5 +606,28 @@ div.tdb__array__items__css button.tdb__documentation__help {
 label:empty{
     display: none  !important;
 }
+
+
+/** ---- css to align labels and input in same line --- */
+form.rjsf {
+    display:grid;
+    /*grid-template-columns: max-content max-content;*/
+    grid-gap:7px;
+}
+form.rjsf span.control-label,
+form.rjsf div.control-label,
+form.rjsf label.form-label,
+form.rjsf label.control-label { 
+  text-align:left; 
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  word-break: break-all;
+  min-width: 10rem;
+  width: 10rem;
+}
+form.rjsf span.control-label:after { content: "";  }
+form.rjsf div.control-label:after { content: "";  }
+form.rjsf label.form-label:after { content: "";  }
+form.rjsf label.control-label:after { content: "";  }
 
 

@@ -11,10 +11,10 @@ function swapOperation(diffItem) {
 
     if(diffItem.hasOwnProperty(DIFFCONST.OPERATION) && 
         diffItem[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
-
-        let extracted=getDataFieldDiffs(diffItem)
-        originalUI=extracted[DIFFCONST.ORIGINAL_UI_FRAME]["classNames"]
-        changedUI=extracted[DIFFCONST.CHANGED_UI_FRAME]["classNames"]
+            let extracted=getDataFieldDiffs(diffItem)
+            originalUI=extracted[DIFFCONST.ORIGINAL_UI_FRAME]["classNames"]
+            changedUI=extracted[DIFFCONST.CHANGED_UI_FRAME]["classNames"]
+            
     }
 
     return {originalUI, changedUI}
@@ -183,6 +183,26 @@ function swapListOperation (diff, item, tagOriginalUI, tagChangedUI) {
     }
 }
 
+function processDiff(diffItem, item, tagOriginalUI, tagChangedUI) {
+    if(!diffItem.hasOwnProperty(DIFFCONST.OPERATION)) {
+        let subDocumentOriginalUI = [], subDocumentChangedUI = []
+        // this is a sub document 
+        for(let properties in diffItem) {
+            if(diffItem[properties].hasOwnProperty(DIFFCONST.OPERATION)) {
+                // pass on property diffs
+                swapValueSubDocumentOperation(diffItem[properties], properties, subDocumentOriginalUI, subDocumentChangedUI)
+            }
+        }
+        // get css per subdocument in array
+        tagOriginalUI[item].push(subDocumentOriginalUI)
+        tagChangedUI[item].push(subDocumentChangedUI)
+    }
+    else {
+        // normal data types
+        swapValueOperation(diffItem, item, tagOriginalUI, tagChangedUI)
+    }
+}
+
 /**
  * 
  * @param {*} diff - diff of each sub document 
@@ -193,23 +213,7 @@ function swapListOperation (diff, item, tagOriginalUI, tagChangedUI) {
 function processEachDiff(diff, item, tagOriginalUI, tagChangedUI) {
     // SWAP_VALUE operation
     diff.map(diffItem => {
-        if(!diffItem.hasOwnProperty(DIFFCONST.OPERATION)) {
-            let subDocumentOriginalUI = [], subDocumentChangedUI = []
-            // this is a sub document 
-            for(let properties in diffItem) {
-                if(diffItem[properties].hasOwnProperty(DIFFCONST.OPERATION)) {
-                    // pass on property diffs
-                    swapValueSubDocumentOperation(diffItem[properties], properties, subDocumentOriginalUI, subDocumentChangedUI)
-                }
-            }
-            // get css per subdocument in array
-            tagOriginalUI[item].push(subDocumentOriginalUI)
-            tagChangedUI[item].push(subDocumentChangedUI)
-        }
-        else {
-            // normal data types
-            swapValueOperation(diffItem, item, tagOriginalUI, tagChangedUI)
-        }
+        processDiff(diffItem, item, tagOriginalUI, tagChangedUI)
     })
 }
 
@@ -229,7 +233,19 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
 
     // SWAP_VALUE operation
     if(Array.isArray(diff)) {
+        // SWAP_VALUE operation
         processEachDiff(diff, item, tagOriginalUI, tagChangedUI)
+    }
+    else if(diff.hasOwnProperty(DIFFCONST.OPERATION) && 
+        diff[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
+        // SWAP_VALUE operation - @after or @before null
+        processDiff(diff, item, tagOriginalUI, tagChangedUI)
+        /*if(diff.hasOwnProperty(DIFFCONST.AFTER) && Array.isArray(diff[DIFFCONST.AFTER])) {
+            processEachDiff(diff[DIFFCONST.AFTER], item, tagOriginalUI, tagChangedUI) 
+        }
+        if(diff.hasOwnProperty(DIFFCONST.BEFORE) && Array.isArray(diff[DIFFCONST.BEFORE])) {
+            processEachDiff(diff[DIFFCONST.BEFORE], item, tagOriginalUI, tagChangedUI) 
+        }*/
     }
     
     // PATCH_LIST operation

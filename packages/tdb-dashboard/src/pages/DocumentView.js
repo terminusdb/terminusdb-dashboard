@@ -24,6 +24,10 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     } = DocumentControlObj()
 
     const {type, id} = useParams()
+
+    function onTraverse(clicked) {
+        console.log("clicked", clicked)
+    }
     
     // constants to store document data 
     const [data, setData]=useState(false)
@@ -45,7 +49,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
         mode={CONST.VIEW_DOCUMENT}
         formData={data}
         hideSubmit={true}
-        //onTraverse={onTraverse}
+        onTraverse={onTraverse}
     />
 }
 

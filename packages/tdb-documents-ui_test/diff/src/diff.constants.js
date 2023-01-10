@@ -30,8 +30,16 @@ export const oldData = {
 			"inventory_minifig_id": "AVC",
 			"minifig": "Minifig/1",
 			"quantity": 12
+		  },
+		  {
+			"@id": "Inventory/ecfd8d91eff0447e6dafef3ce1d7ca7f5831c9911f02c2addebaa4934c153bd7/inventory_minifigs/InventoryMinifig/AVC",
+			"@type": "InventoryMinifig",
+			"inventory_minifig_id": "AVC2",
+			"minifig": "Minifig/12",
+			"quantity": 2
 		  }
 		],
+		"setString": ["a", "b", "c"],
 		"inventory_parts": [
 		  {
 			"@id": "Inventory/ecfd8d91eff0447e6dafef3ce1d7ca7f5831c9911f02c2addebaa4934c153bd7/inventory_parts/InventoryPart/123333",
@@ -42,7 +50,7 @@ export const oldData = {
 			"spare": true
 		  }
 		],
-		"version": 1
+		/*"version": 1*/
 	  }
 } 
 
@@ -79,7 +87,9 @@ export const changedData = {
 			"minifig": "Minifig/12",
 			"quantity": 122
 		  }
-		],
+		  
+		], 
+		"setString": ["a", "b", "c"],
 		"inventory_parts": [
 		  {
 			"@id": "Inventory/ecfd8d91eff0447e6dafef3ce1d7ca7f5831c9911f02c2addebaa4934c153bd7/inventory_parts/InventoryPart/123333",

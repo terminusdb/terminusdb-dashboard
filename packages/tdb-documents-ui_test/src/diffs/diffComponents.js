@@ -48,8 +48,8 @@ export function showRemovedElementChanged(props) {
 // function to show removed element for original 
  export function showRemovedElementOriginal(props) {
     //invisible
-    let type=props.schema.hasOwnProperty(CONST.INFO) ? props.schema[CONST.INFO] : null
-    let format=props.schema.hasOwnProperty(CONST.FORMAT) ? props.schema[CONST.FORMAT] : null
+    let type=(props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.INFO)) ? props.schema[CONST.INFO] : null
+    let format=(props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.FORMAT)) ? props.schema[CONST.FORMAT] : null
     
     return <div className="form-group field field-string w-100 ">
         <Stack direction="horizontal" gap={5} className="w-100 diff__removed__icon__spacing">

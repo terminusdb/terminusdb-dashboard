@@ -1,7 +1,7 @@
-import React from "react"
+import React, {useState, useEffect, useRef} from "react"
 import * as CONST from "./constants"
 import Stack from 'react-bootstrap/Stack'
-import {FaTimes} from "react-icons/fa"
+import {FaTimes, FaCheck} from "react-icons/fa"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import Button from "react-bootstrap/Button"
 import {useNavigate, useParams} from "react-router-dom";
@@ -11,7 +11,17 @@ import * as PATH from "../routing/constants"
 import {FiCopy} from "react-icons/fi" 
 import {copyToClipboard} from "./utils"
 import {HiMagnifyingGlass} from "react-icons/hi2"
+import Card from 'react-bootstrap/Card';
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
+//import Popover from 'react-bootstrap/Popover';
+//import Popover from 'react-bootstrap/Popover';
+import { v4 as uuidv4 } from 'uuid';
+import Popover from "react-bootstrap/Popover"
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import {AiFillDelete} from "react-icons/ai"
 
+// button to view frames
 const ViewFramesButton = () => {
 
     const {
@@ -96,6 +106,51 @@ const EditHeader = ({type, id, setView}) => {
 }
 
 /**
+ * function to display are you sure to delete a document message
+ */
+const DeleteMessage = ({handleDelete, handleToggle}) => {
+    return <Card>
+        <Card.Header>
+            <span>{"Are you sure u want to delete ?"}</span>
+        </Card.Header>
+        <Card.Body>
+            <span className="text-gray">
+                {`If you delete this document, there is no going back. Please be certain.`}
+            </span>
+            <div className="d-flex mt-3">
+                <Button className="btn-sm bg-danger text-gray mr-2"
+                    onClick={handleDelete}> 
+                    <RiDeleteBin7Line className="mb-1" /> Delete
+                </Button>
+                <Button className="btn-sm bg-light text-dark"
+                    onClick={handleToggle}> 
+                    <FaTimes className="mr-1" /> Cancel
+                </Button>
+            </div>
+            
+        </Card.Body>
+    </Card>
+}
+
+/**
+ * function for displaying Popover when user click to delete a document
+ */
+const UpdatingPopover = React.forwardRef(
+    ({ popper, children, show: _, ...props }, ref) => {
+    useEffect(() => {
+        //console.log('updating!');
+        popper.scheduleUpdate();
+    }, [children, popper]);
+
+    return (
+        <Popover ref={ref} body {...props} id={`popover-positioned-bottom`}>
+         {children}
+        </Popover>
+    );
+    },
+);
+
+/**
  * 
  * @param {*} type document Type 
  * @param {*} id document ID 
@@ -106,6 +161,11 @@ const EditHeader = ({type, id, setView}) => {
 const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
 
     const navigate=useNavigate()
+    const [show, setShow] = React.useState(false);
+
+    const handleToggle = () => {
+        setShow((prev) => !prev);
+      };
 
     function handleEdit(e) {
         startCRMode(CONST.EDIT_DOCUMENT)
@@ -117,6 +177,8 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
         setClickedDelete(Date.now())
     }
 
+
+
     return <Stack direction="horizontal" gap={3} className="w-100">
         <div className="col-md-7"> 
             <strong className="text-success ml-1 h6 fw-bold">{CONST.VIEW_DOCUMENT}: {type}/{id}</strong>
@@ -124,6 +186,7 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
         </div>
         <ViewFramesButton/>
         <ToggleJsonAndFormControl onClick={setView}/>
+        
         <div className="d-flex">
             <Button variant="light" 
                 type="button" 
@@ -132,13 +195,24 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
                 className="btn-sm btn d-flex text-dark mr-2">
                 Edit
             </Button>
-            <Button variant="danger" 
-                type="button" 
-                title="Delete Document" 
-                onClick={handleDelete} 
-                className="btn-sm btn text-gray">
-                <RiDeleteBin7Line/>
-            </Button>
+
+            <OverlayTrigger trigger="click" 
+                placement="bottom" 
+                rootClose={true}
+                show={show}
+                onToggle={handleToggle}
+                overlay={ 
+                    <UpdatingPopover id="popover-contained">
+                        {<DeleteMessage handleToggle={handleToggle} handleDelete={handleDelete}/>}
+                    </UpdatingPopover>
+                }>
+                <Button variant="danger" 
+                    type="button" 
+                    title="Delete Document" 
+                    className="btn-sm btn text-gray">
+                        <RiDeleteBin7Line className=" mb-1"/>
+                </Button>
+            </OverlayTrigger>
         </div>
         <CloseButton type={type}/>
     </Stack>
@@ -165,3 +239,6 @@ export const Header = ({mode, type, id, startCRMode, setClickedDelete}) => {
     }
     return matchHeader[mode]
 }
+
+
+
