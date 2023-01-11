@@ -1,5 +1,28 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
+	Apple: {
+		"@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27",
+		"@type": "Apple",
+		"lives": [
+			{
+			  "@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/11c86727d6f26ed32d4baa173012381477ae6bd4bf7c35ae922abf9f65f5b983",
+			  "@type": "address",
+			  "addressline1": "two1",
+			  "postal": "two1"
+			},
+			{
+			  "@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/84672a39e6a4fb4c4d86e9ddeeeae5019ecb5c63087dd903d36fd5867ce90e9b",
+			  "@type": "address",
+			  "addressline1": "one1",
+			  "postal": "one1"
+			}
+		  ]/*,
+		"text": [
+		  "onetext",
+		  "twotext",
+		  "threetext"
+		]*/
+	  },
 	Element: {
 		"color": "Color/d4e4f37992756cbc5063dea9e2feed00b12abe439e8528db425df2150d8f500b3",
 		"image_url": "https://jsonfor4matter.org/",
@@ -30,13 +53,6 @@ export const oldData = {
 			"inventory_minifig_id": "AVC",
 			"minifig": "Minifig/1",
 			"quantity": 12
-		  },
-		  {
-			"@id": "Inventory/ecfd8d91eff0447e6dafef3ce1d7ca7f5831c9911f02c2addebaa4934c153bd7/inventory_minifigs/InventoryMinifig/AVC",
-			"@type": "InventoryMinifig",
-			"inventory_minifig_id": "AVC2",
-			"minifig": "Minifig/12",
-			"quantity": 2
 		  }
 		],
 		"setString": ["a", "b", "c"],
@@ -54,7 +70,30 @@ export const oldData = {
 	  }
 } 
 
+
 export const changedData = {
+	Apple: {
+		"@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27",
+		"@type": "Apple",
+		"lives": [
+			{
+			  "@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/11c86727d6f26ed32d4baa173012381477ae6bd4bf7c35ae922abf9f65f5b983",
+			  "@type": "address",
+			  "addressline1": "two",
+			  "postal": "two"
+			},
+			{
+			  "@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/84672a39e6a4fb4c4d86e9ddeeeae5019ecb5c63087dd903d36fd5867ce90e9b",
+			  "@type": "address",
+			  "addressline1": "one",
+			  "postal": "one"
+			}
+		  ]
+		/*"text": [
+		  "onetext1",
+		  "twotext1",
+		]*/
+	  },
 	Element: {
 		
 		"color": "Color/de4f37992756cbc5063dea9e2feed00b12abe439e8528db425df2150d8f500b3",
@@ -89,7 +128,7 @@ export const changedData = {
 		  }
 		  
 		], 
-		"setString": ["a", "b", "c"],
+		
 		"inventory_parts": [
 		  {
 			"@id": "Inventory/ecfd8d91eff0447e6dafef3ce1d7ca7f5831c9911f02c2addebaa4934c153bd7/inventory_parts/InventoryPart/123333",
@@ -98,9 +137,33 @@ export const changedData = {
 			"inventory_part_id": "1233332",
 			"quantity": 122,
 			"spare": true
+		  },
+
+		  {
+			"@id": "Inventory/ecfd8d91eff0447e6dafef3ce1d7ca7f5831c9911f02c2addebaa4934c153bd7/inventory_minifigs/InventoryMinifig/AVC",
+			"@type": "InventoryMinifig",
+			"inventory_minifig_id": "AVC2",
+			"minifig": "Minifig/12",
+			"quantity": 2
 		  }
 		],
 		"version": 12
 	  }
-}   
+} 
+/*
+,
+		"lives": [
+		  {
+			"@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/11c86727d6f26ed32d4baa173012381477ae6bd4bf7c35ae922abf9f65f5b983",
+			"@type": "address",
+			"addressline1": "two",
+			"postal": "two"
+		  },
+		  {
+			"@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/84672a39e6a4fb4c4d86e9ddeeeae5019ecb5c63087dd903d36fd5867ce90e9b",
+			"@type": "address",
+			"addressline1": "one",
+			"postal": "one"
+		  }
+		]*/
 

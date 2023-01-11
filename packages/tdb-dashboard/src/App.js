@@ -57,10 +57,10 @@ export function App (props){
     // so he can be undefined at the start
     const isAdmin = accessControlDashboard ? accessControlDashboard.isAdmin() : false
     return <div className="container-fluid container-background h-100">
-            <Routes>
-                {getRoutes(clientUser,isAdmin)}
-            </Routes>         
-            </div>
+    <Routes>
+        {getRoutes(clientUser,isAdmin)}
+    </Routes>         
+    </div>
 }
 
 function getRoutes(clientUser,isAdmin){
@@ -68,7 +68,7 @@ function getRoutes(clientUser,isAdmin){
     return <React.Fragment>
         <Route index element={<Home/>} />
             { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
-            { clientUser.user !== "admin" && <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}   
+            { clientUser.user !== "admin" && <Route path="administrator" element={<div><PageNotFound/></div >}/>}   
             <Route path=":organization" >
                 <Route index element={<OrganizationHome/>}/>
                 <Route path="members" element={<UserManagement/>}/>
@@ -79,7 +79,7 @@ function getRoutes(clientUser,isAdmin){
                     <Route path={PATH.PRODUCT_MODELS} element={<ModelProductPage/>} />                    
                 </Route>
             </Route>             
-            <Route path="*" element={<div>Not Found 404 !!!!</div >} />
+            <Route path="*" element={<div><PageNotFound/></div >} />
         </React.Fragment>
     }
     return <React.Fragment>
@@ -90,7 +90,7 @@ function getRoutes(clientUser,isAdmin){
             <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
             <Route path = {PATH.PROFILE} element = {<PrivateRoute component={Profile}/>} />  
            {isAdmin &&  <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>}
-           {!isAdmin &&  <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}
+           {!isAdmin &&  <Route path="administrator" element={<div><PageNotFound/></div >}/>}
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
             <Route path=":dataProduct" >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />

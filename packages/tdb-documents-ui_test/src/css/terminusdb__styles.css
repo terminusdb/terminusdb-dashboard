@@ -564,7 +564,7 @@ div.inserted * input, div.deleted * input {
 }
 
 .diff__removed__icon__spacing {
-    gap: 5rem !important;
+    margin-bottom: 1rem !important;
 }
 
 

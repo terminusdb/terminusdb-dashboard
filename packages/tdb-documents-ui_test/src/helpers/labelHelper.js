@@ -21,6 +21,7 @@ const SubDocumentLabelComponent =({label, documentation, isKey}) => {
 }
 
 const EnumLabelComponent =({frame, label, documentation, isKey}) => { 
+
     let values=frame[label]["@values"]
     return <div className="d-flex hd enum__label">
         {getLabelFromEnumDocumentation (label, documentation, values)}
@@ -40,10 +41,7 @@ export function generateLabel (frame, item, documentation) {
     if(!frame.hasOwnProperty(item)) return null
 
     let isKey=util.checkIfKey(item, frame["@key"])
-    
-    /*if(util.isDataType(frame[item])) {
-        return <LabelComponent label={item} documentation={documentation} isKey={isKey}/>
-    }*/
+
     if(util.isSubDocumentType(frame[item])) {
         return <SubDocumentLabelComponent label={item} documentation={documentation} isKey={isKey}/>
     }

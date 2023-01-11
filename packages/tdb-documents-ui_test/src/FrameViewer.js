@@ -50,9 +50,9 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
             if(frame, uiFrame, type, mode) { //formData 
                 clear()
                 let extractedDocumentation= util.extractDocumentation(frame, current, language)
-                //if(extractedDocumentation) setDocumentation (extractedDocumentation)
+                //store selected language here to get access to ENUM docs based on selected language
+                frame[CONST.SELECTED_LANGUAGE]= language ? language : CONST.DEFAULT_LANGUAGE
                 let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation)
-                
                 let schema = {
                     type: CONST.OBJECT_TYPE,
                     properties: properties.properties,

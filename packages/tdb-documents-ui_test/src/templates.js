@@ -5,17 +5,6 @@ import * as CONST from "./constants"
 
 const DisplayLabel = ({schema, id, label, formData}) => {
 
-	/*if(!schema.hasOwnProperty(CONST.INFO)) return <div/>
-	if(schema[CONST.INFO] === undefined) return <div/>
-	if(schema.info === CONST.CHOICESUBCLASSES) return <div/>
-	if(schema.info === CONST.SUBDOCUMENT_TYPE) return <div/>
-	if(schema.info === CONST.LIST) return <div/>
-	if(schema.info === CONST.SET) return <div/>
-	if(schema.info === CONST.SET) return <div/>
-	if(schema.info === CONST.DATA_TYPE && 
-		schema.hasOwnProperty(CONST.FORMAT) && 
- 		schema[CONST.FORMAT]=== CONST.URI) return <div/>*/
-
 	if(schema.hasOwnProperty(CONST.INFO) && 
 		schema[CONST.INFO] === CONST.DATA_TYPE) { 
 			if(schema.hasOwnProperty(CONST.FORMAT) && 
@@ -44,7 +33,7 @@ const DisplayLabel = ({schema, id, label, formData}) => {
  export function DisplayFieldTemplate(props) {
 	const {id, classNames, label, help, required, description, errors, children, formData, schema, uiSchema} = props;
 	
-	console.log("props", id, props)
+	//console.log("props", id, props)
 	// return empty div when no data available
 	if(!formData && !uiSchema.hasOwnProperty("ui:field")) {
 		// check for ui field -  we use custom fields some times to represent null fields

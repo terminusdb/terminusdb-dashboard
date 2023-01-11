@@ -18,16 +18,16 @@ function getClassNamesForDiffs(diff) {
 
         if(diff.hasOwnProperty(DIFFCONST.AFTER) && 
             diff[DIFFCONST.AFTER] === null)  {
-                // property has been removed 
-                originalUIFrame["classNames"] = "tdb__diff__original" 
-                changedUIFrame[DIFF] = util.showRemovedElementChanged
-            }
+            // property has been removed 
+            originalUIFrame["classNames"] = "tdb__diff__original" 
+            changedUIFrame[DIFF] = util.showRemovedElementChanged
+        }
         else if(diff.hasOwnProperty(DIFFCONST.BEFORE) && 
             diff[DIFFCONST.BEFORE] === null) {
-                // property has been added 
-                originalUIFrame[DIFF] = util.showRemovedElementOriginal
-                changedUIFrame["classNames"] = "tdb__diff__changed"
-            }
+            // property has been added 
+            originalUIFrame[DIFF] = util.showRemovedElementOriginal
+            changedUIFrame["classNames"] = "tdb__diff__changed"
+        }
         else {
             // when changed
             originalUIFrame["classNames"] = "tdb__diff__original"
@@ -39,7 +39,7 @@ function getClassNamesForDiffs(diff) {
 
 
 // ALL SWAP VALUE OPERATIONS
-export function getDataFieldDiffs(diff) {
+export function getDataFieldDiffs(diff) { 
 
     if(!diff.hasOwnProperty(DIFFCONST.OPERATION)) { 
         let originalUIFrame=[], changedUIFrame=[]

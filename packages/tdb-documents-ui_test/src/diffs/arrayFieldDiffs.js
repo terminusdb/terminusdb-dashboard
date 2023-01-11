@@ -5,19 +5,33 @@ import * as util from "./diffComponents"
 import {getDataFieldDiffs} from "./dataFieldDiffs"
 import {displayElements} from "./displayArrayFieldDiffs"
 
+function getExtractedFieldDisplay(extracted) {
+    if(extracted.hasOwnProperty(CONST.CLASSNAME)) {
+        return extracted[CONST.CLASSNAME]
+    }
+    else if(extracted.hasOwnProperty(CONST.DIFF)) {
+        return extracted[CONST.DIFF]
+    }
+    // if no match then return default classNames
+    return "tdb__input"
+}
+
 /** swap operation */
 function swapOperation(diffItem) {
-    let originalUI={}, changedUI={}
+    let originalUI={}, changedUI={}  
 
     if(diffItem.hasOwnProperty(DIFFCONST.OPERATION) && 
         diffItem[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
-            let extracted=getDataFieldDiffs(diffItem)
-            originalUI=extracted[DIFFCONST.ORIGINAL_UI_FRAME]["classNames"]
-            changedUI=extracted[DIFFCONST.CHANGED_UI_FRAME]["classNames"]
-            
+        let extracted=getDataFieldDiffs(diffItem)
+        originalUI=getExtractedFieldDisplay(extracted[DIFFCONST.ORIGINAL_UI_FRAME])
+        changedUI=getExtractedFieldDisplay(extracted[DIFFCONST.CHANGED_UI_FRAME])
     }
 
     return {originalUI, changedUI}
+}
+
+function keepListOperation() {
+    // do nothing for now
 }
 
 /** displays element without any changed */
@@ -74,7 +88,7 @@ function patchListOperation (diff, item, tagOriginalUI, tagChangedUI) {
 
     // @rest param 
     if(diff.hasOwnProperty(DIFFCONST.REST)){
-         // @to is number of elements which did not change 
+        // @to is number of elements which did not change 
         let noChangeElements=diff[DIFFCONST.REST]["@to"]
         displayNoChangeElements (noChangeElements, item, tagOriginalUI, tagChangedUI)
         // op is CopyList here ...
@@ -102,10 +116,22 @@ function patchListOperation (diff, item, tagOriginalUI, tagChangedUI) {
 
         }
 
-        // op is Swap List here  
+        // op is Swap List with @before & @after
+        if(diff.hasOwnProperty(DIFFCONST.OPERATION) && 
+            diff[DIFFCONST.OPERATION] === DIFFCONST.SWAP_LIST) {
+                swapListOperation(diff, item, tagOriginalUI, tagChangedUI)
+        }
+
+        // op is Swap List here on internal @rest
         if(diff[DIFFCONST.REST].hasOwnProperty(DIFFCONST.OPERATION) && 
             diff[DIFFCONST.REST][DIFFCONST.OPERATION] === DIFFCONST.SWAP_LIST) {
                 swapListOperation(diff[DIFFCONST.REST], item, tagOriginalUI, tagChangedUI)
+        }
+
+        // op is Keep List here 
+        if(diff[DIFFCONST.REST].hasOwnProperty(DIFFCONST.OPERATION) && 
+            diff[DIFFCONST.REST][DIFFCONST.OPERATION] === DIFFCONST.KEEP_LIST) {
+                keepListOperation()
         }
     }      
 }
@@ -161,7 +187,7 @@ function swapListOperation (diff, item, tagOriginalUI, tagChangedUI) {
         if(typeof diff[DIFFCONST.AFTER][0] === CONST.OBJECT_TYPE) {
             swapListSubDocumentOperation (diff[DIFFCONST.AFTER], "tdb__diff__changed", tagChangedUI[item]) 
         }
-        else swapListDocumentOperation(diff[DIFFCONST.AFTER], "tdb__diff__changed", tagOriginalUI[item])
+        else swapListDocumentOperation(diff[DIFFCONST.AFTER], "tdb__diff__changed", tagChangedUI[item])
     }
     // @before is empty
     if(diff.hasOwnProperty(DIFFCONST.BEFORE) && 
@@ -180,6 +206,33 @@ function swapListOperation (diff, item, tagOriginalUI, tagChangedUI) {
             swapListSubDocumentOperation (diff[DIFFCONST.BEFORE], "tdb__diff__changed__removed", tagChangedUI[item])
         }
         else swapListDocumentOperation(diff[DIFFCONST.BEFORE], "tdb__diff__changed__removed", tagChangedUI[item])
+    }
+}
+
+//when @after or @before is null 
+// do a check to add the correct css at this point
+function checkForInsertOrDelete(diff, item, tagOriginalUI, tagChangedUI) {
+    // insert 
+    if(diff.hasOwnProperty(DIFFCONST.AFTER) && 
+        Array.isArray(diff[DIFFCONST.AFTER])) {
+        let css=tagChangedUI[item][0]
+        tagChangedUI[item]=[]
+        tagOriginalUI[item]=[]
+        diff[DIFFCONST.AFTER].map(arr => {
+            tagChangedUI[item].push(css)
+            tagOriginalUI[item].push("tdb__diff__original__removed")
+        })
+    }   
+    // delete 
+    else if(diff.hasOwnProperty(DIFFCONST.BEFORE) && 
+        Array.isArray(diff[DIFFCONST.BEFORE])) {
+        let css=tagOriginalUI[item][0]
+        tagChangedUI[item]=[]
+        tagOriginalUI[item]=[]
+        diff[DIFFCONST.BEFORE].map(arr => {
+            tagOriginalUI[item].push(css)
+            tagChangedUI[item].push("tdb__diff__changed__removed")
+        })
     }
 }
 
@@ -217,6 +270,23 @@ function processEachDiff(diff, item, tagOriginalUI, tagChangedUI) {
     })
 }
 
+/**
+     * 
+     * @param {*} formData - form data 
+     * @param {*} tagUI - constant holding changed or original css
+     * @param {*} css - css to be applied
+     * @returns altered data to display as placeholders if data has been inserted or deleted 
+     */
+ function getFormData (formData, css) {
+    let data = formData && Array.isArray(formData) && formData[0]===false ? [] : formData
+    if(css === "tdb__diff__changed__removed" || css === "tdb__diff__original__removed") {
+        // in this case something has been removed and we need to pass filled formData 
+        // equivalent to what was removed
+        data=[]
+    }
+    return data 
+}
+
 
 // ALL ARRAY FIELDS
 export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
@@ -240,12 +310,7 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
         diff[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
         // SWAP_VALUE operation - @after or @before null
         processDiff(diff, item, tagOriginalUI, tagChangedUI)
-        /*if(diff.hasOwnProperty(DIFFCONST.AFTER) && Array.isArray(diff[DIFFCONST.AFTER])) {
-            processEachDiff(diff[DIFFCONST.AFTER], item, tagOriginalUI, tagChangedUI) 
-        }
-        if(diff.hasOwnProperty(DIFFCONST.BEFORE) && Array.isArray(diff[DIFFCONST.BEFORE])) {
-            processEachDiff(diff[DIFFCONST.BEFORE], item, tagOriginalUI, tagChangedUI) 
-        }*/
+        checkForInsertOrDelete(diff, item, tagOriginalUI, tagChangedUI)
     }
     
     // PATCH_LIST operation
@@ -261,18 +326,29 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
                 diff[DIFFCONST.REST][DIFFCONST.OPERATION] === DIFFCONST.PATCH_LIST ){
                     copyListOperation (diff, item, tagOriginalUI, tagChangedUI)
             }
-            // @rest param with swapValue operation
+            // @rest param with swap list operation
+            if(diff.hasOwnProperty(DIFFCONST.REST) && 
+                diff[DIFFCONST.REST][DIFFCONST.OPERATION] === DIFFCONST.SWAP_LIST ){
+                    copyListOperation (diff, item, tagOriginalUI, tagChangedUI)
+            }
+            // @rest (array) param with swapValue operation
             if(diff.hasOwnProperty(DIFFCONST.REST) && 
                 Array.isArray(diff[DIFFCONST.REST]) && 
                 diff[DIFFCONST.REST][0][DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE ){
                     //copyListOperation (diff, item, tagOriginalUI, tagChangedUI)
                     processEachDiff(diff[DIFFCONST.REST], item, tagOriginalUI, tagChangedUI)
             }
-            // @ rest param with swap list operation
+            // @ rest param => @rest with swap list operation
             if(diff.hasOwnProperty(DIFFCONST.REST) && 
                 diff[DIFFCONST.REST].hasOwnProperty(DIFFCONST.REST) && 
                 diff[DIFFCONST.REST][DIFFCONST.REST][DIFFCONST.OPERATION] === DIFFCONST.SWAP_LIST ){
                     swapListOperation(diff[DIFFCONST.REST][DIFFCONST.REST], item, tagOriginalUI, tagChangedUI)
+            }
+            // @ rest param with keep list operation
+            if(diff.hasOwnProperty(DIFFCONST.REST) && 
+                diff[DIFFCONST.REST].hasOwnProperty(DIFFCONST.REST) && 
+                diff[DIFFCONST.REST][DIFFCONST.REST][DIFFCONST.OPERATION] === DIFFCONST.KEEP_LIST ){
+                    //swapListOperation(diff[DIFFCONST.REST][DIFFCONST.REST], item, tagOriginalUI, tagChangedUI)
             }
     }
     console.log("tagOriginalUI", tagOriginalUI)
@@ -285,7 +361,9 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
      */
     function displayOriginal(props) {
         //console.log("props original", props.formData)
-        return displayElements(props.formData, item, props.schema, tagOriginalUI)
+        // when @before is null - we will check form data here 
+        let data=getFormData(props.formData, tagOriginalUI[item][0])
+        return displayElements(data, item, props.schema, tagOriginalUI)
     }
 
     /**
@@ -295,7 +373,9 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
      */
     function displayChanged(props) {
         //console.log("props changed", props.formData)
-        return displayElements(props.formData, item, props.schema, tagChangedUI)
+        // when @after is null - we will check form data here 
+        let data=getFormData(props.formData, tagChangedUI[item][0])
+        return displayElements(data, item, props.schema, tagChangedUI)
     }
 
     originalUIFrame[CONST.DIFF] = displayOriginal

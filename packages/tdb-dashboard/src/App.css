@@ -109,7 +109,7 @@ div.SplitPane  .horizontal {
 }
 .Pane1 {
   background-color: #222;
-  min-width: 320px !important;
+  /*min-width: 320px !important;*/
 }
 .Pane2 {
   background-color: transparent;
@@ -189,6 +189,7 @@ div.progress-bar-container {
 
 .main-navbar-shadow {
   box-shadow: 1px 0px 7px rgb(0 0 0 / 50%);
+  border-bottom: 1px solid rgba(0,0,0,0.175);
 }
 
 

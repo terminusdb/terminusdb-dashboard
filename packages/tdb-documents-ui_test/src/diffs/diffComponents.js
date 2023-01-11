@@ -27,21 +27,24 @@ export function removedIcons(css) {
     </div>
 } 
 
+// function to display set/ list control label placeholder of support lauput of diffs
+const DisplayArrayFieldPlaceholder = ({type, name}) => {
+    if(type) return <div/>
+    return <div className="opacity-0 control-label">{name}</div>
+}
+
 // function to show removed element for changed
 export function showRemovedElementChanged(props) { 
-    let type=props.schema.hasOwnProperty(CONST.INFO) ? props.schema[CONST.INFO] : null
-    let format=props.schema.hasOwnProperty(CONST.FORMAT) ? props.schema[CONST.FORMAT] : null
+    let type=(props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.INFO)) ? props.schema[CONST.INFO] : null
+    let format=(props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.FORMAT)) ? props.schema[CONST.FORMAT] : null
     
     return <div className="form-group field field-string w-100">
-        <Stack direction="horizontal" gap={5} className="w-100 ">
-           {/* <label className="control-label" htmlFor={`root_${props.name}`}>
-                <span>{props.name}</span>
-                {/*props.required && <span className="required">*</span>*//*}
-            </label>*/}
+        <Stack direction="horizontal" className="w-100 diff__removed__icon__spacing">
             <DisplayLabel type={type} label={props.name} format={format}/>
-            {removedIcons("text-success")}
+            <DisplayArrayFieldPlaceholder type={type} name={props.name}/>
+            {removedIcons("text-success mb-3")}
         </Stack>
-        <input className="form-control opacity-0" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
+        <input className="form-control opacity-0 mb-3" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
     </div>
 }
 
@@ -52,15 +55,12 @@ export function showRemovedElementChanged(props) {
     let format=(props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.FORMAT)) ? props.schema[CONST.FORMAT] : null
     
     return <div className="form-group field field-string w-100 ">
-        <Stack direction="horizontal" gap={5} className="w-100 diff__removed__icon__spacing">
+        <Stack direction="horizontal" className="w-100 diff__removed__icon__spacing">
             <DisplayLabel type={type} label={props.name} format={format}/>
-            {/*<label className="control-label" htmlFor={`root_${props.name}`}>
-                <span>{props.name}</span>
-                {/*props.required && <span className="required">*</span>*//*}
-            </label>*/}
-            {removedIcons("text-danger")}
+            <DisplayArrayFieldPlaceholder type={type} name={props.name}/>
+            {removedIcons("text-danger mb-3")}
+            <input className="form-control opacity-0" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
         </Stack>
-        <input className="form-control opacity-0" readOnly={true} id={`root_${props.name}`} label={props.name} required="" placeholder="xsd:string" type="text"/>
     </div>
 }
 

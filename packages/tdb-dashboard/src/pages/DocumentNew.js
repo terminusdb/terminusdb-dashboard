@@ -130,6 +130,22 @@ export const DocumentNew = () => {
         // logic to start CR mode
     }
 
+    // remove this after DEV is ready for CR Management
+    /*return <main className="content w-100 document__interface__main">
+        {errorMsg && <Alert variant={"danger"} className="mr-3">
+            {errorMsg}
+        </Alert>}
+            <Card className="mr-3 bg-dark">
+                <Card.Header className="justify-content-between d-flex w-100 text-break">
+                    <Header mode={CONST.CREATE_DOCUMENT} type={type}/>
+                </Card.Header>
+                <Card.Body className="text-break">
+                    <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
+                </Card.Body>
+            </Card>
+    </main>*/
+
+    // comment this for now - uncomment after DEV is ready for CR Management
     return <main className="content w-100 document__interface__main">
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}

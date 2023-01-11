@@ -23,6 +23,7 @@ export const DataTypeDiff = ({data, css, label}) => {
 /** checks if elements have been added or removed */
 function checkIfElementsChanged(formData, tagUI, item) {
     let entiresCount=formData.length
+    if(entiresCount === 1 && formData[entiresCount-1] === false) entiresCount=0
     let cssEntriesCount=tagUI[item].length
     // some elements have been added or removed 
     if(cssEntriesCount > entiresCount) {
@@ -39,18 +40,21 @@ const RemovedElements = ({formData, tagUI, item}) => {
     let tagIndex=formData.length
     for(let count=0; count < displayElementPlaceholders; count++) {
         let name=item, required=false
-        // check css in index of tagUI and display respective colored removed icons
-        if(tagUI[item][tagIndex] === "tdb__diff__changed__removed") {
-            elements.push(
-                showRemovedElementChanged( {name, required} )
-            )
+        if(typeof tagUI[item][tagIndex] === CONST.STRING_TYPE) {
+            // check css in index of tagUI and display respective colored removed icons
+            if(tagUI[item][tagIndex] === "tdb__diff__changed__removed") {
+                elements.push(
+                    showRemovedElementChanged( {name, required} )
+                )
+            }
+            // check css in index of tagUI and display respective colored removed icons
+            else if(tagUI[item][tagIndex] === "tdb__diff__original__removed") {
+                elements.push(
+                    showRemovedElementOriginal( {name, required} )
+                )
+            }
         }
-        // check css in index of tagUI and display respective colored removed icons
-        else if(tagUI[item][tagIndex] === "tdb__diff__original__removed") {
-            elements.push(
-                showRemovedElementOriginal( {name, required} )
-            )
-        }
+        
         tagIndex+=1
     }
     return elements
@@ -98,7 +102,7 @@ const SubDocumentTypeDiff = ({data, cssElement, schema}) => {
                     if(arr.hasOwnProperty(property)) css=arr[property]
                 })
             }
-            else css=cssElement
+            else css=cssElement ? cssElement : "tdb__input"
             elements.push(<DataTypeDiff data={data[property]} css={css} label={property}/>)
         }
         if(schema.items.properties[property].info === CONST.DOCUMENT) {
@@ -108,7 +112,7 @@ const SubDocumentTypeDiff = ({data, cssElement, schema}) => {
                     if(arr.hasOwnProperty(property)) css=arr[property]
                 })
             }
-            else css=cssElement
+            else css=cssElement ? cssElement : "tdb__input"
             elements.push(<LinkTypeDiff data={data[property]} css={css} label={property}/>)
         }
     }
@@ -130,6 +134,7 @@ const SubDocumentTypeDiff = ({data, cssElement, schema}) => {
  */
 export function displayElements(formData, item, schema, tagUI) {  
     //console.log("props in doff", props, tagOriginalUI)
+
     let elements =[]
     if(!formData) {
         /*elements.push(deletedElements(formData, item, schema, tagUI))
@@ -152,8 +157,8 @@ export function displayElements(formData, item, schema, tagUI) {
         elements.push(<RemovedElements formData={formData} tagUI={tagUI} item={item}/>)
     }
     else if(schema.items.info === CONST.SUBDOCUMENT_TYPE) {
-        formData.map((data, index) => {
-            let css=tagUI[item][index]
+        formData.map((data, index) => { 
+            let css=tagUI[item][index] //? tagUI[item][index] : "tdb__subdocument__card"
             elements.push(<SubDocumentTypeDiff data={data} cssElement={css} schema={schema}/>)
         })
         elements.push(<RemovedSubDocumentElements formData={formData} tagUI={tagUI} item={item} schema={schema}/>)

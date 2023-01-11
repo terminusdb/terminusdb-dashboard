@@ -1,4 +1,31 @@
-- add language support for enums 
+- add language support for enums  ✅ 
+{ "@id" : "Choice",
+  "@type" : "Enum",
+  "@documentation" : [
+     {
+       "@language" : "en",
+       "@label" : "Choice",
+       "@comment" : "A Choice of a thing",
+       "@values" : {
+         "yes" : { "@label" : "yes",
+                   "@comment" : "Is it a yes?" },
+         "no" : { "@label" : "no",
+                  "@comment" : "Or is it a no?" }
+       }
+     },
+     {
+       "@language" : "ka",
+       "@label" : "არჩევანი",
+       "@values" : {
+          "yes" : { "@label" : "დიახ",
+                    "@comment" : "კია?" },
+          "no" : { "@label" : "არა",
+                   "@comment" : "ან არის არა?" }
+       }
+     }
+  ],
+  "@value" : ["yes", "no"]
+}
 
 - finish  @documentation to choice sub documents - fix legend & documentation ✅ 
 - finish  @documentation to choice documents - fix legend & documentation
@@ -72,3 +99,6 @@ PLAYGROUND
 DASHBOARD 
 - fix json code mirror - cursor is always at end
 - fix prefix document View ID routing
+
+
+

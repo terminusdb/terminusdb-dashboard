@@ -472,7 +472,7 @@ export function isFilled (item, formData){
  * @param {*} item - property 
  * @returns - returns label in which item is to be displayed in UI 
  */
- export function getLabelFromDocumentation (item, documentation) {
+ export function getLabelFromDocumentation (item, documentation) { 
 	if(!documentation) return item
 	if(!Array.isArray(documentation)) return item
 	let label=item 
