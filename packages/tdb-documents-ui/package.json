@@ -86,7 +86,6 @@
     "@terminusdb/terminusdb-client": "^10.0.25",
     "@uiw/codemirror-extensions-basic-setup": "^4.12.4",
     "@uiw/react-codemirror": "^4.12.4",
-    "@uiw/react-markdown-preview": "^4.1.5",
     "@uiw/react-md-editor": "^3.20.2",
     "acorn": "^8.8.0",
     "bootstrap": "^5.1.3",
