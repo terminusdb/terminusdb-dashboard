@@ -41,7 +41,7 @@
   "author": "terminusdb group",
   "dependencies": {
     "@apollo/client": "^3.7.0",
-    "@terminusdb/terminusdb-client": "^10.0.12",
+    "@terminusdb/terminusdb-client": "^10.0.25",
     "apollo-client": "^2.6.10",
     "classnames": "^2.2.5",
     "date-fns": "^2.28.0",

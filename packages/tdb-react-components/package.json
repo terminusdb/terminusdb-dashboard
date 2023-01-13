@@ -44,7 +44,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@terminusdb/terminusdb-client": "^10.0.23",
+    "@terminusdb/terminusdb-client": "^10.0.25",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.5",
     "codemirror": "^5.59.1",
