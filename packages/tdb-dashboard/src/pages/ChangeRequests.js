@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Container , Card, Button, ListGroup,Badge} from "react-bootstrap"
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {WOQLClientObj} from '../init-woql-client'
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {BiGitPullRequest} from "react-icons/bi"
@@ -28,10 +28,12 @@ const GetChangeRequestSummary = ({changeRequestList}) => {
 }
 
 export const ChangeRequests = () => {
+	const {dataProduct} = useParams()
+	const navigate = useNavigate() 
     const {
-		woqlClient:client,
+		woqlClient,
         setCurrentCRObject,
-		setCurrentChangeRequest
+		setCurrentChangeRequest,
 	} = WOQLClientObj()
     
     const {
@@ -44,13 +46,8 @@ export const ChangeRequests = () => {
 	const [filter, setFilter]=useState(false)
   
     useEffect(() => { 
-        if(client) getChangeRequestList()
-    }, [client])
-
-
-    const navigate = useNavigate() 
-
-	//console.log("changeRequestList", changeRequestList)
+        if(woqlClient) getChangeRequestList()
+    }, [woqlClient, dataProduct])
 
     const goToDiffPage = (changeRequestObject) => {  
 		setCurrentCRObject(changeRequestObject)

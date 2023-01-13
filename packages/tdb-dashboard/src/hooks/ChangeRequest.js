@@ -13,9 +13,11 @@ export function ChangeRequest(){
     const [changeRequestList, setChangeRequestList]  = useState([])
 
     //I'm using the client to get my custom url
-    const client = woqlClient.copy()
-    client.connectionConfig.api_extension = 'api/'
-    const baseUrl = client.connectionConfig.dbBase("changes")
+    function getUrl(){
+        const client = woqlClient.copy()
+        client.connectionConfig.api_extension = 'api/'
+        return client.connectionConfig.dbBase("changes")
+    }
     
     const createChangeRequest = async(branchName, message) =>{
         try{
@@ -23,8 +25,8 @@ export function ChangeRequest(){
         const payload = {tracking_branch:branchName,
                         original_branch:"main",
                         message:message,
-                        author:client.user()}
-        const result = await client.sendCustomRequest("POST", baseUrl,payload)
+                        author:woqlClient.user()}
+        const result = await woqlClient.sendCustomRequest("POST", getUrl(),payload)
         return result.change_request_id
         }catch(err){
             const errMessage = formatErrorMessage(err)
@@ -39,7 +41,7 @@ export function ChangeRequest(){
         try{
             setLoading(true)
             const payload = {message,status}
-            await client.sendCustomRequest("PUT", `${baseUrl}/${currentChangeRequest}`,payload)
+            await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${currentChangeRequest}`,payload)
             return true
         }catch(err){
             const errMessage = formatErrorMessage(err)
@@ -53,7 +55,7 @@ export function ChangeRequest(){
     const getChangeRequestList = async(branchName, message) =>{
         try{
             setLoading(true) 
-            const result = await client.sendCustomRequest("GET", baseUrl)
+            const result = await woqlClient.sendCustomRequest("GET", getUrl())
             //console.log("result ** ", result)
             setChangeRequestList(result)
         }catch(err){
@@ -69,7 +71,7 @@ export function ChangeRequest(){
         try{ 
             setLoading(true) 
            // const payload = {id}
-            const result = await client.sendCustomRequest("GET", `${baseUrl}/${id}`)
+            const result = await woqlClient.sendCustomRequest("GET", `${getUrl()}/${id}`)
             if(setCurrentCRObject) {
                 result.map(res=>{
                     if(res["@id"] === `ChangeRequest/${id}`){

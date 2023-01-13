@@ -18,7 +18,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     const [filterBy, setFilters] = useState(filterTable)
     const [queryFilters, setQueryFilters] = useState(false)
 
-    const {loading, error, fetchMore} = useQuery(graphqlQuery, {onCompleted:onCompleteCall, 
+    const {loading, error, fetchMore} = useQuery(graphqlQuery, {onCompleted:onCompleteCall,
       variables:{"offset":start , "limit":limit+1, 
       "orderBy":orderBy || {}, "filter":queryFilters || {}}});
 

@@ -28,10 +28,12 @@ import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
 import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 import {PageNotFound} from "./pages/PageNotFound"
+//import { ApolloProvider} from '@apollo/client';
+//import {createApolloClient} from './routing/ApolloClientConfig'
 
 export function App (props){
     let navigate = useNavigate();
-    const {connectionError,loadingServer,clientUser,accessControlDashboard} = WOQLClientObj()
+    const {connectionError,loadingServer,clientUser,accessControlDashboard,woqlClient} = WOQLClientObj()
     if(!clientUser) return ""
     // we have this loading only in terminusX, it is auth0 information/login loading
     const {loading} = clientUser
@@ -56,14 +58,19 @@ export function App (props){
     //the accessControlDashboard in terminusX is created only after the login 
     // so he can be undefined at the start
     const isAdmin = accessControlDashboard ? accessControlDashboard.isAdmin() : false
+  
     return <div className="container-fluid container-background h-100">
             <Routes>
-                {getRoutes(clientUser,isAdmin)}
+            {getRoutes(clientUser,isAdmin, woqlClient)}          
             </Routes>         
             </div>
 }
 
-function getRoutes(clientUser,isAdmin){
+// {getRoutes(clientUser,isAdmin, woqlClient)}
+
+function getRoutes(clientUser, isAdmin, woqlClient){
+    //const client = createApolloClient(woqlClient)
+
     if(localSettings.connection_type==="LOCAL"){ 
     return <React.Fragment>
         <Route index element={<Home/>} />
@@ -104,9 +111,10 @@ function getRoutes(clientUser,isAdmin){
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">
-                            <Route index element={<PrivateRoute component={DocumentsList01}/>} /> 
+                           
+                            <Route index element={<DocumentList/>} /> 
                             <Route path={PATH.NEW_DOC} element={<PrivateRoute component={DocumentNew}/>} /> 
-                            <Route path="test"  element={<PrivateRoute component={DocumentList}/>} /> 
+
                             <Route path=":id" >
                                 <Route index element={<PrivateRoute component={DocumentView}/>} /> 
                                 <Route path={PATH.EDIT_DOC} element={<PrivateRoute component={DocumentEdit}/>} /> 
@@ -122,8 +130,8 @@ function getRoutes(clientUser,isAdmin){
         <Route path="*" element={<PageNotFound/>} />
     </React.Fragment>
 }
-
-
+// <Route path="test"  element={<ApolloProvider client={client}><DocumentList/></ApolloProvider>} /> 
+//  <Route index element={<PrivateRoute component={DocumentsList01}/>} /> 
 /*
 \ <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    

@@ -222,9 +222,9 @@ function getCellProps(cell, view){
 
 function getRowProps(row, config){
     let cs = {}
-    if(config.rowCLick){
+    if(config.rowClick){
         cs.onClick = function(){
-            config.rowCLick(row.original)
+            config.rowClick(row)
         }
         cs.style = { cursor: "pointer"}
     }

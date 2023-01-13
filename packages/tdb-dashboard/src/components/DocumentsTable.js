@@ -1,22 +1,19 @@
-import TerminusClient from "@terminusdb/terminusdb-client"
 import React,{useState,useEffect} from "react";
-import { extractedResults, ControlledGraphqlQuery } from '@terminusdb/terminusdb-react-table'
-//import { graphqlQuery, tableConfigObj, advFiltersFields } from "../utils/graphqlQuery"
+import { ControlledGraphqlQuery , GraphqlTable} from '@terminusdb/terminusdb-react-table'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import { AdvancedSearch } from "../components/AdvancedSearch";
-import Accordion from 'react-bootstrap/Accordion'
 import {Tab,Tabs,Form, Button} from 'react-bootstrap'
 import { GraphqlQueryView } from "./GraphqlQueryViewer";
-//import {generateQuery} from "../utils/text08"
 import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
+import Accordion from 'react-bootstrap/Accordion'
 
 //to be review
 export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}) => {
-    //const query = graphqlQuery[type]
-
-    const querystr  = tableConfig.objQuery[type]
+    
+    const querystr  = tableConfig.objQuery[type].query
     const query = gql`${querystr}`
+    //const query =gql`query Doc01Query($offset: Int, $limit: Int, $filter: Doc01_Filter, $orderBy: Doc01_Ordering) {\n  Doc01(offset: $offset, limit: $limit, filter: $filter, orderBy: $orderBy) {\n    _id\n    label\n  }\n}`
     const [advSearchFields,setAdvFields] = useState(false)
     const [queryToDisplay,setQueryTodisplay] = useState(false)
    
@@ -43,18 +40,20 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
        }
     },[type]);
 
-    const onRowClickCall = (row) => {
+    function onRowClickCall(row){
         if (onRowClick) {
             const rowTmp = row && row.original ? {label:row.original.name, id:row.original._id}: {}
             onRowClick(rowTmp)
         }
     }
-    // let advSearchFields = advFiltersFields[type] || false
-    const tableConfigObj = tableConfig.tablesColumnsConfig[type] || []
-    tableConfigObj.rowClick = onRowClickCall
-    //tableConfig.row().click(onRowClickCall)
 
+     const tableConfigObj = {}
+     tableConfigObj.columns = tableConfig.tablesColumnsConfig[type] || []
+     tableConfigObj.rowClick = onRowClickCall
+    
     let extractedResults = documentResults ? extractDocuments(documentResults[type]) : []
+
+    const totalRows = 200
 
     function extractDocuments(documentResults) {
         var extractedResults = []
@@ -87,17 +86,18 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
 
 
    // const showBar = loading ? {className:"visible"} : {className:"invisible"}
+   //return <div>hello</div>
+// <AdvancedSearch fields={advSearchFields} setFilter={setAdvancedFilters} />
     return <div>          
             {advSearchFields &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>Advanced filter</Accordion.Header>
                         <Accordion.Body>
-                           <AdvancedSearch fields={advSearchFields} setFilter={setAdvancedFilters} />
+                            <AdvancedSearch fields={advSearchFields} setFilter={setAdvancedFilters} />
                         </Accordion.Body>
                     </Accordion.Item>
-                </Accordion>
-            }
+            </Accordion>}       
             {loading && <span >
                 Loading {type} ...
                 <ProgressBar variant="success" animated now={100}  className="mb-4"/>
@@ -108,7 +108,7 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
                     {!loading && Array.isArray(extractedResults) && 
                      <GraphqlTable
                      // dowloadConfig={{filename:"test.csv",headers:["Author","Commit ID"]}}
-                      result={result}
+                      result={extractedResults}
                       freewidth={true}
                       config ={tableConfigObj}
                    //   view={(tableConfig ? tableConfig.json() : {})}

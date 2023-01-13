@@ -43,7 +43,7 @@
       "last 1 safari version"
     ]
   },
-  "peerDependencies": { 
+  "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -102,7 +102,7 @@
     "leaflet-geometryutil": "^0.10.0",
     "mermaid": "^9.3.0",
     "prismjs": "^1.28.0",
-    "react-bootstrap": "^2.1.2",
+    "react-bootstrap": "^2.7.0",
     "react-bootstrap-typeahead": "^6.0.0-alpha.9",
     "react-codemirror2": "^7.2.1",
     "react-diff-viewer": "^3.1.1",

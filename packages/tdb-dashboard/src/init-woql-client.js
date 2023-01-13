@@ -36,7 +36,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [branches, setBranches] = useState(false)
     const [chosenCommit,setChosenCommit]=useState({})
 
-    const [documentTablesConfig,setDocumentTablesConfig]=useState({})
+    const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
 
     const [currentCRObject, setCurrentCRObject]=useState(false)
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
@@ -130,14 +130,6 @@ export const WOQLClientProvider = ({children, params}) => {
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
                  }
 
-                 const lastBranch = localStorage.getItem("TERMINUSCMS_BRANCH")            
-                 if(lastBranch){
-                     dbClient.checkout(lastBranch)
-                     const lastChangeRequest = localStorage.getItem("TERMINUSCMS_CHANGE_REQUEST_ID")
-                     setBranch(lastBranch)
-                     setCurrentChangeRequest(lastChangeRequest)
-                 }
-
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
@@ -173,9 +165,6 @@ export const WOQLClientProvider = ({children, params}) => {
     //get all the Document Classes (no abstract or subdocument)
     function getUpdatedDocumentClasses(woqlClient) {
         // to be review I'm adding get table config here
-        woqlClient.sendCustomRequest("GET", 'http://localhost:4242/api/tables/team01/test01').then(result=>{
-            setDocumentTablesConfig(result)
-        })
         setDocumentLoading(true)
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
@@ -218,6 +207,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const setDataProduct = (dbName,hubClient,accessDash) =>{
         const client = woqlClient || hubClient
         const accDash = accessControlDashboard || accessDash
+       
         if(client){
             client.db(dbName)
             //set the allowed actios for the selected dataproduct
@@ -225,6 +215,25 @@ export const WOQLClientProvider = ({children, params}) => {
             accDash.setDBUserActions(dbDetails['@id'])
             //reset the head
             setHead('main',{commit:false,time:false})
+            if(dbName){
+                const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
+
+                const lastBranch = localStorage.getItem(TERMINUSCMS_CR)            
+                if(lastBranch){
+                    client.checkout(lastBranch)
+                    const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)
+                    setBranch(lastBranch)
+                    setCurrentChangeRequest(lastChangeRequest)
+                }
+                //get the config tables for the db    
+                const clientCopy = client.copy()
+                clientCopy.connectionConfig.api_extension = 'api/'
+                const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+
+                client.sendCustomRequest("GET", baseUrl).then(result=>{
+                    setDocumentTablesConfig(result)
+                })
+            }
             clearDocumentCounts()
         }
     }
@@ -285,11 +294,18 @@ export const WOQLClientProvider = ({children, params}) => {
         setBranchReload(Date.now())
     }
 
+    function changeRequestName(currentClient){
+        const client = currentClient || woqlClient
+        return {TERMINUSCMS_CR:`TERMINUSCMS_CR.${client.organization()}_____${client.db()}`,
+        TERMINUSCMS_CR_ID: `TERMINUSCMS_CR_ID.${client.organization()}_____${client.db()}`}
+    }
+
 
     function setChangeRequestBranch(branchName,changeRequestId){
         woqlClient.checkout(branchName)
-        localStorage.setItem("TERMINUSCMS_BRANCH",branchName)
-        localStorage.setItem("TERMINUSCMS_CHANGE_REQUEST_ID",changeRequestId)
+        const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
+        localStorage.setItem([TERMINUSCMS_CR],branchName)
+        localStorage.setItem([TERMINUSCMS_CR_ID],changeRequestId)
         // set the change_request brach and reset the commit 
         setBranch(branchName)
         setRef(null)
@@ -389,14 +405,13 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const hasRebaseRole=(teamUserRoles)=>{
         try{
-            const actions = teamUserRoles.capability[0].role[0].action
+            const actions = teamUserRoles[0].action
             if(actions.find(element=>element==="rebase")){
                 setTeamUserRoleMerge(true)
             }
         }catch(err){
             console.log(err)
         }
-
     }
 
     return (
