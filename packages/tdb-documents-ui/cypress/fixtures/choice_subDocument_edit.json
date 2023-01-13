@@ -1,0 +1,50 @@
+{
+	"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51",
+	"@type": "Student",
+	"favorite_subject": {
+		"@type": "Botony",
+		"Grade": "A+",
+		"Number_of_classes_attended": 6,
+		"course_start_date": "2022-08-17T09:21:09Z",
+		"number_of_assignments": 5
+	},
+	"second_favorite_subject": {
+		"@type": "Zoology",
+		"Grade": "C",
+		"Notes": "OK in zoology",
+		"Number_of_classes_attended": 2,
+		"course_start_date": "2022-08-17T09:21:20Z"
+	},
+	"studied": [
+	   {
+			"@type": "Botony",
+			"Grade": "B+",
+			"Number_of_classes_attended": 54,
+			"course_start_date": "2022-08-17T09:21:53Z",
+			"number_of_assignments": 2
+	   },
+	   {
+			"@type": "Maths",
+			"Number_of_classes_attended": 45,
+			"course_start_date": "2022-08-17T09:21:37Z",
+			"level": "Hard",
+			"love_maths": true
+	   }
+	],
+	"study_time_table": [
+	   {
+			"@type": "Zoology",
+			"Grade": "A+",
+			"Notes": "Average student",
+			"Number_of_classes_attended": 8,
+			"course_start_date": "2022-08-17T09:22:06Z"
+	   },
+	   {
+			"@type": "Botony",
+			"Grade": "B+",
+			"Number_of_classes_attended": 4,
+			"course_start_date": "2022-08-17T09:22:32Z",
+			"number_of_assignments": 34
+	   }
+	]
+}
