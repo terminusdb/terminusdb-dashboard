@@ -1,56 +1,11 @@
 
 import React from "react"
 import {FrameViewer} from "../FrameViewer"
-import {
-    VIEW, 
-    ORIGINAL_VALUE, 
-    CHANGED_VALUE,
-    ORIGINAL_UI_FRAME, 
-    CHANGED_UI_FRAME
-} from "../constants"
-import {
-    OPERATION,
-    INSERT,
-    DELETE
-} from "./diff.constants"
+import * as CONST from "../constants"
 import {Card, Row, Col} from "react-bootstrap"
 import {generateDiffUIFrames} from "./diffViewer.utils"
-
-/**
- * 
- * @param {*} oldValueHeader Custom React Element to display in Card Header of old branch  
- * @returns A React Element to display in Card Header of old branch
- */
- const OldValueHeader = ({oldValueHeader}) => {
-    if(oldValueHeader) return oldValueHeader
-    
-    return <React.Fragment>
-        {ORIGINAL_VALUE}
-        <Card.Subtitle className="mt-1 text-muted">
-            <small>Old Values are highlighted in 
-                <small className="text-danger fw-bold m-1">red</small>
-            </small>
-        </Card.Subtitle>
-    </React.Fragment>
-}
-
-/**
- * 
- * @param {*} newValueHeader Custom React Element to display in Card Header of tracking branch  
- * @returns A React Element to display in Card Header of tracking branch
- */
-const NewValueHeader = ({newValueHeader}) => {
-    if(newValueHeader) return newValueHeader
-    
-    return <React.Fragment>
-        {CHANGED_VALUE}
-        <Card.Subtitle className="mt-1 text-muted">
-            <small>Changes are highlighted in 
-                <small className="text-success fw-bold m-1">green</small>
-            </small>
-        </Card.Subtitle>
-    </React.Fragment>
-}
+import {OldValueHeader, NewValueHeader} from "./Headers"
+import * as DIFFCONST from "./diff.constants"
 
 
 /**
@@ -64,14 +19,16 @@ const NewValueHeader = ({newValueHeader}) => {
  * @param {*} newValueHeader Custom React Element to display in Card Header of tracking branch  
  * @returns  
  */
- export const DiffViewer = ({frame, type, oldValue, newValue, diffPatch, oldValueHeader, newValueHeader}) => {
+ export const DiffViewer = (args) => {
+
+    let {frame, type, oldValue, newValue, diffPatch, oldValueHeader, newValueHeader}=args
+
     if(!frame) return <div>{"Include frames to view Diffs"}</div>
     if(!type) return <div>{"Include document type to view Diffs"}</div>
     if(!diffPatch) return <div>{"Include diff patch JSON Object to view diffs"}</div>
     if(!frame.hasOwnProperty(type)) return <div>{`Frame of type ${type} not found`}</div>
 
-
-    if(diffPatch.hasOwnProperty(OPERATION) && diffPatch[OPERATION] === INSERT) {
+    if(diffPatch.hasOwnProperty(DIFFCONST.OPERATION) && diffPatch[DIFFCONST.OPERATION] === DIFFCONST.INSERT) {
         let uiJson = {
             classNames: "p-3 inserted"
         }
@@ -90,7 +47,7 @@ const NewValueHeader = ({newValueHeader}) => {
                             uiFrame={hideUIJson}
                             type={type}
                             formData={newValue}
-                            mode={VIEW}
+                            mode={CONST.VIEW}
                             hideSubmit={true}
                         />
                     </Card.Body>
@@ -107,7 +64,7 @@ const NewValueHeader = ({newValueHeader}) => {
                             uiFrame={uiJson}
                             type={type}
                             formData={newValue}
-                            mode={VIEW}
+                            mode={CONST.VIEW}
                             hideSubmit={true}
                         />
                     </Card.Body>
@@ -116,7 +73,7 @@ const NewValueHeader = ({newValueHeader}) => {
         </Row>
     }
 
-    if(diffPatch.hasOwnProperty(OPERATION) && diffPatch[OPERATION] === DELETE) {
+    if(diffPatch.hasOwnProperty(DIFFCONST.OPERATION) && diffPatch[DIFFCONST.OPERATION] === DIFFCONST.DELETE) {
         let uiJson = {
             classNames: "p-3 deleted"
         }
@@ -135,7 +92,7 @@ const NewValueHeader = ({newValueHeader}) => {
                             uiFrame={uiJson}
                             type={type}
                             formData={oldValue}
-                            mode={VIEW}
+                            mode={CONST.VIEW}
                             hideSubmit={true}
                         />
                     </Card.Body>
@@ -152,7 +109,7 @@ const NewValueHeader = ({newValueHeader}) => {
                             type={type}
                             uiFrame={hideUIJson}
                             formData={oldValue}
-                            mode={VIEW}
+                            mode={CONST.VIEW}
                             hideSubmit={true}
                         />
                     </Card.Body>
@@ -160,10 +117,13 @@ const NewValueHeader = ({newValueHeader}) => {
             </Col>
         </Row>
     }
-
+    
     let subFrame=frame[type]    
     let diffUIFrames=generateDiffUIFrames(frame, subFrame, type, oldValue, newValue, diffPatch)
-  
+    
+    //console.log("original diffUIFrames ", diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME])
+    //console.log("changed diffUIFrames ", diffUIFrames[DIFFCONST.CHANGED_UI_FRAME])
+
     return <Row> 
         <Col md={6}>
             <Card>  
@@ -173,10 +133,10 @@ const NewValueHeader = ({newValueHeader}) => {
                 <Card.Body> 
                     <FrameViewer
                         frame={frame}
-                        uiFrame={diffUIFrames[ORIGINAL_UI_FRAME]}
+                        uiFrame={diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME]}
                         type={type}
                         formData={oldValue}
-                        mode={VIEW}
+                        mode={CONST.VIEW}
                         hideSubmit={true}
                     />
                 </Card.Body>
@@ -190,10 +150,10 @@ const NewValueHeader = ({newValueHeader}) => {
                 <Card.Body>
                     <FrameViewer
                         frame={frame}
-                        uiFrame={diffUIFrames[CHANGED_UI_FRAME]}
+                        uiFrame={diffUIFrames[DIFFCONST.CHANGED_UI_FRAME]}
                         type={type}
                         formData={newValue}
-                        mode={VIEW}
+                        mode={CONST.VIEW}
                         hideSubmit={true}
                     />
                 </Card.Body>

@@ -8,7 +8,7 @@ import {ViewDocumentFrames} from "../components/ViewDocumentFrames"
 export const DocumentTemplate = (props) => {
     return <DocumentControlProvider>
         <Layout >
-            <main role="main" className="content m-5 d-flex">
+            <main role="main" className="content ml-5 mr-5 mb-5 d-flex">
                 <Outlet/> 
                 {<ViewDocumentFrames/>}
             </main>

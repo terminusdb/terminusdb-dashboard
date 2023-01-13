@@ -6,11 +6,25 @@ import {
     SYS_UNIT_DATA_TYPE
 } from "./constants"
 import { isDataType } from "./utils"
+import * as CONST from "./constants"
 
 // return true if only @type is available
 function checkIfNotFilled (json){
+    if(!json) return false
     if(Object.keys(json).length === 1 && json.hasOwnProperty("@type")) return true
     return false
+}
+
+function extractOneOfValue (formData) {
+    // at this point the selected choice by user will be populated in @choice
+    if(formData[CONST.ONEOFVALUES].hasOwnProperty("@choice")) {
+        let selectedChoice = formData[CONST.ONEOFVALUES]["@choice"]
+        if(formData[CONST.ONEOFVALUES].hasOwnProperty(selectedChoice)) {
+            return {[selectedChoice]: formData[CONST.ONEOFVALUES][selectedChoice]}
+        }
+        // mostly at this point - this is going to be a sys_unit type
+        return {[selectedChoice]: []}
+    }
 }
 
 /*
@@ -27,8 +41,9 @@ export const transformData = (mode, schema, data, frame, type) => {
     for(var key in formData){
         if(formData[key] === undefined) continue // undefined
         else if(key === ONEOFVALUES) { 
+            let selectedOneOfValue = extractOneOfValue(formData)
             //@oneOf
-            let sysUnit=false, newOneOfData={}
+            /*let sysUnit=false, newOneOfData={}
             for(var oneOf in formData[key]) {
                 if(formData[key][oneOf] === SYS_UNIT_DATA_TYPE) {
                     sysUnit=oneOf
@@ -41,13 +56,13 @@ export const transformData = (mode, schema, data, frame, type) => {
                 }
             }
             else {
-                let oneOfData=formData[key]
-                if(oneOfData.hasOwnProperty("@choice") && !isDataType(oneOfData["@type"])) {
+                newOneOfData=formData[key]
+                /*if(oneOfData.hasOwnProperty("@choice") && !isDataType(oneOfData["@type"])) {
                     let choice = oneOfData["@choice"]
                     let choiceData = {}
                     for(var cds in oneOfData) {
                         if(cds !== "@choice") {
-                            choiceData[cds]= oneOfData[cds]
+                            choiceData[cds]= oneOfData[cds] 
                         }
                     }
                     newOneOfData = {
@@ -60,10 +75,11 @@ export const transformData = (mode, schema, data, frame, type) => {
                     newOneOfData={
                         [choice]: oneOfData[choice]
                     }
-                }
+                }*/
                 
-            }
-            return newOneOfData
+            /*}
+            return newOneOfData*/
+            return selectedOneOfValue
         }
         else if(key === COORDINATES && Array.isArray(formData[key])) {
             // coordinates for geo jsons - we only support POINT TYPE
@@ -83,17 +99,30 @@ export const transformData = (mode, schema, data, frame, type) => {
                     transformedArray.push(fd)
                 }
                 else {
-                    if(fd.hasOwnProperty("info") && fd.info === CHOICECLASSES){
+                    if(fd && fd.hasOwnProperty("info") && fd.info === CHOICECLASSES){
                         let temp = fd
                         delete temp.info
                         // at this stage there should be only 1 elemenet in frame[key]
                         let k = Object.keys(temp)[0]
                         transformed = temp[k]
                     }
-                    else transformed=transformData(mode, schema, fd, frame, type)
+                    else {
+                        transformed=transformData(mode, schema, fd, frame, type)
+                    }
                 }
-                if(transformed && Object.keys(transformed).length)
+                if(transformed && Object.keys(transformed).length){
+                    // choice classes extract 
+                    if (schema.hasOwnProperty(key) && 
+                        schema[key].items.hasOwnProperty("info") && 
+                            schema[key]["items"]["info"] === CHOICECLASSES) {
+                                let choiceType=transformed["@type"]
+                                let choiceValue=transformed[choiceType]
+                                transformed=choiceValue
+                            }
+                    //else extracted[key]=transformed
+
                     transformedArray.push(transformed)
+                }
             })
             if(Array.isArray(transformedArray) && transformedArray.length === 0) {
                 if(schema.hasOwnProperty(key) && 
@@ -119,7 +148,16 @@ export const transformData = (mode, schema, data, frame, type) => {
             else {
                 let transformed=transformData(mode, schema, formData[key], frame, type)
                 if(key === POINT_TYPE) return transformed
-                if(transformed) extracted[key]=transformed
+                if(transformed) {
+                    // choice classes extract 
+                    if (schema.hasOwnProperty(key) && 
+                        schema[key].hasOwnProperty("info") && 
+                            schema[key]["info"] === CHOICECLASSES) {
+                                let choiceType=transformed["@type"]
+                                extracted[key]=transformed[choiceType]
+                            }
+                    else extracted[key]=transformed
+                }
             }
         }
         else if(checkIfNotFilled(formData[key])) {

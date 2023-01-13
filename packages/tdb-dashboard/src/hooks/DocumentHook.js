@@ -181,8 +181,8 @@ export function GetDocumentByBranches(client, branch, documentID, setValue, setE
  * @param {*} changeRequestID Change Request ID
  * @param {*} setError Constant to catch error 
  * @returns diff list from branches
- */
-export function GetDiffList(woqlClient, changeRequestID, setError){
+ */ 
+export function GetDiffList(woqlClient, changeRequestID, setLoading, setError){
     const [result, setResult] = useState(false)
 
     async function getDiffList() {
@@ -190,10 +190,10 @@ export function GetDiffList(woqlClient, changeRequestID, setError){
             const client = woqlClient.copy()
             client.connectionConfig.api_extension = 'api/'
             const baseUrl = client.connectionConfig.dbBase("changes")
-
             //let id = extractID(changeRequestID)
             const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff`)
             setResult(result)
+            if(setLoading) setLoading(false)
         }
         catch(err){
             if(setError) setError(err.message)

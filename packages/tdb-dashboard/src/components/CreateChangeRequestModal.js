@@ -35,10 +35,10 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
         <Modal.Header>
-            <Modal.Title className="text-success mt-3 mb-3">Starting a new change request</Modal.Title>
+            <Modal.Title className="text-success h6 fw-bold">Start a new change request</Modal.Title>
             <Button variant="close" aria-label="Close" onClick={closeModal} />
         </Modal.Header>
-        <Modal.Body className="p-5">
+        <Modal.Body className="p-3">
             {errorMessage && 
              <Alert variant="danger"  onClose={() => setError(false)} dismissible>{errorMessage}</Alert>}
             <Form>
@@ -50,7 +50,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
                         placeholder={`Please type the change request name`} />
                    
                 </Form.Group>
-                <Form.Group className="mb-3 tdb__input">
+                <Form.Group className="tdb__input">
                     <Form.Control required 
                         ref={messageRef}
                         id="add_message" 
@@ -64,7 +64,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
                 disabled={loading}
                 id ="add_element_button"
                 variant="light" 
-                className="text-dark"
+                className="text-dark btn-sm"
                 title={`Start a change request`} 
                 onClick={runCreate}>{loading ? 'Sending Request ...' : "Start a change request"} 
             </Button>

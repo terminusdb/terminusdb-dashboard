@@ -32,7 +32,8 @@ module.exports = {
     })
   ],
   resolve: {
-    alias: {
+    alias: { 
+      "@terminusdb/terminusdb-documents-ui_test": path.resolve('./src/index.js')
       //"@terminusdb/terminusdb-documents-ui": path.join(__dirname, '..', 'src/index.js'),
       //"@rjsf/core": path.resolve('../react-jsonschema-form/packages/core/src/index.js'),
       //"@rjsf/core": path.join(__dirname, '..', src, '/index.js'),
@@ -71,10 +72,22 @@ module.exports = {
           }
         },
       },
-      { 
+      {
+        //test: /\.s[ac]ss$/i, 
+        test: /\.s?css$/,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
+      },
+      /*{ 
         test: /\.css$/,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
-      }]
+      }*/]
   }
 };

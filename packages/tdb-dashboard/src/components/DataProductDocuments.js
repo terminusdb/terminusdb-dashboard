@@ -197,14 +197,12 @@ export const DocumentExplorerDocuments = () => {
                         <span className="text-gray">{item["@id"]}</span>
                 </Button>
                 {actionControl.write && <Button 
-                    className="btn-create-document pro-item-content btn-sm" 
+                    className="btn-create-document pro-item-content btn-sm bg-secondary" 
                     variant="dark" 
                     title={`Add a new ${item["@id"]}`}
                     onClick={(e) => newDocHandler(item["@id"])}//handleCreate(item["@id"], documentObject, setDocumentObject)}
                 > 
-                        <Badge variant="dark">
-                            <BiPlus style={{fontSize: "14px"}} color="#fff" />
-                        </Badge>
+                    <BiPlus style={{fontSize: "14px"}} color="#fff" />
                 </Button>}
             </ButtonGroup>
         </MenuItem>

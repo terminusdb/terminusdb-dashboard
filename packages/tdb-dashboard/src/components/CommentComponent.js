@@ -33,7 +33,7 @@ export const CommentComponent = ({setKey}) => {
 		}
     }
     
-	return <Form.Group className="mt-3 mb-5">
+	return <Form.Group className="mt-3 mb-5 ml-3 mr-4">
 		<Form.Control
 			className="bg-dark text-light border-secondary" 
 			as="textarea"
@@ -44,11 +44,14 @@ export const CommentComponent = ({setKey}) => {
 			type="text"
 		/>
 		<Button
-			className="text-dark btn-sm fw-bold float-right mt-2 mb-5 d-flex" 
+			className="text-dark btn-lg float-right mt-2 mb-5 d-flex border border-dark col-md-2 justify-content-center" 
 			variant="light"
 			disabled={loading}
+			title="Leave a Comment"
 			onClick={handleMessage}>
-			{loading ? <Loading message={COMMENT}/> : <><VscCommentDiscussion className="mt-1 mr-2 h6 fw-bold"/>{COMMENT}</>} 
+			{loading ? <Loading message={COMMENT}/> : <><VscCommentDiscussion className="mr-2 mt-1 h6 fw-bold text-dark"/>
+				<h6 className="text-dark fw-bold">{COMMENT}</h6>
+			</>} 
 		</Button>
 	</Form.Group>
         

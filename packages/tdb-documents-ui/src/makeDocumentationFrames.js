@@ -11,7 +11,7 @@ import {FaRegComment} from "react-icons/fa"
 function documentationTypeFrames (frame, item, uiFrame) {
 
     let properties={}, propertiesUI={}, layout ={}, uiLayout={}
-
+ 
 
     layout = {
         type: "string",

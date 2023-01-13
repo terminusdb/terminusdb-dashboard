@@ -30,7 +30,7 @@ export function getDataType(type) {
 
 /* function to display sys:JSON types in code mirror in create mode*/
 export function getCreateJSONWidget(item, label) {
-    let uiLayout = {}
+    let uiLayout = {} 
 
     function displayCreateJSONInput(props) {
         
@@ -41,14 +41,16 @@ export function getCreateJSONWidget(item, label) {
         }
 
         return <React.Fragment>
-            <span>{label}</span>
-            <JSONInput
-                id          = 'json_type_field'
-                locale      = { locale }
-                height      ={JSON_EDITOR_HEIGHT}
-                width       ={JSON_EDITOR_WIDTH}
-                onBlur={handleInput}
-            />
+            <span>{label}</span> 
+            <div className="tdb__margin__adjust__documents">
+                <JSONInput
+                    id          = 'json_type_field'
+                    locale      = { locale }
+                    height      ={JSON_EDITOR_HEIGHT}
+                    width       ={JSON_EDITOR_WIDTH}
+                    onBlur={handleInput}
+                />
+            </div>
         </React.Fragment>
     }
     uiLayout["ui:description"] = "Enter a valid JSON object below"
@@ -77,14 +79,16 @@ export function getViewJSONWidget(item, formData, label) {
     function displayJSONViewInput(props) { 
         return <React.Fragment>
             <span>{label}</span>
-            <JSONInput
-                id='json_type_field'
-                placeholder={props.formData}
-                locale={locale}
-                height={JSON_EDITOR_HEIGHT}
-                width={JSON_EDITOR_WIDTH}
-                viewOnly={true}
-            />
+            <div className="tdb__margin__adjust__documents">
+                <JSONInput
+                    id='json_type_field'
+                    placeholder={props.formData}
+                    locale={locale}
+                    height={JSON_EDITOR_HEIGHT}
+                    width={JSON_EDITOR_WIDTH}
+                    viewOnly={true}
+                />
+            </div>
         </React.Fragment>
     }
 

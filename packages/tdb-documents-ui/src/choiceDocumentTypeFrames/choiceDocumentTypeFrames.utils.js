@@ -1,281 +1,69 @@
-import React, {useState, useEffect} from "react"
-import {getTitle, getDefaultValue,addCustomUI, extractDocumentation, extractUIFrameSelectTemplate, checkIfKey, isFilled, extractUIFrameSubDocumentTemplate} from "../utils"
-import {getProperties} from "../FrameHelpers"
-import {EmptyDocumentSelect,  FilledDocumentSelect, FilledDocumentViewSelect} from "../documentTypeFrames/DocumentSelects"
-import AsyncSelect from 'react-select/async'
-import {Form} from "react-bootstrap"
-import {
-    XSD_STRING,
-    XSD_DECIMAL,
-    XSD_DATE_TIME,
-    CHOICECLASSES,
-    SELECT_STYLES,
-    DOCUMENT,
-    XSD_BOOLEAN,
-    STRING_TYPE,
-    NUMBER_TYPE,
-    BOOLEAN_TYPE,
-    DATE_TYPE,
-    DATA_TYPE
-} from "../constants"
+import React from "react"
+import * as CONST from "../constants"
+import * as util from "../utils"
+import * as helper from "./helpers"
+import {displayMapComponent} from "../arrayTypeFrames/viewGeoArrayTypeFrames"
 
-// get layout of document class
-function getCreateDocumentLayout(documentClass, fullFrame){
-    // review documentation in a bit ...
-    let documentation= extractDocumentation(fullFrame, documentClass)
-    //console.log("documentation +++", documentation)
-    let layout = {
-        "title": documentClass,
-        "type": "object",
-        "properties": {
-            [documentClass]: {"type": "string"},
-            "info": {"type": "string", default: CHOICECLASSES, title: "info"}
+export function getUILayout(anyOfFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation) {
+    
+    //let subDocuemntBg = util.extractUIFrameSubDocumentTemplate(uiFrame) ? util.extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+    anyOfFrames.uiSchema["classNames"]=` card p-4 mt-4 mb-4`
+
+    let selectStyle = util.extractUIFrameSelectTemplate(uiFrame) ? util.extractUIFrameSelectTemplate(uiFrame) : CONST.SELECT_STYLES
+    
+    // displays select or search component 
+    function displayLinkedDocument(props) {
+        //console.log("props in choice doc ui", props)
+
+        if(props.hasOwnProperty("name")) return <div>{props.name}</div>
+        if(props.schema.title === item) return <div>{item}</div>
+
+        let choiceType=props.schema.title
+        let placeholder=`Start typing ${choiceType}`
+        let data = (props.formData && Object.keys(props.formData).length) ? props.formData : ""
+        return helper.displayLinkedDocumentUI(props.onChange, placeholder, props.required, data, choiceType, choiceType, "", onSelect, selectStyle)
+    }
+
+    // display geo json properties like geo collection in Map (VIEW Mode only ...)
+    function displayLinkedGeoDocument (props) {
+        console.log("props geo", props) 
+
+        // if no form data then we dont load the map 
+        if(props.formData === undefined) return <div/>
+        if(!props.hasOwnProperty("name")) return <div/>
+        if(!Object.keys(props.formData).length) return <div/>
+
+        let data = props.formData.hasOwnProperty(CONST.COORDINATES) ? props.formData[CONST.COORDINATES] : null
+        let type = props.formData.hasOwnProperty("@type") ? props.formData["@type"] : null
+        let property=props.schema.title
+
+        if(props.hasOwnProperty("index")) {
+            // hide any of selector from VIEW mode
+            return <div/>
         }
+
+        //if(!type) type=checkIfFeatureCollection(frame)
+        return <>
+            {/*<span className="control-label">{CONST.GEOMETRY_COLLECTION}</span>*/}
+            {/*<span>{type}</span>*/}
+            {displayMapComponent(data, formData, property, type)}
+        </>
+
     }
-    return layout
-} 
-// get edit layout of document class
-function getEditDocumentLayout(documentClass, formData){
-
-    let layout = {
-        "title": documentClass,
-        "type": "object",
-        "properties": {
-            [documentClass]: {"type": "string", default: formData? formData: false},
-            "info": {"type": "string", default: CHOICECLASSES, title: "info"}
-        }
-    }
-    return layout
-}
-
-
-// Create Layout
-export function getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-
-    // get choice documents
-    let anyOfArray = []
-    frame[item].map(fr => {
-        var documentClass=fr
-        anyOfArray.push(getCreateDocumentLayout(documentClass, fullFrame))
-    })
-
-    let layout = {
-        type: 'object',
-        info: CHOICECLASSES,
-        title: item,
-        description: `Choose ${item} from the list ...`,
-        anyOf:anyOfArray
-    }
-
-    return layout
-}
  
-export function getCreateUILayout(frame, item, layout, uiFrame, onSelect, documentation) {
-    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
-    // extracting custom ui styles
-    let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
+    // check if geo property
+    let isGeoProperty=util.checkIfGeoArray(frame, item, mode)
 
-    let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"]), documentation),
-        //classNames: "tdb__input mb-3 mt-3",
-        classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
-    }
+    // this is a geo collection 
+    // we treat this separately since we get unfolded object from terminusdb 
+    // so we have to extract the geo collection ID from the entire object & display a map in View mode
+    if(isGeoProperty && mode === CONST.VIEW) {
+        anyOfFrames.uiSchema["classNames"]="tdb__view__map"
+        anyOfFrames.uiSchema["ui:field"] = displayLinkedGeoDocument
+        return anyOfFrames.uiSchema
+    } 
 
-    if(layout.hasOwnProperty("anyOf") && Array.isArray(layout.anyOf)) {
-        layout.anyOf.map(aOf => {
-            let choice = aOf.title
-            function getChoiceSelect(props){
-                const loadOptions = async (inputValue, callback) => {
-                    let opts = await onSelect(inputValue, choice)
-                    callback(opts)
-                    return opts
-                }
+    anyOfFrames.uiSchema["ui:field"] = displayLinkedDocument
+    return anyOfFrames.uiSchema
 
-                const handleInputChange = (newValue) => {
-                    const inputValue = newValue.replace(/\W/g, '');
-                    return inputValue
-                }
-
-                function onChange(e) {
-                    props.onChange(e.value)
-                }
-
-                return <React.Fragment>
-                    <span>{choice}</span>
-                    <AsyncSelect
-                        cacheOptions
-                        classNames="tdb__input"
-                        styles={selectStyle}
-                        placeholder={ `Select ${choice} ...`}
-                        onChange={onChange}
-                        loadOptions={loadOptions}
-                        onInputChange={handleInputChange}
-                    />
-                </React.Fragment>
-            }
-            uiLayout[choice]={
-                "ui:field": getChoiceSelect
-            }
-            uiLayout["info"]={"ui:widget": "hidden"}
-        })
-    }
-    // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-
-    return addedCustomUI
 }
-
-// Edit Layout
-export function getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-
-    // get choice documents
-    let anyOfArray = []
-    let defaultValue = (formData && formData.hasOwnProperty(item)) ? formData[item] : null
-    frame[item].map(fr => {
-        var documentClass=fr
-        anyOfArray.push(getEditDocumentLayout(documentClass, defaultValue))
-    })
-
-    let layout = {
-        type: 'object',
-        info: CHOICECLASSES,
-        title: item,
-        description: `Choose ${item} from the list ...`,
-        anyOf:anyOfArray
-    }
-
-    return layout
-}
-
-export function getEditUILayout(frame, item, layout, uiFrame, onSelect) {
-    let subDocuemntBg = extractUIFrameSubDocumentTemplate(uiFrame) ? extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
-    // extracting custom ui styles
-    let selectStyle = extractUIFrameSelectTemplate(uiFrame) ? extractUIFrameSelectTemplate(uiFrame) : SELECT_STYLES
-
-
-    let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        //classNames: "tdb__input mb-3 mt-3",
-        classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
-
-    }
-
-    if(layout.hasOwnProperty("anyOf") && Array.isArray(layout.anyOf)) {
-        layout.anyOf.map(aOf => {
-            let choice = aOf.title
-            function getChoiceSelect(props){
-
-                const [value, setValue]= useState(props.formData ? {value: props.formData, label: props.formData} : null)// select value
-
-                const loadOptions = async (inputValue, callback) => {
-                    let opts = await onSelect(inputValue, choice)
-                    callback(opts)
-                    return opts
-                }
-
-                const handleInputChange = (newValue) => {
-                    const inputValue = newValue.replace(/\W/g, '');
-                    return inputValue
-                }
-
-                function onChange(e) {
-                    props.onChange(e.value)
-                }
-                return <React.Fragment>
-                    {value &&  <React.Fragment>
-                        <span>{choice}</span>
-                        <AsyncSelect
-                            cacheOptions
-                            classNames="tdb__input"
-                            styles={selectStyle}
-                            placeholder={ `Select ${choice} ...`}
-                            onChange={onChange}
-                            loadOptions={loadOptions}
-                            defaultValue={value}
-                            onInputChange={handleInputChange}
-                        />
-                    </React.Fragment>}
-                    {!value &&  <React.Fragment>
-                        <span>{choice}</span>
-                        <AsyncSelect
-                            cacheOptions
-                            classNames="tdb__input"
-                            styles={selectStyle}
-                            placeholder={ `Select ${choice} ...`}
-                            onChange={onChange}
-                            loadOptions={loadOptions}
-                            onInputChange={handleInputChange}
-                        />
-                    </React.Fragment>}
-                </React.Fragment>
-
-
-            }
-            uiLayout[choice]={
-                "ui:field": getChoiceSelect
-            }
-            uiLayout["info"]={"ui:widget": "hidden"}
-        })
-    }
-    //console.log("!!! edit layout", layout, uiLayout)
-
-    return uiLayout
-}
-
-// View Layout
-export function getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect) {
-
-    // get choice documents
-    let anyOfArray = []
-    let defaultValue = (formData && formData.hasOwnProperty(item)) ? formData[item] : null
-    let layout = {
-        type: 'object',
-        info: CHOICECLASSES,
-        title: item,
-        default: defaultValue
-    }
-
-    return layout
-}
-
-export function getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSelect) { 
-    function getViewChoice (props) {
-        const [clicked, setClicked]=useState(false)
-
-        useEffect(() => {
-            if(!clicked) return
-            if(onTraverse) onTraverse(clicked)
-        }, [clicked])
-
-        const handleClick = (e, val) => { // view if on traverse function defined
-            setClicked(val)
-        }
-
-        if(!frame.hasOwnProperty(item)) return <div/>
-       
-        if (!props.formData)  return <div/>
-        if (Object.keys(props.formData).length === 0) return <div/>
-
-        return <React.Fragment>
-            {/*<Form.Label className="control-label">{item}</Form.Label>*/}
-            <span onClick={(e) => handleClick(e, props.formData)}
-                className="tdb__span__select text-light">
-                    {props.formData}
-            </span>
-        </React.Fragment>
-    }
-    let uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
-        //classNames: "tdb__input mb-3 mt-3",
-        "ui:field": getViewChoice
-    }
-
-    if(uiFrame && uiFrame.hasOwnProperty(item) && uiFrame[item].hasOwnProperty("classNames")) {
-        uiLayout["classNames"]=uiFrame[item]["classNames"]
-    }
-
-    return uiLayout
-}
-
-
-

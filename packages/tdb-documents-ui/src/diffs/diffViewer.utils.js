@@ -1,125 +1,60 @@
-import {
-    ORIGINAL_UI_FRAME, 
-    CHANGED_UI_FRAME,
-    ONEOFVALUES
-} from "../constants"
-import {
-    isDataType,
-    isOptionalType,
-    isDocumentType,
-    isSubDocumentType,
-    isSetType,
-    isListType,
-    isEnumType,
-    isChoiceSubDocumentType,
-    isChoiceDocumentType,
-    isSysDataType
-} from "../utils" 
+import * as util from "../utils"
+import * as CONST from "../constants"
+import * as DIFFCONST from "./diff.constants"
+import {getMarkdownFieldDiffs} from "./markdownFieldDiffs"
 import {getDataFieldDiffs} from "./dataFieldDiffs"
-import {getListFieldDiffs} from "./listFieldDiffs"
-import {constructOptionalFrame} from "../FrameHelpers"
-import {getSubDocumentFieldDiffs} from "./subDocumentFieldDiffs"
-import {getDocumentFieldDiffs} from "./documentFieldDiffs"
-import {getChoiceSubDocumentFieldDiffs} from "./choiceSubDocumentFieldDiffs"
-import {getChoiceDocumentFieldDiffs} from "./choiceDocumentFieldDiffs"
-import {getSetFieldDiffs} from "./setFieldDiffs"
-import {getOneOfFieldDiffs} from "./oneOfFieldDiffs"
-import {getEnumFieldDiffs} from "./enumFieldDiffs"
-import {getSysJSONFieldDiffs} from "./sysFieldDiffs"
+import {getArrayFieldDiffs} from "./arrayFieldDiffs"
 
 export function generateDiffUIFrames (fullFrame, frame, type, oldValue, newValue, diffPatch) {
     let diffUIFrames={
         originalUIFrame: {},
         changedUIFrame: {}
-    }  
+    }   
 
     for(var item in frame) {
-        if(item === "@key") continue
-        if(item === "@type") continue
-        if(item === "@subdocument") continue
-        if(frame[item] && isDataType(frame[item])) { // mandatory
-            if(diffPatch.hasOwnProperty(item)) {
-                let dataField=getDataFieldDiffs(diffPatch, item)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=dataField[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=dataField[CHANGED_UI_FRAME][item]
-            }
-        } 
-        if (frame[item] && isListType(frame[item])) { // list 
-            if(diffPatch.hasOwnProperty(item)) { 
-                let constructedListFrame = constructOptionalFrame(frame[item], item)
-                let listField=getSetFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
-                //let listField=getListFieldDiffs(fullFrame, constructedListFrame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=listField[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=listField[CHANGED_UI_FRAME][item]
-            }
+        if(item === "@id") continue
+        else if(item === "@key") continue
+        else if(item === "@type") continue
+        else if(item === "@id") continue
+        else if(item === CONST.SUBDOCUMENT) continue
+        else if(item === CONST.DOCUMENTATION) continue
+        else if(util.checkIfRenderedAsMarkdown(frame, item, diffPatch)) {
+            let ui=getMarkdownFieldDiffs(item, oldValue, newValue) 
+            
+            diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME][item]=ui.originalUIFrame
+            diffUIFrames[DIFFCONST.CHANGED_UI_FRAME][item]=ui.changedUIFrame
         }
-        if (frame[item] && isSetType(frame[item])) { //set 
-            if(diffPatch.hasOwnProperty(item)) { 
-                let constructedSetFrame = constructOptionalFrame(frame[item], item)
-                let setField=getSetFieldDiffs(fullFrame, constructedSetFrame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=setField[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=setField[CHANGED_UI_FRAME][item]
-            }
+        else if(util.isMandatory(frame, item)) {
+            let diff=diffPatch.hasOwnProperty(item) ? diffPatch[item] : {}
+            let ui=getDataFieldDiffs(diff) 
+            
+            diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME][item]=ui.originalUIFrame
+            diffUIFrames[DIFFCONST.CHANGED_UI_FRAME][item]=ui.changedUIFrame
         }
-        if(frame[item] && isOptionalType(frame[item])) { // optional
-            if(diffPatch.hasOwnProperty(item)) {
-                let constructedOptionalFrame = constructOptionalFrame(frame[item], item)
-                let optionalProperties = generateDiffUIFrames(fullFrame, constructedOptionalFrame, type, oldValue, newValue, diffPatch)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=optionalProperties[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=optionalProperties[CHANGED_UI_FRAME][item]
-            }
+        else if(util.isOptional(frame, item)) {
+            let diff=diffPatch.hasOwnProperty(item) ? diffPatch[item] : {}
+            let ui=getDataFieldDiffs(diff)
+            
+            diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME][item]=ui.originalUIFrame
+            diffUIFrames[DIFFCONST.CHANGED_UI_FRAME][item]=ui.changedUIFrame
         }
-        if(frame[item] && isDocumentType(frame[item], fullFrame)) { //link documents 
-            if(diffPatch.hasOwnProperty(item)) {
-                let diffUI=getDocumentFieldDiffs(diffPatch, item)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=diffUI[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=diffUI[CHANGED_UI_FRAME][item]
-            }
+        else if(util.isSet(frame, item)) {
+            let diff=diffPatch.hasOwnProperty(item) ? diffPatch[item] : {}
+            let ui=getArrayFieldDiffs(diff, item, oldValue, newValue)
+            
+            diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME][item]=ui.originalUIFrame
+            diffUIFrames[DIFFCONST.CHANGED_UI_FRAME][item]=ui.changedUIFrame
         }
-        if(frame[item] && isSubDocumentType(frame[item])) { // sub document
-            if(diffPatch.hasOwnProperty(item)) {
-                let subDocField=getSubDocumentFieldDiffs(fullFrame, frame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=subDocField[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=subDocField[CHANGED_UI_FRAME][item]
-            }
-        }
-        if (frame[item] && isChoiceSubDocumentType(frame[item])) { // choice sub documents 
-            if(diffPatch.hasOwnProperty(item)) {
-                let diffUI=getChoiceSubDocumentFieldDiffs(fullFrame, frame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=diffUI[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=diffUI[CHANGED_UI_FRAME][item]
-            }
-        }
-        if(frame[item] && isChoiceDocumentType(frame[item])) { // choice document 
-            if(diffPatch.hasOwnProperty(item)) {
-                let diffUI=getChoiceDocumentFieldDiffs(fullFrame, frame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=diffUI[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=diffUI[CHANGED_UI_FRAME][item]
-            }
-        }
-        if (frame[item] && isEnumType(frame[item])) { // enums
-            if(diffPatch.hasOwnProperty(item)) {
-                let diffUI=getEnumFieldDiffs(diffPatch, item)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=diffUI[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=diffUI[CHANGED_UI_FRAME][item]
-            }
-        }
-        if(frame[item] && isSysDataType(frame[item])) { // sys:JSON
-            if(diffPatch.hasOwnProperty(item)) {
-                let diffUI=getSysJSONFieldDiffs(diffPatch, item, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][item]=diffUI[ORIGINAL_UI_FRAME][item]
-                diffUIFrames[CHANGED_UI_FRAME][item]=diffUI[CHANGED_UI_FRAME][item]
-            }
-        }
-        if(item === ONEOFVALUES) { // oneOf
-            //if(diffPatch.hasOwnProperty(frame[item])) { 
-                let diffUI=getOneOfFieldDiffs(fullFrame, frame, diffPatch, item, type, oldValue, newValue)
-                diffUIFrames[ORIGINAL_UI_FRAME][type]=diffUI[ORIGINAL_UI_FRAME][type]
-                diffUIFrames[CHANGED_UI_FRAME][type]=diffUI[CHANGED_UI_FRAME][type]
-            //}
+        else if(util.isList(frame, item)) {
+            let diff=diffPatch.hasOwnProperty(item) ? diffPatch[item] : {}
+            let ui=getArrayFieldDiffs(diff, item, oldValue, newValue)
+            
+            diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME][item]=ui.originalUIFrame
+            diffUIFrames[DIFFCONST.CHANGED_UI_FRAME][item]=ui.changedUIFrame
         }
     }
+    
 
-    //console.log("diffUIFrames", diffUIFrames)
+    //console.log("generated diffUIFrames", diffUIFrames, item)
     return diffUIFrames
 }

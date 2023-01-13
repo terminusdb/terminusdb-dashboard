@@ -55,7 +55,7 @@ export function getPointTypeViewUI (formData, uiFrame, item, documentation) {
         let label = getLabelFromDocumentation (props.name, documentation)
 
         let bounds=setBounds(formData)
-  
+ 
         return <React.Fragment>
             <span>{label}</span>
             <MapViewer documents={coordinates} scrollWheelZoom={true} uiFrame={uiFrame} bounds={bounds}/> 

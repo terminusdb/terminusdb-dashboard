@@ -1,57 +1,37 @@
-import {
-    CREATE,
-    VIEW,
-    EDIT
-} from "../constants"
 
-import {
-    getCreateLayout,
-    getCreateUILayout,
-    getEditLayout,
-    getEditUILayout,
-    getViewLayout,
-    getViewUILayout
-} from "./choiceDocumentTypeFrames.utils"
+import * as CONST from "../constants"
 
-import {addCustomUI} from "../utils"
+// choice layout to be filled in any of array 
+function getChoiceDocumentLayout (choice) {
+    // add documentation part here - review later 
+    let layout = {
+        "title": choice,
+        "properties": {
+            [choice]: { 
+                "type": CONST.STRING_TYPE
+            }
+        }
+    }
+    return layout
+}
 
-
-// get choice  type frames
-function choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
-    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
+/** populate any of array with each choice layout */
+function getAnyOfArray (frame, item) {
+    let anyOfArray = []
     
-    if (mode === CREATE) {
-        layout=getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        // pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getCreateUILayout(frame, item, layout, uiFrame, onSelect, documentation)
-    }
-    else if (mode === EDIT) {
-        layout=getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        //// pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getEditUILayout(frame, item, layout, uiFrame, onSelect)
-    }
-    else if (mode === VIEW) {
-        layout=getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect)
-        uiLayout=getViewUILayout(frame, item, layout, uiFrame, onTraverse, onSelect)
-    }
-
-    // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-
-    // schema
-    properties[item] = layout
-    // ui schema
-    propertiesUI[item] = addedCustomUI
-
-    return {properties, propertiesUI}
+    frame[item].map(choice => {
+        anyOfArray.push(getChoiceDocumentLayout(choice))
+    })
+    return anyOfArray
 }
 
 // mandatory
-export function makeChoiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
-    let madeFrames = choiceDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
+export function makeChoiceDocumentTypeFrames (args) {
+    let uiSchema={}
+    let {frame, item, mode}=args
 
-    let properties = madeFrames.properties
-    let propertiesUI = madeFrames.propertiesUI
-
-    return {properties, propertiesUI}
+    let anyOf= getAnyOfArray(frame, item)
+    return {anyOf, uiSchema}
 }
+
+

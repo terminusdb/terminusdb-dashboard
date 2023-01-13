@@ -75,7 +75,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
     return <React.Fragment>
         <Route index element={<Home/>} />
             { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
-            { clientUser.user !== "admin" && <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}   
+            { clientUser.user !== "admin" && <Route path="administrator" element={<div><PageNotFound/></div >}/>}   
             <Route path=":organization" >
                 <Route index element={<OrganizationHome/>}/>
                 <Route path="members" element={<UserManagement/>}/>
@@ -86,7 +86,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                     <Route path={PATH.PRODUCT_MODELS} element={<ModelProductPage/>} />                    
                 </Route>
             </Route>             
-            <Route path="*" element={<div>Not Found 404 !!!!</div >} />
+            <Route path="*" element={<div><PageNotFound/></div >} />
         </React.Fragment>
     }
     return <React.Fragment>
@@ -97,7 +97,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
             <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
             <Route path = {PATH.PROFILE} element = {<PrivateRoute component={Profile}/>} />  
            {isAdmin &&  <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>}
-           {!isAdmin &&  <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}
+           {!isAdmin &&  <Route path="administrator" element={<div><PageNotFound/></div >}/>}
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
             <Route path=":dataProduct" >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />

@@ -104,7 +104,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
         onSubmit={handleSubmit}
         onChange={handleChange}
         onSelect={onSelect}   
-        formData={data}
+        formData={!data ? {} : data}
         hideSubmit={false}
         //onTraverse={onTraverse}
     />

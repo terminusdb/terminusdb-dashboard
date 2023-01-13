@@ -16,6 +16,7 @@ import {BsPlus} from "react-icons/bs"
 import {BiMinusCircle} from "react-icons/bi"
 import {extractID} from "../components/utils"
 import {ChangeRequest} from "../hooks/ChangeRequest"
+import {Loading} from "./Loading"
 
 /**
  * 
@@ -38,7 +39,7 @@ function getPropertyModifiedCount(diff) {
  * @returns React Element with branch badge
  */
 const OriginHeader = ({branch}) => {
-    return <Badge bg="danger" className="float-right fw-bold text-dark">{branch}</Badge>
+    return <Badge bg="success" className="float-right fw-bold text-dark">{branch}</Badge>
 }
 
 /**
@@ -47,7 +48,7 @@ const OriginHeader = ({branch}) => {
  * @returns React Element with branch badge
  */
 const TrackingHeader = ({branch}) => {
-    return <Badge bg="success" className="float-right fw-bold text-dark">{branch}</Badge>
+    return <Badge className="float-right fw-bold text-dark bg-primary">{branch}</Badge>
 }
 
 /**
@@ -60,11 +61,11 @@ const TrackingInsertedHeader = ({branch}) => {
         <BsPlus className="text-success fw-bold h5"/>
         <BsPlus className="text-success fw-bold h5"/>
         <BsPlus className="text-success fw-bold h5"/>
-        <Badge bg="success" className="float-right fw-bold text-dark">{branch}</Badge>
+        <Badge bg="primary" className="float-right fw-bold text-dark">{branch}</Badge>
     </>
 }
 
-/**
+/** 
  * 
  * @param {*} branch tracking branch after inserted op
  * @returns React Element with branch badge
@@ -74,7 +75,7 @@ const TrackingInsertedHeader = ({branch}) => {
         <BiMinusCircle className="text-success fw-bold h5"/>
         <BiMinusCircle className="text-success fw-bold h5"/>
         <BiMinusCircle className="text-success fw-bold h5"/>
-        <Badge bg="success" className="float-right fw-bold text-dark">{branch}</Badge>
+        <Badge bg="primary" className="float-right fw-bold text-dark">{branch}</Badge>
     </>
 }
 
@@ -152,11 +153,9 @@ export const DiffView = ({diffs, CRObject}) => {
             </Pagination.Item>
         )
     }
-      
-    if(!diffs) return <span>
-        Loading Diffs ... 
-        <ProgressBar variant="info" animated now={100}/>
-    </span>
+    
+    if(!frames) return <Loading message={`Loading Frames ...`}/>
+    if(!diffs) return <Loading message={`Loading Diffs ...`}/>
 
     //console.log("originalValue", originalValue)
     //console.log("changedValue", changedValue)
@@ -225,14 +224,14 @@ export const DiffView = ({diffs, CRObject}) => {
         //console.log("documentId", documentID, eventKey, css)
         elements.push(
             <React.Fragment>
-                <Accordion className="mb-3 bg-secondary accordion__button"
+                <Accordion className="accordion__button padding-0 diff__accordian"
                     id={eventKey}
                     activeKey={eventKey === documentID ? eventKey : false}
                     onSelect={getDocumentStatesOnClick}> 
-                    <Accordion.Item eventKey={eventKey}>
-                        <Accordion.Header className="w-100">
+                    <Accordion.Item eventKey={eventKey} className="border-0">
+                        <Accordion.Header className="w-100 bg-secondary rounded">
                             <Stack direction="horizontal" gap={1} className="w-100">
-                                <div >
+                                <div className="mb-3">
                                     <TbExchange className="text-muted mr-2"/>
                                 </div>
                                 <div>
@@ -245,11 +244,11 @@ export const DiffView = ({diffs, CRObject}) => {
                                 </div>
                             </Stack>
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Body className="border border-secondary">
                             {error && <Alert variant={"danger"}>
                                 {error}
                             </Alert>}
-                            {!originalValue && !changedValue && <ProgressBar variant="info" animated now={100}/>} 
+                            {!originalValue && !changedValue && <Loading message={`Loading Diffs ...`}/>} 
                             {originalValue && changedValue && documentID === diffs[start]["@id"] && 
                                 <DiffViewer 
                                     oldValue={originalValue} 
@@ -284,7 +283,6 @@ export const DiffView = ({diffs, CRObject}) => {
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-                <br/>
             </React.Fragment>
         )
     }
@@ -294,7 +292,7 @@ export const DiffView = ({diffs, CRObject}) => {
         <Row className="w-100">
             <Col/>
             <Col>
-                <Pagination className="justify-content-center">{paginationItems}</Pagination>
+                <Pagination className="justify-content-center ">{paginationItems}</Pagination>
             </Col>
             <Col/>
         </Row>

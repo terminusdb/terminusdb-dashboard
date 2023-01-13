@@ -4,9 +4,10 @@ import {Marker, Popup, Tooltip, Polyline} from 'react-leaflet'
 import {LATITUDE, LONGITUDE, REFRESH} from "../constants"
 import icon from "../constants"
 import {MAP_OPTION, MARKER_OPTION} from "./map.constants"
+import * as CONST from "../constants"
 
 // custom changes to map options
-export function customMapOptions (zoom, center, documents) {
+export function customMapOptions (zoom, center, documents, type) {
     let mapOptions=MAP_OPTION
 
     if(zoom) {
@@ -16,7 +17,10 @@ export function customMapOptions (zoom, center, documents) {
         mapOptions.center=center
     }
     if(center===undefined && Array.isArray(documents)) {
-        let extractedCenter=documents[0]
+        var extractedCenter
+        if(type === CONST.POLYGON) extractedCenter=[37, -109.05]//documents[0][0]
+        else if(type === CONST.LINE_STRING_TYPE) extractedCenter=documents[0][0]
+        else extractedCenter=documents[0]
         mapOptions.center=extractedCenter
     }
     return mapOptions

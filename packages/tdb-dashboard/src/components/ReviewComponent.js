@@ -9,6 +9,7 @@ import SplitButton from 'react-bootstrap/SplitButton'
 import {CommentComponent} from "./CommentComponent"
 import {ApproveComponent} from "./ApproveComponent"
 import {RejectComponent} from "./RejectComponent"
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import {WOQLClientObj} from "../init-woql-client"
 
 const View = ({action, setKey}) => {
@@ -32,19 +33,29 @@ export const ReviewComponent = ({setKey, action, setAction}) => {
         return <View action={COMMENT} setKey={setKey}/>
     }
     
-	return <React.Fragment>
-       <SplitButton
-            key={"end"}
-            bsPrefix="btn btn-lg text-dark bg-light"
-            id={`dropdown-button-drop-end`}
-            drop={"end"}
+	return <span className="ms-auto">
+       <DropdownButton
+            key={"down"}
+            bsPrefix="btn btn-md text-dark bg-light ml-4"
+            style={{marginTop: "-50px"}}
+            id={`dropdown-button-drop-down`}
+            drop={"down"} 
             variant="light"
             title={"Submit Review"}>
-            <Dropdown.Item eventKey={COMMENT} onClick={(e) => handleAction(e.target.text)}>{COMMENT}</Dropdown.Item>
-            <Dropdown.Item eventKey={APPROVE} onClick={(e) => handleAction(e.target.text)}>{APPROVE}</Dropdown.Item>
-            <Dropdown.Item eventKey={REJECT} onClick={(e) => handleAction(e.target.text)}>{REJECT}</Dropdown.Item>
-          </SplitButton>
+            <Dropdown.Item eventKey={APPROVE} 
+                onClick={(e) => handleAction(e.target.text)}>
+                    {APPROVE}
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={COMMENT} 
+                onClick={(e) => handleAction(e.target.text)}>
+                    {COMMENT}
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={REJECT} 
+                onClick={(e) => handleAction(e.target.text)}>
+                    {REJECT}
+            </Dropdown.Item>
+        </DropdownButton>
         <View action={action} setKey={setKey}/>
-    </React.Fragment>
+    </span>
         
 }

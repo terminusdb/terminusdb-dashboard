@@ -1,26 +1,29 @@
+import * as util from "../utils"
 
-import {addCustomUI, isFilled} from "../utils"
-
-// get optional frames
-export function makeOptionalTypeFrames (frame, item, uiFrame, mode, formData) {
-    // frame will already have extracted frames at this point
-
-    let properties = {}, propertiesUI = {}, layout = {}, uiLayout={}
+/**
+ * 
+ * @param {*} frame - frame of document
+ * @param {*} item - property 
+ * @param {*} uiFrame - custom UI to change appearance
+ * @param {*} mode - mode in which FrameViewer is being called
+ * @param {*} formData - filled data to be displayed in form 
+ * @returns a data field 
+ */
+export function makeOptionalTypeFrames (frame, item, uiFrame, mode, formData, documentation) {
+    // extracted frames will already be available at this point
+    //console.log("optionalFrames ...", frame)
+    
+    let layout = {}, uiLayout={}
 
     if(frame && frame.hasOwnProperty("properties")) {
         layout=frame.properties[item]
     }
 
     if(frame && frame.hasOwnProperty("uiSchema")) {
-        uiLayout=frame.uiSchema[item]
+        let ui = util.removeRequired(item, documentation, frame.uiSchema[item])
+        uiLayout=ui 
     }
 
-    // custom ui:schema - add to default ui schema
-    //let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-
-    properties[item] =  layout
-    propertiesUI[item] = uiLayout//addedCustomUI
-
-    return {properties, propertiesUI}
+    return {layout, uiLayout}
 
 }

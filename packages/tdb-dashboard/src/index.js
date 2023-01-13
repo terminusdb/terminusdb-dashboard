@@ -12,6 +12,7 @@ import {LoginModal} from "./components/LoginModal"
 import { createRoot } from 'react-dom/client';
 
 require('./App.css')
+require('./Colors.css')
 
 function NavigationComponent(){
 
