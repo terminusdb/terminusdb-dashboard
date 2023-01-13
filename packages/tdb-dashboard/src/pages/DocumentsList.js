@@ -30,7 +30,7 @@ export const DocumentList = () => {
     
     const onRowClick = (row) =>{
         const fullId = row["id"]
-        const id = fullId.substring(fullId.indexOf(type))
+        const id = fullId.substring(fullId.lastIndexOf("/")+1)
         navigate(`${id}`)
     }
 
