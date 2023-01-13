@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import {MdExpandLess, MdExpandMore} from "react-icons/md"
 
 export const CellRenderer = ({value, column, row, cell, view, args, depth, prefixes})=>{
-    depth = depth || 0
+    depth =  depth || 0
     const rendertype = args && args.type ? args.type : undefined
     if(isEmptyValue(value)){
         return ""

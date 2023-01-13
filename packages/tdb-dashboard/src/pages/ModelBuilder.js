@@ -3,7 +3,7 @@ import {modelCallServerHook, GraphObjectProvider, ViewBuilder} from "@terminusdb
 import {Tabs, Tab,Alert} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, SCHEMA_CLASSES_VIEW, SCHEMA_PROPERTIES_VIEW, SCHEMA_EDITOR_VIEW, GRAPH_TAB, JSON_TAB} from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
-import {Loading} from "../components/Loading"
+import {Loading} from "../components/Loading" 
 import {PROGRESS_BAR_COMPONENT}  from "../components/constants"
 import {JSONModelBuilder} from "../components/JSONModelBuilder"
 
@@ -42,11 +42,13 @@ export const ModelBuilder = (props) =>{
                     </Alert>}
        {/* <SplitPane split="horizontal" >
         <div>*/}
-         {dataProduct && 
+         {dataProduct &&  
          <GraphObjectProvider setError={setReport} mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
            <Tabs defaultActiveKey={GRAPH_TAB} id="model-builder-tab" className="mt-3" onSelect={(k) => setTab(k)} >                 
                 {<Tab eventKey={GRAPH_TAB} title="Graph View">
-                    {callServerLoading && <Loading message={`Fetching schema of ${dataProduct}...`} type={PROGRESS_BAR_COMPONENT}/>}                   
+                    {/*callServerLoading && <Loading message={`Fetching schema of ${dataProduct}...`} type={PROGRESS_BAR_COMPONENT}/>*/}    
+                    {callServerLoading &&  <Loading message={`Fetching schema of ${dataProduct}...`}/>}                  
+                                   
                     {!callServerLoading &&  tab === GRAPH_TAB  && 
                         <ViewBuilder 
                             dbName={dataProduct} 
@@ -57,7 +59,8 @@ export const ModelBuilder = (props) =>{
                     }
                 </Tab>}
                 <Tab eventKey={JSON_TAB} title="JSON View">
-                    {callServerLoading && <Loading message={`Fetching schema of ${dataProduct}...`} type={PROGRESS_BAR_COMPONENT}/>}                                  
+                    {callServerLoading &&  <Loading message={`Fetching schema of ${dataProduct}...`}/>}                   
+                                                    
                     {!callServerLoading && dataProduct && 
                         <JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} saveGraph={saveData} />
                     }

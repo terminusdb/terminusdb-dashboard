@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient ,{UTILS} from '@terminusdb/terminusdb-client'
-import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER} from './routing/constants'
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, CHANGE_REQUESTS} from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
@@ -8,8 +8,9 @@ import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-comp
 import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
+import { getCurrentDocumentInfo } from './hooks/DocumentControl'
 export const WOQLContext = React.createContext()
-export const WOQLClientObj = () => useContext(WOQLContext)
+export const WOQLClientObj = () => useContext(WOQLContext) 
 
 export const WOQLClientProvider = ({children, params}) => {
     //the client user can be the local user or the auth0 user in terminusX
@@ -22,9 +23,11 @@ export const WOQLClientProvider = ({children, params}) => {
     const [accessControlDashboard, setAccessControl] = useState(null)
 
     const [loadingServer, setLoadingServer] = useState(false)
+    const [documentLoading, setDocumentLoading] = useState(false)
     const [connectionError, setError] = useState(false)
 
-   // const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
+    // to control document interface chosen document
+    //const [currentDocument, setCurrentDocument] = useState(false) 
     const [branchesReload,setBranchReload] =useState(0)
     const [branch, setBranch] = useState("main")
     const [ref, setRef] = useState(false)
@@ -33,6 +36,11 @@ export const WOQLClientProvider = ({children, params}) => {
     const [branches, setBranches] = useState(false)
     const [chosenCommit,setChosenCommit]=useState({})
 
+    const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
+
+    const [currentCRObject, setCurrentCRObject]=useState(false)
+    const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
+    const [currentChangeRequest,setCurrentChangeRequest] = useState(null)
 
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -114,12 +122,14 @@ export const WOQLClientProvider = ({children, params}) => {
                  const clientAccessControl = new AccessControlDashboard(access)
 
                  if(opts.connection_type !== "LOCAL"){
-                   await clientAccessControl.callGetRolesList()
+                   const rolesList = await clientAccessControl.callGetRolesList()
+                   hasRebaseRole(rolesList)
                  }
                 
                  if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
                  }
+
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
@@ -154,6 +164,8 @@ export const WOQLClientProvider = ({children, params}) => {
 
     //get all the Document Classes (no abstract or subdocument)
     function getUpdatedDocumentClasses(woqlClient) {
+        // to be review I'm adding get table config here
+        setDocumentLoading(true)
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
             let test=[]
@@ -163,6 +175,7 @@ export const WOQLClientProvider = ({children, params}) => {
             setQuery(q)
             let totalQ=getTotalNumberOfDocuments(classRes)
             setTotalDocumentsQuery(totalQ)
+            setDocumentLoading(false)
         })
         .catch((err) =>  {
             console.log("Error in init woql while getting classes of data product", err.message)
@@ -194,6 +207,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const setDataProduct = (dbName,hubClient,accessDash) =>{
         const client = woqlClient || hubClient
         const accDash = accessControlDashboard || accessDash
+       
         if(client){
             client.db(dbName)
             //set the allowed actios for the selected dataproduct
@@ -201,6 +215,25 @@ export const WOQLClientProvider = ({children, params}) => {
             accDash.setDBUserActions(dbDetails['@id'])
             //reset the head
             setHead('main',{commit:false,time:false})
+            if(dbName){
+                const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
+
+                const lastBranch = localStorage.getItem(TERMINUSCMS_CR)            
+                if(lastBranch){
+                    client.checkout(lastBranch)
+                    const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)
+                    setBranch(lastBranch)
+                    setCurrentChangeRequest(lastChangeRequest)
+                }
+                //get the config tables for the db    
+                const clientCopy = client.copy()
+                clientCopy.connectionConfig.api_extension = 'api/'
+                const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+
+                client.sendCustomRequest("GET", baseUrl).then(result=>{
+                    setDocumentTablesConfig(result)
+                })
+            }
             clearDocumentCounts()
         }
     }
@@ -249,7 +282,8 @@ export const WOQLClientProvider = ({children, params}) => {
     //we not need this for all the page
     useEffect(() => {
         const {page} = getLocation()
-        if(woqlClient && woqlClient.db() && ( page===DOCUMENT_EXPLORER || page===PRODUCT_EXPLORER)){
+        if(woqlClient && woqlClient.db() && 
+            ( page===DOCUMENT_EXPLORER || page===PRODUCT_EXPLORER || page===CHANGE_REQUESTS)){
             // on change on data product get classes
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
@@ -261,6 +295,24 @@ export const WOQLClientProvider = ({children, params}) => {
         setBranchReload(Date.now())
     }
 
+    function changeRequestName(currentClient){
+        const client = currentClient || woqlClient
+        return {TERMINUSCMS_CR:`TERMINUSCMS_CR.${client.organization()}_____${client.db()}`,
+        TERMINUSCMS_CR_ID: `TERMINUSCMS_CR_ID.${client.organization()}_____${client.db()}`}
+    }
+
+
+    function setChangeRequestBranch(branchName,changeRequestId){
+        woqlClient.checkout(branchName)
+        const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
+        localStorage.setItem([TERMINUSCMS_CR],branchName)
+        localStorage.setItem([TERMINUSCMS_CR_ID],changeRequestId)
+        // set the change_request brach and reset the commit 
+        setBranch(branchName)
+        setRef(null)
+        setChosenCommit({})
+        setCurrentChangeRequest(changeRequestId) 
+    }
  
    // const currentPage = history.location.pathname
 
@@ -352,9 +404,27 @@ export const WOQLClientProvider = ({children, params}) => {
         sidebarStateObj[name]=value
     }
 
+    const hasRebaseRole=(teamUserRoles)=>{
+        try{
+            const actions = teamUserRoles[0].action
+            if(actions.find(element=>element==="rebase")){
+                setTeamUserRoleMerge(true)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return (
         <WOQLContext.Provider
             value={{
+                setChangeRequestBranch,
+                currentChangeRequest,
+                setCurrentChangeRequest,
+                userHasMergeRole,
+                currentCRObject, 
+                setCurrentCRObject,
+                documentTablesConfig,
                 saveSidebarState,
                 sidebarStateObj,
                 clientUser,
@@ -378,7 +448,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 totalDocumentCount,
                 setSelectedDocument,
                 selectedDocument,
-                frames
+                frames,
+                documentLoading, 
+                setDocumentLoading
             }}
         >
             {children}

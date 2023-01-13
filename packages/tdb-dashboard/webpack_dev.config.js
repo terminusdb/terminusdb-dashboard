@@ -34,10 +34,10 @@ module.exports = (env, argv) => ({
   ],
   resolve: {
     alias: {
-      "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js')      
+      "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js')          
     },
     fallback: { "https": false },
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: [ '.js', '.jsx', '.json'],
   },
   module: {
      rules : [
@@ -63,6 +63,26 @@ module.exports = (env, argv) => ({
             ]
           }
         },
+      },
+      {
+        test: /\.(scss)$/,
+        use: [{
+          loader: 'style-loader', // inject CSS to page
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS modules
+        }, {
+          loader: 'postcss-loader', // Run post css actions
+          options: {
+            plugins: function () { // post css plugins, can be exported to postcss.config.js
+              return [
+                require('precss'),
+                require('autoprefixer')
+              ];
+            }
+          }
+        }, {
+          loader: 'sass-loader' // compiles Sass to CSS
+        }]
       },
       {
         test: /\.(css|less)$/,

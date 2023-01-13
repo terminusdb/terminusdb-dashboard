@@ -13,14 +13,21 @@ import { executeQueryHook } from "../hooks/executeQueryHook"
 import {handleCreate} from "./documents.utils"
 import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
 import {Loading} from "./Loading"
+import {NEW_DOC} from "../routing/constants"
+import {useParams, useNavigate} from "react-router-dom"
 
 export const DataProductDocuments = () => {
+
+   // const {dataProduct,organization} = useParams()
+
     const {
         woqlClient, 
         documentClasses,
         saveSidebarState,
         sidebarStateObj,
     } = WOQLClientObj()
+
+    const navigate = useNavigate()
     
     if(!woqlClient) return ""
     //you can  get the current dataproduct from the url or from woqlclient
@@ -135,32 +142,16 @@ export const DocumentExplorerDocuments = () => {
     const {
         saveSidebarState,
         sidebarStateObj, 
-        documentClasses
+        perDocumentCount,
+        documentClasses, 
     } = WOQLClientObj()
 
     //console.log("documentClasses", documentClasses)
     const {
-        setDocumentObject,
-        documentObject,
-        actionControl
+        actionControl,
+        setShowFrames,
+        setJsonContent
     } = DocumentControlObj()
-
-    // on select of a class
-    function handleClassClick (id) {
-        let docObj = {
-            type: id,
-            action: false,
-            view: documentObject.view,
-            submit: false,
-            currentDocument: false,
-            frames: {},
-            filledFrame: {},
-            message: false,
-            loading: false,
-            update:false
-        }
-        setDocumentObject(docObj)
-    } 
 
     const [loading, setLoading]=useState(false)
 
@@ -178,27 +169,40 @@ export const DocumentExplorerDocuments = () => {
     useEffect(() => {
         // disable document clicks if role - info reader
         if(!actionControl.write && !actionControl.read) setDisabled(true)
-    })
+    }) 
 
     const DocumentMenu = ({item}) => { 
+
+        const navigate = useNavigate() 
+
+        // on click of Create mew document 
+        function newDocHandler (docType){
+            navigate(`${docType}/${NEW_DOC}`) 
+        }
+
+        // on click of View document lists
+        function handleDocumentClick(docType) {
+            setShowFrames(false) 
+            setJsonContent(false) 
+            navigate(`${docType}`)
+        }
+
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
             <ButtonGroup>
                 <Button className="pro-item-content btn-sm" 
                     variant="dark" 
                     title={`View documents of type ${item["@id"]}`}
-                    onClick={(e) => handleClassClick(item["@id"])}
+                    onClick={(e) => handleDocumentClick(item["@id"])}
                     disabled={disabled}>
                         <span className="text-gray">{item["@id"]}</span>
                 </Button>
                 {actionControl.write && <Button 
-                    className="btn-create-document pro-item-content btn-sm" 
+                    className="btn-create-document pro-item-content btn-sm bg-secondary" 
                     variant="dark" 
                     title={`Add a new ${item["@id"]}`}
-                    onClick={(e) => handleCreate(item["@id"], documentObject, setDocumentObject)}
+                    onClick={(e) => newDocHandler(item["@id"])}//handleCreate(item["@id"], documentObject, setDocumentObject)}
                 > 
-                        <Badge variant="dark">
-                            <BiPlus style={{fontSize: "14px"}} color="#fff" />
-                        </Badge>
+                    <BiPlus style={{fontSize: "14px"}} color="#fff" />
                 </Button>}
             </ButtonGroup>
         </MenuItem>

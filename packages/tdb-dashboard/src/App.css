@@ -27,12 +27,23 @@ body{
 
 
 
-/* ---------- css for cowduck image with clouds ---------- */
-img.cow_duck_image {
-  position: absolute;
-  top:0;
-  left:0
+/* ---------- css for cowduck image 404 ---------- */
+
+.tdb__page__not__found__text {
+  font-family: montserrat,sans-serif;
 }
+ 
+div.tdb__page__not__found__heading {
+  font-size: 146px;
+  font-weight: 700;
+  margin: 0;
+}
+
+img.cowduck__border {
+  /*margin: 20px;*/
+}
+
+
 /* ---------- css for cowduck image with clouds ---------- */
 
 img.user-avatar {
@@ -80,7 +91,7 @@ img.user-avatar {
   border-left: 1px solid rgba(255, 255, 255, 0) !important;
   border-right: 1px solid rgba(255, 255, 255, 0) !important;
   cursor: col-resize;
-  background: #535557;
+  background: inherit;
 }
 
 div.SplitPane {
@@ -98,10 +109,15 @@ div.SplitPane  .horizontal {
 }
 .Pane1 {
   background-color: #222;
-  min-width: 320px !important;
+  /*min-width: 320px !important;*/
 }
 .Pane2 {
   background-color: transparent;
+}
+
+.Resizer.vertical {
+  border-left: 0 !important;
+  border-right: 0 !important;
 }
 /* ---------- Split Pane resizing css ---------- */
 
@@ -173,6 +189,7 @@ div.progress-bar-container {
 
 .main-navbar-shadow {
   box-shadow: 1px 0px 7px rgb(0 0 0 / 50%);
+  border-bottom: 1px solid rgba(0,0,0,0.175);
 }
 
 
@@ -296,6 +313,28 @@ div.progress-bar-container {
   background: transparent !important;
 }
 
+/* accordian */
+.accordion-button {	
+  background: transparent !important;	
+  color: #fff !important;	
+  border-radius: 2px !important;
+  border-color: #444;	
+}
+
+.accordion-item {
+  border: 1px solid #444;	
+}
+
+.accordion-button:hover{	
+  background-color: #414141 !important;	
+  color: #f8f9fa !important;	
+}
+
+.diff__accordian {
+  background: transparent !important;	
+}
+
+/*
 .accordion__button {
   background-color: transparent !important;
   color: #cae4fd !important;
@@ -303,11 +342,16 @@ div.progress-bar-container {
   border-radius: 4px !important;
 }
 
+
+.accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
+  color: #adb5bd;
+}
+
 .accordion__button:hover{
   background-color: #414141 !important;
   color: #cae4fd !important;
 
-}
+}*/
 
 /* ---------- overriding react components schema builder css ---------- */
 
@@ -385,7 +429,7 @@ tbody, td, tfoot, th, thead, tr {
 .custom-field-select-no-validation {
   background-image: none !important;
 }
-
+ 
 /*
 .css-1gtuorj-indicatorContainer {
   background-color: #303030 !important;
@@ -405,9 +449,6 @@ input {
 }
 /* ---------- form control custom dark mode ---------- */
 
-.accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
-  color: #adb5bd;
-}
 
 .click-list:hover, .traverseDocument:hover {
   cursor: pointer;
@@ -611,8 +652,8 @@ input {
 
 /* ---------- feedback form ---------- */
 .cowduck-feedback-avatar{
-  height: 10rem !important;
-  width: 10rem !important;
+  height: 13rem !important;
+  width: 13rem !important;
   min-height: 10rem !important;
   min-width: 10rem !important;
   display: flex;
@@ -678,9 +719,12 @@ input {
 }
 
 .CodeMirror {
-  height: auto !important;
   min-height: 400px !important;/*150px !important;*/
-  height: 400px !important;
+  height: auto !important;
+}
+
+.CodeMirror-scroll {
+  min-height: 400px !important;
 }
 
 pre.CodeMirror-line  > span > span.cm-string {
@@ -905,6 +949,22 @@ pre.CodeMirror-line  > span > span.cm-string {
     }
   }
 
+  .center-align {
+    text-align: center;
+    margin-top: 15%;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 30%;
+    object-fit: cover;
+  }
+
+  .card-img-top {
+    height: 100px;
+    object-fit: cover;
+    object-position: top;
+  }
 
 
 .benefit--icon {
@@ -952,3 +1012,69 @@ pre.CodeMirror-line  > span > span.cm-string {
     max-width: 200px;
 }
 
+.mainGraphIql{
+  height : calc(100% - 60px);
+}
+
+.graphiql-container{
+  background-color: transparent;
+}
+
+.graphiql-un-styled, .graphiql-toolbar-button{
+  color:white !important;
+}
+
+
+.graphiql-container .graphiql-editors {
+  background-color: transparent;
+}
+#json_type_field-warning-box svg {
+  height: 15px;
+  width: 15px;
+}
+
+
+.tdb__frame__display {
+  animation: 3s tdb__frame__display;
+}
+@keyframes tdb__frame__display {
+  from {
+    /*margin-left: 100%;*/
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+
+/** align labels and input in About Page */
+.tdb__align__container {
+  display:grid;
+  /*grid-template-columns: max-content max-content;*/
+  grid-gap:7px;
+}
+
+.tdb__align__label{
+  text-align:left; 
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  word-break: break-all;
+  min-width: 12rem;
+}
+
+.cloneInp {
+  min-height: 10px !important;
+}
+
+/** pagination */
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #de7dd8 !important;
+  border-color: #de7dd8 !important;
+  color: #343a40!important;
+}
+
+.page-link { 
+  background-color: #f8f9fa!important;
+  color: #343a40!important;
+}

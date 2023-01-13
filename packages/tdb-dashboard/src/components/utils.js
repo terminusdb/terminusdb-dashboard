@@ -1,7 +1,20 @@
 import TerminusClient from '@terminusdb/terminusdb-client'
 import {format, subSeconds} from "date-fns"
-import deAT from 'date-fns/locale/de-AT/index'
-import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX} from "./constants"
+//import deAT from 'date-fns/locale/de-AT/index'
+//import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX} from "./constants"
+import {FiCopy} from "react-icons/fi"
+import React from "react"
+import {VscGitPullRequestDraft} from "react-icons/vsc"
+import {VscGitPullRequest} from "react-icons/vsc"
+import {VscCheck} from "react-icons/vsc" 
+import Badge from "react-bootstrap/Badge"
+import Button from "react-bootstrap/Button"
+import {
+	OPEN,
+	REJECTED,
+	MERGED, 
+	SUBMITTED
+} from "./constants"
 
 export const isArray = (arr) => {
     if (!Array.isArray(arr) || !arr.length) {
@@ -118,6 +131,20 @@ export const copyToClipboard = (str) => {
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+}
+
+/**
+ * 
+ * @param {*} id document ID 
+ * @returns copy document ID to clipboard
+ */
+ export const CopyButton = ({text, title, label, css}) => {
+    return <Button variant="transparent" 
+        className={`text-light ${css}`}
+        title={title}
+        onClick={(e) => copyToClipboard(text)}>
+            <FiCopy className='mb-1'/> {label && <span>{label}</span>}
+    </Button>
 }
 
 export function trimWOQL (str) {
@@ -246,5 +273,32 @@ export function formatClassResults(classRes) {
         formatted.push(newFormatted)
     })
     return formatted
+}
+
+//from cms
+
+export const getDays = (timestamp) =>{
+	const oneDay = 86400000
+	return Math.round((Date.now() - timestamp)/oneDay)
+}
+
+export const iconTypes={
+	[OPEN]:<VscGitPullRequestDraft className="text-muted mb-1 mr-1"/>,
+	[SUBMITTED]:<VscGitPullRequest className="text-success mb-1 mr-1"/>,
+	[REJECTED]:<VscGitPullRequest className="text-danger mb-1 mr-1"/>,
+    [MERGED] :<VscCheck className="text-success mb-1 mr-1"/>
+}
+
+
+export const status = {
+	[OPEN]: <Badge bg="success text-dark mr-4">{OPEN}</Badge>,
+    [SUBMITTED]: <Badge bg="warning text-dark mr-4" >Review required</Badge>,
+    [REJECTED]: <Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>,
+}
+
+/** just get change request ID, remove "Changerequest/" from ID */
+export function extractID(id) {
+    let str= id.split("/") 
+    return str[1]
 }
 

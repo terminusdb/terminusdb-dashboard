@@ -95,6 +95,7 @@ export const ViewBuilder = (props)=>{
 	return (<React.Fragment>		
 			<SplitPane split="vertical"
 				defaultSize="70%"
+				className='ml-5 mr-3 border border-dark rounded view__builder__pane' 
 				onChange={size => handleWidthChange(size, setWidth)}>
 				<div>
 					<ModelMainHeaderComponent

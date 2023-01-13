@@ -1,95 +1,127 @@
 import React, {useState, useEffect} from "react"
-import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import Button from 'react-bootstrap/Button'
 import {BsSearch} from "react-icons/bs"
-import { propsWithBsClassName } from "react-bootstrap-typeahead/types/utils"
 import Stack from 'react-bootstrap/Stack'
 import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
 import {AiFillDelete, AiOutlineCheck} from "react-icons/ai"
 
-// filled Select - view mode 
-export const FilledDocumentViewSelect = ({label, defaultValue, required, onTraverse, styles, description}) => {
-    const [clicked, setClicked]=useState(false)
-
-        useEffect(() => {
-            //console.log("clicked", clicked)
-            if(!clicked) return
-            if(onTraverse) onTraverse(clicked)
-        }, [clicked])
-
-        const handleClick = (e, val) => { // view if on traverse function defined
-            setClicked(val)
-        }
-
-        let color = "text-light"
-        
-        if (styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
-
-        return <React.Fragment>
-            <div className="ms-auto">{description} </div>
-            <span onClick={(e) => handleClick(e, defaultValue)} className={`tdb__span__select ${color}`}>
-                {defaultValue}
-            </span>
-        </React.Fragment>
-} 
-
-// empty Select - edit mode
-export const EmptyDocumentSelect = ({label, required, styles, placeholder, value, onChange, loadOptions, handleInputChange, description}) => {
+// Select - create/ edit mode
+export const DocumentSelect = ({label, required, styles, placeholder, value, onChange, loadOptions, handleInputChange, description}) => {
+    
+    //console.log("loadOptions", loadOptions)
 
     return <React.Fragment>
-        <span data-cy={`test_cy_${label}`}>
-            <label className="control-label" htmlFor={`root_${label}`}>
+        <div data-cy={`test_cy_${label}`} className="w-100 d-flex">
+            <label className="control-label mr-3" htmlFor={`root_${label}`}>
                 <span >{label}</span>
-                {required && <span className="required">*</span>}
+                {/*required && <span className="required">*</span>*/}
             </label>
-            <div className="ms-auto">{description} </div>
-            {value && <AsyncSelect
-                    classNames="tdb__input"
-                    styles={styles}
-                    value={value}
-                    onChange={onChange}
-                    loadOptions={loadOptions}
-                    onInputChange={handleInputChange}
-            />}
-            {!value && <AsyncSelect
-                    classNames="tdb__input"
-                    styles={styles}
-                    placeholder={placeholder}
-                    onChange={onChange}
-                    loadOptions={loadOptions}
-                    onInputChange={handleInputChange}
-            />}
+            {/*description && <div className="ms-auto">{description} </div>*/}
+            <div style={{width: "100%"}}>
+                {value && <AsyncSelect
+                        classNames="tdb__input w-100"
+                        styles={styles}
+                        value={value}
+                        onChange={onChange}
+                        loadOptions={loadOptions}
+                        onInputChange={handleInputChange}
+                />}
+                {!value && <AsyncSelect
+                        classNames="tdb__input w-100"
+                        styles={styles}
+                        placeholder={placeholder}
+                        onChange={onChange}
+                        loadOptions={loadOptions}
+                        onInputChange={handleInputChange}
+                />}
+            </div>
+        </div>
+    </React.Fragment>
+}
+
+// View mode
+export const DocumentView = ({label, required, value, onTraverse, description, styles}) => {
+    const [clicked, setClicked]=useState(false)
+
+    useEffect(() => {
+        if(!clicked) return
+        if(onTraverse) onTraverse(clicked)
+    }, [clicked])
+
+    const handleClick = (e, val) => { // view if on traverse function defined
+        setClicked(val)
+    }
+
+    let color = "text-light"
+    
+    if (styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
+
+    if(!value) return <div/>
+ 
+    return <React.Fragment>
+        {<div className="control-label">
+            {label}
+            {/*required && <span className="required">*</span>*/}
+        </div>}
+        {/*<div className="ms-auto">{description} </div>*/}
+        <span onClick={(e) => handleClick(e, value)} className={`tdb__span__select ${color} text-break`}>
+            {value}
         </span>
     </React.Fragment>
 }
 
-// filled Select - edit mode
-export const FilledDocumentSelect = ({label, styles, placeholder, defaultValue, onChange, loadOptions, handleInputChange, description}) => {
-   
-    return <React.Fragment> 
-        <span data-cy={`test_cy_${label}`}>
-            <div className="ms-auto">{description} </div>
-            <AsyncSelect
-                cacheOptions
-                classNames="tdb__input"
-                styles={styles}
-                placeholder={placeholder}
-                onChange={onChange}
-                loadOptions={loadOptions}
-                defaultOptions
-                defaultValue={{value: defaultValue, label: defaultValue}}
-                onInputChange={handleInputChange}
-            />
-        </span>
+/**
+ * @returns display field ui
+ */
+const DisplayField = ({label, description, linked_to, required, handleShow}) => {
+    return <React.Fragment>
+        <Stack direction="horizontal" gap={3} className="w-100">
+            <div data-cy={`test_cy_${label}`}>
+                <label className="control-label" htmlFor={`root_${label}`}>
+                    <span >{label}</span>
+                    {/*required && <span className="required">*</span>*/}
+                </label>
+                <div className="ms-auto">{description} </div>
+            </div>
+            <div className="text-muted ms-auto fst-italic">
+                {linked_to && <small>{`Click on ${label} button to search for ${linked_to}`}</small>}
+            </div>
+            <div>
+                <Button className="btn btn-sm bg-light text-dark"
+                    title={`Click here to search for a ${linked_to}`}
+                    onClick={handleShow}>
+                    <BsSearch/> {label}
+                </Button>
+            </div>
+        </Stack>
     </React.Fragment>
 }
 
+/**
+ * @returns displays selected document to link
+ */
+const DisplaySelectedDocument = ({selected, required, linked_to, handleClear}) => {
+    return <Stack direction="horizontal" gap={1}>
+        {selected && selected.hasOwnProperty("id") && selected.id && <>
+            <AiOutlineCheck className="text-success mr-2"/>
+            <label className="text-muted fw-bold">{"Selected: "}</label>
+            <div className="d-flex tdb__input">
+                <label className="text-decoration-underline text-break">{selected.label ? selected.label : selected.id}</label>
+                {!required && <Button className="btn btn-sm bg-transparent border-0 text-danger"
+                        title={`Click here to search for a ${linked_to}`}
+                        onClick={handleClear}>
+                    <AiFillDelete className="h6"/> 
+                </Button>}
+            </div>
+        </>}
+    </Stack>
+}
 
 // empty Select - edit mode
 export const DocumentSearch = ({label, onChange, value, required, linked_to, display, description}) => {
-
+ 
     // modal constants
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
@@ -113,39 +145,18 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
         setSelected(false)
     }
 
-
     return <React.Fragment>
-        <span data-cy={`test_cy_${label}`}>
-            <label className="control-label" htmlFor={`root_${label}`}>
-                <span >{label}</span>
-                {required && <span className="required">*</span>}
-            </label>
-            <div className="ms-auto">{description} </div>
-        </span>
-        <Stack direction="horizontal" gap={3}>
-            <div className="text-muted">
-                {linked_to && <small>{`Click on Search to link ${linked_to}`}</small>}
-            </div>
-            <div className="ms-auto">
-                <Button className="btn btn-sm bg-light text-dark"
-                    title={`Click here to search for a ${linked_to}`}
-                    onClick={handleShow}>
-                    <BsSearch/> {label}
-                </Button>
-            </div>
+        <Stack gap={1}>
+            <DisplayField label={label} 
+                description={description} 
+                linked_to={linked_to} 
+                required={required} 
+                handleShow={handleShow}/>
+            <DisplaySelectedDocument selected={selected} 
+                linked_to={linked_to} 
+                required={required} 
+                handleClear={handleClear}/>
         </Stack>
-        {selected && selected.hasOwnProperty("id") && selected.id && <>
-            <AiOutlineCheck className="text-success mr-2"/>
-            <small>{"Selected: "}</small>
-            <div className="d-flex tdb__input">
-                <label className="text-decoration-underline">{selected.label ? selected.label : selected.id}</label>
-                {!required && <Button className="btn btn-sm bg-transparent border-0 text-danger"
-                        title={`Click here to search for a ${linked_to}`}
-                        onClick={handleClear}>
-                    <AiFillDelete className="h6"/> 
-                </Button>}
-            </div>
-        </>}
         <Modal centered 
             show={show} 
             dialogClassName="modal-90w"
@@ -159,5 +170,3 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
         </Modal>
     </React.Fragment>
 }
-
-

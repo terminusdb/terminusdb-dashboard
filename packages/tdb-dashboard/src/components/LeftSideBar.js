@@ -8,7 +8,7 @@ import {ConnectedDataProduct} from "../components/CurrentDataProductState"
 import {DataProductDocuments, DocumentExplorerDocuments} from "../components/DataProductDocuments"
 import {SampleQueries} from "../components/SampleQueries"
 
-export const LeftSideBar = (props) => {
+export const LeftSideBar = (props) => { 
     const { 
         getLocation
     } = WOQLClientObj()
@@ -26,5 +26,5 @@ export const LeftSideBar = (props) => {
                 {/* dataProduct && getLocation()==PRODUCT_EXPLORER && <SampleQueries/> */}
             </Menu>
         </SidebarContent>
-      </ProSidebar>
+    </ProSidebar>
 }

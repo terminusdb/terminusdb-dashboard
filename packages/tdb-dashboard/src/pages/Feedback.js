@@ -7,6 +7,7 @@ import {SendEmailHook} from "../hooks/SendEmailHook"
 import {Alerts} from "../components/Alerts"
 import {TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
 import {FaTimes} from "react-icons/fa"
+import CowDuckHead from '../assets/CowDuckHead.png';
 
 export const Feedback = ({setShowFeedbackForm}) => {
     const {clientUser} = WOQLClientObj()
@@ -36,7 +37,7 @@ export const Feedback = ({setShowFeedbackForm}) => {
 
     return <Card className="shadow-sm px-3 rounded-2 py-4 mx-auto mt-5 ff-align-left feedback-form" style={{width: "500px"}}>
         <div className="cowduck-top-sec bg-transparent border-0 text-center d-flex"> 
-            <img className="card-img cowduck-feedback-avatar large-avatar rounded-circle mx-auto" src="../assets/CowDuckHead.png"/>
+            <img className="card-img cowduck-feedback-avatar large-avatar rounded-circle mx-auto" src={CowDuckHead}/>
             <Button onClick={(e) => setShowFeedbackForm(false)} className="feedback-cancel btn btn-sm cancel-button" variant="outline-info">
                 <FaTimes />
             </Button>

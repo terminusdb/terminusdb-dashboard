@@ -72,12 +72,10 @@ export const DataProductActivityGraph = () => {
 
     return  <div className="card mb-5">
         {loading && <Loading message={`Loading activity graph ...`} type={PROGRESS_BAR_COMPONENT}/>}
+        <div class="card-header text-light mb-3 fw-bold bg-transparent ">Recent Commits</div>
         <div className="card-body">
             <div className="row align-items-center gx-0">
                 <div className="col">
-                    <h6 className="text-uppercase text-muted fw-bold">
-                        Recent Commits
-                    </h6>
                     <div style={{ width: '100%', height: 300 }}>
                         <ResponsiveContainer>
                             <AreaChart
@@ -162,12 +160,12 @@ export const DataProductActivityBoard = () => {
 
                             <h6 className="float-right">
                                 {printtsDate(item.time)} 
-                                <small className="text-muted d-block mt-1">
+                                <small className="text-light d-block mt-1">
                                     {printtsTime(item.time)}
                                 </small>
                             </h6>
 
-                            <p className="small text-muted mb-0">
+                            <p className="small text-light mb-0">
                                 {item.message}
                             </p>
                         </div>
@@ -182,18 +180,16 @@ export const DataProductActivityBoard = () => {
     return  <React.Fragment>
         {dataProvider.length>0  && <div>
             <div className="card">
-            <div className="card-body">
-                <div className="row align-items-center gx-0">
-                    <div className="col">
-                        <h6 className="text-uppercase text-muted mb-2 fw-bold">
-                        Recent Activities
-                        </h6>
-                        <div className="mt-4 mb-1 list-group list-group-flush list-group-activity my-n3">
-                            <TimelineElements/>
+                <div class="card-header text-light mb-3 fw-bold bg-transparent ">Recent Activities</div>
+                <div className="card-body">
+                    <div className="row align-items-center gx-0">
+                        <div className="col">
+                            <div className="mt-4 mb-1 list-group list-group-flush list-group-activity my-n3">
+                                <TimelineElements/>
+                            </div>
                         </div>
-                    </div>
-                </div> 
-            </div>
+                    </div> 
+                </div>
         </div>
     </div>}
     

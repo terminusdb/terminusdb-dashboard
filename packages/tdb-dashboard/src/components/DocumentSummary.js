@@ -3,32 +3,28 @@ import React, {useState, useEffect} from "react"
 import {ListGroup, Container, Card, Row, Col, Button, Stack} from "react-bootstrap"
 import {BiPlus, BiNetworkChart} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
-import {
-    Accordion,
-    AccordionItem,
-    AccordionItemHeading,
-    AccordionItemButton,
-    AccordionItemPanel,
-} from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import {IconBarConfig} from "./constants"
 import {handleCreate} from "./documents.utils"
 import {Nav} from "react-bootstrap"
-import {NavLink as RouterNavLink , useParams} from "react-router-dom"
+import {NavLink as RouterNavLink , useParams, useNavigate} from "react-router-dom"
 import {DocumentControlObj} from '../hooks/DocumentControlContext'
-
+import {Loading} from "../components/Loading"
 
 export const DocumentSummary = () => {
 
     const {dataProduct,organization} = useParams()
 
+    const navigate = useNavigate() 
+    
     const getUrl = (pageName)=> {
         return  `/${organization}/${dataProduct}/${pageName}`
     }
 
     const {
         perDocumentCount,
-        totalDocumentCount,
+        totalDocumentCount, 
+        documentLoading
     } = WOQLClientObj()
 
     const {
@@ -37,7 +33,9 @@ export const DocumentSummary = () => {
     } = DocumentControlObj()
 
     function handleCardClick (doc) {
-        let docObj = {
+        navigate(doc) 
+
+       /* let docObj = {
             type: doc,
             action: false,
             view: documentObject.view,
@@ -49,7 +47,7 @@ export const DocumentSummary = () => {
             loading: false,
             update:false
         }
-        setDocumentObject(docObj)
+        setDocumentObject(docObj)*/
     }
 
     const DocumentStats = ({dataProvider}) => {
@@ -98,6 +96,8 @@ export const DocumentSummary = () => {
 
         return count
     }
+
+    if(documentLoading) return  <Loading message={`Fetching documents ...`}/>
 
     return  <main className="content  ml-5 w-100">
         <Container>

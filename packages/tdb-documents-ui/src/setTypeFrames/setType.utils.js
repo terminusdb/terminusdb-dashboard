@@ -1656,7 +1656,7 @@ export function getViewSetChoiceDocumentTypeUILayout (frame, item, uiFrame, onTr
         return<div/>
     }
     uiLayout = {
-        "ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
+        //"ui:title": getTitle(item, checkIfKey(item, frame["@key"])),
         //classNames: "tdb__input mb-3 mt-3",
         "ui:field": getViewSetChoice,
         "ui:options": {

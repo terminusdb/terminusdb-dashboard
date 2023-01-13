@@ -5,49 +5,14 @@ import {Form} from "react-bootstrap"
 import AsyncSelect from 'react-select/async'
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'
 import {
-    getCreateLayout,
-    getCreateUILayout,
-    getEditLayout,
-    getEditUILayout,
-    getViewUILayout,
-    getViewLayout
+    getLayout,
+    getUILayout
 } from "./subDocumentType.utils"
 
 
-export function subDocumentTypeFrames (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
-    let properties={}, propertiesUI={}, layout ={}, uiLayout={}, addedCustomUI
-
-    if (mode === CREATE) {
-        layout=getCreateLayout(frame, item)
-        uiLayout=getCreateUILayout(frame, item, uiFrame, documentation)
-        // custom ui:schema - add to default ui schema
-        addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-    }
-
-    if (mode === EDIT) {
-        layout=getEditLayout(frame, item, formData)
-        uiLayout=getEditUILayout(frame, item, formData, uiFrame, documentation)
-        // custom ui:schema - add to default ui schema
-        addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-    }
-
-    if (mode === VIEW) {
-        layout=getViewLayout(frame, item, formData)
-        addedCustomUI=getViewUILayout(frame, item, formData, uiFrame, documentation)
-    }   
-
-    // schema
-    properties[item]=layout
-    // ui schema
-    propertiesUI[item]=addedCustomUI
-
-    return {properties, propertiesUI}
-}
-
-
 export const makeSubDocumentFrames = (frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation) => {
-    let madeFrames = subDocumentTypeFrames(frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation)
-    let properties = madeFrames.properties
-    let propertiesUI = madeFrames.propertiesUI
-    return {properties, propertiesUI}
+    //console.log("subdocument frame ..." , frame)
+    let layout=getLayout(frame, item, formData)
+    let uiLayout=getUILayout(frame, item, uiFrame, mode, formData, documentation)
+    return {layout, uiLayout}
 }
