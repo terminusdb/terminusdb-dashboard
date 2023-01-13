@@ -7,6 +7,7 @@ packages/*/auth_config
 packages/tdb-dashboard/.env
 packages/tdb-dashboard/cypress/integration/1-getting-started
 packages/tdb-dashboard/cypress/integration/2-advanced-examples
+packages/tdb-documents-ui_old
 
 *.DS_Store
 node_modules/

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient ,{UTILS} from '@terminusdb/terminusdb-client'
-import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER} from './routing/constants'
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, CHANGE_REQUESTS} from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
@@ -273,7 +273,8 @@ export const WOQLClientProvider = ({children, params}) => {
     //we not need this for all the page
     useEffect(() => {
         const {page} = getLocation()
-        if(woqlClient && woqlClient.db() && ( page===DOCUMENT_EXPLORER || page===PRODUCT_EXPLORER)){
+        if(woqlClient && woqlClient.db() && 
+            ( page===DOCUMENT_EXPLORER || page===PRODUCT_EXPLORER || page===CHANGE_REQUESTS)){
             // on change on data product get classes
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
@@ -389,7 +390,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const hasRebaseRole=(teamUserRoles)=>{
         try{
-            const actions = teamUserRoles.capability[0].role[0].action
+            const actions = teamUserRoles[0].action
             if(actions.find(element=>element==="rebase")){
                 setTeamUserRoleMerge(true)
             }

@@ -21,15 +21,17 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
                 setShowModal(false)
             }                  
         }
-    }
+    } 
  
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
         <Modal.Header>
-            <Modal.Title className="text-success mt-3 mb-3">Submit the Change Request for review</Modal.Title>
+            <Modal.Title className="text-success">
+                <small className="fw-bold mr-2 h6">Submit the Change Request for review</small>
+            </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={closeModal} />
         </Modal.Header>
-        <Modal.Body className="p-5">
+        <Modal.Body className="p-3">
             {errorMessage && 
              <Alert variant="danger"  onClose={() => setError(false)} dismissible>{errorMessage}</Alert>}
             <Form>
@@ -47,7 +49,7 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
                 disabled={loading}
                 id ="add_element_button"
                 variant="light" 
-                className="text-dark"
+                className="text-dark btn-sm"
                 title={`Submit change request`} 
                 onClick={runCreate}>{loading ? 'Sending Request ...' : "Submit change request"} 
             </Button>

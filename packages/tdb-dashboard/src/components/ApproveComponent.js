@@ -32,7 +32,7 @@ export const ApproveComponent = () => {
         navigate(`/change_requests/`)
     }
     
-	return <Form.Group className="mt-3 mb-5">
+	return <Form.Group className="mt-3 mb-5 ml-3 mr-4">
 		<Form.Control
 			className="bg-dark text-light border-secondary" 
 			as="textarea"
@@ -43,10 +43,13 @@ export const ApproveComponent = () => {
 			type="text"
 		/>
 		<Button
-			className="text-dark btn-sm fw-bold float-right mt-2 mb-5 d-flex" 
-			variant="light"
+			className="text-dark btn-lg fw-bold float-right mt-2 mb-5 d-flex col-md-2 justify-content-center" 
+			variant="success"
+			title="Aprove Change Request"
 			onClick={handleMerge}> 
-			{loading ? <Loading message={APPROVE}/> : <><VscCheck className="mt-1 mr-2 h6 fw-bold text-success"/>{APPROVE}</>} 
+			{loading ? <Loading message={APPROVE}/> : <><VscCheck className="mt-1 mr-2 h6 fw-bold text-dark"/>
+				<h6 className="text-dark fw-bold">{APPROVE}</h6>
+			</>} 
 		</Button>
 	</Form.Group>
         

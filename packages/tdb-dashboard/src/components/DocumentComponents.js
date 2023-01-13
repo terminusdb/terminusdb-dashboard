@@ -9,7 +9,7 @@ import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import * as PATH from "../routing/constants"
 import {FiCopy} from "react-icons/fi" 
-import {copyToClipboard} from "./utils"
+import {CopyButton} from "./utils"
 import {HiMagnifyingGlass} from "react-icons/hi2"
 import Card from 'react-bootstrap/Card';
 import Overlay from 'react-bootstrap/Overlay';
@@ -19,7 +19,6 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import {AiFillDelete} from "react-icons/ai"
 
 // button to view frames
 const ViewFramesButton = () => {
@@ -40,19 +39,6 @@ const ViewFramesButton = () => {
     </Button>
 }
 
-/**
- * 
- * @param {*} id document ID 
- * @returns copy document ID to clipboard
- */
-export const CopyButton = ({text, title, label, css}) => {
-    return <Button variant="transparent" 
-        className={`text-light ${css}`}
-        title={title}
-        onClick={(e) => copyToClipboard(text)}>
-            <FiCopy/> {label && <span>{label}</span>}
-    </Button>
-}
 
 /**
  * 
@@ -79,7 +65,10 @@ const CloseButton = ({type}) => {
  */
 const CreateHeader = ({type, setView}) => {
     return <Stack direction="horizontal" gap={3} className="w-100">
-        <strong className="text-success ml-1 h6 fw-bold">{CONST.CREATE_DOCUMENT}: {type}</strong>
+        <strong className="text-success">
+            <span className="mr-1 h6 fst-italic">{CONST.CREATE_DOCUMENT}: </span>
+            <span className="fw-bolder h6">{type}</span>
+        </strong>
         <ViewFramesButton/>
         <ToggleJsonAndFormControl onClick={setView}/>
         <CloseButton type={type}/>
@@ -96,7 +85,10 @@ const CreateHeader = ({type, setView}) => {
 const EditHeader = ({type, id, setView}) => {
     return <Stack direction="horizontal" gap={3} className="w-100">
         <div className="col-md-7"> 
-            <strong className="text-success ml-1 h6 fw-bold">{CONST.EDIT_DOCUMENT}: {id}</strong>
+            <strong className="text-success">
+                <span className="mr-1 h6 fst-italic">{CONST.EDIT_DOCUMENT}: </span> 
+                <span className="fw-bolder h6">{id}</span>
+            </strong>
             <CopyButton text={id} title={`Copy Document ID`}/>
         </div> 
         <ViewFramesButton/>
@@ -117,7 +109,7 @@ const DeleteMessage = ({handleDelete, handleToggle}) => {
             <span className="text-gray">
                 {`If you delete this document, there is no going back. Please be certain.`}
             </span>
-            <div className="d-flex mt-3">
+            <div className="d-flex mt-3 justify-content-center">
                 <Button className="btn-sm bg-danger text-gray mr-2"
                     onClick={handleDelete}> 
                     <RiDeleteBin7Line className="mb-1" /> Delete
@@ -143,7 +135,7 @@ const UpdatingPopover = React.forwardRef(
     }, [children, popper]);
 
     return (
-        <Popover ref={ref} body {...props} id={`popover-positioned-bottom`}>
+        <Popover ref={ref} body {...props} id={`popover-positioned-left`}>
          {children}
         </Popover>
     );
@@ -181,7 +173,10 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
 
     return <Stack direction="horizontal" gap={3} className="w-100">
         <div className="col-md-7"> 
-            <strong className="text-success ml-1 h6 fw-bold">{CONST.VIEW_DOCUMENT}: {type}/{id}</strong>
+            <strong className="text-success">
+                <span className="mr-1 h6 fst-italic">{CONST.VIEW_DOCUMENT}:</span> 
+                <span className="fw-bolder h6"> {type}/{id} </span>
+            </strong>
             <CopyButton text={`${type}/${id}`} title={`Copy Document ID`}/>
         </div>
         <ViewFramesButton/>
@@ -197,7 +192,7 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
             </Button>
 
             <OverlayTrigger trigger="click" 
-                placement="bottom" 
+                placement="left" 
                 rootClose={true}
                 show={show}
                 onToggle={handleToggle}

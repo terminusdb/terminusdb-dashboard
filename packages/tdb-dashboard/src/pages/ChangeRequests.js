@@ -5,6 +5,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {BiGitPullRequest} from "react-icons/bi"
 import Stack from 'react-bootstrap/Stack'
+import {Loading} from "../components/Loading" 
 import {
 	OPEN,
 	REJECTED,
@@ -116,7 +117,7 @@ export const ChangeRequests = () => {
 					<div className="fw-bold text-gray">
 						{item['tracking_branch']}
 					</div>
-					<small className="text-muted text-small fw-bold">
+					<small className="text-light text-small fw-bold">
 						opened {getDays(item.creation_time)} days ago by {item['creator']}
 					</small>
 				</div>
@@ -140,7 +141,7 @@ export const ChangeRequests = () => {
 							<div className="fw-bold text-gray">
 								{item['tracking_branch']}
 							</div>
-							<small className="text-muted text-small fw-bold">
+							<small className="text-light text-small fw-bold">
 								opened {getDays(item.creation_time)} days ago by {item['creator']}
 							</small>
 						</div>
@@ -152,21 +153,21 @@ export const ChangeRequests = () => {
     }
 
 	return <Layout>
-			<main className="content mr-3 ml-5">
-              	<Container className="mt-5 mb-5">
-					<Card>
-						<Card.Header>
-							{changeRequestList && getHeader()}
-						</Card.Header>
-						<Card.Body className="p-0">
-							<ListGroup as="ol" key={"ListGroup"}>
-								{loading && <ProgressBar variant="info" animated now={100}/>}
-								{changeRequestList && !filter && formatListItem()}
-								{changeRequestList && filter && formatFilteredListItem()}
-							</ListGroup>
-						</Card.Body>
-					</Card>
-         		</Container>
-			</main>
-        </Layout>
+		<div className="content mr-3 ml-5"> 
+			<div className="mt-5 mb-5 mr-5">
+				<Card>
+					<Card.Header>
+						{changeRequestList && getHeader()}
+					</Card.Header>
+					<Card.Body className="p-0">
+						<ListGroup as="ol" key={"ListGroup"}> 
+							{loading && <Loading message={`Fetching Change Reuqests ...`}/>}
+							{changeRequestList && !filter && formatListItem()}
+							{changeRequestList && filter && formatFilteredListItem()}
+						</ListGroup>
+					</Card.Body>
+				</Card>
+			</div>
+		</div>
+	</Layout>
 }

@@ -9,6 +9,7 @@ import {BrowserRouter,useNavigate} from "react-router-dom"
 import {LoginModal} from "./components/LoginModal"
 
 require('./App.css')
+require('./Colors.css')
 
 function NavigationComponent(){
 

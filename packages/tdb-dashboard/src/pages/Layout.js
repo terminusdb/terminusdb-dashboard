@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react'
-import {Container,Alert,Badge,Button} from "react-bootstrap"
+import {Container,Alert, Button} from "react-bootstrap"
+import Badge from "react-bootstrap/Badge"
 import {MainNavBar} from '../components/MainNavBar'
 import SplitPane from 'react-split-pane'
 import {IconBar} from "../components/IconBar"
@@ -11,6 +12,7 @@ import {LeftSideBar} from '../components/LeftSideBar'
 import {WOQLClientObj} from '../init-woql-client'
 import {SubmitChangeRequestModal} from '../components/SubmitChangeRequestModal'
 import {BiGitBranch} from 'react-icons/bi'
+import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
   
 export const Layout = (props) => {
     const {branch,setChangeRequestBranch} = WOQLClientObj()
@@ -46,19 +48,8 @@ export const Layout = (props) => {
             </div>              
             <div className="ml-1 main-content h-100">                      
                 <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
-                <div className={mainClassName} >
-                    {branch && branch !== "main" &&
-                        <Alert variant="secondary" className="m-5 d-flex"> 
-                            <span>
-                                    <small className="fw-bold mr-2">You are in change request mode</small>
-                                    <BiGitBranch className="text-muted mr-2"/>
-                                    <Badge bg="success" className="fw-bold mr-2">{branch}</Badge>
-                                </span>
-                                <Button className="ml-auto bg-light text-dark btn-sm" onClick={()=>{setShowModal(true)}}>
-                                    <small className="fw-bold">Submit your change request for revision</small>
-                                </Button>   
-                        </Alert>
-                        }  
+                <div className={`${mainClassName} mt-5`} >
+                    {dataProduct && <ChangeRequestComponent branch={branch} setShowModal={setShowModal}/>}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                     {props.children}
                 </div>

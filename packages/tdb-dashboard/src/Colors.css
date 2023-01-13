@@ -23,9 +23,14 @@
     --badge-border-color: var(--color-border-yellow);
 }
 
-  
-.text-success {
-    color: var(--custom-text) !important;
+.text-success,
+h3.text-success,
+h4.text-success,
+h2.text-success,
+strong.text-success,
+span.text-success,
+div.text-success {
+    color: var(--color-pink) !important;
 }
 
 
@@ -37,6 +42,7 @@
     background-color: var(--custom-nav);
     color: var(--custom-nav-text) !important;
 }
+
 
 .btn-info {
     background-color: var(--custom-button) !important;
@@ -50,11 +56,13 @@
     border-color: var(--custom-button);
 }
 
-.bg-primary {
+.bg-primary,
+span.bg-primary {
     background-color: var(--badge-color) !important;
     border-color: var(--badge-border-color) !important;
     color: var(--badge-text-color) !important;
 }
+
 
 .bg-success {
     background-color: var(--color-pink) !important; 

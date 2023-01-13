@@ -38,7 +38,7 @@ export const QueryView = (props) => {
      }
 
     return (<React.Fragment>
-                <Row className="mt-5 w-100 justify-content-md-center">
+                <Row className="w-100 justify-content-md-center">
                     <NewQueryPane />
                 </Row>
             </React.Fragment>

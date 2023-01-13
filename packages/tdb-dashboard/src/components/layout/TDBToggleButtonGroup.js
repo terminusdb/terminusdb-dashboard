@@ -14,7 +14,7 @@ export const TDBToggleButtonGroup = (props) => {
 
     return <ToggleButtonGroup type="radio" name="options" value={props.selected} >
             {config.buttons.map((item) => 
-                  <ToggleButton key={`item__${item.id}`} value={item.id} id={item.id} className="btn-light btn-sm" onClick={(e)=>handleOnClick(e)} >
+                  <ToggleButton key={`item__${item.id}`} value={item.id} id={item.id} className="btn-light btn-sm mt-1" onClick={(e)=>handleOnClick(e)} >
                     {item.icon && <i className={item.icon}/>}
                     {item.label}
                   </ToggleButton>

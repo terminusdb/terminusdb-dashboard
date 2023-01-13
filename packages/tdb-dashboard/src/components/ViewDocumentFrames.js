@@ -8,7 +8,7 @@ import {JsonFrameViewer} from "./JsonFrameViewer"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {FaTimes} from "react-icons/fa"
 import Button from "react-bootstrap/Button"
-import {CopyButton} from "./DocumentComponents"
+import {CopyButton} from "./utils"
 
 /**
  * 

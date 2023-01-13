@@ -99,7 +99,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
 
                 <TDBToggleButtonGroup selected={queryObj.editorObj.language} type={"TOGGLE"} config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
 
-                <Button {...COPY_QUERY_CONFIG} className={"mr-1 mb-1 m-1  btn btn-light btn-sm"} onClick={(e) => copyToClipboard(queryObj.editorObj.text)}>
+                <Button {...COPY_QUERY_CONFIG} className={"mr-1 mb-2 m-1  btn btn-light btn-sm"} onClick={(e) => copyToClipboard(queryObj.editorObj.text)}>
                     <i className={`${COPY_QUERY_CONFIG.icon} me-2`}/>{COPY_QUERY_CONFIG.label}  
                 </Button>
             </Col> 
