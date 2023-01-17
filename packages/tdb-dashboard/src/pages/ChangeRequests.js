@@ -35,6 +35,7 @@ export const ChangeRequests = () => {
 		woqlClient,
         setCurrentCRObject,
 		setCurrentChangeRequest,
+		setChangeRequestBranch
 	} = WOQLClientObj()
     
     const {
@@ -98,6 +99,20 @@ export const ChangeRequests = () => {
 			</Stack>
 		</React.Fragment>
    }
+
+    const setChangeRequest = (item)=>{
+		const id = extractID(item["@id"]) 
+		setChangeRequestBranch(item.tracking_branch,id)
+		navigate(-1)
+	}
+
+    function getActionObject(item){
+		const actions = {"Submitted" :  {action:true, onClick:()=>goToDiffPage(item)},
+						"Merged" :{action:true, onClick:()=>goToDiffPage(item)},
+						"Open" : {action:true, onClick:()=>setChangeRequest(item)}}
+
+		return  actions[item.status] || {}
+	}
  
 	const formatListItem=()=>{
 		if(!changeRequestList) return ""
@@ -105,8 +120,9 @@ export const ChangeRequests = () => {
 			// do not display Merged and Rejected CRs
            // if(item.status === "Merged") return ""
 			if(item.status === "Rejected") return ""
-            const actions = (item.status === "Submitted" || item.status === "Merged") ?  {action:true, onClick:()=>goToDiffPage(item)} : {}
-            return  <ListGroup.Item {...actions}  key={`item___${index}`}   
+            //let actions = (item.status === "Submitted" || item.status === "Merged") ?  {action:true, onClick:()=>goToDiffPage(item)} : {}
+             const actions = getActionObject(item) 
+			return  <ListGroup.Item {...actions}  key={`item___${index}`}   
                 className="d-flex justify-content-between align-items-start">
 
                 {iconTypes[item.status]}

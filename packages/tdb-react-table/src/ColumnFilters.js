@@ -49,6 +49,7 @@ export function SelectColumnFilter({
     const value = filterValue ? filterValue.value : ""
     return (
       <select
+        style={{maxWidth:"200px"}}
         value={value}
         onChange={e => {
           const vv = e.target.value

@@ -15,13 +15,13 @@ import {BiGitBranch} from 'react-icons/bi'
 import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
   
 export const Layout = (props) => {
-    const {branch,setChangeRequestBranch} = WOQLClientObj()
+    const {branch,setChangeRequestBranch,exitChangeRequestBranch} = WOQLClientObj()
     const { organization, dataProduct } = useParams();
     const [showTimeTravel, setShowTimeTravel] = useState(false)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
     const [showModal,setShowModal] = useState(false)
 
-    const [defaultSize, setDefaultSize]=useState(false)
+   // const [defaultSize, setDefaultSize]=useState(false)
 
     const navigate = useNavigate()
     const mainClassName = props.mainClassName || "container-fluid"
@@ -31,14 +31,19 @@ export const Layout = (props) => {
         navigate(`/${organization}/${dataProduct}/change_requests`)
     }
 
-    useEffect(() => {
+    const closeChangeRequest = () =>{
+        exitChangeRequestBranch()
+        navigate(-1)
+    }
+
+   /* useEffect(() => {
         if(organization) setDefaultSize(340)
-    }, [organization])
+    }, [organization])*/
     
     //defaultSize={340}
     return <Container fluid className="p-0 flex-row">
         {showModal && <SubmitChangeRequestModal showModal={showModal} setShowModal={setShowModal} updateParent={updateParent}/>}            
-        <SplitPane split="vertical" minSize={70}  defaultSize={defaultSize} primary="first" allowResize={false}>
+        <SplitPane split="vertical" minSize={70} defaultSize={340} primary="first" allowResize={false}>
             <div className="side-black h-100 d-flex">
                 <IconBar setShowFeedbackForm={setShowFeedbackForm} />
                 {organization && <LeftSideBar/>}
@@ -48,8 +53,8 @@ export const Layout = (props) => {
             </div>              
             <div className="ml-1 main-content h-100">                      
                 <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
-                <div className={`${mainClassName} mt-5`} >
-                    {dataProduct && <ChangeRequestComponent branch={branch} setShowModal={setShowModal}/>}
+                <div className={`${mainClassName}`} >
+                    {dataProduct && <ChangeRequestComponent closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                     {props.children}
                 </div>

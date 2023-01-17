@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import {useQuery} from "@apollo/client";
+//import {useQuery} from "@apollo/client";
 
-export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, queryStart, order, filter,useFetchMore,uri) {
+export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter) {
 
     const [limit, setLimit] = useState(queryLimit || 10)
     const [start, setStart] = useState(queryStart || 0)
     const [orderBy, setOrderBy] = useState(order||false)
+    const [error, setError] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [rowCount, setRowCount] = useState(0)
   //  const [hasNextPage, setHasNextPage] = useState(true)
     const [controlledRefresh, setControlledRefresh] = useState(0)
@@ -18,25 +20,12 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     const [filterBy, setFilters] = useState(filterTable)
     const [queryFilters, setQueryFilters] = useState(false)
 
-    const {loading, error, fetchMore} = useQuery(graphqlQuery, {onCompleted:onCompleteCall,
+    /*const {loading, error, fetchMore} = useQuery(graphqlQuery, {onCompleted:onCompleteCall,
       variables:{"offset":start , "limit":limit+1, 
-      "orderBy":orderBy || {}, "filter":queryFilters || {}}});
+      "orderBy":orderBy || {}, "filter":queryFilters || {}}});*/
 
 
       console.log("ControlledGraphqlQuery" , start,limit,orderBy,queryFilters)
-
-    useEffect( () => {
-      // we reset all the filter if the document name change
-      if(documentType){
-        setLimit(queryLimit || 10)
-        setOrderBy(order || false)
-        setStart(queryStart || 0)
-        setQueryFilters(filter || false)
-        formatFilterForTable()
-        
-      }
-  }, [documentType])
-
 
   function formatFilterForTable(){
     if (filter){
@@ -51,35 +40,34 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     }
   }
 
-    //remove the extra element
-    function onCompleteCall(data){
-        if(!Array.isArray(data[documentType]))return []
-
-        const rowCountTmp  = limit*start+data[documentType].length
-        if(data[documentType].length === (limit+1)){
-         //setHasNextPage(false)
-           data[documentType].pop()
+    const callFetchMore = async (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
+        setLoading(true)
+        setError(false)
+        try{
+        const result = await apolloClient.query({query:graphqlQuery,
+            variables:{"offset":currentpage , "limit":currentlimit+1, 
+            "orderBy":orderBy || {}, "filter":queryFilters || {}}, filter:currentFilter,orderBy:currentOrderBy})
+        
+        if(result.errors) {
+            setRowCount(0)
+            setData([])
+            setError("Graphql Error")
+        }else{
+            const data = result.data 
+            if(!Array.isArray(data[documentType]))return []
+                const rowCountTmp  = limit*start+data[documentType].length
+                if(data[documentType].length === (limit+1)){
+                //setHasNextPage(false)
+                data[documentType].pop()
+                }
+                setRowCount(rowCountTmp)
+                setData(data)
         }
-        setRowCount(rowCountTmp)
-        setData(data)
-    }
-
-    const callFetchMore = (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
-      console.log("useFetchMore" ,currentFilter)
-      console.log("useFetchMore",{offset:currentpage , limit:currentlimit+1, orderBy:currentOrderBy, filter:currentFilter})
-        fetchMore({
-          variables:{offset:currentpage , limit:currentlimit+1},//, filter:currentFilter,orderBy:currentOrderBy},
-          updateQuery: (prev, { fetchMoreResult }) => {
-            //if (!fetchMoreResult) return prev;
-            if(!Array.isArray(fetchMoreResult[documentType]))return []
-            if(fetchMoreResult[documentType].length<(limit+1)){
-              setHasNextPage(false)
-              return fetchMoreResult 
-            }
-            fetchMoreResult[documentType].pop()
-            return fetchMoreResult
-          }
-        })
+        }catch(err){
+            console.log("ERRORRRRR",err)
+        }finally{
+            setLoading(false)
+        }
     }
 
 
@@ -87,15 +75,14 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
         setStart(currentpage)
         setLimit(currentlimit)
         console.log("changeLimits" ,queryFilters)
-
-        if(useFetchMore)callFetchMore(currentlimit,currentpage,orderBy,queryFilters) 
+        callFetchMore(currentlimit,currentpage,orderBy,queryFilters) 
     }
 
      const setAdvancedFilters = (advfilter,fetchMore=false)=>{
         setFilters([])
         setQueryFilters(advfilter)
         console.log("setAdvancedFilters" ,advfilter, queryFilters)
-        if(useFetchMore)callFetchMore(limit,start,orderBy,advfilter) 
+        callFetchMore(limit,start,orderBy,advfilter) 
      }
 
      const changeFilters = (filtersArr) =>{
@@ -133,7 +120,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
         setQueryFilters(filtersTmp)
 
         console.log("changeFilters" ,filtersArr, filtersTmp)
-        if(useFetchMore)callFetchMore(limit,start,orderBy,filtersTmp)      
+        callFetchMore(limit,start,orderBy,filtersTmp)      
       }
 
      const changeOrder = (orderByArr,fetchMore=false) =>{
@@ -145,7 +132,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
         }
         setOrderBy(orderByObj)
         console.log("changeOrder" ,orderByArr, queryFilters)
-        if(useFetchMore)callFetchMore(limit,start,orderByObj,queryFilters)  
+        callFetchMore(limit,start,orderByObj,queryFilters)  
       }
 
     const onRefresh = () => {
@@ -153,6 +140,7 @@ export function ControlledGraphqlQuery (graphqlQuery, documentType, queryLimit, 
     }
     
     return {
+        callFetchMore,
         documentError:error,
        // updateDocument,
         changeOrder,

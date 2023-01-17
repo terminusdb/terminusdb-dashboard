@@ -13,6 +13,7 @@ import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
+
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
         return id
@@ -103,8 +104,9 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
 
 export const DocumentNew = () => {   
     const { 
-        setChangeRequestBranch, branch
+        setChangeRequestBranch, branch,woqlClient
     } = WOQLClientObj()
+
 
     const [showModal, setShowModal] = useState(false)
     const {type} = useParams()
@@ -125,7 +127,7 @@ export const DocumentNew = () => {
        // setCurrentMode(currentMode)
     }
 
-    return <main className="content w-100 document__interface__main">
+    return <main className="content w-100 document__interface__main">      
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}

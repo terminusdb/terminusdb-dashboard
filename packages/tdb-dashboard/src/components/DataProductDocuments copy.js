@@ -14,12 +14,9 @@ import {handleCreate} from "./documents.utils"
 import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
-
 import {useParams, useNavigate} from "react-router-dom"
 
 export const DataProductDocuments = () => {
-
-   // const {dataProduct,organization} = useParams()
 
     const {
         woqlClient, 
@@ -121,8 +118,8 @@ export const DataProductDocuments = () => {
                 return <React.Fragment>
                     <DocumentMenu item={item} handleClassClick={handleClassClick}/>
                     {propertyButtons && property.parent_className==item["@id"]  && <div className="ml-3">
-                        {propertyButtons.map(props => {
-                            return <Button className="btn btn-sm m-1 text-light" 
+                        {propertyButtons.map((props , index) => {
+                            return <Button key={index + "prop_button"} className="btn btn-sm m-1 text-light" 
                             onClick={(e) => handlePropertyClick(props)}
                             variant="outline-secondary">{props}</Button>
                         })}
