@@ -20,15 +20,9 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
     const [filterBy, setFilters] = useState(filterTable)
     const [queryFilters, setQueryFilters] = useState(false)
 
-    /*const {loading, error, fetchMore} = useQuery(graphqlQuery, {onCompleted:onCompleteCall,
-      variables:{"offset":start , "limit":limit+1, 
-      "orderBy":orderBy || {}, "filter":queryFilters || {}}});*/
-
-
-      console.log("ControlledGraphqlQuery" , start,limit,orderBy,queryFilters)
-
-  function formatFilterForTable(){
-    if (filter){
+   
+    function formatFilterForTable(){
+      if (filter){
       const keys = Object.keys(filter)
       keys.forEach(propN =>{
         
@@ -36,9 +30,9 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
 
          filterTable.push({id:propN, value:{value:filter[propN][operator],operator:operator}})
       })
-      setFilters(filterTable)
+        setFilters(filterTable)
+      }
     }
-  }
 
     const callFetchMore = async (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
         setLoading(true)
@@ -46,7 +40,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         try{
         const result = await apolloClient.query({query:graphqlQuery,
             variables:{"offset":currentpage , "limit":currentlimit+1, 
-            "orderBy":orderBy || {}, "filter":queryFilters || {}}, filter:currentFilter,orderBy:currentOrderBy})
+            "orderBy":currentOrderBy || {}, "filter":currentFilter || {}}})
         
         if(result.errors) {
             setRowCount(0)

@@ -8,6 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 
 export function GraphIqlEditor() {
   const {woqlClient} = WOQLClientObj() 
+  if(!woqlClient) return 
   const client = woqlClient.copy()
   const url = client.connectionConfig.dbBase("graphql")
 
@@ -20,7 +21,7 @@ export function GraphIqlEditor() {
   });
 
   return (
-    <Layout mainClassName="container-fluid mainGraphIql">
+    <Layout mainClassName="container-fluid mainGraphIql" showLeftSideBar={false}>
      
         <GraphiQL 
           editorTheme="shadowfox"

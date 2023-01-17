@@ -22,7 +22,7 @@ export const Home = () => {
 
     const addCreateTeam = clientUser && (clientUser.connection_type !== "LOCAL" || clientUser.user === "admin") ? true : false
 
-    return <Layout>
+    return <Layout  showLeftSideBar={false}>
         <main className="content w-100">
             <Container>
                 <Col xs={12} className="text-center d-block align-items-center justify-content-center">

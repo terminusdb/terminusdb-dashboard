@@ -63,6 +63,7 @@ const CheckDropdownItem = React.forwardRef(
           label={children}
           checked={checked}
           onChange={onChange}
+          className= "table__columns__component"
         />
       </Form.Group>
     );
