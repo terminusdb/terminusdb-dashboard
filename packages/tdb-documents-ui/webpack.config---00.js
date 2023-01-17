@@ -4,9 +4,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     mode: 'production',
     entry: {
-       'terminusdb-documents-ui': path.join(__dirname, 'src/index.js') 
+       'terminusdb-documents-ui': path.join(__dirname, 'src/index.js')
     },
-    devtool: false,    
+    devtool: false,
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].min.js',
@@ -30,18 +30,38 @@ module.exports = {
                 include: path.resolve(__dirname, "src"),
                 exclude: /node_modules/,
             },
+           /* {
+              test: /\.s?css$/,
+              use: [
+                'style-loader',
+                {
+                  loader: 'css-loader',
+                  options: {
+                    sourceMap: true,
+                  },
+                },
+                {
+                  loader: 'less-loader',
+                  options: {
+                    sourceMap: true,
+                  },
+                },
+                {
+                  loader: 'sass-loader',
+                  options: {
+                    sourceMap: true,
+                  },
+                },
+              ],
+            },*/
             {
               test: /\.(css|less)$/,
               use: [
                 MiniCssExtractPlugin.loader,
-                'css-loader', 'less-loader'
-              
+                'css-loader', 'less-loader', 'style-loader'
+
               ],
-<<<<<<< HEAD
-            },*/
-=======
             },
->>>>>>> 36193a6d6a9afb05540204b428c0e07c0d43f9c5
           {
           test: /\.(svg|jpg|gif|png)$/,
           use: [
@@ -74,7 +94,7 @@ module.exports = {
         }
       ]
     },
-    externals: {   
+    externals: {
       react: {
         root: 'React',
         commonjs2: 'react',
@@ -94,5 +114,4 @@ module.exports = {
         amd: 'prop-types',
       }
     },
-    target: 'node'
-};
+}

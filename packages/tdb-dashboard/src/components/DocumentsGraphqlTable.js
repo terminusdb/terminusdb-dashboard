@@ -1,21 +1,20 @@
 import React,{useState,useEffect} from "react";
-import { ControlledGraphqlQuery , GraphqlTable} from '@terminusdb/terminusdb-react-table'
+import {  GraphqlTable} from '@terminusdb/terminusdb-react-table'
 import ProgressBar from 'react-bootstrap/ProgressBar'
-import { AdvancedSearch } from "../components/AdvancedSearch";
-import {Tab,Tabs,Form, Button} from 'react-bootstrap'
+import { AdvancedSearch } from "./AdvancedSearch";
+import {Tab,Tabs,Form, Button,Alert} from 'react-bootstrap'
 import { GraphqlQueryView } from "./GraphqlQueryViewer";
 import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
 import {WOQLClientObj} from '../init-woql-client'
+import { ControlledGraphqlQuery } from "../hooks/ControlledGraphqlQuery";
 
-//to be review  
-export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}) => {
-    const {documentTablesConfig} = WOQLClientObj()
-
-    // get default table config if not defined 
-    //if(!tableConfig) tableConfig=documentTablesConfig
-
+//to be review
+export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => {
+    const {documentTablesConfig,apolloClient} = WOQLClientObj()
+    if(!documentTablesConfig) return ''
+    const tableConfig = documentTablesConfig
     const querystr  = tableConfig.objQuery[type].query
     const query = gql`${querystr}`
     //const query =gql`query Doc01Query($offset: Int, $limit: Int, $filter: Doc01_Filter, $orderBy: Doc01_Ordering) {\n  Doc01(offset: $offset, limit: $limit, filter: $filter, orderBy: $orderBy) {\n    _id\n    label\n  }\n}`
@@ -24,6 +23,7 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
    
     if (!query) return ""
     const { documentError,
+        callFetchMore,
         rowCount,
         changeOrder,
         changeLimits,
@@ -35,13 +35,14 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
         orderBy,
         filterBy,
         loading,
-        documentResults } = ControlledGraphqlQuery(query, type, 10, 0, {}, false);
+        documentResults } = ControlledGraphqlQuery(apolloClient,query, type, 10, 0, {}, false);
     
     useEffect(() => {
-       if(type){
+       if(type){       
+            callFetchMore(10,0,{},false) 
             const queryStr = query.loc.source.body
             setQueryTodisplay(format(queryStr))
-            setAdvFields(tableConfig.advancedSearchObj[type])          
+            setAdvFields(tableConfig.advancedSearchObj[type])         
        }
     },[type]);
 
@@ -60,10 +61,15 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
 
     const totalRows = 200
 
-    function extractDocuments(documentResults) {
+    function extractDocuments(documentResultsArr) {
+        if(!documentResultsArr) {
+            //alert(JSON.stringify(documentResultsArr))
+            return []
+            
+        }
         var extractedResults = []
 
-        documentResults.map(item => {
+        documentResultsArr.map(item => {
             var newJson = {}
             for (var key in item) {
                 // if it is an array this is set type, I can have more than 1 result for row
@@ -75,11 +81,11 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
                     //key 
                     const objectKey = Object.keys(item[key])
                     objectKey.forEach(element => {
-                        newJson[`${key}--${element}`] = item[key][element]
+                        newJson[`${key}---${element}`] = `${item[key][element]}`
                     });
                 }
                 else {
-                    newJson[key] = item[key]
+                    newJson[key] = `${item[key]}`
                 }
             }
             extractedResults.push(newJson)
@@ -93,7 +99,14 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
    // const showBar = loading ? {className:"visible"} : {className:"invisible"}
    //return <div>hello</div>
 // <AdvancedSearch fields={advSearchFields} setFilter={setAdvancedFilters} />
-    return <div>          
+    return <div> 
+            {documentError && <Alert
+            className="text-break"
+            variant="danger">
+
+            GraphQL query error
+            </Alert>
+}         
             {advSearchFields &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">
@@ -122,7 +135,7 @@ export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}
                       orderBy={{}} 
                       setFilters = {changeFilters}
                       setLimits={changeLimits}
-                      setOrder={changeOrder}
+                     // setOrder={changeOrder}
                      // query={null}
                       loading={loading}
                       totalRows={totalRows}

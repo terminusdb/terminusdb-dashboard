@@ -6,7 +6,7 @@ import {ProductsExplorer} from "./pages/ProductsExplorer"
 import * as PATH from "./routing/constants"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
-import { DocumentList } from "./pages/DocumentsList"
+import { DocumentsGraphqlList } from "./pages/DocumentsGraphqlList"
 import {DocumentsList01} from  "./pages/DocumentsList01"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
@@ -28,8 +28,7 @@ import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
 import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 import {PageNotFound} from "./pages/PageNotFound"
-//import { ApolloProvider} from '@apollo/client';
-//import {createApolloClient} from './routing/ApolloClientConfig'
+
 
 export function App (props){
     let navigate = useNavigate();
@@ -69,7 +68,7 @@ export function App (props){
 // {getRoutes(clientUser,isAdmin, woqlClient)}
 
 function getRoutes(clientUser, isAdmin, woqlClient){
-    //const client = createApolloClient(woqlClient)
+    //const client = createApolloClient()
 
     if(localSettings.connection_type==="LOCAL"){ 
     return <React.Fragment>
@@ -110,14 +109,13 @@ function getRoutes(clientUser, isAdmin, woqlClient){
 
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
-                        <Route path=":type">
-                           
+                        <Route path=":type">                       
                             <Route index element={<DocumentsList01/>} /> 
-                            <Route path={PATH.NEW_DOC} element={<PrivateRoute component={DocumentNew}/>} /> 
+                            <Route path={PATH.NEW_DOC} element={<DocumentNew/>}/> 
 
                             <Route path=":id" >
                                 <Route index element={<PrivateRoute component={DocumentView}/>} /> 
-                                <Route path={PATH.EDIT_DOC} element={<PrivateRoute component={DocumentEdit}/>} /> 
+                                <Route path={PATH.EDIT_DOC} element={<DocumentEdit/>} /> 
                             </Route> 
                     </Route>
                 </Route>

@@ -47,9 +47,10 @@ input.tdb__diff__original,
     border-color: #f5c2c7 !important;
 }
 
-/* for boolean type */
-.tdb__diff__original div.checkbox {
-    color: #f8d7da !important;
+/* for boolean type && choice documents */
+.tdb__diff__original div.checkbox,
+.tdb__diff__original .tdb__span__select {
+    color: rgba(231, 76, 60, 1) !important; 
 }
 
 .tdb__diff__original__subDocuments,
@@ -124,9 +125,10 @@ input.tdb__diff__changed,
     border-color: #badbcc !important;
 }
 
-/* for boolean type */
+/* for boolean type  && choice documents */
+.tdb__diff__changed .tdb__span__select,
 .tdb__diff__changed div.checkbox {
-    color: #d1e7dd !important;
+    color: rgba(0, 188, 140, 1) !important; 
 }
 
 .tdb__diff__changed .tdb__markdown__view,

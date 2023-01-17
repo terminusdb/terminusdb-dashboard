@@ -64,11 +64,10 @@ const NoValueSubDocumentElements = ({formData, tagUI, item, schema, info}) => {
     if(!displayElementPlaceholders) displayElementPlaceholders=1
     // displayElementPlaceholders will serve as starting index to get removed elements info from tagUI
     let elements=[], css="text-danger" // original
-    console.log(Object.keys(tagUI[item][0])[0])
     let firstProperty=Object.keys(tagUI[item][0])[0]
     if(tagUI[item][0][firstProperty] === "tdb__diff__changed__removed") 
         css="text-success"
-    for(let count=0; count <= displayElementPlaceholders; count++) {
+    for(let count=0; count < displayElementPlaceholders; count++) {
         if(info === CONST.CHOICESUBCLASSES) { 
             elements.push(display.showRemovedChoiceSubDocument(schema, css))
         }
@@ -79,10 +78,12 @@ const NoValueSubDocumentElements = ({formData, tagUI, item, schema, info}) => {
 
 /** displays removed sub documents icons */
 const RemovedSubDocumentElements = ({formData, tagUI, item, schema, info}) => {
+    //if(isValid (formData)) return <div/>
     let displayElementPlaceholders=checkIfElementsChanged(formData, tagUI, item)
     if(!displayElementPlaceholders) {
         return <NoValueSubDocumentElements formData={formData} tagUI={tagUI} item={item} schema={schema} info={info}/>
     }
+    //else return <div/>
     //if(!displayElementPlaceholders) return <div/>
     // displayElementPlaceholders will serve as starting index to get removed elements info from tagUI
     let elements=[], css="text-danger" // original
@@ -181,8 +182,12 @@ const ChoiceSubDocumentTypeDiff = ({data, cssElement, schema}) => {
  */
 function isValid (formData) {
 	let data = formData 
+    console.log(formData)
     if(Array.isArray(formData) && formData[0]===false ) data=false
     if(Array.isArray(formData) && formData[0]===undefined ) data=false
+    if(Array.isArray(formData) && 
+        typeof formData[0]===CONST.OBJECT_TYPE && 
+        !Object.keys(formData[0]).length) data=false
     return data 
 }
 
@@ -221,6 +226,7 @@ export function displayElements(formData, item, schema, tagUI) {
     }
     else if(schema.items.info === CONST.SUBDOCUMENT_TYPE) {
         formData.map((data, index) => { 
+            if (Object.keys(data).length === 0) return
             let css=tagUI[item][index] //? tagUI[item][index] : "tdb__subdocument__card"
             elements.push(<SubDocumentTypeDiff data={data} cssElement={css} schema={schema}/>)
         })

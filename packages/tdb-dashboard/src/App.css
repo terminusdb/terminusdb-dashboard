@@ -439,7 +439,7 @@ input {
   border-color: hsl(0,0%,80%)!important;
   border-radius: 4px !important;
   border-style: solid !important;
-  background-color: #303030 !important;
+  /*background-color: #303030 !important;*/
   min-height: 38px !important;
   color: hsl(0,0%,50%) !important;
 }
@@ -1077,4 +1077,48 @@ pre.CodeMirror-line  > span > span.cm-string {
 .page-link { 
   background-color: #f8f9fa!important;
   color: #343a40!important;
+}
+
+.MuiButton-contained {
+  background-color: #a9a7a5;
+}
+.MuiButton-containedPrimary {
+  color: #fff;
+  background-color: #3f51b5;
+}
+.MuiButton-containedSecondary {
+  color: #fff;
+  background-color: #f50057;
+}
+
+.group {
+  background: transparent;
+  border: 0px solid #DCC896;
+}
+
+.rule_group{
+  background-color: white;
+}
+.result-window .CodeMirror{
+    height: 100%;
+}
+.MuiButton-text{
+  color: rgb(0, 188, 140)!important;
+  margin-right: 20px;
+}
+
+/*.qb-lite .group--drag-handler, .qb-lite .group--actions {
+  transition: opacity 0.2s;
+}*/
+.qb-lite .group--header:hover .group--header .group--drag-handler, .qb-lite .group--header:hover .group--header .group--actions,
+.qb-lite .group--header:not(:hover) .group--drag-handler,
+.qb-lite .group--header:not(:hover) .group--actions,
+.qb-lite .rule_group:not(:hover) .group--drag-handler,
+.qb-lite .rule_group:not(:hover) .group--actions {
+  opacity: 1;
+}
+
+.accordion{
+  background-color: #303030;
+  --bs-accordion-bg:#303030;
 }

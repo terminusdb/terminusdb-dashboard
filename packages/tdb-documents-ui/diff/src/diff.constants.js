@@ -1,5 +1,11 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
+	NuclearPowerPlant: {
+		"@id": "NuclearPowerPlant/same",
+		"@type": "NuclearPowerPlant",
+		"name": "same",
+		"reactors": ["ResearchReactor/ResearchReactor2"]
+	},
 	Student: {
 		"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51",
 		"@type": "Student",
@@ -94,6 +100,12 @@ export const oldData = {
  
 
 export const changedData = {
+	NuclearPowerPlant: {
+		"@id": "NuclearPowerPlant/same",
+		"@type": "NuclearPowerPlant",
+		"name": "same",
+		"reactors": ["ResearchReactor/ResearchReactor1"]
+	},
 	Student: {
 		"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51",
 		"@type": "Student", 
@@ -132,13 +144,13 @@ export const changedData = {
 			  "@type": "address",
 			  "addressline1": "two",
 			  "postal": "two"
-			}/*,
+			},
 			{
 			  "@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/84672a39e6a4fb4c4d86e9ddeeeae5019ecb5c63087dd903d36fd5867ce90e9b",
 			  "@type": "address",
 			  "addressline1": "one",
 			  "postal": "one"
-			}*/
+			}
 		  ]
 		/*"text": [
 		  "onetext1",

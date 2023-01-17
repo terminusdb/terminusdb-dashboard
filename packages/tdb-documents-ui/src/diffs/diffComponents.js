@@ -117,10 +117,10 @@ const DisplaySubHiddenElements = ({frameProperties, placeholder, css}) => {
  * @returns retuns removed sub document placeholder 
  */
 export function showRemovedSubDocument (schema, css) {
-    // pass schema.items..title as dummy placehodlers 
+    // pass schema.items.title as dummy placehodlers 
     return <DisplaySubHiddenElements frameProperties={schema.items.properties} 
-        placeholder={schema.items.title}
-        css={css}/>
+            placeholder={schema.items.title}
+            css={css}/>
 }
 
 /**

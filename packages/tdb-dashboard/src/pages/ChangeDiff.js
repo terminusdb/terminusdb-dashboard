@@ -133,7 +133,7 @@ export const ChangeDiff = () => {
     </Layout>
 }
 
-     /*<small class="fw-bold mr-2 h6">You are in change request mode</small>
+     /*<small className="fw-bold mr-2 h6">You are in change request mode</small>
                                     <span className="float-right fw-bold mr-2 text-dark badge bg-primary mb-1">
                                         {currentCRObject[TRACKING_BRANCH]}
                                     </span>*/

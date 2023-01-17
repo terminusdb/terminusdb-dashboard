@@ -58,7 +58,7 @@ export const DataProductsHome = (props) => {
 
                         <Col md={12}  className="mb-5">
                             <div className="card mb-5">
-                                <div class="card-header text-light mb-3 fw-bold bg-transparent "> Manage Branches</div>
+                                <div className="card-header text-light mb-3 fw-bold bg-transparent "> Manage Branches</div>
                                 <div className="card-body">
                                     <div className="row align-items-center gx-0">
                                         <div className="col">

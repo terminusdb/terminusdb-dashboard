@@ -13,7 +13,6 @@ import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
-
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
         return id
@@ -117,7 +116,6 @@ export const DocumentEdit = () => {
 
     const {type, id} = useParams()
     let documentID=`${type}/${id}`
-
     // constants to display document body in Form or JSON View
     const [view, setView]=useState(CONST.FORM_VIEW) 
     const [loading, setLoading]=useState(false)
@@ -142,6 +140,7 @@ export const DocumentEdit = () => {
     }
  
     return <main className="content w-100 document__interface__main">
+        
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}

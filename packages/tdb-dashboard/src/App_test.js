@@ -1,5 +1,5 @@
 import React from "react" 
-import { DocumentList } from "./pages/DocumentsList"
+import { DocumentsGraphqlList } from "./pages/DocumentsGraphqlList"
 
 export function App_test (props){
 

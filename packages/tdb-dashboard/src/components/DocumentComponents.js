@@ -19,7 +19,6 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import {DocumentsTable} from "./DocumentsTable"
 import Row from "react-bootstrap/Row"
 
 // button to view frames

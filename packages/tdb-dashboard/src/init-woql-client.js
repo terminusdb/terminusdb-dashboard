@@ -8,15 +8,20 @@ import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-comp
 import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
+import { createApolloClient } from './routing/ApolloClientConfig'
+
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
+
 
 export const WOQLClientProvider = ({children, params}) => {
     //the client user can be the local user or the auth0 user in terminusX
     //maybe a some point we'll need a local and remote connection (terminusX connection to clone/push and pull etc...) 
     let clientUser = createClientUser(useAuth0, params)
+    //let apolloClient
     const [woqlClient, setWoqlClient] = useState(null)
     const location = useLocation()
+    const [apolloClient , setApolloClient] = useState(null)
 
     //maybe I can move this in client
     const [accessControlDashboard, setAccessControl] = useState(null)
@@ -128,6 +133,8 @@ export const WOQLClientProvider = ({children, params}) => {
                  if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
                  }
+
+                 setApolloClient(new createApolloClient(dbClient))
 
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
@@ -312,6 +319,18 @@ export const WOQLClientProvider = ({children, params}) => {
         setChosenCommit({})
         setCurrentChangeRequest(changeRequestId) 
     }
+
+    function exitChangeRequestBranch(){
+        woqlClient.checkout("main")
+        const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
+        localStorage.removeItem([TERMINUSCMS_CR])
+        localStorage.removeItem([TERMINUSCMS_CR_ID])
+        // set the change_request brach and reset the commit 
+        setBranch("main")
+        setRef(null)
+        setChosenCommit({})
+        setCurrentChangeRequest(false) 
+    }
  
    // const currentPage = history.location.pathname
 
@@ -417,6 +436,8 @@ export const WOQLClientProvider = ({children, params}) => {
     return (
         <WOQLContext.Provider
             value={{
+                exitChangeRequestBranch,
+                apolloClient,
                 setChangeRequestBranch,
                 currentChangeRequest,
                 setCurrentChangeRequest,
