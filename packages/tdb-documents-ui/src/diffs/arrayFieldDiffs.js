@@ -219,8 +219,21 @@ function checkForInsertOrDelete(diff, item, tagOriginalUI, tagChangedUI) {
         tagChangedUI[item]=[]
         tagOriginalUI[item]=[]
         diff[DIFFCONST.AFTER].map(arr => {
-            tagChangedUI[item].push(css)
-            tagOriginalUI[item].push("tdb__diff__original__removed")
+            if(typeof arr === CONST.STRING_TYPE) {
+                tagChangedUI[item].push(css)
+                tagOriginalUI[item].push("tdb__diff__original__removed")
+            }
+            else {
+                // subdocuments or choice sub documents 
+                let propertyDiffs={}
+                for(let props in arr) {
+                    if(props === "@id") continue 
+                    if(props === "@type") continue 
+                    propertyDiffs[props] = "tdb__diff__original__removed" 
+                } 
+                tagOriginalUI[item].push(propertyDiffs)
+                tagChangedUI[item].push(css)
+            }
         })
     }   
     // delete 
@@ -230,8 +243,21 @@ function checkForInsertOrDelete(diff, item, tagOriginalUI, tagChangedUI) {
         tagChangedUI[item]=[]
         tagOriginalUI[item]=[]
         diff[DIFFCONST.BEFORE].map(arr => {
-            tagOriginalUI[item].push(css)
-            tagChangedUI[item].push("tdb__diff__changed__removed")
+            if(typeof arr === CONST.STRING_TYPE) {
+                tagOriginalUI[item].push(css)
+                tagChangedUI[item].push("tdb__diff__changed__removed")
+            }
+            else {
+                // subdocuments or choice sub documents 
+                let propertyDiffs={}
+                for(let props in arr) {
+                    if(props === "@id") continue 
+                    if(props === "@type") continue 
+                    propertyDiffs[props] = "tdb__diff__changed__removed" 
+                } 
+                tagChangedUI[item].push(propertyDiffs)
+                tagOriginalUI[item].push(css)
+            }
         })
     }
 }

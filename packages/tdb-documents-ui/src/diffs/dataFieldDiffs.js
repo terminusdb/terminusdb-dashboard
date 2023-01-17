@@ -19,13 +19,20 @@ function getClassNamesForDiffs(diff) {
         if(diff.hasOwnProperty(DIFFCONST.AFTER) && 
             diff[DIFFCONST.AFTER] === null)  {
             // property has been removed 
+            function removedChanged(props) {
+                return util.showRemovedElementChanged(diff[DIFFCONST.BEFORE], props)
+            }
+            changedUIFrame[DIFF] = removedChanged
             originalUIFrame["classNames"] = "tdb__diff__original" 
-            changedUIFrame[DIFF] = util.showRemovedElementChanged
         }
         else if(diff.hasOwnProperty(DIFFCONST.BEFORE) && 
             diff[DIFFCONST.BEFORE] === null) {
             // property has been added 
-            originalUIFrame[DIFF] = util.showRemovedElementOriginal
+            function removedOriginal(props) {
+                return util.showRemovedElementOriginal(diff[DIFFCONST.AFTER], props)
+            }
+
+            originalUIFrame[DIFF] = removedOriginal
             changedUIFrame["classNames"] = "tdb__diff__changed"
         }
         else {

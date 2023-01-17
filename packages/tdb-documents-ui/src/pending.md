@@ -55,6 +55,8 @@
 
 - boolean false in VIEW mode
 
+- diff with markdown insert/ delete
+
 
 DONE LIST 
 PLAYGROUND 

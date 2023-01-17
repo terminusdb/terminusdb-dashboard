@@ -112,7 +112,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">
                            
-                            <Route index element={<DocumentList/>} /> 
+                            <Route index element={<DocumentsList01/>} /> 
                             <Route path={PATH.NEW_DOC} element={<PrivateRoute component={DocumentNew}/>} /> 
 
                             <Route path=":id" >

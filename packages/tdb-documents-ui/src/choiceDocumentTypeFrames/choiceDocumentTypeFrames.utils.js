@@ -26,7 +26,7 @@ export function getUILayout(anyOfFrames, frame, item, uiFrame, mode, formData, o
 
     // display geo json properties like geo collection in Map (VIEW Mode only ...)
     function displayLinkedGeoDocument (props) {
-        console.log("props geo", props) 
+        //console.log("props geo", props) 
 
         // if no form data then we dont load the map 
         if(props.formData === undefined) return <div/>

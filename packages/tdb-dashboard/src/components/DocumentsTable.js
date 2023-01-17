@@ -7,10 +7,15 @@ import { GraphqlQueryView } from "./GraphqlQueryViewer";
 import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
+import {WOQLClientObj} from '../init-woql-client'
 
-//to be review
+//to be review  
 export const DocumentsTable = ({type,onRowClick,showGraphqlTab=true,tableConfig}) => {
-    
+    const {documentTablesConfig} = WOQLClientObj()
+
+    // get default table config if not defined 
+    //if(!tableConfig) tableConfig=documentTablesConfig
+
     const querystr  = tableConfig.objQuery[type].query
     const query = gql`${querystr}`
     //const query =gql`query Doc01Query($offset: Int, $limit: Int, $filter: Doc01_Filter, $orderBy: Doc01_Ordering) {\n  Doc01(offset: $offset, limit: $limit, filter: $filter, orderBy: $orderBy) {\n    _id\n    label\n  }\n}`

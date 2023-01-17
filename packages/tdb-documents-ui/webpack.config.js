@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     mode: 'production',
     entry: {
-       'terminusdb-documents-ui': path.join(__dirname, 'src/index.js')
+       'terminusdb-documents-ui': path.join(__dirname, 'src/index.js') 
     },
     devtool: false,
     output: {
@@ -61,11 +61,7 @@ module.exports = {
                 'css-loader', 'less-loader', 'style-loader'
 
               ],
-<<<<<<< HEAD
             },*/
-=======
-            },
->>>>>>> 016fb4099452768cf2c4aad1c25049196510c028
           {
           test: /\.(svg|jpg|gif|png)$/,
           use: [

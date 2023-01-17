@@ -10,7 +10,7 @@ import {getCommentFromDocumentation, getPropertyLabelFromDocumentation} from "..
 
 export function ViewDocumentLinks (displayValue, label, onTraverse, description, selectStyle) {
     return <DocumentView value={displayValue} 
-        label={label}
+        label={label} 
         styles={selectStyle}
         //required={props.required}
         onTraverse={onTraverse} 
@@ -85,7 +85,7 @@ export const linkedDocumentProvider = (props, item, mode, documentation, onSelec
     // extracting custom ui styles
     let selectStyle = util.extractUIFrameSelectTemplate(uiFrame) ? util.extractUIFrameSelectTemplate(uiFrame) : CONST.SELECT_STYLES
     
-    if(mode === CONST.VIEW) {
+    if(mode === CONST.VIEW) { 
         //let displayValue=props.formData
         // props.formData for normal document type 
         // props.schema.default is for choice document types where its not automated

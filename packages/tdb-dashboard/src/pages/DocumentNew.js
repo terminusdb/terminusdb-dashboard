@@ -5,13 +5,14 @@ import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {Header} from "../components/DocumentComponents"
+import {Header, SearchComponent} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {CreateDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
+
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -92,9 +93,9 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     return <FrameViewer frame={frames}
         type={type}
         mode={CONST.CREATE_DOCUMENT}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit} 
         onChange={handleChange}
-        onSelect={onSelect}   
+        onSelect={<SearchComponent/>}   
         formData={!jsonContent ? {} : jsonContent}
         //formData={extracted}
         hideSubmit={false}

@@ -1,10 +1,31 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
+	Student: {
+		"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51",
+		"@type": "Student",
+		"favorite_subject": [{
+			"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/favorite_subject/Botony/aef9f22fe04ece720d19f6630edcad27f85e546810a907e4724ee0b57aba4b52",
+			"@type": "Botony",
+			"Grade": "C",
+			"Number_of_classes_attended": 451,
+			"course_start_date": "2012-09-17T09:21:09Z",
+			"number_of_assignments": 512
+		},
+		{
+			"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/favorite_subject/Botony/aef9f22fe04ece720d19f6630edcad27f85e546810a907e4724ee0b57aba4b52",
+			"@type": "Botony",
+			"Grade": "E",
+			"Number_of_classes_attended": 332,
+			"course_start_date": "2022-09-17T09:21:09Z",
+			"number_of_assignments": 323
+		}
+	]
+	},
 	Apple: {
 		"@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27",
 		"@type": "Apple",
 		"page": "# The largest heading \n  ## The second largest heading \n  ###### The smallest heading \n Some basic Git commands are: \n``` git status \n git add \n git commit \n  ## Emphasis \n \n**This is bold text** \n__This is bold text__ \n*This is italic text* \n_This is italic text_ \n~~Strikethrough~~ \n## Blockquotes \n> Blockquotes can also be nested... \n>> ...by using additional greater-than signs right next to each other... \n> > > ...or with spaces between arrows.",
-		"lives": [
+		/*"lives": [
 			{
 			  "@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/11c86727d6f26ed32d4baa173012381477ae6bd4bf7c35ae922abf9f65f5b983",
 			  "@type": "address",
@@ -17,7 +38,7 @@ export const oldData = {
 			  "addressline1": "one1", 
 			  "postal": "one1"
 			}
-		  ]/*,
+		  ]*//*,
 		"text": [
 		  "onetext",
 		  "twotext",
@@ -70,9 +91,37 @@ export const oldData = {
 		/*"version": 1*/
 	  }
 } 
-
+ 
 
 export const changedData = {
+	Student: {
+		"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51",
+		"@type": "Student", 
+		"favorite_subject": [{
+			"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/favorite_subject/Botony/aef9f22fe04ece720d19f6630edcad27f85e546810a907e4724ee0b57aba4b52",
+			"@type": "Botony",
+			"Grade": "B",
+			"Number_of_classes_attended": 45,
+			"course_start_date": "2022-09-17T09:21:09Z",
+			"number_of_assignments": 52
+		},
+		{
+			"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/favorite_subject/Botony/aef9f22fe04ece720d19f6630edcad27f85e546810a907e4724ee0b57aba4b52",
+			"@type": "Botony",
+			"Grade": "D",
+			"Number_of_classes_attended": 33,
+			"course_start_date": "2022-09-17T09:21:09Z",
+			"number_of_assignments": 33
+		},
+		{
+			"@id": "Student/6bf39891b3aaab89771cecdd88a7771dad8c613cfc0530d07bb79bdde6d55d51/favorite_subject/Botony/aef9f22fe04ece720d19f6630edcad27f85e546810a907e4724ee0b57aba4b52",
+			"@type": "Botony",
+			"Grade": "E",
+			"Number_of_classes_attended": 332,
+			"course_start_date": "2022-09-17T09:21:09Z",
+			"number_of_assignments": 323
+		}]
+	},
 	Apple: {
 		"@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27",
 		"@type": "Apple",
@@ -83,13 +132,13 @@ export const changedData = {
 			  "@type": "address",
 			  "addressline1": "two",
 			  "postal": "two"
-			},
+			}/*,
 			{
 			  "@id": "Apple/0c6b97f5e56ae05f5d88688ef8b2e5a97c98a42a3caf65f4ede73960f5514d27/lives/address/84672a39e6a4fb4c4d86e9ddeeeae5019ecb5c63087dd903d36fd5867ce90e9b",
 			  "@type": "address",
 			  "addressline1": "one",
 			  "postal": "one"
-			}
+			}*/
 		  ]
 		/*"text": [
 		  "onetext1",
