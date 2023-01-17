@@ -36,6 +36,8 @@ export const Layout = (props) => {
         navigate(-1)
     }
 
+    const showLeftSideBar = props.showLeftSideBar === false ? false : true
+    const defaultSize = showLeftSideBar ? 340 : 70
    /* useEffect(() => {
         if(organization) setDefaultSize(340)
     }, [organization])*/
@@ -43,10 +45,10 @@ export const Layout = (props) => {
     //defaultSize={340}
     return <Container fluid className="p-0 flex-row">
         {showModal && <SubmitChangeRequestModal showModal={showModal} setShowModal={setShowModal} updateParent={updateParent}/>}            
-        <SplitPane split="vertical" minSize={70} defaultSize={340} primary="first" allowResize={false}>
+        <SplitPane split="vertical" minSize={70} defaultSize={defaultSize} primary="first" allowResize={false}>
             <div className="side-black h-100 d-flex">
                 <IconBar setShowFeedbackForm={setShowFeedbackForm} />
-                {organization && <LeftSideBar/>}
+                {organization && showLeftSideBar && <LeftSideBar/>}
                 <div style={{position: "relative"}}>
                     {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
                 </div>

@@ -11,9 +11,9 @@ import { DefaultColumnFilter } from './ColumnFilters';
  * sort - no, local, remote
  */ 
 
-export const ReactTableComponent = ({columns, data, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh})=>{
+export const ReactTableComponent = ({columns, data, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh,hiddenColumns})=>{
 
-    console.log("COLUMS", JSON.stringify(columns,null,4))
+   // console.log("COLUMS", JSON.stringify(columns,null,4))
 
     pagesizes = pagesizes || [5, 10, 20, 30, 40, 50]
     let pager = "remote"//config.pager()
@@ -35,6 +35,7 @@ export const ReactTableComponent = ({columns, data, config, pages, freewidth, fi
             filters : filtersBy || [],
             pageSize : 10,
             pageIndex : pageNumber || 0,
+            hiddenColumns: hiddenColumns
             //sortBy : orderBy,
         }
     }
