@@ -81,13 +81,13 @@ export const linkedDocumentProvider = (props, item, mode, documentation, onSelec
 
     let label = getPropertyLabelFromDocumentation(item, documentation)//util.getLabelFromDocumentation (item, documentation)
     let description = <div/>//getCommentFromDocumentation(item, documentation)
-    let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : null
+    let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : item
     // extracting custom ui styles
     let selectStyle = util.extractUIFrameSelectTemplate(uiFrame) ? util.extractUIFrameSelectTemplate(uiFrame) : CONST.SELECT_STYLES
     
     if(mode === CONST.VIEW) { 
         //let displayValue=props.formData
-        // props.formData for normal document type 
+        // props.formData for normal document type  
         // props.schema.default is for choice document types where its not automated
         let displayValue=props.formData ? props.formData : props.schema.default
         return ViewDocumentLinks(displayValue, label, onTraverse, description, selectStyle)

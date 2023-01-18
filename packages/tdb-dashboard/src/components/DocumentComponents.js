@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Row from "react-bootstrap/Row"
+import {DocumentsGraphqlTable} from "./DocumentsGraphqlTable"
 
 // button to view frames
 const ViewFramesButton = () => {
@@ -257,9 +258,9 @@ export function onTraverse(documentID, setClicked) {
  */
 export const SearchComponent = ({setSelected, doctype}) => {
     //type,onRowClick,showGraphqlTab=true,tableConfig
-    //return <DocumentsTable showGraphqlTab={false} type={doctype} onRowClick={setSelected}/>
+    return <DocumentsGraphqlTable showGraphqlTab={false} type={doctype} onRowClick={setSelected}/>
     
-    // dummy search component 
+    // dummy search component  
     function handleClick(e){
         if(setSelected) setSelected({id: e.target.id, label: e.target.name})
     }

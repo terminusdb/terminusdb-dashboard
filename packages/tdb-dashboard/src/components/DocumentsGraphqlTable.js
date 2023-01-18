@@ -9,6 +9,7 @@ import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
 import {WOQLClientObj} from '../init-woql-client'
 import { ControlledGraphqlQuery } from "../hooks/ControlledGraphqlQuery";
+import {Loading} from "../components/Loading"
 
 //to be review
 export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => {
@@ -116,10 +117,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                         </Accordion.Body>
                     </Accordion.Item>
             </Accordion>}       
-            {loading && <span >
-                Loading {type} ...
-                <ProgressBar variant="success" animated now={100}  className="mb-4"/>
-            </span>}
+            {loading && <Loading message={`Loading ${type} ...`}/>}
             {!loading && 
             <Tabs defaultActiveKey="table" className="mb-3" >
                 <Tab eventKey="table" title="Result Table">

@@ -135,7 +135,8 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
     const [selected, setSelected]=useState(value ? value : false)
 
     // pass props 
-    const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked_to})
+    let linked = linked_to 
+    const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked})
 
     useEffect(() => {
         if(selected && selected.hasOwnProperty("id") && onChange) {
@@ -153,11 +154,11 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
         <Stack gap={1} className="mb-3">
             <DisplayField label={label} 
                 description={description} 
-                linked_to={linked_to} 
+                linked_to={linked} 
                 required={required} 
                 handleShow={handleShow}/>
             <DisplaySelectedDocument selected={selected} 
-                linked_to={linked_to} 
+                linked_to={linked} 
                 required={required} 
                 handleClear={handleClear}/>
         </Stack>
@@ -166,7 +167,7 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
             dialogClassName="modal-90w"
             onHide={handleClose} size="lg">
             <Modal.Header closeButton>
-                {linked_to && <Modal.Title className="text-success h6">{`Search for ${linked_to}`}</Modal.Title>}
+                {linked && <Modal.Title className="text-success h6">{`Search for ${linked_to}`}</Modal.Title>}
             </Modal.Header>
             <Modal.Body className="overflow-auto">
                 {displayComponent}
