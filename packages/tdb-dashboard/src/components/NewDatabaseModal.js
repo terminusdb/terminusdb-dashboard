@@ -99,10 +99,10 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
     
     return <Modal onClick={onClickPrevent} size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
         <Modal.Header>
-            <Modal.Title className="h6"><FaPlus className="me-2 mr-3"/>Create a New Data Product </Modal.Title>
+            <Modal.Title className="h6">{/*<FaPlus className="me-2 mr-3"/>*/} New Data Product </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
-        {loading && <Loading message={`Creating ${label} ...`}/>}
+        {loading && <div style={{height: "300px"}}><Loading message={`Creating ${label} ...`}/></div>}
         {!loading && <Modal.Body className="p-5">
             {reportAlert && <Alerts message={reportAlert} type={TERMINUS_DANGER}/>}
             <Form >

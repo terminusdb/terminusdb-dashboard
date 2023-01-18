@@ -14,7 +14,7 @@ export const NewDataProduct = ({css}) => {
 
     return <React.Fragment>
         <Button id="new_data_product" variant="info" className={`btn-new-data-product btn ${css}`}   title="Create New Data Product" onClick={handleNew}>
-            <FaPlus className="me-2"/>New Data Product
+            <FaPlus className="me-2"/> <label className="opacity-1 fw-bold">New Data Product</label>
         </Button>
         <NewDatabaseModal setShowModal={setShowModal} showModal={showModal}/>
     </React.Fragment>

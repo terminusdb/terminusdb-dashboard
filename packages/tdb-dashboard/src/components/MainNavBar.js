@@ -33,7 +33,7 @@ export const MainNavBar = ({setShowTimeTravel}) => {
             </React.Fragment> 
             }
             {accessControlDashboard && accessControlDashboard.createDB() && dataProduct && 
-                <NewDataProduct css={"btn-sm mr-1 pt-2 pb-2 pr-4 pl-4 "}/>
+                <NewDataProduct css={"btn-sm mr-1 pt-2 pr-4 pl-4 "}/>
             }
             <Dropdown className="pl-3 pr-3 ml-3 mr-3 border-right border-left" id="team_list_menu">
                 <Button size="sm" className="bg-transparent border-0" id="team_list_nenu_button">

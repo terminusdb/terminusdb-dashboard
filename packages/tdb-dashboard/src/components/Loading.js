@@ -27,8 +27,8 @@ export const Loading = (props) => {
             <ProgressBar now={percentage} label={props.message} striped variant="success" animated className="progress-bar-position" />
         </Row>
     }
-    //loading-parent 
-    return <div className="w-100">
+
+    return <div className="w-100 loading-parent ">
         <Container className="loading-bar-align justify-content-center">
             <LoadingBar message={props.message} type={props.type}/>
         </Container>

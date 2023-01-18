@@ -76,9 +76,9 @@ export const NoDataProductSelected = (props) => {
 					</Col>
 				))}
 				<Col className="py-2 col-md-4">
-					<Card className="h-100 tdb__create__new__dp bg-info">
+					<Card className="h-100 tdb__create__new__dp bg-info" style={{opacity: "0.8"}}>
 						<Card.Body>
-							<NewDataProduct css={"mt-5 p-5"}/>
+							<NewDataProduct css={"mt-5 p-5 opacity-1"}/>
 						</Card.Body>
 					</Card>
 				</Col>
