@@ -40,6 +40,7 @@ export function showRemovedElementChanged(elementsToPopulate, props) {
     let format=(props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.FORMAT)) ? props.schema[CONST.FORMAT] : null
     let name=props && props.hasOwnProperty("name") ? props.name : ""
 
+    if(!type) return <div/>
 
     if(type === CONST.CHOICESUBCLASSES) {
         return <ChoiceDocumentPlaceholder name={name}
@@ -67,6 +68,8 @@ export function showRemovedElementChanged(elementsToPopulate, props) {
     let type=(props && props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.INFO)) ? props.schema[CONST.INFO] : null
     let format=(props && props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.FORMAT)) ? props.schema[CONST.FORMAT] : null
     let name=props && props.hasOwnProperty("name") ? props.name : ""
+
+    if(!type) return <div/>
 
     if(type === CONST.CHOICESUBCLASSES) {
         return <ChoiceDocumentPlaceholder name={name}
@@ -101,7 +104,7 @@ const DisplaySubHiddenElements = ({frameProperties, placeholder, css}) => {
             elements.push(<LinkTypeDiff data={placeholder} css={css} label={property}/>)
         }
     }
-    return  <Card bg="secondary" className=" p-4 mt-4 mb-4 tdb__subdocument__card">
+    return <Card bg="secondary" className=" p-4 mt-4 mb-4 tdb__subdocument__card">
         <Card.Body>
             <div className="mt-3 position-absolute">{removedIcons(css)}</div>
             <div className="opacity-0">{elements}</div>
@@ -130,17 +133,17 @@ export function showRemovedSubDocument (schema, css) {
  * @param {*} css 
  * @returns 
  */
-export function showRemovedChoiceSubDocument (schema, css) {
+export function showRemovedChoiceSubDocument (schema, css) { 
 
     // use additional items schema to cater for properties which dont exist 
     let choiceFrame = schema.additionalItems["anyOf"][0]
 
     // pass choiceFrame.title as dummy placehodlers 
-    return <>
-        <input value={choiceFrame.title} className={`form-control tdb__input mb-3 mt-2 opacity-0`} readOnly/>
+    return <div className="mb-4">
+        <input value={choiceFrame.title} className={`form-control tdb__input opacity-0`} readOnly/>
         <DisplaySubHiddenElements frameProperties={choiceFrame.properties} 
             placeholder={choiceFrame.title}
             css={css}/>
-    </>
+    </div>
 }
  

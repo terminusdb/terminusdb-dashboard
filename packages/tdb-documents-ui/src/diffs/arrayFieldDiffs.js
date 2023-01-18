@@ -315,6 +315,26 @@ function processEachDiff(diff, item, tagOriginalUI, tagChangedUI) {
     return data 
 }
 
+/**
+ * 
+ * @param {*} props - layout
+ * @param {*} item - property
+ * @param {*} tagUI - tagged Css
+ * @returns returns css based on layout
+ */
+function getCss(props, item, tagUI) {
+    let css, schema=props.hasOwnProperty("schema") ? props.schema : {}
+    // choice sub documents are different from normal
+    if(schema && props.formData && schema.hasOwnProperty("additionalItems") && 
+        schema["additionalItems"].hasOwnProperty(CONST.INFO) && 
+        schema["additionalItems"][CONST.INFO] === CONST.CHOICESUBCLASSES) {
+            let firstProperty = Object.keys(tagUI[item][0])[0]
+            css=tagUI[item][0][firstProperty]
+    }
+    else css=tagUI[item][0]
+    return css
+}
+
 
 // ALL ARRAY FIELDS
 export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
@@ -379,6 +399,12 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
                     //swapListOperation(diff[DIFFCONST.REST][DIFFCONST.REST], item, tagOriginalUI, tagChangedUI)
             }
     }
+    // SWAP_LIST operation
+    else if(diff.hasOwnProperty(DIFFCONST.OPERATION) && 
+        diff[DIFFCONST.OPERATION] === DIFFCONST.SWAP_LIST) {
+            swapListOperation (diff, item, tagOriginalUI, tagChangedUI) 
+    }
+
     console.log("tagOriginalUI", tagOriginalUI)
     console.log("tagChangedUI", tagChangedUI)
 
@@ -390,7 +416,8 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
     function displayOriginal(props) {
         //console.log("props original", props.formData)
         // when @before is null - we will check form data here 
-        let data=getFormData(props.formData, tagOriginalUI[item][0])
+        let css = getCss(props, item, tagOriginalUI)
+        let data=getFormData(props.formData, css)
         return displayElements(data, item, props.schema, tagOriginalUI)
     }
 
@@ -402,7 +429,8 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
     function displayChanged(props) {
         //console.log("props changed", props.formData)
         // when @after is null - we will check form data here 
-        let data=getFormData(props.formData, tagChangedUI[item][0])
+        let css = getCss(props, item, tagChangedUI)
+        let data=getFormData(props.formData, css)
         return displayElements(data, item, props.schema, tagChangedUI)
     }
 

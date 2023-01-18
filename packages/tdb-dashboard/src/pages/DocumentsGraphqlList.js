@@ -11,7 +11,7 @@ import { DocumentsGraphqlTable } from "../components/DocumentsGraphqlTable";
 import {WOQLClientObj} from '../init-woql-client'
 import { extractedResults, ControlledGraphqlQuery } from '@terminusdb/terminusdb-react-table'
 
-export const DocumentsGraphqlList = () => {   
+export const DocumentsGraphqlList = () => {    
     const {type} = useParams()
     const {documentTablesConfig,woqlClient} = WOQLClientObj()
     const [searchParams]  = useSearchParams()

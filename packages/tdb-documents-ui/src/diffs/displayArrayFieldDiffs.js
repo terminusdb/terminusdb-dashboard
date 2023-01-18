@@ -69,6 +69,7 @@ const NoValueSubDocumentElements = ({formData, tagUI, item, schema, info}) => {
         css="text-success"
     for(let count=0; count < displayElementPlaceholders; count++) {
         if(info === CONST.CHOICESUBCLASSES) { 
+            if(count === 0) elements.push(<label className="">{item}</label>)
             elements.push(display.showRemovedChoiceSubDocument(schema, css))
         }
         else elements.push(display.showRemovedSubDocument(schema, css))
@@ -81,7 +82,8 @@ const RemovedSubDocumentElements = ({formData, tagUI, item, schema, info}) => {
     //if(isValid (formData)) return <div/>
     let displayElementPlaceholders=checkIfElementsChanged(formData, tagUI, item)
     if(!displayElementPlaceholders) {
-        return <NoValueSubDocumentElements formData={formData} tagUI={tagUI} item={item} schema={schema} info={info}/>
+        return <div/>
+        //return <NoValueSubDocumentElements formData={formData} tagUI={tagUI} item={item} schema={schema} info={info}/>
     }
     //else return <div/>
     //if(!displayElementPlaceholders) return <div/>

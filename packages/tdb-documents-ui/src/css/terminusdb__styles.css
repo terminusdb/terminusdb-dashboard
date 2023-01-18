@@ -59,6 +59,16 @@ input.tdb__diff__original,
     border-radius: 4px;
 }
 
+/* highlight sud doc fields */
+.tdb__diff__original__subDocuments input, 
+.tdb__diff__original__subDocuments textarea, 
+.tdb__diff__original__subDocuments select
+{
+    color: #842029 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c2c7 !important;
+}
+
 div.choice_subdocument_title.tdb__diff__original__subDocuments {
     padding: 10px !important;
 }
@@ -72,7 +82,7 @@ div.choice_subdocument_title.tdb__diff__original__subDocuments {
 div.choice_subdocument_title.tdb__diff__original {
     border-radius: 6px;
     border: 1px solid #842029;
-    padding: 10px;
+    padding: 6px;
 }
 
 /** choice sub documents highlight choice change */
@@ -135,6 +145,16 @@ input.tdb__diff__changed,
 .tdb__diff__changed__subDocuments { 
     border: 1px solid #0f5132 !important;
     border-radius: 4px;
+}
+
+/* highlight sud doc fields */
+.tdb__diff__changed__subDocuments input, 
+.tdb__diff__changed__subDocuments textarea, 
+.tdb__diff__changed__subDocuments select
+{
+    color: #0f5132 !important;
+    background-color: #d1e7dd !important;
+    border-color: #badbcc !important;
 }
 
 div.choice_subdocument_title.tdb__diff__changed__subDocuments {
