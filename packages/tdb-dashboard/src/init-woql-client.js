@@ -8,7 +8,6 @@ import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-comp
 import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
-import { getCurrentDocumentInfo } from './hooks/DocumentControl'
 import { createApolloClient } from './routing/ApolloClientConfig'
 
 export const WOQLContext = React.createContext()

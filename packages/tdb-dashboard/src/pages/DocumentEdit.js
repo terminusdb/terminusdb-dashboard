@@ -5,7 +5,7 @@ import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {Header} from "../components/DocumentComponents"
+import {Header, SearchComponent} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {EditDocumentHook, GetDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
@@ -102,7 +102,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
         mode={CONST.EDIT_DOCUMENT}
         onSubmit={handleSubmit}
         onChange={handleChange}
-        onSelect={onSelect}   
+        onSelect={<SearchComponent/>}   
         formData={!data ? {} : data}
         hideSubmit={false}
         //onTraverse={onTraverse}

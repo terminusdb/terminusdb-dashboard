@@ -10,7 +10,6 @@ import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
 import {getCountOfDocumentClass} from "../queries/GeneralQueries"
 import { executeQueryHook } from "../hooks/executeQueryHook"
-import {handleCreate} from "./documents.utils"
 import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
@@ -200,7 +199,7 @@ export const DocumentExplorerDocuments = () => {
                     className="btn-create-document pro-item-content btn-sm bg-secondary" 
                     variant="dark" 
                     title={`Add a new ${item["@id"]}`}
-                    onClick={(e) => newDocHandler(item["@id"])}//handleCreate(item["@id"], documentObject, setDocumentObject)}
+                    onClick={(e) => newDocHandler(item["@id"])}
                 > 
                     <BiPlus style={{fontSize: "14px"}} color="#fff" />
                 </Button>}

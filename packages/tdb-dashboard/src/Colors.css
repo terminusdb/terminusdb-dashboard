@@ -44,7 +44,8 @@ div.text-success {
 }
 
 
-.btn-info {
+.btn-info,
+div.tdb__create__new__dp.bg-info {
     background-color: var(--custom-button) !important;
     border-color: var(--custom-button) !important;
     color: var(--custom-button-text) !important;

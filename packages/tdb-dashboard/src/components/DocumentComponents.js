@@ -19,6 +19,8 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import Row from "react-bootstrap/Row"
+import {DocumentsGraphqlTable} from "./DocumentsGraphqlTable"
 
 // button to view frames
 const ViewFramesButton = () => {
@@ -101,9 +103,9 @@ const EditHeader = ({type, id, setView}) => {
  * function to display are you sure to delete a document message
  */
 const DeleteMessage = ({handleDelete, handleToggle}) => {
-    return <Card>
-        <Card.Header>
-            <span>{"Are you sure u want to delete ?"}</span>
+    return <Card className="border-0">
+        <Card.Header className="bg-transparent w-100 fw-bold">
+            <span>{"Are you sure you want to delete ?"}</span>
         </Card.Header>
         <Card.Body>
             <span className="text-gray">
@@ -135,7 +137,7 @@ const UpdatingPopover = React.forwardRef(
     }, [children, popper]);
 
     return (
-        <Popover ref={ref} body {...props} id={`popover-positioned-left`}>
+        <Popover ref={ref} body {...props} id={`popover-positioned-bottom`}>
          {children}
         </Popover>
     );
@@ -192,7 +194,7 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
             </Button>
 
             <OverlayTrigger trigger="click" 
-                placement="left" 
+                placement="bottom" 
                 rootClose={true}
                 show={show}
                 onToggle={handleToggle}
@@ -235,5 +237,60 @@ export const Header = ({mode, type, id, startCRMode, setClickedDelete}) => {
     return matchHeader[mode]
 }
 
+
+
+/**
+ * 
+ * @param {*} clicked document clicked by user to traverse
+ * @param {*} setClicked function to store which document has been clicked by user
+ * this function is only used in DocumentView & for Traversing via documents
+ */
+export function onTraverse(documentID, setClicked) { 
+    //console.log("clicked", documentID)
+    if(setClicked) setClicked(documentID)
+}
+
+/**
+ * 
+ * @param {*} setSelected function to get selected document link by user 
+ * @param {*} doctype document type selected
+ * @returns 
+ */
+export const SearchComponent = ({setSelected, doctype}) => {
+    //type,onRowClick,showGraphqlTab=true,tableConfig
+    return <DocumentsGraphqlTable showGraphqlTab={false} type={doctype} onRowClick={setSelected}/>
+    
+    // dummy search component  
+    function handleClick(e){
+        if(setSelected) setSelected({id: e.target.id, label: e.target.name})
+    }
+    
+    function displayBasedOnType(doctype) {
+        if(doctype === "job") {
+            return <>
+                <Row className="w-100 border" id={"job/45ba2f0192b45d2a84c77b732ad8904d9d2bd7e44129445b67dad151f1ff5ade"} name="first id" onClick={handleClick}>{"ID 1"}</Row>
+                <Row className="w-100 border" id={"job/d9902def6ed9354bc69a6aa7eac9f0e4ecd2b58bae164bb114bbe17b90928f03"} name="second id" onClick={handleClick}>{"ID 2"}</Row>
+                <Row className="w-100 border" id={"job/1da6a6a6a4e9e5512804e3f841968b04af07d99edac21548c5023957040140fb"} name="third id" onClick={handleClick}>{"ID 3"}</Row>
+            </>
+        }
+        else if(doctype === "stuff") {
+            return <>
+                <Row className="w-100 border" id={"stuff/37c60f7cd49e59ee09318157d178937d62bdefd22b8ddf4807f888d0264970ad"} name="first id" onClick={handleClick}>{"ID 1"}</Row>
+            </>
+        }
+
+        return <>
+                <Row className="w-100 border" id={"partimejobs/89fdf73342279b58aa046377839f85413963d85067828e5ac8c97e73fad441b1"} name="p first id" onClick={handleClick}>{"P ID 1"}</Row>
+                <Row className="w-100 border" id={"partimejobs/fe26a37425aaaa92fd0fb14cdc5575ee5ef24d4097e68b166f5374dcd55ed338"} name="p second id" onClick={handleClick}>{"P ID 2"}</Row>
+                <Row className="w-100 border" id={"partimejobs/a26e38875639fb04cdf246e30ee09933c86fdc06a09542e4ef61496b044668e6"} name="p third id" onClick={handleClick}>{"P ID 3"}</Row>
+            </>
+
+    }
+
+    return <>
+        Search this dummy result ....
+        {displayBasedOnType(doctype)}
+    </>
+}
 
 

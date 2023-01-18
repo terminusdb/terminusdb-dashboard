@@ -15,7 +15,7 @@ export const Output = () => {
         setDoc,
         dataProduct
 	} = InitObj()
-
+        
     useEffect(() => {
         if(type) { 
             setDoc(getSelectedTypeData(dataProduct, type))
@@ -24,7 +24,7 @@ export const Output = () => {
 
     useEffect(() => { 
         async function getDiffs(tdbClient) {
-            console.log("doc", doc)
+            //console.log("doc", doc)
             let result_patch = await tdbClient.getJSONDiff(doc[OLD_VALUE], doc[CHANGED_VALUE])
             setDiff(result_patch)
         }

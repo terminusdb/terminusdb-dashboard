@@ -8,6 +8,9 @@ packages/tdb-dashboard/.env
 packages/tdb-dashboard/cypress/integration/1-getting-started
 packages/tdb-dashboard/cypress/integration/2-advanced-examples
 packages/tdb-documents-ui_old
+packages/tdb-documents-ui/src/oneOfTypeFrames copy
+packages/tdb-documents-ui/src/oneOfTypeFrames copy2
+packages/tdb-documents-ui/src/oneOfTypeFrames copy3
 
 *.DS_Store
 node_modules/

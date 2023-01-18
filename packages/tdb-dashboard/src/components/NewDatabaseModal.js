@@ -3,7 +3,6 @@ import React, {useState} from "react"
 import {Modal, Button, Form} from "react-bootstrap" 
 import {CREATE_NEW_DATA_PRODUCT_BUTTON, newDataProductForm} from "./constants"
 import {FaPlus} from "react-icons/fa"
-import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {WOQLClientObj} from "../init-woql-client"
 import {DATA_PRODUCTS} from "../routing/constants"
@@ -13,6 +12,7 @@ import {TERMINUS_DANGER} from "./constants"
 import {Alerts} from "./Alerts"
 import {useNavigate,useParams} from "react-router-dom"
 import { UTILS } from "@terminusdb/terminusdb-client"
+import {Loading} from "../components/Loading"
 
 export const NewDatabaseModal = ({showModal, setShowModal}) => {
     const {
@@ -96,13 +96,14 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
         setReportAlert(false)
     }
     
+    
     return <Modal onClick={onClickPrevent} size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
-        {loading && <Loading message={`Creating ${label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
         <Modal.Header>
-            <Modal.Title className="h6"><FaPlus className="me-2 mr-3"/>Create a New Data Product </Modal.Title>
+            <Modal.Title className="h6">{/*<FaPlus className="me-2 mr-3"/>*/} New Data Product </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
-        <Modal.Body className="p-5">
+        {loading && <div style={{height: "300px"}}><Loading message={`Creating ${label} ...`}/></div>}
+        {!loading && <Modal.Body className="p-5">
             {reportAlert && <Alerts message={reportAlert} type={TERMINUS_DANGER}/>}
             <Form >
                 <Form.Group className="mb-3">
@@ -115,7 +116,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
                     <Form.Control  id={newDataProductForm.description.id} as="textarea"  onBlur={handleOnBlur} rows="5" placeholder={newDataProductForm.description.placeholder} />
                 </Form.Group>
             </Form>
-        </Modal.Body>
+        </Modal.Body>}
         <Modal.Footer> 
               <button title={IconBarConfig.dataProductView.title}  
                     className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info" 

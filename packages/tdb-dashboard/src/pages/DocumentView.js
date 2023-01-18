@@ -1,19 +1,19 @@
-import React, {useState}  from "react";
+import React, {useEffect, useState}  from "react";
 import {WOQLClientObj} from '../init-woql-client'
 import Card from "react-bootstrap/Card"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {Header} from "../components/DocumentComponents"
+import {Header, onTraverse} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {GetDocumentHook, DeleteDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
+import {TarverseDocumentLinks} from "../components/TarverseDocumentLinks"
 
-
-const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
+const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}) => {
     const { 
         woqlClient, 
         frames
@@ -24,17 +24,17 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     } = DocumentControlObj()
 
     const {type, id} = useParams()
-
-    function onTraverse(clicked) {
-        console.log("clicked", clicked)
-    }
-    
     // constants to store document data 
     const [data, setData]=useState(false)
 
-    // hook to create a new document 
+    // hook to view a document 
     let documentID=`${type}/${id}`
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
+
+    function handleTraverse (documentID) {
+        if(setModalShow) setModalShow(Date.now())
+        onTraverse(documentID, setClicked)
+    }
 
     if(!data || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
 
@@ -44,14 +44,17 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     }
 
     // Form View
-    return <FrameViewer frame={frames}
+    return<FrameViewer frame={frames}
         type={type}
         mode={CONST.VIEW_DOCUMENT}
         formData={data}
         hideSubmit={true}
-        onTraverse={onTraverse}
+        onTraverse={handleTraverse}
     />
 }
+
+
+  
 
 export const DocumentView = () => {   
 
@@ -67,6 +70,10 @@ export const DocumentView = () => {
     const [errorMsg, setErrorMsg]=useState(false)
     const [clickedDelete, setClickedDelete]=useState(false)
 
+    //constants to traverse through documents 
+    const [clicked, setClicked]=useState(false)
+    const [modalShow, setModalShow] = React.useState(false);
+
     let documentID=`${type}/${id}`
     const deleteResult=DeleteDocumentHook(woqlClient, documentID, type, clickedDelete, setLoading, setErrorMsg) 
 
@@ -79,6 +86,10 @@ export const DocumentView = () => {
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}
+        <TarverseDocumentLinks
+            clicked={clicked}
+            show={modalShow}
+            onHide={() => setModalShow(false)}/>
         <Card className="mr-3 bg-dark">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
                 <Header mode={CONST.VIEW_DOCUMENT} 
@@ -88,7 +99,10 @@ export const DocumentView = () => {
                     startCRMode={startCRMode}/>
             </Card.Header>
             <Card.Body className="text-break">
-                <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
+                <DisplayDocumentBody setLoading={setLoading} 
+                    setModalShow={setModalShow}
+                    setClicked={setClicked}
+                    setErrorMsg={setErrorMsg}/>
             </Card.Body>
         </Card>
     </main>

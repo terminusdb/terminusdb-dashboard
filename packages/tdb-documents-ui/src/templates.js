@@ -2,6 +2,20 @@ import React from "react"
 import * as CONST from "./constants"
 
 /** --- Frame Viewer templates --- */
+
+// checks if choice sub document form data is valid or not 
+function validChoiceSubDocumentFormData(formData) {
+	if(typeof formData !== CONST.OBJECT_TYPE) return false
+	if(!Object.keys(formData).length) return false
+	if(Object.keys(formData).length === 1) {
+		let key = Object.keys(formData)[0]
+		// form data is empty and it has only @type of choice sub doc 
+		// example - formData = {"@type": "Botony"}
+		if(key === "@type") return false
+	} 
+	return true
+}
+
 const DisplayLabel = ({schema, id, label, formData}) => {
 	if(schema.hasOwnProperty(CONST.INFO) && 
 		schema[CONST.INFO] === CONST.DATA_TYPE) { 
@@ -55,6 +69,24 @@ const DisplayLabel = ({schema, id, label, formData}) => {
 		}
 		return <div className="empty__field"/>
 	}
+
+	// return nothing when subdocument is not filled (mandatory/ optional only ...)
+	if(typeof formData === CONST.OBJECT_TYPE && 
+		!Object.keys(formData).length && 
+		schema.hasOwnProperty(CONST.INFO) &&  
+		schema[CONST.INFO] === CONST.SUBDOCUMENT_TYPE && 
+		uiSchema["ui:field"] === "collapsible") { 
+			return <div className="empty__subdocument"/>
+	}
+
+	// return nothing when choice subdocument is not filled (mandatory/ optional only ...)
+	if(schema.hasOwnProperty(CONST.INFO) && 
+		schema[CONST.INFO] === CONST.CHOICESUBCLASSES) {
+			if (!validChoiceSubDocumentFormData(formData)) {
+				return <div className="empty__choice__subdocument"/>
+			}
+	}
+	
 	
 	return (
 	  <div className={classNames}>

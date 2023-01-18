@@ -219,8 +219,21 @@ function checkForInsertOrDelete(diff, item, tagOriginalUI, tagChangedUI) {
         tagChangedUI[item]=[]
         tagOriginalUI[item]=[]
         diff[DIFFCONST.AFTER].map(arr => {
-            tagChangedUI[item].push(css)
-            tagOriginalUI[item].push("tdb__diff__original__removed")
+            if(typeof arr === CONST.STRING_TYPE) {
+                tagChangedUI[item].push(css)
+                tagOriginalUI[item].push("tdb__diff__original__removed")
+            }
+            else {
+                // subdocuments or choice sub documents 
+                let propertyDiffs={}
+                for(let props in arr) {
+                    if(props === "@id") continue 
+                    if(props === "@type") continue 
+                    propertyDiffs[props] = "tdb__diff__original__removed" 
+                } 
+                tagOriginalUI[item].push(propertyDiffs)
+                tagChangedUI[item].push(css)
+            }
         })
     }   
     // delete 
@@ -230,8 +243,21 @@ function checkForInsertOrDelete(diff, item, tagOriginalUI, tagChangedUI) {
         tagChangedUI[item]=[]
         tagOriginalUI[item]=[]
         diff[DIFFCONST.BEFORE].map(arr => {
-            tagOriginalUI[item].push(css)
-            tagChangedUI[item].push("tdb__diff__changed__removed")
+            if(typeof arr === CONST.STRING_TYPE) {
+                tagOriginalUI[item].push(css)
+                tagChangedUI[item].push("tdb__diff__changed__removed")
+            }
+            else {
+                // subdocuments or choice sub documents 
+                let propertyDiffs={}
+                for(let props in arr) {
+                    if(props === "@id") continue 
+                    if(props === "@type") continue 
+                    propertyDiffs[props] = "tdb__diff__changed__removed" 
+                } 
+                tagChangedUI[item].push(propertyDiffs)
+                tagOriginalUI[item].push(css)
+            }
         })
     }
 }
@@ -287,6 +313,26 @@ function processEachDiff(diff, item, tagOriginalUI, tagChangedUI) {
         data=[]
     }
     return data 
+}
+
+/**
+ * 
+ * @param {*} props - layout
+ * @param {*} item - property
+ * @param {*} tagUI - tagged Css
+ * @returns returns css based on layout
+ */
+function getCss(props, item, tagUI) {
+    let css, schema=props.hasOwnProperty("schema") ? props.schema : {}
+    // choice sub documents are different from normal
+    if(schema && props.formData && schema.hasOwnProperty("additionalItems") && 
+        schema["additionalItems"].hasOwnProperty(CONST.INFO) && 
+        schema["additionalItems"][CONST.INFO] === CONST.CHOICESUBCLASSES) {
+            let firstProperty = Object.keys(tagUI[item][0])[0]
+            css=tagUI[item][0][firstProperty]
+    }
+    else css=tagUI[item][0]
+    return css
 }
 
 
@@ -353,6 +399,12 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
                     //swapListOperation(diff[DIFFCONST.REST][DIFFCONST.REST], item, tagOriginalUI, tagChangedUI)
             }
     }
+    // SWAP_LIST operation
+    else if(diff.hasOwnProperty(DIFFCONST.OPERATION) && 
+        diff[DIFFCONST.OPERATION] === DIFFCONST.SWAP_LIST) {
+            swapListOperation (diff, item, tagOriginalUI, tagChangedUI) 
+    }
+
     console.log("tagOriginalUI", tagOriginalUI)
     console.log("tagChangedUI", tagChangedUI)
 
@@ -364,7 +416,8 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
     function displayOriginal(props) {
         //console.log("props original", props.formData)
         // when @before is null - we will check form data here 
-        let data=getFormData(props.formData, tagOriginalUI[item][0])
+        let css = getCss(props, item, tagOriginalUI)
+        let data=getFormData(props.formData, css)
         return displayElements(data, item, props.schema, tagOriginalUI)
     }
 
@@ -376,7 +429,8 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
     function displayChanged(props) {
         //console.log("props changed", props.formData)
         // when @after is null - we will check form data here 
-        let data=getFormData(props.formData, tagChangedUI[item][0])
+        let css = getCss(props, item, tagChangedUI)
+        let data=getFormData(props.formData, css)
         return displayElements(data, item, props.schema, tagChangedUI)
     }
 

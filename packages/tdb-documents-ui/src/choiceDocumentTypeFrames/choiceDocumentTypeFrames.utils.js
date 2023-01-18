@@ -21,12 +21,26 @@ export function getUILayout(anyOfFrames, frame, item, uiFrame, mode, formData, o
         let choiceType=props.schema.title
         let placeholder=`Start typing ${choiceType}`
         let data = (props.formData && Object.keys(props.formData).length) ? props.formData : ""
-        return helper.displayLinkedDocumentUI(props.onChange, placeholder, props.required, data, choiceType, choiceType, "", onSelect, selectStyle)
+        let args = {
+            onChange: props.onChange, 
+            mode: mode, 
+            documentation: documentation, 
+            placeholder: placeholder, 
+            required: props.required, 
+            displayValue: data, 
+            label: choiceType, 
+            linked_to: choiceType, 
+            description: "", 
+            onSelect: onSelect, 
+            onTraverse: onTraverse, 
+            selectStyle: selectStyle
+        }
+        return helper.displayLinkedDocumentUI(args)
     }
 
     // display geo json properties like geo collection in Map (VIEW Mode only ...)
     function displayLinkedGeoDocument (props) {
-        console.log("props geo", props) 
+        //console.log("props geo", props) 
 
         // if no form data then we dont load the map 
         if(props.formData === undefined) return <div/>
