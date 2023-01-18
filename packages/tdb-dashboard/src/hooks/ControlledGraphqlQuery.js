@@ -91,6 +91,10 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
             }
 
               let value = {[item.value.operator]: elementValue}
+
+              if(item.value.mode === "ARRAY"){
+                value = {"someHave": {[item.value.operator]: elementValue}}
+              }
              
               //max 2 level
               if(item.value.varPath){

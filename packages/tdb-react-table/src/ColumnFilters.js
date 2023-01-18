@@ -1,17 +1,26 @@
 import React, {useState} from 'react'
 
 export const matchType = {"list":SelectColumnFilter,
-                          "number":SliderColumnFilter,
+                          "number":NumberColumnFilter,
                           "default":DefaultColumnFilter,
-                          "string":DefaultColumnFilter}
+                          "string":DefaultColumnFilter,
+                          "boolean":BooleanColumnFilter}
 //preFilteredRows
+export function NumberColumnFilter({column}){
+  if(!column.options){
+    column.options ={} 
+  }
+  
+  column.options.operator = column.options.operator ? column.options.operator : "eq"
+  return <DefaultColumnFilter column={column} type="number"/>
+}
+
 export function DefaultColumnFilter({
-    column: { filterValue, options , setFilter },
-  }) {
+    column: { filterValue, options , setFilter },type}) {
     const operator = options && options.operator ? options.operator : "regex"
     const startValue = filterValue ? filterValue.value : null
     const [value, setValue] = useState(startValue)
-
+    const mode = options && options.mode ? options.mode  : undefined
     const variablePath = options && options.varPath ? options.varPath : undefined
     
     return (
@@ -24,7 +33,8 @@ export function DefaultColumnFilter({
             if(!value) {
               setFilter(undefined)
             }else{
-              setFilter({value:value, operator:operator, varPath:variablePath})
+              const value = type === "number" ? Number(ev.target.value) : ev.target.value
+              setFilter({value:value, operator:operator, varPath:variablePath, mode})
             }
           }
         }}
@@ -39,14 +49,27 @@ export function DefaultColumnFilter({
     )
   }
 
+export function BooleanColumnFilter({
+  column}) {
+  if(!column.options){
+    column.options ={} 
+  }
+  column.options.dataprovider = ["true","false"]
+  column.options.operator = "eq"
+  return (
+    <SelectColumnFilter column={column} type={'boolean'}/>
+  )
+}
 
+const mapBoolean = {"true":true, "false":false}
 export function SelectColumnFilter({
-  column: { filterValue, setFilter, options, id }}) {
+  column: { filterValue, setFilter, options, id }, type="list" }) {
     // options && options.operator ? options.operator :
     const dataprovider = options ? options.dataprovider : []
     const operator = "eq"
     const variablePath = options && options.varPath ? options.varPath : undefined
     const value = filterValue ? filterValue.value : ""
+    const mode = options && options.mode ? options.mode  : undefined
     return (
       <select
         style={{maxWidth:"200px"}}
@@ -55,7 +78,10 @@ export function SelectColumnFilter({
           const vv = e.target.value
           if(e.target.value === "") {
             setFilter(undefined)
-          }else setFilter({value:e.target.value, operator:operator, varPath:variablePath})
+          }else {
+            const value = type === "boolean" ? mapBoolean[e.target.value] : e.target.value
+            setFilter({value:value, operator:operator, varPath:variablePath, mode})
+          }
         }}
       >
         <option value="">All</option>

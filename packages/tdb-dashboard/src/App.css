@@ -1135,3 +1135,7 @@ pre.CodeMirror-line  > span > span.cm-string {
 .table__columns__component > .form-check-label{
   margin-left: 10px;
 }
+
+.MuiGrid-root .MuiGrid-item{
+  color:#303030
+}

@@ -21,8 +21,6 @@ import 'react-awesome-query-builder/lib/css/styles.css';
 // Choose your skin (ant/material/vanilla):
 const InitialConfig = MaterialConfig  //AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
 
-const typeMatch = {"string":"text"}
-
 console.log("proxy operator", InitialConfig.operators.proximity)
 
 console.log("InitialConfig.operators" , InitialConfig.operators)
@@ -86,27 +84,30 @@ const booleanFilter ={"eq": "eq", //Equality
                 "ne": "ne" //Disequality
               }
 
+/*const types = {
+     ...BasicConfig.types,
+                // examples of  overriding
+      boolean: merge(BasicConfig.types.boolean, {
+                    widgets: {
+                        boolean: {
+                            widgetProps: {
+                                hideOperator: true,
+                                operatorInlineLabel: "is"
+                            }
+                        },
+                    },
+          }),
+  };*/
 
-const defaultConfig = {
-  ...InitialConfig,
-  operators,
-  fields: {
-    rgb: {
-        label: 'RGB',
-        type: 'text',
-        valueSources: ['value'],
-        //operators: ['equal']
-    },
-    name: {
-        label: 'Name',
-        type: 'text',
-        valueSources: ['value'],
-       // operators: ['equal']
-    }
-  }
-};
+
+//"someHave": {"eq": "Incendios_forestales"}
 
 // You can load query value from your backend storage (for saving see `Query.onChange()`)
+
+/*
+Decimals and Integers require strings 
+If you use float / double etc. it will get a number from graphql
+*/
 
 export const AdvancedSearch = (props) =>{
     const queryValue = props.queryValue || {"id": QbUtils.uuid(), "type": "group"};
@@ -134,7 +135,13 @@ export const AdvancedSearch = (props) =>{
                     "equal":'eq',
                     "not_equal":"ne",
                     "like":"regex",
-                    "starts_with":"regex"}
+                    "starts_with":"regex",
+                    "greater_or_equal":"ge",
+                    "greater":"gt",
+                    "less_or_equal":"le",
+                    "less": "lt",
+                    }
+                  
     
     const checkNot = (element, object)  => {
         if(element.properties && element.properties.not){
@@ -142,7 +149,7 @@ export const AdvancedSearch = (props) =>{
         }
         return object
     }            
-    const getChildrenRule = (childrenArr,groupName) =>{
+    const getChildrenRule = (childrenArr,groupName=false) =>{
        const childrenArrtmp = [] 
         childrenArr.forEach(element => {
             if(element.type=="group"){
@@ -182,20 +189,37 @@ export const AdvancedSearch = (props) =>{
               }
 
               if(typeof value === "number"){
-                value = `${value}`
+                value = Number(value)
+              }
+
+              if(element.properties.valueType[0]==="datetime"){
+                value = `${value.replace(' ','T')}Z`
               }
               
+              let valueObj = {[operator]:value}
+
               if(groupName){
                 field = field.replace(groupName,'')              
                 //addToObj[fieldOnly]={[operator]:value}
+                const groupObj = props.fields[groupName]
+                // if type is an ARRAY/LIST
+                if(groupObj && groupObj.subfields[field] && groupObj.subfields[field].mode === "ARRAY"){
+                    valueObj = {"someHave":{[operator]:value}}
+                }
+              }else{
+                // if type is a ARRAY/LIST
+                if(props.fields[field] && props.fields[field].mode === "ARRAY"){
+                 valueObj = {"someHave":{[operator]:value}}
+                }
               }
+
               //"element/part/name
               if(field.indexOf("/")>-1){
                 const fieldArr = field.split("/");
                 let fieldObj = {}
                 let i = (fieldArr.length-2)
                 
-                fieldObj[fieldArr[fieldArr.length-1]]={[operator]:value}
+                fieldObj[fieldArr[fieldArr.length-1]]=valueObj
 
                 while(i>=0){
                    fieldObj={[fieldArr[i]]:fieldObj} 
@@ -204,7 +228,7 @@ export const AdvancedSearch = (props) =>{
                 childrenArrtmp.push(fieldObj)
 
               }else {
-                childrenArrtmp.push({[field]:{[operator]:value}})
+                childrenArrtmp.push({[field]:valueObj})
               }
             }  
         });
@@ -212,9 +236,8 @@ export const AdvancedSearch = (props) =>{
     }
 
     const jsonStringToGraphQlFilter = (data)=>{
-        let filterObj ={}
         if(data && Array.isArray(data.children1)){
-           const filterObjArr = getChildrenRule( data.children1,filterObj)
+           const filterObjArr = getChildrenRule(data.children1)
 
            if(filterObjArr.length === 1) {
               return checkNot(data,filterObjArr[0])

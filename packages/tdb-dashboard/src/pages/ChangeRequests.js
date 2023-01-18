@@ -29,7 +29,7 @@ const GetChangeRequestSummary = ({changeRequestList}) => {
 }
 
 export const ChangeRequests = () => {
-	const {dataProduct} = useParams()
+	const {organization,dataProduct} = useParams()
 	const navigate = useNavigate() 
     const {
 		woqlClient,
@@ -103,7 +103,7 @@ export const ChangeRequests = () => {
     const setChangeRequest = (item)=>{
 		const id = extractID(item["@id"]) 
 		setChangeRequestBranch(item.tracking_branch,id)
-		navigate(-1)
+		navigate(`/${organization}/${dataProduct}`)
 	}
 
     function getActionObject(item){
