@@ -19,7 +19,7 @@ export const ModelBuilder = (props) =>{
     //I check if the user is in view mode or edit mode
     let isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
 
-    isEditMode = currentChangeRequest ? false : isEditMode
+    // isEditMode = currentChangeRequest ? false : isEditMode
 
     const saveData=async (jsonObj, commitMessage)=>{
         await saveGraphChanges(jsonObj, commitMessage)
@@ -45,7 +45,7 @@ export const ModelBuilder = (props) =>{
        {/* <SplitPane split="horizontal" >
         <div>*/}
          {dataProduct &&  
-         <GraphObjectProvider setError={setReport} mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
+         <GraphObjectProvider currentChangeRequest={currentChangeRequest} setError={setReport} mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
            <Tabs defaultActiveKey={GRAPH_TAB} id="model-builder-tab" className="mt-3" onSelect={(k) => setTab(k)} >                 
                 {<Tab eventKey={GRAPH_TAB} title="Graph View">
                     {/*callServerLoading && <Loading message={`Fetching schema of ${dataProduct}...`} type={PROGRESS_BAR_COMPONENT}/>*/}    

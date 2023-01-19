@@ -245,6 +245,9 @@ export const WOQLClientProvider = ({children, params}) => {
 
         client.sendCustomRequest("GET", baseUrl).then(result=>{
             setDocumentTablesConfig(result)
+        }).catch(err=>{
+            console.log(err)
+            setDocumentTablesConfig(false)
         })
     }
 
