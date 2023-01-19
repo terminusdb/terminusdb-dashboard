@@ -8,7 +8,7 @@ import {PROGRESS_BAR_COMPONENT}  from "../components/constants"
 import {JSONModelBuilder} from "../components/JSONModelBuilder"
 
 export const ModelBuilder = (props) =>{
-    const {woqlClient,branch,ref,accessControlDashboard} = WOQLClientObj()
+    const {woqlClient,branch,ref,accessControlDashboard, currentChangeRequest} = WOQLClientObj()
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
 
@@ -17,7 +17,9 @@ export const ModelBuilder = (props) =>{
 
     const [tab, setTab]=useState(GRAPH_TAB)
     //I check if the user is in view mode or edit mode
-    const isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
+    let isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
+
+    isEditMode = currentChangeRequest ? false : isEditMode
 
     const saveData=async (jsonObj, commitMessage)=>{
         await saveGraphChanges(jsonObj, commitMessage)

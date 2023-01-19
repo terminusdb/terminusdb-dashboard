@@ -15,6 +15,13 @@ export function NumberColumnFilter({column}){
   return <DefaultColumnFilter column={column} type="number"/>
 }
 
+function formatTypenumber (value, options){
+  if(options.typevalue === "Float" || options.typevalue === "Double" ){
+      return  Number(value)
+  }
+  return value
+}
+
 export function DefaultColumnFilter({
     column: { filterValue, options , setFilter },type}) {
     const operator = options && options.operator ? options.operator : "regex"
@@ -33,7 +40,7 @@ export function DefaultColumnFilter({
             if(!value) {
               setFilter(undefined)
             }else{
-              const value = type === "number" ? Number(ev.target.value) : ev.target.value
+              const value = type === "number" ? formatTypenumber(ev.target.value, options) : ev.target.value
               setFilter({value:value, operator:operator, varPath:variablePath, mode})
             }
           }

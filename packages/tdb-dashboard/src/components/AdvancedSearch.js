@@ -148,7 +148,28 @@ export const AdvancedSearch = (props) =>{
           return {"_not":object}
         }
         return object
-    }            
+    }
+    
+    const checkValueFormat = (fieldOptions, value, operator )=>{
+        if(!fieldOptions) return {[operator]:value}
+        let tmpValue = value 
+        switch(fieldOptions.typevalue){
+            case "Datetime" :
+              tmpValue = `${value.replace(' ','T')}Z`
+              break
+            case "Int":
+            case "BigInt":
+              tmpValue = `${value}`
+              break;
+        }
+        let valueObj = {[operator]:tmpValue}
+        if(fieldOptions.mode === "ARRAY"){
+          valueObj = {"someHave":{[operator]:tmpValue}}
+         }
+         return valueObj
+
+    }
+
     const getChildrenRule = (childrenArr,groupName=false) =>{
        const childrenArrtmp = [] 
         childrenArr.forEach(element => {
@@ -160,7 +181,7 @@ export const AdvancedSearch = (props) =>{
 
             }else if (element.type=="rule_group"){
               let ruleGroup = element.properties.field
-              const childrenRule = getChildrenRule(element.children1,`${ruleGroup}.`)
+              const childrenRule = getChildrenRule(element.children1,`${ruleGroup}`)
 
               if(groupName){
                 ruleGroup = ruleGroup.replace(groupName,'')
@@ -187,30 +208,18 @@ export const AdvancedSearch = (props) =>{
               }else if(element.properties.operator === "starts_with"){
                 value = `(ˆ)${value}`
               }
-
-              if(typeof value === "number"){
-                value = Number(value)
-              }
-
-              if(element.properties.valueType[0]==="datetime"){
-                value = `${value.replace(' ','T')}Z`
-              }
               
-              let valueObj = {[operator]:value}
+              let valueObj = {}
 
               if(groupName){
-                field = field.replace(groupName,'')              
+                field = field.replace(`${groupName}.`,'')              
                 //addToObj[fieldOnly]={[operator]:value}
                 const groupObj = props.fields[groupName]
                 // if type is an ARRAY/LIST
-                if(groupObj && groupObj.subfields[field] && groupObj.subfields[field].mode === "ARRAY"){
-                    valueObj = {"someHave":{[operator]:value}}
-                }
+                valueObj = checkValueFormat(groupObj.subfields[field],value,operator)
               }else{
                 // if type is a ARRAY/LIST
-                if(props.fields[field] && props.fields[field].mode === "ARRAY"){
-                 valueObj = {"someHave":{[operator]:value}}
-                }
+                valueObj = checkValueFormat(props.fields[field],value,operator)
               }
 
               //"element/part/name

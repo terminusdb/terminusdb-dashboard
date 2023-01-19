@@ -44,7 +44,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const [currentCRObject, setCurrentCRObject]=useState(false)
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
-    const [currentChangeRequest,setCurrentChangeRequest] = useState(null)
+    const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
 
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -229,20 +229,25 @@ export const WOQLClientProvider = ({children, params}) => {
                     client.checkout(lastBranch)
                     const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)
                     setBranch(lastBranch)
-                    setCurrentChangeRequest(lastChangeRequest)
+                    setCurrentChangeRequest(lastChangeRequest || false)
                 }
                 //get the config tables for the db    
-                const clientCopy = client.copy()
-                clientCopy.connectionConfig.api_extension = 'api/'
-                const baseUrl = clientCopy.connectionConfig.dbBase("tables")
-
-                client.sendCustomRequest("GET", baseUrl).then(result=>{
-                    setDocumentTablesConfig(result)
-                })
+                getGraphqlTableConfig (client)
             }
             clearDocumentCounts()
         }
     }
+
+    function getGraphqlTableConfig (client ){
+        const clientCopy = client.copy()
+        clientCopy.connectionConfig.api_extension = 'api/'
+        const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+
+        client.sendCustomRequest("GET", baseUrl).then(result=>{
+            setDocumentTablesConfig(result)
+        })
+    }
+
     //designing data intensive applications
     //branch change
     useEffect(() => {
@@ -286,6 +291,8 @@ export const WOQLClientProvider = ({children, params}) => {
 
 
     //we not need this for all the page
+    //we need to optimize this call ----
+    //we have to made this call only if schema change but how????
     useEffect(() => {
         const {page} = getLocation()
         if(woqlClient && woqlClient.db() && 
@@ -293,6 +300,10 @@ export const WOQLClientProvider = ({children, params}) => {
             // on change on data product get classes
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
+            // to be review 
+            // we have to find a way to do not load this data every time 
+            // get a data with a check and see if it change 
+            getGraphqlTableConfig (woqlClient)
         }
     }, [window.location.pathname])
 
@@ -306,7 +317,6 @@ export const WOQLClientProvider = ({children, params}) => {
         return {TERMINUSCMS_CR:`TERMINUSCMS_CR.${client.organization()}_____${client.db()}`,
         TERMINUSCMS_CR_ID: `TERMINUSCMS_CR_ID.${client.organization()}_____${client.db()}`}
     }
-
 
     function setChangeRequestBranch(branchName,changeRequestId){
         woqlClient.checkout(branchName)
