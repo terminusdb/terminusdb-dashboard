@@ -3,31 +3,28 @@ import {Card, Button} from "react-bootstrap"
 import {useParams, useNavigate, useSearchParams} from "react-router-dom";
 import Stack from 'react-bootstrap/Stack'
 import {HiPlusSm} from "react-icons/hi"
-import {CREATE_PATH} from "./constants"
+import {NEW_DOC} from "../routing/constants"
 import {gql} from "@apollo/client";
-import { DocumentsTable } from "../components/DocumentsTable";
-import { ApolloProvider} from '@apollo/client';
-import {createApolloClient} from '../routing/ApolloClientConfig'
+import { DocumentsGraphqlTable } from "../components/DocumentsGraphqlTable";
+//import { ApolloProvider} from '@apollo/client';
+//import {createApolloClient} from '../routing/ApolloClientConfig'
 import {WOQLClientObj} from '../init-woql-client'
 import { extractedResults, ControlledGraphqlQuery } from '@terminusdb/terminusdb-react-table'
 
-export const DocumentList = () => {   
+export const DocumentsGraphqlList = () => {    
     const {type} = useParams()
     const {documentTablesConfig,woqlClient} = WOQLClientObj()
     const [searchParams]  = useSearchParams()
     const navigate = useNavigate()
 
-    if(!woqlClient) return ""
-    const client = createApolloClient(woqlClient)
+   //if(!woqlClient) return ""
+    //const client = createApolloClient(woqlClient)
     if(!documentTablesConfig) return 
    
     let startFilters = {}
     if(searchParams.get('filters')){
         startFilters ={"name":{"regex":searchParams.get('filters')}}
-    }   
-
-   // const client = createApolloClient(woqlClient)
-    
+    }      
     const onRowClick = (row) =>{
         const fullId = row["id"]
         const id = fullId.substring(fullId.lastIndexOf("/")+1)
@@ -35,12 +32,11 @@ export const DocumentList = () => {
     }
 
     function handleCreate(e) {
-        navigate(`${CREATE_PATH}`)
+        navigate(`${NEW_DOC}`)
     }
  
     if(!documentTablesConfig) return 
-    return <ApolloProvider client ={client}>
-            <Card className="content border-secondary w-100 mt-5" variant="light">
+    return <Card className="content border-secondary w-100 mt-5" variant="light">
             <Card.Header>
                 <Stack direction="horizontal" gap={3}>
                     <h6>Documents of type - <strong className="text-success">{type}</strong></h6>
@@ -53,13 +49,13 @@ export const DocumentList = () => {
                 </Stack>   
             </Card.Header>
             <Card.Body className="text-break">
-            <DocumentsTable tableConfig={documentTablesConfig} 
+            <DocumentsGraphqlTable tableConfig={documentTablesConfig} 
                     type={type} 
                     startFilters={startFilters} 
                     onRowClick={onRowClick}/>
             </Card.Body>
         </Card>
-        </ApolloProvider>     
+       
 }
 
 /*

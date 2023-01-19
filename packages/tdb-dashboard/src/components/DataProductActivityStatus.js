@@ -72,7 +72,7 @@ export const DataProductActivityGraph = () => {
 
     return  <div className="card mb-5">
         {loading && <Loading message={`Loading activity graph ...`} type={PROGRESS_BAR_COMPONENT}/>}
-        <div class="card-header text-light mb-3 fw-bold bg-transparent ">Recent Commits</div>
+        <div className="card-header text-light mb-3 fw-bold bg-transparent ">Recent Commits</div>
         <div className="card-body">
             <div className="row align-items-center gx-0">
                 <div className="col">
@@ -180,7 +180,7 @@ export const DataProductActivityBoard = () => {
     return  <React.Fragment>
         {dataProvider.length>0  && <div>
             <div className="card">
-                <div class="card-header text-light mb-3 fw-bold bg-transparent ">Recent Activities</div>
+                <div className="card-header text-light mb-3 fw-bold bg-transparent ">Recent Activities</div>
                 <div className="card-body">
                     <div className="row align-items-center gx-0">
                         <div className="col">

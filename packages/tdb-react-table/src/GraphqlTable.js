@@ -37,11 +37,12 @@ export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit
     if(totalRows == 0) pages = 0
     let prefixes = {} // (result && result.prefixes ? result.prefixes : (query ? query.getContext() : {}))
 
-    const [data, columns]  = useMemo(() => makeData(), [result])
+    const [data, columns,hiddenColumns]  = useMemo(() => makeData(), [result])
+   
 
     function makeData () { 
-        const columns = formatTableColumns(result)
-        return [result, columns];
+        const {columns, hiddenColumns} = formatTableColumns()
+        return [result, columns, hiddenColumns];
     }
 
     //render type default is string
@@ -66,12 +67,16 @@ export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit
         return v.charAt(0).toUpperCase() + v.slice(1);
     };
 
+
     function formatTableColumns(){
-        
+        const hiddenColumns = []
         const colArr = config.columns
         if(!Array.isArray(colArr))return []
 
-        let listOfColumns = colArr.map((item) => {
+        let listOfColumns = colArr.map((item,index) => {
+            if(index>4){
+                hiddenColumns.push(item.id)
+            }
             let col = item
             if(!item.Header){
                 col.Header = labelFromVariable(item.id)
@@ -100,7 +105,7 @@ export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit
         let colstruct ={columns:listOfColumns}
        // if(woqt.config.header()) colstruct.Header = woqt.config.header()
        // else colstruct.Header = " "
-        return listOfColumns
+        return {columns:listOfColumns, hiddenColumns}
     }
     // I visualize the empty data too
     if(!Array.isArray(data)) return null
@@ -148,6 +153,7 @@ export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit
                 setLimits={setLimits}
                 setOrder={setOrder}
                 onRefresh={onRefresh}
+                hiddenColumns={hiddenColumns}
                 
             />
         </React.Fragment>

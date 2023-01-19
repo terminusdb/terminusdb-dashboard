@@ -1,5 +1,4 @@
 import React, {useState, useEffect}  from "react";
-import {DocumentTable} from "../components/DocumentTable"
 import {getDocumentOfTypeTabConfig} from "../components/ViewConfig" 
 import {WOQLClientObj} from '../init-woql-client'
 import {Card, Row, Col} from "react-bootstrap"

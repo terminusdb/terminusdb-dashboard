@@ -5,10 +5,8 @@ import {BiPlus, BiNetworkChart} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import {IconBarConfig} from "./constants"
-import {handleCreate} from "./documents.utils"
 import {Nav} from "react-bootstrap"
 import {NavLink as RouterNavLink , useParams, useNavigate} from "react-router-dom"
-import {DocumentControlObj} from '../hooks/DocumentControlContext'
 import {Loading} from "../components/Loading"
 
 export const DocumentSummary = () => {
@@ -27,27 +25,9 @@ export const DocumentSummary = () => {
         documentLoading
     } = WOQLClientObj()
 
-    const {
-        setDocumentObject,
-        documentObject
-    } = DocumentControlObj()
 
     function handleCardClick (doc) {
         navigate(doc) 
-
-       /* let docObj = {
-            type: doc,
-            action: false,
-            view: documentObject.view,
-            submit: false,
-            currentDocument: false,
-            frames: {},
-            filledFrame: {},
-            message: false,
-            loading: false,
-            update:false
-        }
-        setDocumentObject(docObj)*/
     }
 
     const DocumentStats = ({dataProvider}) => {
@@ -57,12 +37,12 @@ export const DocumentSummary = () => {
             let val = dataProvider[0][key]["@value"]
             let type=key
             arr.push(
-                <Col md={4} className="py-2 doc-summary-card">
+                <Col key = {key +"___doc_status"} md={4} className="py-2 doc-summary-card">
                     <Button id={type} className="bg-transparent border-0 p-0 w-100" onClick={(e) => handleCardClick(type)}>
                         <Card bg="dark" style={{maxHeight: "220px", cursor: "pointer"}} >
                             <Card.Header className="bg-transparent border-0 d-flex text-wrap">
                                 <div>
-                                    <div class="hstack gap-3 minBreakpoint-xs">
+                                    <div className="hstack gap-3 minBreakpoint-xs">
                                         <h6 className="fw-bold text-muted text-left">{key}</h6>
                                         <h6 className="text-muted ms-auto text-right">{val}/{getTotalNumberOfDocuments(totalDocumentCount)}</h6>
                                     </div>

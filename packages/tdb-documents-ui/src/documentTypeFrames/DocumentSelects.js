@@ -60,7 +60,7 @@ export const DocumentView = ({label, required, value, onTraverse, description, s
 
     if(!value) return <div/>
  
-    return <React.Fragment>
+    return <div className="mb-4 d-flex">
         {<div className="control-label">
             {label}
             {/*required && <span className="required">*</span>*/}
@@ -69,7 +69,7 @@ export const DocumentView = ({label, required, value, onTraverse, description, s
         <span onClick={(e) => handleClick(e, value)} className={`tdb__span__select ${color} text-break`}>
             {value}
         </span>
-    </React.Fragment>
+    </div>
 }
 
 /**
@@ -86,7 +86,11 @@ const DisplayField = ({label, description, linked_to, required, handleShow}) => 
                 <div className="ms-auto">{description} </div>
             </div>
             <div className="text-muted ms-auto fst-italic">
-                {linked_to && <small>{`Click on ${label} button to search for ${linked_to}`}</small>}
+                {linked_to && <span>
+                    <small>{`Click on `}</small>
+                    {label}
+                    <small>{` button to search for ${linked_to}`}</small>
+                </span>}
             </div>
             <div>
                 <Button className="btn btn-sm bg-light text-dark"
@@ -105,7 +109,7 @@ const DisplayField = ({label, description, linked_to, required, handleShow}) => 
 const DisplaySelectedDocument = ({selected, required, linked_to, handleClear}) => {
     return <Stack direction="horizontal" gap={1}>
         {selected && selected.hasOwnProperty("id") && selected.id && <>
-            <AiOutlineCheck className="text-success mr-2"/>
+            <AiOutlineCheck className="text-success mr-2 mb-2"/>
             <label className="text-muted fw-bold">{"Selected: "}</label>
             <div className="d-flex tdb__input">
                 <label className="text-decoration-underline text-break">{selected.label ? selected.label : selected.id}</label>
@@ -125,13 +129,14 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
     // modal constants
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
+    const handleShow = () => setShow(true) 
 
     // selected ID constants
     const [selected, setSelected]=useState(value ? value : false)
 
     // pass props 
-    const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked_to})
+    let linked = linked_to 
+    const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked})
 
     useEffect(() => {
         if(selected && selected.hasOwnProperty("id") && onChange) {
@@ -146,14 +151,14 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
     }
 
     return <React.Fragment>
-        <Stack gap={1}>
+        <Stack gap={1} className="mb-3">
             <DisplayField label={label} 
                 description={description} 
-                linked_to={linked_to} 
+                linked_to={linked} 
                 required={required} 
                 handleShow={handleShow}/>
             <DisplaySelectedDocument selected={selected} 
-                linked_to={linked_to} 
+                linked_to={linked} 
                 required={required} 
                 handleClear={handleClear}/>
         </Stack>
@@ -162,7 +167,7 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
             dialogClassName="modal-90w"
             onHide={handleClose} size="lg">
             <Modal.Header closeButton>
-                {linked_to && <Modal.Title className="text-success h6">{`Search for ${linked_to}`}</Modal.Title>}
+                {linked && <Modal.Title className="text-success h6">{`Search for ${linked_to}`}</Modal.Title>}
             </Modal.Header>
             <Modal.Body className="overflow-auto">
                 {displayComponent}

@@ -8,7 +8,7 @@ import {PROGRESS_BAR_COMPONENT}  from "../components/constants"
 import {JSONModelBuilder} from "../components/JSONModelBuilder"
 
 export const ModelBuilder = (props) =>{
-    const {woqlClient,branch,ref,accessControlDashboard} = WOQLClientObj()
+    const {woqlClient,branch,ref,accessControlDashboard, currentChangeRequest} = WOQLClientObj()
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
 
@@ -17,7 +17,9 @@ export const ModelBuilder = (props) =>{
 
     const [tab, setTab]=useState(GRAPH_TAB)
     //I check if the user is in view mode or edit mode
-    const isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
+    let isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
+
+    // isEditMode = currentChangeRequest ? false : isEditMode
 
     const saveData=async (jsonObj, commitMessage)=>{
         await saveGraphChanges(jsonObj, commitMessage)
@@ -43,7 +45,7 @@ export const ModelBuilder = (props) =>{
        {/* <SplitPane split="horizontal" >
         <div>*/}
          {dataProduct &&  
-         <GraphObjectProvider setError={setReport} mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
+         <GraphObjectProvider currentChangeRequest={currentChangeRequest} setError={setReport} mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
            <Tabs defaultActiveKey={GRAPH_TAB} id="model-builder-tab" className="mt-3" onSelect={(k) => setTab(k)} >                 
                 {<Tab eventKey={GRAPH_TAB} title="Graph View">
                     {/*callServerLoading && <Loading message={`Fetching schema of ${dataProduct}...`} type={PROGRESS_BAR_COMPONENT}/>*/}    

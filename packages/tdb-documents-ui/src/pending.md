@@ -55,6 +55,8 @@
 
 - boolean false in VIEW mode
 
+- diff with markdown insert/ delete
+
 
 DONE LIST 
 PLAYGROUND 
@@ -105,6 +107,8 @@ PLAYGROUND
 DASHBOARD 
 - fix json code mirror - cursor is always at end
 - fix prefix document View ID routing
+- add new data product button to TEAM PAGE 
+- add team list to clone interface
 
 
 

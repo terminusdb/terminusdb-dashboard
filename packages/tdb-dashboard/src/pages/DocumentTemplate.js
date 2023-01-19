@@ -1,5 +1,4 @@
 import React from "react"
-import {DocumentView} from "../components/DocumentView"
 import {DocumentControlProvider} from "../hooks/DocumentControlContext"
 import { Layout } from "./Layout"
 import { Outlet } from 'react-router-dom'

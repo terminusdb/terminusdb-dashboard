@@ -5,13 +5,14 @@ import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
 import TerminusClient from '@terminusdb/terminusdb-client'
-import {Header} from "../components/DocumentComponents"
+import {Header, SearchComponent} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {CreateDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
+
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -92,9 +93,9 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     return <FrameViewer frame={frames}
         type={type}
         mode={CONST.CREATE_DOCUMENT}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit} 
         onChange={handleChange}
-        onSelect={onSelect}   
+        onSelect={<SearchComponent doctype={type}/>}   
         formData={!jsonContent ? {} : jsonContent}
         //formData={extracted}
         hideSubmit={false}
@@ -103,8 +104,9 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
 
 export const DocumentNew = () => {   
     const { 
-        setChangeRequestBranch, branch
+        setChangeRequestBranch, branch,woqlClient
     } = WOQLClientObj()
+
 
     const [showModal, setShowModal] = useState(false)
     const {type} = useParams()
@@ -125,7 +127,7 @@ export const DocumentNew = () => {
        // setCurrentMode(currentMode)
     }
 
-    return <main className="content w-100 document__interface__main">
+    return <main className="content w-100 document__interface__main">      
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
         </Alert>}

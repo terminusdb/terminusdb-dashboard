@@ -8,16 +8,20 @@ import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-comp
 import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
-import { getCurrentDocumentInfo } from './hooks/DocumentControl'
+import { createApolloClient } from './routing/ApolloClientConfig'
+
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
+
 
 export const WOQLClientProvider = ({children, params}) => {
     //the client user can be the local user or the auth0 user in terminusX
     //maybe a some point we'll need a local and remote connection (terminusX connection to clone/push and pull etc...) 
     let clientUser = createClientUser(useAuth0, params)
+    //let apolloClient
     const [woqlClient, setWoqlClient] = useState(null)
     const location = useLocation()
+    const [apolloClient , setApolloClient] = useState(null)
 
     //maybe I can move this in client
     const [accessControlDashboard, setAccessControl] = useState(null)
@@ -40,7 +44,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const [currentCRObject, setCurrentCRObject]=useState(false)
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
-    const [currentChangeRequest,setCurrentChangeRequest] = useState(null)
+    const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
 
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -129,6 +133,8 @@ export const WOQLClientProvider = ({children, params}) => {
                  if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
                  }
+
+                 setApolloClient(new createApolloClient(dbClient))
 
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
@@ -223,20 +229,28 @@ export const WOQLClientProvider = ({children, params}) => {
                     client.checkout(lastBranch)
                     const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)
                     setBranch(lastBranch)
-                    setCurrentChangeRequest(lastChangeRequest)
+                    setCurrentChangeRequest(lastChangeRequest || false)
                 }
                 //get the config tables for the db    
-                const clientCopy = client.copy()
-                clientCopy.connectionConfig.api_extension = 'api/'
-                const baseUrl = clientCopy.connectionConfig.dbBase("tables")
-
-                client.sendCustomRequest("GET", baseUrl).then(result=>{
-                    setDocumentTablesConfig(result)
-                })
+                getGraphqlTableConfig (client)
             }
             clearDocumentCounts()
         }
     }
+
+    function getGraphqlTableConfig (client ){
+        const clientCopy = client.copy()
+        clientCopy.connectionConfig.api_extension = 'api/'
+        const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+
+        client.sendCustomRequest("GET", baseUrl).then(result=>{
+            setDocumentTablesConfig(result)
+        }).catch(err=>{
+            console.log(err)
+            setDocumentTablesConfig(false)
+        })
+    }
+
     //designing data intensive applications
     //branch change
     useEffect(() => {
@@ -280,6 +294,8 @@ export const WOQLClientProvider = ({children, params}) => {
 
 
     //we not need this for all the page
+    //we need to optimize this call ----
+    //we have to made this call only if schema change but how????
     useEffect(() => {
         const {page} = getLocation()
         if(woqlClient && woqlClient.db() && 
@@ -287,6 +303,10 @@ export const WOQLClientProvider = ({children, params}) => {
             // on change on data product get classes
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
+            // to be review 
+            // we have to find a way to do not load this data every time 
+            // get a data with a check and see if it change 
+            getGraphqlTableConfig (woqlClient)
         }
     }, [window.location.pathname])
 
@@ -301,7 +321,6 @@ export const WOQLClientProvider = ({children, params}) => {
         TERMINUSCMS_CR_ID: `TERMINUSCMS_CR_ID.${client.organization()}_____${client.db()}`}
     }
 
-
     function setChangeRequestBranch(branchName,changeRequestId){
         woqlClient.checkout(branchName)
         const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
@@ -312,6 +331,18 @@ export const WOQLClientProvider = ({children, params}) => {
         setRef(null)
         setChosenCommit({})
         setCurrentChangeRequest(changeRequestId) 
+    }
+
+    function exitChangeRequestBranch(){
+        woqlClient.checkout("main")
+        const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
+        localStorage.removeItem([TERMINUSCMS_CR])
+        localStorage.removeItem([TERMINUSCMS_CR_ID])
+        // set the change_request brach and reset the commit 
+        setBranch("main")
+        setRef(null)
+        setChosenCommit({})
+        setCurrentChangeRequest(false) 
     }
  
    // const currentPage = history.location.pathname
@@ -418,6 +449,8 @@ export const WOQLClientProvider = ({children, params}) => {
     return (
         <WOQLContext.Provider
             value={{
+                exitChangeRequestBranch,
+                apolloClient,
                 setChangeRequestBranch,
                 currentChangeRequest,
                 setCurrentChangeRequest,
