@@ -3,7 +3,7 @@ import {Card, Button} from "react-bootstrap"
 import {useParams, useNavigate, useSearchParams} from "react-router-dom";
 import Stack from 'react-bootstrap/Stack'
 import {HiPlusSm} from "react-icons/hi"
-import {CREATE_PATH} from "./constants"
+import {NEW_DOC} from "../routing/constants"
 import {gql} from "@apollo/client";
 import { DocumentsGraphqlTable } from "../components/DocumentsGraphqlTable";
 //import { ApolloProvider} from '@apollo/client';
@@ -32,7 +32,7 @@ export const DocumentsGraphqlList = () => {
     }
 
     function handleCreate(e) {
-        navigate(`${CREATE_PATH}`)
+        navigate(`${NEW_DOC}`)
     }
  
     if(!documentTablesConfig) return 

@@ -10,7 +10,7 @@ export function GraphIqlEditor() {
   const {woqlClient} = WOQLClientObj() 
   if(!woqlClient) return 
   const client = woqlClient.copy()
-  const url = client.connectionConfig.dbBase("graphql")
+  const url = client.connectionConfig.branchBase("graphql")
 
   // TO BE REVIEW!!!!
   const fetcher = createGraphiQLFetcher({
