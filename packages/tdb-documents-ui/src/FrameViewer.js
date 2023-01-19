@@ -47,7 +47,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 
     useEffect(() => {
         //try{ 
-            if(frame, uiFrame, type, mode) { //formData 
+            if(frame && uiFrame && type &&  mode) { //formData 
                 clear()
                 let extractedDocumentation= util.extractDocumentation(frame, current, language)
                 //store selected language here to get access to ENUM docs based on selected language
@@ -165,7 +165,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
         });
     }
     
-    console.log("data", data)
+    //console.log("data", data)
  
     return <div data-cy="frame_viewer" className="tdb__frame__viewer">
         {schema && message && message}

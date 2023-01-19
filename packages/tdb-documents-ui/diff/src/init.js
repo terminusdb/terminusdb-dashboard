@@ -6,7 +6,7 @@ import {getFrames, getDocumentClasses} from "./utils"
 
 
 export const InitProvider = ({children, config}) => { 
-
+ 
 	const [tdbClient, setTDBClient] = useState(false)
 	const [connectionError, setConnectionError] = useState(false)
 	const [frames, setFrames] = useState(false)

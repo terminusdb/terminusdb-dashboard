@@ -1,8 +1,8 @@
 import React from "react"
+import {keyExists} from "./utils"
 import * as CONST from "./constants"
 
 /** --- Frame Viewer templates --- */
-
 // checks if choice sub document form data is valid or not 
 function validChoiceSubDocumentFormData(formData) {
 	if(typeof formData !== CONST.OBJECT_TYPE) return false
@@ -45,7 +45,7 @@ const DisplayLabel = ({schema, id, label, formData}) => {
  export function DisplayFieldTemplate(props) {
 	const {id, classNames, label, help, required, description, errors, children, formData, schema, uiSchema} = props;
 	
-	//console.log("props", id, props)
+	//console.log("props", id, props) 
 	// return empty div when no data available
 	if(!formData && !uiSchema.hasOwnProperty("ui:field")) {
 		// check for ui field -  we use custom fields some times to represent null fields
@@ -85,6 +85,15 @@ const DisplayLabel = ({schema, id, label, formData}) => {
 			if (!validChoiceSubDocumentFormData(formData)) {
 				return <div className="empty__choice__subdocument"/>
 			}
+	}
+
+	// if coordinates is empty dont display anything 
+	let coordinateArray=keyExists(formData, CONST.COORDINATES)
+	if(coordinateArray) {
+		if(Array.isArray(coordinateArray) && coordinateArray.includes(undefined)) {
+			return <div className="empty__location"/>
+		}
+		else if(!coordinateArray) return <div className="empty__location"/>
 	}
 	
 	

@@ -3,13 +3,16 @@ const TerminusDBClient = require("@terminusdb/terminusdb-client")
 export const InitContext = React.createContext()
 export const InitObj = () => useContext(InitContext)
 import {getFrames, getDocumentClasses, getDocumentData} from "./utils"
+import {getDefaultDocumentData} from "./fetchDefaultData"
 import {CREATE} from "./constants"
-
+ 
 
 export const InitProvider = ({children, config}) => {
 
 	const [tdbClient, setTDBClient] = useState(false)
 	const [connectionError, setConnectionError] = useState(false)
+	// connected data product constants
+	const [dataProduct, setDataProduct]=useState(config.dataProduct)
 	const [frames, setFrames] = useState(false)
 
 	// get document class list 
@@ -52,20 +55,32 @@ export const InitProvider = ({children, config}) => {
 			}
 	}, [])
 
+	/* Connect to data product */
+	useEffect(() => { 
+		if(dataProduct && tdbClient) {
+			//clear()
+			tdbClient.db(dataProduct)
+			getFrames (tdbClient, dataProduct, setFrames, setConnectionError)
+			getDocumentClasses(tdbClient, setDocumentClassList, setConnectionError)
+		}
+	}, [tdbClient, dataProduct])
+
 	/* When document class type is selected from UI */
 	useEffect(() => {
 			if(!documentClasses) return 
 			if(Array.isArray(documentClasses) && documentClasses.length > 0) { // by default show first document 
-					setType(documentClasses[0]["@id"])
+				setType(documentClasses[0]["@id"])
 			}
 	}, [documentClasses])
 
 	/* When document ID is entered from UI */
 	useEffect(() => {
-			if(!documentID) return 
 			if(!tdbClient) return
 			if(mode === CREATE) setData({})
-			else getDocumentData(tdbClient, documentID, setData, setConnectionError)
+			//if documentID input
+			if(documentID) getDocumentData(tdbClient, documentID, setData, setConnectionError)
+			// if no documentID input display from constant files 
+			if(!documentID) getDefaultDocumentData(mode, dataProduct, type, setData)
 	}, [documentID, mode])
 	
 	return (
@@ -91,7 +106,9 @@ export const InitProvider = ({children, config}) => {
 							data, 
 							setData,
 							documentID, 
-							setDocumentID
+							setDocumentID,
+							dataProduct,
+							setDataProduct
 					}}
 			>
 					{children}

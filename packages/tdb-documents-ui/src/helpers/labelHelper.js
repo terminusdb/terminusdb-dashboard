@@ -40,7 +40,7 @@ export function generateLabel (frame, item, documentation) {
     /** return null if frame doesnt have property in it */
     if(!frame.hasOwnProperty(item)) return null
 
-    let isKey=util.checkIfKey(item, frame["@key"])
+    let isKey=util.checkIfKey(item, frame["@key"]) 
 
     if(util.isSubDocumentType(frame[item])) {
         return <SubDocumentLabelComponent label={item} documentation={documentation} isKey={isKey}/>

@@ -51,6 +51,7 @@
     "@mui/material": "^5.11.1",
     "@terminusdb/terminusdb-client": "^10.0.25",
     "axios": "^0.21.1",
+    "babel-jest": "^29.3.1",
     "classnames": "^2.2.5",
     "codemirror": "^5.64.0",
     "codemirror-graphql": "^2.0.2",
@@ -99,6 +100,7 @@
     "react-vertical-timeline-component": "^3.3.3",
     "recharts": "^2.1.8",
     "sass-loader": "^11.1.1",
+    "ts-jest": "^29.0.5",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },

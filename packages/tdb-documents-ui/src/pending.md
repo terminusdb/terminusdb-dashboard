@@ -33,7 +33,7 @@
 
 - array dimensions
 
-- fix traverse of docs 
+- fix traverse of docs ✅ 
 
 - test frame viewer against CAMS/ Nucalear/ Playground 
 
@@ -56,6 +56,8 @@
 - boolean false in VIEW mode
 
 - diff with markdown insert/ delete
+
+- add required tag to document links 
 
 
 DONE LIST 
@@ -94,7 +96,7 @@ PLAYGROUND
  - workspace linked to tdb_documents_ui_test 
  - before push rename and re install all the links from workspace at root package level
 
-
+ 
 
 
 --------- AFTER COMING BACK ----  JAN 3

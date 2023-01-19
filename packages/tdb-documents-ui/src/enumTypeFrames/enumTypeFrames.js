@@ -23,8 +23,6 @@ export function getUILayout (fullFrame, frame, item, uiFrame, mode, formData, do
     //if(enumDocumentation.hasOwnProperty("@label")) label=enumDocumentation["@label"]
     
     let uiLayout = {
-        //"ui:title": getEnumTitle(item, checkIfKey(item, frame[item]["@key"]), label),
-        //"ui:title": util.getTitle(item, util.checkIfKey(item, frame[item]["@key"]), documentation),
         "ui:placeholder": `Select ${label} ...`,
         //"ui:description": getUI(),
         classNames: "tdb__input mb-3 mt-3"

@@ -35,7 +35,8 @@ const SelectList = () => {
 
 export const Input = () => {
 	const {
-        setDocumentID
+        setDocumentID,
+		dataProduct
 	} = InitObj()
 
 	const [validated, setValidated] = useState(false)
@@ -57,7 +58,7 @@ export const Input = () => {
 		<Card.Header className="bg-light text-dark">
 			<Stack direction="horizontal" gap={1}>
 				<span>{`Connected to `}</span>
-				<span className="fw-bold">{` ${process.env.DATA_PRODUCT}`}</span>
+				<span className="fw-bold">{` ${dataProduct}`}</span>
 			</Stack>
 		</Card.Header>
 		<Card.Body>
