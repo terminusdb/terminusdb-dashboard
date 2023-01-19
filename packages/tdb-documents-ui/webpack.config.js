@@ -37,11 +37,7 @@ module.exports = {
                 'css-loader', 'less-loader'
               
               ],
-<<<<<<< HEAD
-            },*/
-=======
             },
->>>>>>> 36193a6d6a9afb05540204b428c0e07c0d43f9c5
           {
           test: /\.(svg|jpg|gif|png)$/,
           use: [

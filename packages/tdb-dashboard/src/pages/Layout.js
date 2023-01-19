@@ -33,7 +33,7 @@ export const Layout = (props) => {
 
     const closeChangeRequest = () =>{
         exitChangeRequestBranch()
-        navigate(-1)
+        navigate(`/${organization}/${dataProduct}`)
     }
 
     const showLeftSideBar = props.showLeftSideBar === false ? false : true
