@@ -21,7 +21,7 @@ import {FaInfoCircle} from "react-icons/fa"
 export const TimeTravel = ({show}) => {
  
     let cardColor = "#303030", transparantColor = "transparent", activeColor = "#00bc8c"
-    const  {branch, chosenCommit,setHead} = WOQLClientObj()
+    const  {branch, chosenCommit,setHead, currentChangeRequest} = WOQLClientObj()
   
     const {currentItem, 
         dataProvider, 
@@ -158,14 +158,19 @@ export const TimeTravel = ({show}) => {
             <DatePicker currentDay={currentDay} setStartTime={setStartTime} />
           </Col>
           <Col md={6}>
-            <h6 className="text-muted fw-bold">
-              <FaInfoCircle className="mr-2" />
-              Time travel on a selected Branch
-            </h6>
-            <BranchSelector />
+            {/* I remove for all the case for now 
+            you have to go in the main page to change branch for now
+            !currentChangeRequest &&
+              <React.Fragment>
+                <h6 className="text-muted fw-bold">
+                  <FaInfoCircle className="mr-2" />
+                  Time travel on a selected Branch
+                </h6>
+                <BranchSelector />
+              </React.Fragment>
+          */}
           </Col>
         </Row>
-
         {dataProvider.length > 0 && loading==false ? (
           <VerticalTimeline layout="1-column-left" className="mt-3">
             <TimelineElements />

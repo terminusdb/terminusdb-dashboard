@@ -58,6 +58,7 @@ export function ChangeRequest(){
             const result = await woqlClient.sendCustomRequest("GET", getUrl())
             //console.log("result ** ", result)
             setChangeRequestList(result)
+            return result
         }catch(err){
             const errMessage = formatErrorMessage(err)
             setError(errMessage)

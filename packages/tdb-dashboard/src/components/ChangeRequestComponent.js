@@ -7,9 +7,9 @@ import {GrFormClose} from "react-icons/gr"
 import {AiOutlineCheck} from "react-icons/ai"
 
 
-export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest}) => {
+export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,currentChangeRequest}) => {
 
-    if(branch && branch === "main") return <div/> 
+    if(!currentChangeRequest) return <div/> 
 
     return <React.Fragment>
         <Card className="d-flex bg-transparent ml-5 mt-2"> 

@@ -32,12 +32,15 @@ export const WOQLClientProvider = ({children, params}) => {
 
     // to control document interface chosen document
     //const [currentDocument, setCurrentDocument] = useState(false) 
-    const [branchesReload,setBranchReload] =useState(0)
+    
     const [branch, setBranch] = useState("main")
     const [ref, setRef] = useState(false)
 
     // branchesstates
+    // I need the branches list in dataProductsHome 
+    const [branchesReload,setBranchReload] =useState(0)
     const [branches, setBranches] = useState(false)
+
     const [chosenCommit,setChosenCommit]=useState({})
 
     const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
@@ -230,6 +233,10 @@ export const WOQLClientProvider = ({children, params}) => {
                     const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)
                     setBranch(lastBranch)
                     setCurrentChangeRequest(lastChangeRequest || false)
+                }else{
+                    //if we are not change request
+                    setBranch("main")
+                    setCurrentChangeRequest(false)
                 }
                 //get the config tables for the db    
                 getGraphqlTableConfig (client)
@@ -253,7 +260,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     //designing data intensive applications
     //branch change
-    useEffect(() => {
+   /* useEffect(() => {
         if(woqlClient && woqlClient.db()){
             setBranches(false)
             clearDocumentCounts()
@@ -290,7 +297,7 @@ export const WOQLClientProvider = ({children, params}) => {
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
         }
-    }, [branchesReload, woqlClient])
+    }, [branchesReload, woqlClient])*/
 
 
     //we not need this for all the page
