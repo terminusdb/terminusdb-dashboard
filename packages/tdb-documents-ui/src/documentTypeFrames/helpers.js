@@ -7,6 +7,7 @@ import {
     DocumentView
 } from "./DocumentSelects"
 import {getCommentFromDocumentation, getPropertyLabelFromDocumentation} from "../documentationTemplates"
+import {LinkComponent} from "./LinkComponent"
 
 export function ViewDocumentLinks (displayValue, label, onTraverse, description, selectStyle) {
     return <DocumentView value={displayValue} 
@@ -70,15 +71,44 @@ export function getSelectComponent (onChange, placeholder, required, displayValu
     />
 }
 
+export const DisplaySearchComponent = ({info, displayModal}) => {
+
+    //let {onSelect, props, label, linked_to, description, selectStyle} = args
+
+    // review this - will remove after graphQL integrate in tdb-dashboard
+    if(typeof info.onSelect === "function") {
+        let displayValue=info.formData ? info.formData : info.schema.default
+        return getSelectComponent(info.onChange, info.uiSchema["ui:placeholder"], props.required, displayValue, label, linked_to, description, onSelect, selectStyle)
+    }
+
+    // simply sents back component
+    return <DocumentSearch  
+        label={info.label}
+        value={info.formData ? {id: info.formData, label: info.formData} : null}
+        linked_to={info.linked_to}
+        display={info.onSelect ? info.onSelect : <>No Component to display ...</>}
+        description={<div/>}
+        required={info.required}
+        onChange={info.onChange}
+        displayModal={displayModal}
+    /> 
+}
+
 /**
  * 
  * @param {*} props - props from ui field display of UI Layout
  * @param {*} onSelect -can be a callback function for searching documents or a search component UI to select a document
  * @returns - linked documnet field display 
- */
-export const linkedDocumentProvider = (props, item, mode, documentation, onSelect, onTraverse, uiFrame) => {
-    
+ */              
+export const linkedDocumentProvider = (props, item, mode, documentation, onSelect, onTraverse, uiFrame, fullFrame, actionStatus, showStatus) => {
+     
+    // modal constants
+    const [action, setAction]=useState(actionStatus)
+    const [show, setShow] = useState(showStatus)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true) 
 
+    let schema = props.schema
     let label = getPropertyLabelFromDocumentation(item, documentation)//util.getLabelFromDocumentation (item, documentation)
     let description = <div/>//getCommentFromDocumentation(item, documentation)
     let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : item
@@ -92,22 +122,33 @@ export const linkedDocumentProvider = (props, item, mode, documentation, onSelec
         let displayValue=props.formData ? props.formData : props.schema.default
         return ViewDocumentLinks(displayValue, label, onTraverse, description, selectStyle)
     }
-  
-    // review this - will remove after graphQL integrate in tdb-dashboard
-    if(typeof onSelect === "function") {
-        let displayValue=props.formData ? props.formData : props.schema.default
-        return getSelectComponent(props.onChange, props.uiSchema["ui:placeholder"], props.required, displayValue, label, linked_to, description, onSelect, selectStyle)
+
+    let info = {
+        schema: schema,
+        uiSchema: props.uiSchema,
+        linked_to: linked_to,
+        description: description,
+        mode: mode,
+        label: label, 
+        required: props.required,
+        onSelect: onSelect, 
+        selectStyle: selectStyle,
+        formData: props.formData,
+        fullFrame: fullFrame
+    }   
+    
+    if(util.isUnfoldable(schema))  {
+        // unfoldable
+        info[CONST.LINKED_TO_FRAMES]=schema[CONST.LINKED_TO_FRAMES]
+        info["onChange"]=props.onChange
+        return <LinkComponent info={info}
+            setAction={setAction} 
+            action={action} 
+            handleShow={handleShow} 
+            handleClose={handleClose}
+            show={show}/>
     }
-
-    // simply sents back component
-    return <DocumentSearch  
-        label={label}
-        value={props.formData ? {id: props.formData, label: props.formData} : null}
-        linked_to={linked_to}
-        display={onSelect ? onSelect : <>No Component to display ...</>}
-        description={<div/>}
-        required={props.required}
-        onChange={props.onChange}
-    />
-
+    else {
+        return <DisplaySearchComponent info={info}/>
+    }
 }

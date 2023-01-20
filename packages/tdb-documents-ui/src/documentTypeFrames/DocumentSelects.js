@@ -56,7 +56,7 @@ export const DocumentView = ({label, required, value, onTraverse, description, s
 
     let color = "text-light"
     
-    if (styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
+    if (styles && styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
     if(!value) return <div/>
  
@@ -124,7 +124,7 @@ const DisplaySelectedDocument = ({selected, required, linked_to, handleClear}) =
 }
 
 // empty Select - edit mode
-export const DocumentSearch = ({label, onChange, value, required, linked_to, display, description}) => {
+export const DocumentSearch = ({label, onChange, value, required, linked_to, display, description, displayModal}) => {
  
     // modal constants
     const [show, setShow] = useState(false)
@@ -135,7 +135,7 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
     const [selected, setSelected]=useState(value ? value : false)
 
     // pass props 
-    let linked = linked_to 
+    let linked = linked_to  
     const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked})
 
     useEffect(() => {
@@ -148,6 +148,17 @@ export const DocumentSearch = ({label, onChange, value, required, linked_to, dis
 
     function handleClear(e) { 
         setSelected(false)
+    }
+
+    if(!displayModal) {
+        // dont display in modal 
+        return <div className="p-3">
+            <DisplaySelectedDocument selected={selected} 
+                linked_to={linked} 
+                required={required} 
+                handleClear={handleClear}/>
+            {displayComponent}
+        </div>
     }
 
     return <React.Fragment>

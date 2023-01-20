@@ -107,6 +107,11 @@ export const BASIC_CODE_MIRROR_CONFIG =  {
 export const MARKDOWN="markdown"
 export const HTML="HTML"
 
+// unfoldable contants
+export const UNFOLDABLE="@unfoldable"
+export const LINKED_TO_FRAMES="linked_to_frames"
+export const LINK_NEW_DOCUMENT="LINK_NEW_DOCUMENT"
+export const LINK_EXISTING_DOCUMENT="LINK_EXISTING_DOCUMENT"
 
 // geo frame constants
 export const ARRAY="Array"

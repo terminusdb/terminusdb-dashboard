@@ -42,43 +42,6 @@ export const transformData = (mode, schema, data, frame, type) => {
         if(formData[key] === undefined) continue // undefined
         else if(key === ONEOFVALUES) { 
             let selectedOneOfValue = extractOneOfValue(formData)
-            //@oneOf
-            /*let sysUnit=false, newOneOfData={}
-            for(var oneOf in formData[key]) {
-                if(formData[key][oneOf] === SYS_UNIT_DATA_TYPE) {
-                    sysUnit=oneOf
-                    break
-                }
-            }
-            if(sysUnit) {
-                newOneOfData = {
-                    [sysUnit]: []
-                }
-            }
-            else {
-                newOneOfData=formData[key]
-                /*if(oneOfData.hasOwnProperty("@choice") && !isDataType(oneOfData["@type"])) {
-                    let choice = oneOfData["@choice"]
-                    let choiceData = {}
-                    for(var cds in oneOfData) {
-                        if(cds !== "@choice") {
-                            choiceData[cds]= oneOfData[cds] 
-                        }
-                    }
-                    newOneOfData = {
-                        [choice]: choiceData
-                    }
-                }
-                else {
-                    // normal data types
-                    let choice=oneOfData["@choice"]
-                    newOneOfData={
-                        [choice]: oneOfData[choice]
-                    }
-                }*/
-                
-            /*}
-            return newOneOfData*/
             return selectedOneOfValue
         }
         else if(key === COORDINATES && Array.isArray(formData[key])) {

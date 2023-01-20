@@ -21,6 +21,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
         else if(item === "@inherits") continue
         else if(item === CONST.SUBDOCUMENT) continue
         else if(item === CONST.DOCUMENTATION) continue
+        else if(item === CONST.UNFOLDABLE) continue
         else if(util.isFeatureCollection(frame[item], mode)) {
             /**
              * treat featurecollection as a special type (since we combine all the set filled data to display

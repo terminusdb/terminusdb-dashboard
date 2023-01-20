@@ -31,7 +31,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
     const [lang, setLanguage]=useState(false)
     const [error, setError]=useState(false)
     const [documentation, setDocumentation]=useState(false)
-    const [data, setData]=useState({})
+    const [data, setData]=useState(formData ? formData : {})
 
     const [message, setMessage]=useState(false)
 
@@ -47,7 +47,8 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 
     useEffect(() => {
         //try{ 
-            if(frame && uiFrame && type &&  mode) { //formData 
+            //if(frame && uiFrame && type && mode) { //formData 
+            if(frame && type && mode) { 
                 clear()
                 let extractedDocumentation= util.extractDocumentation(frame, current, language)
                 //store selected language here to get access to ENUM docs based on selected language
@@ -117,7 +118,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 extracted && 
                 !extracted.hasOwnProperty("@id") && 
                 formDataTemp.hasOwnProperty("@id")) {
-                    extracted["@id"] = formDataTemp["@id"]
+                    extracted["@id"] = formDataTemp["@id"] 
             }
             onChange(extracted)
         }
@@ -175,6 +176,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
             uiSchema={uiSchema}
             mode={mode} 
             onSubmit={handleSubmit}
+            onBlur={handleChange}
             readonly={readOnly}
             formData={data}
             transformErrors={transformErrors} 

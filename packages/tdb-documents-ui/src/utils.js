@@ -255,7 +255,7 @@ export const extractFrames = (frame, item, language) => {
  * @returns metadata json type
  */
  export function getMetaData (frame) { 
-    if(frame.hasOwnProperty(CONST.METADATA)) {
+    if(frame && frame.hasOwnProperty(CONST.METADATA)) {
         return frame[CONST.METADATA]
     }
     return false
@@ -700,6 +700,12 @@ export const keyExists = (obj, key) => {
   
 	return false;
   };
+
+// @unfoldable 
+export const isUnfoldable=(schema) => {
+	if(schema.hasOwnProperty(CONST.UNFOLDABLE)) return true
+	return false
+}
 
 
 

@@ -94,7 +94,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
         type={type}
         mode={CONST.CREATE_DOCUMENT}
         onSubmit={handleSubmit} 
-        onChange={handleChange}
+        //onChange={handleChange}
         onSelect={<SearchComponent/>}   
         formData={!jsonContent ? {} : jsonContent}
         //formData={extracted}

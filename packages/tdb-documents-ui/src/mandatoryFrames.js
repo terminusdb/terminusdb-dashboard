@@ -56,7 +56,14 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
         }
         else if(extractedFrames.hasOwnProperty("linked_to")) {
             //linked to documents
-            layout["linked_to"]=extractedFrames["linked_to"]
+            let linked_to=extractedFrames["linked_to"]
+            layout["linked_to"]=linked_to
+            // check if linked to document is unfoldable
+            if(fullFrame.hasOwnProperty(linked_to) && 
+                util.isUnfoldable(fullFrame[linked_to])){
+                    layout[CONST.UNFOLDABLE]=[]
+                    layout[CONST.LINKED_TO_FRAMES]=fullFrame[linked_to]
+            }
         }
     }
 
