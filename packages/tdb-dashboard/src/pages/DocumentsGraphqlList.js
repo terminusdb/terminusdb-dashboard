@@ -16,7 +16,7 @@ export const DocumentsGraphqlList = () => {
     const {documentTablesConfig,woqlClient} = WOQLClientObj()
     const [searchParams]  = useSearchParams()
     const navigate = useNavigate()
-
+    
    //if(!woqlClient) return ""
     //const client = createApolloClient(woqlClient)
     if(!documentTablesConfig) return 
@@ -35,7 +35,6 @@ export const DocumentsGraphqlList = () => {
         navigate(`${NEW_DOC}`)
     }
  
-    if(!documentTablesConfig) return 
     return <Card className="content border-secondary w-100 mt-5" variant="light">
             <Card.Header>
                 <Stack direction="horizontal" gap={3}>

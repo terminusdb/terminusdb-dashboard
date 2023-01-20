@@ -11,13 +11,12 @@ import Form from 'react-bootstrap/Form';
 import {CopyButton} from "./utils"
 import {RiDeleteBin7Line} from "react-icons/ri"
 
-export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor}) =>{
+export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor ,branches}) =>{
 
     const [showHealth, setShowHealth]=useState(false)
     const {
         woqlClient,
         documentClasses,
-        branches,
         accessControlDashboard
     } = WOQLClientObj()
 
@@ -155,24 +154,3 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
         </Card>
     </React.Fragment>
 }
-
-
-/* Nuking health for now */
-/*
-    <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
-
-    <h4 className="text-muted mb-3 fw-bold">Health</h4>
-
-    {healthText && <p style={{color: color}}>healthText</p>}
-    {!healthText && <p className="text-muted">You can set the health of your Data Product.</p>}
-<div className="w-100 d-flex align-items-center gx-0">
-        <span className={`h2 mb-0 w-100 ${color}`} >
-            <BsBarChart/>
-        </span>
-        <div className="col-auto">
-            <span className="h2 text-muted mb-0">
-                <Button variant="light" className="btn-sm" onClick={(e)=>setShowHealth(true)}>Change</Button>
-            </span>
-        </div>
-    </div>
-*/

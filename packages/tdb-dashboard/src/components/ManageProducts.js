@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {Card} from "react-bootstrap"
 import {BsBriefcase} from "react-icons/bs"
 import {BranchInfoModal} from "../components/BranchInfo"
@@ -8,11 +8,10 @@ import {DisplayBranchList} from "../components/DisplayBranchList"
 import {NewBranchModal} from "../components/NewBranchModal"
 
 
-export const ManageProducts = ({setDataProductSettings}) => {
-    const {woqlClient, dataProduct,branches, branch} = WOQLClientObj()
+export const ManageProducts = ({setDataProductSettings , branches , updateTable}) => {
+    const {woqlClient, dataProduct, branch} = WOQLClientObj()
     
     const { 
-       // branchList,
         createBranch,
         newBranch,
         setNewBranch,
@@ -24,7 +23,7 @@ export const ManageProducts = ({setDataProductSettings}) => {
         handleDelete,
         handleBranchClick,
         setSelectedBranch
-    } = BranchControl()
+    } = BranchControl(updateTable)
 
     const [showDefault, setShowDefault] = useState(false)
     const [selectedCommit, setSelectedCommit] = useState(false)
@@ -44,6 +43,9 @@ export const ManageProducts = ({setDataProductSettings}) => {
         handleSwitch(id)
         setShowDefaultForm('deleteForm')
     }
+
+    // get the branches list
+   
 
     return <React.Fragment>
             

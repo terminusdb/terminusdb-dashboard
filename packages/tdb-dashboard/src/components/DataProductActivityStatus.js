@@ -11,19 +11,29 @@ import {TimeTravelControl} from "../hooks/TimeTravelControl"
 import {printtsDate, printtsTime} from "./utils"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
+import {Col} from "react-bootstrap"
 
-export const DataProductActivityGraph = () => {
-
-
-    const [commits, setCommits] = useState([])
-    const [json, setJson] = useState({})
-    const [graphData, setGraphData] = useState([])
-    const [loading, setLoading]=useState(true)
-
+export const DataProductActivityStatus = ()=>{
     const {
         dataProvider
     } = TimeTravelControl(50)
 
+    return  <React.Fragment>
+                <Col md={12}>
+                    <DataProductActivityGraph dataProvider={dataProvider}/>
+                </Col>
+
+                <Col md={12}  className="mb-5">
+                    <DataProductActivityBoard dataProvider={dataProvider} />
+                </Col>
+        </React.Fragment>
+}
+
+const DataProductActivityGraph = ({dataProvider}) => {
+    const [commits, setCommits] = useState([])
+    const [json, setJson] = useState({})
+    const [graphData, setGraphData] = useState([])
+    const [loading, setLoading]=useState(true)
 
     useEffect(() => {
         if(!dataProvider) return 
@@ -128,13 +138,7 @@ export const DataProductActivityGraph = () => {
      
 }
 
-export const DataProductActivityBoard = () => {
-
-    const {
-        dataProvider
-    } = TimeTravelControl(50)
-
-    
+const DataProductActivityBoard = ({dataProvider}) => {    
     const TimelineElements = () => {
         if(!dataProvider) return <div/>
 
