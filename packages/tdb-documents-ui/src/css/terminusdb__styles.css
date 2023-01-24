@@ -11,6 +11,7 @@
 }
 
 
+
 .tdb__input,
 .tdb__input > input, 
 .tdb__input > select, 
@@ -376,6 +377,8 @@ legend {
     display: none !important;
 }
 
+/** document links */
+.tdb__document__link legend,
 /** display legend for geo/ choice sub document frames */
 .tdb__geo__input legend,
 .tdb__multipolygon__input legend,
@@ -386,6 +389,7 @@ legend {
 .tdb__array__frames span.control-label { 
     display: block !important; 
     font-size: 1rem;
+    color: white;
     /*margin-top: -38px;*/
 }
 
@@ -397,9 +401,12 @@ div.array-item div.control-label {
 
 /** show labels of choice sub documents */
 /** display sub document labels for arrays */
+/** display document link unfolded properties for arrays */
 div.array-item div.tdb__subdocument__card label.control-label,
 div.array-item div.tdb__subdocument__card div.control-label,
-div.array-item div.choice_subdocument_title label.control-label {
+div.array-item div.choice_subdocument_title label.control-label,
+div.array-item div.tdb__document__link div.control-label,
+div.array-item div.tdb__document__link label.control-label {
     visibility: initial;
 }
 
@@ -607,6 +614,8 @@ div.deleted * input {
     display: flex;
 }
 
+
+
 .tdb__frame__viewer div.form-group div.markdown_diff {
     display: block;
 }
@@ -674,6 +683,7 @@ form.rjsf {
     /*grid-template-columns: max-content max-content;*/
     grid-gap:7px;
 }
+/*.tdb__document__link fieldset */
 form.rjsf span.control-label,
 form.rjsf div.control-label,
 form.rjsf label.form-label,
@@ -685,9 +695,37 @@ form.rjsf label.control-label {
   min-width: 10rem;
   width: 10rem;
 }
+
 form.rjsf span.control-label:after { content: "";  }
 form.rjsf div.control-label:after { content: "";  }
 form.rjsf label.form-label:after { content: "";  }
 form.rjsf label.control-label:after { content: "";  }
 
+.tdb__link__card__header {
+    color: #f9d891!important;
+}
 
+/** Document links */
+.tdb__document__link .panel  {
+    /*border: 1px solid #212529!important;*/
+    border: 1px solid #6c7277!important;
+    border-radius: 4px;
+    padding: 2rem;
+}
+
+/* this is to avoid description occuring twice in View mode for Document Links*/
+.tdb__view__document__link > fieldset > .field-description {
+    /*border: 1px solid green !important;*/
+    visibility: hidden;
+}
+
+/* hide anyof select from document links in edit and view mode */
+.tdb__edit__document__link .panel .form-group select.form-control,
+.tdb__view__document__link .panel .form-group select.form-control{
+    display: none !important;
+}
+
+/** display set/ list document link internal control-labels */
+.tdb__array__frames .tdb__document__link label.control-label div{
+    visibility: initial !important;
+}

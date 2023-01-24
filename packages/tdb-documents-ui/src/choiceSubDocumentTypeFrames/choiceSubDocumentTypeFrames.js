@@ -14,7 +14,6 @@ export function makeChoiceSubDocumentTypeFrames (args) {
     let subDocuemntBg = util.extractUIFrameSubDocumentTemplate(uiFrame) ? util.extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
 
     let uiSchema = {
-        //"ui:title": util.getTitle(item, util.checkIfKey(item, frame["@key"]), documentation),
         classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
     }
 

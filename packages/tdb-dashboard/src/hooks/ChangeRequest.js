@@ -37,11 +37,12 @@ export function ChangeRequest(){
         }
     }
 
-    const updateChangeRequestStatus = async(message, status="Submitted") =>{
+    const updateChangeRequestStatus = async(message, status="Submitted", crID = false) =>{
         try{
             setLoading(true)
             const payload = {message,status}
-            await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${currentChangeRequest}`,payload)
+            const currentCR = crID || currentChangeRequest
+            await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${currentCR}`,payload)
             return true
         }catch(err){
             const errMessage = formatErrorMessage(err)
@@ -58,6 +59,7 @@ export function ChangeRequest(){
             const result = await woqlClient.sendCustomRequest("GET", getUrl())
             //console.log("result ** ", result)
             setChangeRequestList(result)
+            return result
         }catch(err){
             const errMessage = formatErrorMessage(err)
             setError(errMessage)

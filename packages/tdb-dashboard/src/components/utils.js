@@ -7,6 +7,7 @@ import React from "react"
 import {VscGitPullRequestDraft} from "react-icons/vsc"
 import {VscGitPullRequest} from "react-icons/vsc"
 import {VscCheck} from "react-icons/vsc" 
+import {AiOutlineCheck} from "react-icons/ai"
 import Badge from "react-bootstrap/Badge"
 import Button from "react-bootstrap/Button"
 import {
@@ -291,9 +292,10 @@ export const iconTypes={
 
 
 export const status = {
-	[OPEN]: <Badge bg="success text-dark mr-4">{OPEN}</Badge>,
+	[OPEN]:<Badge bg="warning text-dark mr-4" >OPEN</Badge>,
     [SUBMITTED]: <Badge bg="warning text-dark mr-4" >Review required</Badge>,
     [REJECTED]: <Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>,
+    [MERGED]:  <Badge bg="success text-dark mr-4" >{MERGED}</Badge>,
 }
 
 /** just get change request ID, remove "Changerequest/" from ID */

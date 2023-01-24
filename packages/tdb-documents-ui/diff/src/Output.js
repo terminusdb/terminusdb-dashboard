@@ -43,12 +43,111 @@ export const Output = () => {
             return <>No data provided to show diffs ... </>
     }
 
+    //unfolded diffs
+    /*let testFrames = {
+        "@context": {
+          "@base": "terminusdb:///data/",
+          "@schema": "terminusdb:///schema#",
+          "@type": "Context"
+        },
+        "category": {
+          "@key": {
+            "@type": "Random"
+          },
+          "@type": "Class",
+          "@unfoldable": [],
+          "name": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+          },
+          "notes": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+          },
+          "has_other": {
+            "@class": "subCategory",
+            "@type": "Optional"
+          }
+        },
+        "subCategory": {
+          "@key": {
+            "@type": "Random"
+          },
+          "@type": "Class",
+          "@unfoldable": [],
+          "subCategory_description": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+          }
+        },
+        "job": {
+          "@key": {
+            "@type": "Random"
+          },
+          "@type": "Class",
+          "@unfoldable": [],
+          "company": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+          },
+          "title": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+          },
+          "nonUnfoldable_property": {
+            "@class":"nonUnfoldable", 
+            "@type":"Optional"
+          },
+          "section": {
+            "@class":"category", 
+            "@type":"Optional"
+          }
+        },
+        "nonUnfoldable" : {
+          "@key": {
+            "@type": "Random"
+          },
+          "@type": "Class",
+          "paragh": {
+            "@class": "xsd:string",
+            "@type": "Optional"
+          }
+        },
+        "person": {
+          "@key": {
+            "@type": "Random"
+          },
+          "@type": "Class",
+          "works_as": {
+            "@class": "job",
+            "@type": "Optional"
+          }
+        }
+      }*/
+      
+    let testFrames ={
+      "@context": {
+        "@base": "terminusdb:///documentation/data/",
+        "@schema": "terminusdb:///documentation/schema#",
+        "@type": "Context"
+      },
+      "Body": {
+        "@metadata": {
+          "render_as": {
+            "value": "markdown"
+          }
+        },
+        "@type": "Class",
+        "value": "xsd:string"
+      }
+      
+    }
     return <div className="w-100">
         <DiffViewer 
             oldValue={doc[OLD_VALUE]} 
             newValue={doc[CHANGED_VALUE]}
-            frame={frames}
-            type={type}
+            frame={testFrames}
+            type={"Body"}
             diffPatch={diff}/>
     </div>
 }

@@ -27,6 +27,7 @@ function extractOneOfValue (formData) {
     }
 }
 
+
 /*
 **  mode     - current mode 
 **  schema   - schema of document
@@ -42,43 +43,6 @@ export const transformData = (mode, schema, data, frame, type) => {
         if(formData[key] === undefined) continue // undefined
         else if(key === ONEOFVALUES) { 
             let selectedOneOfValue = extractOneOfValue(formData)
-            //@oneOf
-            /*let sysUnit=false, newOneOfData={}
-            for(var oneOf in formData[key]) {
-                if(formData[key][oneOf] === SYS_UNIT_DATA_TYPE) {
-                    sysUnit=oneOf
-                    break
-                }
-            }
-            if(sysUnit) {
-                newOneOfData = {
-                    [sysUnit]: []
-                }
-            }
-            else {
-                newOneOfData=formData[key]
-                /*if(oneOfData.hasOwnProperty("@choice") && !isDataType(oneOfData["@type"])) {
-                    let choice = oneOfData["@choice"]
-                    let choiceData = {}
-                    for(var cds in oneOfData) {
-                        if(cds !== "@choice") {
-                            choiceData[cds]= oneOfData[cds] 
-                        }
-                    }
-                    newOneOfData = {
-                        [choice]: choiceData
-                    }
-                }
-                else {
-                    // normal data types
-                    let choice=oneOfData["@choice"]
-                    newOneOfData={
-                        [choice]: oneOfData[choice]
-                    }
-                }*/
-                
-            /*}
-            return newOneOfData*/
             return selectedOneOfValue
         }
         else if(key === COORDINATES && Array.isArray(formData[key])) {
@@ -95,7 +59,16 @@ export const transformData = (mode, schema, data, frame, type) => {
                     //return extracted
                     return
                 }
-                if(typeof fd === "string" || typeof fd === "number" || typeof fd === "boolean")  { // set of document classes
+                else if (typeof fd === CONST.OBJECT_TYPE && 
+                    fd && Object.keys(fd).length === 1) {
+                        //CONST.LINK_EXISTING_DOCUMENT
+                        let checkForLinkExistingDoc = Object.keys(fd)[0]
+                        if(checkForLinkExistingDoc === CONST.LINK_EXISTING_DOCUMENT) {
+                            let linkExistingDocData=fd[CONST.LINK_EXISTING_DOCUMENT]
+                            extracted[key]=linkExistingDocData
+                        }
+                }
+                else if(typeof fd === "string" || typeof fd === "number" || typeof fd === "boolean")  { // set of document classes
                     transformedArray.push(fd)
                 }
                 else {
@@ -136,7 +109,7 @@ export const transformData = (mode, schema, data, frame, type) => {
                 extracted[key] = transformedArray
             }
         }
-        else if(typeof formData[key] !== "string" && Object.keys(formData[key]).length > 1) {
+        else if(typeof formData[key] !== "string" && formData[key] && Object.keys(formData[key]).length > 1) {
             // objects 
             if(formData[key].hasOwnProperty("info") && formData[key].info === CHOICECLASSES){
                 let temp = formData[key]
@@ -159,6 +132,19 @@ export const transformData = (mode, schema, data, frame, type) => {
                     else extracted[key]=transformed
                 }
             }
+        }
+        else if(typeof formData[key] === CONST.OBJECT_TYPE && 
+            formData[key] && Object.keys(formData[key]).length === 1) {
+                //CONST.LINK_EXISTING_DOCUMENT
+                let checkForLinkExistingDoc = Object.keys(formData[key])[0]
+                if(checkForLinkExistingDoc === CONST.LINK_EXISTING_DOCUMENT) {
+                    let linkExistingDocData=formData[key][CONST.LINK_EXISTING_DOCUMENT]
+                    extracted[key]=linkExistingDocData
+                }
+        }
+        else if (typeof formData[key] === CONST.OBJECT_TYPE && !Object.keys(formData[key]).length) {
+            // delete empty objects 
+            delete formData[key]
         }
         else if(checkIfNotFilled(formData[key])) {
             // object with only @type in it , we dont extract this value as it is not filled - required to store documnets in TerminusDB

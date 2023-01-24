@@ -23,7 +23,7 @@ export const AccessControlHook=(accessControlDashboard,options)=> {
         let message = err.message || ''
         if(err.data && err.data["api:message"]){
             message = err.data["api:message"]
-        }else if (message.indexOf("but an object with that id already exists")){
+        }else if (message.indexOf("but an object with that id already exists")!== -1){
             message = "The Team name already exists, Please choose another name"
         }
         return message

@@ -21,3 +21,5 @@ export const EDIT_DOC = "_EDIT_"
 export const MEMBERS = "members"
 
 export const GRAPHIQL = "graphiql"
+
+export const PAYMENT = "payment"

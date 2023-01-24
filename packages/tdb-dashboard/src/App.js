@@ -6,8 +6,6 @@ import {ProductsExplorer} from "./pages/ProductsExplorer"
 import * as PATH from "./routing/constants"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
-import { DocumentsGraphqlList } from "./pages/DocumentsGraphqlList"
-import {DocumentsList01} from  "./pages/DocumentsList01"
 import {VerifyEmail} from "./pages/VerifyEmail"
 import PrivateRoute from "./routing/PrivateRoute"
 import {DocumentExplorer} from "./pages/DocumentExplorer"
@@ -28,6 +26,7 @@ import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
 import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 import {PageNotFound} from "./pages/PageNotFound"
+import {DocumentsPageList} from "./pages/DocumentsListPage"
 
 
 export function App (props){
@@ -111,7 +110,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">                       
                             {/*<Route index element={<DocumentsList01/>} /> */}
-                            {<Route index element={<DocumentsGraphqlList/>} /> }
+                            {<Route index element={<DocumentsPageList/>} /> }
                             <Route path={PATH.NEW_DOC} element={<DocumentNew/>}/> 
 
                             <Route path=":id" >

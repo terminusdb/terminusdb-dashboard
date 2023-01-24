@@ -3,7 +3,7 @@ import {View} from "./View"
  
 const App= (props) =>{ 
     return  <main>
-        <View/>
+        <View/> 
     </main>
 }
 

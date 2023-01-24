@@ -18,8 +18,7 @@ export const ModelBuilder = (props) =>{
     const [tab, setTab]=useState(GRAPH_TAB)
     //I check if the user is in view mode or edit mode
     let isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
-
-    // isEditMode = currentChangeRequest ? false : isEditMode
+    isEditMode = currentChangeRequest ? false : isEditMode
 
     const saveData=async (jsonObj, commitMessage)=>{
         await saveGraphChanges(jsonObj, commitMessage)

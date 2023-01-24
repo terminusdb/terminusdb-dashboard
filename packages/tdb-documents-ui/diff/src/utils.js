@@ -58,7 +58,7 @@ export async function getDocumentClasses (client, setDocumentClassList, setConne
     else if(dataProduct === CONST.MY_TEST_DATA_PRODUCT) {
         obj[CONST.OLD_VALUE]=seshat.oldData.hasOwnProperty(type) ? seshat.oldData[type] : {}
         obj[CONST.CHANGED_VALUE]=seshat.changedData.hasOwnProperty(type) ? seshat.changedData[type] : {}
-    }
+    } 
     else if(dataProduct === CONST.DIFF_DATA_PRODUCT) {
         obj[CONST.OLD_VALUE]=DIFF.oldData.hasOwnProperty(type) ? DIFF.oldData[type] : {}
         obj[CONST.CHANGED_VALUE]=DIFF.changedData.hasOwnProperty(type) ? DIFF.changedData[type] : {}

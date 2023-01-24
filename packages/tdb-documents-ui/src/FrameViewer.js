@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import Form from "@terminusdb/rjsf-core"
 import {getProperties} from "./FrameHelpers"
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
@@ -31,9 +31,12 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
     const [lang, setLanguage]=useState(false)
     const [error, setError]=useState(false)
     const [documentation, setDocumentation]=useState(false)
-    const [data, setData]=useState({})
+    const [data, setData]=useState(formData ? formData : {})
 
-    const [message, setMessage]=useState(false)
+    const [message, setMessage]=useState(false)  
+
+    const [chainedData, setChainedData]=useState(false)
+   
 
     let current = `${type}`
     let formDataTemp=formData
@@ -47,12 +50,13 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 
     useEffect(() => {
         //try{ 
-            if(frame, uiFrame, type, mode) { //formData 
+            //if(frame && uiFrame && type && mode) { //formData 
+            if(frame && type && mode) { 
                 clear()
                 let extractedDocumentation= util.extractDocumentation(frame, current, language)
                 //store selected language here to get access to ENUM docs based on selected language
                 frame[CONST.SELECTED_LANGUAGE]= language ? language : CONST.DEFAULT_LANGUAGE
-                let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation)
+                let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation, setChainedData)
                 let schema = {
                     type: CONST.OBJECT_TYPE,
                     properties: properties.properties,
@@ -94,7 +98,10 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 setUISchema(uiSchema)
 
                 // process form data to check if one ofs are available
-                let processedFormData=(mode !== CONST.CREATE) ? processFormData(frame, type, formData, setData) : setData(formData) 
+                if(mode !== CONST.CREATE) {
+                    processFormData(frame, type, formData, setData)
+                }
+
             }
         //}
         //catch(e) {
@@ -108,7 +115,8 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
     if(mode === CONST.VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
     if(!type) return  <div>Please include the type of document</div>
 
-    const handleChange = ({formData}) => {
+    /*const handleChange = ({formData}) => {
+        setData(formData)
         if(onChange) {
             var extracted = transformData(mode, schema.properties, formData, frame, type)
             if(extracted && !extracted.hasOwnProperty("@type")) extracted["@type"] = type
@@ -117,20 +125,41 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 extracted && 
                 !extracted.hasOwnProperty("@id") && 
                 formDataTemp.hasOwnProperty("@id")) {
-                    extracted["@id"] = formDataTemp["@id"]
+                    extracted["@id"] = formDataTemp["@id"] 
             }
             onChange(extracted)
         }
+    }*/
+
+    const handleChange = ({formData}) => {
+        setData(formData)
+        if(onChange) {
+            //if(onChange) onChange (formData)
+            var extracted = transformData(mode, schema.properties, formData, frame, type)
+            if(extracted && !extracted.hasOwnProperty("@type")) extracted["@type"] = type
+
+            if(mode === CONST.EDIT &&  // append id in edit mode
+                extracted && 
+                !extracted.hasOwnProperty("@id") && 
+                formDataTemp.hasOwnProperty("@id")) {
+                    extracted["@id"] = formDataTemp["@id"] 
+            }
+            onChange(extracted) 
+        }
     }
+
 
     /**
      * 
      * @param {*} formData - data extracted from the form 
      * @returns extracted data to onSubmit callback function 
      */
-    const handleSubmit = ({formData}) => {
+    const handleSubmit = ({formData}) => { 
         if(onSubmit) { 
             //console.log("Before submit: ", formData)
+            console.log("chainedData", chainedData)
+            //let addedData = util.addOnChainedData(formData, chainedData)
+            //console.log("addedData", addedData)
             setData(formData)
             var extracted = transformData(mode, schema.properties, formData, frame, type)
             if(extracted && !extracted.hasOwnProperty("@type")) extracted["@type"] = type
@@ -148,7 +177,6 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
         }
     }
 
-
     if(error) {
         return <Alert variant="danger">{error}</Alert>
     }
@@ -159,37 +187,50 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
      * @returns a list of errors 
      */
     function transformErrors(errors) {
-        return errors.map(error => {
-          error.message = `${error.name} ${error.message}`
-          return error;
+      
+        let descriptionErrorFound=false
+        let errorList = errors.map(error => {
+
+            if(error.stack.indexOf('.description should be string') >= 0)  {
+                // ignore description string error 
+                descriptionErrorFound=true
+            }
+            error.message = `${error.name} ${error.message}`
+            return error;
+            
         });
+        if(descriptionErrorFound) return []
+        return errorList
     }
-    
-    console.log("data", data)
- 
+
+
     return <div data-cy="frame_viewer" className="tdb__frame__viewer">
-        {schema && message && message}
-        <DisplayDocumentation documentation={documentation}/>
-        {schema && <Form schema={schema}
-            key={uuidv4()}
-            uiSchema={uiSchema}
-            mode={mode} 
-            onSubmit={handleSubmit}
-            readonly={readOnly}
-            formData={data}
-            transformErrors={transformErrors} 
-            showErrorList={true}
-            fields={{
-                collapsible: CollapsibleField
-            }}
-            children={hideSubmit} // hide submit button on view mode
-            FieldTemplate={mode===CONST.VIEW ? DisplayFieldTemplate : null}
-        />
-    }
-
-    </div>
+            {schema && message && message}
+            <DisplayDocumentation documentation={documentation}/>
+            {schema && <Form schema={schema}
+                uiSchema={uiSchema}
+                mode={mode} 
+                //ref={formRef}
+                onSubmit={handleSubmit}
+                //onChange={handleChange}
+                //onBlur={onBlur}
+                readonly={readOnly}
+                formData={data}
+                transformErrors={transformErrors} 
+                showErrorList={true}
+                fields={{
+                    collapsible: CollapsibleField
+                }}
+                children={hideSubmit} // hide submit button on view mode
+                FieldTemplate={mode===CONST.VIEW ? DisplayFieldTemplate : null}/>
+            }
+        </div>
+    
 }
-
+/*
+>
+<button type={"submit"} 
+    onClick={(e, formData) => { e.preventDefault(); console.log(e)} }>{"test"}</button>*/
 /**
  const handleChange = (data) => {
     //console.log("Data changed: ",  data)

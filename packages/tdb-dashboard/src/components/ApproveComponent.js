@@ -9,10 +9,11 @@ import {Loading} from "./Loading"
 import {useNavigate,useParams } from "react-router-dom"
 import {VscCheck} from "react-icons/vsc"
 
-//import {WOQLClientObj} from "../init-woql-client"
+import {WOQLClientObj} from "../init-woql-client"
 
 export const ApproveComponent = () => {
-	const {organization,dataProduct } = useParams()
+	const {organization,dataProduct,id} = useParams()
+	const {exitChangeRequestBranch} = WOQLClientObj()
 
     const {
         updateChangeRequestStatus,
@@ -25,9 +26,13 @@ export const ApproveComponent = () => {
     
     /** handle Merge */
     async function handleMerge () {
-        let res=await updateChangeRequestStatus(val, MERGED)
+        let res=await updateChangeRequestStatus(val, MERGED,id)
         let cr=await getChangeRequestList()
-        navigate(`/${organization}/${dataProduct}`)
+		if(res){
+			exitChangeRequestBranch()
+			navigate(`/${organization}/${dataProduct}`)
+		}
+       
     }
     
 	return <Form.Group className="mt-3 mb-5 ml-3 mr-4">

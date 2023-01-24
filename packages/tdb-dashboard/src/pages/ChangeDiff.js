@@ -16,6 +16,7 @@ import {Loading} from "../components/Loading"
 import Alert from 'react-bootstrap/Alert'
 import {
     DIFFS, 
+    MERGED, 
     MESSAGES, 
     TRACKING_BRANCH
 } from "../components/constants"
@@ -62,6 +63,7 @@ export const ChangeDiff = () => {
     const {
         getChangeRequestByID,
     } = ChangeRequest()
+    
     const {id} = useParams()
 
     const [key, setKey] = useState(DIFFS)
@@ -116,11 +118,11 @@ export const ChangeDiff = () => {
                             </Card.Header> 
                             <Card.Body> 
                                 <Stack direction="horizontal" gap={3} className="text-right w-100 h5 mt-3 ">
-                                    <span className="text-light h6 mt-1 ms-auto">{`Status: `}</span>
+                                    <span className="text-light h6 mt-1 ms-auto">{`Status:`}</span>
                                     {status[currentCRObject.status]}
                                 </Stack>
-                                <ReviewComponent setKey={setKey} action={action} setAction={setAction}/> 
-                                <DiffView diffs={result} CRObject={currentCRObject}/> 
+                               {currentCRObject.status !== MERGED && <ReviewComponent setKey={setKey} action={action} setAction={setAction}/> }
+                               <DiffView diffs={result} CRObject={currentCRObject}/> 
                             </Card.Body> 
                         </Card>
                     </Tab>

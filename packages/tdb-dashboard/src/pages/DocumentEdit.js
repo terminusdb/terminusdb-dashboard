@@ -101,7 +101,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
         type={type}
         mode={CONST.EDIT_DOCUMENT}
         onSubmit={handleSubmit}
-        onChange={handleChange}
+        //onChange={handleChange}
         onSelect={<SearchComponent/>}   
         formData={!data ? {} : data}
         hideSubmit={false}

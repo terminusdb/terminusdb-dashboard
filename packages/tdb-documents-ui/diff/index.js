@@ -15,7 +15,7 @@ function InitComponent () {
 
     return <InitProvider config={config}>
         <App />
-    </InitProvider>
+    </InitProvider> 
 }
 
 ReactDOM.render(
