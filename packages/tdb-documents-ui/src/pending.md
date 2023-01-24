@@ -38,16 +38,16 @@
 - test frame viewer against CAMS/ Nucalear/ Playground 
 
 - diff viewer
-
+ 
 - geo jsons - fix b box & multi polygon & geo json 
 
 - fix ui visible ✅ 
 
 - check if key - should be editable if not filled
 
-- fix labels under set and list 
+- fix labels under set and list  ✅ 
 
-- align label and input properly in form - css
+- align label and input properly in form - css  ✅ 
 
 - fix on submit error message and form data refresh 
 
@@ -57,16 +57,16 @@
 
 - diff with markdown insert/ delete
 
-- add required tag to document links 
+- add required tag to document links  ✅ 
 
 
 DONE LIST 
 PLAYGROUND 
- =  Person  ✅ 
- =  Info    ✅ 
- =  Job     ✅ 
- =  Unordered Person   ✅ 
- =  Ordered Person     ✅ 
+ =  Person  
+ =  Info    
+ =  Job     
+ =  Unordered Person   
+ =  Ordered Person     
  =  Feature 
  =  Feature Collection 
  =  Geometry Collection
@@ -74,15 +74,15 @@ PLAYGROUND
  =  Polygon
  =  Line String
  =  Multi Polygon
- =  Student (Choice Subdocument)  ✅ 
- =  Art  ✅ 
- =  Dance ✅ 
- =  Music ✅ 
+ =  Student (Choice Subdocument)  
+ =  Art  
+ =  Dance 
+ =  Music 
  =  Guy (Choice Documents) 
- =  Employee ✅ 
- =  Teacher => fix ui hidden  ✅ 
+ =  Employee 
+ =  Teacher => fix ui hidden  
  =  Graduate (One ofs)
- =  Computer Students ✅ 
+ =  Computer Students
  =  Example
  =  DifferentPerson 
  =  List 
@@ -93,8 +93,8 @@ PLAYGROUND
 
  !!!!!!! IMPORTANT !!!!!!!!!!
 
- - workspace linked to tdb_documents_ui_test 
- - before push rename and re install all the links from workspace at root package level
+ - workspace linked to tdb_documents_ui_test   ✅ 
+ - before push rename and re install all the links from workspace at root package level ✅ 
 
  
 
@@ -109,7 +109,7 @@ PLAYGROUND
 DASHBOARD 
 - fix json code mirror - cursor is always at end
 - fix prefix document View ID routing
-- add new data product button to TEAM PAGE 
+- add new data product button to TEAM PAGE  ✅ 
 - add team list to clone interface
 
 
