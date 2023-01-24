@@ -43,7 +43,8 @@ export const Output = () => {
             return <>No data provided to show diffs ... </>
     }
 
-    let testFrames = {
+    //unfolded diffs
+    /*let testFrames = {
         "@context": {
           "@base": "terminusdb:///data/",
           "@schema": "terminusdb:///schema#",
@@ -122,15 +123,31 @@ export const Output = () => {
             "@type": "Optional"
           }
         }
+      }*/
+      
+    let testFrames ={
+      "@context": {
+        "@base": "terminusdb:///documentation/data/",
+        "@schema": "terminusdb:///documentation/schema#",
+        "@type": "Context"
+      },
+      "Body": {
+        "@metadata": {
+          "render_as": {
+            "value": "markdown"
+          }
+        },
+        "@type": "Class",
+        "value": "xsd:string"
       }
       
-
+    }
     return <div className="w-100">
         <DiffViewer 
             oldValue={doc[OLD_VALUE]} 
             newValue={doc[CHANGED_VALUE]}
             frame={testFrames}
-            type={type}
+            type={"Body"}
             diffPatch={diff}/>
     </div>
 }

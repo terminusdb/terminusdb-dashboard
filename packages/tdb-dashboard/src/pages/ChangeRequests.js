@@ -165,7 +165,7 @@ export const ChangeRequests = () => {
         })
     }
 
-	return <Layout>
+	return <Layout>  
 		<div className="content mr-3 ml-5"> 
 			<div className="mt-5 mb-5 mr-5">
 				<Card>
