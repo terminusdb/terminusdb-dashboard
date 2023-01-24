@@ -160,7 +160,7 @@ export const ChangeRequests = () => {
         })
     }
 
-	return <Layout>
+	return <Layout>  
 		<div className="content mr-3 ml-5"> 
 		{updateChangeRequestID && <SubmitChangeRequestModal updateChangeRequestID={updateChangeRequestID} showModal={updateChangeRequestID!==false} setShowModal={setShowUpdateChangeRequestID} updateParent={updateParent}/>}            
 			<div className="mt-5 mb-5 mr-5">
