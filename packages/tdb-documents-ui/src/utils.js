@@ -707,5 +707,17 @@ export const isUnfoldable=(schema) => {
 	return false
 }
 
+// chained data 
+/*export function addOnChainedData (formData, chainedData) {
+	if(!chainedData) return formData
+	if(typeof chainedData !== CONST.OBJECT_TYPE) return formData
+	if(typeof formData !== CONST.OBJECT_TYPE) return formData
+	if(!chainedData.hasOwnProperty("@link")) return formData
+	let propertyName=chainedData["@link"]
+	delete chainedData["@link"]
+	formData[propertyName]= chainedData
+	return formData
+}*/
+
 
 

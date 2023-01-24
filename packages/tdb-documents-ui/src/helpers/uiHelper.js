@@ -15,7 +15,7 @@ import * as oneOfDataType from "../oneOfTypeFrames/oneOfTypeFrames.utils"
 import * as rdfType from "../rdfLanguageString/rdfLanguageString.utils"
 import * as featureCollection from "../arrayTypeFrames/featureCollectionTypeFrames"
 
-export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames) {
+export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames, setChainedData) {
     /** return null if frmae doesnt have property in it */
     if(!frame.hasOwnProperty(item)) return null
 
@@ -40,7 +40,7 @@ export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTr
         generatedUILayout=featureCollection.getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation)
     }*/
     else if(util.isDocumentType(frame[item], fullFrame)) {
-        generatedUILayout=documentType.getUILayout(fullFrame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation)
+        generatedUILayout=documentType.getUILayout(fullFrame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData)
     }
     else if(util.isEnumType(frame[item])) {
         generatedUILayout=enumType.getUILayout(fullFrame, frame, item, uiFrame, mode, formData, documentation)
@@ -63,7 +63,7 @@ export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTr
     let generatedCustomUI=addCustomUI(item, generatedUILayout, uiFrame)
     //console.log("generatedCustomUI", generatedCustomUI)
 
-    let generatedLabel=generateLabel(frame, item, documentation)
+    let generatedLabel=generateLabel(frame, item, documentation, fullFrame)
     generatedCustomUI["ui:title"]=generatedLabel
     
     return generatedCustomUI

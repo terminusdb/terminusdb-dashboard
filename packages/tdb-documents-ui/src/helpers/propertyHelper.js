@@ -13,11 +13,12 @@ import {makeFeatureCollectionTypeFrames} from "../arrayTypeFrames/featureCollect
 function getSubDocumentFormData (formData, subDocumentName) {
     // pass on extracted sub document data from form data 
     //(we use this in one ofs to sort choices selected by user)
+    if(!formData) return formData
     if(!formData.hasOwnProperty(subDocumentName)) return formData
     return formData[subDocumentName]
 }
  
-function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassName,frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
+function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassName,frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
     
     //documentClassNamme
     let constructedFrame= fullFrame.hasOwnProperty(documentClassName) ? fullFrame[documentClassName] : {}
@@ -34,7 +35,8 @@ function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassNam
         subDocumentFormData,
         onTraverse,
         onSelect,
-        documentation 
+        documentation,
+        setChainedData
     )
     // Add @type attribute here only for CREATE & EDIT mode to help in saving to terminusDB
     if(mode !== CONST.VIEW) {
@@ -61,14 +63,14 @@ function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassNam
 }
  
 
-export function generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
+export function generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
     /** return null if frame doesnt have property in it */
     if(!frame.hasOwnProperty(item)) return null
 
     if(util.isSubDocumentType(frame[item])) { // Subdocument type
         let documentClassName=util.getLinkedDocumentClassName (frame, item)
         let subDocumentFormData=formData//formData.hasOwnProperty(item) ? formData[item] : {}
-        let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, documentClassName, frame, uiFrame, mode, subDocumentFormData, onTraverse, onSelect, documentation) 
+        let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, documentClassName, frame, uiFrame, mode, subDocumentFormData, onTraverse, onSelect, documentation, setChainedData) 
 
         return subDocumentFrame
     }

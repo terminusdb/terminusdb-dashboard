@@ -31,8 +31,7 @@ export function getType(fullFrame, frame, item) {
     }
     else if (util.isDocumentType(frame[item], fullFrame)) {
         //return CONST.STRING_TYPE
-        // object_type when @unfoldable
-        return [CONST.STRING_TYPE, CONST.OBJECT_TYPE]
+        return CONST.OBJECT_TYPE
     }
     else if(util.isEnumType(frame[item])) {
         return CONST.STRING_TYPE
