@@ -9,7 +9,6 @@ import {transformData} from "./extract"
 import {processFormData} from "./processFormData"
 import { v4 as uuidv4 } from 'uuid';
 import {DisplayFieldTemplate, DisplayDocumentation} from "./templates"
-import {DefinitionProvider} from "./DefinitionContext"
 /*
 **  frame     - full json schema of a document
 **  uiFrame   - ui json of a document
