@@ -4,7 +4,6 @@ import CodeMirror from '@uiw/react-codemirror'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { html, htmlLanguage } from '@codemirror/lang-html'
 import { languages } from '@codemirror/language-data'
-import ReactMarkdown from 'react-markdown'
 import {Form} from "react-bootstrap"
 import Stack from 'react-bootstrap/Stack'
 import * as CONST from "../constants"

@@ -1,113 +1,193 @@
-import React, {useState, useEffect} from "react"
-import * as util from "../utils"
+import React, {useEffect, useState} from "react"
 import * as CONST from "../constants"
+import * as util from "../utils"
+import Button from "react-bootstrap/Button"
+import Card from "react-bootstrap/Card"
 import {
-    DocumentSelect, 
-    DocumentSearch,
-    DocumentView
-} from "./DocumentSelects"
-import {getCommentFromDocumentation, getPropertyLabelFromDocumentation} from "../documentationTemplates"
+    AiOutlineSearch, 
+    AiOutlineClose, 
+    AiFillDelete, 
+    AiOutlineCheck,
+    AiOutlineLink
+} from "react-icons/ai"
+import {BsInfoCircle} from "react-icons/bs"
+import Stack from 'react-bootstrap/Stack';
 
-export function ViewDocumentLinks (displayValue, label, onTraverse, description, selectStyle) {
-    return <DocumentView value={displayValue} 
-        label={label} 
-        styles={selectStyle}
-        //required={props.required}
-        onTraverse={onTraverse} 
-        description={description}/>
-}
-
-/** gets filled value to display  in react select  */
-function getValue (displayValue) {
-    if(typeof displayValue === CONST.OBJECT_TYPE) {
-        return displayValue.hasOwnProperty("@id") ? {value: displayValue["@id"], label: displayValue["@id"]} : null
-    }
-    return displayValue ? {value: displayValue, label: displayValue} : null
-}
- 
-// function returns a react select with an onSelect callback method
-//function getSelectComponent (props, displayValue, label, linked_to, description, onSelect, selectStyle) {
-export function getSelectComponent (onChange, placeholder, required, displayValue, label, linked_to, description, onSelect, selectStyle) {
-    //const [value, setValue]=useState(props.formData ? {value: props.formData, label: props.formData} : null)
-    //const [value, setValue]=useState(getValue(displayValue))
-    const [value, setValue]=useState(getValue(displayValue))
+// View mode
+export const DocumentView = ({props, onTraverse}) => {
+    const [clicked, setClicked]=useState(false)
 
     useEffect(() => {
-        setValue(getValue(displayValue))
-    }, [displayValue])
-    //if(value) {
-        //props.onChange(value.value)
-    //}
-    
-    const loadOptions = async (inputValue, callback) => {
-        //console.log("linked_to", linked_to)
-        let opts = await onSelect(inputValue, linked_to)
-        callback(opts)
-        return opts
+        if(!clicked) return
+        //if(onTraverse) onTraverse(clicked)
+    }, [clicked])
+
+    const handleClick = (e, val) => { // view if on traverse function defined
+        setClicked(val)
     }
 
-    const handleInputChange = (newValue) => {
-        const inp = newValue.replace(/\W/g, '')
-        return inp
-    }
+    let color = "text-light"
+    //if (styles && styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
-    const handleChange = e => {
-        setValue({value: e.value, label: e.value})
-        onChange(e.value)
-    }
-
-   
-    return <DocumentSelect
-        label={label}
-        required={required}
-        styles={selectStyle}
-        placeholder={placeholder}
-        onChange={handleChange}
-        loadOptions={loadOptions}
-        value={value ? value : ""}
-        description={description}
-        handleInputChange={handleInputChange}
-    />
+    if(!props.formData) return <div/>
+ 
+    return <div className="mb-4 d-flex">
+        {<div className="control-label">
+            {props.name}
+        </div>}
+        {/*<div className="ms-auto">{description} </div>*/}
+        <span onClick={(e) => handleClick(e, props.formData)} className={`tdb__span__select ${color} text-break`}>
+            {props.formData}
+        </span>
+    </div>
 }
 
-/**
- * 
- * @param {*} props - props from ui field display of UI Layout
- * @param {*} onSelect -can be a callback function for searching documents or a search component UI to select a document
- * @returns - linked documnet field display 
- */
-export const linkedDocumentProvider = (props, item, mode, documentation, onSelect, onTraverse, uiFrame) => {
-    
+// description to link an existing document 
+export function getLinkExistingDescription (frame, item) {
+    let linked = frame[item]
+    return  <div>
+        <Stack direction="horizontal" gap={2} className="fw-bold">
+            {/*<BsInfoCircle className="text-warning h6"/>*/}
+            <small className="fst-italic text-muted">
+                {`Link an existing document to property ${item}. Use the above select option to `}
+                {`either link an existing ${linked} or create a new ${linked}`}
+            </small>
+        </Stack>
+        {getLinkedDescription (linked)}
+    </div>
+}
 
-    let label = getPropertyLabelFromDocumentation(item, documentation)//util.getLabelFromDocumentation (item, documentation)
-    let description = <div/>//getCommentFromDocumentation(item, documentation)
-    let linked_to=(props.schema && props.schema.hasOwnProperty("linked_to")) ? props.schema["linked_to"] : item
-    // extracting custom ui styles
-    let selectStyle = util.extractUIFrameSelectTemplate(uiFrame) ? util.extractUIFrameSelectTemplate(uiFrame) : CONST.SELECT_STYLES
+// description field used only in CREATE Mode
+export function getCreateDescription (frame, item) {
+    let linked = frame[item]
+    return  <div>
+        <Stack direction="horizontal" gap={2} className="fw-bold">
+            {/*<BsInfoCircle className="text-warning h6"/>*/}
+            <small className="fst-italic text-muted">
+                {`Create new document and link to property ${item}. Use the above select option to `}
+                {`Use the select option above to either link an existing  ${linked} or create a new ${linked}`}
+            </small>
+        </Stack>
+        {getLinkedDescription (linked)}
+    </div>
+}
+
+// description field used only in EDIT or VIEW Mode
+export function getLinkedDescription (linked) {
+    return  <Stack direction="horizontal" gap={2} className="fw-bold">
+        <AiOutlineLink className="text-warning h6"/>
+        <small className="fst-italic text-muted">
+            {`Linked to document: `}
+            <span className="text-warning fw-bold">{linked}</span>
+        </small>
+    </Stack>
+}
+
+// checks if @unfoldable is false if there is filled data in EDIT Mode only
+function fetchSelected (props) {
+    if(typeof props.formData=== CONST.STRING_TYPE && 
+        props.formData) return {id: props.formData, label: props.formData}
+    return false
+}
+ 
+// displays Search Component
+const DocumentSearch = ({display, setSelected, linked, showSearch, setShowSearch, property}) => {
     
-    if(mode === CONST.VIEW) { 
-        //let displayValue=props.formData
-        // props.formData for normal document type  
-        // props.schema.default is for choice document types where its not automated
-        let displayValue=props.formData ? props.formData : props.schema.default
-        return ViewDocumentLinks(displayValue, label, onTraverse, description, selectStyle)
+    // display is not provided for VIEW MODE
+    if(!display) return <div/>
+
+    const displayComponent = React.cloneElement(display, { setSelected: setSelected, doctype: linked })
+
+    function handleClose(e) {
+        // closes search component from UI 
+        setShowSearch(false)
     }
-  
-    // review this - will remove after graphQL integrate in tdb-dashboard
-    if(typeof onSelect === "function") {
-        let displayValue=props.formData ? props.formData : props.schema.default
-        return getSelectComponent(props.onChange, props.uiSchema["ui:placeholder"], props.required, displayValue, label, linked_to, description, onSelect, selectStyle)
+    
+    function handleDisplay(e) {
+        // displays search component in UI 
+        setShowSearch(Date.now())
     }
 
-    // simply sents back component
-    return <DocumentSearch  
-        label={label}
-        value={props.formData ? {id: props.formData, label: props.formData} : null}
-        linked_to={linked_to}
-        display={onSelect ? onSelect : <>No Component to display ...</>}
-        description={<div/>}
-        required={props.required}
-        onChange={props.onChange}
-    />
+    return <div className="p-2 w-100">
+        <small className="fst-italic text-muted">
+            {`Click on the button to search for an existing ${linked}`}
+        </small>
+        <Button className="btn btn-sm bg-light text-dark float-right" 
+            title={`Click here to search for an existing ${linked}`}
+            style={{float: "right"}}
+            onClick={handleDisplay}>
+                <AiOutlineSearch className="mr-1"/> 
+                <>{`Link to an existing ${linked}`}</>
+        </Button>
+        {showSearch && <div className="mt-3 w-100 d-block p-2">
+            <Button className="btn btn-sm bg-light text-dark float-right" 
+                title="Close"
+                style={{float: "right"}}
+                onClick={handleClose}>
+                    <AiOutlineClose/> 
+            </Button>
+            {displayComponent}
+        </div>}
+    </div>
 
 }
+
+// returns selected label if id not available from select component
+function fetchSelectedLabel (selected) {
+    if(!selected) return false
+    if(selected.label) return selected.label
+    return selected.id
+}
+
+// displays selected existing Link & displays search component
+export function displaySearchComponent(props, onSelect, linked) { 
+    const [selected, setSelected] = useState(fetchSelected(props))
+    const [showSearch, setShowSearch]=useState(false)
+
+
+    useEffect (() => {
+        if(selected && props.onChange) {
+            props.onChange(selected.id)
+            setSelected(selected)
+            setShowSearch(false)
+        }
+    }, [selected])
+
+    //let label = fetchSelectedLabel(selected)
+
+
+    const Selected = ({selected}) => {
+        if(!selected) return <div/>
+
+        function handleDelete() {
+            setSelected(false)
+            props.onChange("")
+        }
+
+
+        return <div className="w-100 d-flex justify-content-end">
+            <small className="fst-italic fw-bold text-warning mt-1">
+                {`Selected:  `}
+            </small>
+            <AiOutlineCheck className="text-success mr-1 mt-1"/>
+            <label className="text-break">{selected.label ? selected.label : selected.id} </label>
+            <Button className="btn btn-sm bg-transparent border-0" 
+                title="Delete"
+                onClick={handleDelete}>
+                    <AiFillDelete className="text-danger"/> 
+            </Button>
+        </div>
+    }
+
+    return <Card className="w-100 bg-secondary border border-dark">
+        <DocumentSearch display={onSelect} 
+            setSelected={setSelected} 
+            setShowSearch={setShowSearch}
+            showSearch={showSearch}
+            property={props.name}
+            linked={linked}/>
+        {selected && <Selected selected={selected}/>}
+    </Card>
+}
+
+export function linkedDocumentProvider () {}

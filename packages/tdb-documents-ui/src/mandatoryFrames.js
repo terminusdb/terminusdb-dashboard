@@ -18,10 +18,10 @@ import * as CONST from "./constants"
  * @param {*} documentation - formData - filled data to be displayed in form 
  * @returns a data field 
  */
-export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
+export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
 
     /** generate properties of sub frames */
-    let extractedFrames = propertyHelper.generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
+    let extractedFrames = propertyHelper.generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData)
     //console.log("extractedFrames", extractedFrames)
     
     /** gather layout of property  */ 
@@ -37,6 +37,18 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
         if(extractedFrames.hasOwnProperty("properties")) {
             // subdocuments
             layout["properties"]=extractedFrames.properties 
+        }
+        else if(extractedFrames.hasOwnProperty("anyOf") && 
+            extractedFrames["anyOf"] &&
+            extractedFrames.hasOwnProperty(CONST.LINKED_TO)) {
+                //linked to documents
+                layout["anyOf"]=extractedFrames.anyOf
+        }
+        else if(extractedFrames.hasOwnProperty("anyOf") && 
+            !extractedFrames["anyOf"] &&
+            extractedFrames.hasOwnProperty(CONST.LINKED_TO)) {
+                //linked to documents where @unfoldable is false
+                layout["type"]=CONST.STRING_TYPE
         }
         else if(extractedFrames.hasOwnProperty("anyOf")) {
             // choice subdocuments & choice documents
@@ -54,10 +66,13 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
             // pre store sys unit default value as []
             layout["default"]=extractedFrames.default
         }
-        else if(extractedFrames.hasOwnProperty("linked_to")) {
+        /*else if(extractedFrames.hasOwnProperty("linked_to")) {
             //linked to documents
-            layout["linked_to"]=extractedFrames["linked_to"]
-        }
+            let linked_to=extractedFrames["linked_to"]
+            layout["linked_to"]=linked_to
+            // add linked frames 
+            layout[CONST.LINKED_TO_FRAMES]=fullFrame[linked_to]
+        }*/
     }
 
     /** gather filled data when mode is Edit or View */
@@ -68,7 +83,7 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
     }
 
     /** gather ui layout of property to change look and feel */
-    let uiLayout = generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames)
+    let uiLayout = generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames, setChainedData)
 
     //console.log("layout", layout)
     //console.log("uiLayout", uiLayout)

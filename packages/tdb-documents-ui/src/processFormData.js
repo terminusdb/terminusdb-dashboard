@@ -58,7 +58,7 @@ export function processData (frame, type, formData) {
     let processedFormData = {}
 
     for(let property in formData) {
-        if(property === "@id") continue//processedFormData["@id"] = formData["@id"]
+        if(property === "@id") processedFormData["@id"] = formData["@id"] //keep @id for Edit docs
         else if(property === "@type") processedFormData["@type"] = formData["@type"]
         else if (Array.isArray(formData[property]) && formData[property].length) {
             processedFormData[property]=[]

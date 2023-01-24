@@ -43,6 +43,7 @@
     "@apollo/client": "^3.7.0",
     "@terminusdb/terminusdb-client": "^10.0.25",
     "apollo-client": "^2.6.10",
+    "babel-jest": "^29.3.1",
     "classnames": "^2.2.5",
     "date-fns": "^2.28.0",
     "graphql": "^16.6.0",
@@ -51,7 +52,8 @@
     "react-csv": "^2.2.2",
     "react-icon": "^1.0.0",
     "react-icons": "^4.3.1",
-    "react-table": "^7.8.0"
+    "react-table": "^7.8.0",
+    "ts-jest": "^29.0.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",

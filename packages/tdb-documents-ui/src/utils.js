@@ -255,7 +255,7 @@ export const extractFrames = (frame, item, language) => {
  * @returns metadata json type
  */
  export function getMetaData (frame) { 
-    if(frame.hasOwnProperty(CONST.METADATA)) {
+    if(frame && frame.hasOwnProperty(CONST.METADATA)) {
         return frame[CONST.METADATA]
     }
     return false
@@ -522,7 +522,7 @@ export function getSubDocumentDescription(item, description) {
  */
 export function checkIfKey(property, key) {
     if(!key) return
-	if(!key["@fields"]) return
+	if(!key["@fields"]) return 
 	var isKey=false
 	key["@fields"].map(item => {
 		if(item === property) {
@@ -672,6 +672,52 @@ export function setBounds(formData) {
 	let bounds=[westSouth, eastNorth]
 	return bounds
 }
+
+// checks if key exists in a json object 
+export const keyExists = (obj, key) => {
+	if (!obj || (typeof obj !== "object" && !Array.isArray(obj))) {
+	  return false;
+	}
+	else if (obj.hasOwnProperty(key)) {
+	  return obj[key];
+	}
+	else if (Array.isArray(obj)) {
+	  for (let i = 0; i < obj.length; i++) {
+		const result = keyExists(obj[i], key);
+		if (result) {
+		  return result;
+		}
+	  }
+	}
+	else {
+	  for (const k in obj) {
+		const result = keyExists(obj[k], key);
+		if (result) {
+		  return result;
+		}
+	  }
+	}
+  
+	return false;
+  };
+
+// @unfoldable 
+export const isUnfoldable=(schema) => {
+	if(schema.hasOwnProperty(CONST.UNFOLDABLE)) return true
+	return false
+}
+
+// chained data 
+/*export function addOnChainedData (formData, chainedData) {
+	if(!chainedData) return formData
+	if(typeof chainedData !== CONST.OBJECT_TYPE) return formData
+	if(typeof formData !== CONST.OBJECT_TYPE) return formData
+	if(!chainedData.hasOwnProperty("@link")) return formData
+	let propertyName=chainedData["@link"]
+	delete chainedData["@link"]
+	formData[propertyName]= chainedData
+	return formData
+}*/
 
 
 

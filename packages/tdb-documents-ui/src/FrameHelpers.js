@@ -8,7 +8,7 @@ import {makeArrayTypeFrames} from "./arrayTypeFrames/arrayTypeFrames"
 import {makeFeatureCollectionTypeFrames} from "./arrayTypeFrames/featureCollectionTypeFrames"
 
 
-export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation) {
+export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
     let properties = {}, propertiesUI = {}, required = []
 
     
@@ -21,6 +21,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
         else if(item === "@inherits") continue
         else if(item === CONST.SUBDOCUMENT) continue
         else if(item === CONST.DOCUMENTATION) continue
+        else if(item === CONST.UNFOLDABLE) continue
         else if(util.isFeatureCollection(frame[item], mode)) {
             /**
              * treat featurecollection as a special type (since we combine all the set filled data to display
@@ -35,7 +36,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             propertiesUI[item] = featureCollectionFrames.uiLayout
         } 
         else if(util.isMandatory(frame, item)) {
-            let mandatoryFrames=makeMandatoryFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
+            let mandatoryFrames=makeMandatoryFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData)
             
             //set property layout & uiLayout
             properties[item] = mandatoryFrames.layout
@@ -45,7 +46,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
         }
         else if(util.isOptional(frame, item)) { 
             let extractedFrames = util.extractFrames(frame, item)
-            let optional = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, formData, onTraverse, onSelect, documentation)
+            let optional = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData)
             let optionalFrames = makeOptionalFrames(optional, item, uiFrame, mode, formData, documentation) 
            
             //set property layout & uiLayout
@@ -55,7 +56,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
         else if(util.isSet(frame, item)) {
             let extractedFrames = util.extractFrames(frame, item)
             let setFormData=formData && formData.hasOwnProperty(item) ? formData[item] : formData
-            let extractedProperties = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, setFormData, onTraverse, onSelect, documentation)
+            let extractedProperties = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, setFormData, onTraverse, onSelect, documentation, setChainedData)
             let setFrames = makeSetFrames(extractedProperties, item, uiFrame, mode, setFormData, documentation) 
             
             //set property layout & uiLayout
@@ -73,7 +74,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             propertiesUI[item] = listFrames.uiLayout
         }
         else if(util.isArrayType(frame, item)) {
-            let arrayFrames=makeArrayTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
+            let arrayFrames=makeArrayTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData})
             //set property layout & uiLayout
             properties[item] = arrayFrames.layout
             propertiesUI[item] = arrayFrames.uiLayout

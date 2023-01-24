@@ -10,10 +10,12 @@
     "build": "npm run build-es6 && rimraf dist && webpack --mode production",
     "playground": "webpack serve --mode development  --open --progress --port 3033 --host localhost --config playground/webpack.config.js",
     "testDb": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config test/webpack.config.js",
+    "mockTest": "webpack serve --mode development  --open --progress --port 3035 --host localhost --config mockTest/webpack.config.js",
     "diff": "webpack serve --mode development  --open --progress --port 3034 --host localhost --config diff/webpack.config.js",
     "lint": "eslint src",
     "autofix": "eslint src --fix",
-    "cypress": "npx cypress open"
+    "cypress": "npx cypress open",
+    "test": "react-scripts test -- --config=jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -84,10 +86,14 @@
     "@rjsf/validator-ajv8": "^5.0.0-beta.14",
     "@terminusdb/rjsf-core": "^4.0.5",
     "@terminusdb/terminusdb-client": "^10.0.25",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
     "@uiw/codemirror-extensions-basic-setup": "^4.12.4",
     "@uiw/react-codemirror": "^4.12.4",
     "@uiw/react-md-editor": "^3.20.2",
     "acorn": "^8.8.0",
+    "babel-jest": "^29.3.1",
     "bootstrap": "^5.1.3",
     "codemirror": "^6.0.1",
     "cypress-plugin-snapshots": "^1.4.4",
@@ -115,6 +121,7 @@
     "react-select": "^5.2.2",
     "react-syntax-highlighter": "^15.5.0",
     "react-test-renderer": "^17.0.2",
+    "ts-jest": "^29.0.5",
     "uuid": "^9.0.0"
   }
 }

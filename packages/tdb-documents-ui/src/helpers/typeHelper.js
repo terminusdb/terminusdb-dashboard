@@ -30,7 +30,8 @@ export function getType(fullFrame, frame, item) {
         return  CONST.OBJECT_TYPE
     }
     else if (util.isDocumentType(frame[item], fullFrame)) {
-        return CONST.STRING_TYPE
+        //return CONST.STRING_TYPE
+        return CONST.OBJECT_TYPE
     }
     else if(util.isEnumType(frame[item])) {
         return CONST.STRING_TYPE

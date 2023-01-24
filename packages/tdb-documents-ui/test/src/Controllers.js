@@ -4,9 +4,10 @@ import {SubmittedData} from "./SubmittedData"
 import {FrameEditor} from "./FrameEditor"
 import {UIFrameEditor} from "./UIFrameEditor"
 import {ACCORDIAN_FRAME_TITLE, ACCORDIAN_FRAME_UI_TITLE, ACCORDIAN_SUBMITTED_TITLE} from "./constants"
-import {Input} from "./Input"
+import {Input} from "./Input" 
 
 export const Controllers = () => {
+
     const [activeKey, setActiveKey]=useState(ACCORDIAN_FRAME_TITLE)
 
     function handleSelect(key) {
@@ -32,6 +33,7 @@ export const Controllers = () => {
                 <Accordion.Header>{ACCORDIAN_SUBMITTED_TITLE}</Accordion.Header>
                 <Accordion.Body>
                     <SubmittedData/>
+                    
                 </Accordion.Body>
             </Accordion.Item>
         </Accordion>
