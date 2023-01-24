@@ -1,15 +1,16 @@
 import React from "react"
-import {NoDataProductSelectedStyle, NO_DATA_PRODUCT_SELECTED_MESSAGE} from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
-import { NoDataProductsCreated } from "./NoDataProductsCreated"
 import {ListGroup, Container, Card, Row, Col, Button, Stack} from "react-bootstrap"
-import CardGroup from 'react-bootstrap/CardGroup';
-import {FaRegClone} from "react-icons/fa"
 import {NewDataProduct} from "./NewDataProduct"
-
+import { ManageDatabase } from "../hooks/ManageDatabase"
+import { WOQLClient } from "@terminusdb/terminusdb-client"
+import {localSettings} from "../../localSettings"
+import { useNavigate } from "react-router-dom"
 // tean home page
 export const NoDataProductSelected = (props) => { 
     const {woqlClient,accessControlDashboard} = WOQLClientObj()
+	const {cloneDatabase} = ManageDatabase()
+	const navigate = useNavigate()
 
     let list = woqlClient ? woqlClient.databases() : []
 
@@ -39,9 +40,27 @@ export const NoDataProductSelected = (props) => {
 		},
 	]
 
-
-	function handleClone() {
-		alert("clone dp ...")
+	const getCloneUrl = () =>{
+       // return `${localSettings.server}${organization}/${organization}/${dataProduct}`
+    }
+	
+	async function handleClone(dbName) {
+		const orgName = "team01" //"TerminusX"
+		dbName = "clonable"
+		const tmpClient = new WOQLClient(localSettings.server, {organization:orgName,db:dbName})
+		const connection = tmpClient.connectionConfig
+		connection.api_extension = `${orgName}/`
+		
+		const cloneSource= {
+			label:dbName,
+			comment:"please clone the db",
+			remote_url: `${connection.apiURL()}${connection.dbURLFragment()}`
+		}
+		const success = await cloneDatabase(cloneSource,woqlClient.organization(),dbName,true)
+		if(success){
+			navigate(`/${woqlClient.organization()}/${dbName}`)
+		}
+		
 	}
 
     return <main className="content w-100">
@@ -50,7 +69,7 @@ export const NoDataProductSelected = (props) => {
 			{/*<h3 className="mb-3 text-success">{"Clone Sample Data Product to your Team"}</h3>*/}
 			<Row xs={1} md={4} className="g-4 py-2 w-100">
 				{cloneDataProduct.map((arr) => (
-					<Col className="py-2 col-md-4">
+					<Col className="py-2 col-md-4" key={arr.name}>
 						<Card className="h-100">
 							<Card.Img variant="top" src={arr.img}/>
 							<Card.Body>
@@ -66,7 +85,7 @@ export const NoDataProductSelected = (props) => {
 									</small>
 									<div className="ms-auto">
 										<Button className="btn-info btn-sm text-white fw-bold" 
-											onClick={handleClone}>
+											onClick={()=>handleClone(arr.name)}>
 											Clone
 										</Button>
 									</div>

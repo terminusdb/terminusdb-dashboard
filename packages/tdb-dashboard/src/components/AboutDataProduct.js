@@ -1,7 +1,7 @@
-import React, {useState, useEffect, Fragment} from "react"
+import React, {useState, useEffect, Fragment, useRef} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {timeConverter, } from "../pages/utils"
-import {Col, Button} from "react-bootstrap"
+import {Col, Button,Alert} from "react-bootstrap"
 import {DATA_PRODUCT_HEALTHY} from "../pages/constants"
 import {HealthModal} from "./HealthModal"
 import {localSettings} from "../../localSettings"
@@ -10,9 +10,11 @@ import Card from "react-bootstrap/Card"
 import Form from 'react-bootstrap/Form';
 import {CopyButton} from "./utils"
 import {RiDeleteBin7Line} from "react-icons/ri"
+import { ManageDatabase } from "../hooks/ManageDatabase"
+import { useNavigate } from "react-router-dom"
+import { Loading } from "./Loading"
 
 export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor ,branches}) =>{
-
     const [showHealth, setShowHealth]=useState(false)
     const {
         woqlClient,
@@ -20,9 +22,15 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
         accessControlDashboard
     } = WOQLClientObj()
 
+    const {cloneDatabase, loading:loadingClone, error:errorClone , setError:setCloneError} =  ManageDatabase()
+
+    const cloneInTeam = useRef(null);
+    const cloneDBName = useRef(null);
+
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
     const organization = woqlClient.organization()
+    
 
     const [color, setColor]=useState("text-muted")
     const [healthText, setHealthText]=useState(false)
@@ -47,6 +55,25 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
     }, [branches])
 
     let cloneURL = getCloneUrl()
+
+    async function handleClone() {
+		const orgName = cloneInTeam.current.value
+        const dbName = cloneDBName.current.value
+		
+		const tmpClient = woqlClient.copy()
+		const connection = tmpClient.connectionConfig
+		connection.api_extension = `${organization}/`
+		
+		const cloneSource= {
+			label:dataProduct,
+			comment:"please clone the db",
+			remote_url: `${connection.apiURL()}${connection.dbURLFragment()}`
+		}
+		const success = await cloneDatabase(cloneSource,orgName,dbName)
+		if(success){
+            window.location.replace(`/${orgName}/${dbName}`)
+		}
+	}
    
     return <React.Fragment> 
 
@@ -105,29 +132,44 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
             
             </Card.Body>
         </Card>
-        
-
         <hr className="my-4 border-indigo dropdown-divider" role="separator"></hr>
         <Card className="bg-transparent p-1 mt-5" border="muted">
            <Card.Body>
-                {accessControlDashboard && accessControlDashboard.deleteDB() && <Fragment>
+                {!loadingClone && accessControlDashboard && accessControlDashboard.deleteDB() && 
+                <Fragment>
+                   {errorClone && <Alert variant="danger"  onClose={() => setCloneError(false)} dismissible>{errorClone}</Alert>}
                     <h4 className="card-header-title text-light fw-bold">
                         Clone
                     </h4>
-                    <InputGroup className="mb-3">
+                    <InputGroup>
                         <span className="mt-2 text-light w-100 mb-0">
-                            {`You can Clone ${dataProduct} to another Team or even locally. Select an option from below ...`}
+                            {`You can Clone ${dataProduct} to another Team or in the current Team with a different name.`}
                         </span>
-                        <Form.Select aria-label="Clone Selects" className="mt-4">
-                            <option>Select where you wish to clone ...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <Form.Control ref={cloneDBName}
+                            className="cloneInp"
+                            placeholder="New Data Product name"
+                            aria-label="New Data Product name"
+                            defaultValue={dataProduct}                          
+                        />                      
+                    </InputGroup> 
+                    <InputGroup className="mb-3">                    
+                        <Form.Select aria-label="Clone Selects" className="mt-4" ref={cloneInTeam}>
+                            <option value={false} >Select where you wish to clone</option>
+                            {woqlClient && woqlClient.userOrganizations().map(element=>
+                                <option key={`item__${element['name']}`} value={element['name']}>{element['name']}</option>
+                            )}
+
                         </Form.Select>
-                        <Button className="btn-light mt-4">Clone</Button>
+                         <Button 
+                         disabled={loadingClone}
+                         className="btn-light mt-4" 
+                         onClick={handleClone}> {loadingClone ? 'Cloning ...' : 'Clone' } </Button>
                     </InputGroup>
+                      
                     </Fragment>
                 }   
+                {loadingClone && 
+                <Loading message={`Cloning .... ${dataProduct}`} type={'PROGRESS_BAR_COMPONENT'}/>}
             </Card.Body>
         </Card>
 

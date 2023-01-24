@@ -11,17 +11,20 @@ import {BranchControl} from "../hooks/BranchControl"
 import {AboutDataProduct} from "../components/AboutDataProduct"
 import {DATA_PRODUCT_HEALTHY} from "./constants"
 import {Layout} from "./Layout"
+import {useParams} from 'react-router-dom'
 //MAYBE WE CAN CREATE A VIEM MODE PAGE
 export const DataProductsHome = (props) => {  
+    const {dataProduct,organization} = useParams()
     const {woqlClient,accessControlDashboard,currentChangeRequest } = WOQLClientObj()
     if(!woqlClient) return  ''
-    const dataProduct  = woqlClient.db()
+    
+    //const dataProduct  = woqlClient.db()
     const [dataProductDetails, setDataProductDetails] = useState(false)
     const [dataProductSettings, setDataProductSettings] = useState(false)
 
     const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-    const [currentDay, setCurrentDay] = useState()
+    // const [currentDay, setCurrentDay] = useState()
 
     const { 
         // branchList,
@@ -46,7 +49,7 @@ export const DataProductsHome = (props) => {
             //setCurrentDay(Date.now())
         }
         //if(setReloadQuery) setReloadQuery(Date.now())
-    }, [dataProduct,woqlClient]) 
+    }, [dataProduct,organization,woqlClient]) 
     
     return  <Layout>
             <main className="content mr-3 ml-5">

@@ -49,6 +49,8 @@
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@material-ui/pickers": "^3.3.10",
     "@mui/material": "^5.11.1",
+    "@stripe/react-stripe-js": "^1.16.4",
+    "@stripe/stripe-js": "^1.46.0",
     "@terminusdb/terminusdb-client": "^10.0.25",
     "axios": "^0.21.1",
     "classnames": "^2.2.5",

@@ -80,7 +80,7 @@ export const WOQLClientProvider = ({children, params}) => {
     // in this point params is not setted
     // to be review I need params get better
     // in pathname teamName and username are still encoded
-    const noTeam = {"":true,"invite":true,"administrator" :true}
+    const noTeam = {"":true,"invite":true,"administrator" :true,"verify":true,"payment":true}
     const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
@@ -257,48 +257,6 @@ export const WOQLClientProvider = ({children, params}) => {
             setDocumentTablesConfig(false)
         })
     }
-
-    //designing data intensive applications
-    //branch change
-   /* useEffect(() => {
-        if(woqlClient && woqlClient.db()){
-            setBranches(false)
-            clearDocumentCounts()
-            //I have to add this again
-            //if we run a query against an empty branch we get an error
-            //we'll remove this when the error will be fixed in core db
-            const tmpClient = woqlClient.copy()
-            tmpClient.checkout("_commits")
-
-            const branchQuery = TerminusClient.WOQL.lib().branches()
-            tmpClient.query(branchQuery).then(result=>{
-                 const branchesObj={}
-                 if(result.bindings.length>0){
-                    result.bindings.forEach(item=>{
-                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
-                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
-                        const timestamp = item.Timestamp !== 'system:unknown' ?  item.Timestamp['@value'] : ''
-                        const branchItem={
-                            id:item.Branch,
-                            head_id:head_id,
-                            head:head,
-                            name:item.Name['@value'],
-                            timestamp:timestamp
-                        }
-                        branchesObj[branchItem.name] = branchItem
-                    })
-                 }
-                 setBranches(branchesObj)
-            }).catch(err=>{
-                  console.log("GET BRANCH ERROR",err.message)
-            })
-
-            // on change on data product get classes
-            getUpdatedDocumentClasses(woqlClient)
-            getUpdatedFrames(woqlClient)
-        }
-    }, [branchesReload, woqlClient])*/
-
 
     //we not need this for all the page
     //we need to optimize this call ----
