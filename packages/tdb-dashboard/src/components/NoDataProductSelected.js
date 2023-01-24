@@ -1,15 +1,16 @@
 import React from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {ListGroup, Container, Card, Row, Col, Button, Stack} from "react-bootstrap"
+import {ListGroup, Container, Card, Row, Col, Button, Stack,Alert} from "react-bootstrap"
 import {NewDataProduct} from "./NewDataProduct"
 import { ManageDatabase } from "../hooks/ManageDatabase"
 import { WOQLClient } from "@terminusdb/terminusdb-client"
 import {localSettings} from "../../localSettings"
 import { useNavigate } from "react-router-dom"
+import { Loading } from "./Loading"
 // tean home page
 export const NoDataProductSelected = (props) => { 
     const {woqlClient,accessControlDashboard} = WOQLClientObj()
-	const {cloneDatabase} = ManageDatabase()
+	const {cloneDatabase,loading:cloneLoading, error:cloneError , setError:setCloneError} = ManageDatabase()
 	const navigate = useNavigate()
 
     let list = woqlClient ? woqlClient.databases() : []
@@ -45,8 +46,7 @@ export const NoDataProductSelected = (props) => {
     }
 	
 	async function handleClone(dbName) {
-		const orgName = "team01" //"TerminusX"
-		dbName = "clonable"
+		const orgName = "Terminusdb_demo" //"TerminusX"
 		const tmpClient = new WOQLClient(localSettings.server, {organization:orgName,db:dbName})
 		const connection = tmpClient.connectionConfig
 		connection.api_extension = `${orgName}/`
@@ -58,7 +58,7 @@ export const NoDataProductSelected = (props) => {
 		}
 		const success = await cloneDatabase(cloneSource,woqlClient.organization(),dbName,true)
 		if(success){
-			navigate(`/${woqlClient.organization()}/${dbName}`)
+			window.location.replace(`/${woqlClient.organization()}/${dbName}`)
 		}
 		
 	}
@@ -67,6 +67,9 @@ export const NoDataProductSelected = (props) => {
 		
         <Container className="center-align col-md-10">
 			{/*<h3 className="mb-3 text-success">{"Clone Sample Data Product to your Team"}</h3>*/}
+			{cloneError && <Alert variant="danger"  onClose={() => setCloneError(false)} dismissible>{cloneError}</Alert>} 
+			{cloneLoading && 
+                <Loading message={`Cloning ....................`} type={'PROGRESS_BAR_COMPONENT'}/>}      
 			<Row xs={1} md={4} className="g-4 py-2 w-100">
 				{cloneDataProduct.map((arr) => (
 					<Col className="py-2 col-md-4" key={arr.name}>
