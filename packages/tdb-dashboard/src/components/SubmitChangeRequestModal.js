@@ -2,7 +2,7 @@ import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
 
-export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent}) => { 
+export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent, updateChangeRequestID}) => { 
     const messageRef = useRef(null);
     const {loading,errorMessage,setError,updateChangeRequestStatus} =  ChangeRequest()
     
@@ -14,7 +14,7 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
             setError("Change request message are mandatory")
             return
         }else{
-            const done = await updateChangeRequestStatus(message)          
+            const done = await updateChangeRequestStatus(message,"Submitted",updateChangeRequestID)          
             if(done){
                 messageRef.current.value = ""
                 updateParent()

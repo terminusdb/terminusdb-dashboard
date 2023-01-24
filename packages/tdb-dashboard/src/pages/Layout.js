@@ -15,8 +15,11 @@ import {BiGitBranch} from 'react-icons/bi'
 import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
   
 export const Layout = (props) => {
-    const {branch,setChangeRequestBranch,exitChangeRequestBranch,currentChangeRequest} = WOQLClientObj()
+    const {branch,exitChangeRequestBranch,currentChangeRequest} = WOQLClientObj()
     const { organization, dataProduct } = useParams();
+
+    const noChange = window.location.pathname.indexOf("change_requests")=== -1 ? true : false
+
     const [showTimeTravel, setShowTimeTravel] = useState(false)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
     const [showModal,setShowModal] = useState(false)
@@ -27,7 +30,7 @@ export const Layout = (props) => {
     const mainClassName = props.mainClassName || "container-fluid"
     
     const updateParent = () =>{
-        setChangeRequestBranch("main" , null)
+        exitChangeRequestBranch()
         navigate(`/${organization}/${dataProduct}/change_requests`)
     }
 
@@ -56,7 +59,7 @@ export const Layout = (props) => {
             <div className="ml-1 main-content h-100">                      
                 <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
                 <div className={`${mainClassName}`} >
-                    {dataProduct && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>}
+                    {dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                     {props.children}
                 </div>

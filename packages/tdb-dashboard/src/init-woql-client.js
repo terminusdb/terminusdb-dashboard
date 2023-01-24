@@ -418,7 +418,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 apolloClient,
                 setChangeRequestBranch,
                 currentChangeRequest,
-                setCurrentChangeRequest,
+                //setCurrentChangeRequest,
                 userHasMergeRole,
                 currentCRObject, 
                 setCurrentCRObject,

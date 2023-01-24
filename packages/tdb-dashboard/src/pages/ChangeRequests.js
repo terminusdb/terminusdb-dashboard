@@ -6,6 +6,8 @@ import {ChangeRequest} from "../hooks/ChangeRequest"
 import {BiGitPullRequest} from "react-icons/bi"
 import Stack from 'react-bootstrap/Stack'
 import {Loading} from "../components/Loading" 
+import {AiOutlineCheck} from "react-icons/ai"
+import {SubmitChangeRequestModal} from "../components/SubmitChangeRequestModal"
 import {
 	OPEN,
 	REJECTED,
@@ -30,12 +32,17 @@ const GetChangeRequestSummary = ({changeRequestList}) => {
 
 export const ChangeRequests = () => {
 	const {organization,dataProduct} = useParams()
-	const navigate = useNavigate() 
+	const navigate = useNavigate()
+
+	const [updateChangeRequestID,setShowUpdateChangeRequestID] = useState(false)
+
+	// const [tmpChangeRequest,setTmpChangeRequest] = useState(false)
+
     const {
 		woqlClient,
         setCurrentCRObject,
-		setCurrentChangeRequest,
-		setChangeRequestBranch
+		setChangeRequestBranch,
+		exitChangeRequestBranch
 	} = WOQLClientObj()
     
     const {
@@ -44,17 +51,22 @@ export const ChangeRequests = () => {
 		changeRequestList
     } =  ChangeRequest() 
 
+	const updateParent = () =>{
+		exitChangeRequestBranch()
+		getChangeRequestList()
+    }
+
 	const [refresh, setRefersh]=useState(Date.now())
-	const [filter, setFilter]=useState(false)
+	const [filter, setFilter]=useState(OPEN)
   
     useEffect(() => { 
         if(woqlClient) getChangeRequestList()
     }, [woqlClient, dataProduct])
 
     const goToDiffPage = (changeRequestObject) => {  
+		//set currentObje for diff
 		setCurrentCRObject(changeRequestObject)
 		let id=extractID(changeRequestObject["@id"]) 
-        setCurrentChangeRequest(id)
 		navigate(`${id}`) 
     }
 	
@@ -81,7 +93,7 @@ export const ChangeRequests = () => {
 				<Button variant="dark" onClick={(e) => displayCRs(SUBMITTED)} className="btn bg-transparent border-0 text-gray">       
 					<small className="text-gray fw-bold">
 						{iconTypes[SUBMITTED]} 
-						<span className="mr-5" >{countType[SUBMITTED]} {SUBMITTED}</span> 
+						<span className="mr-5" >{countType[SUBMITTED]}Review required</span> 
 					</small>
 				</Button>  
 				<Button variant="dark" onClick={(e) => displayCRs(MERGED)} className="btn bg-transparent border-0 text-gray">   
@@ -106,67 +118,51 @@ export const ChangeRequests = () => {
 		navigate(`/${organization}/${dataProduct}`)
 	}
 
-    function getActionObject(item){
-		const actions = {"Submitted" :  {action:true, onClick:()=>goToDiffPage(item)},
-						"Merged" :{action:true, onClick:()=>goToDiffPage(item)},
-						"Open" : {action:true, onClick:()=>setChangeRequest(item)}}
 
-		return  actions[item.status] || {}
+	function buttonstatus (item, actions) {
+		const id = extractID(item["@id"]) 
+		switch (item.status) {
+			case OPEN :
+				return <React.Fragment>
+						<Button className='btn btn-light btn-sm text-dark mr-4' onClick={()=>setChangeRequest(item)}>Continue with the change Request</Button>
+						<Button className="btn btn-warning mr-2 btn-sm text-dark" onClick={()=>setShowUpdateChangeRequestID(id)}>
+							<AiOutlineCheck className="mr-1"/><small className="fw-bold">Submit Change Request for revision</small>
+						</Button></React.Fragment> 
+			case SUBMITTED: 
+				return <Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
+			case REJECTED: 
+				return <Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>
+			case MERGED : 
+				return <Badge bg="success text-dark mr-4" onClick={()=>goToDiffPage(item)}>View Approved Diff</Badge>
+		}
+
 	}
  
+	
 	const formatListItem=()=>{
 		if(!changeRequestList) return ""
         return changeRequestList.slice(0).reverse().map((item,index)=>{
-			// do not display Merged and Rejected CRs
-           // if(item.status === "Merged") return ""
-			if(item.status === "Rejected") return ""
-            //let actions = (item.status === "Submitted" || item.status === "Merged") ?  {action:true, onClick:()=>goToDiffPage(item)} : {}
-             const actions = getActionObject(item) 
-			return  <ListGroup.Item {...actions}  key={`item___${index}`}   
-                className="d-flex justify-content-between align-items-start">
-
-                {iconTypes[item.status]}
-              	<div className="ms-2 me-auto">
-					<div className="fw-bold text-gray">
-						{item['tracking_branch']}
-					</div>
-					<small className="text-light text-small fw-bold">
-						opened {getDays(item.creation_time)} days ago by {item['creator']}
-					</small>
-				</div>
-              	{status[item.status]}
-            </ListGroup.Item>
-        })
-    }
-
-	const formatFilteredListItem=()=>{
-		if(!filter) return ""
-        return changeRequestList.slice(0).reverse().map((item, index)=>{
-
-			const actions = (item.status === "Submitted" || item.status === "Merged")?  {action:true, onClick:()=>goToDiffPage(item)} : {}
 			if(item.status === filter) {
-				return  <ListGroup.Item  
-					{...actions} 
-					key={`item___${index}`}   
-					className="d-flex justify-content-between align-items-start">
-						{iconTypes[item.status]}
-						<div className="ms-2 me-auto">
-							<div className="fw-bold text-gray">
-								{item['tracking_branch']}
-							</div>
-							<small className="text-light text-small fw-bold">
-								opened {getDays(item.creation_time)} days ago by {item['creator']}
-							</small>
+				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
+
+					{iconTypes[item.status]}
+					<div className="ms-2 me-auto">
+						<div className="fw-bold text-gray">
+							{item['tracking_branch']}
 						</div>
-						{status[item.status]}
+						<small className="text-light text-small fw-bold">
+							opened {getDays(item.creation_time)} days ago by {item['creator']}
+						</small>
+					</div>
+					{buttonstatus(item)}
 				</ListGroup.Item>
 			}
-			return <div/>
         })
     }
 
 	return <Layout>
 		<div className="content mr-3 ml-5"> 
+		{updateChangeRequestID && <SubmitChangeRequestModal updateChangeRequestID={updateChangeRequestID} showModal={updateChangeRequestID!==false} setShowModal={setShowUpdateChangeRequestID} updateParent={updateParent}/>}            
 			<div className="mt-5 mb-5 mr-5">
 				<Card>
 					<Card.Header>
@@ -175,8 +171,7 @@ export const ChangeRequests = () => {
 					<Card.Body className="p-0">
 						<ListGroup as="ol" key={"ListGroup"}> 
 							{loading && <Loading message={`Fetching Change Reuqests ...`}/>}
-							{changeRequestList && !filter && formatListItem()}
-							{changeRequestList && filter && formatFilteredListItem()}
+							{changeRequestList && formatListItem()}
 						</ListGroup>
 					</Card.Body>
 				</Card>
