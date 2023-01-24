@@ -80,14 +80,36 @@ function getCreateAnyOfFrames (frame, item, exractedProperties) {
 	return anyOfFrame
 }
 
+function checkIfCycleExists(property, linked_to_frames) {
+	if(linked_to_frames.hasOwnProperty(property)) return true
+	return false
+}
+
 /** make documentation frames basaed on mode */
 export const makeDocumentTypeFrames = (args) => {
   
     let {fullFrame, frame, item, uiFrame, documentation, mode, formData, onTraverse, onSelect}=args 
-    
+    let anyOf = []
     let linked_to = frame[item]
     let linked_to_frames=fullFrame[linked_to]  
 	let unfoldable=util.isUnfoldable(fullFrame[linked_to])
+
+	let ifCycleExists=checkIfCycleExists(item, linked_to_frames)
+
+	if(ifCycleExists) {
+		let anyOf = [
+			{
+				"title": CONST.LINK_EXISTING_DOCUMENT,
+				"description": linkHelper.getLinkExistingDescription(frame, item),
+				"properties": {
+				  [CONST.LINK_EXISTING_DOCUMENT]: {
+					  "type": CONST.STRING_TYPE
+				  }
+				}
+			}
+		]
+		return {anyOf, linked_to}
+	}
  
     //console.log("linked_to_frames", linked_to_frames)
     let exractedProperties = getProperties(
@@ -103,8 +125,6 @@ export const makeDocumentTypeFrames = (args) => {
     }
 
     //console.log("exractedProperties", exractedProperties)
-
-	let anyOf = []
 	// CREATE MODE
 	if (mode === CONST.CREATE) {
 		anyOf= getCreateAnyOfFrames (frame, item, exractedProperties)

@@ -62,10 +62,12 @@ function getEditUILayout (frame, onSelect, css) {
     else if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) {
          // @unfoldable is true
         let createNew=frame.anyOf.filter(arr => arr.title === CONST.LINK_NEW_DOCUMENT)
-        for(let key in createNew[0]["properties"]) {
-            // populate ui schema from extracted properties
-            if(key === "@type") uiLayout["@type"] = { "ui:widget": "hidden" } 
-            else uiLayout[key] = createNew[0]["uiSchema"][key]
+        if(createNew.length) {
+            for(let key in createNew[0]["properties"]) {
+                // populate ui schema from extracted properties
+                if(key === "@type") uiLayout["@type"] = { "ui:widget": "hidden" } 
+                else uiLayout[key] = createNew[0]["uiSchema"][key]
+            }
         }
     }
     return uiLayout

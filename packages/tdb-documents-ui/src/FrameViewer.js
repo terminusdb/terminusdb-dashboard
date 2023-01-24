@@ -9,6 +9,7 @@ import {transformData} from "./extract"
 import {processFormData} from "./processFormData"
 import { v4 as uuidv4 } from 'uuid';
 import {DisplayFieldTemplate, DisplayDocumentation} from "./templates"
+import {DefinitionProvider} from "./DefinitionContext"
 /*
 **  frame     - full json schema of a document
 **  uiFrame   - ui json of a document
@@ -205,27 +206,27 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 
 
     return <div data-cy="frame_viewer" className="tdb__frame__viewer">
-        {schema && message && message}
-        <DisplayDocumentation documentation={documentation}/>
-        {schema && <Form schema={schema}
-            uiSchema={uiSchema}
-            mode={mode} 
-            //ref={formRef}
-            onSubmit={handleSubmit}
-            //onChange={handleChange}
-            //onBlur={onBlur}
-            readonly={readOnly}
-            formData={data}
-            transformErrors={transformErrors} 
-            showErrorList={true}
-            fields={{
-                collapsible: CollapsibleField
-            }}
-            children={hideSubmit} // hide submit button on view mode
-            FieldTemplate={mode===CONST.VIEW ? DisplayFieldTemplate : null}/>
-
-    }
-    </div>
+            {schema && message && message}
+            <DisplayDocumentation documentation={documentation}/>
+            {schema && <Form schema={schema}
+                uiSchema={uiSchema}
+                mode={mode} 
+                //ref={formRef}
+                onSubmit={handleSubmit}
+                //onChange={handleChange}
+                //onBlur={onBlur}
+                readonly={readOnly}
+                formData={data}
+                transformErrors={transformErrors} 
+                showErrorList={true}
+                fields={{
+                    collapsible: CollapsibleField
+                }}
+                children={hideSubmit} // hide submit button on view mode
+                FieldTemplate={mode===CONST.VIEW ? DisplayFieldTemplate : null}/>
+            }
+        </div>
+    
 }
 /*
 >
