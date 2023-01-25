@@ -386,7 +386,7 @@ export const WOQLClientProvider = ({children, params}) => {
             //if I create or remove a database
             await woqlClient.getDatabases()
             woqlClient.db(currentDB)
-            setDataProduct(currentDB)
+            setDataProduct(currentDB) 
         } catch (err) {
             console.log("__CONNECT_ERROR__",err)
             setError("Connection Error")

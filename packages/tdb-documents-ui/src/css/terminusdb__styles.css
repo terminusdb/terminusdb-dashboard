@@ -510,7 +510,7 @@ div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
 }
 
 .original_subDoc_diff_border {
-    border: 1px solid #dc3545;
+    border: 1px solid #dc3545; 
 }
 
 .changed_subDoc_diff_border {
@@ -523,11 +523,11 @@ div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.c
     display: none !important;
 }
 
-div.w-md-editor-toolbar ul li button svg {
+/*div.w-md-editor-toolbar ul li button svg {
     width: 15px;
     height: 15px;
     color: white;
-}
+}*/
 
 /** make line width 10% */
 div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.css-1a6arsc-code-fold > td.css-jbzd4j-code-fold-gutter  {

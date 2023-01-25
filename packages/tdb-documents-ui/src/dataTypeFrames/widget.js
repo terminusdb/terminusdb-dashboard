@@ -85,7 +85,7 @@ export function getMarkdownUI(props) {
     }
 
     const getCode = (arr = []) => arr.map((dt) => {
-        if (typeof dt === "string") {
+        if (typeof dt === CONST.STRING_TYPE) {
           return dt;
         }
         if (dt.props && dt.props.children) {
@@ -116,7 +116,7 @@ export function getMarkdownUI(props) {
           /^language-mermaid/.test(className.toLocaleLowerCase())
         ) {
           return (
-            <code ref={demo}>
+            <code ref={demo}> 
               <code id={demoid.current} style={{ display: "none" }} />
             </code>
           );
@@ -130,7 +130,7 @@ export function getMarkdownUI(props) {
             <MDEditor
                 value={code}
                 onChange={onChange}
-                style={{ whiteSpace: 'pre-wrap', padding: 15}}
+                /*style={{ whiteSpace: 'pre-wrap', padding: 15}}*/
                 textareaProps={{
                     placeholder: "Please enter Markdown text ... "
                   }}
