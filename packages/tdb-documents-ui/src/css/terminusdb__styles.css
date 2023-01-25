@@ -637,14 +637,6 @@ div.tdb__array__items__css button.tdb__documentation__help {
 }
 
 
-.w-md-editor-text-pre > code,
-.w-md-editor-text-input {
-  font-size: 18px !important;
-  line-height: 24px !important;
-}
-
-
-
 /*
 .tdb__view input:empty,
 .tdb__view textarea:empty {
