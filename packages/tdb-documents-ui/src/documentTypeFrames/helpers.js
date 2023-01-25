@@ -13,17 +13,18 @@ import {
 import {BsInfoCircle} from "react-icons/bs"
 import Stack from 'react-bootstrap/Stack';
 
-// View mode
+// View mode 
 export const DocumentView = ({props, onTraverse}) => {
     const [clicked, setClicked]=useState(false)
 
+
     useEffect(() => {
-        if(!clicked) return
-        //if(onTraverse) onTraverse(clicked)
-    }, [clicked])
+        if(!clicked.id) return
+        if(onTraverse) onTraverse(clicked.id)
+    }, [clicked.update])
 
     const handleClick = (e, val) => { // view if on traverse function defined
-        setClicked(val)
+        setClicked({id: val, update: Date.now()})
     }
 
     let color = "text-light"

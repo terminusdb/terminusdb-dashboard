@@ -246,7 +246,7 @@ export const Header = ({mode, type, id, startCRMode, setClickedDelete}) => {
  * this function is only used in DocumentView & for Traversing via documents
  */
 export function onTraverse(documentID, setClicked) { 
-    //console.log("clicked", documentID)
+    //console.log("clicked on on traverse ftn", documentID)
     if(setClicked) setClicked(documentID)
 }
 

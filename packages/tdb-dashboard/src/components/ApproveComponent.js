@@ -48,9 +48,9 @@ export const ApproveComponent = () => {
 		<Button
 			className="text-dark btn-lg fw-bold float-right mt-2 mb-5 d-flex col-md-2 justify-content-center" 
 			variant="success"
-			title="Aprove Change Request"
+			title="Approve Change Request"
 			onClick={handleMerge}> 
-			{loading ? <Loading message={APPROVE}/> : <><VscCheck className="mt-1 mr-2 h6 fw-bold text-dark"/>
+			{loading ? "Approving ..." : <><VscCheck className="mt-1 mr-2 h6 fw-bold text-dark"/>
 				<h6 className="text-dark fw-bold">{APPROVE}</h6>
 			</>} 
 		</Button>
