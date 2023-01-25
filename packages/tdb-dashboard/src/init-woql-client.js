@@ -238,11 +238,20 @@ export const WOQLClientProvider = ({children, params}) => {
                     setBranch("main")
                     setCurrentChangeRequest(false)
                 }
-                //get the config tables for the db    
-                getGraphqlTableConfig (client)
+                //get all the configuration that you need for the documents  
+                refreshDataProductConfig(client)
             }
             clearDocumentCounts()
         }
+    }
+
+    function refreshDataProductConfig (woqlClient){
+        getUpdatedDocumentClasses(woqlClient)
+        getUpdatedFrames(woqlClient)
+        // to be review 
+        // we have to find a way to do not load this data every time 
+        // get a data with a check and see if it change 
+        getGraphqlTableConfig (woqlClient)
     }
 
     function getGraphqlTableConfig (client ){
@@ -335,6 +344,7 @@ export const WOQLClientProvider = ({children, params}) => {
         //this is to fix the refresh of document interface
         //I added it but we have to remove it and create an hook
         const {page} = getLocation()
+        //review this
         if(woqlClient.db() && page===DOCUMENT_EXPLORER ){
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
