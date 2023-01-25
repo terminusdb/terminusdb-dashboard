@@ -24,12 +24,6 @@
     line-height: 1.5;
 }
 
-/*.tdb__input > select, 
-.tdb__view__enum__input > select
-{
-    margin-left: 1rem !important;
-}*/
-
 .tdb__margin__adjust__documents {
     margin-left: 2.5rem;
 }
@@ -73,11 +67,6 @@ input.tdb__diff__original,
 div.choice_subdocument_title.tdb__diff__original__subDocuments {
     padding: 10px !important;
 }
-
-/*.tdb__diff__changed_removed > input,
-.tdb__diff__changed_removed > textarea {
-   
-}*/
 
 /** choice sub documents when choices have changed */
 div.choice_subdocument_title.tdb__diff__original {
@@ -125,7 +114,6 @@ span.tdb__diff__original__diff__view {
 .text_choice_documents {
     margin: 0px 0px 0px 50px !important;
 }
-
 
 input.tdb__diff__changed, 
 .tdb__diff__changed > input, 
@@ -330,8 +318,6 @@ div.array-item > div {
 }
 
 /** display control label of subdcouments for arrays */
-
-
 .tdb__subdocument__card  .control-label {
     /*display: none;*/
     opacity: 100 !important;
@@ -619,13 +605,6 @@ div.deleted * input {
 .tdb__frame__viewer div.form-group div.markdown_diff {
     display: block;
 }
-
-/*
-.tdb__frame__viewer  div.form-group > input,
-.tdb__frame__viewer  div.form-group > textarea,
-.tdb__frame__viewer  div.form-group > a {
-    margin-left: 1rem; 
-}*/
 
 
 .tdb__frame__viewer  fieldset { 

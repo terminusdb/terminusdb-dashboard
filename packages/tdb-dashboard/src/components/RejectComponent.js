@@ -46,7 +46,7 @@ export const RejectComponent = ({setKey}) => {
 			title="Reject Change Request"
 			variant="danger"
 			onClick={handleReject}>
-			{loading ? <Loading message={REJECT}/> : <><RxCross2 className="mr-2 text-dark"/>
+			{loading ? "Rejecting ..." : <><RxCross2 className="mr-2 text-dark"/>
 				<h6 className="text-dark fw-bold">{REJECT}</h6>
 			</>} 
 		</Button>
