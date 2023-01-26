@@ -66,13 +66,6 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
             // pre store sys unit default value as []
             layout["default"]=extractedFrames.default
         }
-        /*else if(extractedFrames.hasOwnProperty("linked_to")) {
-            //linked to documents
-            let linked_to=extractedFrames["linked_to"]
-            layout["linked_to"]=linked_to
-            // add linked frames 
-            layout[CONST.LINKED_TO_FRAMES]=fullFrame[linked_to]
-        }*/
     }
 
     /** gather filled data when mode is Edit or View */

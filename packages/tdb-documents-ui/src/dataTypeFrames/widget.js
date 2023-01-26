@@ -124,9 +124,10 @@ export function getMarkdownUI(props) {
         return <code className={String(className)}>{children}</code>;
     };
 
+    /** set data color mode to dark data-color-mode="dark" */
     return <div className="d-block w-100">
         <div className="mb-3">{props.name} </div>
-        <div className="w-100">
+        <div className="w-100" data-color-mode="dark">
             <MDEditor
                 value={code}
                 onChange={onChange}

@@ -23,7 +23,7 @@ export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,
                     </Badge> 
                 </span>
                 <Button className="ml-auto btn btn-warning mr-2 btn-sm text-dark" onClick={()=>{setShowModal(true)}}>
-                    <AiOutlineCheck className="mr-1"/><small className="fw-bold">Submit Change Request for revision</small>
+                    <AiOutlineCheck className="mr-1"/><small className="fw-bold">Submit Change Request for review</small>
                 </Button> 
                
                 <Button className=" btn btn-light btn-sm" onClick={()=>{closeChangeRequest()}}>

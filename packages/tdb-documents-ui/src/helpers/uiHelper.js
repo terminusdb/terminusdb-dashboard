@@ -40,7 +40,7 @@ export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTr
         generatedUILayout=featureCollection.getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation)
     }*/
     else if(util.isDocumentType(frame[item], fullFrame)) {
-        generatedUILayout=documentType.getUILayout(fullFrame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData)
+        generatedUILayout=documentType.getUILayout(fullFrame, frame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData)
     }
     else if(util.isEnumType(frame[item])) {
         generatedUILayout=enumType.getUILayout(fullFrame, frame, item, uiFrame, mode, formData, documentation)

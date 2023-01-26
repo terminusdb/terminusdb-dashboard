@@ -82,7 +82,7 @@ function getCreateAnyOfFrames (frame, item, exractedProperties) {
 
 function checkIfCycleExists(property, linked_to_frames) {
 	if(linked_to_frames.hasOwnProperty(property)) return true
-	return false
+	return false 
 }
 
 /** make documentation frames basaed on mode */
@@ -96,6 +96,9 @@ export const makeDocumentTypeFrames = (args) => {
 
 	let ifCycleExists=checkIfCycleExists(item, linked_to_frames)
 
+	/** if a property is pointing to its own parent document class
+	 * then display only Link an Existing Document 
+	 */
 	if(ifCycleExists) {
 		let anyOf = [
 			{
@@ -110,8 +113,8 @@ export const makeDocumentTypeFrames = (args) => {
 		]
 		return {anyOf, linked_to}
 	}
- 
-    //console.log("linked_to_frames", linked_to_frames)
+	
+	/** extract frames to pass to any of when user chooses to Create a new Document */
     let exractedProperties = getProperties(
         fullFrame, 
         linked_to, 
@@ -123,6 +126,16 @@ export const makeDocumentTypeFrames = (args) => {
         "type": CONST.STRING_TYPE,
         "default": linked_to
     }
+
+	// check if extracted Document has @metadata in them
+	let order=util.getOrderFromMetaData(linked_to_frames)
+	// add @type & CONST.LINK_EXISTING_DOCUMENT to ui order else ui order will complain 
+	// ui:order is included for all elements displayed in form 
+	if(order) {
+		order.push("@type")
+		order.push(CONST.LINK_EXISTING_DOCUMENT)
+		exractedProperties.uiSchema["ui:order"] = order
+	}
 
     //console.log("exractedProperties", exractedProperties)
 	// CREATE MODE

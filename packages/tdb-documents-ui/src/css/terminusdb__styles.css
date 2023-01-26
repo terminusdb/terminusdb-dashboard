@@ -32,6 +32,14 @@
     color: #adb5bd;
 }
 
+/* 
+ul's list-style is set to none in tdb-react-components 
+set list-style to inital inorder to display bullets in Markdown preview 
+*/
+div.w-md-editor-preview  ul{
+    list-style: initial !important;
+}
+
 /** diffs ***/
 input.tdb__diff__original,
 .tdb__diff__original > input, 
@@ -557,6 +565,11 @@ div.deleted {
 
 div.inserted *, div.deleted * {
     color: #000 !important;
+}
+
+div.inserted fieldset div.w-md-editor-show-preview *, 
+div.deleted fieldset div.w-md-editor-show-preview * {
+    color: white !important;
 }
 
 div.inserted hr,
