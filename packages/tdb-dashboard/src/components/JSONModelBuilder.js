@@ -15,6 +15,7 @@ import {Alerts} from "./Alerts"
 import {TERMINUS_DANGER,DOCUMENT_PREFIX} from "./constants"
 import {GRAPH_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
+import {CopyButton} from "./utils"
 
 export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
     const {getSchemaGraph} = GraphContextObj();
@@ -80,15 +81,20 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
     }
     const editStyle = editMode ? {className:"border rounded border-warning"} : {}
     const editMessage = editMode ? "Save or you'll lost your changes" : ""
-    
+
     return <React.Fragment>
-            {loading && loading}
+            {loading && loading} 
+            <CopyButton text={jsonSchema} 
+                label={"Copy schema"}
+                title={`Copy JSON schema`} 
+                css={"btn btn-sm bg-light text-dark model-builder-copy-button"}/>
+                          
             <div {...editStyle}>
                 <div className="d-flex align-items-center justify-content-between">
                     <label className="text-warning p-4 pb-2">{editMessage}</label>                   
                         {accessControlEditMode && !editMode &&
                             <button  type="button" className="btn-edit-json-model btn btn-outline-light btn-lg border-0 col-md-1 mt-2" onClick={()=>{setEditMode(true)}}>
-                                <FaRegEdit size="1.5em"/>
+                                <FaRegEdit size="1.5em"/> Edit
                             </button>
                         }
                         {editMode && 
@@ -103,7 +109,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
                             <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
                         </div>
                         <button  type="button" id="schema_save_button" className="btn-save-json-model btn btn-outline-light btn-lg border-0 col-md-1" onClick={saveChange}>
-                            <AiOutlineSave size="1.8em"/>
+                            <AiOutlineSave size="1.8em"/> Save
                         </button>
                     </div>
                 }

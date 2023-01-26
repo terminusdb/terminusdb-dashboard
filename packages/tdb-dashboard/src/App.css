@@ -1139,3 +1139,18 @@ pre.CodeMirror-line  > span > span.cm-string {
 .MuiGrid-root .MuiGrid-item{
   color:#303030
 }
+
+/** card border for change request component  */
+.tdb__change__request__card {
+  border-color: #3450DC !important;
+}
+
+.model-builder-copy-button {
+  position: absolute;
+    z-index: 20;
+    margin-top: 30px;
+    text-align: right !important;
+    border: 1px solid blue;
+    right: 0;
+    margin-right: 60px !important;
+}

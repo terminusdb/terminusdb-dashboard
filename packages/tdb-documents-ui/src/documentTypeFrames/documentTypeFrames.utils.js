@@ -24,7 +24,7 @@ function getCreateUILayout (frame, onSelect) {
         "classNames": "w-100 d-block tdb__input tdb__document__link mb-4 mt-2 p-2"
     }
     function getLinkExistingUI (props) {
-        return displaySearchComponent(props, onSelect, frame.linked_to)
+        return displaySearchComponent(props, onSelect, frame.linked_to, CONST.CREATE)
     }
 
     if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) {
@@ -51,7 +51,7 @@ function getCreateUILayout (frame, onSelect) {
  * @param {*} frame extracted frames
  * @returns create mode ui Layout
  */
-function getEditUILayout (frame, onSelect, css) {
+function getEditUILayout (frame, onSelect, css, mode) {
     let uiLayout = {
         "classNames": `w-100 d-block tdb__input tdb__document__link ${css} mb-4`
     }
@@ -63,7 +63,7 @@ function getEditUILayout (frame, onSelect, css) {
                 <div className="control-label">
                     {props.name}
                 </div>
-                {displaySearchComponent(props, onSelect, frame.linked_to)}
+                {displaySearchComponent(props, onSelect, frame.linked_to, mode)}
             </>
         }
         uiLayout["ui:field"] = getEditLinkExistingUI
@@ -99,7 +99,7 @@ function getViewUILayout (frame, onTraverse) {
     }
     else if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) {
         // @unfoldable is true
-        uiLayout=getEditUILayout(frame, null, "tdb__view__document__link")
+        uiLayout=getEditUILayout(frame, null, "tdb__view__document__link", CONST.VIEW)
     }
     uiLayout["ui:readonly"]=true
     return uiLayout
@@ -118,7 +118,7 @@ export function getUILayout (fullFrame, frame, extractedFrames, onSelect, onTrav
     }
     else if (mode === CONST.EDIT) {
         // EDIT MODE
-        uiLayout=getEditUILayout (extractedFrames, onSelect, "tdb__edit__document__link")
+        uiLayout=getEditUILayout (extractedFrames, onSelect, "tdb__edit__document__link", CONST.EDIT)
     }
     else {
         // VIEW Mode

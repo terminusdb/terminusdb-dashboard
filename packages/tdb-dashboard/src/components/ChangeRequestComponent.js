@@ -5,14 +5,31 @@ import Badge from 'react-bootstrap/Badge';
 import {BiGitBranch, BiGitPullRequest} from "react-icons/bi"
 import {GrFormClose} from "react-icons/gr"
 import {AiOutlineCheck} from "react-icons/ai"
+import {WOQLClientObj} from '../init-woql-client'
+import * as path from "../routing/constants"
+import Stack from 'react-bootstrap/Stack';
 
+// returns a help text depending on which page you are while in a Change Request Mode
+function GetHelpText () {
+    let { getLocation } = WOQLClientObj()
+    let location = getLocation()
+
+    if(location.page === path.PRODUCT_MODELS) {
+        return <div className="mt-2 small text-gray">
+            If you wish to alter the schema, click on Exit from Change Request mode button.
+            Modifying schema is only allowed in main.
+        </div>
+    }
+
+    return <div/>
+}
 
 export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,currentChangeRequest}) => {
 
     if(!currentChangeRequest) return <div/> 
 
     return <React.Fragment>
-        <Card className="d-flex bg-transparent ml-5 mt-2"> 
+        <Card className="d-flex tdb__change__request__card ml-5 mt-2 mb-1  col-md-8"> 
             <Card.Body>
                 <BiGitPullRequest  className="mr-1"/>
                 <span>
@@ -29,6 +46,7 @@ export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,
                 <Button className=" btn btn-light btn-sm" onClick={()=>{closeChangeRequest()}}>
                    <GrFormClose/> <small className="fw-bold">Exit Change Request mode</small>
                 </Button>  
+                <GetHelpText/>
             </Card.Body> 
         </Card>
     </React.Fragment>
