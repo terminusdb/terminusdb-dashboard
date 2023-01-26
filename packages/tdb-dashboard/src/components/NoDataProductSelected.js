@@ -71,6 +71,13 @@ export const NoDataProductSelected = (props) => {
 			{cloneLoading && 
                 <Loading message={`Cloning ....................`} type={'PROGRESS_BAR_COMPONENT'}/>}      
 			<Row xs={1} md={4} className="g-4 py-2 w-100">
+				<Col className="py-2 col-md-4">
+					<Card className="h-100 tdb__create__new__dp bg-info" style={{opacity: "0.8"}}>
+						<Card.Body>
+							<NewDataProduct css={"mt-5 p-5 opacity-1"}/>
+						</Card.Body>
+					</Card>
+				</Col>
 				{cloneDataProduct.map((arr) => (
 					<Col className="py-2 col-md-4" key={arr.name}>
 						<Card className="h-100">
@@ -97,13 +104,6 @@ export const NoDataProductSelected = (props) => {
 						</Card>
 					</Col>
 				))}
-				<Col className="py-2 col-md-4">
-					<Card className="h-100 tdb__create__new__dp bg-info" style={{opacity: "0.8"}}>
-						<Card.Body>
-							<NewDataProduct css={"mt-5 p-5 opacity-1"}/>
-						</Card.Body>
-					</Card>
-				</Col>
 			</Row>
 		</Container>
     </main> 

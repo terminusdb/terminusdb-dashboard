@@ -8,6 +8,7 @@ import {AiOutlineCheck} from "react-icons/ai"
 import {WOQLClientObj} from '../init-woql-client'
 import * as path from "../routing/constants"
 import Stack from 'react-bootstrap/Stack';
+import {FaInfo} from "react-icons/fa"
 
 // returns a help text depending on which page you are while in a Change Request Mode
 function GetHelpText () {
@@ -31,6 +32,7 @@ export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,
     return <React.Fragment>
         <Card className="d-flex tdb__change__request__card ml-5 mt-2 mb-1  col-md-8"> 
             <Card.Body>
+                <Badge className="bg-primary note__badge mr-2"> <FaInfo/> </Badge>
                 <BiGitPullRequest  className="mr-1"/>
                 <span>
                     <small className="fw-bold mr-2">You are in Change Request mode</small>

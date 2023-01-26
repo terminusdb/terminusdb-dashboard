@@ -80,7 +80,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
             }       
         }
     }
-    const editStyle = editMode ? {className:"border rounded border-warning"} : {}
+    const editStyle = editMode ? {className:"border rounded border-warning position-sticky"} : {}
     const editMessage = editMode ? "Save schema or you will loose your changes" : ""
 
     return <React.Fragment>
