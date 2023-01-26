@@ -16,6 +16,7 @@ import {TERMINUS_DANGER,DOCUMENT_PREFIX} from "./constants"
 import {GRAPH_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
 import {CopyButton} from "./utils"
+import {BsSave} from "react-icons/bs"
 
 export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
     const {getSchemaGraph} = GraphContextObj();
@@ -80,36 +81,33 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
         }
     }
     const editStyle = editMode ? {className:"border rounded border-warning"} : {}
-    const editMessage = editMode ? "Save or you'll lost your changes" : ""
+    const editMessage = editMode ? "Save schema or you will loose your changes" : ""
 
     return <React.Fragment>
             {loading && loading} 
-            <CopyButton text={jsonSchema} 
-                label={"Copy schema"}
-                title={`Copy JSON schema`} 
-                css={"btn btn-sm bg-light text-dark model-builder-copy-button"}/>
-                          
+            
             <div {...editStyle}>
-                <div className="d-flex align-items-center justify-content-between">
-                    <label className="text-warning p-4 pb-2">{editMessage}</label>                   
+                <div className="d-flex align-items-center justify-content-between ml-4">
+                    <label className="text-warning mt-4 pb-2">{editMessage}</label>                   
                         {accessControlEditMode && !editMode &&
-                            <button  type="button" className="btn-edit-json-model btn btn-outline-light btn-lg border-0 col-md-1 mt-2" onClick={()=>{setEditMode(true)}}>
-                                <FaRegEdit size="1.5em"/> Edit
+                            <button  type="button" className="btn-edit-json-model btn btn-sm btn-light text-dark border-0 col-md-1 mt-3" onClick={()=>{setEditMode(true)}}>
+                                <FaRegEdit/> Edit Schema
                             </button>
                         }
                         {editMode && 
-                            <button  type="button" className="btn btn-outline-light btn-lg border-0 col-md-1" onClick={()=>{setEditMode(false)}}>
-                                <AiOutlineCloseCircle size="1.5em"/>
+                            <button  type="button" className="btn btn-lg border-0 col-md-1 float-right" onClick={()=>{setEditMode(false)}}>
+                                <AiOutlineCloseCircle className="float-right mr-2"/>
                             </button>
                         }
                 </div>
+                          
                 {editMode &&
-                    <div role="group" className="btn-group mt-3 w-100">
+                    <div role="group" className="btn-group w-100">
                         <div className="ml-4 flex-grow-1">
                             <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
                         </div>
-                        <button  type="button" id="schema_save_button" className="btn-save-json-model btn btn-outline-light btn-lg border-0 col-md-1" onClick={saveChange}>
-                            <AiOutlineSave size="1.8em"/> Save
+                        <button  type="button" id="schema_save_button" className="col-md-1 btn btn-md bg-light text-dark mr-4" onClick={saveChange}>
+                            <BsSave className="small"/> <label className="mt-1">Save Schema</label>
                         </button>
                     </div>
                 }
@@ -117,6 +115,10 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
                 <div className="h-100 m-4">
                     {report && <span className="w-100 m-4">{report}</span>}
 
+                    <CopyButton text={jsonSchema} 
+                        label={"Copy schema"}
+                        title={`Copy JSON schema`} 
+                        css={"btn btn-sm bg-light text-dark model-builder-copy-button"}/>
                     <CodeMirror  
                         onBlur={(editor, data) => {
                             const editorValue =editor.doc.getValue()

@@ -1146,9 +1146,8 @@ pre.CodeMirror-line  > span > span.cm-string {
 }
 
 .model-builder-copy-button {
-  position: absolute;
+    position: absolute;
     z-index: 20;
-    margin-top: 30px;
     text-align: right !important;
     border: 1px solid blue;
     right: 0;
