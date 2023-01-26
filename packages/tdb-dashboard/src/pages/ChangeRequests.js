@@ -141,10 +141,11 @@ export const ChangeRequests = () => {
 	
 	const formatListItem=()=>{
 		if(!changeRequestList) return ""
-        return changeRequestList.slice(0).reverse().map((item,index)=>{
+		let statusCount=0
+        let display=changeRequestList.slice(0).reverse().map((item,index)=>{
 			if(item.status === filter) {
+				statusCount+=1
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
-
 					{iconTypes[item.status]}
 					<div className="ms-2 me-auto">
 						<div className="fw-bold text-gray">
@@ -158,6 +159,14 @@ export const ChangeRequests = () => {
 				</ListGroup.Item>
 			}
         })
+		if(!statusCount) {
+			return <Card>
+				<Card.Body>
+					{`No ${filter} Change Requests to display ...`}
+				</Card.Body>
+			</Card>
+		}
+		else return display
     }
 
 	return <Layout>  
