@@ -12,7 +12,7 @@ export const POINT_TYPE_UI_LAYOUT=[
         classNames: "tdb__input mb-3"
     }
 ]
-export const POINT_TYPE_LAYOUT = [{type: "number"}, {type: "number"}]
+export const POINT_TYPE_LAYOUT = [ {type: "number"}, {type: "number"} ]
 export const LINE_TYPE_UI_LAYOUT={
     "items" : POINT_TYPE_UI_LAYOUT,
     "classNames": "d-block tdb__input",

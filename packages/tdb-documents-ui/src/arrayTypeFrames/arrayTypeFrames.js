@@ -1,3 +1,4 @@
+import React from "react"
 import { generateLabel } from "../helpers/labelHelper"
 import * as CONST from "../constants"
 import * as helper from "./helpers"
@@ -75,9 +76,18 @@ function gatherItems (item, dimension, type) {
     return helper.POINT_TYPE_LAYOUT
 }
 
+/** generates label with required tag */
+/** we make bbox and coordinates required here  */
+function generateGeoFrameLabel (frame, item, documentation) {
+    return <>
+        {generateLabel(frame, item, documentation)} {` `}
+        <span class="required">*</span>
+    </>
+}
+
 /** gather ui items for array  */
 function gatherUIItems (frame, item, documentation, dimension, type) {
-    let generatedLabel=generateLabel(frame, item, documentation)
+    let generatedLabel=generateGeoFrameLabel(frame, item, documentation)
 
     if(dimension === CONST.POLYGON_TYPE_DIMENSION && type === CONST.POLYGON) {
         // polygon and multipolygon @dimensions = 3
@@ -162,7 +172,7 @@ function makeEditableGeoArrayTypeFrames (args) {
     let type=frame.hasOwnProperty("type") ? frame["type"]["@values"][0] : ""
 
     layout= {
-        type: "array",
+        type: "array", 
         title: item,
         [CONST.DIMENSION]: dimension, 
         items: gatherItems(item, dimension, type)

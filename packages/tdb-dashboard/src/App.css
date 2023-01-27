@@ -1153,3 +1153,8 @@ pre.CodeMirror-line  > span > span.cm-string {
     right: 0;
     margin-right: 60px !important;
 }
+
+/** to display status if not on latest version */
+.tdb__status_latest__version {
+  color: #3450DC;
+}

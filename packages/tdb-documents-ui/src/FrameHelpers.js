@@ -77,7 +77,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             let arrayFrames=makeArrayTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData})
             //set property layout & uiLayout
             properties[item] = arrayFrames.layout
-            propertiesUI[item] = arrayFrames.uiLayout
+            propertiesUI[item] = arrayFrames.uiLayout 
         }
     }
  

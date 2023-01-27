@@ -33,7 +33,7 @@ export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,
         <Card className="d-flex tdb__change__request__card ml-5 mt-2 mb-1  col-md-8"> 
             <Card.Body>
                 <Badge className="bg-primary note__badge mr-2"> <FaInfo/> </Badge>
-                <BiGitPullRequest  className="mr-1"/>
+                {/*<BiGitPullRequest  className="mr-1"/>*/}
                 <span>
                     <small className="fw-bold mr-2">You are in Change Request mode</small>
                     <Badge className="fw-bold mr-2 bg-primary text-dark">
