@@ -9,6 +9,8 @@ import {transformData} from "./extract"
 import {processFormData} from "./processFormData"
 import { v4 as uuidv4 } from 'uuid';
 import {DisplayFieldTemplate, DisplayDocumentation} from "./templates"
+
+
 /*
 **  frame     - full json schema of a document
 **  uiFrame   - ui json of a document
@@ -31,7 +33,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
     const [lang, setLanguage]=useState(false)
     const [error, setError]=useState(false)
     const [documentation, setDocumentation]=useState(false)
-    const [data, setData]=useState(formData ? formData : {})
+    const [data, setData]=useState({})
 
     const [message, setMessage]=useState(false)  
 
@@ -99,7 +101,8 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 
                 // process form data to check if one ofs are available
                 if(mode !== CONST.CREATE) {
-                    processFormData(frame, type, formData, setData)
+                    setData(util.getFormData(formData))
+                    //processFormData(frame, type, formData, setData)
                 }
 
             }
@@ -203,6 +206,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
         return errorList
     }
 
+    //console.log("data", data)
 
     return <div data-cy="frame_viewer" className="tdb__frame__viewer">
             {schema && message && message}

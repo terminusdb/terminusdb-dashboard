@@ -60,7 +60,7 @@ export const transformData = (mode, schema, data, frame, type) => {
                     return
                 }
                 else if (typeof fd === CONST.OBJECT_TYPE && 
-                    fd && Object.keys(fd).length === 1) {
+                    fd && typeof fd === CONST.STRING_TYPE && Object.keys(fd).length === 1) {
                         //CONST.LINK_EXISTING_DOCUMENT
                         let checkForLinkExistingDoc = Object.keys(fd)[0]
                         if(checkForLinkExistingDoc === CONST.LINK_EXISTING_DOCUMENT) {
@@ -134,7 +134,8 @@ export const transformData = (mode, schema, data, frame, type) => {
             }
         }
         else if(typeof formData[key] === CONST.OBJECT_TYPE && 
-            formData[key] && Object.keys(formData[key]).length === 1) {
+            formData[key] && typeof formData[key] === CONST.STRING_TYPE 
+            && Object.keys(formData[key]).length === 1) {
                 //CONST.LINK_EXISTING_DOCUMENT
                 let checkForLinkExistingDoc = Object.keys(formData[key])[0]
                 if(checkForLinkExistingDoc === CONST.LINK_EXISTING_DOCUMENT) {

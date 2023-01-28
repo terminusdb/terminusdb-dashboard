@@ -39,6 +39,11 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
             layout["properties"]=extractedFrames.properties 
         }
         else if(extractedFrames.hasOwnProperty("anyOf") && 
+            extractedFrames.hasOwnProperty("anyOfUiSchema")) {
+            // one of documents
+            layout["anyOf"]=extractedFrames.anyOf 
+        }
+        else if(extractedFrames.hasOwnProperty("anyOf") && 
             extractedFrames["anyOf"] &&
             extractedFrames.hasOwnProperty(CONST.LINKED_TO)) {
                 //linked to documents
@@ -53,10 +58,6 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
         else if(extractedFrames.hasOwnProperty("anyOf")) {
             // choice subdocuments & choice documents
             layout["anyOf"]=extractedFrames.anyOf
-        }
-        else if(extractedFrames.hasOwnProperty("oneOf")) {
-            // one of documents
-            layout["anyOf"]=extractedFrames.oneOf 
         }
         else if(extractedFrames.hasOwnProperty("enum")) {
             // enums

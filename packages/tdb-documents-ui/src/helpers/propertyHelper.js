@@ -67,6 +67,11 @@ export function generateInternalFrames(fullFrame, item, frame, uiFrame, mode, fo
     /** return null if frame doesnt have property in it */
     if(!frame.hasOwnProperty(item)) return null
 
+    if(util.isOneOfSubDocumentType(fullFrame, frame[item])) {
+        let {anyOf, anyOfUiSchema}=makeOneOfTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
+        //let oneOfFrame= makeOneOfTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
+        return {anyOf, anyOfUiSchema}
+    }
     if(util.isSubDocumentType(frame[item])) { // Subdocument type
         let documentClassName=util.getLinkedDocumentClassName (frame, item)
         let subDocumentFormData=formData//formData.hasOwnProperty(item) ? formData[item] : {}
@@ -90,10 +95,14 @@ export function generateInternalFrames(fullFrame, item, frame, uiFrame, mode, fo
         let sysUnitFrame= makeSysUnitTypeFrames(item, documentation)
         return sysUnitFrame
     }
-    else if(util.isOneOfDataType(frame, item)) { 
+    /*else if(util.isOneOfDataType(frame, item)) { 
         let oneOfFrame= makeOneOfTypeFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation)
         return oneOfFrame
-    } 
+    }*/ 
+    /*else if(util.isOneOfDataType(frame, item)) { 
+        let oneOfFrame= makeOneOfTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
+        return oneOfFrame
+    }*/
     /*else if(util.isFeatureCollection(frame[item], mode)) {
         // this is for VIEW mode of FeatureCollection - where we display all of the feature links on a Map 
         // Feature Collection EDIT/ CREATE mode will go to util.isDocumentType()=true frames

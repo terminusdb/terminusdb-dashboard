@@ -400,6 +400,7 @@ div.array-item div.tdb__subdocument__card label.control-label,
 div.array-item div.tdb__subdocument__card div.control-label,
 div.array-item div.choice_subdocument_title label.control-label,
 div.array-item div.tdb__document__link div.control-label,
+div.tdb__array__frames div.card label.control-label,
 div.array-item div.tdb__document__link label.control-label {
     visibility: initial;
 }

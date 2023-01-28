@@ -3,7 +3,7 @@ import * as util from "../utils"
 import * as CONST from "../constants"
 import * as template from "./templates"
 import {getChoiceSubDocumentsArrayItems} from "../choiceSubDocumentTypeFrames/helpers"
-//import {getChoiceDocumentArrayItems} from "../choiceDocumentTypeFrames/helpers"
+import {getOneOfTypeArrayItems} from "../oneOfTypeFrames/helpers"
 
 /**
  * 
@@ -23,9 +23,8 @@ export function gatherItemsLayout (frame, item, mode, formData) {
                 // choice sub documents
                 return getChoiceSubDocumentsArrayItems(frame, item, formData)
             }
-            else if (frame.properties[item].info === CONST.CHOICECLASSES) {
-                // choice documents 
-                //return getChoiceDocumentArrayItems(frame, item, mode, formData)
+            else if (frame.properties[item].info === CONST.ONEOFVALUES) {
+                return getOneOfTypeArrayItems(frame, item, formData)
             }
         }
     return frame.properties[item]
