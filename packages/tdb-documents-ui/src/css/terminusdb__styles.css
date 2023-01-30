@@ -575,6 +575,8 @@ div.deleted fieldset div.w-md-editor-show-preview * {
 }
 
 div.inserted hr,
+div.inserted .tdb__subdocument__card span,
+div.inserted .tdb__subdocument__card div.control-label, 
 div.inserted .tdb__subdocument__card label div, 
 div.inserted .tdb__subdocument__card textarea,
 div.inserted .tdb__subdocument__card input,

@@ -213,7 +213,7 @@ export const DiffView = ({diffs, CRObject}) => {
             return null
         }
 
-        let eventKey= diffs[start].hasOwnProperty("@id") ? diffs[start]["@id"] : false
+        let eventKey= diffs && diffs[start] && diffs[start].hasOwnProperty("@id") ? diffs[start]["@id"] : false
         if(diffs[start].hasOwnProperty("@insert")) {
             eventKey=diffs[start]["@insert"]["@id"]
         }
@@ -221,12 +221,12 @@ export const DiffView = ({diffs, CRObject}) => {
             eventKey=diffs[start]["@delete"]["@id"]
         }
         
-        //console.log("documentId", documentID, eventKey, css)
+        //console.log("documentId", documentID, eventKey, css) 
         elements.push(
             <React.Fragment>
                 <Accordion className="accordion__button padding-0 diff__accordian"
                     id={eventKey}
-                    activeKey={eventKey === documentID ? eventKey : false}
+                    //activeKey={eventKey === documentID ? eventKey : false}
                     onSelect={getDocumentStatesOnClick}> 
                     <Accordion.Item eventKey={eventKey} className="border-0">
                         <Accordion.Header className="w-100 bg-secondary rounded">
