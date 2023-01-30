@@ -35,9 +35,9 @@ export function getURIUIWidget(title, uiFrame) {
     let uiLayout = {} 
     let css = uiFrame && uiFrame.hasOwnProperty(title) ? uiFrame[title][CONST.CLASSNAME] : ``
     function displayURI(props) {
-        return <div className={css}>
-            <Form.Label>{title}</Form.Label> 
-            <a href={props.formData} className="text-light" target="_blank">{props.formData}</a>
+        return <div className={`${css} d-flex`}>
+            <Form.Label className="control-label">{title}</Form.Label> 
+            <a href={props.formData} className="text-light text-break" target="_blank">{props.formData}</a>
         </div>
     }
     uiLayout["ui:field"] = displayURI

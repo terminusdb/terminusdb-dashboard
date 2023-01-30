@@ -97,9 +97,20 @@ function getViewUILayout (frame, onTraverse) {
         }
         uiLayout["ui:field"] = getViewLink
     }
-    else if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) {
-        // @unfoldable is true
-        uiLayout=getEditUILayout(frame, null, "tdb__view__document__link", CONST.VIEW)
+    else if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) { 
+        let linked=frame.anyOf.filter(arr => arr.title === CONST.LINK_EXISTING_DOCUMENT) 
+        if(linked.length) {
+            // review this - this is the case where property is linked to its own parent document 
+            // where we give option to only display link to an existing document
+            function getViewLink(props) {
+                return <DocumentView props={props} onTraverse={onTraverse}/>
+            }
+            uiLayout["ui:field"] = getViewLink
+        }
+        else {
+            // @unfoldable is true
+            uiLayout=getEditUILayout(frame, null, "tdb__view__document__link", CONST.VIEW)
+        }
     }
     uiLayout["ui:readonly"]=true
     return uiLayout

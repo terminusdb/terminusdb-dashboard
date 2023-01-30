@@ -574,17 +574,36 @@ div.deleted fieldset div.w-md-editor-show-preview * {
     color: white !important;
 }
 
-div.inserted hr,
+div.inserted hr, 
+div.inserted .card div,
+/** choice sub doc */
+div.inserted .card .form-group select,
+div.inserted .card .form-group div label,
+div.inserted .choice_subdocument_title span,
+div.inserted .choice_subdocument_title div.control-label, 
+div.inserted .choice_subdocument_title label div, 
+div.inserted .choice_subdocument_title textarea,
+div.inserted .choice_subdocument_title input,
 div.inserted .tdb__subdocument__card span,
 div.inserted .tdb__subdocument__card div.control-label, 
 div.inserted .tdb__subdocument__card label div, 
 div.inserted .tdb__subdocument__card textarea,
 div.inserted .tdb__subdocument__card input,
 div.deleted hr,
+div.deleted .choice_subdocument_title span,
+div.deleted .choice_subdocument_title div.control-label, 
+div.deleted .choice_subdocument_title label div, 
+div.deleted .choice_subdocument_title textarea,
+div.deleted .choice_subdocument_title input,
+div.deleted .choice_subdocument_title select,
+/** choice sub doc */
+div.deleted .card .form-group select,
+div.deleted .card .form-group div label,
 div.deleted .tdb__subdocument__card label div, 
 div.deleted .tdb__subdocument__card textarea,
 div.deleted .tdb__subdocument__card input {
     color: #fff !important;
+    color: inital !important;
 }
 
 div.inserted .tdb__subdocument__card span div, 
@@ -653,6 +672,9 @@ div.tdb__array__items__css button.tdb__documentation__help {
     display: none !important;
 }
 
+.tdb__view__existing__doc__hide + .panel-body {
+    display: none !important;
+}
 
 /*
 .tdb__view input:empty,

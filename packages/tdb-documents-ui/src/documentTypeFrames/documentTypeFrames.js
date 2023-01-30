@@ -89,8 +89,11 @@ function checkIfCycleExists(property, linked_to_frames) {
 export const makeDocumentTypeFrames = (args) => {
   
     let {fullFrame, frame, item, uiFrame, documentation, mode, formData, onTraverse, onSelect}=args 
+
     let anyOf = []
     let linked_to = frame[item]
+
+
     let linked_to_frames=fullFrame[linked_to]  
 	let unfoldable=util.isUnfoldable(fullFrame[linked_to])
 

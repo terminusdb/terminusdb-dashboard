@@ -30,7 +30,8 @@ export const DocumentView = ({props, onTraverse}) => {
     let color = "text-light"
     //if (styles && styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
-    if(!props.formData) return <div/>
+    if(!props.formData) return <div className="tdb__view__existing__doc__hide"/>
+    if(typeof props === CONST.OBJECT_TYPE && !Object.keys(props.formData).length) return <div className="tdb__view__existing__doc__hide"/>
  
     return <div className="mb-4 d-flex">
         {<div className="control-label">

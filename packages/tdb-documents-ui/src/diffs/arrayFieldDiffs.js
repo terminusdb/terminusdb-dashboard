@@ -327,9 +327,11 @@ function getCss(props, item, tagUI) {
     // choice sub documents are different from normal
     if(schema && props.formData && schema.hasOwnProperty("additionalItems") && 
         schema["additionalItems"].hasOwnProperty(CONST.INFO) && 
-        schema["additionalItems"][CONST.INFO] === CONST.CHOICESUBCLASSES) {
+        schema["additionalItems"][CONST.INFO] === CONST.CHOICESUBCLASSES && 
+        Array.isArray(tagUI[item]) && tagUI[item].length) {
             let firstProperty = Object.keys(tagUI[item][0])[0]
             css=tagUI[item][0][firstProperty]
+        
     }
     else css=tagUI[item][0]
     return css
