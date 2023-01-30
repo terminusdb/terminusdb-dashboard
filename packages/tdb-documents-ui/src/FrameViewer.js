@@ -6,7 +6,6 @@ import * as CONST from "./constants"
 import {Alert} from "react-bootstrap"
 import * as util from "./utils"
 import {transformData} from "./extract" 
-import {processFormData} from "./processFormData"
 import { v4 as uuidv4 } from 'uuid';
 import {DisplayFieldTemplate, DisplayDocumentation} from "./templates"
 

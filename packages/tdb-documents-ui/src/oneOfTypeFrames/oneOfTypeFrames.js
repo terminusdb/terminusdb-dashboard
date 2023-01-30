@@ -27,7 +27,7 @@ export function makeOneOfTypeFrames (args) {
         })
     }
 
-    console.log("uiSchema !!!", uiSchema)
+    //console.log("uiSchema !!!", uiSchema)
 
     return {anyOf, anyOfUiSchema}
    
