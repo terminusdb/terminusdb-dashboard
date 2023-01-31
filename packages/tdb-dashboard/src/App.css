@@ -1158,3 +1158,8 @@ pre.CodeMirror-line  > span > span.cm-string {
 .tdb__status_latest__version {
   color: #3450DC;
 }
+
+/*enable graph ql response to over flow*/
+.graphiql-response {
+  overflow: auto !important;
+}
