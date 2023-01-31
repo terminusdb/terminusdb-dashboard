@@ -74,7 +74,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
             window.location.replace(`/${orgName}/${dbName}`)
 		}
 	}
-   
+    
     return <React.Fragment> 
 
         <HealthModal dataProduct={dataProduct} showHealth={showHealth} setShowHealth={setShowHealth}/>
@@ -133,7 +133,8 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
             </Card.Body>
         </Card>
         <hr className="my-4 border-indigo dropdown-divider" role="separator"></hr>
-        <Card className="bg-transparent p-1 mt-5" border="muted">
+        {/** COMMENT THE BELOW code FOR NOW, will put back once clone is fixed */}
+        {/*<Card className="bg-transparent p-1 mt-5" border="muted">
            <Card.Body>
                 {!loadingClone && accessControlDashboard && accessControlDashboard.deleteDB() && 
                 <Fragment>
@@ -171,7 +172,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
                 {loadingClone && 
                 <Loading message={`Cloning .... ${dataProduct}`} type={'PROGRESS_BAR_COMPONENT'}/>}
             </Card.Body>
-        </Card>
+        </Card>*/}
 
         <hr className="my-4 border-indigo dropdown-divider" role="separator"></hr>
         <Card className="bg-transparent p-1 " border="muted">

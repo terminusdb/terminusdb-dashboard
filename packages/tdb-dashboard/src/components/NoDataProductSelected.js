@@ -63,6 +63,21 @@ export const NoDataProductSelected = (props) => {
 		
 	}
 
+	return <main className="content w-100">
+		<Container className="center-align col-md-10">
+			<Card className="h-100">
+				<Card.Body>
+					<img src="https://assets.terminusdb.com/images/terminusx-color.png" 
+						className="logo-img mb-3" 
+						style={{height:"150px"}}/>
+					<h5 className="text-light fw-bold"> No Data Product chosen yet</h5>
+					<h6 className="text-light fw-bold">Please use the side bar to select a Data Product</h6>
+				</Card.Body>
+			</Card>
+		</Container>
+	</main>
+
+	/** COMMENT THE BELOW code FOR NOW, will put back once clone is fixed */
     return <main className="content w-100">
 		
         <Container className="center-align col-md-10">
