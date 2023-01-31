@@ -14,6 +14,9 @@ export function getType(fullFrame, frame, item) {
      
     if(util.isDataType(frame[item])) {
         return getDataType(frame[item])
+    } 
+    else if(util.isOneOfSubDocumentType(fullFrame, frame[item])) {
+        return CONST.OBJECT_TYPE
     }
     else if(util.isSubDocumentType(frame[item])) {
         return CONST.OBJECT_TYPE
@@ -25,10 +28,10 @@ export function getType(fullFrame, frame, item) {
         //return CONST.OBJECT_TYPE
         return CONST.STRING_TYPE
     }
-    else if(util.isOneOfDataType(frame, item)) {
+    /*else if(util.isOneOfDataType(frame, item)) {
         //return [CONST.STRING_TYPE, CONST.OBJECT_TYPE]
         return  CONST.OBJECT_TYPE
-    }
+    }*/
     else if (util.isDocumentType(frame[item], fullFrame)) {
         //return CONST.STRING_TYPE
         return CONST.OBJECT_TYPE

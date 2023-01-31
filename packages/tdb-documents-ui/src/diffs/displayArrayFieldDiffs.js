@@ -43,11 +43,12 @@ const RemovedElements = ({formData, tagUI, item, info}) => {
         if(typeof tagUI[item][tagIndex] === CONST.STRING_TYPE) {
             // check css in index of tagUI and display respective colored removed icons
             if(tagUI[item][tagIndex] === "tdb__diff__changed__removed") {
-                elements.push( display.showRemovedElementChanged( {name, required}) )
+                elements.push( display.showRemovedElementChanged( {name, required, info}) )
             }
             // check css in index of tagUI and display respective colored removed icons
             else if(tagUI[item][tagIndex] === "tdb__diff__original__removed") {
-                elements.push( display.showRemovedElementOriginal({name, required}) )
+
+                elements.push( display.showRemovedElementOriginal(null, {name, required, info}) )
             }
         }
         else {
@@ -170,6 +171,8 @@ const ChoiceSubDocumentTypeDiff = ({data, cssElement, schema}) => {
     //get the first layout of choice
     let choiceFrameRef=choiceFrame[0] 
 
+    if(!choiceFrameRef) return <div/>
+
     return <>
         <input value={choiceType} className={`form-control tdb__input mb-3 mt-2`} readOnly/>
         <DisplaySubElements frameProperties={choiceFrameRef["properties"]} cssElement={cssElement} data={data}/>
@@ -184,7 +187,7 @@ const ChoiceSubDocumentTypeDiff = ({data, cssElement, schema}) => {
  */
 function isValid (formData) {
 	let data = formData 
-    console.log(formData)
+    //console.log(formData)
     if(Array.isArray(formData) && formData[0]===false ) data=false
     if(Array.isArray(formData) && formData[0]===undefined ) data=false
     if(Array.isArray(formData) && 
@@ -224,7 +227,7 @@ export function displayElements(formData, item, schema, tagUI) {
             let css = tagUI[item][index] ? tagUI[item][index] : "tdb__input"
             elements.push(<DataTypeDiff data={data} css={css} label={item}/>)
         })
-        elements.push(<RemovedElements formData={formData} tagUI={tagUI} item={item}/>)
+        elements.push(<RemovedElements formData={formData} tagUI={tagUI} item={item} info={CONST.DATA_TYPE}/>)
     }
     else if(schema.items.info === CONST.SUBDOCUMENT_TYPE) {
         formData.map((data, index) => { 

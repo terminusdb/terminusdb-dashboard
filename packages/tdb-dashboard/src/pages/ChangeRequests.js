@@ -93,7 +93,7 @@ export const ChangeRequests = () => {
 				<Button variant="dark" onClick={(e) => displayCRs(SUBMITTED)} className="btn bg-transparent border-0 text-gray">       
 					<small className="text-gray fw-bold">
 						{iconTypes[SUBMITTED]} 
-						<span className="mr-5" >{countType[SUBMITTED]}Review required</span> 
+						<span className="mr-5" >{countType[SUBMITTED]} Review</span> 
 					</small>
 				</Button>  
 				<Button variant="dark" onClick={(e) => displayCRs(MERGED)} className="btn bg-transparent border-0 text-gray">   
@@ -126,7 +126,7 @@ export const ChangeRequests = () => {
 				return <React.Fragment>
 						<Button className='btn btn-light btn-sm text-dark mr-4' onClick={()=>setChangeRequest(item)}>Continue with the change Request</Button>
 						<Button className="btn btn-warning mr-2 btn-sm text-dark" onClick={()=>setShowUpdateChangeRequestID(id)}>
-							<AiOutlineCheck className="mr-1"/><small className="fw-bold">Submit Change Request for revision</small>
+							<AiOutlineCheck className="mr-1"/><small className="fw-bold">Submit Change Request for review</small>
 						</Button></React.Fragment> 
 			case SUBMITTED: 
 				return <Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
@@ -141,10 +141,11 @@ export const ChangeRequests = () => {
 	
 	const formatListItem=()=>{
 		if(!changeRequestList) return ""
-        return changeRequestList.slice(0).reverse().map((item,index)=>{
+		let statusCount=0
+        let display=changeRequestList.slice(0).reverse().map((item,index)=>{
 			if(item.status === filter) {
+				statusCount+=1
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
-
 					{iconTypes[item.status]}
 					<div className="ms-2 me-auto">
 						<div className="fw-bold text-gray">
@@ -158,6 +159,14 @@ export const ChangeRequests = () => {
 				</ListGroup.Item>
 			}
         })
+		if(!statusCount) {
+			return <Card>
+				<Card.Body>
+					{`No ${filter} Change Requests to display ...`}
+				</Card.Body>
+			</Card>
+		}
+		else return display
     }
 
 	return <Layout>  

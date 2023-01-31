@@ -2,15 +2,16 @@
 import React from "react"
 import * as CONST from "../constants"
 
-export function  getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation) {
+
+
+export function  getUILayout(extractedFrames) {
     let uiLayout= {} 
     
-    uiLayout["classNames"]=`card bg-secondary p-4 mt-4 mb-4 `
-    for(let ui in extractedFrames.uiSchema) {
-        uiLayout[ui]=extractedFrames.uiSchema[ui]
-    }
+    console.log("extractedFrames.anyOfUiSchema",extractedFrames.anyOfUiSchema)
 
-    //console.log("one of ui, ", uiLayout, uiLayout.uiSchema)
+    uiLayout=extractedFrames.anyOfUiSchema
+    uiLayout["classNames"]=`card bg-secondary p-4 mt-4 mb-4 tdb__anyOf__frames`
+    uiLayout["@type"]={"ui:widget": "hidden"}
 
     return uiLayout
 } 

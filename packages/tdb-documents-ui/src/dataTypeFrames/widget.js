@@ -35,9 +35,9 @@ export function getURIUIWidget(title, uiFrame) {
     let uiLayout = {} 
     let css = uiFrame && uiFrame.hasOwnProperty(title) ? uiFrame[title][CONST.CLASSNAME] : ``
     function displayURI(props) {
-        return <div className={css}>
-            <Form.Label>{title}</Form.Label> 
-            <a href={props.formData} className="text-light" target="_blank">{props.formData}</a>
+        return <div className={`${css} d-flex`}>
+            <Form.Label className="control-label">{title}</Form.Label> 
+            <a href={props.formData} className="text-light text-break" target="_blank">{props.formData}</a>
         </div>
     }
     uiLayout["ui:field"] = displayURI
@@ -85,7 +85,7 @@ export function getMarkdownUI(props) {
     }
 
     const getCode = (arr = []) => arr.map((dt) => {
-        if (typeof dt === "string") {
+        if (typeof dt === CONST.STRING_TYPE) {
           return dt;
         }
         if (dt.props && dt.props.children) {
@@ -116,7 +116,7 @@ export function getMarkdownUI(props) {
           /^language-mermaid/.test(className.toLocaleLowerCase())
         ) {
           return (
-            <code ref={demo}>
+            <code ref={demo}> 
               <code id={demoid.current} style={{ display: "none" }} />
             </code>
           );
@@ -124,13 +124,14 @@ export function getMarkdownUI(props) {
         return <code className={String(className)}>{children}</code>;
     };
 
+    /** set data color mode to dark data-color-mode="dark" */
     return <div className="d-block w-100">
         <div className="mb-3">{props.name} </div>
-        <div className="w-100">
+        <div className="w-100" data-color-mode="dark">
             <MDEditor
                 value={code}
                 onChange={onChange}
-                style={{ whiteSpace: 'pre-wrap', padding: 15}}
+                /*style={{ whiteSpace: 'pre-wrap', padding: 15}}*/
                 textareaProps={{
                     placeholder: "Please enter Markdown text ... "
                   }}

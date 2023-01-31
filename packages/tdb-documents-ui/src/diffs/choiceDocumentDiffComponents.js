@@ -1,6 +1,7 @@
 import React from "react"
 import {removedIcons} from "./diffComponents"
 import {Card} from "react-bootstrap"
+import { DivIcon } from "leaflet"
 
 /** CHOCIE SUB DOCS  */
 /**
@@ -33,6 +34,7 @@ const DisplayChoiceDocumentPlaceholder = ({elementsToPopulate}) => {
  * @returns  
  */
 export const ChoiceDocumentPlaceholder = ({name, type, elementsToPopulate, css}) => {
+    if(!elementsToPopulate) return <div/>
     return  <div className="field field-string w-100 removed__choiceSubDocs">
         {removedIcons(`${css} mb-3 ml-3 `)}
         <span className="opacity-0">{name}</span>

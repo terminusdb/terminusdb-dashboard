@@ -4,6 +4,14 @@ import {
     DocumentView,
     displaySearchComponent
 } from "./helpers"
+import * as util from "../utils"
+
+function addUiOrderToCreateNewFrames (createNew, uiLayout) {
+    if(createNew[0]["uiSchema"].hasOwnProperty("ui:order")) {
+        uiLayout["ui:order"]=createNew[0]["uiSchema"]["ui:order"]
+    }
+    return
+}
 
 /**
  * 
@@ -16,7 +24,7 @@ function getCreateUILayout (frame, onSelect) {
         "classNames": "w-100 d-block tdb__input tdb__document__link mb-4 mt-2 p-2"
     }
     function getLinkExistingUI (props) {
-        return displaySearchComponent(props, onSelect, frame.linked_to)
+        return displaySearchComponent(props, onSelect, frame.linked_to, CONST.CREATE)
     }
 
     if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) {
@@ -27,6 +35,7 @@ function getCreateUILayout (frame, onSelect) {
                 if(key === "@type") uiLayout["@type"] = { "ui:widget": "hidden" } 
                 else uiLayout[key] = createNew[0]["uiSchema"][key]
             } 
+            addUiOrderToCreateNewFrames (createNew, uiLayout) 
         }
         
         // CONST.LINK_EXISTING_DOCUMENT UI  
@@ -42,7 +51,7 @@ function getCreateUILayout (frame, onSelect) {
  * @param {*} frame extracted frames
  * @returns create mode ui Layout
  */
-function getEditUILayout (frame, onSelect, css) {
+function getEditUILayout (frame, onSelect, css, mode) {
     let uiLayout = {
         "classNames": `w-100 d-block tdb__input tdb__document__link ${css} mb-4`
     }
@@ -54,7 +63,7 @@ function getEditUILayout (frame, onSelect, css) {
                 <div className="control-label">
                     {props.name}
                 </div>
-                {displaySearchComponent(props, onSelect, frame.linked_to)}
+                {displaySearchComponent(props, onSelect, frame.linked_to, mode)}
             </>
         }
         uiLayout["ui:field"] = getEditLinkExistingUI
@@ -68,6 +77,7 @@ function getEditUILayout (frame, onSelect, css) {
                 if(key === "@type") uiLayout["@type"] = { "ui:widget": "hidden" } 
                 else uiLayout[key] = createNew[0]["uiSchema"][key]
             }
+            addUiOrderToCreateNewFrames (createNew, uiLayout) 
         }
     }
     return uiLayout
@@ -87,34 +97,50 @@ function getViewUILayout (frame, onTraverse) {
         }
         uiLayout["ui:field"] = getViewLink
     }
-    else if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) {
-        // @unfoldable is true
-        uiLayout=getEditUILayout(frame, null, "tdb__view__document__link")
+    else if(frame.hasOwnProperty("anyOf") && frame.anyOf.length) { 
+        let linked=frame.anyOf.filter(arr => arr.title === CONST.LINK_EXISTING_DOCUMENT) 
+        if(linked.length) {
+            // review this - this is the case where property is linked to its own parent document 
+            // where we give option to only display link to an existing document
+            function getViewLink(props) {
+                return <DocumentView props={props} onTraverse={onTraverse}/>
+            }
+            uiLayout["ui:field"] = getViewLink
+        }
+        else {
+            // @unfoldable is true
+            uiLayout=getEditUILayout(frame, null, "tdb__view__document__link", CONST.VIEW)
+        }
     }
     uiLayout["ui:readonly"]=true
     return uiLayout
 }
- 
-//export function getUILayout (fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames) {
-export function getUILayout (fullFrame, frame, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData) {
+
+// extractedFrames includes frames extracted from one of s
+// frame includes frame to which document link property is pointing to
+export function getUILayout (fullFrame, frame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData) {
   
     let uiLayout={}
     //console.log("frame", frame)
 
     // CREATE MODE
     if(mode === CONST.CREATE) {
-        uiLayout=getCreateUILayout (frame, onSelect)
+        uiLayout=getCreateUILayout (extractedFrames, onSelect)
     }
     else if (mode === CONST.EDIT) {
         // EDIT MODE
-        uiLayout=getEditUILayout (frame, onSelect, "tdb__edit__document__link")
+        uiLayout=getEditUILayout (extractedFrames, onSelect, "tdb__edit__document__link", CONST.EDIT)
     }
     else {
         // VIEW Mode
-        uiLayout=getViewUILayout (frame, onTraverse)
+        uiLayout=getViewUILayout (extractedFrames, onTraverse)
     }
     
-    
+    /*let order=util.getOrderFromMetaData(frame)
+    if(order) {
+        uiLayout["ui:order"] = order
+    }
+    */
     return uiLayout
 }
 

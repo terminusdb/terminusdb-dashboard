@@ -100,11 +100,22 @@ export function getAnyOfSchema(args) {
  * @param {*} formData - data to be displayed
  * @returns a filled array items with any of choice document only with filled info 
  */
-export function getChoiceSubDocumentsArrayItems (frame, item, formData) {
-    let arrayItems=[]
+export function getChoiceSubDocumentsArrayItems (frame, item, formData, mode) {
+    let arrayItems={}
+
+    if(mode === CONST.EDIT) {
+        arrayItems={
+            type: CONST.OBJECT_TYPE,
+            info: CONST.CHOICESUBCLASSES,
+            //title: choice,
+            anyOf: frame.properties[item].anyOf
+        }
+    }
 
     if(!formData) return arrayItems
     if(!Array.isArray(formData)) return arrayItems
+
+    arrayItems=[]
 
     formData.map(data => {
         // get the choice which have been added

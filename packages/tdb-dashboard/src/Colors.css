@@ -64,6 +64,11 @@ span.bg-primary {
     color: var(--badge-text-color) !important;
 }
 
+span.bg-primary.note__badge {
+    background-color: #3450DC !important;
+    color: #f9d891 !important;
+    font-weight: bolder !important;
+}
 
 .bg-success {
     background-color: var(--color-pink) !important; 

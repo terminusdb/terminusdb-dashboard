@@ -15,8 +15,9 @@
     "lint": "eslint src",
     "autofix": "eslint src --fix",
     "cypress": "npx cypress open",
-    "test": "react-scripts test -- --config=jest.config.js"
+    "test": "react-scripts test"
   },
+  "jest": { "transformIgnorePatterns": [ "<rootDir>/node_modules/(?!react-dnd|dnd-core|@react-dnd)" ] },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/terminusdb/terminusdb-documents-ui.git"

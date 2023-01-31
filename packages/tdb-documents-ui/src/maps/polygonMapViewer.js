@@ -15,20 +15,10 @@ export const polygonMapViewer = (args) => {
 
 	useEffect(() => {
 		map()
-	}, []) 
+	}, [])  
 
 	const map = () => {
-		//var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
-		documents = [
-			[ // first polygon
-			  [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]], // outer ring
-			  [[37.29, -108.58],[40.71, -108.58],[40.71, -102.50],[37.29, -102.50]] // hole
-			],
-			[ // second polygon
-			  [[41, -111.03],[45, -111.04],[45, -104.05],[41, -104.05]]
-			]
-		  ];
-
+		
 		let mapOptions = customMapOptions(zoom, [37, -109.05], documents, type)
         let markerOptions= customMarkerOptions(icon)
 

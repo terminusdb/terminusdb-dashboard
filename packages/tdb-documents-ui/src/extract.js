@@ -5,7 +5,6 @@ import {
     POINT_TYPE, 
     SYS_UNIT_DATA_TYPE
 } from "./constants"
-import { isDataType } from "./utils"
 import * as CONST from "./constants"
 
 // return true if only @type is available
@@ -25,6 +24,12 @@ function extractOneOfValue (formData) {
         // mostly at this point - this is going to be a sys_unit type
         return {[selectedChoice]: []}
     }
+}
+
+// returns true if sys unit, sys unit is defained as "[]" by default for one of frames
+function isSysUnit(data) {
+    if(data===CONST.STRING_TYPE && data==="[]") return true
+    return false
 }
 
 
@@ -68,7 +73,7 @@ export const transformData = (mode, schema, data, frame, type) => {
                             extracted[key]=linkExistingDocData
                         }
                 }
-                else if(typeof fd === "string" || typeof fd === "number" || typeof fd === "boolean")  { // set of document classes
+                else if(typeof fd === CONST.STRING_TYPE || typeof fd === CONST.NUMBER_TYPE || typeof fd === CONST.BOOLEAN_TYPE)  { // set of document classes
                     transformedArray.push(fd)
                 }
                 else {
@@ -150,9 +155,13 @@ export const transformData = (mode, schema, data, frame, type) => {
             // object with only @type in it , we dont extract this value as it is not filled - required to store documnets in TerminusDB
             continue
         }
-        else if(typeof formData[key] === "string" || typeof formData[key] === "number" || typeof formData[key] === "boolean") {
+        else if(typeof formData[key] === CONST.STRING_TYPE || typeof formData[key] === CONST.NUMBER_TYPE || typeof formData[key] === CONST.BOOLEAN_TYPE) {
+            if(isSysUnit(formData[key])) {
+                // if sys unit value then provide default []
+                extracted[key] = []
+            }
             // xsd data types
-            extracted[key] = formData[key]
+            else extracted[key] = formData[key]
         }
         else if(typeof formData[key] === "object") {
                 // sys:JSON types

@@ -1,3 +1,4 @@
+import React from "react"
 import { generateLabel } from "../helpers/labelHelper"
 import * as CONST from "../constants"
 import * as helper from "./helpers"
@@ -43,41 +44,36 @@ function gatherItems (item, dimension, type) {
 
     // multi polygon
     if(dimension === CONST.POLYGON_TYPE_DIMENSION && type === CONST.MULTIPOLYGON) {
-        let multipolygon=[]
-
-        let polygonLayout= {
-            type: "array",
-            [CONST.DIMENSION]: dimension,
-            items: [{
-                title: item,
-                type: "array",
-                items: helper.POINT_TYPE_LAYOUT
-            }],
-            additionalItems: {
-                title: item,
+        return {
+            type: "array", 
+            title: "Polygon",
+            description: "Add a polygon",
+            items: {
                 type: "array", 
-                items: helper.POINT_TYPE_LAYOUT
+                title: "coordinates",
+                description: "Add coordinates",
+                items: [ {type: CONST.STRING_TYPE}, {type: CONST.STRING_TYPE} ]
             }
         }
-
-        let multiPolygonLayout = {
-            type: "array",
-            title: "polygon",
-            [CONST.DIMENSION]: dimension,
-            items: [polygonLayout],
-            additionalItems: polygonLayout
-        }
-        multipolygon.push(multiPolygonLayout)
-        return multipolygon
+      
     }
 
     // mostly b_box
     return helper.POINT_TYPE_LAYOUT
 }
 
+/** generates label with required tag */
+/** we make bbox and coordinates required here  */
+function generateGeoFrameLabel (frame, item, documentation) {
+    return <>
+        {generateLabel(frame, item, documentation)} {` `}
+        <span class="required">*</span>
+    </>
+}
+
 /** gather ui items for array  */
 function gatherUIItems (frame, item, documentation, dimension, type) {
-    let generatedLabel=generateLabel(frame, item, documentation)
+    let generatedLabel=generateGeoFrameLabel(frame, item, documentation)
 
     if(dimension === CONST.POLYGON_TYPE_DIMENSION && type === CONST.POLYGON) {
         // polygon and multipolygon @dimensions = 3
@@ -100,40 +96,48 @@ function gatherUIItems (frame, item, documentation, dimension, type) {
         }
     }
     else if (dimension === CONST.POLYGON_TYPE_DIMENSION && type === CONST.MULTIPOLYGON) {
-        let uiPolygon = {
-            "items": helper.POINT_TYPE_UI_LAYOUT
-        }
-        
-        let ui={
-            //"ui:title": "test", 
-            "ui:description": "Add a new Polygon ...",
-            "classNames": "tdb__input tdb__multipolygon__input",
-            "items": {
+        let uiMultiPolygionLayout={
+            "ui:title": "MultiPolygon",
+            "ui:description": "MultiPolygon",
+            "classNames": "card border border-secondary p-2",
+            items: {
+                "ui:title": "Polygon",
+                "ui:description": "Add Polygon ...",
                 "ui:ArrayFieldTemplate": ArrayFieldTemplate,
                 "ui:options" : {
                     addable: true,
                     orderable: true,
                     removable: true
                 },
-                "items" :  helper.POINT_TYPE_UI_LAYOUT,
-                "additionalItems": helper.POINT_TYPE_UI_LAYOUT 
+                items: {
+                    "ui:title": "Coordinates",
+                    "ui:description": "Add Coordinates ...",
+                    "ui:ArrayFieldTemplate": ArrayFieldTemplate,
+                    "ui:options" : {
+                        addable: true,
+                        orderable: true,
+                        removable: true
+                    },
+                    items: [
+                        { 
+                            "ui:placeholder": `Enter latitude ...`,
+                            classNames: "tdb__input mb-3"
+                        },
+                        {
+                            "ui:placeholder": `Enter longitude ...`, 
+                            classNames: "tdb__input mb-3"
+                        }
+                    ]
+                }
+            },
+            "ui:ArrayFieldTemplate": ArrayFieldTemplate,
+            "ui:options" : {
+                addable: true,
+                orderable: true,
+                removable: true
             }
         }
-
-        return {
-            "ui:title": "polygon", 
-            "items": {
-                
-                "ui:ArrayFieldTemplate": ArrayFieldTemplate,
-                "ui:options" : {
-                    addable: true,
-                    orderable: true,
-                    removable: true
-                },
-                "items" : ui,
-                "additionalItems": ui
-            }
-        }
+        return uiMultiPolygionLayout
     }
     else {
         // for points and line strings
@@ -162,7 +166,7 @@ function makeEditableGeoArrayTypeFrames (args) {
     let type=frame.hasOwnProperty("type") ? frame["type"]["@values"][0] : ""
 
     layout= {
-        type: "array",
+        type: "array", 
         title: item,
         [CONST.DIMENSION]: dimension, 
         items: gatherItems(item, dimension, type)

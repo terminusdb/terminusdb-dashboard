@@ -30,7 +30,8 @@ export const DocumentView = ({props, onTraverse}) => {
     let color = "text-light"
     //if (styles && styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
-    if(!props.formData) return <div/>
+    if(!props.formData) return <div className="tdb__view__existing__doc__hide"/>
+    if(typeof props === CONST.OBJECT_TYPE && !Object.keys(props.formData).length) return <div className="tdb__view__existing__doc__hide"/>
  
     return <div className="mb-4 d-flex">
         {<div className="control-label">
@@ -92,7 +93,10 @@ function fetchSelected (props) {
 }
  
 // displays Search Component
-const DocumentSearch = ({display, setSelected, linked, showSearch, setShowSearch, property}) => {
+const DocumentSearch = ({display, setSelected, linked, showSearch, setShowSearch, mode}) => {
+
+    // if mode is in View dont display Document Search Component
+    if(mode === CONST.VIEW) return <div/>
     
     // display is not provided for VIEW MODE
     if(!display) return <div/>
@@ -141,7 +145,7 @@ function fetchSelectedLabel (selected) {
 }
 
 // displays selected existing Link & displays search component
-export function displaySearchComponent(props, onSelect, linked) { 
+export function displaySearchComponent(props, onSelect, linked, mode) { 
     const [selected, setSelected] = useState(fetchSelected(props))
     const [showSearch, setShowSearch]=useState(false)
 
@@ -157,12 +161,19 @@ export function displaySearchComponent(props, onSelect, linked) {
     //let label = fetchSelectedLabel(selected)
 
 
-    const Selected = ({selected}) => {
+    const Selected = ({selected, mode}) => {
         if(!selected) return <div/>
 
         function handleDelete() {
             setSelected(false)
             props.onChange("")
+        }
+
+        if(mode === CONST.VIEW) {
+            return <div className="w-100 d-flex justify-content-end">
+                <AiOutlineCheck className="text-success mr-1 mt-1"/>
+                <label className="text-break">{selected.label ? selected.label : selected.id} </label>  
+            </div>
         }
 
 
@@ -185,9 +196,10 @@ export function displaySearchComponent(props, onSelect, linked) {
             setSelected={setSelected} 
             setShowSearch={setShowSearch}
             showSearch={showSearch}
+            mode={mode}
             property={props.name}
             linked={linked}/>
-        {selected && <Selected selected={selected}/>}
+        {selected && <Selected selected={selected} mode={mode}/>}
     </Card>
 }
 

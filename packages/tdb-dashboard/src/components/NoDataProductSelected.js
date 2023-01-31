@@ -63,6 +63,21 @@ export const NoDataProductSelected = (props) => {
 		
 	}
 
+	return <main className="content w-100">
+		<Container className="center-align col-md-10">
+			<Card className="h-100">
+				<Card.Body>
+					<img src="https://assets.terminusdb.com/images/terminusx-color.png" 
+						className="logo-img mb-3" 
+						style={{height:"150px"}}/>
+					<h5 className="text-light fw-bold"> No Data Product chosen yet</h5>
+					<h6 className="text-light fw-bold">Please use the side bar to select a Data Product</h6>
+				</Card.Body>
+			</Card>
+		</Container>
+	</main>
+
+	/** COMMENT THE BELOW code FOR NOW, will put back once clone is fixed */
     return <main className="content w-100">
 		
         <Container className="center-align col-md-10">
@@ -71,6 +86,13 @@ export const NoDataProductSelected = (props) => {
 			{cloneLoading && 
                 <Loading message={`Cloning ....................`} type={'PROGRESS_BAR_COMPONENT'}/>}      
 			<Row xs={1} md={4} className="g-4 py-2 w-100">
+				<Col className="py-2 col-md-4">
+					<Card className="h-100 tdb__create__new__dp bg-info" style={{opacity: "0.8"}}>
+						<Card.Body>
+							<NewDataProduct css={"mt-5 p-5 opacity-1"}/>
+						</Card.Body>
+					</Card>
+				</Col>
 				{cloneDataProduct.map((arr) => (
 					<Col className="py-2 col-md-4" key={arr.name}>
 						<Card className="h-100">
@@ -97,13 +119,6 @@ export const NoDataProductSelected = (props) => {
 						</Card>
 					</Col>
 				))}
-				<Col className="py-2 col-md-4">
-					<Card className="h-100 tdb__create__new__dp bg-info" style={{opacity: "0.8"}}>
-						<Card.Body>
-							<NewDataProduct css={"mt-5 p-5 opacity-1"}/>
-						</Card.Body>
-					</Card>
-				</Col>
 			</Row>
 		</Container>
     </main> 

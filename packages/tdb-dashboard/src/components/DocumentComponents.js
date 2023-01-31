@@ -174,7 +174,7 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
 
 
     return <Stack direction="horizontal" gap={3} className="w-100">
-        <div className="col-md-7"> 
+        <div className="col-md-6"> 
             <strong className="text-success">
                 <span className="mr-1 h6 fst-italic">{CONST.VIEW_DOCUMENT}:</span> 
                 <span className="fw-bolder h6"> {type}/{id} </span>

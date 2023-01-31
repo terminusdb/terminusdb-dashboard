@@ -26,7 +26,7 @@ export const MainNavBar = ({setShowTimeTravel}) => {
         <div className="d-flex flex-grow-1 justify-content-end align-items-center">                    
             {dataProduct && currentPage!==`/${organization}/${dataProduct}` &&
             <React.Fragment>  
-                <h4 className="text-success ml-4 flex-grow-1 fw-bold mt-1" >
+                <h4 className="text-success ml-5 pl-3 flex-grow-1 fw-bold mt-1" >
                     {dataProduct}
                 </h4>
                 <TimeTravelWidget setShowTimeTravel={setShowTimeTravel}/>

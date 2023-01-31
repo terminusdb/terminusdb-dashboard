@@ -64,12 +64,14 @@ export function showRemovedElementChanged(elementsToPopulate, props) {
 // function to show removed element for original 
 // elementsToPopulate shows placeholders for number of properties in the case of choice subdocuments
  export function showRemovedElementOriginal(elementsToPopulate, props) {
-    //invisible 
+    //invisible  
     let type=(props && props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.INFO)) ? props.schema[CONST.INFO] : null
     let format=(props && props.hasOwnProperty("schema") && props.schema.hasOwnProperty(CONST.FORMAT)) ? props.schema[CONST.FORMAT] : null
     let name=props && props.hasOwnProperty("name") ? props.name : ""
 
-    if(!type) return <div/>
+    if(!type && !props.hasOwnProperty(CONST.INFO)) return <div/>
+
+    type=props[CONST.INFO]
 
     if(type === CONST.CHOICESUBCLASSES) {
         return <ChoiceDocumentPlaceholder name={name}

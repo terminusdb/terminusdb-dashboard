@@ -53,7 +53,7 @@ export function App (props){
     //the accessControlDashboard in terminusX is created only after the login 
     // so he can be undefined at the start
     const isAdmin = accessControlDashboard ? accessControlDashboard.isAdmin() : false
-  
+    
     return <div className="container-fluid container-background h-100">
             <Routes>
             {getRoutes(clientUser,isAdmin, woqlClient)}          

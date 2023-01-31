@@ -5,7 +5,7 @@ import {SCHEMA_MODEL_VIEW, SCHEMA_CLASSES_VIEW, SCHEMA_PROPERTIES_VIEW, SCHEMA_E
 import {WOQLClientObj} from '../init-woql-client'
 import {Loading} from "../components/Loading" 
 import {PROGRESS_BAR_COMPONENT}  from "../components/constants"
-import {JSONModelBuilder} from "../components/JSONModelBuilder"
+import {JSONModelBuilder} from "../components/JSONModelBuilder" 
 
 export const ModelBuilder = (props) =>{
     const {woqlClient,branch,ref,accessControlDashboard, currentChangeRequest} = WOQLClientObj()
@@ -55,7 +55,7 @@ export const ModelBuilder = (props) =>{
                             dbName={dataProduct} 
                             custom={true}
                             saveGraph={saveData}
-                            isEditMode={isEditMode}
+                            isEditMode={isEditMode} 
                         />                  
                     }
                 </Tab>}
