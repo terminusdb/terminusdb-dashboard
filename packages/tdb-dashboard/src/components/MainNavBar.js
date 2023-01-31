@@ -30,7 +30,7 @@ export const MainNavBar = ({setShowTimeTravel}) => {
                     {dataProduct}
                 </h4>
                 <TimeTravelWidget setShowTimeTravel={setShowTimeTravel}/>
-            </React.Fragment>  
+            </React.Fragment>   
             }
             {accessControlDashboard && accessControlDashboard.createDB() && 
                 <NewDataProduct css={"btn-sm mr-1 pt-2 pr-4 pl-4 "}/>
