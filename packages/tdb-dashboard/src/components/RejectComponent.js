@@ -1,20 +1,22 @@
 import React, {useState} from "react"
 import {Button, Form} from "react-bootstrap"
-import {WOQLClientObj} from "../init-woql-client"
+//import {WOQLClientObj} from "../init-woql-client"
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {
     REJECT,
     REJECTED
 } from "./constants"
 import {Loading} from "./Loading"
-import {useNavigate } from "react-router-dom"
+import {useNavigate,useParams } from "react-router-dom"
 import {RxCross2} from "react-icons/rx"
 
-export const RejectComponent = ({setKey}) => {
-	const {
-        currentCRObject
-    } = WOQLClientObj()
-
+export const RejectComponent = () => {
+	const {organization,dataProduct,id} = useParams()
+	
+	//const {
+       // currentCRObject
+    //} = WOQLClientObj()
+	
     const {
         updateChangeRequestStatus,
         getChangeRequestList,
@@ -26,9 +28,12 @@ export const RejectComponent = ({setKey}) => {
 
     /** handle Reject */
     async function handleReject () {
-        let res=await updateChangeRequestStatus(val, REJECTED)
+        let res=await updateChangeRequestStatus(val, REJECTED, id)
         let cr=await getChangeRequestList()
-        navigate(`/change_requests/`)
+        if(res){
+			exitChangeRequestBranch()
+			navigate(`/${organization}/${dataProduct}`)
+		}
     }
     
 	return <Form.Group className="mt-3 mb-5 ml-3 mr-4">

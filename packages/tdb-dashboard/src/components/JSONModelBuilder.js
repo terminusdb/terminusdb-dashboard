@@ -19,7 +19,7 @@ import {CopyButton} from "./utils"
 import {BsSave} from "react-icons/bs"
 
 export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
-    const {getSchemaGraph} = GraphContextObj();
+    const {getSchemaGraph,mainGraphObj} = GraphContextObj();
     const {dataProduct} = WOQLClientObj()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
@@ -47,7 +47,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
         if(tab == GRAPH_TAB) return
         setEditMode(false)
         getJSONSchema()
-    }, [tab,dataProduct])
+    }, [tab,dataProduct,mainGraphObj])
 
     const [editMode, setEditMode]=useState(false)
 	const [value, setValue]=useState(false) 
@@ -124,7 +124,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
                             const editorValue =editor.doc.getValue()
                             onBlurHandler(editorValue)
                         }}
-                        value={jsonSchema}
+                        value={value}
                         options={MODEL_BUILDER_EDITOR_OPTIONS}
                         className="model-builder-code-mirror"
                     />

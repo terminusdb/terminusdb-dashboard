@@ -148,6 +148,7 @@ export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit
                 orderBy={orderBy}
                 filtersBy={filtersBy}
                 pages={pages}
+                limit={limit}
                 pageNumber={pagenum}
                 rowCount={totalRows}
                 setLimits={setLimits}
