@@ -16,7 +16,8 @@ export function getUILayout(frame, item, uiFrame, mode, formData, documentation)
     let uiLayout=helper.getUIBasedOnType(frame, item, uiFrame, mode, data, documentation)
     // if property is lexical key then make read only
     if(mode !== CONST.CREATE && frame && frame.hasOwnProperty("@key") && util.checkIfKey(item, frame["@key"])) {
-        uiLayout["ui:readonly"] = true
+        //uiLayout["ui:readonly"] = true
+        uiLayout["classNames"] = uiLayout["classNames"] + " tdb__key__field "
     } 
     //let addedCustomUI=util.addCustomUI(item, uiFrame, uiLayout)
     return uiLayout

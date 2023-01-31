@@ -110,11 +110,12 @@ export function getChoiceSubDocumentsArrayItems (frame, item, formData, mode) {
             //title: choice,
             anyOf: frame.properties[item].anyOf
         }
-    
     }
 
     if(!formData) return arrayItems
     if(!Array.isArray(formData)) return arrayItems
+
+    arrayItems=[]
 
     formData.map(data => {
         // get the choice which have been added

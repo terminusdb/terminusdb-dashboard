@@ -10,8 +10,6 @@
     max-height: 20px;
 }
 
-
-
 .tdb__input,
 .tdb__input > input, 
 .tdb__input > select, 
@@ -30,6 +28,20 @@
 
 .tdb__input > input:focus {
     color: #adb5bd;
+}
+
+/** lexical key */
+/* disable key filed if filled */
+.tdb__key__field textarea,
+.tdb__key__field input {
+    pointer-events: none !important;
+}
+
+
+/* enable key filed if empty */
+.tdb__key__field textarea:empty,
+.tdb__key__field input:empty  {
+    pointer-events: auto !important;
 }
 
 /* 

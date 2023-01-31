@@ -26,7 +26,13 @@ export function getUILayout (fullFrame, frame, item, uiFrame, mode, formData, do
         "ui:placeholder": `Select ${label} ...`,
         //"ui:description": getUI(),
         classNames: "tdb__input mb-3 mt-3"
-    }
+    } 
+
+    // if property is lexical key then make read only
+    if(mode !== CONST.CREATE && frame && frame.hasOwnProperty("@key") && util.checkIfKey(item, frame["@key"])) {
+        //uiLayout["ui:readonly"] = true
+        uiLayout["classNames"] = uiLayout["classNames"] + " tdb__key__field "
+    } 
 
     return uiLayout
 }
