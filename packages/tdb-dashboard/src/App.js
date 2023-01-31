@@ -38,7 +38,7 @@ export function App (props){
     
     // this happen after confirm you password linking in the email url
     if (window.location.search.includes("supportSignUp=true")) {
-        navigate(`/`)
+        window.location.replace('/') 
     }
 
     if(connectionError) {
