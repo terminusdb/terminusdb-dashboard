@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Route , useParams } from "react-router-dom";
+import { Route , useParams,useNavigate } from "react-router-dom";
 import {INVITE_PAGE} from "./constants";
 import {WOQLClientObj} from '../init-woql-client'
 
@@ -11,6 +11,7 @@ if(!clientUser) return
 const { isAuthenticated, loginWithRedirect }  = clientUser
 
 let {refid,teamid} = useParams()
+const navigate = useNavigate()
 
 const path = window.location.pathname
 //const path="http://localhost:3030/my_product_test?refid=testttjdfjlfwkeowo3ponvjgie4u3iw&team=team0" //`${window.location.origin}/my_product_test?refid=jdfjlfwkeowo3ponvjgie4u3iw%26team=team01`;
@@ -29,7 +30,12 @@ const path = window.location.pathname
           loginConf['returnTo'] = returnTo
           loginConf['appState'] = { targetUrl: targetUrl }
         }
-       await loginWithRedirect(loginConf)
+      
+        if (window.location.search.includes("error=unauthorized")){      
+            navigate(`/verify`)
+        }else{
+            await loginWithRedirect(loginConf)
+        }
       }
     };
     fn();

@@ -35,14 +35,10 @@ export function App (props){
     if(!clientUser) return ""
     // we have this loading only in terminusX, it is auth0 information/login loading
     const {loading} = clientUser
-    
-    if (window.location.search.includes("error=unauthorized")) {      
-        navigate(`/verify`)
-    }
 
-    if (window.location.search.includes("supportSignUp=true")) {
+    /*if (window.location.search.includes("supportSignUp=true")) {
         navigate(`/`)
-    }
+    }*/
 
     if(connectionError) {
         return <ServerError message={connectionError}/>
