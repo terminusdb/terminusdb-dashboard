@@ -11,7 +11,7 @@ import { DefaultColumnFilter } from './ColumnFilters';
  * sort - no, local, remote
  */ 
 
-export const ReactTableComponent = ({columns, data, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh,hiddenColumns})=>{
+export const ReactTableComponent = ({columns, data, limit, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh,hiddenColumns})=>{
 
    // console.log("COLUMS", JSON.stringify(columns,null,4))
 
@@ -20,7 +20,7 @@ export const ReactTableComponent = ({columns, data, config, pages, freewidth, fi
 
     rowCount = rowCount || data.length 
     
-    const startPageSize=  10
+    const startPageSize=  limit ||  10
     const startPageNumber = pageNumber || 0
     let ut_config = {
         columns,
@@ -33,7 +33,7 @@ export const ReactTableComponent = ({columns, data, config, pages, freewidth, fi
         pageCount : pages || 1,
         initialState : {
             filters : filtersBy || [],
-            pageSize : 10,
+            pageSize : startPageSize,
             pageIndex : pageNumber || 0,
             hiddenColumns: hiddenColumns
             //sortBy : orderBy,
@@ -73,9 +73,9 @@ export const ReactTableComponent = ({columns, data, config, pages, freewidth, fi
         let st = ((pageSize * pageIndex) + 1)
         let en = page.length + st - 1
         rowCountStr = "Record " + st + " to " + en
-        if(rowCount){
+        /* if(rowCount){
             total += " of " + rowCount
-        }
+        }*/
     } 
 
     useEffect(() => {
@@ -104,6 +104,10 @@ export const ReactTableComponent = ({columns, data, config, pages, freewidth, fi
             || pageIndex != (pageNumber || 0)))
             setLimits(pageSize, (pageIndex)*pageSize)
      }, [pageIndex, pageSize ])
+
+     const onRefreshHandler = () =>{
+        setLimits(pageSize, (pageIndex)*pageSize)
+     }
 
 
      return (
@@ -157,20 +161,20 @@ export const ReactTableComponent = ({columns, data, config, pages, freewidth, fi
             {pager && data.length>0 &&
                 <Row md={12} className="mr-0 ml-0">
                     <Col md={3} className="d-flex justify-content-center align-items-center">                      
-                        <button id="table_previous" onClick={() => 
+                        <button style={{width:"60px"}} id="table_previous" onClick={() => 
                             previousPage()} 
                             disabled={!canPreviousPage}>
                         {'<'}
                         </button>{' '}
-                        <button id="table_next" onClick={() => 
+                        <button style={{width:"60px"}} id="table_next" onClick={() => 
                             nextPage()} 
                             disabled={!canNextPage}>
                         {'>'}
                         </button>{' '}                      
                     </Col>
                     <Col md={6} className="d-flex justify-content-center align-items-center">
-                        
-                        <span id="table_page_number">
+
+                        <span id="table_page_number"  style={{opacity:0}}>
                             Page{' '}
                             <strong className="mr-3">
                                 {pageIndex  + 1} of {pageCount}
@@ -193,10 +197,10 @@ export const ReactTableComponent = ({columns, data, config, pages, freewidth, fi
                     </Col>
                     <Col md={3} className="d-flex justify-content-center align-items-center">
                         <div className="tdb__toolbar__base">
-                            <button onClick={onRefresh} className="tdb__toolbar__base__button" title="Refresh table contents">
+                            <button onClick={onRefreshHandler} className="tdb__toolbar__base__button" title="Refresh table contents">
                                 <BiRefresh className="tdb__toolbar__base__icon"/>
                                 <span>Refresh</span>
-                            </button>
+                            </button> 
                         </div>
                     </Col>
               </Row>

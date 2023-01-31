@@ -49,8 +49,9 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         }else{
             const data = result.data 
             if(!Array.isArray(data[documentType]))return []
-                const rowCountTmp  = limit*start+data[documentType].length
-                if(data[documentType].length === (limit+1)){
+                //current page is the startoffset
+                const rowCountTmp  = currentpage+data[documentType].length
+                if(data[documentType].length === (currentlimit+1)){
                 //setHasNextPage(false)
                 data[documentType].pop()
                 }
@@ -115,10 +116,11 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
           })
         }
         setFilters(filtersArr)
+        setStart(0)
         setQueryFilters(filtersTmp)
 
         console.log("changeFilters" ,filtersArr, filtersTmp)
-        callFetchMore(limit,start,orderBy,filtersTmp)      
+        callFetchMore(limit,0,orderBy,filtersTmp)      
       }
 
      const changeOrder = (orderByArr,fetchMore=false) =>{
