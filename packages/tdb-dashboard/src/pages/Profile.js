@@ -20,6 +20,8 @@ import {FaPython} from "react-icons/fa"
 import {SiJavascript} from "react-icons/si"
 import {AiOutlineVerticalLeft} from "react-icons/ai"
 import {WOQLClientObj} from "../init-woql-client"
+import {useNavigate} from "react-router-dom"
+import { PLANS } from "../routing/constants"
 
 export const Profile = () => {
     const {woqlClient,clientUser:user} = WOQLClientObj()
@@ -27,8 +29,9 @@ export const Profile = () => {
     const organization = woqlClient.organization()
     //const team = user ? user['http://terminusdb.com/schema/system#team'] : ''
     const email = user ? user['email'] : ''
+    const tier = user && user.userInfo ? user.userInfo.tier : "Community"
     const [showNewMemberModal, setShowNewMemberModal] = useState(false)
-
+    const navigate = useNavigate()
     // set key for tabs
 
     const [key, setKey] = useState(PYTHON_TAB)
@@ -42,6 +45,9 @@ export const Profile = () => {
     const jsCode = js_code(cloud_url,organization,email)
     const curlCode = `export TOKEN='YOUR_API_TOKEN_HERE'\ncurl "${cloud_url}api/" -H "API_TOKEN: $TOKEN"`
 
+    function gotoSubscription (){
+        navigate(`/${PLANS}`)
+    }
 
     /* adding a comment for text */
     return <Layout sideBarContent={<LeftSideBar/>}>
@@ -125,7 +131,15 @@ export const Profile = () => {
                             <BsFillPeopleFill className="mr-2"/>Create a new Team
                         </Button>
                     </span>
-                </Card>
+                </Card> 
+                <Card className="shadow-sm border-0 rounded-2 mb-3 mx-auto mr-4">
+                    <Card.Header >
+                        <Card.Title>Subscription : {tier}</Card.Title>
+                    </Card.Header>
+                    <Card.Body>
+                        <Button onClick={gotoSubscription} className="mt-4 mb-4 w-100 pt-3 pb-3 btn-success">Update Your Subscription</Button>
+                    </Card.Body>
+                </Card>                    
 
             </Col>
             </Row>}

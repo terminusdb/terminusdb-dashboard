@@ -1,262 +1,275 @@
-import React, {useState } from "react";
+import React, {useRef, useState,useEffect} from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import api from "./Api";
-import { Button, Form, FormGroup, FormControl} from 'react-bootstrap'; 
+import api from "./StripeManager";
+import { Button, Form, FormGroup, FormControl,Card, Row, Col, Stack, } from 'react-bootstrap'; 
 import {FormPaymentLabels} from "./labels";
 // import { useAuth0 } from "../../react-auth0-spa";  
 import CardSection from "./CardSection";
+import {StripeManager} from "./StripeManager"
+import { CountrySelector } from "./CountrySelector";
 
 import  axios  from "axios" ; 
-
+import { Label } from "recharts";
+import {MdEuroSymbol} from "react-icons/md"
+import { useNavigate } from "react-router-dom";
 /*
 Visa: 4242 4242 4242 4242.  //00000
 Mastercard: 5555 5555 5555 4444.
 American Express: 3782 822463 10005.
 https://stripe.com/docs/testing#international-cards
 https://dashboard.stripe.com/test/customers
+https://stripe.com/docs/testing#cards test cards
 */
-const bff_url= process.env.REACT_APP_BFF_URL || '/';
-const baseUrl=`${bff_url}api/private`
 
-export default function FormPayment(props) {
- // const { user, isAuthenticated, getTokenSilently } = useAuth0();
-  //const user = 
-  const [subQuantities,setQuantities] = useState(1);
-  const [amount, setAmount] = useState(0);
-  const [currency, setCurrency] = useState("");
-  const [clientSecret, setClientSecret] = useState(null);
-  const [error, setError] = useState(null);
-  const [metadata, setMetadata] = useState(null);
-  const [succeeded, setSucceeded] = useState(false);
-  const [processing, setProcessing] = useState(false);
+export function FormPayment(props) {
   const [enableSubmit, setEnableSubmit] = useState(false)
+  const navigate = useNavigate()
 
+  const userEmail = useRef(null);
+  const userCard = useRef(null);
+  const country = useRef(null);
+  const postalCode = useRef(null);
+  const companyName= useRef(null);
+  const province = useRef(null);
+  const city = useRef(null);
+  const address = useRef(null);
 
-  //const user_email= user ? user['http://terminusdb.com/schema/system#user_identifier'] : ''
-
-  const [ userEmail, setEmail ] = useState(props.defaultEmail)//props.defaultEmail);
-  const [ userCard, setUserCard ] = useState('');
-
-  
-  const setSubQuantities=(evt)=>{
-      const value = evt.target.value;
-      setQuantities(value);
-  }
-
-  const changeEmail = (evt) =>{
-       const value = evt.target.value;
-       setEmail(value);
-  }
-
-  const changeCardUser = (evt) =>{
-       const value = evt.target.value;
-       setUserCard(value);
-  }
 
   const stripe = useStripe();
   const elements = useElements();
 
+  const {createCustomer, 
+        processError, 
+        processStart, 
+        succeeded, 
+        error, 
+        processing, 
+        getPaymentMethod, 
+        paymentMethod,
+        updateSubscription} = StripeManager(stripe)
+
+  useEffect(() => {
+		getPaymentMethod()
+  },[])
+
   const handleSubmit = (ev) =>{
   //var cardholderEmail = document.querySelector('#email').value;
     ev.preventDefault();
-    setProcessing(true);
-    setSucceeded(false);
-    setError(null);
-    stripe.createPaymentMethod('card', elements.getElement(CardElement), {
-      billing_details: {
-
-          name: userCard,
-          email:userEmail
-       }
+    processStart()
+    const userCardValue = userCard.current.value
+    const userEmailValue = userEmail.current.value
+    const countryValue = country.current.value
+    const postalCodeValue = postalCode.current.value
+    const companyNameValue = companyName.current.value
+    const provinceValue = province.current.value
+    const cityValue = city.current.value
+    const addressValue = address.current.value
+    /*
+    * Stripe will send an email receipt when the payment 
+    * succeeds in live mode (but will not send one in test mode).
+    */
+    const billing_details = {
+      name: userCardValue,
+      email:userEmailValue,
+      "address": {
+          "city": cityValue,
+          "country": countryValue,
+          "line1": companyNameValue,
+          "line2": addressValue,
+          "postal_code": postalCodeValue,
+          "state": provinceValue
+      }
+   }
+    stripe.createPaymentMethod('card', 
+      elements.getElement(CardElement), {
+      billing_details: billing_details
     })
     .then(function(result) {
       if (result.error) {
-        setError(result.error);
-        setProcessing(false);
-       //console.log("[error]", result.error);
+        processError(result.error.message)
       } else {
-        createCustomer(result.paymentMethod.id, userEmail);
+        createCustomer(result.paymentMethod.id, billing_details,props.subscriptionObj.title);
       }
     }).catch(function(err){
-
-     //console.log(err)
-
+        processError(err.message)
     })
     ;
 };
 
 
-const createCustomer = async (paymentMethod, cardholderEmail) => {
-    let uname = user ? user['http://terminusdb.com/schema/system#agent_name'] : ""
 
-    const options = {
-      mode: 'cors', // no-cors, cors, *same-origin
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'client',
-    };
+const renderSuccess = () => {
+      function goToHome (){
+          navigate("/")
+      }
 
-    const body= {email: cardholderEmail,
-                username: uname, 
-                payment_method: paymentMethod}
-
- // async function getToken(){
-      setError(false);
-      setSucceeded(false);
-      setProcessing(true);
-      try{
-        //const accessToken = await getTokenSilently();
-        options.headers = { Authorization: `Bearer ${props.accessToken}` };
-        const result = await axios.post(`${baseUrl}/createcustomer`, body, options)
-        
-        handleSubscription(result.data);
-
-        setError(false);
-        setSucceeded(true);
-        setProcessing(false);
-      }catch(err){
-        const message = err.response.data ? err.response.data.message : 'There was an error processing your request'
-        setError(message);
-        setSucceeded(false);
-      }finally{
-        setProcessing(false)
-    } 
-    }
-      
-
-
-const handleSubscription = (subscription) => {
-  const { latest_invoice } = subscription;
-  const { payment_intent } = latest_invoice;
-
-  if (payment_intent) {
-    const { client_secret, status } = payment_intent;
-    if (status === 'requires_action' || status === 'requires_payment_method') {
-      stripe.confirmCardPayment(client_secret).then(function(result) {
-        if (result.error) {
-          // Display error message in your UI.
-          // The card was declined (i.e. insufficient funds, card has expired, etc)
-          setProcessing(false);
-          setSucceeded(false);
-          setError(result.error);
-        } else {
-          // Show a success message to your customer
-          confirmSubscription(subscription.id);
-        }
-      });
-    } else {
-      // No additional information was needed
-      // Show a success message to your customer
-      setProcessing(false);
-      setSucceeded(true);
-      setError(null);
-    }
-  } else {
-    setProcessing(false);
-    setSucceeded(true);
-    setError(null);
-  }
-}
-
- const confirmSubscription = async (subscriptionId) => {
-  //async function getToken(){
-    const accessToken = await getTokenSilently();
-    return fetch(`${baseUrl}/subscription`, {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-        'Authorization': 'Bearer ' + accessToken
-      },
-      body: JSON.stringify({
-        subscriptionId: subscriptionId
-      })
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(subscription) {
-        setProcessing(false);
-        setSucceeded(true);
-        setError(null);
-      });
- // }
-
-  //return getToken();
-}
-
-  const renderSuccess = () => {
       return (
-        <div className="sr-field-success message mt-4 mb-4  ">
-          <img width="300" src="https://assets.terminusdb.com/terminusdb-console/images/cowduck-space.png" />
-          <h1 className="router-link-exact-active mt-4">{FormPaymentLabels.successTitle}</h1>
-          <p>{FormPaymentLabels.successSubtile}</p>
-          <a href="./profile">Return to Profile</a>
-        </div>
+        <Card className="h-100">
+          <Card.Body>
+            <img width="300" src="https://assets.terminusdb.com/terminusdb-console/images/cowduck-space.png" />
+            <Card.Text className="h1">{FormPaymentLabels.successTitle}</Card.Text>
+            <Card.Text className="h4 mt-2">{`${FormPaymentLabels.successSubtitle} ${props.subscriptionObj.title}`} </Card.Text>
+            <Button onClick={goToHome}>Go to Home</Button>
+          </Card.Body>
+        </Card>
       );
   };
 
+  const updateSub = (evt) =>{
+    evt.preventDefault()
+    updateSubscription(props.subscriptionObj.title)
+  }
   const renderForm = () => {
+    // we can have 2 type of form 
+    // the insert card data or the update price
+    // 
+    if(!paymentMethod) return ""
+    if(paymentMethod.card){
+       
+        return <Form className="text-left mt-4" onSubmit={updateSub}> 
+              <Card className="h-100">
+              {error && <div className="mt-4 alert alert-danger">{error}</div>}
+                <Card.Title>Credit card</Card.Title>
+                <Card.Text className="mb-3">{`${paymentMethod.card.brand} - ${paymentMethod.card.last4}`}</Card.Text>
+                {paymentMethod.billing_details && paymentMethod.billing_details.address && 
+                  <React.Fragment>
+                    <Card.Title>
+                      Billing address
+                    </Card.Title>
+                    <Card.Text>{paymentMethod.billing_details.address.line1}</Card.Text>
+                    <Card.Text>{paymentMethod.billing_details.address.line2}</Card.Text>             
+                    <Card.Text>{`${paymentMethod.billing_details.address.city} ${paymentMethod.billing_details.address.state}`}</Card.Text>
+                    <Card.Text>{`${paymentMethod.billing_details.address.postal_code} ${paymentMethod.billing_details.address.country}`}</Card.Text>
+                  </React.Fragment>
+                }
+                <Card.Footer >
+                     <Card.Text className="justify-content-right">Subscription Details</Card.Text>
+                      <Stack direction="horizontal" gap={10} className="justify-content-end">
+                      <Card.Text>
+                      {props.subscriptionObj.title} <MdEuroSymbol /> {props.subscriptionObj.price} (Billed monthly)</Card.Text>
+                      </Stack>
+                    <div className="d-flex justify-content-end mt-2"> 
+                    <Button onClick={props.closeModal} disabled={processing} variant="light" >Cancel</Button>
+                    <Button type="submit" disabled={processing || !stripe} className="ml-3">
 
+                      {processing ? "Processing…" : "Subscribe"}
+                    </Button>
+                    </div>
+                    <div className="d-flex justify-content-end mt-2"> 
+                      <span style={{fontSize: "15px", color: "#888" }}>* your account will be billed monthly until cancelled.
+                      </span>
+                    </div>       
+								</Card.Footer >
+              </Card>
+          </Form>
+    }
+    function onChangeCardElement(event) {
+          if (event.complete) {
+              setEnableSubmit(true)
+              processError(null)                    
+              // enable payment button
+          } else if (event.error) {
+              setEnableSubmit(false)
+              if(event.error.message){      
+                  processError(event.error.message)
+              }
+              else {
+                  processError("There was an error in processing your request")
+              }
+              // show validation to customer
+          }  
+          else {
+              // processError(false)
+              setEnableSubmit(false)   
+          }               
+      }
 
-      if(elements) {
-            let ce = elements.getElement(CardElement)
-            if(ce){
-                ce.on('change', function(event) {
-                    if (event.complete) {
-                        setEnableSubmit(true)                    
-                        // enable payment button
-                    } else if (event.error) {
-                        setEnableSubmit(false)
-                        if(event.error.message){      
-                            setError(event.error.message)
-                        }
-                        else {
-                            //console.log(event.error)
-                            setError("There was an error in processing your request")
-                        }
-                        // show validation to customer
-                    }  
-                    else {
-                        setError(false)
-                        setEnableSubmit(false)   
-                    }               
-                });
-            }  
-        }
-    return (
-      <Form className="text-left mt-4" onSubmit={handleSubmit}>
-        <FormGroup >
-          <Form.Label for="email">Billing Email</Form.Label>
-          <FormControl className="border-light-01" type="email" name="email" id="email" placeholder="email" defaultValue={userEmail} onBlur={changeEmail} />          
-        </FormGroup>
-        <FormGroup >
-          <Form.Label for="name">Name on Card</Form.Label>
-          <FormControl className="border-light-01" type="text" name="name" id="name" placeholder="name on card" required={true} onBlur={changeCardUser}/>
-        </FormGroup>
-        <FormGroup>
-          <Form.Label for="cardNumber">Card Number</Form.Label>
-            <CardSection />
-            {error && <div className="mt-4 alert alert-danger">{error}</div>}
-        </FormGroup>
-            <div style={{float: "left", fontSize: "10px", color: "#888" }}>
-                <i>* your account will be billed based on your usage of the service until cancelled.</i>
-            </div>
-          <button style={{padding:0}}
-          className="large-banner_button large-banner_button--no-shadow" disabled={processing  || !enableSubmit || !stripe}>
+    return <Card className="h-100">
+              {error && <div className="mt-4 alert alert-danger">{error}</div>}
+              <Form className="text-left mt-4" onSubmit={handleSubmit}>
+                <Card.Body>         
+                    <FormGroup className="mb-4">
+                      <Form.Label for="name">Name on Card</Form.Label>
+                      <FormControl  ref={userCard} className="border-light-01" 
+                        type="text" name="name" id="name" placeholder="name on card" required={true}/>
+                    </FormGroup>
+                    <FormGroup className="mb-4">
+                      <Form.Label for="cardNumber">Card Number</Form.Label>
+                        <CardSection onChange={onChangeCardElement}/>
+                    </FormGroup>
+                    <Card.Title className="mt-5">Billing Information</Card.Title>
+                    <FormGroup className="mb-4">
+                      <Form.Label for="email">Email</Form.Label>
+                      <FormControl ref={userEmail}  
+                        className="border-light-01" type="email" name="email" id="email" placeholder="Email" 
+                        defaultValue={props.defaultEmail} />          
+                    </FormGroup>             
+                     <FormGroup className="mb-4">
+                      <Form.Label for="name">Company Name</Form.Label>
+                      <FormControl ref={companyName}  className="border-light-01" type="text" name="name" id="name" placeholder="Company Name" required={true} />
+                    </FormGroup>
+                    <Row>
+                        <Col >
+                      <FormGroup className="mb-4">
+                          <Form.Label for="name">Province/State</Form.Label>
+                          <FormControl ref={province}  className="border-light-01" type="text" name="name" id="name" placeholder="Province/State" required={true} />
+                        </FormGroup>
+                      </Col>
+                      <Col >
+                      <FormGroup className="mb-4">
+                        <Form.Label for="name">City</Form.Label>
+                        <FormControl ref={city}  className="border-light-01" type="text" name="name" id="name" placeholder="City" required={true} />
+                      </FormGroup>
+                      </Col>
+                     </Row>
 
-          {processing ? "Processing…" : "Subscribe"}
-        </button>
-
-      </Form>
-    );
+                     <FormGroup className="mb-4">
+                      <Form.Label for="address">Street Address</Form.Label>
+                      <FormControl ref={address}  className="border-light-01" type="text" name="name" id="name" placeholder="Street Address" required={true} />
+                    </FormGroup>  
+                    <Row>
+                    <Col >
+                      <FormGroup className="mb-4">
+                          <Form.Label for="name" >Country</Form.Label>
+                          <CountrySelector setRef={country}  />
+                        </FormGroup>
+                      </Col>
+                      <Col >
+                      <FormGroup className="mb-4">
+                        <Form.Label for="name">Postal Code</Form.Label>
+                        <FormControl ref={postalCode}  className="border-light-01" type="text" name="name" id="name" placeholder="Postal Code" required={true} />
+                      </FormGroup>
+                      </Col>
+                     </Row>             
+                </Card.Body>
+                <Card.Footer >
+                     <Card.Text className="justify-content-right">Subscription Details</Card.Text>
+                      <Stack direction="horizontal" gap={10} className="justify-content-end">
+                      <Card.Text>
+                      {props.subscriptionObj.title} <MdEuroSymbol /> {props.subscriptionObj.price} (Billed monthly)</Card.Text>
+                      </Stack>
+                    
+                      <div className="d-flex justify-content-end mt-2"> 
+                        <Button onClick={props.closeModal} disabled={processing} variant="light" >Cancel</Button>
+                        <Button type={"submit"} disabled={processing  || !enableSubmit || !stripe} className="ml-3">
+                            {processing ? "Processing…" : "Subscribe"}
+                        </Button>
+                      </div>
+                      <div className="d-flex justify-content-end mt-2"> 
+                        <span style={{fontSize: "15px", color: "#888" }}>* your account will be billed monthly until cancelled.
+                          </span>
+                      </div>   
+								</Card.Footer >
+                </Form>     
+                         
+      </Card>
   };
 
-  return (
-    <div className="checkout-form">
+ 
+  return  <div className="checkout-form">
       <div className="sr-payment-form">
         <div className="sr-form-row" />
-       {succeeded ? renderSuccess() : renderForm()}
+        {succeeded ? renderSuccess() : renderForm()}
       </div>
-    </div>
-  );
+    </div>  
 }
-//{succeeded ? renderSuccess() : renderForm()}

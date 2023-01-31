@@ -365,6 +365,15 @@ div.progress-bar-container {
   min-height: 49px !important;
 }
 
+/* ---------- form control custom dark mode ---------- */
+.form-select-light {
+  color: #adb5bd !important;
+  /*background-color: #444 !important;*/
+  background-color: transparent !important;
+  border-color: rgb(102, 102, 102) !important;
+  min-height: 49px !important;
+}
+
 
 
 .form-control:disabled:hover, .form-control[readonly]:hover{

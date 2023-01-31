@@ -22,4 +22,5 @@ export const MEMBERS = "members"
 
 export const GRAPHIQL = "graphiql"
 
-export const PAYMENT = "payment"
+export const PAYMENT = "__PAYMENT__"
+export const PLANS = "__SUBSCRIPTION___"

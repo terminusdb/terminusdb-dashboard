@@ -12,6 +12,7 @@ import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
+import {UTILS} from "@terminusdb/terminusdb-client"
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -64,7 +65,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     } = DocumentControlObj()
 
     const {type, id} = useParams()
-    let documentID=`${type}/${id}`
+    let documentID=`${type}/${UTILS.encodeURISegment(id)}`
     
     // constants for extracted data 
     const [extracted, setExtracted]=useState(false)

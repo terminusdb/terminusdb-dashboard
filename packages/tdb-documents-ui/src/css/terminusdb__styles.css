@@ -378,12 +378,13 @@ legend {
 }
 
 /** document links */
-.tdb__document__link legend,
+
 /** display legend for geo/ choice sub document frames */
+/*.choice_subdocument_title .control-label, */
+.tdb__document__link legend,
 .tdb__geo__input legend,
 .tdb__multipolygon__input legend,
 .choice_subdocument_title legend,
-/*.choice_subdocument_title .control-label, */
 .tdb__array__frames legend, 
 .tdb__rdf legend,
 .tdb__array__frames span.control-label { 

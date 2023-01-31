@@ -1,5 +1,5 @@
 import React from "react" 
-import {Routes,Route,useNavigate} from "react-router-dom"
+import {Routes,Route,useNavigate, BrowserRouter} from "react-router-dom"
 import {Loading} from "./components/Loading"
 import {SERVER_LOADING_MESSAGE} from "./components/constants"
 import {ProductsExplorer} from "./pages/ProductsExplorer"
@@ -7,6 +7,7 @@ import * as PATH from "./routing/constants"
 import {ModelProductPage} from "./pages/ModelProductPage"
 import {DataProductsHome} from "./pages/DataProductsHome"
 import {VerifyEmail} from "./pages/VerifyEmail"
+import {PlansPage} from "./pages/PlansPage"
 import PrivateRoute from "./routing/PrivateRoute"
 import {DocumentExplorer} from "./pages/DocumentExplorer"
 import {Documents} from "./pages/Documents"
@@ -27,7 +28,7 @@ import {DocumentTemplate} from "./pages/DocumentTemplate"
 import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 import {PageNotFound} from "./pages/PageNotFound"
 import {DocumentsPageList} from "./pages/DocumentsListPage"
-
+import {PLANS} from "./routing/constants";
 
 export function App (props){
     let navigate = useNavigate();
@@ -35,15 +36,12 @@ export function App (props){
     if(!clientUser) return ""
     // we have this loading only in terminusX, it is auth0 information/login loading
     const {loading} = clientUser
-    
-    if (window.location.search.includes("error=unauthorized")) {      
-        navigate(`/verify`)
-    }
 
-    if (window.location.search.includes("supportSignUp=true")) {
-        navigate(`/`)
+    if (clientUser.firstLogin === true) {
+        clientUser.firstLogin = false
+        navigate(`/${PLANS}`)
     }
-
+      
     if(connectionError) {
         return <ServerError message={connectionError}/>
     }
@@ -56,15 +54,15 @@ export function App (props){
     //the accessControlDashboard in terminusX is created only after the login 
     // so he can be undefined at the start
     const isAdmin = accessControlDashboard ? accessControlDashboard.isAdmin() : false
-  
-    return <div className="container-fluid container-background h-100">
-            <Routes>
-            {getRoutes(clientUser,isAdmin, woqlClient)}          
-            </Routes>         
+
+    const basename = process.env.BASE_URL ? {basename:process.env.BASE_URL} : {}
+
+    return <div className="container-fluid container-background h-100">      
+                <Routes>
+                {getRoutes(clientUser,isAdmin, woqlClient)}          
+                </Routes>    
             </div>
 }
-
-// {getRoutes(clientUser,isAdmin, woqlClient)}
 
 function getRoutes(clientUser, isAdmin, woqlClient){
     //const client = createApolloClient()
@@ -90,6 +88,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
     return <React.Fragment>
         <Route path="/verify" element={<VerifyEmail/>}/>
         <Route path = {PATH.INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />                     
+        <Route path={PATH.PLANS} element={<PrivateRoute component={PlansPage}/>}/>
         <Route index element={<PrivateRoute component={Home}/>} />
         <Route path=":organization" >
             <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
@@ -105,7 +104,6 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                     <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
                     <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
                 </Route>
-
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">                       
@@ -119,7 +117,6 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                             </Route> 
                     </Route>
                 </Route>
-
                 <Route path={PATH.PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
                 <Route path={PATH.PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />                    
             </Route>
@@ -128,37 +125,3 @@ function getRoutes(clientUser, isAdmin, woqlClient){
         <Route path="*" element={<PageNotFound/>} />
     </React.Fragment>
 }
-// <Route path="test"  element={<ApolloProvider client={client}><DocumentList/></ApolloProvider>} /> 
-//  <Route index element={<PrivateRoute component={DocumentsList01}/>} /> 
-/*
-\ <Route path={PATH.CHANGE_REQUESTS} >
-                    <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
-                    <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
-                </Route>
-*/
-
-/* <Route path={"test"} element={<PrivateRoute component={DocumentList}/>} />    */
-/*
-    return <React.Fragment>
-        <Route path="/verify" element={<VerifyEmail/>}/>
-        <Route path = {INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />                     
-        <Route index element={<PrivateRoute component={Home}/>} />
-        <Route path=":organization" >
-            <Route index element={<PrivateRoute component={OrganizationHome}></PrivateRoute>}/>
-            <Route path = {PROFILE} element = {<PrivateRoute component={Profile}/>} />  
-           {isAdmin &&  <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>}
-           {!isAdmin &&  <Route path="administrator" element={<div>Not Found 404 !!!!</div >}/>}
-            <Route path="members" element={<PrivateRoute component={UserManagement}/>}/>
-            <Route path=":dataProduct" >
-                <Route index element={<PrivateRoute component={DataProductsHome}/>} />
-                
-                <Route path={"test"} element={<PrivateRoute component={DocumentList}/>} />    
-
-                <Route path={DOCUMENT_EXPLORER} element={<PrivateRoute component={DocumentExplorer}/>} />
-                <Route path={PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
-                <Route path={PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />                    
-            </Route>
-        </Route>
-                 
-        <Route path="*" element={<div>Not Found 404 !!!!</div >} />
-    </React.Fragment>*/

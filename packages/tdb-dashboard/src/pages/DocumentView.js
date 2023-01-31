@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
-import TerminusClient from '@terminusdb/terminusdb-client'
+import {UTILS} from '@terminusdb/terminusdb-client'
 import {Header, onTraverse} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {GetDocumentHook, DeleteDocumentHook} from "../hooks/DocumentHook"
@@ -28,7 +28,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}
     const [data, setData]=useState(false)
 
     // hook to view a document 
-    let documentID=`${type}/${id}`
+    let documentID=`${type}/${UTILS.encodeURISegment(id)}`
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
     function handleTraverse (documentID) {

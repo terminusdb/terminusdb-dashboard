@@ -2,6 +2,8 @@ export function createClientUser(useAuth0,params){
     let clientUser = {}
     try{
         const {isAuthenticated,user,getTokenSilently,logout,loginWithRedirect,loading} = useAuth0()
+
+        //console.log("AUTHO", user)
         clientUser = user || {}       
         clientUser.isAuthenticated = isAuthenticated
         clientUser.logout = logout

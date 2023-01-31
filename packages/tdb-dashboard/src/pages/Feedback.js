@@ -8,8 +8,10 @@ import {Alerts} from "../components/Alerts"
 import {TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
 import {FaTimes} from "react-icons/fa"
 import CowDuckHead from '../assets/CowDuckHead.png';
+import { ENTERPRISE_PLAN } from "../payment/labels"
+const FEEDBACK = 'feedback'
 
-export const Feedback = ({setShowFeedbackForm}) => {
+export const Feedback = ({setShowFeedbackForm, boxType=FEEDBACK}) => {
     const {clientUser} = WOQLClientObj()
     const {emailResult, sendEmailResult, setEmailError, emailError, sendEmailData}=SendEmailHook()
 
@@ -35,7 +37,24 @@ export const Feedback = ({setShowFeedbackForm}) => {
         setSubject(e.target.value) 
     }
 
-    return <Card className="shadow-sm px-3 rounded-2 py-4 mx-auto mt-5 ff-align-left feedback-form" style={{width: "500px"}}>
+    const labels = {
+        [FEEDBACK]: {
+            title: "Send us your Feedback",
+            preSubject : "",
+            subject: "Subject",
+            message:"If you notice any bugs or have any suggestions about how we can improve TerminusX, please let us know !",
+            className:"shadow-sm px-3 rounded-2 py-4 mx-auto mt-5 ff-align-left feedback-form"
+        },
+        [ENTERPRISE_PLAN]: {
+            title: "Contact us",
+            subject: "Enterprice Subscription",
+            preSubject : "Enterprice Subscription --- ",
+            message:"please let us know you project!",
+            className:"shadow-sm px-3 rounded-2 py-4 mx-auto mt-5 ff-align-left feedback-form"
+        }
+    }
+
+    return <Card className={labels[boxType].className} style={{width: "500px"}}>
         <div className="cowduck-top-sec bg-transparent border-0 text-center d-flex"> 
             <img className="card-img cowduck-feedback-avatar large-avatar rounded-circle mx-auto" src={CowDuckHead}/>
             <Button onClick={(e) => setShowFeedbackForm(false)} className="feedback-cancel btn btn-sm cancel-button" variant="outline-info">
@@ -43,7 +62,7 @@ export const Feedback = ({setShowFeedbackForm}) => {
             </Button>
         </div>
         <div>
-            <h5 className="text-center mt-2">Send us your Feedback  </h5>
+            <h5 className="text-center mt-2">{labels[boxType].title}</h5>
             <h1 className="text-center mt-3">Hi {userName} !</h1>
             <Form> 
                 {emailResult && <Alerts message={emailResult} type={TERMINUS_SUCCESS} onCancel={sendEmailResult}/>}
@@ -52,14 +71,14 @@ export const Feedback = ({setShowFeedbackForm}) => {
                     <Form.Label className="text-muted">Subject</Form.Label>
                     <Form.Control as="input" 
                         rows={1} 
-                        placeholder="Subject"
+                        placeholder={labels[boxType].subject}
                         onBlur={handleSubject}/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label className="text-muted">Message</Form.Label>
                     <Form.Control as="textarea" 
                         rows={10} 
-                        placeholder="If you notice any bugs or have any suggestions about how we can improve TerminusX, please let us know !"
+                        placeholder={labels[boxType].message}
                         onBlur={handleMessage}/>
                 </Form.Group>
             </Form>

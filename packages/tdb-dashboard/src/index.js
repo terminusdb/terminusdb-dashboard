@@ -19,8 +19,11 @@ function NavigationComponent(){
     let navigate = useNavigate();
     const redirect_uri = window.location.origin
     
+
+    console.log(window.location.search)
+
     const onRedirectCallback = (appState) => {
-	    navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
+       navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
     };
 
     if(localSettings && localSettings.connection_type!== "LOCAL"){
@@ -48,12 +51,10 @@ function NavigationComponent(){
               <App />
             </WOQLClientProvider>
 }
- 
 const basename = process.env.BASE_URL ? {basename:process.env.BASE_URL} : {}
-
-
 const container = document.getElementById('root');
 const root = createRoot(container); 
+
 root.render( <BrowserRouter {...basename}>
             <NavigationComponent/>
           </BrowserRouter>);
