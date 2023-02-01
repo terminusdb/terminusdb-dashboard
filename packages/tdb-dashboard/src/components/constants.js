@@ -11,7 +11,7 @@ import {GrGraphQl} from "react-icons/gr"
 import {BiGitPullRequest} from "react-icons/bi"
 
 //User Messages
-export const SERVER_LOADING_MESSAGE = "Setting up TerminusX Cloud ... "
+export const SERVER_LOADING_MESSAGE = "Setting up TerminusCMS ... "
 export const SCHEMA_LOADING_MESSAGE = "The schema being loaded... "
 
 
