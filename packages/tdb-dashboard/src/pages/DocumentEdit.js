@@ -12,7 +12,7 @@ import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
-import {UTILS} from '@terminusdb/terminusdb-client'
+import {UTILS} from "@terminusdb/terminusdb-client"
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){

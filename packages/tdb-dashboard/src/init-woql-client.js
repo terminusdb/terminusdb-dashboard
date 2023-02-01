@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient ,{UTILS} from '@terminusdb/terminusdb-client'
-import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, CHANGE_REQUESTS} from './routing/constants'
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, CHANGE_REQUESTS, PLANS,PAYMENT} from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
@@ -13,11 +13,11 @@ import { createApolloClient } from './routing/ApolloClientConfig'
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
 
-
 export const WOQLClientProvider = ({children, params}) => {
     //the client user can be the local user or the auth0 user in terminusX
     //maybe a some point we'll need a local and remote connection (terminusX connection to clone/push and pull etc...) 
     let clientUser = createClientUser(useAuth0, params)
+
     //let apolloClient
     const [woqlClient, setWoqlClient] = useState(null)
     const location = useLocation()
@@ -80,7 +80,7 @@ export const WOQLClientProvider = ({children, params}) => {
     // in this point params is not setted
     // to be review I need params get better
     // in pathname teamName and username are still encoded
-    const noTeam = {"":true,"invite":true,"administrator" :true,"verify":true,"payment":true}
+    const noTeam = {"":true,"invite":true,"administrator" :true,"verify":true,[PAYMENT]:true,[PLANS]:true}
     const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
@@ -128,6 +128,12 @@ export const WOQLClientProvider = ({children, params}) => {
                  const access =  new TerminusClient.AccessControl(opts.server,accessCredential)
                  const clientAccessControl = new AccessControlDashboard(access)
 
+                 //I have to create a new call in accessControl 
+                 const url = `${dbClient.server()}api/users/info`
+                 const userInfo = await  dbClient.sendCustomRequest("GET", url)
+                 // add extra info to auth0User
+                 clientUser.userInfo = userInfo
+
                  if(opts.connection_type !== "LOCAL"){
                    const rolesList = await clientAccessControl.callGetRolesList()
                    hasRebaseRole(rolesList)
@@ -148,7 +154,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 setLoadingServer(false)
             }
         }
-        if(opts && opts.server){           
+        if(opts && opts.server && window.location.pathname.indexOf("verify") === -1){           
             //to be review the local connection maybe don't need a user in the cloud
             //and don't need auth0 too
             if(opts.connection_type === 'LOCAL'){

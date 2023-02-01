@@ -17,7 +17,7 @@ export const TimeTravelContainer = ({show, setShowTimeTravel}) => {
     }
 
     return <div className={`mt-5 ${sliderClass}`}>
-        <Card variant="dark" className="time-travel-scroller">
+        <Card variant="dark" className="time-travel-scroller h-100">
                 <Card.Header className="d-flex">
                     <h6 className="mr-4 mt-2 w-100 float-left">Time travel on branch  -  <strong className="text-success">{branch}</strong></h6>
                     <div className="float-right w-100 text-right">

@@ -3,15 +3,14 @@ import {Container,Row} from "react-bootstrap"
 import {WOQLClientObj} from '../init-woql-client'
 
 export const VerifyEmail = (props) => { 
-    const {clientUser } = WOQLClientObj()
-    const { logout }  = clientUser 
+     const {clientUser } = WOQLClientObj()
+     const { logout }  = clientUser 
     
     const redirect_uri=`${window.location.origin}/`
 
-    const logoutWithRedirect = () =>
-        logout({
-            returnTo:redirect_uri
-    })
+    const logoutWithRedirect = () =>{
+         logout({returnTo:redirect_uri})
+    }
 
     return <Container className="text-warning h-100 d-flex flex-column align-items-center justify-content-center">
         <img src="../assets/laptop_5.png" style={{width:"30%"}}/>
