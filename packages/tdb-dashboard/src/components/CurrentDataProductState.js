@@ -28,7 +28,7 @@ export const ConnectedDataProduct = (props) => {
             }
             else {
                 if(setCurrentCommit) setCurrentCommit("latest")
-                if(setStatus)setStatus("text-muted")
+                if(setStatus)setStatus("tdb__status_latest__version") 
             }
        
     }, [chosenCommit])
@@ -51,12 +51,12 @@ export const ConnectedDataProduct = (props) => {
         }
         <MenuItem className="sub-menu-title">
             <span className="pro-item-content"> 
-                <strong className={`mr-3 ${status}`}> ● </strong>  {`on ${currentCommit} version`} 
+                <strong className={`mr-1 ${status}`}> ● </strong>  {`on ${currentCommit} version`} 
             </span>
         </MenuItem>
         <MenuItem className="sub-menu-title">
             <span className="pro-item-content"> 
-                <span className="badge rounded-pill bg-primary">
+                <span className="badge bg-primary">
                     <h6 className="ml-1 mr-1 mt-1">
                         <BsBriefcase className="mr-1"/> {branch} 
                     </h6>

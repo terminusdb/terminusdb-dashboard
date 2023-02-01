@@ -43,7 +43,7 @@ export function getUILayout(frame, item, uiFrame, mode, formData, documentation)
     }
     else {
         // Create and Edit 
-        uiLayout=helper.getArrayUILayout(frame, item, documentation)
+        uiLayout=helper.getArrayUILayout(frame, item, mode, documentation)
     }
     
     // custom ui:schema - add to default ui schema

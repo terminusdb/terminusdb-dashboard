@@ -60,8 +60,6 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
     
     let extractedResults = documentResults ? extractDocuments(documentResults[type]) : []
 
-    const totalRows = 200
-
     function extractDocuments(documentResultsArr) {
         if(!documentResultsArr) {
             //alert(JSON.stringify(documentResultsArr))
@@ -136,7 +134,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                      // setOrder={changeOrder}
                      // query={null}
                       loading={loading}
-                      totalRows={totalRows}
+                      totalRows={rowCount}
                       onRefresh={function(){}}
                   />}
             </Tab>

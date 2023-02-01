@@ -49,7 +49,7 @@ export const CommentComponent = ({setKey}) => {
 			disabled={loading}
 			title="Leave a Comment"
 			onClick={handleMessage}>
-			{loading ? <Loading message={COMMENT}/> : <><VscCommentDiscussion className="mr-2 mt-1 h6 fw-bold text-dark"/>
+			{loading ? "Saving Comment ..." : <><VscCommentDiscussion className="mr-2 mt-1 h6 fw-bold text-dark"/>
 				<h6 className="text-dark fw-bold">{COMMENT}</h6>
 			</>} 
 		</Button>

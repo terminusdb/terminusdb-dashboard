@@ -7,14 +7,16 @@ import {
     REJECTED
 } from "./constants"
 import {Loading} from "./Loading"
-import {useNavigate } from "react-router-dom"
+import {useNavigate,useParams } from "react-router-dom"
 import {RxCross2} from "react-icons/rx"
 
-export const RejectComponent = ({setKey}) => {
+export const RejectComponent = () => {
+	const {organization,dataProduct,id} = useParams()
+	
 	const {
-        currentCRObject
+		exitChangeRequestBranch
     } = WOQLClientObj()
-
+	
     const {
         updateChangeRequestStatus,
         getChangeRequestList,
@@ -26,9 +28,12 @@ export const RejectComponent = ({setKey}) => {
 
     /** handle Reject */
     async function handleReject () {
-        let res=await updateChangeRequestStatus(val, REJECTED)
+        let res=await updateChangeRequestStatus(val, REJECTED, id)
         let cr=await getChangeRequestList()
-        navigate(`/change_requests/`)
+        if(res){
+			exitChangeRequestBranch()
+			navigate(`/${organization}/${dataProduct}`)
+		}
     }
     
 	return <Form.Group className="mt-3 mb-5 ml-3 mr-4">
@@ -46,7 +51,7 @@ export const RejectComponent = ({setKey}) => {
 			title="Reject Change Request"
 			variant="danger"
 			onClick={handleReject}>
-			{loading ? <Loading message={REJECT}/> : <><RxCross2 className="mr-2 text-dark"/>
+			{loading ? "Rejecting ..." : <><RxCross2 className="mr-2 text-dark"/>
 				<h6 className="text-dark fw-bold">{REJECT}</h6>
 			</>} 
 		</Button>

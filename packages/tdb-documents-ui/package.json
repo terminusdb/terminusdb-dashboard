@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb/terminusdb-documents-ui",
-  "version": "1.0.7",
+  "version": "6.0.0",
   "description": "SDK to build UI from terminusdb documents",
   "main": "src/index.js",
   "module": "es6/index",
@@ -15,7 +15,12 @@
     "lint": "eslint src",
     "autofix": "eslint src --fix",
     "cypress": "npx cypress open",
-    "test": "react-scripts test -- --config=jest.config.js"
+    "test": "react-scripts test"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!react-dnd|dnd-core|@react-dnd)"
+    ]
   },
   "repository": {
     "type": "git",

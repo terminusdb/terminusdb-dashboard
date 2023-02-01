@@ -93,7 +93,7 @@ export const ChangeDiff = () => {
     let author= currentCRObject&&currentCRObject.hasOwnProperty("creator") ?  currentCRObject["creator"] : "user"
 
     return <Layout>
-        <div className='d-flex ml-5 mr-5'>
+        <div className='d-flex ml-5 mt-4 mr-5'>
             <div className='w-100'>
                 <Tabs
                     id="change_request_tabs"

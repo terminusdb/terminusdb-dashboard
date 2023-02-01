@@ -9,10 +9,13 @@ import * as CONST from "../constants"
  */
  export function getInfo(fullFrame, frame, item) {
     /** return null if frmae doesnt have property in it */
-    if(!frame.hasOwnProperty(item)) return null
+    if(!frame.hasOwnProperty(item)) return null 
     
     if(util.isDataType(frame[item])) {
         return CONST.DATA_TYPE
+    }
+    else if(util.isOneOfSubDocumentType(fullFrame, frame[item])) {
+        return CONST.ONEOFVALUES
     }
     else if(util.isSubDocumentType(frame[item])) {
         return CONST.SUBDOCUMENT_TYPE
@@ -23,9 +26,9 @@ import * as CONST from "../constants"
     else if(util.isChoiceDocumentType(frame[item])){
         return CONST.CHOICECLASSES
     }
-    else if(util.isOneOfDataType(frame, item)) {
+    /*else if(util.isOneOfDataType(frame, item)) {
         return CONST.ONEOFVALUES
-    }
+    }*/
     else if (util.isDocumentType(frame[item], fullFrame)) {
         return CONST.DOCUMENT
     }

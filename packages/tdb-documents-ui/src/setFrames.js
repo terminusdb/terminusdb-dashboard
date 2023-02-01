@@ -36,7 +36,7 @@ export function makeSetFrames (frame, item, uiFrame, mode, formData, documentati
           //  uiLayout["ui:widget"] = 'hidden'
         //}
     }
-    else {
+    else { 
         // Create and Edit 
         uiLayout=helper.getArrayUILayout(frame, item, mode, documentation)
     }
@@ -48,6 +48,8 @@ export function makeSetFrames (frame, item, uiFrame, mode, formData, documentati
     //console.log("generatedCustomUI", generatedCustomUI)
     let generatedLabel=generateLabel(frame.properties, item, documentation)
     uiLayout["ui:title"]=generatedLabel 
+
+    
 
     // hide non filled data from View mode
     /*if(mode === CONST.VIEW && formData && Array.isArray(formData) && !formData.length) {

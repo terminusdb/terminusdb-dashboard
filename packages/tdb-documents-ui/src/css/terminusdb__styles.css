@@ -10,8 +10,6 @@
     max-height: 20px;
 }
 
-
-
 .tdb__input,
 .tdb__input > input, 
 .tdb__input > select, 
@@ -24,18 +22,34 @@
     line-height: 1.5;
 }
 
-/*.tdb__input > select, 
-.tdb__view__enum__input > select
-{
-    margin-left: 1rem !important;
-}*/
-
 .tdb__margin__adjust__documents {
     margin-left: 2.5rem;
 }
 
 .tdb__input > input:focus {
     color: #adb5bd;
+}
+
+/** lexical key */
+/* disable key filed if filled */
+.tdb__key__field textarea,
+.tdb__key__field input {
+    pointer-events: none !important;
+}
+
+
+/* enable key filed if empty */
+.tdb__key__field textarea:empty,
+.tdb__key__field input:empty  {
+    pointer-events: auto !important;
+}
+
+/* 
+ul's list-style is set to none in tdb-react-components 
+set list-style to inital inorder to display bullets in Markdown preview 
+*/
+div.w-md-editor-preview  ul{
+    list-style: initial !important;
 }
 
 /** diffs ***/
@@ -73,11 +87,6 @@ input.tdb__diff__original,
 div.choice_subdocument_title.tdb__diff__original__subDocuments {
     padding: 10px !important;
 }
-
-/*.tdb__diff__changed_removed > input,
-.tdb__diff__changed_removed > textarea {
-   
-}*/
 
 /** choice sub documents when choices have changed */
 div.choice_subdocument_title.tdb__diff__original {
@@ -125,7 +134,6 @@ span.tdb__diff__original__diff__view {
 .text_choice_documents {
     margin: 0px 0px 0px 50px !important;
 }
-
 
 input.tdb__diff__changed, 
 .tdb__diff__changed > input, 
@@ -330,8 +338,6 @@ div.array-item > div {
 }
 
 /** display control label of subdcouments for arrays */
-
-
 .tdb__subdocument__card  .control-label {
     /*display: none;*/
     opacity: 100 !important;
@@ -407,6 +413,8 @@ div.array-item div.tdb__subdocument__card label.control-label,
 div.array-item div.tdb__subdocument__card div.control-label,
 div.array-item div.choice_subdocument_title label.control-label,
 div.array-item div.tdb__document__link div.control-label,
+/* one ofs and any sub docs of card */
+div.tdb__array__frames div.card label.control-label,
 div.array-item div.tdb__document__link label.control-label {
     visibility: initial;
 }
@@ -525,7 +533,7 @@ div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
 }
 
 .original_subDoc_diff_border {
-    border: 1px solid #dc3545;
+    border: 1px solid #dc3545; 
 }
 
 .changed_subDoc_diff_border {
@@ -538,11 +546,11 @@ div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.c
     display: none !important;
 }
 
-div.w-md-editor-toolbar ul li button svg {
+/*div.w-md-editor-toolbar ul li button svg {
     width: 15px;
     height: 15px;
     color: white;
-}
+}*/
 
 /** make line width 10% */
 div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.css-1a6arsc-code-fold > td.css-jbzd4j-code-fold-gutter  {
@@ -574,15 +582,41 @@ div.inserted *, div.deleted * {
     color: #000 !important;
 }
 
-div.inserted hr,
+div.inserted fieldset div.w-md-editor-show-preview *, 
+div.deleted fieldset div.w-md-editor-show-preview * {
+    color: white !important;
+}
+
+div.inserted hr, 
+div.inserted .card div,
+/** choice sub doc */
+div.inserted .card .form-group select,
+div.inserted .card .form-group div label,
+div.inserted .choice_subdocument_title span,
+div.inserted .choice_subdocument_title div.control-label, 
+div.inserted .choice_subdocument_title label div, 
+div.inserted .choice_subdocument_title textarea,
+div.inserted .choice_subdocument_title input,
+div.inserted .tdb__subdocument__card span,
+div.inserted .tdb__subdocument__card div.control-label, 
 div.inserted .tdb__subdocument__card label div, 
 div.inserted .tdb__subdocument__card textarea,
 div.inserted .tdb__subdocument__card input,
 div.deleted hr,
+div.deleted .choice_subdocument_title span,
+div.deleted .choice_subdocument_title div.control-label, 
+div.deleted .choice_subdocument_title label div, 
+div.deleted .choice_subdocument_title textarea,
+div.deleted .choice_subdocument_title input,
+div.deleted .choice_subdocument_title select,
+/** choice sub doc */
+div.deleted .card .form-group select,
+div.deleted .card .form-group div label,
 div.deleted .tdb__subdocument__card label div, 
 div.deleted .tdb__subdocument__card textarea,
 div.deleted .tdb__subdocument__card input {
     color: #fff !important;
+    color: inital !important;
 }
 
 div.inserted .tdb__subdocument__card span div, 
@@ -621,13 +655,6 @@ div.deleted * input {
     display: block;
 }
 
-/*
-.tdb__frame__viewer  div.form-group > input,
-.tdb__frame__viewer  div.form-group > textarea,
-.tdb__frame__viewer  div.form-group > a {
-    margin-left: 1rem; 
-}*/
-
 
 .tdb__frame__viewer  fieldset { 
     width: 100%;
@@ -658,14 +685,9 @@ div.tdb__array__items__css button.tdb__documentation__help {
     display: none !important;
 }
 
-
-.w-md-editor-text-pre > code,
-.w-md-editor-text-input {
-  font-size: 18px !important;
-  line-height: 24px !important;
+.tdb__view__existing__doc__hide + .panel-body {
+    display: none !important;
 }
-
-
 
 /*
 .tdb__view input:empty,

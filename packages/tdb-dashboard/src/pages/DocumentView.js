@@ -87,6 +87,7 @@ export const DocumentView = () => {
             {errorMsg}
         </Alert>}
         <TarverseDocumentLinks
+            setClicked={setClicked}
             clicked={clicked}
             show={modalShow}
             onHide={() => setModalShow(false)}/>

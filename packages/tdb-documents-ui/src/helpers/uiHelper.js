@@ -19,11 +19,14 @@ export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTr
     /** return null if frmae doesnt have property in it */
     if(!frame.hasOwnProperty(item)) return null
 
-    let generatedUILayout={}
+    let generatedUILayout={} 
  
     if(util.isDataType(frame[item])) { 
         generatedUILayout=dataType.getUILayout(frame, item, uiFrame, mode, formData, documentation)
     } 
+    else if(util.isOneOfSubDocumentType(fullFrame, frame[item])) {
+        return oneOfDataType.getUILayout(extractedFrames)
+    }
     else if(util.isSubDocumentType(frame[item])) {
         generatedUILayout=subDocumentType.getUILayout(extractedFrames, item, uiFrame, mode, formData, documentation)
     }
@@ -33,14 +36,11 @@ export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTr
     else if(util.isChoiceDocumentType(frame[item])) {
         generatedUILayout=choiceDocumentType.getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation)
     }
-    else if(util.isOneOfDataType(frame, item)) {
-        generatedUILayout=oneOfDataType.getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation)
-    }
     /*else if(util.isFeatureCollection(frame[item], mode)) {
         generatedUILayout=featureCollection.getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation)
     }*/
     else if(util.isDocumentType(frame[item], fullFrame)) {
-        generatedUILayout=documentType.getUILayout(fullFrame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData)
+        generatedUILayout=documentType.getUILayout(fullFrame, frame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData)
     }
     else if(util.isEnumType(frame[item])) {
         generatedUILayout=enumType.getUILayout(fullFrame, frame, item, uiFrame, mode, formData, documentation)

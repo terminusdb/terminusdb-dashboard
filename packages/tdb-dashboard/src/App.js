@@ -41,6 +41,11 @@ export function App (props){
         clientUser.firstLogin = false
         navigate(`/${PLANS}`)
     }
+
+    // this happen after confirm you password linking in the email url
+    if (window.location.search.includes("supportSignUp=true")) {
+        window.location.replace('/') 
+    }
       
     if(connectionError) {
         return <ServerError message={connectionError}/>

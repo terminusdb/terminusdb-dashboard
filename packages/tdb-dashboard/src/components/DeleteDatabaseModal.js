@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import {Modal, Button, Form} from "react-bootstrap" 
 import {deleteDataProductForm} from "./constants"
 import {AiOutlineDelete} from "react-icons/ai"
-import {Loading} from "./Loading"
+import {Loading} from "../components/Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {WOQLClientObj} from "../init-woql-client"
 import {TERMINUS_DANGER} from "./constants"
@@ -65,12 +65,12 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
     }, [showModal])
     
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
-        {loading && <Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
-        <Modal.Header>
+        {loading && <div style={{height: "300px"}}><Loading message={`Deleting Data Product ${dataProductDetails.label} ...`}/></div>}
+        {!loading && <><Modal.Header>
             <Modal.Title className="h6">{`Are you sure to delete Data Product - ${dataProductDetails.label} ?`} </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
-        <Modal.Body className="p-5">
+         <Modal.Body className="p-5">
             {reportAlert && <Alerts message={reportAlert} type={TERMINUS_DANGER}/>}
             <div className="d-flex align-items-center col-md-12 mb-3">
                 <h6 className="fw-normal text-muted mb-2">Data Product ID </h6>
@@ -102,7 +102,7 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
                 onClick={handleClick}>
                 <AiOutlineDelete className="me-2" /> Delete 
             </Button>
-        </Modal.Footer>
+        </Modal.Footer> </> }
     </Modal>
 }
 

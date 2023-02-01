@@ -14,7 +14,7 @@ import {SubmitChangeRequestModal} from '../components/SubmitChangeRequestModal'
 import {BiGitBranch} from 'react-icons/bi'
 import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
   
-export const Layout = (props) => {
+export const Layout = (props) => { 
     const {branch,exitChangeRequestBranch,currentChangeRequest} = WOQLClientObj()
     const { organization, dataProduct } = useParams();
 
@@ -24,7 +24,7 @@ export const Layout = (props) => {
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
     const [showModal,setShowModal] = useState(false)
 
-   // const [defaultSize, setDefaultSize]=useState(false)
+    // const [defaultSize, setDefaultSize]=useState(false)
 
     const navigate = useNavigate()
     const mainClassName = props.mainClassName || "container-fluid"
@@ -45,7 +45,7 @@ export const Layout = (props) => {
         if(organization) setDefaultSize(340)
     }, [organization])*/
     
-    //defaultSize={340}
+    //defaultSize={340} 
     return <Container fluid className="p-0 flex-row">
         {showModal && <SubmitChangeRequestModal showModal={showModal} setShowModal={setShowModal} updateParent={updateParent}/>}            
         <SplitPane split="vertical" minSize={70} defaultSize={defaultSize} primary="first" allowResize={false}>

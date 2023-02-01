@@ -39,6 +39,11 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
             layout["properties"]=extractedFrames.properties 
         }
         else if(extractedFrames.hasOwnProperty("anyOf") && 
+            extractedFrames.hasOwnProperty("anyOfUiSchema")) {
+            // one of documents
+            layout["anyOf"]=extractedFrames.anyOf 
+        }
+        else if(extractedFrames.hasOwnProperty("anyOf") && 
             extractedFrames["anyOf"] &&
             extractedFrames.hasOwnProperty(CONST.LINKED_TO)) {
                 //linked to documents
@@ -54,10 +59,6 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
             // choice subdocuments & choice documents
             layout["anyOf"]=extractedFrames.anyOf
         }
-        else if(extractedFrames.hasOwnProperty("oneOf")) {
-            // one of documents
-            layout["anyOf"]=extractedFrames.oneOf 
-        }
         else if(extractedFrames.hasOwnProperty("enum")) {
             // enums
             layout["enum"]=extractedFrames.enum 
@@ -66,13 +67,6 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
             // pre store sys unit default value as []
             layout["default"]=extractedFrames.default
         }
-        /*else if(extractedFrames.hasOwnProperty("linked_to")) {
-            //linked to documents
-            let linked_to=extractedFrames["linked_to"]
-            layout["linked_to"]=linked_to
-            // add linked frames 
-            layout[CONST.LINKED_TO_FRAMES]=fullFrame[linked_to]
-        }*/
     }
 
     /** gather filled data when mode is Edit or View */

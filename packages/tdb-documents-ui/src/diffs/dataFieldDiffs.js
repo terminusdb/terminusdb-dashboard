@@ -38,7 +38,7 @@ function getClassNamesForDiffs(diff) {
             originalUIFrame[DIFF] = removedOriginal
             if(typeof diff[DIFFCONST.AFTER] === "object") {
                 // subdocuments
-                changedUIFrame["classNames"] = "tdb__diff__changed__subDocuments" 
+                changedUIFrame["classNames"] = "tdb__diff__changed__subDocuments text-break " 
             }
             else changedUIFrame["classNames"] = "tdb__diff__changed"
         }
@@ -65,7 +65,7 @@ export function getDataFieldDiffs(diff) {
         }
         // sets border color of subdocument detecting change
         if(originalUIFrame.length) originalUIFrame.push({ "classNames": "tdb__diff__original__subDocuments" })
-        if(changedUIFrame.length) changedUIFrame.push({ "classNames": "tdb__diff__changed__subDocuments" }) 
+        if(changedUIFrame.length) changedUIFrame.push({ "classNames": "tdb__diff__changed__subDocuments text-break " }) 
         
         return { originalUIFrame, changedUIFrame }
     }

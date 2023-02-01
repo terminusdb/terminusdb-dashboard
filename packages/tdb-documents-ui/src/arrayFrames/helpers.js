@@ -3,7 +3,7 @@ import * as util from "../utils"
 import * as CONST from "../constants"
 import * as template from "./templates"
 import {getChoiceSubDocumentsArrayItems} from "../choiceSubDocumentTypeFrames/helpers"
-//import {getChoiceDocumentArrayItems} from "../choiceDocumentTypeFrames/helpers"
+import {getOneOfTypeArrayItems} from "../oneOfTypeFrames/helpers"
 
 /**
  * 
@@ -21,11 +21,10 @@ export function gatherItemsLayout (frame, item, mode, formData) {
 
             if (frame.properties[item].info === CONST.CHOICESUBCLASSES) {
                 // choice sub documents
-                return getChoiceSubDocumentsArrayItems(frame, item, formData)
+                return getChoiceSubDocumentsArrayItems(frame, item, formData, mode)
             }
-            else if (frame.properties[item].info === CONST.CHOICECLASSES) {
-                // choice documents 
-                //return getChoiceDocumentArrayItems(frame, item, mode, formData)
+            else if (frame.properties[item].info === CONST.ONEOFVALUES) {
+                return getOneOfTypeArrayItems(frame, item, formData)
             }
         }
     return frame.properties[item]
@@ -60,13 +59,32 @@ export function extractAdditionalLayout (frame, item) {
 } 
 
 
+
+function getAdditionalUI(ui, mode) {
+    let uiLayout={}
+    for(let item in ui) {
+        if(ui[item].hasOwnProperty("ui:readonly")) {
+            uiLayout[item]={}
+            for(let subItems in ui[item]) {
+                if(subItems === "ui:readonly") {
+                    uiLayout[item][subItems] = false
+                }
+                else uiLayout[item][subItems] = ui[item][subItems] 
+            }
+        }
+        else uiLayout[item] = ui[item]
+    }
+    return uiLayout
+}
+
+
 /**
  * 
  * @param {*} frame - frame of document
  * @param {*} item - current property
  * @returns UI Layout for Set Array  
  */ 
- export function getArrayUILayout (frame, item, documentation) {
+ export function getArrayUILayout (frame, item, mode, documentation) {
     let ui = util.removeRequired(item, documentation, frame.uiSchema[item])
 
     let uiLayout={}
@@ -74,7 +92,7 @@ export function extractAdditionalLayout (frame, item) {
     uiLayout={
         "classNames": "tdb__array__items__css tdb__array__frames",
         "items": ui,  
-        "additionalItems": ui, 
+        "additionalItems": getAdditionalUI(ui, mode) , 
         "ui:options": CONST.SET_UI_ARRAY_OPTIONS,
         "ui:ArrayFieldTemplate" : template.ArrayFieldTemplate
     }

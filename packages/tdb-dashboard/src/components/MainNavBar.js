@@ -26,13 +26,13 @@ export const MainNavBar = ({setShowTimeTravel}) => {
         <div className="d-flex flex-grow-1 justify-content-end align-items-center">                    
             {dataProduct && currentPage!==`/${organization}/${dataProduct}` &&
             <React.Fragment>  
-                <h4 className="text-success ml-4 flex-grow-1 fw-bold mt-1" >
+                <h4 className="text-success ml-5 pl-3 flex-grow-1 fw-bold mt-1" >
                     {dataProduct}
                 </h4>
                 <TimeTravelWidget setShowTimeTravel={setShowTimeTravel}/>
-            </React.Fragment> 
+            </React.Fragment>  
             }
-            {accessControlDashboard && accessControlDashboard.createDB() && dataProduct && 
+            {accessControlDashboard && accessControlDashboard.createDB() && 
                 <NewDataProduct css={"btn-sm mr-1 pt-2 pr-4 pl-4 "}/>
             }
             <Dropdown className="pl-3 pr-3 ml-3 mr-3 border-right border-left" id="team_list_menu">

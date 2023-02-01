@@ -13,7 +13,7 @@ export function displayLinkedDocumentUI(args) {
         name: args.label
     }
     //console.log("args", args)
-    return displaySearchComponent(obj, args.onSelect, args.label)
+    return displaySearchComponent(obj, args.onSelect, args.label, args.mode)
     //return linkedDocumentProvider (obj, args.label, args.mode, args.documentation, args.onSelect, args.onTraverse)
     
     /*return <>

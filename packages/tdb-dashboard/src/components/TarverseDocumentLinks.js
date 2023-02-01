@@ -10,11 +10,12 @@ import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import Button from 'react-bootstrap/Button'
 import {AiOutlineArrowRight} from "react-icons/ai"
 import Card from "react-bootstrap/Card"
+import {AiOutlineClose} from "react-icons/ai"
  
 const ShowLinkRoute = ({linkArray, handleTraverse}) => {
 	let elements=[]
 
-	//console.log("linkArray", linkArray)
+	console.log("linkArray", linkArray)
 
 	linkArray.map((link, index) => {
 		elements.push(<span>
@@ -38,7 +39,7 @@ const ShowLinkRoute = ({linkArray, handleTraverse}) => {
 	return <div/>
 }
 
-export const TarverseDocumentLinks = ({show, onHide, clicked}) => {
+export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
 
 	const { 
         woqlClient,
@@ -56,9 +57,15 @@ export const TarverseDocumentLinks = ({show, onHide, clicked}) => {
 	const [loading, setLoading]=useState(false)
     const [errorMsg, setErrorMsg]=useState(false)
 
+
 	useEffect(() => {
 		if(clicked) setDocumentID(clicked)
 	}, [clicked])
+	
+	function removeDocumentIDFromLinkArray(setLinkArray) {
+		// clear array on close
+		setLinkArray([])
+	}
 
 	useEffect(() => {
         if(documentID) {
@@ -81,22 +88,34 @@ export const TarverseDocumentLinks = ({show, onHide, clicked}) => {
 	// hook to view a document 
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
+	function handleClose (e) {
+		removeDocumentIDFromLinkArray(setLinkArray) 
+		if(setClicked) setClicked(false)
+		setDocumentID(false)
+		onHide()
+	}
+
 	function handleTraverse (documentID) {
         onTraverse(documentID, setDocumentID)
     }
 
     return <Modal
         show={show}
-		onHide={onHide}
+		onHide={handleClose}
         size="md"
         aria-labelledby="traverse__document__links"
         centered>
-        <Modal.Header closeButton>
-			<Modal.Title id="traverse__document__links" className="text-success h6">
+        <Modal.Header className=" w-100"> 
+			<Modal.Title id="traverse__document__links" className="text-success h6 w-100">
 				<strong className="text-success">
 					<span className="mr-1 h6 fst-italic">{CONST.VIEW_DOCUMENT}:</span> 
 					<span className="fw-bolder h6"> {documentID} </span>
             	</strong>
+				<Button className=" ms-auto btn btn-sm bg-transparent text-light border-0 float-right" 
+					title="Close"
+					onClick={handleClose}>
+					<AiOutlineClose/>
+				</Button>
 			</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{height: "500px"}} className="p-4">

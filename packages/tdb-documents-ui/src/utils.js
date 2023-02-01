@@ -25,6 +25,24 @@ export const isDataType = (field) => {
 /**
  * 
  * @param {*} field - field of a property
+ * @param {*} fullFrame - fullFrame
+ * @returns true if type is subdocument & if linked document class has @oneOf 
+ */
+export const isOneOfSubDocumentType = (fullFrame, field) => {
+	if(field.hasOwnProperty(CONST.SUBDOCUMENT)) {
+		let documentClassName=field["@class"]
+		if(fullFrame.hasOwnProperty(documentClassName) && 
+			fullFrame[documentClassName].hasOwnProperty(CONST.ONEOFVALUES)) {
+				return true
+		}
+		return false
+	}
+	return false
+}
+
+/**
+ * 
+ * @param {*} field - field of a property
  * @returns true if type is subdocument
  */
 export const isSubDocumentType = (field) => {
@@ -705,6 +723,12 @@ export const keyExists = (obj, key) => {
 export const isUnfoldable=(schema) => {
 	if(schema.hasOwnProperty(CONST.UNFOLDABLE)) return true
 	return false
+}
+
+// retrieves formData to display in FrameViewer
+export function getFormData(formData) {
+    if(Object.keys(formData).length) return formData
+    return {}
 }
 
 // chained data 
