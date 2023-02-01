@@ -2,7 +2,7 @@ import React from "react"
 import * as util from "../utils"
 import * as CONST from "../constants"
 import {getDataType} from "../dataTypeFrames/helpers"
-import {getLabelFromEnumDocumentation} from "../documentationTemplates"
+import {getEnumLabelDescription} from "../documentationTemplates"
 import {getPropertyLabelFromDocumentation} from "../documentationTemplates"
 import Row from "react-bootstrap/Row"
 
@@ -35,7 +35,7 @@ const EnumLabelComponent =({frame, label, documentation, isKey}) => {
 
     let values=frame[label]["@values"]
     return <div className="d-flex hd enum__label">
-        {getLabelFromEnumDocumentation (label, documentation, values)}
+        {getEnumLabelDescription(label, documentation)}
         {util.displayIfKeyField(isKey, label)}
     </div>
 } 
@@ -55,6 +55,10 @@ export function generateLabel (frame, item, documentation, fullFrame) {
 
     let isKey=util.checkIfKey(item, frame["@key"]) 
 
+    if(util.isEnumType(frame[item])) {
+        return <EnumLabelComponent frame={frame} label={item} documentation={documentation} isKey={isKey}/>
+    }
+    
     if(util.isSubDocumentType(frame[item])) {
         return <SubDocumentLabelComponent label={item} documentation={documentation} isKey={isKey}/>
     }
