@@ -61,14 +61,14 @@ function extractPropertyFrames (extractedProperties) {
  
 // retrieves layout of object data types one ofs
 function getDocumentLayout(choiceDocument, choiceDocumentFrames, oneOfLinkedClassName, args) {
-    let {fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData} = args
+    let {fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType} = args
 
     let choiceSubDocument=choiceDocumentFrames.hasOwnProperty("@class") ? choiceDocumentFrames["@class"] : choiceDocumentFrames
     let choiceSubDocumentFrame = fullFrame[choiceSubDocument]
  
     // get documentation from frame
     let extractedDocumentation= choiceSubDocumentFrame.hasOwnProperty(CONST.DOCUMENTATION) ? choiceSubDocumentFrame[CONST.DOCUMENTATION] : []
-    let exractedProperties = getProperties(fullFrame, item, choiceSubDocumentFrame, uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation, setChainedData) 
+    let exractedProperties = getProperties(fullFrame, item, choiceSubDocumentFrame, uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation, docType) 
 
     console.log("exractedProperties sub", exractedProperties)
     exractedProperties.properties["@type"]={

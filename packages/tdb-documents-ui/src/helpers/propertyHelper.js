@@ -18,7 +18,7 @@ function getSubDocumentFormData (formData, subDocumentName) {
     return formData[subDocumentName]
 }
  
-function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassName,frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
+function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassName,frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType) {
     
     //documentClassNamme
     let constructedFrame= fullFrame.hasOwnProperty(documentClassName) ? fullFrame[documentClassName] : {}
@@ -36,7 +36,7 @@ function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassNam
         onTraverse,
         onSelect,
         documentation,
-        setChainedData
+        docType
     )
     // Add @type attribute here only for CREATE & EDIT mode to help in saving to terminusDB
     if(mode !== CONST.VIEW) {
@@ -61,26 +61,27 @@ function constructSubDocumentFrame (fullFrame, subDocumentName, documentClassNam
     }
     return subDocumentFrames
 }
- 
+  
 
-export function generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
+export function generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType) {
     /** return null if frame doesnt have property in it */
     if(!frame.hasOwnProperty(item)) return null
 
     if(util.isOneOfSubDocumentType(fullFrame, frame[item])) {
-        let {anyOf, anyOfUiSchema}=makeOneOfTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
+        let {anyOf, anyOfUiSchema}=makeOneOfTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType})
         //let oneOfFrame= makeOneOfTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
         return {anyOf, anyOfUiSchema}
     }
     if(util.isSubDocumentType(frame[item])) { // Subdocument type
         let documentClassName=util.getLinkedDocumentClassName (frame, item)
+        //let cycleExists=checkDocumentClassCycles(documentClassName, fullFrame)
         let subDocumentFormData=formData//formData.hasOwnProperty(item) ? formData[item] : {}
-        let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, documentClassName, frame, uiFrame, mode, subDocumentFormData, onTraverse, onSelect, documentation, setChainedData) 
+        let subDocumentFrame = constructSubDocumentFrame(fullFrame, item, documentClassName, frame, uiFrame, mode, subDocumentFormData, onTraverse, onSelect, documentation, docType) 
 
         return subDocumentFrame
     }
     else if (util.isChoiceSubDocumentType(frame[item])) {
-        let choiceSubDocumentFrame= makeChoiceSubDocumentTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
+        let choiceSubDocumentFrame= makeChoiceSubDocumentTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType})
         return choiceSubDocumentFrame
     }
     else if (util.isEnumType(frame[item])) { 
@@ -110,7 +111,7 @@ export function generateInternalFrames(fullFrame, item, frame, uiFrame, mode, fo
         return feautureViewFrames
     }*/
     else if(util.isDocumentType(frame[item], fullFrame)) {
-        let documetFrames=makeDocumentTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation})
+        let documetFrames=makeDocumentTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType})
         return documetFrames
     }
     else if (util.isRdfLangString(frame[item])) {
