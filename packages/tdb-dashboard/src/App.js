@@ -39,7 +39,8 @@ export function App (props){
 
     if (clientUser.firstLogin === true) {
         clientUser.firstLogin = false
-        navigate(`/${PLANS}`)
+       // navigate(`/${PLANS}`)
+        window.location.replace(`/${PLANS}`) 
     }
 
     // this happen after confirm you password linking in the email url
