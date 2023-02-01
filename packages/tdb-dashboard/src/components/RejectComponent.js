@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {Button, Form} from "react-bootstrap"
-//import {WOQLClientObj} from "../init-woql-client"
+import {WOQLClientObj} from "../init-woql-client"
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {
     REJECT,
@@ -13,9 +13,9 @@ import {RxCross2} from "react-icons/rx"
 export const RejectComponent = () => {
 	const {organization,dataProduct,id} = useParams()
 	
-	//const {
-       // currentCRObject
-    //} = WOQLClientObj()
+	const {
+		exitChangeRequestBranch
+    } = WOQLClientObj()
 	
     const {
         updateChangeRequestStatus,
