@@ -6,7 +6,15 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import {FiHelpCircle} from "react-icons/fi"
 
-/**
+/** displays documentation for enum with @comment*/
+export function getEnumLabelDescription(item, documentation) {
+    if(!documentation) return <div className="control-label">{item}</div>
+    if(!documentation.hasOwnProperty(CONST.COMMENT)) return <div className="control-label">{item}</div>
+    return <DisplayPropertyNameAndComment comment={documentation[CONST.COMMENT]} label={item}/>
+    //return <small className="fst-italic text-muted">{documentation[CONST.COMMENT]}</small>
+}
+
+/** 
  * 
  * @param {*} documentation - documentation object which contains labels and comments
  * @param {*} item - item 
@@ -19,6 +27,7 @@ import {FiHelpCircle} from "react-icons/fi"
 		"@values": values
 	}
 	if(!documentation) return enumDocumentation
+	//if(typeof documentation === CONST.OBJECT_TYPE) return getEnumLabelDescription(item, documentation)
 	if(!Array.isArray(documentation)) return enumDocumentation
 	let valueArray=[]
 	documentation.map(doc => { 
@@ -51,9 +60,9 @@ import {FiHelpCircle} from "react-icons/fi"
  * @param {*} comment - documentation comment which will be displayed as a description tool tip in the UI 
  * @returns 
  */
-function DisplayPropertyNameAndComment ({label, comment}){
+export function DisplayPropertyNameAndComment ({label, comment}){
 	return <React.Fragment>
-		<span id="tdb__property__name__label" className="h6">{label}</span>
+		{label && <span id="tdb__property__name__label" className="h6">{label}</span>}
 		{comment && <OverlayTrigger
 			key={comment}
 			placement={'right'}
