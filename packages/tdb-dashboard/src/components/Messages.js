@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import {Button} from "react-bootstrap"
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import {useParams } from "react-router-dom"
 import {
     extractID, 
     getDays
@@ -13,6 +14,7 @@ import {VscCommentDiscussion} from "react-icons/vsc"
 import {Loading} from "./Loading"
 
 const CommentSection = () => {
+   
     const {
         currentCRObject
     } = WOQLClientObj()
@@ -23,11 +25,11 @@ const CommentSection = () => {
     let elements=[]
 
     if(Array.isArray(currentCRObject["messages"])) {
-        currentCRObject["messages"].slice(0).reverse().map(curr => {
+        currentCRObject["messages"].slice(0).reverse().map((curr,index) => {
             elements.push(
-                <React.Fragment>
+                <React.Fragment  key={`${index}__fragment`} >
                     {curr.text}
-                    <Card.Text className="text-muted">{getDays(curr.timestamp)} days ago by {curr.author} </Card.Text>
+                    <Card.Text key={`${index}__card`} className="text-muted">{getDays(curr.timestamp)} days ago by {curr.author} </Card.Text>
                     <hr/>
                 </React.Fragment>
             )
@@ -37,36 +39,43 @@ const CommentSection = () => {
 }
 
 const AddNewMessage=()=> {
+    const {id} = useParams()
     const {
         currentCRObject,
-        setCurrentCRObject
     } = WOQLClientObj()
+
     const {
         updateChangeRequestStatus,
         getChangeRequestByID,
         loading
     } =  ChangeRequest() 
-    const [comment, setComment]=useState("")
-    const [add, setAdd]=useState(false)
 
-    useEffect(() => {
+    const [comment, setComment]=useState("")
+   // const [add, setAdd]=useState(false)
+
+   async function updateMessages() { 
+        await updateChangeRequestStatus(comment, currentCRObject.status,id)
+        await getChangeRequestByID(id)
+        setComment("")
+    }
+
+   /* useEffect(() => {
         async function updateMessages() { 
-            await updateChangeRequestStatus(comment, currentCRObject.status)
-            let id=extractID(currentCRObject["@id"])
+            await updateChangeRequestStatus(comment, currentCRObject.status,id)
             await getChangeRequestByID(id)
             setComment("")
         }
         if(comment!=="") updateMessages()
-    }, [add])
+    }, [add])*/
 
     function addComment() {
-        setAdd(Date.now())
+        updateMessages()
     }
     
     function handleMessage(e) {
-        if(setComment) {
-            setComment(e.target.value)
-        }
+        //if(setComment) {
+        setComment(e.target.value)
+        //}
     }
 
     return <Form className="mt-4 new__message__container mb-4">

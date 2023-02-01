@@ -223,7 +223,7 @@ export const DiffView = ({diffs, CRObject}) => {
         
         //console.log("documentId", documentID, eventKey, css) 
         elements.push(
-            <React.Fragment>
+            <React.Fragment key={`${current}__Fragment`}> 
                 <Accordion className="accordion__button padding-0 diff__accordian"
                     id={eventKey}
                     //activeKey={eventKey === documentID ? eventKey : false}

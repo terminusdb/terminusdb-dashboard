@@ -8,11 +8,14 @@ import {
 } from "./constants"
 import {extractID} from "./utils"
 import {Loading} from "./Loading"
+import {useParams } from "react-router-dom"
 import {VscCommentDiscussion} from "react-icons/vsc"
 
-export const CommentComponent = ({setKey}) => {
+export const CommentComponent = () => {
+	const {id} = useParams()
+
 	const {
-        currentCRObject
+        currentCRObject,
     } = WOQLClientObj()
 
     const {
@@ -24,11 +27,10 @@ export const CommentComponent = ({setKey}) => {
     const [val, setVal]=useState("")
     
     async function handleMessage() {
-		let res=await updateChangeRequestStatus(val, currentCRObject.status)
-        let id=extractID(currentCRObject["@id"])
-        let cr=await getChangeRequestByID(id) 
-        if(setKey) {
-			setKey(MESSAGES)
+		let res=await updateChangeRequestStatus(val, currentCRObject.status,id)
+        // this update the currentCRObject
+		await getChangeRequestByID(id) 
+		if(res){
 			setVal("")
 		}
     }
