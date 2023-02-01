@@ -1,5 +1,4 @@
 import * as CONST from "../constants"
-import {getProperties} from "../FrameHelpers"
 import * as util from "../utils"
 import * as helper from "./helpers"
 
