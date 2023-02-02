@@ -49,7 +49,11 @@ export const DataProductDocuments = () => {
             for(var key in property) {
                 if(key=="parent_class") continue
                 if(key=="@key") continue
-                props.push(key)
+                if(key === "@type") {
+                    // pass rdf:type instead
+                    props.push("rdf:type")
+                }
+                else props.push(key)
             }
             setPropertyButtons(props)
         }
@@ -90,7 +94,7 @@ export const DataProductDocuments = () => {
         }
         return <Badge title={`${val} ${id} available`}
             className="ml-3 cursor-auto text-gray" 
-            variant="dark">{val}</Badge>
+            bg="secondary">{val}</Badge>
     }
 
     const DocumentMenu = ({item, handleClassClick}) => {

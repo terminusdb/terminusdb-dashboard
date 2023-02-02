@@ -60,7 +60,7 @@ export const getPropertyRelation = (id, dataProduct, woqlClient) => {
     let user=woqlClient.user()
     let dp = `${user.id}/${dataProduct}`
 
-    return WOQL.limit(1).triple("v:Subject",  id, "v:Predicate")
+    return WOQL.limit(100).triple("v:Subject", id, "v:Predicate")
 }
 
 // query to store query object in query library database
