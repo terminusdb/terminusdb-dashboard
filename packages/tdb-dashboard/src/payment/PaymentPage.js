@@ -1,6 +1,5 @@
 import React from "react"
-import MyStoreCheckout from "../payment/MyStoreCheckout"
-import { Layout } from "./Layout"
+import MyStoreCheckout from "./MyStoreCheckout"
 import {WOQLClientObj} from '../init-woql-client'
 import {Container,Modal,Button,Stack} from "react-bootstrap"
 import {MdEuroSymbol} from "react-icons/md"
