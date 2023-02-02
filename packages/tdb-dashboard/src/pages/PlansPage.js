@@ -40,10 +40,17 @@ export const PlansPage = (props) => {
 		[SCALE_PLAN] : SCALE_PLAN
 	}
 
+	const communityActions = () =>{
+		if(toBedisabled[tier]){
+			alert("DownGrade")
+		}else{
+			navigate("/")
+		}
+	}
 
 	const getPlanButton = (plansObj)=>{
 		const plansActionsObj = {
-			[COMMUNITY_PLAN] : ()=>{navigate("/")},
+			[COMMUNITY_PLAN] : ()=>{communityActions()},
 			[PROFESSIONAL_PLAN] : () =>{setShowModalPlan(plansObj)},
 			[SCALE_PLAN] : () =>{setShowModalPlan(plansObj)},
 			[ENTERPRISE_PLAN] : ()=>{setShowFeedbackForm(true)},
@@ -57,9 +64,14 @@ export const PlansPage = (props) => {
 			disabled = {disabled:true}
 		}
 
+		let buttonLabel = plansObj.buttonLabel
+		if(plansObj.title === COMMUNITY_PLAN && toBedisabled[tier]){
+			buttonLabel = "Downgrade to Community"
+		}
+
 		return <Button {...planAction} style= {style} {...disabled}
 				className="text-white fw-bold w-100 mt-5 mb-5 pt-3 pb-3" >
-				{plansObj.buttonLabel}
+				{buttonLabel}
 				</Button>
 	}
 
@@ -99,6 +111,8 @@ export const PlansPage = (props) => {
 						</Col>
 				})}
 			</Row>
+			<Card>
+			</Card>
 		 </Container>
 		</Layout>
 
