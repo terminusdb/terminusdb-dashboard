@@ -36,7 +36,7 @@ export const ModelBuilder = (props) =>{
     if(!dataProduct) return <div>error in loading graph</div>
 
     return <React.Fragment>
-        {reportMessage && <Alert className ="mt-3" variant="danger" dismissible onClose={() => setReport(false)}>
+        {reportMessage && !callServerLoading && <Alert className ="mt-3" variant="danger" dismissible onClose={() => setReport(false)}>
                           <Alert.Heading>{reportMessage.message.title}</Alert.Heading>
 
                         <p>{reportMessage.message.text}</p>

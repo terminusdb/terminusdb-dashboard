@@ -107,7 +107,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
                             <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
                         </div>
                         <button  type="button" id="schema_save_button" className="col-md-1 btn btn-md bg-light text-dark mr-4" onClick={saveChange}>
-                            <BsSave className="small"/> <label className="mt-1">Save Schema</label>
+                            <BsSave className="small"/> <label className="mt-1">Save</label>
                         </button>
                     </div>
                 }

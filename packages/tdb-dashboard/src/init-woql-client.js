@@ -377,7 +377,8 @@ export const WOQLClientProvider = ({children, params}) => {
             }
             //this is for change the base url api for the proxy
             if(opts.connection_type!== "LOCAL"){
-                hubClient.connectionConfig.api_extension = `${orgName}/api/`
+                // add  a new terminusdb method 
+                hubClient.connectionConfig.api_extension = `${UTILS.encodeURISegment(orgName)}/api/`
                 //load the list of system roles
             }
             

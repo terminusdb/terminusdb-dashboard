@@ -204,10 +204,12 @@ const renderSuccess = () => {
                         className="border-light-01" type="email" name="email" id="email" placeholder="Email" 
                         defaultValue={props.defaultEmail} />          
                     </FormGroup>             
+
                      <FormGroup className="mb-4">
                       <Form.Label for="name">Company Name</Form.Label>
                       <FormControl ref={companyName}  className="border-light-01" type="text" name="name" id="name" placeholder="Company Name" required={true} />
                     </FormGroup>
+
                     <Row>
                         <Col >
                       <FormGroup className="mb-4">
@@ -226,7 +228,8 @@ const renderSuccess = () => {
                      <FormGroup className="mb-4">
                       <Form.Label for="address">Street Address</Form.Label>
                       <FormControl ref={address}  className="border-light-01" type="text" name="name" id="name" placeholder="Street Address" required={true} />
-                    </FormGroup>  
+
+                    </FormGroup> 
                     <Row>
                     <Col >
                       <FormGroup className="mb-4">
