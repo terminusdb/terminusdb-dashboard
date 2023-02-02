@@ -18,10 +18,10 @@ import * as CONST from "./constants"
  * @param {*} documentation - formData - filled data to be displayed in form 
  * @returns a data field 
  */
-export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
+export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType) {
 
     /** generate properties of sub frames */
-    let extractedFrames = propertyHelper.generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData)
+    let extractedFrames = propertyHelper.generateInternalFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType)
     //console.log("extractedFrames", extractedFrames)
     
     /** gather layout of property  */ 
@@ -77,7 +77,7 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
     }
 
     /** gather ui layout of property to change look and feel */
-    let uiLayout = generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames, setChainedData)
+    let uiLayout = generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames, docType)
 
     //console.log("layout", layout)
     //console.log("uiLayout", uiLayout)

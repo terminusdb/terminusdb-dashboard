@@ -3,6 +3,7 @@ import {getLabelFromEnumDocumentation} from "../documentationTemplates"
 import * as util from "../utils"
 import * as CONST from "../constants"
 import React from "react"
+import {DisplayPropertyNameAndComment} from "../documentationTemplates"
 
 export function makeEnumTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, documentation) {
     let enumClassName=frame[item]["@id"]
@@ -16,15 +17,16 @@ export function makeEnumTypeFrames (fullFrame, frame, item, uiFrame, mode, formD
     return {enum: enumDocumentation["@values"]}  
 }
 
+
 export function getUILayout (fullFrame, frame, item, uiFrame, mode, formData, documentation) {
-    
+     
     let label=item
     //let enumDocumentation=getLabelFromEnumDocumentation(item, documentation, frame[item]["@values"]) 
     //if(enumDocumentation.hasOwnProperty("@label")) label=enumDocumentation["@label"]
     
     let uiLayout = {
         "ui:placeholder": `Select ${label} ...`,
-        //"ui:description": getUI(),
+        //"ui:description": getDescription(documentation),
         classNames: "tdb__input mb-3 mt-3"
     } 
 

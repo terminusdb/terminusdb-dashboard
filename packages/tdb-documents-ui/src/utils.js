@@ -460,6 +460,7 @@ export function isFilled (item, formData){
 	return false
 }
 
+
 /**
  * 
  * @param {*} frame - full frame from a data product
@@ -471,20 +472,33 @@ export function isFilled (item, formData){
 	if(frame.hasOwnProperty(item) && frame[item].hasOwnProperty(CONST.DOCUMENTATION)) {
 		let docArr=[]
 		if(language) {
-			frame[item][CONST.DOCUMENTATION].map(doc => {
+			if(Array.isArray(frame[item][CONST.DOCUMENTATION])) {
+				// expecting an array with multi language definitions
+				frame[item][CONST.DOCUMENTATION].map(doc => {
+					let obj={}
+					for(var things in doc) {
+						obj[things]=doc[things]
+					}
+					obj[CONST.SELECTED_LANGUAGE]=language
+					docArr.push(obj)
+				})
+			}
+			else if (typeof frame[item][CONST.DOCUMENTATION] === CONST.OBJECT_TYPE){
+				// expecting an object
 				let obj={}
-				for(var things in doc) {
-					obj[things]=doc[things]
+				for(var things in frame[item][CONST.DOCUMENTATION]) {
+					obj[things]=frame[item][CONST.DOCUMENTATION][things]
 				}
 				obj[CONST.SELECTED_LANGUAGE]=language
-				docArr.push(obj)
-			})
+					docArr.push(obj)
+			}
 			documentation=docArr
 		} 
 		else documentation = frame[item][CONST.DOCUMENTATION]
 	}
 	return documentation
 }
+
 
 /**
  * 

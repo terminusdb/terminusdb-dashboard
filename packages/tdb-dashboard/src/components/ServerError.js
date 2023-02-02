@@ -6,7 +6,7 @@ import { ChangeUser } from "./ChangeUser"
 
 export const ServerError = (props) => {
     const {clientUser } = WOQLClientObj()
-    const serverType = clientUser ? clientUser.serverType : "TerminusX"
+    const serverType = clientUser ? clientUser.serverType : "TerminusCMS"
 
     const gotoMainPage= ()=>{
         const base = process.env.BASE_URL ? `/${process.env.BASE_URL}` : "/"
@@ -27,7 +27,7 @@ export const ServerError = (props) => {
                     Go to Teams
                 </Button>}
                 {clientUser.connection_type !=="LOCAL" &&
-                    <a href="https://discuss.terminusdb.com/" targert="_blank">
+                    <a href="https://www.reddit.com/r/TerminusDB/" targert="_blank">
                         {`Please contact the ${serverType} Team`}
                     </a>
                 }      

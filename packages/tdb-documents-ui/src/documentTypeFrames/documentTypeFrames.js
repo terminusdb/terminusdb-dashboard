@@ -80,15 +80,20 @@ function getCreateAnyOfFrames (frame, item, exractedProperties) {
 	return anyOfFrame
 }
 
-function checkIfCycleExists(property, linked_to_frames) {
+function checkIfCycleExists(property, linked_to_frames, linked_to, docType) {
 	if(linked_to_frames.hasOwnProperty(property)) return true
+	if(linked_to && docType) {
+		// doc Type is the type of document to be displayed in <FrameViewer/>
+		// checks if linked to is same as the parent document class
+		if(linked_to === docType) return true
+	}
 	return false 
 }
 
 /** make documentation frames basaed on mode */
 export const makeDocumentTypeFrames = (args) => {
   
-    let {fullFrame, frame, item, uiFrame, documentation, mode, formData, onTraverse, onSelect}=args 
+    let {fullFrame, frame, item, uiFrame, documentation, mode, formData, onTraverse, onSelect, docType}=args 
 
     let anyOf = []
     let linked_to = frame[item]
@@ -97,7 +102,7 @@ export const makeDocumentTypeFrames = (args) => {
     let linked_to_frames=fullFrame[linked_to]  
 	let unfoldable=util.isUnfoldable(fullFrame[linked_to])
 
-	let ifCycleExists=checkIfCycleExists(item, linked_to_frames)
+	let ifCycleExists=checkIfCycleExists(item, linked_to_frames, linked_to, docType)
 
 	/** if a property is pointing to its own parent document class
 	 * then display only Link an Existing Document 
@@ -118,11 +123,13 @@ export const makeDocumentTypeFrames = (args) => {
 	}
 	
 	/** extract frames to pass to any of when user chooses to Create a new Document */
+	let linkedDocType=linked_to
+	// pass the linked doc type instead to check if there are cycles
     let exractedProperties = getProperties(
         fullFrame, 
         linked_to, 
         linked_to_frames, 
-        uiFrame, mode, formData, onTraverse, onSelect, documentation) 
+        uiFrame, mode, formData, onTraverse, onSelect, documentation, linkedDocType) 
     
     // adding type of linked data  
     exractedProperties["properties"]["@type"] = {
