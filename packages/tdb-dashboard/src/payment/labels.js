@@ -58,7 +58,7 @@ export const PLANS_DESCRIPTION = [
         We will inform you when you are close and when you cross the threshold.`,
         preprice:'',
         price:'100',
-        subprice:'/month',
+        subprice:'per month',
         labelsList:[
             'Dashboard Sign Up',
             '3 Teams',
