@@ -88,7 +88,9 @@ export const PlansPage = (props) => {
 									<Card.Text className="text-light text-left h6">
 										{arr.text}
 									</Card.Text>
+									<Stack direction="vertical">
 									{getLabels(arr)}
+									</Stack>
 								</Card.Body>
 								<Card.Footer  style={{background:arr.color}}>
 								</Card.Footer >

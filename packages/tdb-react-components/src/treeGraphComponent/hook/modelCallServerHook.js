@@ -102,12 +102,6 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId, pendoMsgAfterCre
 				await woqlClient.addDocument(newSchema,params,null,commitM)					
 
 				let msg = `Successfully updated schema graph`
-				setReport({
-					status: 'success',
-					message:  msg,
-					time: Date.now() - ts,
-				})
-     
 	            setReloadGraph(Date.now())
 			}catch(err){
 				//console.log("err", err.message)
