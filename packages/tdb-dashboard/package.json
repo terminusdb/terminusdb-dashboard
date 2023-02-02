@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb-live/tdb-dashboard",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "react",
   "homepage": "./",
   "main": "src/index",
