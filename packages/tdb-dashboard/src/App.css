@@ -1173,7 +1173,7 @@ pre.CodeMirror-line  > span > span.cm-string {
   overflow: auto !important;
 }
 
-.dropdown-menu[data-bs-popper] {
+#profile_menu >.dropdown-menu[data-bs-popper] {
   top: 100%;
   right: 0;
   left: auto !important;
