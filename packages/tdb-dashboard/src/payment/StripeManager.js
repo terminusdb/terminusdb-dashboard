@@ -18,6 +18,22 @@ export function StripeManager(stripe=null){
   const [enableSubmit, setEnableSubmit] = useState(false)
   const [paymentMethod, setPaymentMethod] = useState(false)
 
+
+  async function deleteSubscrition(){
+    try{  
+      processStart()
+      const token = await clientUser.getTokenSilently()
+      const options = getOptions(token);
+      const response = await axiosHub.delete(`${baseUrl}/private/subscription`, options)
+      return true
+    }catch(err){
+      const message =  err && err.response && err.response.data ? err.response.data.message : 'There was an error processing your request'
+      processError(message)
+    }finally{
+      setProcessing(false)
+    }
+  }
+
   async function getPaymentMethod(){
       try{  
         const token = await clientUser.getTokenSilently()
@@ -155,7 +171,7 @@ export function StripeManager(stripe=null){
       }
     
 
-  return {getPublicStripeKey, 
+  return {getPublicStripeKey, deleteSubscrition,
           createCustomer, 
           updateSubscription,
           processError, 

@@ -3,7 +3,7 @@ import { PLANS_DESCRIPTION,COMMUNITY_PLAN,PROFESSIONAL_PLAN,SCALE_PLAN,ENTERPRIS
 import {Layout} from "./Layout"
 import {Container, Card, Row, Col, Button, Stack} from "react-bootstrap"
 import {useNavigate} from "react-router-dom"
-import {PaymentPage} from "./PaymentPage"
+import {PaymentPage} from "../payment/PaymentPage"
 import {WOQLClientObj} from '../init-woql-client' 
 import { Feedback } from "./Feedback";
 import {MdEuroSymbol} from "react-icons/md"
@@ -78,21 +78,20 @@ export const PlansPage = (props) => {
 									<Card.Title style={{color:"white !important"}} className=" fw-bold m-5">{arr.title}</Card.Title>
 								</Card.Header>
 								<Card.Body>
+									
 									<Stack direction="horizontal" gap={0} className="justify-content-center">
 										{(arr.title === PROFESSIONAL_PLAN || arr.title === SCALE_PLAN) &&
 											<MdEuroSymbol size="35"/>
 										} 		
 										<h1>{arr.price} <span className="h6" style={{marginLeft:"-10px;"}}>{arr.subprice}</span></h1>
 									</Stack>									
-										{planButton}							
+										{planButton}
+									<Stack direction="vertical" className="mb-3">
+									{getLabels(arr)}
+									</Stack>							
 									<Card.Text className="text-light text-left h6">
 										{arr.text}
 									</Card.Text>
-
-									<Stack direction="vertical">
-									{getLabels(arr)}
-									</Stack>
-
 								</Card.Body>
 								<Card.Footer  style={{background:arr.color}}>
 								</Card.Footer >

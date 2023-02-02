@@ -34,12 +34,11 @@ export const PLANS_DESCRIPTION = [
         price:'Free',
         subprice:'',
         labelsList:[
-            'Dashboard Sign Up',
             '3 Teams',
             '10 Users',
-            '10 Documents',
+            '10 Data Products',
             '5 Roles',
-            '10,000 document limit',
+            '10,000 Documents limit',
             '100,000 API calls per month',
             'Unlimited Remote Sources'
         ],
@@ -52,21 +51,19 @@ export const PLANS_DESCRIPTION = [
         subtitle: 'Modern data infrastructure',
         limitation : ['- 10,000 document limit',
             '- 100,000 API calls'],
-        text: `Hosted by us, TerminusCMS is a full featured content and knowledge management system. The free account is limited on object storage and API calls. 
+        text: `Hosted by us, TerminusCMS is a full featured content and knowledge management system. 
 
-        If you exceed the limits you will need to upgrade to professional within a month. 
-        We will inform you when you are close and when you cross the threshold.`,
+        The professional package features 10 teams, 30 seats, 1 million API calls, and 100,000 documents.`,
         preprice:'',
         price:'100',
-        subprice:'/month',
+        subprice:'per month',
         labelsList:[
-            'Dashboard Sign Up',
-            '3 Teams',
-            '10 Users',
-            '10 Documents',
+            '10 Teams',
+            '30 Users',
+            'Unlimited Data Products',
             '5 Roles',
-            '10,000 document limit',
-            '100,000 API calls per month',
+            '100,000 document limit',
+            '1 million API calls per month',
             'Unlimited Remote Sources'
         ],
         color:"#e87cd6",
@@ -77,21 +74,17 @@ export const PLANS_DESCRIPTION = [
         subtitle: 'Modern data infrastructure',
         limitation : ['- 10,000 document limit',
             '- 100,000 API calls'],
-        text: `Hosted by us, TerminusCMS is a full featured content and knowledge management system. The free account is limited on object storage and API calls. 
-
-        If you exceed the limits you will need to upgrade to professional within a month. 
-        We will inform you when you are close and when you cross the threshold.`,
+        text: `Hosted by us with guaranteed compute resource. API limits apply.`,
         preprice:'from ',
         price:'600',
         subprice:'per month',
         labelsList:[
-            'Dashboard Sign Up',
-            '3 Teams',
-            '10 Users',
-            '10 Documents',
+            'Unlimited Teams',
+            'Unlimited Users',
+            'Unlimited Documents',
             '5 Roles',
-            '10,000 document limit',
-            '100,000 API calls per month',
+            '10 million document limit',
+            '10 million API calls per month',
             'Unlimited Remote Sources'
         ],
         color:"#8659fa",
@@ -102,19 +95,17 @@ export const PLANS_DESCRIPTION = [
         subtitle: 'Modern data infrastructure',
         limitation : ['- 10,000 document limit',
             '- 100,000 API calls'],
-        text: `Hosted by us, TerminusCMS is a full featured content and knowledge management system. The free account is limited on object storage and API calls. 
+        text: `Custom plans to help with your organization-wide content and knowledge management. 
 
-        If you exceed the limits you will need to upgrade to professional within a month. 
-        We will inform you when you are close and when you cross the threshold.`,
+        We can provide bespoke services for deloyment, feature development, customization, and support. Please get in touch to discuss your requirements.`,
         price:'Get in touch',
         labelsList:[
-            'Dashboard Sign Up',
-            '3 Teams',
-            '10 Users',
-            '10 Documents',
-            '5 Roles',
-            '10,000 document limit',
-            '100,000 API calls per month',
+            'Unlimited Teams',
+            'Unlimited Users',
+            'Unlimited Documents',
+            'Unlimited Roles',
+            'Unlimited document limit',
+            'Unlimited API calls per month',
             'Unlimited Remote Sources'
         ],
         color:"#3450dc",
