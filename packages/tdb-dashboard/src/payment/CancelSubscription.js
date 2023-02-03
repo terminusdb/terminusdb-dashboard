@@ -22,14 +22,12 @@ export const PaymentPage = ({showModal, setShowModal, tier}) => {
                 <Card>
                      <Card.Text className="justify-content-right">Subscription Details</Card.Text>
                       <Stack direction="horizontal" gap={10} className="justify-content-end">
-                      <Card.Text>
-                      {props.subscriptionObj.title} <MdEuroSymbol /> {props.subscriptionObj.price} (Billed monthly)</Card.Text>
-                      </Stack>
-                    
+                            <Card.Text><MdEuroSymbol />0</Card.Text>
+                      </Stack>                
                       <div className="d-flex justify-content-end mt-2"> 
                         <Button onClick={props.closeModal} disabled={processing} variant="light" >Cancel</Button>
                         <Button type={"submit"} disabled={processing  || !enableSubmit || !stripe} className="ml-3">
-                            {processing ? "Processing…" : "Subscribe"}
+                            {processing ? "Processing…" : "Downgrade"}
                         </Button>
                       </div>
                       <div className="d-flex justify-content-end mt-2"> 
