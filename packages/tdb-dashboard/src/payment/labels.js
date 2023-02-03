@@ -38,7 +38,7 @@ export const PLANS_DESCRIPTION = [
             '10 Users',
             '10 Data Products',
             '5 Roles',
-            '10,000 Documents limit',
+            '10,000 Document limit',
             '100,000 API calls per month',
             'Unlimited Remote Sources'
         ],
@@ -62,7 +62,7 @@ export const PLANS_DESCRIPTION = [
             '30 Users',
             'Unlimited Data Products',
             '5 Roles',
-            '100,000 document limit',
+            '100,000 Document limit',
             '1 million API calls per month',
             'Unlimited Remote Sources'
         ],
@@ -83,7 +83,7 @@ export const PLANS_DESCRIPTION = [
             'Unlimited Users',
             'Unlimited Documents',
             '5 Roles',
-            '10 million document limit',
+            '10 million Document limit',
             '10 million API calls per month',
             'Unlimited Remote Sources'
         ],
