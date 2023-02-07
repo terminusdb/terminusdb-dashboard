@@ -4,10 +4,12 @@
  :root {
     --color-pink: #de7dd8;
     --text-contrast-pink: #002856;
+    --color-indigo: rgb(52, 80, 220);
     --color-purple: #855afc;
     --color-purple-hover: #8f75d8;
     --text-contrast-purple: #fff;
     --color-yellow: #f9d891;
+    --text-yellow: #664d03 ;
     --color-contrast-yellow: #002856;
     --color-border-yellow: #d7a12f;
 
@@ -21,6 +23,51 @@
     --badge-color: var(--color-yellow);
     --badge-text-color: var(--color-contrast-yellow);
     --badge-border-color: var(--color-border-yellow);
+}
+
+/** subscription css */
+.free_button_text_color {
+    color: var(--text-yellow) !important;
+}
+  
+.free {
+    border: 1px solid var(--color-yellow);
+    color: var(--color-yellow);
+}
+
+.badge-free { 
+    background-color: var(--color-yellow);
+}
+  
+.professional { 
+    border: 1px solid var(--color-pink);
+    color: var(--color-pink);
+}
+
+.badge-professional { 
+    background-color: var(--color-pink);
+}
+  
+.scale {
+    border: 1px solid var(--color-purple);
+    color: var(--color-purple);
+}
+
+.badge-scale { 
+    background-color: var(--color-purple);
+}
+  
+.enterprise {
+    border: 1px solid var(--color-indigo);
+    color: var(--color-indigo)
+}
+
+.badge-enterprise { 
+    background-color: var(--color-indigo);
+}
+  
+.verify__email {
+    background : linear-gradient(122deg,var(--color-yellow) 0,var(--color-pink) 48%, var(--color-indigo) 100%);
 }
 
 .text-success,
