@@ -94,14 +94,19 @@ export const PlansPage = (props) => {
 		return <Card className="mr-4">
 			<Card.Body>
 				<Stack direction="horizontal" gap={3}>
-					<h6 className="text-light fw-lighter">Current Subscription</h6>
-					<Badge className={`ms-auto ${payment[0].className}`}>{payment[0].title}</Badge>
-					<div className={`${payment[0].className} border border-0`}>
+					<h6 className="text-light fw-bold">Current Subscription</h6>
+					<Badge bg="" className={`ms-auto`} style={{backgroundColor: payment[0].color , color: payment[0].textColor}}>
+						{payment[0].title.toUpperCase()}
+					</Badge>
+					{(tier === PROFESSIONAL_PLAN || tier === SCALE_PLAN) && <div className={`${payment[0].className} border border-0 fw-bold`}>
+						<MdEuroSymbol className="mb-1"/>
 						{payment[0].price}
-					</div>
+					</div>}
+					{tier === COMMUNITY_PLAN && <div className={`${payment[0].className} ${payment[0].textColor} border border-0`}>
+						{payment[0].price}
+					</div>}
 				</Stack>
 			</Card.Body>
-			
 		</Card>
 	}
 

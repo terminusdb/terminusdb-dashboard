@@ -45,6 +45,7 @@ export const PLANS_DESCRIPTION = [
             '100,000 API calls per month'
         ],
         color:"#fed893",
+        textColor: "#664d03",
         buttonLabel:'Get Started',
         buttonTextColor: "free_button_text_color",
         showButton:false,
@@ -69,6 +70,7 @@ export const PLANS_DESCRIPTION = [
             '1 million API calls per month'
         ],
         color:"#e87cd6",
+        textColor: "text-white",
         buttonTextColor: "text-white",
         buttonLabel:"Upgrade to Professional",
         icon: <RiUserStarLine  className="subscription_icons professional"/>,
@@ -92,6 +94,7 @@ export const PLANS_DESCRIPTION = [
             '10 million API calls per month'
         ],
         color:"#8659fa",
+        textColor: "text-white",
         buttonTextColor: "text-white",
         buttonLabel:"Upgrade to Scale",
         icon: <RiCommunityLine className="subscription_icons scale"/>,
@@ -113,6 +116,7 @@ export const PLANS_DESCRIPTION = [
             'placeholder_label'
         ],
         color:"#3450dc",
+        textColor: "text-white",
         buttonTextColor: "text-white",
         buttonLabel:"Contact us",
         icon: <ImLibrary className="subscription_icons enterprise"/>,
