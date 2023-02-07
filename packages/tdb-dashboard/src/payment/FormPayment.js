@@ -34,7 +34,6 @@ export function FormPayment(props) {
   const city = useRef(null);
   const address = useRef(null);
 
-
   const stripe = useStripe();
   const elements = useElements();
 
@@ -95,8 +94,6 @@ export function FormPayment(props) {
     })
     ;
 };
-
-
 
 const renderSuccess = () => {
       function goToHome (){

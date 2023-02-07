@@ -8,6 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import { Feedback } from "./Feedback";
 import {MdEuroSymbol} from "react-icons/md"
 import { StripeManager } from "../payment/StripeManager";
+import {CancelSubscription} from "../payment/CancelSubscription";
 /*
 * the plan card, we use this component in home page
 */
@@ -16,6 +17,7 @@ export const PlansPage = (props) => {
 	const navigate = useNavigate()
 	const [showFeedbackForm, setShowFeedbackForm] = useState(false)
 	const [showModalPlan ,setShowModalPlan] = useState(false)
+	const [showModalCancel ,setShowModalCancel] = useState(false)
 	const {getPaymentMethod,paymentMethod} = StripeManager()
 	
 	const tier = clientUser && clientUser.userInfo ? clientUser.userInfo.tier : "Community"
@@ -42,7 +44,7 @@ export const PlansPage = (props) => {
 
 	const communityActions = () =>{
 		if(toBedisabled[tier]){
-			alert("DownGrade")
+			setShowModalCancel(true)
 		}else{
 			navigate("/")
 		}
@@ -78,6 +80,7 @@ export const PlansPage = (props) => {
 	return(<Layout showLeftSideBar={false}>
 		{showModalPlan && <PaymentPage showModal={showModalPlan !== false ? true : false } 
 				setShowModal={setShowModalPlan} subscriptionObj={showModalPlan}/>}
+		{showModalCancel && <CancelSubscription showModal={showModalCancel} setShowModal={setShowModalCancel} />}
 		{showFeedbackForm && < Feedback boxType= {ENTERPRISE_PLAN} setShowFeedbackForm={setShowFeedbackForm}/>}
 		 <Container className="center-align col-md-10">
 		 <Row xs={1} md={4} className="g-4 py-2 w-100">

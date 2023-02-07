@@ -2,8 +2,9 @@ import React from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {Modal,Button,Stack, Card} from "react-bootstrap"
 import {MdEuroSymbol} from "react-icons/md"
+import {StripeManager} from "./StripeManager"
 
-export const PaymentPage = ({showModal, setShowModal, tier}) => {
+export const CancelSubscription = ({showModal, setShowModal}) => {
     const {woqlClient, } = WOQLClientObj()
     if(!woqlClient) return ""
 
@@ -11,10 +12,16 @@ export const PaymentPage = ({showModal, setShowModal, tier}) => {
         setShowModal(false)
     }
 
+    const { succeeded, 
+        error, 
+        processing, deleteSubscrition} = StripeManager()
+
+    
+
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
-            <Modal.Header style={{background:subscriptionObj.color}}>
+            <Modal.Header>
                 <Stack direction="horizontal" gap={10} className="justify-content-center"> 	
-                    <Modal.Title className="h4 fw-bold">Remove the {tier} Subscription</Modal.Title>	
+                    <Modal.Title className="h4 fw-bold">Downgrade to Community</Modal.Title>	
 				</Stack>
                 <Button variant="close" aria-label="Close" onClick={closeModal} />
             </Modal.Header>
@@ -25,13 +32,13 @@ export const PaymentPage = ({showModal, setShowModal, tier}) => {
                             <Card.Text><MdEuroSymbol />0</Card.Text>
                       </Stack>                
                       <div className="d-flex justify-content-end mt-2"> 
-                        <Button onClick={props.closeModal} disabled={processing} variant="light" >Cancel</Button>
-                        <Button type={"submit"} disabled={processing  || !enableSubmit || !stripe} className="ml-3">
+                        <Button onClick={closeModal} disabled={processing} variant="light" >Cancel</Button>
+                        <Button type={"submit"} disabled={processing} className="ml-3" onClick={deleteSubscrition}>
                             {processing ? "Processing…" : "Downgrade"}
                         </Button>
                       </div>
                       <div className="d-flex justify-content-end mt-2"> 
-                        <span style={{fontSize: "15px", color: "#888" }}>* your account will be billed monthly until cancelled.
+                        <span style={{fontSize: "15px", color: "#888" }}>
                           </span>
                       </div>   
                 </Card>			

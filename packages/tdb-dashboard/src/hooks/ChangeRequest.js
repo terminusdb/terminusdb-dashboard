@@ -68,6 +68,36 @@ export function ChangeRequest(){
         }     
     }
 
+   
+    const getChangeRequestHead = async(id) =>{
+        try{ 
+            setLoading(true) 
+           // const payload = {id}
+            const result = await woqlClient.sendCustomRequest("GET", `${getUrl()}/${id}/head`)
+            return result
+        }catch(err){
+            const errMessage = formatErrorMessage(err)
+            setError(errMessage)
+        }finally{
+            setLoading(false)
+        }     
+    }
+
+    const rebaseChangeRequestBranch = async(id) =>{
+        try{ 
+            setLoading(true) 
+           // const payload = {id}
+            const result = await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${id}/rebase`,{})
+            return result
+        }catch(err){
+            const errMessage = formatErrorMessage(err)
+            setError(errMessage)
+        }finally{
+            setLoading(false)
+        }     
+    }
+
+
 // TO BE REVIEW ?????
     const getChangeRequestByID = async(id) =>{
         try{ 
@@ -98,7 +128,9 @@ export function ChangeRequest(){
         createChangeRequest,
         getChangeRequestList,
         updateChangeRequestStatus,
-        getChangeRequestByID
+        getChangeRequestByID,
+        getChangeRequestHead,
+        rebaseChangeRequestBranch
     }
 
 }
