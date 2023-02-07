@@ -9,6 +9,7 @@ import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
+import {sortAlphabetically} from "./components/utils"
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
@@ -184,7 +185,8 @@ export const WOQLClientProvider = ({children, params}) => {
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
             let test=[]
-            setDocumentClasses(classRes)
+            let list=sortAlphabetically(classRes, true) 
+            setDocumentClasses(list)
             // get number document classes
             let q=getCountOfDocumentClass(classRes)
             setQuery(q)

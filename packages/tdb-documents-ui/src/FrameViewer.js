@@ -57,7 +57,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 let extractedDocumentation= util.extractDocumentation(frame, current, language)
                 //store selected language here to get access to ENUM docs based on selected language
                 frame[CONST.SELECTED_LANGUAGE]= language ? language : CONST.DEFAULT_LANGUAGE
-                let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation, setChainedData)
+                let properties=getProperties(frame, type, frame[current], uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation, type)
                 let schema = {
                     type: CONST.OBJECT_TYPE,
                     properties: properties.properties,
@@ -67,8 +67,8 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 //console.log("schema", JSON.stringify(schema, null, 2))
                 //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
-                console.log("schema", schema)
-                console.log("properties.uiSchema", properties.uiSchema)
+                //console.log("schema", schema)
+                //console.log("properties.uiSchema", properties.uiSchema)
                 //console.log("uiSchema", uiSchema)
 
                 if(mode === CONST.VIEW) {
