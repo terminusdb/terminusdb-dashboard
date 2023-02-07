@@ -18,12 +18,12 @@ export const ManageDatabase=()=> {
             setLoading(true)
             setError(false)
             const clientCopy = woqlClient.copy()
-            if(isPublicDB){
+           /* if(isPublicDB){
                 clientCopy.remoteAuth({type:"basic","user":"anonymous",key:""})
             }else{
                 // the user clones his database into one of his teams
                 clientCopy.remoteAuth(clientCopy.localAuth())
-            }
+            }*/
         
             const result = await clientCopy.clonedb(cloneSource, destDB, destOrg)
             return true
