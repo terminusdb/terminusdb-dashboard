@@ -8,6 +8,9 @@ import {WOQLClientObj} from '../init-woql-client'
 import { Feedback } from "./Feedback";
 import {MdEuroSymbol} from "react-icons/md"
 import { StripeManager } from "../payment/StripeManager";
+import {AiOutlineCheck} from "react-icons/ai"
+import Badge from "react-bootstrap/Badge"
+
 /*
 * the plan card, we use this component in home page
 */
@@ -30,9 +33,15 @@ export const PlansPage = (props) => {
 
 	const proButtonStyle= {padding:"0px"} //: {padding:"0px"}
 
+
 	const getLabels = (arr)=>{
 		return arr.labelsList.map((label,index)=>{
-			return <label key={index}>{label}</label>
+			let css=""
+			if(label==="placeholder_label") css="opacity-0"
+			return <div className={`d-flex w-100 justify-content-center ${css}`}>
+				<AiOutlineCheck className="text-muted mt-1 mr-2"/>
+				<label key={index}>{label}</label>
+			</div>
 		})
 	}
 	const toBedisabled= {
@@ -58,9 +67,28 @@ export const PlansPage = (props) => {
 		}
 
 		return <Button {...planAction} style= {style} {...disabled}
-				className="text-white fw-bold w-100 mt-5 mb-5 pt-3 pb-3" >
-				{plansObj.buttonLabel}
-				</Button>
+			className={`${plansObj.buttonTextColor} fw-bold w-100 mt-1 mb-1 pt-3 pb-3`} >
+			{plansObj.buttonLabel}
+		</Button>
+	}
+
+	const CurrentSubscriptionBadge = ({tier}) => {
+		let payment = PLANS_DESCRIPTION.filter(arr => arr.title === tier)
+
+		if(!payment) return <div/>
+
+		return <Card className="mr-4">
+			<Card.Body>
+				<Stack direction="horizontal" gap={3}>
+					<h6 className="text-light fw-lighter">Current Subscription</h6>
+					<Badge className={`ms-auto ${payment[0].className}`}>{payment[0].title}</Badge>
+					<div className={`${payment[0].className} border border-0`}>
+						{payment[0].price}
+					</div>
+				</Stack>
+			</Card.Body>
+			
+		</Card>
 	}
 
 	return(<Layout showLeftSideBar={false}>
@@ -68,35 +96,37 @@ export const PlansPage = (props) => {
 				setShowModal={setShowModalPlan} subscriptionObj={showModalPlan}/>}
 		{showFeedbackForm && < Feedback boxType= {ENTERPRISE_PLAN} setShowFeedbackForm={setShowFeedbackForm}/>}
 		 <Container className="center-align col-md-10">
-		 <Row xs={1} md={4} className="g-4 py-2 w-100">
+		 	<CurrentSubscriptionBadge tier={tier}/>
+			<Row xs={1} md={4} className="g-4 py-2 w-100">
 				{PLANS_DESCRIPTION.map((arr) => {
 					const planButton = getPlanButton(arr)
 					const cardClass = tier === arr.title ? "border border-white border-5 h-100" : "h-100"
 					return <Col className="py-1 col-md-3" key={arr.title}>
-							<Card className={cardClass}>
-								<Card.Header style={{background:arr.color}}>
-									<Card.Title style={{color:"white !important"}} className=" fw-bold m-5">{arr.title}</Card.Title>
-								</Card.Header>
-								<Card.Body>
+						<Card className={cardClass}>
+							<Card.Body className="justify-content-center">
+								<h6 className="text-light fw-lighter text-uppercase mb-3 mt-3">{arr.title}</h6>
+								{arr.icon}
+								<Stack direction="horizontal" gap={0} className="mt-3 mb-3 justify-content-center">
+									{(arr.title === PROFESSIONAL_PLAN || arr.title === SCALE_PLAN) &&
+										<MdEuroSymbol size="35"/>
+									} 		
+									<h1>{arr.price} <span className="h6 text-muted" style={{marginLeft:"-10px;"}}>
+										{arr.subprice}
+										</span>
+									</h1>
+								</Stack>									
 									
-									<Stack direction="horizontal" gap={0} className="justify-content-center">
-										{(arr.title === PROFESSIONAL_PLAN || arr.title === SCALE_PLAN) &&
-											<MdEuroSymbol size="35"/>
-										} 		
-										<h1>{arr.price} <span className="h6" style={{marginLeft:"-10px;"}}>{arr.subprice}</span></h1>
-									</Stack>									
-										{planButton}
-									<Stack direction="vertical" className="mb-3">
+								<Stack direction="vertical" className="mb-3">
 									{getLabels(arr)}
-									</Stack>							
-									<Card.Text className="text-light text-left h6">
-										{arr.text}
-									</Card.Text>
-								</Card.Body>
-								<Card.Footer  style={{background:arr.color}}>
-								</Card.Footer >
-							</Card>
-						</Col>
+								</Stack>	
+
+								{<Card.Text className="text-muted  small">
+									{arr.text}
+								</Card.Text>}
+								{planButton}						
+							</Card.Body>
+						</Card>
+					</Col>
 				})}
 			</Row>
 		 </Container>

@@ -107,7 +107,7 @@ it('check that you can create a new Team', ()=>{
       cy.get('input#team_id').type(teamName).trigger('change');
       cy.get('#create_new_team_button').click()
       cy.wait(5000)
-      cy.get('#team_list_nenu_button').should("contain",teamName)
+      cy.get('#team_list_menu_button').should("contain",teamName)
 
   })
 

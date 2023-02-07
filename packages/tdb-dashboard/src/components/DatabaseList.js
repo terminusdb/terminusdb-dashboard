@@ -1,9 +1,10 @@
 import React, {useState} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {MenuItem, SubMenu} from 'react-pro-sidebar'
+import {MenuItem, SubMenu, Sidebar} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {SearchBox} from "./SearchBox"
 import {useNavigate} from "react-router-dom"
+import {sortAlphabetically} from "./utils"
  
 /* returns a list of data products */
 export const DataProductItems = (props) => {
@@ -15,7 +16,8 @@ export const DataProductItems = (props) => {
         getLocation
     } = WOQLClientObj()
 
-    let list = woqlClient ? woqlClient.databases() : [] 
+    // sort list in alphabetical order
+    const list = sortAlphabetically (woqlClient ? woqlClient.databases() : []) 
 
     // search data products
     const [searchDataProduct, setSearchDataProduct]=useState(false)
@@ -39,7 +41,7 @@ export const DataProductItems = (props) => {
 
     return <React.Fragment>
             <SubMenu title="Data Products" 
-                className="menu-title"
+                className="menu-title "
                 defaultOpen={sidebarStateObj.sidebarDataProductListState}
                 onOpenChange={(e) => saveSidebarState("sidebarDataProductListState",e)}
                 >

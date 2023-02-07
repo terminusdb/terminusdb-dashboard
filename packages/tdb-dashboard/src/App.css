@@ -1140,6 +1140,10 @@ pre.CodeMirror-line  > span > span.cm-string {
   min-width: 22px;
 }
 
+.form-check-input {
+  min-height: 0 !important;
+}
+
 
 .table__columns__component > .form-check-label{
   margin-left: 10px;
@@ -1178,4 +1182,44 @@ pre.CodeMirror-line  > span > span.cm-string {
   right: 0;
   left: auto !important;
   margin-top: var(--bs-dropdown-spacer);
+}
+
+/** subscription */
+.subscription_icons {
+  font-size: 55px;
+  border-radius: 50%;
+  /*ßwidth: 130px;*/
+  line-height: 130px;
+  height: 130px;
+  padding: 1.5rem;
+  width: 100px;
+  height: 100px;
+}
+
+.free_button_text_color {
+  color: #664d03 !important;
+}
+
+.free {
+  border: 1px solid rgb(254, 216, 147);
+  color: rgb(254, 216, 147);
+}
+
+.professional { 
+  border: 1px solid rgb(232, 124, 214);
+  color: rgb(232, 124, 214);
+}
+
+.scale {
+  border: 1px solid rgb(134, 89, 250);
+  color: rgb(134, 89, 250);
+}
+
+.enterprise {
+  border: 1px solid rgb(52, 80, 220);
+  color: rgb(52, 80, 220);
+}
+
+.verify__email {
+  background : linear-gradient(122deg,#fed893 0,#e87cd6 48%,#4058d0 100%);
 }

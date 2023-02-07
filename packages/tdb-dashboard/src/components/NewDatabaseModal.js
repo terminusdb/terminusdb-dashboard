@@ -60,7 +60,7 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
                     errMsg = err.data["api:message"]
                 }
                 let message=`Error in creating database ${dbInfo.label}. ${errMsg}`
-                setErrorMessage(message)
+                setReportAlert(message)
                 setLoading(false)
 
                 //clear all the fields
@@ -103,9 +103,9 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         {loading && <div style={{height: "300px"}}><Loading message={`Creating ${label} ...`}/></div>}
-        {!loading && <Modal.Body className="p-5">
+        <Modal.Body className="p-5">
             {reportAlert && <Alerts message={reportAlert} type={TERMINUS_DANGER}/>}
-            <Form >
+            {!loading && <Form >
                 <Form.Group className="mb-3">
                     <Form.Control required id={newDataProductForm.id.id} type={"text"} onBlur={handleOnBlur} placeholder={newDataProductForm.id.placeholder} />
                 </Form.Group>
@@ -115,8 +115,8 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
                 <Form.Group className="mb-3">
                     <Form.Control  id={newDataProductForm.description.id} as="textarea"  onBlur={handleOnBlur} rows="5" placeholder={newDataProductForm.description.placeholder} />
                 </Form.Group>
-            </Form>
-        </Modal.Body>}
+            </Form>}
+        </Modal.Body>
         <Modal.Footer> 
               <button title={IconBarConfig.dataProductView.title}  
                     className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info" 
