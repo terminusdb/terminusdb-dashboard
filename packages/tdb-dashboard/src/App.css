@@ -1154,6 +1154,13 @@ pre.CodeMirror-line  > span > span.cm-string {
 }
 
 /** card border for change request component  */
+.update__change__request__card {
+  height: 20em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .tdb__change__request__card {
   border-color: #3450DC !important;
 }
