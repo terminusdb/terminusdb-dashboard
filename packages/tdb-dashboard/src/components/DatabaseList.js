@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {MenuItem, SubMenu} from 'react-pro-sidebar'
+import {MenuItem, SubMenu, Sidebar} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {SearchBox} from "./SearchBox"
 import {useNavigate} from "react-router-dom"
@@ -41,7 +41,7 @@ export const DataProductItems = (props) => {
 
     return <React.Fragment>
             <SubMenu title="Data Products" 
-                className="menu-title"
+                className="menu-title "
                 defaultOpen={sidebarStateObj.sidebarDataProductListState}
                 onOpenChange={(e) => saveSidebarState("sidebarDataProductListState",e)}
                 >

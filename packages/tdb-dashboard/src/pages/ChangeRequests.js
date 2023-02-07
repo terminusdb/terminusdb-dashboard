@@ -133,7 +133,7 @@ export const ChangeRequests = () => {
 			case REJECTED: 
 				return <Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>
 			case MERGED : 
-				return <Badge bg="success text-dark mr-4" onClick={()=>goToDiffPage(item)}>View Approved Diff</Badge>
+				return <Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>View Approved Diff</Button>
 		}
 
 	}
