@@ -10,7 +10,6 @@ import {BiGitBranch} from "react-icons/bi"
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 import Stack from 'react-bootstrap/Stack'
-import {status} from "../components/utils" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {Loading} from "../components/Loading"
 import Alert from 'react-bootstrap/Alert'
@@ -117,10 +116,7 @@ export const ChangeDiff = () => {
                                 </Stack>
                             </Card.Header> 
                             <Card.Body> 
-                                <Stack direction="horizontal" gap={3} className="text-right w-100 h5 mt-3 ">
-                                    <span className="text-light h6 mt-1 ms-auto">{`Status:`}</span>
-                                    {status[currentCRObject.status]}
-                                </Stack>
+                                
                                {currentCRObject.status !== MERGED && <ReviewComponent setKey={setKey} action={action} setAction={setAction}/> }
                                <DiffView diffs={result} CRObject={currentCRObject}/> 
                             </Card.Body> 

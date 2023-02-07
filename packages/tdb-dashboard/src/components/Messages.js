@@ -11,16 +11,15 @@ import {
 } from "./utils"
 import {VscCommentDiscussion} from "react-icons/vsc"
 import {Loading} from "./Loading"
+import {Review} from "./ReviewComponent"
+import {COMMENT} from "./constants"
 
-const CommentSection = () => {
-    const {
-        currentCRObject
-    } = WOQLClientObj()
+const CommentSection = ({currentCRObject}) => {
 
     if (!currentCRObject.hasOwnProperty("messages")) 
         return <div className="mt-2">No messages to display ...</div>
 
-    let elements=[]
+    let elements=[] 
 
     if(Array.isArray(currentCRObject["messages"])) {
         currentCRObject["messages"].slice(0).reverse().map(curr => {
@@ -36,67 +35,19 @@ const CommentSection = () => {
     return <Card className="mb-3 w-100 mt-2 p-5 border-secondary">{elements}</Card>
 }
 
-const AddNewMessage=()=> {
-    const {
-        currentCRObject,
-        setCurrentCRObject
-    } = WOQLClientObj()
-    const {
-        updateChangeRequestStatus,
-        getChangeRequestByID,
-        loading
-    } =  ChangeRequest() 
-    const [comment, setComment]=useState("")
-    const [add, setAdd]=useState(false)
-
-    useEffect(() => {
-        async function updateMessages() { 
-            await updateChangeRequestStatus(comment, currentCRObject.status)
-            let id=extractID(currentCRObject["@id"])
-            await getChangeRequestByID(id)
-            setComment("")
-        }
-        if(comment!=="") updateMessages()
-    }, [add])
-
-    function addComment() {
-        setAdd(Date.now())
-    }
-    
-    function handleMessage(e) {
-        if(setComment) {
-            setComment(e.target.value)
-        }
-    }
-
-    return <Form className="mt-4 new__message__container mb-4">
-        {loading && <ProgressBar variant="info" animated now={100}/>}
-        <Form.Group className="mb-3" controlId="form_change_request_textarea">
-            <Form.Control as="textarea" 
-                rows={5} 
-                onChange={handleMessage}
-                value={comment}
-                style={{color: "white"}}
-                className="bg-dark border-secondary" 
-                placeholder={"Add a new Comment or Message ..."}/>
-            <Button className="bg-light text-dark btn-sm fw-bold float-right mt-2 mb-2 d-flex" 
-                disabled={loading}
-                onClick={addComment}>
-                {loading ? <Loading message={"Adding Comment ..."}/> : "Comment"} 
-            </Button>
-        </Form.Group>
-    </Form>
-}
-
 export const Messages = () => {
+    const {
+        currentCRObject
+    } = WOQLClientObj()
+    const [comment, setComment]=useState("")
 
     return <React.Fragment>
-        <AddNewMessage/>
+        <Review message={comment} setMessage={setComment} checked={COMMENT}/>
         <br/>
-        <h5 className="fw-bold text-muted mt-3 mb-3">
+        <h5 className="fw-bold text-muted mt-5 mb-3">
             <VscCommentDiscussion/> Previous Messages
         </h5>
-        <CommentSection/>
+        <CommentSection currentCRObject={currentCRObject}/>
     </React.Fragment>
   
 }

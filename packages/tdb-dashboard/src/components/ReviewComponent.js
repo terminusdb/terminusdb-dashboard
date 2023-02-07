@@ -1,61 +1,198 @@
-import React from "react"
-import {
-    COMMENT,
-    APPROVE,
-    REJECT,
-} from "./constants"
-import Dropdown from 'react-bootstrap/Dropdown'
-import SplitButton from 'react-bootstrap/SplitButton'
-import {CommentComponent} from "./CommentComponent"
-import {ApproveComponent} from "./ApproveComponent"
-import {RejectComponent} from "./RejectComponent"
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import React, {useState} from "react"
+import * as CONST from "./constants"
+import Card from "react-bootstrap/Card"
+import Button from 'react-bootstrap/Button'
+import {useNavigate,useParams } from "react-router-dom"
 import {WOQLClientObj} from "../init-woql-client"
+import Form from "react-bootstrap/Form"
+import Stack from "react-bootstrap/Stack"
+import {status, extractID} from "./utils" 
+import {ChangeRequest} from "../hooks/ChangeRequest"
+import Spinner from 'react-bootstrap/Spinner';
 
-const View = ({action, setKey}) => {
-    if(action === COMMENT) return <CommentComponent setKey={setKey}/>
-    else if (action === APPROVE) return <ApproveComponent/>
-    else if (action === REJECT) return <RejectComponent/>
+const ActionButton = ({variant, title, content, onClick, loading, icon}) => {
+    return <Button
+        className="text-dark btn btn-sm fw-bold d-flex mt-3 float-end" 
+        variant={variant}
+        title={title}
+        onClick={onClick}> 
+            {loading && <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                className="mr-1 mt-1"
+                aria-hidden="true"
+            />}
+            <div className="d-flex">
+                {icon}
+                <label>{content}</label>
+            </div>
+    </Button>
+}
+
+/**
+ * @returns buttons to reject commit or approve based on user action 
+ */
+const Actions = ({checked, message, setKey, setMessage}) => {
+
+    const {
+        currentCRObject,
+        exitChangeRequestBranch
+    }= WOQLClientObj()
+
+    const {
+        updateChangeRequestStatus,
+        getChangeRequestList,
+        getChangeRequestByID,
+		loading
+    } = ChangeRequest()
+
+    const {organization,dataProduct,id} = useParams()
+    const navigate = useNavigate() // to navigate
+
+    /** handle Message */
+    async function handleMessage() {
+        let id=extractID(currentCRObject["@id"])
+        let res=await updateChangeRequestStatus(message, currentCRObject.status, id)
+        let cr=await getChangeRequestByID(id) 
+        if(setKey) setKey(CONST.MESSAGES)
+        if(setMessage) setMessage("")
+    }
+
+    /** handle Merge */
+    async function handleMerge () { 
+        let res=await updateChangeRequestStatus(message, CONST.MERGED, id)
+        let cr=await getChangeRequestList()
+		if(res){
+			exitChangeRequestBranch()
+			navigate(`/${organization}/${dataProduct}`)
+		}
+    }
+
+    /** handle Reject */
+    async function handleReject () {
+        let res=await updateChangeRequestStatus(message, CONST.REJECTED, id)
+        let cr=await getChangeRequestList()
+        if(res){
+			exitChangeRequestBranch()
+			navigate(`/${organization}/${dataProduct}`)
+		}
+    }
+
+    let chosen = CONST.REVIEW_OPTIONS.filter(arr => arr.title === checked)
+
+    if(checked === CONST.APPROVE) {
+        return <ActionButton variant="success" 
+            loading={loading}
+            title={"Approve Changes"} 
+            content={checked} 
+            icon={chosen[0].icon}
+            onClick={handleMerge}/>
+    }
+    else if (checked === CONST.COMMENT) {
+        return <ActionButton variant="light" 
+            title={"Leave a Comment or message"} 
+            content={checked} 
+            loading={loading}
+            icon={chosen[0].icon}
+            onClick={handleMessage}/>
+    }
+    else if(checked ===CONST.REJECT) {
+        return <ActionButton variant="danger" 
+            title={"Reject Changes"} 
+            content={checked} 
+            loading={loading}
+            icon={chosen[0].icon}
+            onClick={handleReject}/>
+    }
     return <div/>
 }
 
-export const ReviewComponent = ({setKey, action, setAction}) => {
-    const {userHasMergeRole}= WOQLClientObj()
+/**
+ * @returns help texts 
+ */
+function getHelpText (checked) {
+    const arr = CONST.REVIEW_OPTIONS.filter(arr => arr.title === checked)
+    if (!arr) return <div/>
+    return <small className="fw-light">{arr[0].helpText}</small>
+}
+ 
+function getChecked (checked, id) {
+    return checked === id ? true : false
+}
 
-    function handleAction (action) {
-        if(action === COMMENT) setAction(COMMENT)
-        else if(action === APPROVE) setAction(APPROVE)
-        else setAction(REJECT)
-    }
+/**
+ * @returns Check boxes for CR actions
+ */
+const FormCheck = ({checked, setChecked}) => {
+    return CONST.REVIEW_OPTIONS.map(arr => {
+        let id=arr.title
+        return <>
+            <Form.Check 
+                checked={getChecked(checked, id)}
+                onChange={(e) => setChecked(id)}
+                className="mr-4"
+                type={"radio"}
+                id={id}
+                label={arr.title}
+            />
+        </>
+    })
+}
+
+/**
+ * @returns view based on CR actions
+ */
+export const Review = ({message, setMessage, checked, setKey}) => {
+    return <React.Fragment>
+        <Form.Control as="textarea" 
+            rows={5} 
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            style={{color: "white"}}
+            className="bg-dark border-secondary" 
+            placeholder={"Add a new comment or message ..."}/>
+
+        <Actions checked={checked} message={message} setMessage={setMessage} setKey={setKey}/>
+    </React.Fragment>
+}
+
+export const ReviewComponent = ({setKey}) => {
+    const {
+        userHasMergeRole,
+        currentCRObject
+    }= WOQLClientObj()
+
+    // set default action as COMMENT
+    const [checked, setChecked]=useState(CONST.COMMENT)
+    // feedback constants
+    const [message, setMessage]=useState("")
 
     if(!userHasMergeRole) {
         // for collaborator or reader role
-        return <View action={COMMENT} setKey={setKey}/>
+        return <Review message={message} setMessage={setMessage} checked={checked}/>
     }
-    
-	return <span className="ms-auto">
-       <DropdownButton
-            key={"down"}
-            bsPrefix="btn btn-md text-dark bg-light ml-4"
-            style={{marginTop: "-50px"}}
-            id={`dropdown-button-drop-down`}
-            drop={"down"} 
-            variant="light"
-            title={"Submit Review"}>
-            <Dropdown.Item eventKey={APPROVE} 
-                onClick={(e) => handleAction(e.target.text)}>
-                    {APPROVE}
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={COMMENT} 
-                onClick={(e) => handleAction(e.target.text)}>
-                    {COMMENT}
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={REJECT} 
-                onClick={(e) => handleAction(e.target.text)}>
-                    {REJECT}
-            </Dropdown.Item>
-        </DropdownButton>
-        <View action={action} setKey={setKey}/>
-    </span>
+
+    return <Card className="bg-transparent border border-dark m-3">
+        <Card.Header className="bg-transparent border border-dark">
+            <Stack direction="horizontal" gap={3} className="text-right w-100">
+                <h6>Submit your Review</h6>
+                <span className="text-light ms-auto">{`Status:`}</span>
+                {status[currentCRObject.status]}
+            </Stack>
+        </Card.Header>
+        <Card.Body>
+
+            <div className="d-flex mb-1">
+                <Stack direction="horizontal" gap={3} className="text-right w-100">
+                    <FormCheck checked={checked} setChecked={setChecked}/>
+                    <span className="text-light ms-auto">{getHelpText(checked)}</span>
+                </Stack>
+            </div>
+            
+            <Review message={message} setMessage={setMessage} checked={checked} setKey={setKey}/>
+        </Card.Body>
+    </Card>
         
 }

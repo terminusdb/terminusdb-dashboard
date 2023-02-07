@@ -292,10 +292,10 @@ export const iconTypes={
 
 
 export const status = {
-	[OPEN]:<Badge bg="warning text-dark mr-4" >OPEN</Badge>,
-    [SUBMITTED]: <Badge bg="warning text-dark mr-4" >Review required</Badge>,
-    [REJECTED]: <Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>,
-    [MERGED]:  <Badge bg="success text-dark mr-4" >{MERGED}</Badge>,
+	[OPEN]:<Badge bg="warning text-dark" >OPEN</Badge>,
+    [SUBMITTED]: <Badge bg="warning text-dark">Review required</Badge>,
+    [REJECTED]: <Badge bg="danger text-dark">{REJECTED}</Badge>,
+    [MERGED]:  <Badge bg="success text-dark">{MERGED}</Badge>,
 }
 
 /** just get change request ID, remove "Changerequest/" from ID */

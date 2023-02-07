@@ -8,7 +8,7 @@ import {makeArrayTypeFrames} from "./arrayTypeFrames/arrayTypeFrames"
 import {makeFeatureCollectionTypeFrames} from "./arrayTypeFrames/featureCollectionTypeFrames"
 
 
-export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData) {
+export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType) {
     let properties = {}, propertiesUI = {}, required = []
 
     
@@ -36,7 +36,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             propertiesUI[item] = featureCollectionFrames.uiLayout
         } 
         else if(util.isMandatory(frame, item)) {
-            let mandatoryFrames=makeMandatoryFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData)
+            let mandatoryFrames=makeMandatoryFrames(fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType)
             
             //set property layout & uiLayout
             properties[item] = mandatoryFrames.layout
@@ -46,7 +46,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
         }
         else if(util.isOptional(frame, item)) { 
             let extractedFrames = util.extractFrames(frame, item)
-            let optional = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData)
+            let optional = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType)
             let optionalFrames = makeOptionalFrames(optional, item, uiFrame, mode, formData, documentation) 
            
             //set property layout & uiLayout
@@ -56,7 +56,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
         else if(util.isSet(frame, item)) {
             let extractedFrames = util.extractFrames(frame, item)
             let setFormData=formData && formData.hasOwnProperty(item) ? formData[item] : formData
-            let extractedProperties = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, setFormData, onTraverse, onSelect, documentation, setChainedData)
+            let extractedProperties = getProperties(fullFrame, item, extractedFrames, uiFrame, mode, setFormData, onTraverse, onSelect, documentation, docType)
             let setFrames = makeSetFrames(extractedProperties, item, uiFrame, mode, setFormData, documentation) 
             
             //set property layout & uiLayout
@@ -74,7 +74,7 @@ export function getProperties (fullFrame, type, frame, uiFrame, mode, formData, 
             propertiesUI[item] = listFrames.uiLayout
         }
         else if(util.isArrayType(frame, item)) {
-            let arrayFrames=makeArrayTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, setChainedData})
+            let arrayFrames=makeArrayTypeFrames({fullFrame, item, frame, uiFrame, mode, formData, onTraverse, onSelect, documentation, docType})
             //set property layout & uiLayout
             properties[item] = arrayFrames.layout
             propertiesUI[item] = arrayFrames.uiLayout 

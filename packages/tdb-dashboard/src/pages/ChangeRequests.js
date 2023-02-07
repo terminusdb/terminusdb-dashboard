@@ -179,7 +179,7 @@ export const ChangeRequests = () => {
 					</Card.Header>
 					<Card.Body className="p-0">
 						<ListGroup as="ol" key={"ListGroup"}> 
-							{loading && <Loading message={`Fetching Change Reuqests ...`}/>}
+							{loading && <Loading message={`Fetching Change Requests ...`}/>}
 							{changeRequestList && formatListItem()}
 						</ListGroup>
 					</Card.Body>

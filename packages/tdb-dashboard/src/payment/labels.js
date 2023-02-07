@@ -1,3 +1,8 @@
+import React from "react"
+import {RiCommunityLine, RiUserStarLine} from "react-icons/ri"
+import {ImLibrary} from "react-icons/im"
+import {FiUsers} from "react-icons/fi"
+
 export const FormPaymentLabels = {
 	successTitle:'Your subscription was successful',
 	successSubtitle:'Thank you for subscribing to TerminusX'
@@ -20,18 +25,17 @@ export const PROFESSIONAL_PLAN = "Professional"
 export const SCALE_PLAN = "Scale"
 export const ENTERPRISE_PLAN = "Enterprise"
 
+
+
 export const PLANS_DESCRIPTION = [
     {
         title: COMMUNITY_PLAN,
         subtitle: 'Modern data infrastructure',
         limitation : ['- 10,000 document limit',
             '- 100,000 API calls'],
-        text: `Hosted by us, TerminusCMS is a full featured content and knowledge management system. The free account is limited on object storage and API calls. 
-
-        If you exceed the limits you will need to upgrade to professional within a month. 
-        We will inform you when you are close and when you cross the threshold.`,
+        text: `Get started for free with the community package.`,
         preprice:'',
-        price:'Free',
+        price:'FREE',
         subprice:'',
         labelsList:[
             '3 Teams',
@@ -39,77 +43,81 @@ export const PLANS_DESCRIPTION = [
             '10 Data Products',
             '5 Roles',
             '10,000 Documents limit',
-            '100,000 API calls per month',
-            'Unlimited Remote Sources'
+            '100,000 API calls per month'
         ],
         color:"#fed893",
         buttonLabel:'Get Started',
-        showButton:false
+        buttonTextColor: "free_button_text_color",
+        showButton:false,
+        icon: <FiUsers className="subscription_icons free"/>,
+        className: "free"
     },
     {
         title: PROFESSIONAL_PLAN,
         subtitle: 'Modern data infrastructure',
         limitation : ['- 10,000 document limit',
             '- 100,000 API calls'],
-        text: `Hosted by us, TerminusCMS is a full featured content and knowledge management system. 
-
-        The professional package features 10 teams, 30 seats, 1 million API calls, and 100,000 documents.`,
+        text: `More storage, API calls, teams and projects to go further.`,
         preprice:'',
         price:'100',
-        subprice:'per month',
+        subprice:' / month',
         labelsList:[
             '10 Teams',
             '30 Users',
-            'Unlimited Data Products',
+            '30 Data Products',
             '5 Roles',
             '100,000 document limit',
-            '1 million API calls per month',
-            'Unlimited Remote Sources'
+            '1 million API calls per month'
         ],
         color:"#e87cd6",
-        buttonLabel:"Update to Professional",
+        buttonTextColor: "text-white",
+        buttonLabel:"Upgrade to Professional",
+        icon: <RiUserStarLine  className="subscription_icons professional"/>,
+        className: "professional"
     },
     {
         title: SCALE_PLAN,
         subtitle: 'Modern data infrastructure',
         limitation : ['- 10,000 document limit',
             '- 100,000 API calls'],
-        text: `Hosted by us with guaranteed compute resource. API limits apply.`,
+        text: `Dedicated compute resource with more storage and API calls.`,
         preprice:'from ',
         price:'600',
-        subprice:'per month',
+        subprice:' / month',
         labelsList:[
-            'Unlimited Teams',
-            'Unlimited Users',
-            'Unlimited Documents',
+            '20 Teams',
+            '100 Users',
+            '100 Data Products',
             '5 Roles',
             '10 million document limit',
-            '10 million API calls per month',
-            'Unlimited Remote Sources'
+            '10 million API calls per month'
         ],
         color:"#8659fa",
-        buttonLabel:"Update to Scale",
+        buttonTextColor: "text-white",
+        buttonLabel:"Upgrade to Scale",
+        icon: <RiCommunityLine className="subscription_icons scale"/>,
+        className: "scale"
     },
     {
         title: ENTERPRISE_PLAN,
         subtitle: 'Modern data infrastructure',
         limitation : ['- 10,000 document limit',
             '- 100,000 API calls'],
-        text: `Custom plans to help with your organization-wide content and knowledge management. 
-
-        We can provide bespoke services for deloyment, feature development, customization, and support. Please get in touch to discuss your requirements.`,
-        price:'Get in touch',
+        text: `Enterprise support and development services.`,
+        price:'TALK',
         labelsList:[
-            'Unlimited Teams',
-            'Unlimited Users',
-            'Unlimited Documents',
-            'Unlimited Roles',
-            'Unlimited document limit',
-            'Unlimited API calls per month',
-            'Unlimited Remote Sources'
+            'Deployment',
+            'Feature Development',
+            'Customization',
+            'Support',
+            'Data Consultancy',
+            'placeholder_label'
         ],
         color:"#3450dc",
+        buttonTextColor: "text-white",
         buttonLabel:"Contact us",
+        icon: <ImLibrary className="subscription_icons enterprise"/>,
+        className: "enterprise"
     },
 
 ]
