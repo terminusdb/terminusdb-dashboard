@@ -6,13 +6,17 @@ import {useNavigate} from "react-router-dom"
 import {RiTeamLine} from "react-icons/ri"
 import {NewTeamModal} from "../components/NewTeamModal"
 import {BsFillPeopleFill} from "react-icons/bs"
+import { sortAlphabetically } from "../components/utils"
 
 export const Home = () => { 
     const {woqlClient,changeOrganization,clientUser} = WOQLClientObj()
     if(!woqlClient) return ""
     const [showNewMemberModal, setShowNewMemberModal] = useState(false)
 
-    const teamList = woqlClient.userOrganizations()
+    // sort list in alphabetical order
+    const teamList = sortAlphabetically (woqlClient ? woqlClient.userOrganizations() : []) 
+
+
     let navigate = useNavigate()
  
     function changeOrganizationHandler(orgName) {

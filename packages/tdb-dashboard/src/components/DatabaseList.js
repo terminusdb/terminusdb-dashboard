@@ -4,6 +4,7 @@ import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {SearchBox} from "./SearchBox"
 import {useNavigate} from "react-router-dom"
+import {sortAlphabetically} from "./utils"
  
 /* returns a list of data products */
 export const DataProductItems = (props) => {
@@ -15,7 +16,8 @@ export const DataProductItems = (props) => {
         getLocation
     } = WOQLClientObj()
 
-    let list = woqlClient ? woqlClient.databases() : [] 
+    // sort list in alphabetical order
+    const list = sortAlphabetically (woqlClient ? woqlClient.databases() : []) 
 
     // search data products
     const [searchDataProduct, setSearchDataProduct]=useState(false)
