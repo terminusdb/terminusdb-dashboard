@@ -103,9 +103,7 @@ export const DiffView = ({diffs, CRObject}) => {
         frames, 
         woqlClient:client,
     } = WOQLClientObj()
-    /*const {
-        getChangeRequestByID,
-    } = ChangeRequest()*/
+
     const {id} = useParams()
 
     // pagination constants

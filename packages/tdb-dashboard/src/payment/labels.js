@@ -26,7 +26,6 @@ export const SCALE_PLAN = "Scale"
 export const ENTERPRISE_PLAN = "Enterprise"
 
 
-
 export const PLANS_DESCRIPTION = [
     {
         title: COMMUNITY_PLAN,

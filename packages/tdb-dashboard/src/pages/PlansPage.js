@@ -8,6 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import { Feedback } from "./Feedback";
 import {MdEuroSymbol} from "react-icons/md"
 import { StripeManager } from "../payment/StripeManager";
+import {CancelSubscription} from "../payment/CancelSubscription";
 import {AiOutlineCheck} from "react-icons/ai"
 import Badge from "react-bootstrap/Badge"
 
@@ -19,6 +20,7 @@ export const PlansPage = (props) => {
 	const navigate = useNavigate()
 	const [showFeedbackForm, setShowFeedbackForm] = useState(false)
 	const [showModalPlan ,setShowModalPlan] = useState(false)
+	const [showModalCancel ,setShowModalCancel] = useState(false)
 	const {getPaymentMethod,paymentMethod} = StripeManager()
 	
 	const tier = clientUser && clientUser.userInfo ? clientUser.userInfo.tier : "Community"
@@ -49,10 +51,17 @@ export const PlansPage = (props) => {
 		[SCALE_PLAN] : SCALE_PLAN
 	}
 
+	const communityActions = () =>{
+		if(toBedisabled[tier]){
+			setShowModalCancel(true)
+		}else{
+			navigate("/")
+		}
+	}
 
 	const getPlanButton = (plansObj)=>{
 		const plansActionsObj = {
-			[COMMUNITY_PLAN] : ()=>{navigate("/")},
+			[COMMUNITY_PLAN] : ()=>{communityActions()},
 			[PROFESSIONAL_PLAN] : () =>{setShowModalPlan(plansObj)},
 			[SCALE_PLAN] : () =>{setShowModalPlan(plansObj)},
 			[ENTERPRISE_PLAN] : ()=>{setShowFeedbackForm(true)},
@@ -64,6 +73,11 @@ export const PlansPage = (props) => {
 		if(plansObj.title ===  toBedisabled[tier]){
 			planAction = {}
 			disabled = {disabled:true}
+		}
+
+		let buttonLabel = plansObj.buttonLabel
+		if(plansObj.title === COMMUNITY_PLAN && toBedisabled[tier]){
+			buttonLabel = "Downgrade to Community"
 		}
 
 		return <Button {...planAction} style= {style} {...disabled}
@@ -99,6 +113,7 @@ export const PlansPage = (props) => {
 	return(<Layout showLeftSideBar={false}>
 		{showModalPlan && <PaymentPage showModal={showModalPlan !== false ? true : false } 
 				setShowModal={setShowModalPlan} subscriptionObj={showModalPlan}/>}
+		{showModalCancel && <CancelSubscription showModal={showModalCancel} setShowModal={setShowModalCancel} />}
 		{showFeedbackForm && < Feedback boxType= {ENTERPRISE_PLAN} setShowFeedbackForm={setShowFeedbackForm}/>}
 		 <Container className="center-align col-md-10">
 		 	<CurrentSubscriptionBadge tier={tier}/>
@@ -134,6 +149,8 @@ export const PlansPage = (props) => {
 					</Col>
 				})}
 			</Row>
+			<Card>
+			</Card>
 		 </Container>
 		</Layout>
 

@@ -68,19 +68,37 @@ export function ChangeRequest(){
         }     
     }
 
-// TO BE REVIEW ?????
-    const getChangeRequestByID = async(id) =>{
+
+    const rebaseChangeRequestBranch = async(id) =>{
         try{ 
             setLoading(true) 
            // const payload = {id}
-            const result = await woqlClient.sendCustomRequest("GET", `${getUrl()}/${id}`)
-            if(setCurrentCRObject) {
+            const result = await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${id}/rebase`,{})
+            return result
+        }catch(err){
+            const errMessage = formatErrorMessage(err)
+            setError(errMessage)
+        }finally{
+            setLoading(false)
+        }     
+    }
+
+
+// TO BE REVIEW ?????
+    const getChangeRequestByID = async(id,check_head) =>{
+        try{ 
+            setLoading(true) 
+           // const payload = {id}
+            const queryParams = check_head ? `?check_head=true` : ""
+            const result = await woqlClient.sendCustomRequest("GET", `${getUrl()}/${id}${queryParams}`)
+            return result
+            /* if(setCurrentCRObject) {
                 result.map(res=>{
                     if(res["@id"] === `ChangeRequest/${id}`){
                         setCurrentCRObject(res) 
                     }
                 })
-            }
+            }*/
         }catch(err){
             const errMessage = formatErrorMessage(err)
             setError(errMessage)
@@ -98,7 +116,8 @@ export function ChangeRequest(){
         createChangeRequest,
         getChangeRequestList,
         updateChangeRequestStatus,
-        getChangeRequestByID
+        getChangeRequestByID,
+        rebaseChangeRequestBranch
     }
 
 }
