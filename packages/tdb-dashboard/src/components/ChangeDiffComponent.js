@@ -58,9 +58,6 @@ export const ChangeDiffComponent = () => {
         currentCRObject
     } = WOQLClientObj() 
 
-    /*const {
-        getChangeRequestByID,
-    } = ChangeRequest()*/
     
     const {id} = useParams()
 
@@ -69,16 +66,7 @@ export const ChangeDiffComponent = () => {
     const [loading, setLoading]=useState(true)
     const [errorMsg, setErrorMsg]=useState(false)
 
-   /* useEffect(() => {
-        async function getCRID() {
-            await getChangeRequestByID(id,true)
-        }
-        if(id, client) getCRID()
-    }, [id, client])*/
-
-    //let changeRequestID=localStorage.getItem("TERMINUSCMS_CHANGE_REQUEST_ID")
     const result = GetDiffList(client, id, setLoading, setErrorMsg)      
-    //const result = GetDiffList(client, currentCRObject["@id"])   
 
     useEffect(() => {
         if(key === DIFFS) setAction(false)

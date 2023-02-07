@@ -31,7 +31,9 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
 
         setLoading(true)
         let dbInfo = dataProductDetails
-        woqlClient.deleteDatabase(dataProductDetails.name, woqlClient.organization(), true)
+        const clientCopy = woqlClient.copy()
+        clientCopy.connectionConfig.api_extension = 'api/'
+        clientCopy.deleteDatabase(dataProductDetails.name, woqlClient.organization(), true)
         .then((res) => {        
             setShowModal(false)
             setDisabled(true)
