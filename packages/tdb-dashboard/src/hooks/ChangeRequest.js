@@ -44,7 +44,7 @@ export function ChangeRequest(){
             const currentCR = crID || currentChangeRequest
             await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${currentCR}`,payload)
             return true
-        }catch(err){
+        }catch(err){ 
             const errMessage = formatErrorMessage(err)
             setError(errMessage)
             return false
