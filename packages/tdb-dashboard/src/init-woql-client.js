@@ -267,7 +267,7 @@ export const WOQLClientProvider = ({children, params}) => {
         clientCopy.connectionConfig.api_extension = 'api/'
         const baseUrl = clientCopy.connectionConfig.dbBase("tables")
 
-        client.sendCustomRequest("GET", baseUrl).then(result=>{
+        clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
             setDocumentTablesConfig(result)
         }).catch(err=>{
             console.log(err)

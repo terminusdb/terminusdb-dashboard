@@ -38,13 +38,13 @@ const Actions = ({checked, message, setKey, setMessage}) => {
 
     const {
         currentCRObject,
+        setCurrentCRObject,
         exitChangeRequestBranch
     }= WOQLClientObj()
 
     const {
         updateChangeRequestStatus,
         getChangeRequestList,
-        getChangeRequestByID,
 		loading
     } = ChangeRequest()
 
@@ -54,8 +54,11 @@ const Actions = ({checked, message, setKey, setMessage}) => {
     /** handle Message */
     async function handleMessage() {
         let id=extractID(currentCRObject["@id"])
+        // this call return the changeRequestObj Updated
         let res=await updateChangeRequestStatus(message, currentCRObject.status, id)
-        let cr=await getChangeRequestByID(id) 
+        // we'll see if add need rebase check every time
+        res.needRebase = currentCRObject.needRebase
+        setCurrentCRObject(res)
         if(setKey) setKey(CONST.MESSAGES)
         if(setMessage) setMessage("")
     }
@@ -63,8 +66,8 @@ const Actions = ({checked, message, setKey, setMessage}) => {
     /** handle Merge */
     async function handleMerge () { 
         let res=await updateChangeRequestStatus(message, CONST.MERGED, id)
-        let cr=await getChangeRequestList()
 		if(res){
+            setCurrentCRObject(false)
 			exitChangeRequestBranch()
 			navigate(`/${organization}/${dataProduct}`)
 		}
@@ -73,8 +76,8 @@ const Actions = ({checked, message, setKey, setMessage}) => {
     /** handle Reject */
     async function handleReject () {
         let res=await updateChangeRequestStatus(message, CONST.REJECTED, id)
-        let cr=await getChangeRequestList()
         if(res){
+            setCurrentCRObject(false)
 			exitChangeRequestBranch()
 			navigate(`/${organization}/${dataProduct}`)
 		}
@@ -165,7 +168,7 @@ export const ReviewComponent = ({setKey}) => {
     }= WOQLClientObj()
 
     // set default action as COMMENT
-    const [checked, setChecked]=useState(CONST.COMMENT)
+    const [checked, setChecked]=useState(CONST.APPROVE)
     // feedback constants
     const [message, setMessage]=useState("")
 

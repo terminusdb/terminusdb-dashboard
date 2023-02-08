@@ -42,8 +42,8 @@ export function ChangeRequest(){
             setLoading(true)
             const payload = {message,status}
             const currentCR = crID || currentChangeRequest
-            await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${currentCR}`,payload)
-            return true
+            const changeRequestDoc = await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${currentCR}`,payload)
+            return changeRequestDoc
         }catch(err){ 
             const errMessage = formatErrorMessage(err)
             setError(errMessage)
@@ -92,13 +92,6 @@ export function ChangeRequest(){
             const queryParams = check_head ? `?check_head=true` : ""
             const result = await woqlClient.sendCustomRequest("GET", `${getUrl()}/${id}${queryParams}`)
             return result
-            /* if(setCurrentCRObject) {
-                result.map(res=>{
-                    if(res["@id"] === `ChangeRequest/${id}`){
-                        setCurrentCRObject(res) 
-                    }
-                })
-            }*/
         }catch(err){
             const errMessage = formatErrorMessage(err)
             setError(errMessage)

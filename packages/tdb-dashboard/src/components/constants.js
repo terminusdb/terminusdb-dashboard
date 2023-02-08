@@ -476,6 +476,7 @@ export const REJECTED="Rejected"
 export const COMMENT="Comment"
 export const APPROVE="Approve"
 export const REJECT="Reject"
+export const UPDATE_BRANCH="Update Change Request"
 
 // review component constants 
 export const REVIEW_OPTIONS = [
@@ -495,6 +496,12 @@ export const REVIEW_OPTIONS = [
         icon: <AiOutlineClose className="mt-1 mr-1"/>
     }
 ]
+
+ /*  {
+        title: COMMENT,
+        helpText: "Submit a comment or a message ...",
+        icon: <TbMessageCircle className="mt-1 mr-1"/>
+    },*/
 
 // Document types
 export const THEME="Theme"

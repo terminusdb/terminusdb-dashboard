@@ -31,7 +31,7 @@ const DocumentModifiedCount = ({documentModifiedCount}) => {
     </h6>
 }
 
-const BranchCRMessage = ({css, branch}) => {
+export const BranchCRMessage = ({css, branch}) => {
     return <React.Fragment>
         <Badge bg={css} className="fw-bold mr-2 text-dark">
             <BiGitBranch className=" mr-1"/>{branch}
@@ -58,9 +58,6 @@ export const ChangeDiffComponent = () => {
         currentCRObject
     } = WOQLClientObj() 
 
-    /*const {
-        getChangeRequestByID,
-    } = ChangeRequest()*/
     
     const {id} = useParams()
 
@@ -69,16 +66,7 @@ export const ChangeDiffComponent = () => {
     const [loading, setLoading]=useState(true)
     const [errorMsg, setErrorMsg]=useState(false)
 
-   /* useEffect(() => {
-        async function getCRID() {
-            await getChangeRequestByID(id,true)
-        }
-        if(id, client) getCRID()
-    }, [id, client])*/
-
-    //let changeRequestID=localStorage.getItem("TERMINUSCMS_CHANGE_REQUEST_ID")
     const result = GetDiffList(client, id, setLoading, setErrorMsg)      
-    //const result = GetDiffList(client, currentCRObject["@id"])   
 
     useEffect(() => {
         if(key === DIFFS) setAction(false)
@@ -88,40 +76,41 @@ export const ChangeDiffComponent = () => {
 
     let documentModifiedCount = result ? result.length : 0
 
-    let author= currentCRObject&&currentCRObject.hasOwnProperty("creator") ?  currentCRObject["creator"] : "user"
+    // email address 
+    let author= currentCRObject && currentCRObject.hasOwnProperty("creator_email") ?  currentCRObject["creator_email"] : "creator"
 
     return  <Tabs
-                    id="change_request_tabs"
-                    activeKey={key}
-                    onSelect={(k) => setKey(k)}
-                    className="mb-3">
-                    <Tab eventKey={DIFFS} title={DIFFS}>
-                        {loading && <Loading message={`Loading Diffs ...`}/>}
-                        {errorMsg && <Alert variant={"danger"} className="mr-3">
-                            {errorMsg}
-                        </Alert>}
-                        {!documentModifiedCount && <h6 className="text-muted fw-bold mt-3 mb-3">
-                            {`No documents `}
-                        </h6>}
-                        <Card bg="transparent" className="border-secondary mt-5 mb-5">
-                            <Card.Header>
-                                <Stack direction="horizontal" gap={2} className="mt-1">
-                                    <DisplayHeader author={author} 
-                                        tracking_branch={currentCRObject.tracking_branch}
-                                        documentModifiedCount={documentModifiedCount}/>
-                                </Stack>
-                            </Card.Header> 
-                            <Card.Body> 
-                                
-                               {currentCRObject.status !== MERGED && <ReviewComponent setKey={setKey} action={action} setAction={setAction}/> }
-                               <DiffView diffs={result} CRObject={currentCRObject}/> 
-                            </Card.Body> 
-                        </Card>
-                    </Tab>
-                    <Tab eventKey={MESSAGES} title={MESSAGES}>
-                        <Messages/>
-                    </Tab>
-                </Tabs>
+        id="change_request_tabs"
+        activeKey={key}
+        onSelect={(k) => setKey(k)}
+        className="mb-3">
+        <Tab eventKey={DIFFS} title={DIFFS}>
+            {loading && <Loading message={`Loading Diffs ...`}/>}
+            {errorMsg && <Alert variant={"danger"} className="mr-3">
+                {errorMsg}
+            </Alert>}
+            {!documentModifiedCount && <h6 className="text-muted fw-bold mt-3 mb-3">
+                {`No documents `}
+            </h6>}
+            <Card bg="transparent" className="border-secondary mt-5 mb-5">
+                <Card.Header>
+                    <Stack direction="horizontal" gap={2} className="mt-1">
+                        <DisplayHeader author={author} 
+                            tracking_branch={currentCRObject.tracking_branch}
+                            documentModifiedCount={documentModifiedCount}/>
+                    </Stack>
+                </Card.Header> 
+                <Card.Body> 
+                    
+                    {currentCRObject.status !== MERGED && <ReviewComponent setKey={setKey} action={action} setAction={setAction}/> }
+                    <DiffView diffs={result} CRObject={currentCRObject}/> 
+                </Card.Body> 
+            </Card>
+        </Tab>
+        <Tab eventKey={MESSAGES} title={MESSAGES}>
+            <Messages/>
+        </Tab>
+    </Tabs>
 }
 
      /*<small className="fw-bold mr-2 h6">You are in change request mode</small>

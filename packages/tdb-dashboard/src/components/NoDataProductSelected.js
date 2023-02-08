@@ -54,7 +54,7 @@ export const NoDataProductSelected = (props) => {
 		const cloneSource= {
 			label:dbName,
 			comment:"please clone the db",
-			remote_url: `${connection.apiURL()}${connection.dbURLFragment()}`
+			remote_url: `${connection.dbURLFragment()}`
 		}
 		const success = await cloneDatabase(cloneSource,woqlClient.organization(),dbName,true)
 		if(success){
@@ -63,7 +63,7 @@ export const NoDataProductSelected = (props) => {
 		
 	}
 
-	return <main className="content w-100">
+	/*return <main className="content w-100">
 		<Container className="center-align col-md-10">
 			<Card className="h-100">
 				<Card.Body>
@@ -75,7 +75,7 @@ export const NoDataProductSelected = (props) => {
 				</Card.Body>
 			</Card>
 		</Container>
-	</main>
+	</main>*/
 
 	/** COMMENT THE BELOW code FOR NOW, will put back once clone is fixed */
     return <main className="content w-100">
