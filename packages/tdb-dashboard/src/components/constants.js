@@ -497,6 +497,12 @@ export const REVIEW_OPTIONS = [
     }
 ]
 
+ /*  {
+        title: COMMENT,
+        helpText: "Submit a comment or a message ...",
+        icon: <TbMessageCircle className="mt-1 mr-1"/>
+    },*/
+
 // Document types
 export const THEME="Theme"
 export const LEGO_SET="LegoSet"

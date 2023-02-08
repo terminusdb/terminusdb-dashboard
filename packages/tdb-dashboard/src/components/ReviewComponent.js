@@ -168,7 +168,7 @@ export const ReviewComponent = ({setKey}) => {
     }= WOQLClientObj()
 
     // set default action as COMMENT
-    const [checked, setChecked]=useState(CONST.COMMENT)
+    const [checked, setChecked]=useState(CONST.APPROVE)
     // feedback constants
     const [message, setMessage]=useState("")
 
