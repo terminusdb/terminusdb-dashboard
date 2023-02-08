@@ -67,8 +67,8 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
                 //console.log("schema", JSON.stringify(schema, null, 2))
                 //console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
 
-                //console.log("schema", schema)
-                //console.log("properties.uiSchema", properties.uiSchema)
+                console.log("schema", schema)
+                console.log("properties.uiSchema", properties.uiSchema)
                 //console.log("uiSchema", uiSchema)
 
                 if(mode === CONST.VIEW) {
