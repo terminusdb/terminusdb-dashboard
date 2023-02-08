@@ -745,7 +745,13 @@ form.rjsf label.control-label:after { content: "";  }
 /* hide anyof select from document links in edit and view mode */
 .tdb__edit__document__link .panel .form-group select.form-control,
 .tdb__view__document__link .panel .form-group select.form-control{
-    display: none !important;
+    display: none !important; 
+}
+
+/* display enum selects under document links */
+.tdb__edit__document__link .panel .enum__select select.form-control,
+.tdb__view__document__link .panel .enum__select select.form-control{
+    display: block !important; 
 }
 
 /** display set/ list document link internal control-labels */
