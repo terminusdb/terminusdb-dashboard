@@ -70,7 +70,7 @@ export const transformData = (mode, schema, data, frame, type) => {
                         let checkForLinkExistingDoc = Object.keys(fd)[0]
                         if(checkForLinkExistingDoc === CONST.LINK_EXISTING_DOCUMENT) {
                             let linkExistingDocData=fd[CONST.LINK_EXISTING_DOCUMENT]
-                            extracted[key]=linkExistingDocData
+                            transformedArray.push(linkExistingDocData)
                         }
                 }
                 else if(typeof fd === CONST.STRING_TYPE || typeof fd === CONST.NUMBER_TYPE || typeof fd === CONST.BOOLEAN_TYPE)  { // set of document classes
