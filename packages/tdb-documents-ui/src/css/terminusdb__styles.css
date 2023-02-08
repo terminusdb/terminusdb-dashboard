@@ -748,6 +748,7 @@ form.rjsf label.control-label:after { content: "";  }
     display: none !important; 
 }
 
+/* display enum selects under document links */
 .tdb__edit__document__link .panel .enum__select select.form-control,
 .tdb__view__document__link .panel .enum__select select.form-control{
     display: block !important; 
