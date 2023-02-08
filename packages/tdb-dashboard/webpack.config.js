@@ -24,7 +24,7 @@ module.exports = (env, argv) => ({
         bundleFileName:"tdb-dashboard.min.js"
       }),
      new MiniCssExtractPlugin({
-      filename: 'assets/tdb-dashboard.main.css',
+      filename: 'assets/tdb-dashboard_[contenthash].main.css',
      }),
      new CopyWebPackPlugin({
       patterns: [
