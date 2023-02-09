@@ -4,17 +4,19 @@ import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import {Button} from "react-bootstrap"
 import {ChangeRequest} from "../hooks/ChangeRequest"
-import ProgressBar from 'react-bootstrap/ProgressBar'
+import { useParams } from "react-router-dom"
 import {
     extractID, 
     getDays
 } from "./utils"
 import {VscCommentDiscussion} from "react-icons/vsc"
 import {Loading} from "./Loading"
-import {Review} from "./ReviewComponent"
-import {COMMENT} from "./constants"
+import Spinner from 'react-bootstrap/Spinner';
+import * as CONST from "./constants"
 
-const CommentSection = ({currentCRObject}) => {
+// displays Previous Messages
+const CommentSection = () => {
+    const { currentCRObject }= WOQLClientObj()
 
     if (!currentCRObject.hasOwnProperty("messages")) 
         return <div className="mt-2">No messages to display ...</div>
@@ -35,19 +37,54 @@ const CommentSection = ({currentCRObject}) => {
     return <Card className="mb-3 w-100 mt-2 p-5 border-secondary">{elements}</Card>
 }
 
-export const Messages = () => {
-    const {
-        currentCRObject
-    } = WOQLClientObj()
+// displays textarea to write comments 
+export const MessageBox = ({ setMessage, message }) => {
+    return <Form.Control as="textarea" 
+        rows={5} 
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+        style={{color: "white"}}
+        className="bg-dark border-secondary" 
+        placeholder={"Add a new comment or message ..."}/>
+}
+
+// displays textarea to write comments  & button to save comments
+export const MessageComponent = ({setKey}) => {
+    const { currentCRObject, setCurrentCRObject }= WOQLClientObj()
+    const { updateChangeRequestStatus, loading } = ChangeRequest()
     const [comment, setComment]=useState("")
+    const { id } = useParams()
+
+    /** handle Message */
+    async function handleMessage(comment) {
+        let id=extractID(currentCRObject["@id"])
+        // this call return the changeRequestObj Updated
+        let res=await updateChangeRequestStatus(comment, currentCRObject.status, id)
+        // we'll see if add need rebase check every time
+        res.needRebase = currentCRObject.needRebase
+        setCurrentCRObject(res)
+        if(setKey) setKey(CONST.MESSAGES)
+        setComment("")
+    }
 
     return <React.Fragment>
-        <Review message={comment} setMessage={setComment} checked={COMMENT}/>
+        <MessageBox setMessage={setComment} message={comment}/>
+        <Button className={"btn btn-sm bg-light text-dark float-right"} 
+            onClick={(e) => handleMessage(comment)}>
+                {loading && <Spinner as="span" animation="border" size="sm" role="status" className="mr-1 mt-1" aria-hidden="true"/>}
+                {CONST.COMMENT}
+        </Button>
+    </React.Fragment>
+}
+
+
+export const Messages = ({setKey}) => {
+    return <React.Fragment>
+        <MessageComponent setKey={setKey}/>
         <br/>
         <h5 className="fw-bold text-muted mt-5 mb-3">
             <VscCommentDiscussion/> Previous Messages
         </h5>
-        <CommentSection currentCRObject={currentCRObject}/>
+        <CommentSection/>
     </React.Fragment>
-  
 }

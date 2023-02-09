@@ -108,7 +108,7 @@ export const ChangeDiffComponent = () => {
             </Card>
         </Tab>
         <Tab eventKey={MESSAGES} title={MESSAGES}>
-            <Messages/>
+            <Messages setKey={setKey}/>
         </Tab>
     </Tabs>
 }
