@@ -6,7 +6,7 @@ import React from "react"
 import {DisplayPropertyNameAndComment} from "../documentationTemplates"
 
 export function makeEnumTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, documentation) {
-    let enumClassName=frame[item]["@id"]
+    let enumClassName=frame[item]["@id"] 
     if(!enumClassName) {
         throw new Error (`Expected to get enum class name from frames, but instead received ${enumClassName}`)
     }
@@ -19,7 +19,7 @@ export function makeEnumTypeFrames (fullFrame, frame, item, uiFrame, mode, formD
 
 
 export function getUILayout (fullFrame, frame, item, uiFrame, mode, formData, documentation) {
-     
+    
     let label=item
     //let enumDocumentation=getLabelFromEnumDocumentation(item, documentation, frame[item]["@values"]) 
     //if(enumDocumentation.hasOwnProperty("@label")) label=enumDocumentation["@label"]
@@ -27,7 +27,7 @@ export function getUILayout (fullFrame, frame, item, uiFrame, mode, formData, do
     let uiLayout = {
         "ui:placeholder": `Select ${label} ...`,
         //"ui:description": getDescription(documentation),
-        classNames: "tdb__input mb-3 mt-3"
+        classNames: "tdb__input mb-3 mt-3 enum__select"
     } 
 
     // if property is lexical key then make read only
