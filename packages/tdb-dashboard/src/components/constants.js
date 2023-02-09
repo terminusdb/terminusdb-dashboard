@@ -9,8 +9,6 @@ import {BsBookmarkPlus} from "react-icons/bs"
 import * as PATH from "../routing/constants"
 import {GrGraphQl} from "react-icons/gr"
 import {BiGitPullRequest} from "react-icons/bi"
-import {TbMessageCircle} from "react-icons/tb"
-import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai"
 
 //User Messages
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusCMS ... "
@@ -479,30 +477,6 @@ export const REJECT="Reject"
 export const UPDATE_BRANCH="Update Change Request"
 export const NEED_REBASE="needRebase"
 
-// review component constants 
-export const REVIEW_OPTIONS = [
-    {
-        title: COMMENT,
-        helpText: "Submit a comment or a message ...",
-        icon: <TbMessageCircle className="mt-1 mr-1"/>
-    },
-    {
-        title: APPROVE,
-        helpText: "Submit a comment or a message and approve changes for merge ...",
-        icon: <AiOutlineCheck className="mt-1 mr-1"/>
-    },
-    {
-        title: REJECT,
-        helpText: "Submit a comment or a message and reject changes ...",
-        icon: <AiOutlineClose className="mt-1 mr-1"/>
-    }
-]
-
- /*  {
-        title: COMMENT,
-        helpText: "Submit a comment or a message ...",
-        icon: <TbMessageCircle className="mt-1 mr-1"/>
-    },*/
 
 // Document types
 export const THEME="Theme"
