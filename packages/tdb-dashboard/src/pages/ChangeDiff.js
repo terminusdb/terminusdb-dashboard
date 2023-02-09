@@ -21,6 +21,7 @@ import {Messages} from "../components/Messages"
 import {ReviewComponent} from "../components/ReviewComponent"
 import Spinner from 'react-bootstrap/Spinner';
 import {extractID} from "../components/utils"
+import { Alerts } from "../components/Alerts"
 
 const CRAction = ({}) => {
     const {
@@ -31,10 +32,11 @@ const CRAction = ({}) => {
     const {
         rebaseChangeRequestBranch,
         loading,
-        error
+        errorMessage,
+        setError
     } = ChangeRequest()
 
-    const rebaseHandler = async ()=>{
+    const rebaseHandler = async ()=>{ 
         const changeRequestDoc = await rebaseChangeRequestBranch(extractID(currentCRObject["@id"]))
         if(changeRequestDoc && setCurrentCRObject){
             setCurrentCRObject(changeRequestDoc)
@@ -42,7 +44,7 @@ const CRAction = ({}) => {
     }
 
     // loading while waiting for currentCRObject 
-    if(!currentCRObject) return <Loading message={`Loading Change Request ...`}/>
+    if(!currentCRObject.hasOwnProperty(CONST.NEED_REBASE)) return <Loading message={`Loading Change Request ...`}/>
 
 
     //{currentCRObject.needRebase && currentCRObject.status !== "Merged" && <div>
@@ -50,36 +52,39 @@ const CRAction = ({}) => {
         return <ChangeDiffComponent/>
 
     // if needRebase  
-    return <Card className="update__change__request__card">
-        <Card.Header className="w-100"> 
-            {`You are in Change Request `}<BranchCRMessage branch={currentCRObject.tracking_branch} css={"primary"}/>
-        </Card.Header>
-        <Card.Body>
-            <Stack direction="vertical" gap={3}>
-                <div className='d-flex'>
-                    <FiAlertTriangle className="text-warning h2 mr-3"/>
-                    <h3>This Change Request is out of date</h3>
-                </div>
-                <div className='d-flex'>
-                    <h4 className="mr-3">Merge latest changes from </h4>
-                    <BranchCRMessage branch={"main"} css={"success"}/>
-                    <h4>into this Change Request</h4> 
-                </div>
-            </Stack>
-        </Card.Body>
-        <Button onClick={rebaseHandler}
-            className="btn btn-lg bg-light text-dark mb-5">
-                {loading && <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    className="mr-1 mt-1"
-                    aria-hidden="true"
-                />}
-                {CONST.UPDATE_BRANCH}
-        </Button>
-    </Card>
+    return <React.Fragment>
+        {errorMessage && <Alerts message={errorMessage} type={CONST.TERMINUS_DANGER} onCancel={setError}/>}
+        <Card className="update__change__request__card">
+            <Card.Header className="w-100"> 
+                {`You are in Change Request `}<BranchCRMessage branch={currentCRObject.tracking_branch} css={"primary"}/>
+            </Card.Header>
+            <Card.Body>
+                <Stack direction="vertical" gap={3}>
+                    <div className='d-flex'>
+                        <FiAlertTriangle className="text-warning h2 mr-3"/>
+                        <h3>This Change Request is out of date</h3>
+                    </div>
+                    <div className='d-flex'>
+                        <h4 className="mr-3">Merge latest changes from </h4>
+                        <BranchCRMessage branch={"main"} css={"success"}/>
+                        <h4>into this Change Request</h4> 
+                    </div>
+                </Stack>
+            </Card.Body>
+            <Button onClick={rebaseHandler}
+                className="btn btn-lg bg-light text-dark mb-5">
+                    {loading && <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        className="mr-1 mt-1"
+                        aria-hidden="true"
+                    />}
+                    {CONST.UPDATE_BRANCH}
+            </Button>
+        </Card>
+    </React.Fragment>
 }
 
 
@@ -113,8 +118,6 @@ export const ChangeDiff = () => {
     if(!client) return <div/>
 
 
-    console.log("currentCRObject", currentCRObject)
-   
     return <Layout>
         <div className='d-flex ml-5 mt-4 mr-5'>
             <div className='w-100'>

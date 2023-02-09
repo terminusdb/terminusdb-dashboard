@@ -320,3 +320,12 @@ export function sortAlphabetically (list, byID) {
     })
 }
 
+// function which displays CR Conflict errors
+export function getCRConflictError (errorData) {
+	let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
+	return <div>
+		{message}
+		<pre>{JSON.stringify(errorData, null, 2)}</pre>
+	</div>
+}
+
