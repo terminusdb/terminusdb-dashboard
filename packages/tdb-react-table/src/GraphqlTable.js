@@ -67,11 +67,15 @@ export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit
         return v.charAt(0).toUpperCase() + v.slice(1);
     };
 
-
     function formatTableColumns(){
         const hiddenColumns = []
+        // I visualise the id only if it is the only item
         const colArr = config.columns
         if(!Array.isArray(colArr))return []
+        
+        if(colArr.length > 1){
+            hiddenColumns.push("_id")
+        }
 
         let listOfColumns = colArr.map((item,index) => {
             if(index>4){

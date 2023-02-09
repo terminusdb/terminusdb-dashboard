@@ -20,17 +20,17 @@ export const NoDataProductSelected = (props) => {
 
 	let cloneDataProduct = [
 		{
-			name: "Lego", 
+			name: "lego", 
 			img: "https://ichef.bbci.co.uk/news/976/cpsprodpb/4F49/production/_125879202_legorussia.png",
 			description: "Shop awesome LEGO® building toys and brick sets and find the perfect gift for your kid. "
 		},
 		{
-			name: "StarWars", 
+			name: "Star_Wars", 
 			img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHkosbW26brusDap1E3y2GV6pnIRsjg-9Rc1CdJRuMJjrJ1O6fJs_x2bjcGjBUCB_wkTE&usqp=CAU",
 			description: "Star Wars is an American epic space opera multimedia franchise created by George Lucas, and became a worldwide pop-culture phenomenon."
 		},
 		{
-			name: "Nuclear", 
+			name: "nuclear", 
 			img:"https://static.dw.com/image/59710463_605.jpg", 
 			description: "Nuclear power plants are a type of power plant that use the process of nuclear fission in order to generate electricity. "
 		},

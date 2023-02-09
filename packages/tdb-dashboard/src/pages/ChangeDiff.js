@@ -24,6 +24,7 @@ import {extractID} from "../components/utils"
 
 const CRAction = ({}) => {
     const {
+        woqlClient,
         currentCRObject,
         setCurrentCRObject
     } = WOQLClientObj() 
@@ -32,7 +33,7 @@ const CRAction = ({}) => {
         rebaseChangeRequestBranch,
         loading,
         error
-    } = ChangeRequest()
+    } = ChangeRequest(woqlClient)
 
     const rebaseHandler = async ()=>{
         const changeRequestDoc = await rebaseChangeRequestBranch(extractID(currentCRObject["@id"]))
@@ -96,7 +97,7 @@ export const ChangeDiff = () => {
         rebaseChangeRequestBranch,
         loading,
         error
-    } = ChangeRequest()
+    } = ChangeRequest(client)
     
     
 

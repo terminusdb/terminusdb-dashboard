@@ -47,3 +47,9 @@ export function formatErrorMessage (err){
 	}
 	return message
 }
+
+export  function getChangesUrl(woqlClient){
+	const client = woqlClient.copy()
+	client.connectionConfig.api_extension = 'api/'
+	return client.connectionConfig.dbBase("changes")
+}

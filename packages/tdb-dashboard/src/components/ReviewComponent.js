@@ -37,6 +37,7 @@ const ActionButton = ({variant, title, content, onClick, loading, icon}) => {
 const Actions = ({checked, message, setKey, setMessage}) => {
 
     const {
+        woqlClient,
         currentCRObject,
         setCurrentCRObject,
         exitChangeRequestBranch
@@ -46,7 +47,7 @@ const Actions = ({checked, message, setKey, setMessage}) => {
         updateChangeRequestStatus,
         getChangeRequestList,
 		loading
-    } = ChangeRequest()
+    } = ChangeRequest(woqlClient)
 
     const {organization,dataProduct,id} = useParams()
     const navigate = useNavigate() // to navigate

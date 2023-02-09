@@ -16,7 +16,7 @@ export function BranchControl (updateTable)  {
             // branchNeedReload,
            setConsoleTime} = WOQLClientObj()
     
-    const {getChangeRequestList} = ChangeRequest()
+    const {getChangeRequestList} = ChangeRequest(woqlClient)
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
       

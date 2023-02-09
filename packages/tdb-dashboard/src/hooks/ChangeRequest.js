@@ -2,12 +2,10 @@ import React, {useState} from "react";
 //import { ClientObj } from "../cms-init-client"
 //import {errorMessageFormatter} from "../utils/errorMessage"
 
-import {WOQLClientObj} from '../init-woql-client'
+// import {WOQLClientObj} from '../init-woql-client'
 import { formatErrorMessage } from './hookUtils'
 
-export function ChangeRequest(){  
-    const {woqlClient ,currentChangeRequest, setCurrentCRObject } = WOQLClientObj() 
-
+export function ChangeRequest(woqlClient){  
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState(false)
     const [changeRequestList, setChangeRequestList]  = useState([])
@@ -41,7 +39,7 @@ export function ChangeRequest(){
         try{
             setLoading(true)
             const payload = {message,status}
-            const currentCR = crID || currentChangeRequest
+            const currentCR = crID 
             const changeRequestDoc = await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${currentCR}`,payload)
             return changeRequestDoc
         }catch(err){ 

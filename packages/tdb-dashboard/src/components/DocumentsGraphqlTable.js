@@ -60,6 +60,17 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
     
     let extractedResults = documentResults ? extractDocuments(documentResults[type]) : []
 
+    function cleanIdValue(keyName, keyValue){
+        if(keyName!=="_id") return keyValue
+        try{
+            const regexp =/(?:\/+.*?\/)(.*$)/g
+            const array01 = [...keyValue.matchAll(regexp)];
+            return array01[0][1]
+        }catch(err){
+            return keyValue
+        }
+    }
+
     function extractDocuments(documentResultsArr) {
         if(!documentResultsArr) {
             //alert(JSON.stringify(documentResultsArr))
@@ -80,11 +91,12 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                     //key 
                     const objectKey = Object.keys(item[key])
                     objectKey.forEach(element => {
-                        newJson[`${key}---${element}`] = `${item[key][element]}`
+                        const columnName = element === "_id" ? `${key}---id` : `${key}---${element}`
+                        newJson[columnName] = cleanIdValue(element, item[key][element])
                     });
                 }
                 else {
-                    newJson[key] = `${item[key]}`
+                    newJson[key] = cleanIdValue(key, `${item[key]}`)
                 }
             }
             extractedResults.push(newJson)
