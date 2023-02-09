@@ -20,18 +20,17 @@ export const VerifyEmail = (props) => {
             <div className="cowduck-top-sec bg-transparent border-0 text-center d-flex"> 
                 <img className="card-img cowduck-feedback-avatar large-avatar rounded-circle mx-auto" src={CowDuckHead}/>
             </div>
-            <Card.Body style={{ marginTop: "-70px" }}>
-                <h1 className="text-dark text-center">Verify your Email</h1>
-                <h4 className="text-dark text-center">Click on Home Page Button to activate your account</h4>
-                <div className="d-flex">
-                    <a id = "qsLoginBtn"
-                        className = "btn-margin mt-4 mb-4 mr-2 p-2 btn btn-dark col-md-6"
+            <Card.Body style={{ marginTop: "-70px" }} className="text-center text-dark">
+                <h1>Verify your Email</h1>
+                <h4>Check your email to verify your account</h4>
+                <a id = "qsLoginBtn"
+                        className = "text-dark"
                         href = "https://terminusdb.com">
-                        <MdOutlineMarkEmailRead className="h4 mt-1 mr-2 text-muted"/>
-                        <span className="h6">HOME PAGE</span>
+                            Click here to Visit website
                     </a>
+                <div className="d-block">
                     <button id = "qsLoginBtn"
-                        className = "btn-margin mt-4 mb-4 p-2 btn btn-dark col-md-6"
+                        className = "btn-margin mt-4 mb-4 btn-sm btn btn-dark col-md-6"
                         onClick={logoutWithRedirect}
                     >
                         <AiOutlineLogout className="h4 mt-1 mr-2 text-muted"/>
