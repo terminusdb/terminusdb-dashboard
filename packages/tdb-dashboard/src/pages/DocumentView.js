@@ -28,7 +28,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}
     const [data, setData]=useState(false)
 
     // hook to view a document 
-    let documentID=`${type}/${UTILS.encodeURISegment(id)}`
+    let documentID= id
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
     function handleTraverse (documentID) {
@@ -74,7 +74,7 @@ export const DocumentView = () => {
     const [clicked, setClicked]=useState(false)
     const [modalShow, setModalShow] = React.useState(false);
 
-    let documentID=`${type}/${id}`
+    let documentID=id
     const deleteResult=DeleteDocumentHook(woqlClient, documentID, type, clickedDelete, setLoading, setErrorMsg) 
 
     // create a change request before editing document

@@ -49,7 +49,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
 
     function onRowClickCall(row){
         if (onRowClick) {
-            const rowTmp = row && row.original ? {label:row.original.name, id:row.original._id}: {}
+            const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
             onRowClick(rowTmp)
         }
     }
@@ -96,6 +96,9 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                     });
                 }
                 else {
+                    if(key==="_id"){
+                        newJson["fullID"] = `${item[key]}`
+                    }
                     newJson[key] = cleanIdValue(key, `${item[key]}`)
                 }
             }

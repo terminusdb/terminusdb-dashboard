@@ -8,6 +8,7 @@ import {getDocumentTools, getDeleteTool, getCopyIDTool} from "./DocumentActions"
 import {getColumnsFromResults, displayIDOfLinkedDocuments, isArray} from "./utils"
 import {Loading} from "./Loading"
 import { useParams,useNavigate } from "react-router-dom"
+import {UTILS} from '@terminusdb/terminusdb-client'
 
 export const DocumentWoqlTable = () => {
     const {
@@ -94,9 +95,8 @@ export const DocumentWoqlTable = () => {
 
     // on click document table row
     function onRowClick (row) {
-        const idFull = row.original["@id"]
-        const id = idFull.substring(idFull.indexOf("/")+1)
-        navigate(id)
+        const fullId = row["id"]
+        navigate(`${UTILS.URIEncodePayload(fullId)}`)
     }
 
 

@@ -65,7 +65,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     } = DocumentControlObj()
 
     const {type, id} = useParams()
-    let documentID=`${type}/${UTILS.encodeURISegment(id)}`
+    let documentID=id //`${type}/${UTILS.encodeURISegment(id)}`
     
     // constants for extracted data 
     const [extracted, setExtracted]=useState(false)
@@ -116,7 +116,7 @@ export const DocumentEdit = () => {
     } = WOQLClientObj()
 
     const {type, id} = useParams()
-    let documentID=`${type}/${id}`
+    let documentID=`${id}`
     // constants to display document body in Form or JSON View
     const [view, setView]=useState(CONST.FORM_VIEW) 
     const [loading, setLoading]=useState(false)

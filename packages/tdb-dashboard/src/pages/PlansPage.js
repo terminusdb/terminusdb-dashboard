@@ -23,11 +23,7 @@ export const PlansPage = (props) => {
 	const [showModalCancel ,setShowModalCancel] = useState(false)
 	const {getPaymentMethod,paymentMethod} = StripeManager()
 	
-	const tier = "Professional"//clientUser && clientUser.userInfo ? clientUser.userInfo.tier : "Community"
-
-	const contactUs=(subject)=>{
-		props.setSubject(subject)
-	}
+	const tier = clientUser && clientUser.userInfo ? clientUser.userInfo.tier : "Community"
 
 	useEffect(() => {
 		getPaymentMethod()
