@@ -1,4 +1,5 @@
 import { localSettings } from "../../localSettings";
+import { getCRConflictError } from "../components/utils"
 export function getOptions(token){
 
 	const options = {
@@ -46,7 +47,7 @@ export function formatErrorMessage (err){
 		message = "Network Error"
 	}
 	else if (err.data && err.data["api:status"] && err.data["api:status"]==="api:conflict") {
-		message = "It looks like there is a conflict, fix conflicts and then update Change Request or exit the Change Request"
+		message = getCRConflictError(err.data["api:witnesses"])
 	}
 	return message
 }
