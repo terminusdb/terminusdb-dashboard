@@ -1202,3 +1202,11 @@ pre.CodeMirror-line  > span > span.cm-string {
   width: 100px;
   height: 100px;
 }
+
+.payment_select{
+  background-color: transparent !important;
+  color: #adb5bd !important;
+  border-color: #adb5bd!important;
+    /* line-height: 1.5 !important; */
+  min-height: 49px!important;
+}

@@ -303,7 +303,7 @@ const stripeCountry = [
   ]
 
   export function CountrySelector({setRef}) {
-    return <Form.Select className="rbt-input-main" ref={setRef}>
+    return <Form.Select className="payment_select" ref={setRef}>
             <option role="option" value="" aria-selected="false" disabled="">Choose Country...</option>
             {stripeCountry.map(item=>
                 <option role="option" key={item.code} value={item.code} aria-selected="false">{item.country}</option>
