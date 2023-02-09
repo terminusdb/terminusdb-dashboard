@@ -45,5 +45,8 @@ export function formatErrorMessage (err){
 	}else if (message.indexOf("Network Error")>-1){
 		message = "Network Error"
 	}
+	else if (err.data && err.data["api:status"] && err.data["api:status"]==="api:conflict") {
+		message = "It looks like there is a conflict, fix conflicts and then update Change Request or exit the Change Request"
+	}
 	return message
 }

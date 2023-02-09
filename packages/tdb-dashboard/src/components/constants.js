@@ -477,6 +477,7 @@ export const COMMENT="Comment"
 export const APPROVE="Approve"
 export const REJECT="Reject"
 export const UPDATE_BRANCH="Update Change Request"
+export const NEED_REBASE="needRebase"
 
 // review component constants 
 export const REVIEW_OPTIONS = [
