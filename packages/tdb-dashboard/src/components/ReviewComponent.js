@@ -6,122 +6,62 @@ import {WOQLClientObj} from "../init-woql-client"
 import Stack from "react-bootstrap/Stack"
 import {status} from "./utils" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
-import Spinner from 'react-bootstrap/Spinner';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import {Loading} from "../components/Loading"
+import { MessageBox, MessageComponent } from "./Messages"
+import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai"
 
-const ActionButton = ({variant, title, content, onClick, loading, icon}) => {
-    return <Button
-        className="text-dark btn btn-sm fw-bold d-flex mt-3 float-end" 
-        variant={variant}
-        title={title}
-        onClick={onClick}> 
-            {loading && <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                className="mr-1 mt-1"
-                aria-hidden="true"
-            />}
-            <div className="d-flex">
-                {icon}
-                <label>{content}</label>
-            </div>
-    </Button>
-}
+const ToggleActions = ({ message }) => {
+    const [action, setAction] = useState(false);
+    const { setCurrentCRObject, exitChangeRequestBranch }= WOQLClientObj()
+    const { updateChangeRequestStatus, loading } = ChangeRequest()
+    const { organization, dataProduct , id} = useParams()
+    const navigate = useNavigate() 
+    
 
-/**
- * @returns buttons to reject commit or approve based on user action 
- */
-const Actions = ({checked, message, setKey, setMessage}) => {
+    useEffect(() => {
+        async function doAction() {
+            let status = action === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
+            let res=await updateChangeRequestStatus(message, status, id) 
+            if(res){
+                setCurrentCRObject(false)
+                exitChangeRequestBranch()
+                navigate(`/${organization}/${dataProduct}`)
+            }
+        }
+        if(action) doAction()
+    }, [action])
 
-    const {
-        woqlClient,
-        currentCRObject,
-        setCurrentCRObject,
-        exitChangeRequestBranch
-    }= WOQLClientObj()
+    const reviewButtons = [
+        { name: CONST.APPROVE, value: CONST.APPROVE, className: "rounded-left", variant: "outline-success", icon: <AiOutlineCheck className="mr-1 mb-1 text-success"/> },
+        { name: CONST.REJECT, value: CONST.REJECT , className: "rounded-right", variant: "outline-danger", icon: <AiOutlineClose className="mr-1 mb-1 text-danger"/> }
+    ];
 
-    const {
-        updateChangeRequestStatus,
-        getChangeRequestList,
-		loading
-    } = ChangeRequest(woqlClient)
+    if(loading) return <Loading message={action === CONST.APPROVE ? `Approving Change Request ...` : `Rejecting Change Request ...`}/>
 
-    const {organization,dataProduct,id} = useParams()
-    const navigate = useNavigate() // to navigate
-
-    /** handle Message */
-    async function handleMessage() {
-        let id=extractID(currentCRObject["@id"])
-        // this call return the changeRequestObj Updated
-        let res=await updateChangeRequestStatus(message, currentCRObject.status, id)
-        // we'll see if add need rebase check every time
-        res.needRebase = currentCRObject.needRebase
-        setCurrentCRObject(res)
-        if(setKey) setKey(CONST.MESSAGES)
-        if(setMessage) setMessage("")
-    }
-
-    /** handle Merge */
-    async function handleMerge () { 
-        let res=await updateChangeRequestStatus(message, CONST.MERGED, id)
-		if(res){
-            setCurrentCRObject(false)
-			exitChangeRequestBranch()
-			navigate(`/${organization}/${dataProduct}`)
-		}
-    }
-
-    /** handle Reject */
-    async function handleReject () {
-        let res=await updateChangeRequestStatus(message, CONST.REJECTED, id)
-        if(res){
-            setCurrentCRObject(false)
-			exitChangeRequestBranch()
-			navigate(`/${organization}/${dataProduct}`)
-		}
-    }
-
-    let chosen = CONST.REVIEW_OPTIONS.filter(arr => arr.title === checked)
-
-    if(checked === CONST.APPROVE) {
-        return <ActionButton variant="success" 
-            loading={loading}
-            title={"Approve Changes"} 
-            content={checked} 
-            icon={chosen[0].icon}
-            onClick={handleMerge}/>
-    }
-    else if (checked === CONST.COMMENT) {
-        return <ActionButton variant="light" 
-            title={"Leave a Comment or message"} 
-            content={checked} 
-            loading={loading}
-            icon={chosen[0].icon}
-            onClick={handleMessage}/>
-    }
-    else if(checked ===CONST.REJECT) {
-        return <ActionButton variant="danger" 
-            title={"Reject Changes"} 
-            content={checked} 
-            loading={loading}
-            icon={chosen[0].icon}
-            onClick={handleReject}/>
-    }
-    return <div/>
-}
-
-/**
- * @returns help texts 
- */
-function getHelpText (checked) {
-    const arr = CONST.REVIEW_OPTIONS.filter(arr => arr.title === checked)
-    if (!arr) return <div/>
-    return <small className="fw-light">{arr[0].helpText}</small>
-}
- 
-function getChecked (checked, id) {
-    return checked === id ? true : false
+    return <Stack directtion="horizontal" className="float-right">
+        <small className="text-muted fst-italic fw-light mr-2 ms-auto">
+            {`Approve or Reject Change Request`}
+        </small>
+        <ButtonGroup>
+            {reviewButtons.map((button) => (
+            <ToggleButton
+                key={button.name}
+                id={button.name}
+                type="radio"
+                variant={button.variant}
+                name={button.name}
+                value={button.value}
+                className={button.className}
+                checked={action === button.value}
+                onChange={(e) => setAction(e.currentTarget.value)}
+            >
+                {button.icon}{button.name}
+            </ToggleButton>
+            ))}
+        </ButtonGroup>
+    </Stack>
 }
 
 

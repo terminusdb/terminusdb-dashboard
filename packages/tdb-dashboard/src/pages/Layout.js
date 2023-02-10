@@ -47,7 +47,7 @@ export const Layout = (props) => {
     
     //defaultSize={340} 
     return <Container fluid className="p-0 flex-row">
-        {showModal && <SubmitChangeRequestModal showModal={showModal} setShowModal={setShowModal} updateParent={updateParent}/>}            
+        {showModal && <SubmitChangeRequestModal updateChangeRequestID={currentChangeRequest} showModal={showModal} setShowModal={setShowModal} updateParent={updateParent}/>}            
         <SplitPane split="vertical" minSize={70} defaultSize={defaultSize} primary="first" allowResize={false}>
             <div className="side-black h-100 d-flex">
                 <IconBar setShowFeedbackForm={setShowFeedbackForm} />

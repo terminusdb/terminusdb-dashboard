@@ -1101,8 +1101,8 @@ pre.CodeMirror-line  > span > span.cm-string {
 }
 
 .group {
-  background: transparent;
-  border: 0px solid #DCC896;
+  background: transparent !important;
+  border: 1px solid #dee2e6 !important;
 }
 
 .rule_group{
