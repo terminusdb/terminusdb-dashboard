@@ -27,8 +27,9 @@ export const DocumentsGraphqlList = () => {
         startFilters ={"name":{"regex":searchParams.get('filters')}}
     }      
     const onRowClick = (row) =>{
-        const fullId = row["id"]
-        navigate(`${UTILS.URIEncodePayload(fullId)}`)
+        let fullId = row["id"]    
+        let fullIdEncode = btoa(fullId)
+        navigate(fullIdEncode)
     }
 
     function handleCreate(e) {
