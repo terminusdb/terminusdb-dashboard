@@ -1101,8 +1101,8 @@ pre.CodeMirror-line  > span > span.cm-string {
 }
 
 .group {
-  background: transparent;
-  border: 0px solid #DCC896;
+  background: transparent !important;
+  border: 1px solid #dee2e6 !important;
 }
 
 .rule_group{
@@ -1163,15 +1163,6 @@ pre.CodeMirror-line  > span > span.cm-string {
 
 .tdb__change__request__card {
   border-color: #3450DC !important;
-}
-
-.model-builder-copy-button {
-    position: absolute;
-    z-index: 20;
-    text-align: right !important;
-    border: 1px solid blue;
-    right: 0;
-    margin-right: 60px !important;
 }
 
 /** to display status if not on latest version */

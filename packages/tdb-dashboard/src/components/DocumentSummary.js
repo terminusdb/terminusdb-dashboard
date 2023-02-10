@@ -90,7 +90,7 @@ export const DocumentSummary = () => {
                             <Nav.Item className="mb-4">
                                 <Nav.Link  as={RouterNavLink}
                                     title={IconBarConfig.dataProductModal.title}
-                                    className="btn btn-lg  btn-info d-inline text-white"
+                                    className="btn btn-lg btn-info p-2 d-inline text-white"
                                     to={getUrl(IconBarConfig.dataProductModal.path)}
                                     
                                    // onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}

@@ -61,6 +61,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
     let extractedResults = documentResults ? extractDocuments(documentResults[type]) : []
 
     function cleanIdValue(keyName, keyValue){
+        if(keyValue === "null") return ""
         if(keyName!=="_id") return keyValue
         try{
             const regexp =/(?:\/+.*?\/)(.*$)/g
