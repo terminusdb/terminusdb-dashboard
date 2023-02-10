@@ -87,6 +87,15 @@ function checkIfCycleExists(property, linked_to_frames, linked_to, docType) {
 		// checks if linked to is same as the parent document class
 		if(linked_to === docType) return true
 	}
+	for(let props in linked_to_frames) {
+		if(typeof linked_to_frames[props] === CONST.OBJECT_TYPE && 
+			linked_to_frames[props].hasOwnProperty("@class")) {
+				// cycle exists with linked_to document class
+				if(linked_to_frames[props]["@class"] === linked_to) return true
+				// cycle exists with docType class
+				if(linked_to_frames[props]["@class"] === docType) return true
+			}
+	}
 	return false 
 }
 
