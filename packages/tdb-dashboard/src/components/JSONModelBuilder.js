@@ -109,27 +109,27 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReport
                             <div className="col-md-10 pr-0 pl-0">
                                 <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
                             </div>
-                            <button  type="button" id="schema_save_button" className="btn btn-md bg-light text-dark" onClick={saveChange}>
+                            <button  type="button" id="schema_save_button" className="btn btn-sm bg-light text-dark" onClick={saveChange}>
                                 <BsSave className="small"/> {"Save"}
                             </button>
                             <button  type="button" 
                                 title="Undo changes"
-                                className="btn btn-md bg-danger text-white mr-2" onClick={()=>{ handleUndo() }}>
+                                className="btn btn-sm bg-danger text-white mr-2" onClick={()=>{ handleUndo() }}>
                                 <BiUndo className="h5"/> {"Undo"}
                             </button>
                         </div>
                     </div>
                     }
                     {accessControlEditMode && !editMode &&
-                        <button  type="button" className="btn-edit-json-model btn btn-md btn-light text-dark float-right mr-2 col-md-1" 
+                        <button  type="button" className="btn-edit-json-model btn btn-md btn-light text-dark float-right mr-2" 
                             onClick={()=>{setEditMode(true)}}>
-                            <FaRegEdit/> Edit Schema
+                            <FaRegEdit className="mb-1"/> Edit Schema
                         </button>
                     }
                     <CopyButton text={jsonSchema} 
-                        label={"Copy schema"}
+                        label={""}
                         title={`Copy JSON schema`} 
-                        css={"btn btn-md bg-light text-dark float-right col-md-1"}/>
+                        css={"btn btn-md bg-light text-dark float-right"}/>
                 </Stack>
             </Card.Header>
             <div className="h-100">
