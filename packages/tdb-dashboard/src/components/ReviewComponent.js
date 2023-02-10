@@ -84,10 +84,11 @@ export const ReviewComponent = () => {
     // feedback constants
     const [message, setMessage]=useState("")
 
-    if(!userHasMergeRole) {
+    // comment for now
+    /*if(!userHasMergeRole) {
         // for collaborator or reader role
         return <MessageComponent/>
-    }
+    }*/
 
     return <Card className="bg-transparent border border-dark m-3">
         <Card.Header className="bg-transparent border border-dark">
