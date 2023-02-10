@@ -63,7 +63,7 @@ export const ModelBuilder = (props) =>{
                     {callServerLoading &&  <Loading message={`Fetching schema of ${dataProduct}...`}/>}                   
                                                     
                     {!callServerLoading && dataProduct && 
-                        <JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} saveGraph={saveData} />
+                        <JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} saveGraph={saveData} setReportMessage={setReport}/>
                     }
                 </Tab>
            
