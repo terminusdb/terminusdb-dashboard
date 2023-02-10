@@ -1,10 +1,12 @@
 import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
+import {WOQLClientObj} from '../init-woql-client'
 
 export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent, updateChangeRequestID}) => { 
     const messageRef = useRef(null);
-    const {loading,errorMessage,setError,updateChangeRequestStatus} =  ChangeRequest()
+    const {woqlClient} = WOQLClientObj()
+    const {loading,errorMessage,setError,updateChangeRequestStatus} =  ChangeRequest(woqlClient)
     
     const closeModal = () => setShowModal(false)
 

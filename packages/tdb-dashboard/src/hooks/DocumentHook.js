@@ -1,6 +1,26 @@
 import React, {useState,useEffect} from "react";
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
+import { ChangeRequest } from "./ChangeRequest";
+import { WOQLClientObj } from "../init-woql-client";
+
+// to be review this
+export function CheckStatusObj() {
+    const {woqlClient:client, currentChangeRequest} = WOQLClientObj()
+    const {getChangeRequestByID} = ChangeRequest(client)
+    
+    async function checkStatus (){   
+        const CRObject = await getChangeRequestByID(currentChangeRequest)
+        if(CRObject.status !== "Open"){
+
+            throw Error(`The current Change Request has been ${CRObject.status}. 
+                        Please exit the change request and create a new one`)
+        }
+    }
+
+    return {checkStatus}
+
+}
 
 /**
  * Create a new document
@@ -9,14 +29,16 @@ import { useNavigate, useParams } from "react-router-dom";
  * @param {*} setLoading constant for loading
  * @param {*} setErrorMsg constant to store error message
  */
-export function CreateDocumentHook(client, document, setLoading, setErrorMsg) {
+export function CreateDocumentHook(client,document, setLoading, setErrorMsg) {
     const [result, setResult] = useState(false)
     const {organization, dataProduct, type}=useParams()
     const navigate = useNavigate()
+    const {checkStatus} = CheckStatusObj()
  
     async function addDocument() {
         try{
             setLoading(true)
+            await checkStatus()
             const res = await client.addDocument(document, null, client.db())
             //let type=document["@type"]
             setResult(res)
@@ -42,10 +64,11 @@ export function DeleteDocumentHook(client, documentId, type, clickedDelete, setL
     const [result, setResult] = useState(false)
     const {organization, dataProduct}=useParams()
     const navigate=useNavigate()
-
+    const {checkStatus} = CheckStatusObj()
     async function deleteDocument() {
         try{
             setLoading(true)
+            await checkStatus ()
             let params={}
             params['id'] = documentId
             let commitMsg=`Deleting document ${documentId}` 
@@ -114,7 +137,7 @@ export function GetDocumentHook(client, documentId, setData, setLoading, setErro
 export function EditDocumentHook(client, extractedUpdate, setLoading, setErrorMsg) {
     const [result, setResult] = useState(false)
     const navigate=useNavigate()
-
+    const {checkStatus} = CheckStatusObj()
     async function updateDocument() {
         try{
 
@@ -123,6 +146,7 @@ export function EditDocumentHook(client, extractedUpdate, setLoading, setErrorMs
             let documentId = extractedUpdate["@id"]
             let commitMsg=`Updating document ${documentId}`
             setLoading(true)
+            await checkStatus ()
             const res = await client.updateDocument(update, params, client.db(), commitMsg)
             setLoading(false)
             navigate(-1)

@@ -100,8 +100,8 @@ export const DocumentsList01 = () => {
     function onRowClick (row) {
         // extract type out of document ID to navigate 
         const fullId = row.original["@id"]
-        const id = fullId.substring(type.length+1, fullId.length);
-        navigate(`${id}`)
+        //const id = fullId.substring(type.length+1, fullId.length);
+        navigate(`${fullId}`)
     }
 
     return <main className="content mr-3 ml-5 w-100 mt-5">

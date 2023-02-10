@@ -20,7 +20,6 @@ export const ManageProducts = ({setDataProductSettings , branches , updateTable}
         loading,
         reportAlert,
         handleSwitch,
-        handleDelete,
         handleBranchClick,
         setSelectedBranch
     } = BranchControl(updateTable)
@@ -79,7 +78,8 @@ export const ManageProducts = ({setDataProductSettings , branches , updateTable}
                 handleSwitch={handleSwitch} 
                 setSelectedCommit={setSelectedCommit}
                 showDefaultForm={showDefaultForm}
-                selectedCommit={selectedCommit}/>}
+                selectedCommit={selectedCommit}
+                updateTable={updateTable}/>}
  
             <div className="float-right text-right d-flex">
                 {/*<Button variant="light" className="mr-3" title={VIEW_HISTORY.title} onClick={(e) => setHistory(true)}>

@@ -29,7 +29,7 @@ export function FormPayment(props) {
   const userCard = useRef(null);
   const country = useRef(null);
   const postalCode = useRef(null);
-  const companyName= useRef(null);
+  //const companyName= useRef(null);
   const province = useRef(null);
   const city = useRef(null);
   const address = useRef(null);
@@ -59,7 +59,7 @@ export function FormPayment(props) {
     const userEmailValue = userEmail.current.value
     const countryValue = country.current.value
     const postalCodeValue = postalCode.current.value
-    const companyNameValue = companyName.current.value
+    //const companyNameValue = companyName.current.value
     const provinceValue = province.current.value
     const cityValue = city.current.value
     const addressValue = address.current.value
@@ -73,8 +73,7 @@ export function FormPayment(props) {
       "address": {
           "city": cityValue,
           "country": countryValue,
-          "line1": companyNameValue,
-          "line2": addressValue,
+          "line1": addressValue,
           "postal_code": postalCodeValue,
           "state": provinceValue
       }
@@ -201,12 +200,10 @@ const renderSuccess = () => {
                         className="border-light-01" type="email" name="email" id="email" placeholder="Email" 
                         defaultValue={props.defaultEmail} />          
                     </FormGroup>             
-
-                     <FormGroup className="mb-4">
-                      <Form.Label for="name">Company Name</Form.Label>
-                      <FormControl ref={companyName}  className="border-light-01" type="text" name="name" id="name" placeholder="Company Name" required={true} />
-                    </FormGroup>
-
+                    <FormGroup className="mb-4">
+                      <Form.Label for="address">Street Address</Form.Label>
+                      <FormControl ref={address}  className="border-light-01" type="text" name="name" id="name" placeholder="Street Address" required={true} />
+                    </FormGroup> 
                     <Row>
                         <Col >
                       <FormGroup className="mb-4">
@@ -221,12 +218,6 @@ const renderSuccess = () => {
                       </FormGroup>
                       </Col>
                      </Row>
-
-                     <FormGroup className="mb-4">
-                      <Form.Label for="address">Street Address</Form.Label>
-                      <FormControl ref={address}  className="border-light-01" type="text" name="name" id="name" placeholder="Street Address" required={true} />
-
-                    </FormGroup> 
                     <Row>
                     <Col >
                       <FormGroup className="mb-4">
@@ -273,3 +264,9 @@ const renderSuccess = () => {
       </div>
     </div>  
 }
+
+/*
+ <FormGroup className="mb-4">
+                      <Form.Label for="name">Company Name</Form.Label>
+                      <FormControl ref={companyName}  className="border-light-01" type="text" name="name" id="name" placeholder="Company Name" required={true} />
+                    </FormGroup>*/

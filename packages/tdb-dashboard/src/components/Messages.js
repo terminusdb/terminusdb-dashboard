@@ -1,10 +1,6 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client' 
 import Card from 'react-bootstrap/Card'
-import Form from 'react-bootstrap/Form'
-import {Button} from "react-bootstrap"
-import {ChangeRequest} from "../hooks/ChangeRequest"
-import { useParams } from "react-router-dom"
 import {
     extractID, 
     getDays

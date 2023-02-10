@@ -23,7 +23,7 @@ export function SendEmailHook(props) {
 				const token = await clientUser.getTokenSilently()
 				const options = getOptions(token);
 
-                const result = await axiosHub.post(`${baseUrl}/email`, emailData , options)
+                const result = await axiosHub.post(`${baseUrl}/private/email`, emailData , options)
                
                 sendEmailResult(result.data.message)
 			}

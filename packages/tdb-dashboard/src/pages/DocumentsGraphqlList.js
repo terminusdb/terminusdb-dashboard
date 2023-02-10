@@ -9,6 +9,7 @@ import { DocumentsGraphqlTable } from "../components/DocumentsGraphqlTable";
 //import { ApolloProvider} from '@apollo/client';
 //import {createApolloClient} from '../routing/ApolloClientConfig'
 import {WOQLClientObj} from '../init-woql-client'
+import {UTILS} from '@terminusdb/terminusdb-client'
 import { extractedResults, ControlledGraphqlQuery } from '@terminusdb/terminusdb-react-table'
 
 export const DocumentsGraphqlList = () => {    
@@ -26,9 +27,9 @@ export const DocumentsGraphqlList = () => {
         startFilters ={"name":{"regex":searchParams.get('filters')}}
     }      
     const onRowClick = (row) =>{
-        const fullId = row["id"]
-        const id = fullId.substring(fullId.lastIndexOf("/")+1)
-        navigate(`${id}`)
+        let fullId = row["id"]    
+        let fullIdEncode = btoa(fullId)
+        navigate(fullIdEncode)
     }
 
     function handleCreate(e) {

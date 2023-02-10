@@ -1,30 +1,22 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {Button} from "react-bootstrap"
 import { Layout } from './Layout'
 import Card from "react-bootstrap/Card"
 import {useParams} from 'react-router-dom'
-import {GetDiffList} from "../hooks/DocumentHook"
 import {WOQLClientObj} from "../init-woql-client"
-import {DiffView} from "../components/DiffView"
-import Badge from 'react-bootstrap/Badge'
-import {BiGitBranch} from "react-icons/bi"
-import Tab from 'react-bootstrap/Tab'
-import Tabs from 'react-bootstrap/Tabs'
 import Stack from 'react-bootstrap/Stack'
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {Loading} from "../components/Loading"
-import Alert from 'react-bootstrap/Alert'
 import { ChangeDiffComponent, BranchCRMessage } from '../components/ChangeDiffComponent'
 import * as CONST from "../components/constants"
 import {FiAlertTriangle} from "react-icons/fi"
-import {Messages} from "../components/Messages"
-import {ReviewComponent} from "../components/ReviewComponent"
 import Spinner from 'react-bootstrap/Spinner';
 import {extractID} from "../components/utils"
 import { Alerts } from "../components/Alerts"
 
 const CRAction = ({}) => {
     const {
+        woqlClient,
         currentCRObject,
         setCurrentCRObject
     } = WOQLClientObj() 
@@ -32,9 +24,8 @@ const CRAction = ({}) => {
     const {
         rebaseChangeRequestBranch,
         loading,
-        errorMessage,
-        setError
-    } = ChangeRequest()
+        error
+    } = ChangeRequest(woqlClient)
 
     const rebaseHandler = async ()=>{ 
         const changeRequestDoc = await rebaseChangeRequestBranch(extractID(currentCRObject["@id"]))
@@ -101,7 +92,7 @@ export const ChangeDiff = () => {
         rebaseChangeRequestBranch,
         loading,
         error
-    } = ChangeRequest()
+    } = ChangeRequest(client)
     
     
 

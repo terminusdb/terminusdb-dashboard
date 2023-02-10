@@ -9,7 +9,6 @@ import {BiGitBranch} from "react-icons/bi"
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 import Stack from 'react-bootstrap/Stack'
-import {ChangeRequest} from "../hooks/ChangeRequest"
 import {Loading} from "../components/Loading"
 import Alert from 'react-bootstrap/Alert'
 import {

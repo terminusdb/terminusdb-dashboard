@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
-import {UTILS} from '@terminusdb/terminusdb-client'
 import {Header, onTraverse} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {GetDocumentHook, DeleteDocumentHook} from "../hooks/DocumentHook"
@@ -28,7 +27,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}
     const [data, setData]=useState(false)
 
     // hook to view a document 
-    let documentID=`${type}/${UTILS.encodeURISegment(id)}`
+    let documentID= atob(id)
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
     function handleTraverse (documentID) {
@@ -74,7 +73,7 @@ export const DocumentView = () => {
     const [clicked, setClicked]=useState(false)
     const [modalShow, setModalShow] = React.useState(false);
 
-    let documentID=`${type}/${id}`
+    let documentID=atob(id)
     const deleteResult=DeleteDocumentHook(woqlClient, documentID, type, clickedDelete, setLoading, setErrorMsg) 
 
     // create a change request before editing document
@@ -95,7 +94,7 @@ export const DocumentView = () => {
             <Card.Header className="justify-content-between d-flex w-100 text-break">
                 <Header mode={CONST.VIEW_DOCUMENT} 
                     type={type} 
-                    id={id} 
+                    id={documentID} 
                     setClickedDelete={setClickedDelete}
                     startCRMode={startCRMode}/>
             </Card.Header>

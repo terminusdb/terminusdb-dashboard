@@ -25,10 +25,6 @@ export const PlansPage = (props) => {
 	
 	const tier = clientUser && clientUser.userInfo ? clientUser.userInfo.tier : "Community"
 
-	const contactUs=(subject)=>{
-		props.setSubject(subject)
-	}
-
 	useEffect(() => {
 		getPaymentMethod()
     },[])
@@ -82,7 +78,7 @@ export const PlansPage = (props) => {
 
 		return <Button {...planAction} style= {style} {...disabled}
 			className={`${plansObj.buttonTextColor} fw-bold w-100 mt-1 mb-1 pt-3 pb-3`} >
-			{plansObj.buttonLabel}
+			{buttonLabel}
 		</Button>
 	}
 
