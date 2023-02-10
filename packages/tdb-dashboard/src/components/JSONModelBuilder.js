@@ -5,20 +5,24 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/ayu-dark.css'
 require('codemirror/mode/css/css')
 require('codemirror/mode/javascript/javascript')
+import 'codemirror/theme/material-darker.css'
 //import 'codemirror/addon/display/autorefresh.js'
 import {PROGRESS_BAR_COMPONENT, TERMINUS_SUCCESS} from "./constants"
 import {Loading} from "./Loading"
 import {MODEL_BUILDER_EDITOR_OPTIONS} from "./constants"
-import {AiOutlineCloseCircle, AiOutlineEdit, AiOutlineSave} from "react-icons/ai"
+import { BiUndo } from "react-icons/bi"
 import {FaRegEdit} from 'react-icons/fa'
 import {Alerts} from "./Alerts"
 import {TERMINUS_DANGER,DOCUMENT_PREFIX} from "./constants"
 import {GRAPH_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
 import {CopyButton} from "./utils"
+import Card from "react-bootstrap/Card"
 import {BsSave} from "react-icons/bs"
+import Stack from "react-bootstrap/Stack"
 
-export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
+export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReportMessage}) => {
+    
     const {getSchemaGraph,mainGraphObj} = GraphContextObj();
     const {dataProduct} = WOQLClientObj()
     const [loading, setLoading] = useState(false)
@@ -27,6 +31,9 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
     const [report, setReport]=useState(false)
 
     const [jsonSchema, setJsonSchema]=useState(false)
+
+    const [editMode, setEditMode]=useState(false)
+	const [value, setValue]=useState(false) 
 
     let branch = "main"
     let ref = ""
@@ -49,8 +56,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
         getJSONSchema()
     }, [tab,dataProduct,mainGraphObj])
 
-    const [editMode, setEditMode]=useState(false)
-	const [value, setValue]=useState(false) 
+    
 
 
     MODEL_BUILDER_EDITOR_OPTIONS.readOnly=!editMode
@@ -68,7 +74,7 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
                 //save change in the server
                 await saveGraph(value, commitMsg)   
                 setLoading(false)
-                setEditMode(false)
+                //setEditMode(false)
              
             }catch(err){
                 let jsonError= JSON.parse(JSON.stringify(err))
@@ -76,61 +82,69 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode}) => {
                 if(jsonError.data && jsonError.data["api:message"]) {
                     setReport(<Alerts message={jsonError.data["api:message"]} type={TERMINUS_DANGER}/>)
                 }
-                else setReport(<Alerts message={err.toString()} type={TERMINUS_DANGER}/>)  
+                else setReport(<Alerts message={err.toString()} type={TERMINUS_DANGER}/>) 
             }       
         }
     }
+
+    function handleUndo () {
+        // sets report messagen from modelCallServerHook to false
+        if(setReportMessage) setReportMessage(false)
+        setEditMode(false); 
+        getJSONSchema();
+    }
+
     const editStyle = editMode ? {className:"border rounded border-warning position-sticky"} : {}
-    const editMessage = editMode ? "Save schema or you will loose your changes" : ""
-
-    return <React.Fragment>
+    const editMessage = editMode ? "Save schema or you will lose your changes" : ""
+    
+    //console.log("editMode", editMode)
+    return <>
+        <label className="text-warning mt-4">{editMessage}</label>
+        <Card className={`border border-secondary mt-4`} {...editStyle}>
             {loading && loading} 
-            
-            <div {...editStyle}>
-                <div className="d-flex align-items-center justify-content-between ml-4">
-                    <label className="text-warning mt-4 pb-2">{editMessage}</label>                   
-                        {accessControlEditMode && !editMode &&
-                            <button  type="button" className="btn-edit-json-model btn btn-sm btn-light text-dark border-0 col-md-1 mt-3" onClick={()=>{setEditMode(true)}}>
-                                <FaRegEdit/> Edit Schema
+            <Card.Header>
+                <Stack direction="horizontal" className="w-100 justify-content-end">
+                    {editMode && <div className="w-100">
+                        <div role="group" className="btn-group w-100">
+                            <div className="col-md-10 pr-0 pl-0">
+                                <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
+                            </div>
+                            <button  type="button" id="schema_save_button" className="btn btn-md bg-light text-dark" onClick={saveChange}>
+                                <BsSave className="small"/> {"Save"}
                             </button>
-                        }
-                        {editMode && 
-                            <button  type="button" className="btn btn-lg border-0 col-md-1 float-right" onClick={()=>{setEditMode(false)}}>
-                                <AiOutlineCloseCircle className="float-right mr-2"/>
+                            <button  type="button" 
+                                title="Undo changes"
+                                className="btn btn-md bg-danger text-white mr-2" onClick={()=>{ handleUndo() }}>
+                                <BiUndo className="h5"/> {"Undo"}
                             </button>
-                        }
-                </div>
-                          
-                {editMode &&
-                    <div role="group" className="btn-group w-100">
-                        <div className="ml-4 flex-grow-1">
-                            <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
                         </div>
-                        <button  type="button" id="schema_save_button" className="col-md-1 btn btn-md bg-light text-dark mr-4" onClick={saveChange}>
-                            <BsSave className="small"/> <label className="mt-1">Save</label>
-                        </button>
                     </div>
-                }
-               
-                <div className="h-100 m-4">
-                    {report && <span className="w-100 m-4">{report}</span>}
-
+                    }
+                    {accessControlEditMode && !editMode &&
+                        <button  type="button" className="btn-edit-json-model btn btn-md btn-light text-dark float-right mr-2 col-md-1" 
+                            onClick={()=>{setEditMode(true)}}>
+                            <FaRegEdit/> Edit Schema
+                        </button>
+                    }
                     <CopyButton text={jsonSchema} 
                         label={"Copy schema"}
                         title={`Copy JSON schema`} 
-                        css={"btn btn-sm bg-light text-dark model-builder-copy-button"}/>
-                    <CodeMirror  
-                        onBlur={(editor, data) => {
-                            const editorValue =editor.doc.getValue()
-                            onBlurHandler(editorValue)
-                        }}
-                        value={value}
-                        options={MODEL_BUILDER_EDITOR_OPTIONS}
-                        className="model-builder-code-mirror"
-                    />
-                    {/*<div><pre>{schema}</pre></div>*/}
-                </div>
+                        css={"btn btn-md bg-light text-dark float-right col-md-1"}/>
+                </Stack>
+            </Card.Header>
+            <div className="h-100">
+                {report && <span className="w-100 m-4">{report}</span>}
+                <CodeMirror  
+                    onBlur={(editor, data) => {
+                        const editorValue =editor.doc.getValue()
+                        onBlurHandler(editorValue)
+                    }}
+                    value={value}
+                    options={MODEL_BUILDER_EDITOR_OPTIONS}
+                    className="model-builder-code-mirror"
+                />
+                {/*<div><pre>{schema}</pre></div>*/}
             </div>
-        </React.Fragment>
-
+        </Card>
+    </>
 }

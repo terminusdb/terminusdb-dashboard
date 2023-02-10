@@ -439,14 +439,16 @@ export const EDITOR_READ = {
 }
 
 export const MODEL_BUILDER_EDITOR_OPTIONS = {
-    theme: "ayu-dark",
+    //theme: "ayu-dark",
+    theme: "material-darker",
     height: "auto",
     viewportMargin: Infinity,
-    mode: {
+    mode: "application/ld+json",
+    /*mode: {
       name: "javascript",
       json: true,
       statementIndent: 2
-    },
+    },*/
     lineNumbers: true,
     lineWrapping: true,
     indentWithTabs: false,
