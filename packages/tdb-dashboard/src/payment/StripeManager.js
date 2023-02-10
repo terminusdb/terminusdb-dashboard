@@ -30,7 +30,7 @@ export function StripeManager(stripe=null){
       const message =  err && err.response && err.response.data ? err.response.data.message : 'There was an error processing your request'
       processError(message)
     }finally{
-      setProcessing(false)
+      processSuccess()
     }
   }
 

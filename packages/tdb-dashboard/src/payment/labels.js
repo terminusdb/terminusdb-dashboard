@@ -5,7 +5,7 @@ import {FiUsers} from "react-icons/fi"
 
 export const FormPaymentLabels = {
 	successTitle:'Your subscription was successful',
-	successSubtitle:'Thank you for subscribing to TerminusX'
+	successSubtitle:'Thank you for subscribing to TerminusCMS'
 }
 
 export const MemberPageLabels = {

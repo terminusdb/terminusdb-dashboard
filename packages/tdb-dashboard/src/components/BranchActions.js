@@ -9,7 +9,7 @@ const SQUASH_FORM = 'squashForm'
 const RESET_FORM = 'resetForm'
 const DELETE_FORM = 'deleteForm'
 
-export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}) =>{
+export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm,updateTable}) =>{
     const [showForm, setShowForm] = useState(showDefaultForm || false)
     const [commit, setCommit] = useState(false)
     const [branchName,setBranchName] = useState(false)
@@ -24,7 +24,7 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
         handleOptimize,
         handleReset,
         handleSquash
-    } = BranchControl()
+    } = BranchControl(updateTable)
 
     const squashDescription = useRef(null);
 

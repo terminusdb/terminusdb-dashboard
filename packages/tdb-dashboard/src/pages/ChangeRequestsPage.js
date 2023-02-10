@@ -30,7 +30,7 @@ const GetChangeRequestSummary = ({changeRequestList}) => {
 	</h6>
 }
 
-export const ChangeRequests = () => {
+export const ChangeRequestsPage = () => {
 	const {organization,dataProduct} = useParams()
 	const navigate = useNavigate()
 
@@ -49,7 +49,7 @@ export const ChangeRequests = () => {
 		loading,
 		getChangeRequestList,
 		changeRequestList
-    } =  ChangeRequest() 
+    } =  ChangeRequest(woqlClient) 
 
 	const updateParent = () =>{
 		exitChangeRequestBranch()

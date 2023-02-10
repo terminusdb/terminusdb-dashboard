@@ -22,7 +22,7 @@ import {DocumentNew} from "./pages/DocumentNew"
 import {DocumentEdit} from "./pages/DocumentEdit"
 import {DocumentView} from "./pages/DocumentView"
 import {Home} from "./pages/Home"
-import {ChangeRequests} from "./pages/ChangeRequests"
+import {ChangeRequestsPage} from "./pages/ChangeRequestsPage"
 import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
 import {GraphIqlEditor} from "./pages/GraphIqlEditor"
@@ -109,7 +109,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                 <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
                 
                 <Route path={PATH.CHANGE_REQUESTS} >
-                    <Route index  element={<PrivateRoute component={ChangeRequests}/>} />    
+                    <Route index  element={<PrivateRoute component={ChangeRequestsPage}/>} />    
                     <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
                 </Route>
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>

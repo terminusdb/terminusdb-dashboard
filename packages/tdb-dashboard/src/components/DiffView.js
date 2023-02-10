@@ -15,7 +15,6 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import {BsPlus} from "react-icons/bs"
 import {BiMinusCircle} from "react-icons/bi"
 import {extractID} from "../components/utils"
-import {ChangeRequest} from "../hooks/ChangeRequest"
 import {Loading} from "./Loading"
 
 /**

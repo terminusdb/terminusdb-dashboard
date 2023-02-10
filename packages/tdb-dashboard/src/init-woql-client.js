@@ -10,6 +10,7 @@ import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
 import {sortAlphabetically} from "./components/utils"
+import {getChangesUrl} from "./hooks/hookUtils"
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
@@ -48,6 +49,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     const [currentCRObject, setCurrentCRObject]=useState(false)
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
+
     const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
 
     // set left side bar open close state
@@ -137,7 +139,6 @@ export const WOQLClientProvider = ({children, params}) => {
 
                  if(opts.connection_type !== "LOCAL"){
                    const rolesList = await clientAccessControl.callGetRolesList()
-                   hasRebaseRole(rolesList)
                  }
                 
                  if(defOrg){
@@ -221,7 +222,7 @@ export const WOQLClientProvider = ({children, params}) => {
     }
 
     //dataproduct change
-    const setDataProduct = (dbName,hubClient,accessDash) =>{
+    const setDataProduct = async (dbName,hubClient,accessDash) =>{
         const client = woqlClient || hubClient
         const accDash = accessControlDashboard || accessDash
        
@@ -230,17 +231,28 @@ export const WOQLClientProvider = ({children, params}) => {
             //set the allowed actios for the selected dataproduct
             const dbDetails = client.databaseInfo(dbName)
             accDash.setDBUserActions(dbDetails['@id'])
-            //reset the head
+            //reset the head after change the db
             setHead('main',{commit:false,time:false})
+
             if(dbName){
+                // check if there is a change request related
                 const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
 
-                const lastBranch = localStorage.getItem(TERMINUSCMS_CR)            
-                if(lastBranch){
-                    client.checkout(lastBranch)
-                    const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)
-                    setBranch(lastBranch)
-                    setCurrentChangeRequest(lastChangeRequest || false)
+                const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
+                const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)          
+                if(lastBranch && lastChangeRequest){
+                    //check the changeRequest Status
+                    const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
+                    if(changeObj.status=== "Open"){
+                        client.checkout(lastBranch)
+                        setBranch(lastBranch)
+                        setCurrentChangeRequest(lastChangeRequest)
+                    }else{
+                        localStorage.removeItem(TERMINUSCMS_CR)  
+                        localStorage.removeItem(TERMINUSCMS_CR_ID)  
+                        setBranch("main")
+                        setCurrentChangeRequest(false)
+                    }
                 }else{
                     //if we are not change request
                     setBranch("main")
@@ -419,6 +431,7 @@ export const WOQLClientProvider = ({children, params}) => {
         sidebarStateObj[name]=value
     }
 
+    // we not use this now
     const hasRebaseRole=(teamUserRoles)=>{
         try{
             const actions = teamUserRoles[0].action
