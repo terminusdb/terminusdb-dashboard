@@ -12,7 +12,9 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
   //  const [hasNextPage, setHasNextPage] = useState(true)
     const [controlledRefresh, setControlledRefresh] = useState(0)
     const [data, setData] = useState(null)
- 
+    
+    const [setHiddenColumnsArr, hiddenColumnsArr] = useState([])
+
     //filter is the filter formatted for the query
     let filterTable  = []
     
@@ -157,6 +159,8 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         rowCount,
         onRefresh,
         documentResults:data,
+        hiddenColumnsArr,
+        setHiddenColumnsArr,
         // maybe we need to set from outside
        // setDocumentResults,
        // setControlledRefresh,

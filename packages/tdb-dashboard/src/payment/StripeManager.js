@@ -24,13 +24,12 @@ export function StripeManager(stripe=null){
       processStart()
       const token = await clientUser.getTokenSilently()
       const options = getOptions(token);
-      const response = await axiosHub.delete(`${baseUrl}/private/subscription`, options)
-      return true
+      await axiosHub.delete(`${baseUrl}/private/subscription`, options)
+      clientUser.userInfo.tier = "Community"
+      processSuccess()  
     }catch(err){
       const message =  err && err.response && err.response.data ? err.response.data.message : 'There was an error processing your request'
       processError(message)
-    }finally{
-      processSuccess()
     }
   }
 
