@@ -12,7 +12,7 @@ export const PaymentPage = ({showModal, setShowModal, subscriptionObj}) => {
         setShowModal(false)
     }
 
-    return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
+    return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal} backdrop="static" keyboard={false}>
             <Modal.Header style={{background:subscriptionObj.color}}>
                 <Stack direction="horizontal" gap={10} className="justify-content-center"> 	
                     <Modal.Title className="h4 fw-bold"  >Update to {subscriptionObj.title}</Modal.Title>	

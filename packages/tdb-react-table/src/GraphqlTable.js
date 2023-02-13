@@ -20,7 +20,7 @@ minWidth,
 maxWidth}]*/
 
 //this only render the logic of do the query is in an external hook
-export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit, orderBy, totalRows, setLimits, setOrder, setFilters,onRefresh,dowloadConfig})=>{
+export const GraphqlTable = ({hiddenColumnsArr, result, config, freewidth, start, filtersBy ,limit, orderBy, totalRows, setLimits, setOrder, setFilters,onRefresh,dowloadConfig})=>{
    // let wt = TerminusClient.View.table()
    // if(view)  wt.loadJSON(view.table, view.rules)
     
@@ -68,7 +68,7 @@ export const GraphqlTable = ({result, config, freewidth, start, filtersBy ,limit
     };
 
     function formatTableColumns(){
-        const hiddenColumns = []
+        const hiddenColumns = [] //hiddenColumnsArr
         // I visualise the id only if it is the only item
         const colArr = config.columns
         if(!Array.isArray(colArr))return []

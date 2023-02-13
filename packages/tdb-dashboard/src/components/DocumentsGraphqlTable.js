@@ -36,6 +36,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
         orderBy,
         filterBy,
         loading,
+       // hiddenColumnsArr,
         documentResults } = ControlledGraphqlQuery(apolloClient,query, type, 10, 0, {}, false);
     
     useEffect(() => {
@@ -141,6 +142,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                       result={extractedResults}
                       freewidth={true}
                       config ={tableConfigObj}
+                    //  hiddenColumnsArr = {hiddenColumnsArr}
                    //   view={(tableConfig ? tableConfig.json() : {})}
                       limit={limit}
                       start={start}

@@ -54,7 +54,8 @@ export const CancelSubscription = ({showModal, setShowModal}) => {
                 </Card>	
     }
 
-    return <Modal centered size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
+    return <Modal centered size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal} backdrop="static"
+    keyboard={false}>
             <Modal.Header>
                 <Stack direction="horizontal" gap={10} className="justify-content-center"> 	
                     <Modal.Title className="h4 fw-bold">Downgrade to Community</Modal.Title>	
