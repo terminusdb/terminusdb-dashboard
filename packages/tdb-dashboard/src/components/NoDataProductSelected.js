@@ -25,12 +25,12 @@ export const NoDataProductSelected = (props) => {
 			img: "https://ichef.bbci.co.uk/news/976/cpsprodpb/4F49/production/_125879202_legorussia.png",
 			description: "This data product features Lego sets and their individual components and the relationships between them. It is an excellent example of organizations that have interconnected components and parts within their product offerings."
 		},
-		{
+		/*{
 			name: "Star_Wars", 
 			label: "Relationships Between People, Real Estate, & Equipment", 
 			img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHkosbW26brusDap1E3y2GV6pnIRsjg-9Rc1CdJRuMJjrJ1O6fJs_x2bjcGjBUCB_wkTE&usqp=CAU",
 			description: "This data product features a Star Wars dataset and their individual components and how they are all connected and is a good example of the relationships between people and things."
-		},
+		},*/
 		{
 			name: "nuclear", 
 			label: "The Complex Energy Sector", 
