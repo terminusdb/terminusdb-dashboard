@@ -27,7 +27,7 @@ const ToggleActions = ({ message }) => {
             if(res){
                 setCurrentCRObject(false)
                 exitChangeRequestBranch()
-                navigate(`/${organization}/${dataProduct}`)
+                navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
             }
         }
         if(action) doAction()

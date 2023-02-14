@@ -4,13 +4,16 @@ import Card from "react-bootstrap/Card"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
-import {Header, onTraverse} from "../components/DocumentComponents"
+import {Header, onTraverse, DeleteMessage} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {GetDocumentHook, DeleteDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {TarverseDocumentLinks} from "../components/TarverseDocumentLinks"
+import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
+import Modal from 'react-bootstrap/Modal';
+import {decodeUrl} from "../components/utils"
 
 const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}) => {
     const { 
@@ -27,7 +30,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}
     const [data, setData]=useState(false)
 
     // hook to view a document 
-    let documentID= atob(id)
+    let documentID=decodeUrl(id)
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
     function handleTraverse (documentID) {
@@ -58,7 +61,9 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}
 export const DocumentView = () => {   
 
     const { 
-        woqlClient 
+        woqlClient,
+        setChangeRequestBranch,
+        branch
     } = WOQLClientObj()
 
     const {type, id} = useParams()
@@ -68,23 +73,41 @@ export const DocumentView = () => {
     const [loading, setLoading]=useState(false)
     const [errorMsg, setErrorMsg]=useState(false)
     const [clickedDelete, setClickedDelete]=useState(false)
+    const [deleteDocument, setDeleteDocument] = useState(false)
 
     //constants to traverse through documents 
     const [clicked, setClicked]=useState(false)
     const [modalShow, setModalShow] = React.useState(false);
+    const [showCRModal, setShowCRModal] = useState(false)
+   
 
-    let documentID=atob(id)
-    const deleteResult=DeleteDocumentHook(woqlClient, documentID, type, clickedDelete, setLoading, setErrorMsg) 
+    const handleClose = () => setClickedDelete(false);
 
-    // create a change request before editing document
-    const startCRMode = (mode) => {
-        // logic to start CR mode
+    let documentID=decodeUrl(id)
+    const deleteResult=DeleteDocumentHook(woqlClient, documentID, type, deleteDocument, setLoading, setErrorMsg) 
+
+    const updateViewMode =(newBranchName, changeRequestId)=>{
+        setChangeRequestBranch(newBranchName, changeRequestId)
+        setClickedDelete(Date.now())
+    }
+
+    function handleDelete () {
+        setDeleteDocument(Date.now())
     }
 
     return <main className="content w-100 document__interface__main">
         {errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
-        </Alert>}
+        </Alert>} 
+        { clickedDelete && <Modal show={clickedDelete} onHide={handleClose}>
+            {loading && <span className="text-warning text-break p-3">{`Deleting document ${documentID} ...`}</span>}
+            {!loading && <DeleteMessage handleDelete={handleDelete}/>}
+        </Modal>
+        }
+        {showCRModal && <CreateChangeRequestModal showModal={showCRModal}
+            type={type} 
+            setShowModal={setShowCRModal} 
+            updateViewMode={updateViewMode}/>}
         <TarverseDocumentLinks
             setClicked={setClicked}
             clicked={clicked}
@@ -96,7 +119,7 @@ export const DocumentView = () => {
                     type={type} 
                     id={documentID} 
                     setClickedDelete={setClickedDelete}
-                    startCRMode={startCRMode}/>
+                    setShowCRModal={setShowCRModal}/>
             </Card.Header>
             <Card.Body className="text-break">
                 <DisplayDocumentBody setLoading={setLoading} 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Container , Card, Button, ListGroup,Badge} from "react-bootstrap"
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {WOQLClientObj} from '../init-woql-client'
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {BiGitPullRequest} from "react-icons/bi"
@@ -32,11 +32,12 @@ const GetChangeRequestSummary = ({changeRequestList}) => {
 
 export const ChangeRequestsPage = () => {
 	const {organization,dataProduct} = useParams()
+	let [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate()
 
 	const [updateChangeRequestID,setShowUpdateChangeRequestID] = useState(false)
 
-	// const [tmpChangeRequest,setTmpChangeRequest] = useState(false)
+	const startStatus = searchParams.get("status") || OPEN
 
     const {
 		woqlClient,
@@ -49,15 +50,18 @@ export const ChangeRequestsPage = () => {
 		loading,
 		getChangeRequestList,
 		changeRequestList
-    } =  ChangeRequest(woqlClient) 
+    } =  ChangeRequest() 
+
+	const [filter, setFilter]=useState(startStatus)
 
 	const updateParent = () =>{
 		exitChangeRequestBranch()
 		getChangeRequestList()
+		setFilter(SUBMITTED)
     }
 
-	const [refresh, setRefersh]=useState(Date.now())
-	const [filter, setFilter]=useState(OPEN)
+	// const [refresh, setRefersh]=useState(Date.now())
+	
   
     useEffect(() => { 
         if(woqlClient) getChangeRequestList()
