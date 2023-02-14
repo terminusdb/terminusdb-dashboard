@@ -11,6 +11,7 @@ import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {TarverseDocumentLinks} from "../components/TarverseDocumentLinks"
+import {decodeUrl} from "../components/utils"
 
 const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}) => {
     const { 
@@ -27,7 +28,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}
     const [data, setData]=useState(false)
 
     // hook to view a document 
-    let documentID= atob(id)
+    let documentID= decodeUrl(id)
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
     function handleTraverse (documentID) {
@@ -73,7 +74,7 @@ export const DocumentView = () => {
     const [clicked, setClicked]=useState(false)
     const [modalShow, setModalShow] = React.useState(false);
 
-    let documentID=atob(id)
+    let documentID=decodeUrl(id)
     const deleteResult=DeleteDocumentHook(woqlClient, documentID, type, clickedDelete, setLoading, setErrorMsg) 
 
     // create a change request before editing document

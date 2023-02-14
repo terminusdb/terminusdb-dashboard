@@ -9,14 +9,14 @@ import { ChangeRequest } from "./ChangeRequest"
 // we have the branches list only in document explorer and in time travel
 export function BranchControl (updateTable)  {
     const {woqlClient,
-           ref,
+            ref,
            setHead,
            branch,
           // branches,
             // branchNeedReload,
            setConsoleTime} = WOQLClientObj()
     
-    const {getChangeRequestList} = ChangeRequest(woqlClient)
+    const {getChangeRequestList} = ChangeRequest()
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
       

@@ -95,8 +95,10 @@ export const DocumentWoqlTable = () => {
 
     // on click document table row
     function onRowClick (row) {
-        const fullId = row["id"]
-        navigate(`${UTILS.encodeURISegment(fullId)}`)
+        let fullId = row.original['@id']
+    
+        let fullIdEncode = btoa(fullId)
+        navigate(fullIdEncode)
     }
 
 

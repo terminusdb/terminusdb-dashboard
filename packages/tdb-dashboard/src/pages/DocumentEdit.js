@@ -13,6 +13,7 @@ import {Loading} from "../components/Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {UTILS} from "@terminusdb/terminusdb-client"
+import {decodeUrl} from "../components/utils"
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -65,7 +66,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     } = DocumentControlObj()
 
     const {type, id} = useParams()
-    let documentID=atob(id)
+    let documentID=decodeUrl(id)
     
     // constants for extracted data 
     const [extracted, setExtracted]=useState(false)
@@ -116,7 +117,7 @@ export const DocumentEdit = () => {
     } = WOQLClientObj()
 
     const {type, id} = useParams()
-    let documentID=atob(id)
+    let documentID=decodeUrl(id)
     // constants to display document body in Form or JSON View
     const [view, setView]=useState(CONST.FORM_VIEW) 
     const [loading, setLoading]=useState(false)

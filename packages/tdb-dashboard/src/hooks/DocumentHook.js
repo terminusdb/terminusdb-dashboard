@@ -6,8 +6,8 @@ import { WOQLClientObj } from "../init-woql-client";
 
 // to be review this
 export function CheckStatusObj() {
-    const {woqlClient:client, currentChangeRequest} = WOQLClientObj()
-    const {getChangeRequestByID} = ChangeRequest(client)
+    const {currentChangeRequest} = WOQLClientObj()
+    const {getChangeRequestByID} = ChangeRequest()
     
     async function checkStatus (){   
         const CRObject = await getChangeRequestByID(currentChangeRequest)

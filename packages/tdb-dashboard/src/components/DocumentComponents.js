@@ -21,6 +21,7 @@ import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Row from "react-bootstrap/Row"
 import {DocumentsGraphqlTable} from "./DocumentsGraphqlTable"
+import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
 // button to view frames
 const ViewFramesButton = () => {
@@ -170,8 +171,6 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
         startCRMode(CONST.DELETE_DOCUMENT)
         setClickedDelete(Date.now())
     }
-
-
 
     return <Stack direction="horizontal" gap={3} className="w-100">
         <div className="col-md-6"> 
