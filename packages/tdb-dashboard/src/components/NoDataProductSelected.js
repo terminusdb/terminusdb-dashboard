@@ -19,26 +19,30 @@ export const NoDataProductSelected = (props) => {
     const showNoDataProduct = createdb && list.length===0 ? true : false
 
 	let cloneDataProduct = [
-		{
+		{	
 			name: "lego", 
+			label: "Parts & Components Inventory", 
 			img: "https://ichef.bbci.co.uk/news/976/cpsprodpb/4F49/production/_125879202_legorussia.png",
-			description: "Shop awesome LEGO® building toys and brick sets and find the perfect gift for your kid. "
+			description: "This data product features Lego sets and their individual components and the relationships between them. It is an excellent example of organizations that have interconnected components and parts within their product offerings."
 		},
 		{
 			name: "Star_Wars", 
+			label: "Relationships Between People, Real Estate, & Equipment", 
 			img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHkosbW26brusDap1E3y2GV6pnIRsjg-9Rc1CdJRuMJjrJ1O6fJs_x2bjcGjBUCB_wkTE&usqp=CAU",
-			description: "Star Wars is an American epic space opera multimedia franchise created by George Lucas, and became a worldwide pop-culture phenomenon."
+			description: "This data product features a Star Wars dataset and their individual components and how they are all connected and is a good example of the relationships between people and things."
 		},
 		{
 			name: "nuclear", 
+			label: "The Complex Energy Sector", 
 			img:"https://static.dw.com/image/59710463_605.jpg", 
-			description: "Nuclear power plants are a type of power plant that use the process of nuclear fission in order to generate electricity. "
+			description: "Featuring nuclear power stations, this data product demonstrates the interconnected nature of extremely complex environments."
 		},
-		{
+		{	
 			name: "CAMS", 
+			label: "Plot Data & Its Relationships on a Map", 
 			img:"https://github.com/CriticalAssetManagement/CAMS-web-assets/raw/main/Images/CAMS-GitHub-Header-v5.jpg", 
-			description: "Building climate resilience for those who need it. An open-source project for good. Helping to use local knowledge to become climate resilient."
-		},
+			description: "CAMS is a critical asset management system that maps the dependency relationships between critical assets and displays them on a map to help first responders plan for emergencies."
+		}
 	]
 
 	const getCloneUrl = () =>{
@@ -98,7 +102,7 @@ export const NoDataProductSelected = (props) => {
 						<Card className="h-100">
 							<Card.Img variant="top" src={arr.img}/>
 							<Card.Body>
-								<Card.Title className="h5 fw-bold text-success">{arr.name}</Card.Title>
+								<Card.Title className="h5 fw-bold text-success">{arr.label}</Card.Title>
 								<Card.Text className="text-light text-left h6">
 									{arr.description}
 								</Card.Text>
