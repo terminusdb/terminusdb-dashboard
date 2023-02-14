@@ -4,9 +4,11 @@ import {Modal,Button,Stack, Card} from "react-bootstrap"
 import {MdEuroSymbol} from "react-icons/md"
 import {StripeManager} from "./StripeManager"
 import {FormPaymentLabels} from "./labels"
+import { useNavigate } from "react-router-dom"
 
 export const CancelSubscription = ({showModal, setShowModal}) => {
-    const {woqlClient, } = WOQLClientObj()
+    const {woqlClient} = WOQLClientObj()
+    const navigate = useNavigate()
     if(!woqlClient) return ""
 
     const closeModal = () =>{
