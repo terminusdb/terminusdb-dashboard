@@ -53,20 +53,19 @@ const onSelect = async (inp, type) => {
 }
 
 const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
+    const {type} = useParams()
     const { 
         woqlClient, 
-        frames
+       // frames
     } = WOQLClientObj()
-
     const {
         view,
         jsonContent,
-        setJsonContent
+        setJsonContent,
+        frames
     } = DocumentControlObj()
 
-    const {type} = useParams()
-    
-    // constants for extracted data 
+   
     const [extracted, setExtracted]=useState({})
  
     // hook to create a new document  
@@ -104,7 +103,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
 
 export const DocumentNew = () => {   
     const { 
-        setChangeRequestBranch, branch,woqlClient
+        setChangeRequestBranch, branch
     } = WOQLClientObj()
 
 

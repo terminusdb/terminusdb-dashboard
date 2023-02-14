@@ -14,12 +14,12 @@ import {TarverseDocumentLinks} from "../components/TarverseDocumentLinks"
 
 const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}) => {
     const { 
-        woqlClient, 
-        frames
+        woqlClient
     } = WOQLClientObj()
 
     const {
-        view
+        view,
+        frames
     } = DocumentControlObj()
 
     const {type, id} = useParams()

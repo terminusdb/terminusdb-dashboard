@@ -55,12 +55,12 @@ const onSelect = async (inp, type) => {
 const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     const { 
         woqlClient, 
-        frames
     } = WOQLClientObj()
 
     const {
         view,
         jsonContent,
+        frames,
         setJsonContent
     } = DocumentControlObj()
 

@@ -89,7 +89,7 @@ export function DeleteDocumentHook(client, documentId, type, clickedDelete, setL
 
     return result
 }
-
+ 
 /**
  * View a document
  * @param {*} client TerminusDB Client

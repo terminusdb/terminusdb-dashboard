@@ -12,10 +12,7 @@ import {UTILS} from '@terminusdb/terminusdb-client'
 
 export const DocumentWoqlTable = () => {
     const {
-        woqlClient,
-        perDocumentCount,
-        documentClasses,
-        frames
+        woqlClient
     } = WOQLClientObj()
 
     const {type} = useParams()
@@ -60,14 +57,14 @@ export const DocumentWoqlTable = () => {
             for(var key in item){
                 if(Array.isArray(item[key]) && item[key].length > 0){
                     var type = item[key][0]["@type"]
-                    if(frames[`terminusdb:///schema#${type}`] && frames[`terminusdb:///schema#${type}`]["@subdocument"]){
+                    /*if(frames[`terminusdb:///schema#${type}`] && frames[`terminusdb:///schema#${type}`]["@subdocument"]){
                         // this is a subdocument
                         var newArray=[]
                         item[key].map(thing => {
                             newArray.push(thing["@id"])
                         })
                         newJson[key]=newArray
-                    }
+                    }*/
                 }
                 else if(typeof item[key] === "object"){
                     if(item[key].hasOwnProperty("@id")){ // object - we do not display sys json data as part of table
