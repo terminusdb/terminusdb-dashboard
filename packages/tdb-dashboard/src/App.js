@@ -37,10 +37,9 @@ export function App (props){
     // we have this loading only in terminusX, it is auth0 information/login loading
     const {loading} = clientUser
 
-    if (clientUser.firstLogin === true) {
+    if (clientUser.firstLogin === true && window.location.pathname.indexOf("/invite/") === -1) {
         clientUser.firstLogin = false
-
-       // navigate(`/${PLANS}`)
+        //only if the user is not invited in a team
         window.location.replace(`/${PLANS}`) 
 
     }
