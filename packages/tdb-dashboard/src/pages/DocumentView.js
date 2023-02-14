@@ -13,6 +13,7 @@ import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {TarverseDocumentLinks} from "../components/TarverseDocumentLinks"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import Modal from 'react-bootstrap/Modal';
+import {decodeUrl} from "../components/utils"
 
 const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}) => {
     const { 
@@ -29,7 +30,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg, setClicked, setModalShow}
     const [data, setData]=useState(false)
 
     // hook to view a document 
-    let documentID= atob(id)
+    let documentID=decodeUrl(id)
     const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
     function handleTraverse (documentID) {
@@ -78,22 +79,16 @@ export const DocumentView = () => {
     const [clicked, setClicked]=useState(false)
     const [modalShow, setModalShow] = React.useState(false);
     const [showCRModal, setShowCRModal] = useState(false)
-    
-    /*useEffect(() => {
-        if(clickedDelete && branch === "main"){
-            //setShowModal(true)
-        }
-	},[clickedDelete])*/
+   
 
     const handleClose = () => setClickedDelete(false);
 
-    let documentID=atob(id)
+    let documentID=decodeUrl(id)
     const deleteResult=DeleteDocumentHook(woqlClient, documentID, type, deleteDocument, setLoading, setErrorMsg) 
 
     const updateViewMode =(newBranchName, changeRequestId)=>{
         setChangeRequestBranch(newBranchName, changeRequestId)
         setClickedDelete(Date.now())
-       // setCurrentMode(currentMode)
     }
 
     function handleDelete () {

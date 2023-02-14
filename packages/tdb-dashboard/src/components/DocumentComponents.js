@@ -22,6 +22,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Row from "react-bootstrap/Row"
 import {DocumentsGraphqlTable} from "./DocumentsGraphqlTable"
 import {WOQLClientObj} from '../init-woql-client'
+import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
 // button to view frames
 const ViewFramesButton = () => {
@@ -177,8 +178,6 @@ const ViewHeader = ({type, id, setView, setShowCRModal, setClickedDelete}) => {
         }
         else setClickedDelete(Date.now())
     }
-
-
 
     return <Stack direction="horizontal" gap={3} className="w-100">
         <div className="col-md-6"> 
