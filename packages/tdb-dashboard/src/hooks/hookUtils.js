@@ -40,7 +40,7 @@ export function formatErrorMessage (err){
 	let message = err.message
 	if (message.indexOf("Network Error")>-1){
 		message = "Network Error"
-	}else if(err.data && err.data["api:message"]){ 
+	}else if(err.data){ 
 		if( err.data["api:message"] === "Incorrect authentication information"){
 			message =  "Incorrect authentication information, wrong username or password"
 		}else if (err.data["api:status"]==="api:conflict"){
