@@ -130,10 +130,7 @@ export const DocumentEdit = () => {
             setShowModal(false)
         }*/
 	},[branch])
-    // create a change request before editing document
-    const startCRMode = (mode) => {
-        // logic to start CR mode
-    }
+  
 
     const updateViewMode =(newBranchName, changeRequestId)=>{
         setChangeRequestBranch(newBranchName, changeRequestId)

@@ -4,7 +4,7 @@ import React, {useState} from "react";
 
 // import {WOQLClientObj} from '../init-woql-client'
 import { formatErrorMessage } from './hookUtils'
-
+ 
 export function ChangeRequest(woqlClient){  
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState(false)
@@ -96,7 +96,7 @@ export function ChangeRequest(woqlClient){
         }finally{
             setLoading(false)
         }     
-    }
+    } 
 
 
     return {
