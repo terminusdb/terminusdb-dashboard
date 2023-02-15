@@ -19,7 +19,7 @@ module.exports = (env, argv) => ({
     new Dotenv({path: path.resolve(__dirname, '.env'), systemvars: true}),
     new HtmlWebPackPlugin({
         inject: true,
-        title: env.title ? env.title : "TerminusDB",
+        title: env.title ? env.title : "TerminusCMS",
         template: path.resolve(__dirname, './src/index.html'),
         bundleFileName:"tdb-dashboard.min.js"
       }),

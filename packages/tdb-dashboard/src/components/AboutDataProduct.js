@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment, useRef} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {timeConverter, } from "../pages/utils"
-import {Col, Button,Alert} from "react-bootstrap"
+import {Button,Alert} from "react-bootstrap"
 import {DATA_PRODUCT_HEALTHY} from "../pages/constants"
 import {HealthModal} from "./HealthModal"
 import {localSettings} from "../../localSettings"
@@ -9,28 +9,26 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Card from "react-bootstrap/Card"
 import Form from 'react-bootstrap/Form';
 import {CopyButton} from "./utils"
-import {RiDeleteBin7Line} from "react-icons/ri"
 import { ManageDatabase } from "../hooks/ManageDatabase"
-import { useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
 
 export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor ,branches}) =>{
+    const {dataProduct,organization} =useParams()
     const [showHealth, setShowHealth]=useState(false)
+    const [branchCount, setBranchCount]= useState(0)
+
     const {
         woqlClient,
         documentClasses,
         accessControlDashboard
     } = WOQLClientObj()
-
     const {cloneDatabase, loading:loadingClone, error:errorClone , setError:setCloneError} =  ManageDatabase()
 
     const cloneInTeam = useRef(null);
     const cloneDBName = useRef(null);
 
-    if(!woqlClient) return ""
-    const dataProduct = woqlClient.db()
-    const organization = woqlClient.organization()
-    
+    if(!woqlClient) return ""  
 
     const [color, setColor]=useState("text-muted")
     const [healthText, setHealthText]=useState(false)
@@ -44,14 +42,17 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
         if(healthColor == DATA_PRODUCT_HEALTHY) setColor("text-success")
     }, [healthColor])
 
-    const [branchCount, setBranchCount]= useState(0)
+    useEffect(() => {
+        if(cloneDBName){
+            cloneDBName.current.value = dataProduct
+        }
+    }, [dataProduct])
 
     useEffect(() => {
-        let count=0
-        for (var key in branches){
-            count+=1
+        if(branches && typeof branches === "object"){
+            const keys = Object.keys(branches)
+            setBranchCount(keys.length)
         }
-        setBranchCount(count)
     }, [branches])
 
     let cloneURL = getCloneUrl()
@@ -76,7 +77,6 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
 	}
     
     return <React.Fragment> 
-
         <HealthModal dataProduct={dataProduct} showHealth={showHealth} setShowHealth={setShowHealth}/>
         <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
             <Card.Body>
@@ -151,7 +151,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
                             placeholder="New Data Product name"
                             aria-label="New Data Product name"
                             defaultValue={dataProduct}                          
-                        />                      
+                        />                   
                     </InputGroup> 
                     <InputGroup className="mb-3">                    
                         <Form.Select aria-label="Clone Selects" className="mt-4" ref={cloneInTeam}>

@@ -31,7 +31,7 @@ export const Layout = (props) => {
     
     const updateParent = () =>{
         exitChangeRequestBranch()
-        navigate(`/${organization}/${dataProduct}/change_requests`)
+        navigate(`/${organization}/${dataProduct}/change_requests?status=Submitted`)
     }
 
     const closeChangeRequest = () =>{

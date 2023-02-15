@@ -16,7 +16,6 @@ import { Alerts } from "../components/Alerts"
 
 const CRAction = ({}) => {
     const {
-        woqlClient,
         currentCRObject,
         setCurrentCRObject
     } = WOQLClientObj() 
@@ -24,8 +23,9 @@ const CRAction = ({}) => {
     const {
         rebaseChangeRequestBranch,
         loading,
-        error
-    } = ChangeRequest(woqlClient)
+        errorMessage,
+        setError
+    } = ChangeRequest()
 
     const rebaseHandler = async ()=>{ 
         const changeRequestDoc = await rebaseChangeRequestBranch(extractID(currentCRObject["@id"]))
@@ -91,8 +91,8 @@ export const ChangeDiff = () => {
         getChangeRequestByID,
         rebaseChangeRequestBranch,
         loading,
-        error
-    } = ChangeRequest(client)
+        errorMessage
+    } = ChangeRequest()
     
     
 

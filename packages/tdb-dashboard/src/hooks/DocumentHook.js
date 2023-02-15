@@ -6,8 +6,8 @@ import { WOQLClientObj } from "../init-woql-client";
 
 // to be review this
 export function CheckStatusObj() {
-    const {woqlClient:client, currentChangeRequest} = WOQLClientObj()
-    const {getChangeRequestByID} = ChangeRequest(client)
+    const {currentChangeRequest} = WOQLClientObj()
+    const {getChangeRequestByID} = ChangeRequest()
     
     async function checkStatus (){   
         const CRObject = await getChangeRequestByID(currentChangeRequest)
@@ -140,14 +140,14 @@ export function EditDocumentHook(client, extractedUpdate, setLoading, setErrorMs
     const {checkStatus} = CheckStatusObj()
     async function updateDocument() {
         try{
-
             let params={}
             let update = extractedUpdate
             let documentId = extractedUpdate["@id"]
             let commitMsg=`Updating document ${documentId}`
             setLoading(true)
             await checkStatus ()
-            const res = await client.updateDocument(update, params, client.db(), commitMsg)
+            // pass create:true 
+            const res = await client.updateDocument(update, params, client.db(), commitMsg, false, false, false, true)
             setLoading(false)
             navigate(-1)
         }

@@ -21,6 +21,8 @@ import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Row from "react-bootstrap/Row"
 import {DocumentsGraphqlTable} from "./DocumentsGraphqlTable"
+import {WOQLClientObj} from '../init-woql-client'
+import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
 // button to view frames
 const ViewFramesButton = () => {
@@ -102,8 +104,8 @@ const EditHeader = ({type, id, setView}) => {
 /**
  * function to display are you sure to delete a document message
  */
-const DeleteMessage = ({handleDelete, handleToggle}) => {
-    return <Card className="border-0">
+export const DeleteMessage = ({handleDelete}) => {
+    return <Card className="border-0 w-100">
         <Card.Header className="bg-transparent w-100 fw-bold">
             <span>{"Are you sure you want to delete ?"}</span>
         </Card.Header>
@@ -116,10 +118,10 @@ const DeleteMessage = ({handleDelete, handleToggle}) => {
                     onClick={handleDelete}> 
                     <RiDeleteBin7Line className="mb-1" /> Delete
                 </Button>
-                <Button className="btn-sm bg-light text-dark"
-                    onClick={handleToggle}> 
+                {/*<Button className="btn-sm bg-light text-dark"
+                    onClick={onCancel}> 
                     <FaTimes className="mr-1" /> Cancel
-                </Button>
+                </Button>*/}
             </div>
             
         </Card.Body>
@@ -152,26 +154,30 @@ const UpdatingPopover = React.forwardRef(
  * @param {*} setView useState constant to set view in Form or JSON View
  * @returns View Header 
  */
-const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
+const ViewHeader = ({type, id, setView, setShowCRModal, setClickedDelete}) => {
+    const { 
+        branch
+    } = WOQLClientObj()
 
     const navigate=useNavigate()
     const [show, setShow] = React.useState(false);
+    
 
     const handleToggle = () => {
         setShow((prev) => !prev);
       };
 
     function handleEdit(e) {
-        startCRMode(CONST.EDIT_DOCUMENT)
         navigate(`${PATH.EDIT_DOC}`)
     }
-
+ 
     function handleDelete(e) {
-        startCRMode(CONST.DELETE_DOCUMENT)
-        setClickedDelete(Date.now())
+        // show Change Request component if branch is main 
+        if(branch === "main"){
+            setShowCRModal(Date.now())
+        }
+        else setClickedDelete(Date.now())
     }
-
-
 
     return <Stack direction="horizontal" gap={3} className="w-100">
         <div className="col-md-6"> 
@@ -193,7 +199,16 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
                 Edit
             </Button>
 
-            <OverlayTrigger trigger="click" 
+            <Button variant="danger" 
+                    type="button" 
+                    title="Delete Document" 
+                    onClick={handleDelete}
+                    className="btn-sm btn text-gray">
+                    <RiDeleteBin7Line className=" mb-1"/>
+            </Button>
+
+            {/** commenting overlay trigger for delete */}
+            {/*<OverlayTrigger trigger="click" 
                 placement="bottom" 
                 rootClose={true}
                 show={show}
@@ -209,7 +224,7 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
                     className="btn-sm btn text-gray">
                         <RiDeleteBin7Line className=" mb-1"/>
                 </Button>
-            </OverlayTrigger>
+            </OverlayTrigger>*/}
         </div>
         <CloseButton type={type}/>
     </Stack>
@@ -224,7 +239,7 @@ const ViewHeader = ({type, id, startCRMode, setView, setClickedDelete}) => {
  * @param {*} setView useState constant to set view in Form or JSON View
  * @returns 
  */ 
-export const Header = ({mode, type, id, startCRMode, setClickedDelete}) => {
+export const Header = ({mode, type, id, setShowCRModal, setClickedDelete}) => {
     const {
         setView
     } = DocumentControlObj()
@@ -232,7 +247,7 @@ export const Header = ({mode, type, id, startCRMode, setClickedDelete}) => {
     let matchHeader ={
         [CONST.CREATE_DOCUMENT] : <CreateHeader type={type} setView={setView}/>,
         [CONST.EDIT_DOCUMENT]   : <EditHeader type={type} id={id} setView={setView}/>,
-        [CONST.VIEW_DOCUMENT]   : <ViewHeader type={type} id={id} startCRMode={startCRMode} setView={setView} setClickedDelete={setClickedDelete}/>
+        [CONST.VIEW_DOCUMENT]   : <ViewHeader type={type} id={id} setView={setView} setShowCRModal={setShowCRModal} setClickedDelete={setClickedDelete}/>
     }
     return matchHeader[mode]
 }

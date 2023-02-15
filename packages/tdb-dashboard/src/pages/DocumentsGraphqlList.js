@@ -23,7 +23,7 @@ export const DocumentsGraphqlList = () => {
         startFilters ={"name":{"regex":searchParams.get('filters')}}
     }      
     const onRowClick = (row) =>{
-        let fullId = row["id"]    
+        let fullId = row['id']
         let fullIdEncode = btoa(fullId)
         navigate(fullIdEncode)
     }

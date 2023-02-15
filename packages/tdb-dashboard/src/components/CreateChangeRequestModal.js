@@ -2,15 +2,11 @@ import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {useNavigate} from "react-router-dom"
-import {WOQLClientObj} from '../init-woql-client'
 
 export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMode, type}) => { 
-    const { 
-        woqlClient
-    } = WOQLClientObj()
     const nameRef = useRef(null);
     const messageRef = useRef(null);
-    const {loading,errorMessage,setError,createChangeRequest} =  ChangeRequest(woqlClient)
+    const {loading,errorMessage,setError,createChangeRequest} =  ChangeRequest()
     const navigate = useNavigate()
 
     const closeModal = () => {
