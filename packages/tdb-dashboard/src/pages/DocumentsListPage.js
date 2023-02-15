@@ -17,7 +17,7 @@ export const DocumentsPageList = () => {
         if(documentTablesConfig === null) getGraphqlTableConfig()
     },[])
 
-    if(loading) return <div>LOADING</div>
+    if(loading || documentTablesConfig===null) return <div>LOADING</div>
     if(viewGraphql) return <DocumentsGraphqlList/>
-    return <DocumentWoqlTable/>
+    if(documentTablesConfig === false) return <DocumentWoqlTable/>
 }

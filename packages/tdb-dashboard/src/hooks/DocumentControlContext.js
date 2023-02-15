@@ -3,7 +3,6 @@ import {WOQLClientObj} from '../init-woql-client'
 import * as CONST from "../components/constants"
 import {sortAlphabetically} from "../components/utils"
 import {executeQueryHook} from "./executeQueryHook"
-//import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, CHANGE_REQUESTS, PLANS,PAYMENT} from '../routing/constants'
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "../queries/GeneralQueries"
 import {useParams} from "react-router-dom"
 
@@ -11,7 +10,6 @@ export const DocumentControlContext = React.createContext()
 export const DocumentControlObj = () => useContext(DocumentControlContext)
 export const DocumentControlProvider = ({children}) => {
     const {dataProduct,id} = useParams()
-
     const { 
         accessControlDashboard,
         woqlClient
@@ -33,6 +31,9 @@ export const DocumentControlProvider = ({children}) => {
     const [documentClasses, setDocumentClasses] = useState(false)
     const [perDocumentCount, setPerDocument]=useState(false)
     const [totalDocumentCount, setTotalDocumentCount]=useState(false)
+    // null nothing is done
+    // object - complete
+    // false - failed
     const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
     const [frames, setFrames]=useState(null)
 
@@ -84,7 +85,6 @@ export const DocumentControlProvider = ({children}) => {
             const clientCopy = woqlClient.copy()
             clientCopy.connectionConfig.api_extension = 'api/'
             const baseUrl = clientCopy.connectionConfig.dbBase("tables")
-
             clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
                 setDocumentTablesConfig(result)  
             }).catch(err=>{
