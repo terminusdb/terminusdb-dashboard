@@ -1,152 +1,227 @@
-import React, {useState} from "react"
+import React, {useState, useEffect, useRef} from "react"
 const parse = require('html-react-parser')
 import CodeMirror from '@uiw/react-codemirror'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { html, htmlLanguage } from '@codemirror/lang-html'
 import { languages } from '@codemirror/language-data'
-import ReactMarkdown from 'react-markdown'
 import {Form} from "react-bootstrap"
 import Stack from 'react-bootstrap/Stack'
-import * as DATATYPE from "../constants"
-import {getRowHeight} from "../utils"
-
-// function to provide a ui widget to date
-export function getDateUIWidget(title) {
-    let uiLayout = {}
-    uiLayout["ui:widget"] = "date",
-    uiLayout["ui:title"] = title,
-    uiLayout["ui:options"] = {
-        "yearsRange": [
-            1980,
-            2030
-        ]
-    }
-    uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
-    return uiLayout
-}
-
-// function to provide a ui widget to dateTime
-export function getDateTimeUIWidget (title) {
-    let uiLayout = {} 
-    uiLayout["ui:widget"] = "alt-datetime",
-    uiLayout["ui:title"] = title,
-    uiLayout["ui:options"] = {
-        "yearsRange": [
-            1980,
-            2030
-        ]
-    } 
-    uiLayout["classNames"] = "tdb__input mb-3 mt-3 date-list-style"
-    return uiLayout
-}
-
-function displayDate(props) { 
-    if(props.formData) {
-        let date = new Date(props.formData); console.log()
-        return <div className="tdb__input">
-            <label className="control-label" htmlFor={`root_${props.name}`}>
-                <span>{props.name}</span>
-                {props.required && <span className="required">*</span>}
-            </label>
-            <input value={date.toUTCString()}  
-                className="form-control" 
-                readOnly={true} 
-                id={`root_${props.name}`} 
-                label={props.name} 
-                required="" 
-                placeholder="xsd:string" 
-                type="text"/>
-        </div>
-    }
-    return <div/>
-}
-
-
-// function to provide a ui widget to dateTime
-export function getDateTimeViewUIWidget (title) {
-    let uiLayout = {} 
-    uiLayout["ui:field"]=displayDate
-    return uiLayout
-}
-
-export function getDateViewUIWidget(title) {
-    let uiLayout = {}
-    uiLayout["ui:field"]=displayDate
-    return uiLayout
-}
-
-
+import * as CONST from "../constants"
+import * as helper from "./helpers" 
+import * as util from "../utils"
+import MDEditor, { commands }  from '@uiw/react-md-editor';
+import mermaid from "mermaid";
+import uuid from 'react-uuid'
 
 // function to provide a ui widget to textarea for xsd:string types
-export function getTextareaUIWidget(title, placeholder, data) {
+export function getTextareaUIWidget(placeholder, mode, data) {
     let uiLayout = {} 
     uiLayout["ui:widget"] = "textarea",
-    uiLayout["ui:title"] = title,
+    //uiLayout["ui:title"] = title,
     uiLayout["ui:placeholder"] = placeholder,
-    uiLayout["classNames"] = "tdb__input mb-3 mt-3"
+    uiLayout["classNames"] = "tdb__input mb-3 mt-3",
     uiLayout["ui:options"] = {
-        "rows": data ? getRowHeight(data) : 1 
+        "rows": data ? util.getRowHeight(data) : 1 
     }
-    return uiLayout
+    if(mode === CONST.VIEW) {
+        //uiLayout["ui:widget"] = data ? {} : "hidden",
+        uiLayout["classNames"] = `${uiLayout["classNames"]} tdb__view`
+    }
+    return uiLayout 
 }
 
-// function for URI in View mode
-export function getURIUIWidget(title) {
+// function for URI in View mode 
+export function getURIUIWidget(title, uiFrame) {
     let uiLayout = {} 
+    let css = uiFrame && uiFrame.hasOwnProperty(title) ? uiFrame[title][CONST.CLASSNAME] : ``
     function displayURI(props) {
-        return <Stack direction="horizontal" gap={3}>
-            <Form.Label>{title}</Form.Label>
-            <a href={props.formData} target="_blank">{props.formData}</a>
-        </Stack>
+        return <div className={`${css} d-flex`}>
+            <Form.Label className="control-label">{title}</Form.Label> 
+            <a href={props.formData} className="text-light text-break" target="_blank">{props.formData}</a>
+        </div>
     }
     uiLayout["ui:field"] = displayURI
     return uiLayout
 }
 
-const matchType ={
-    [DATATYPE.XSD_STRING] : DATATYPE.STRING_TYPE,
-    [DATATYPE.XSD_ANY_URI] : DATATYPE.STRING_TYPE,
-    [DATATYPE.XSD_LANGUAGE] : DATATYPE.STRING_TYPE,
-    [DATATYPE.RDF_LANGSTRING] :DATATYPE.STRING_TYPE,
-    [DATATYPE.XDD_URL] : DATATYPE.STRING_TYPE, 
-    [DATATYPE.XDD_HTML]: DATATYPE.STRING_TYPE,
+/** get Markdown UI layout for create & edit mode */
+export function getMarkdownUI_CodeMirror(props) {
+    let value = props.formData ? props.formData : ``
+    const [code, setCode]=useState(value)
 
-    [DATATYPE.SYS_JSON_TYPE] : DATATYPE.JSON_TYPE,
+    function onChange(data) {
+        props.onChange(data)
+        setCode(data)
+    }
 
-    [DATATYPE.XSD_BYTE] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_SHORT] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_INT] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_LONG] : DATATYPE.NUMBER_TYPE,
-
-    [DATATYPE.XSD_DOUBLE] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_NONNEGATIVEINTEGER] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_FLOAT] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_POSITIVE_INTEGER] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_NONPOSITIVEINTEGER] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_NONNEGATIVEINTEGER] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_NEGATIVEINTEGER] : DATATYPE.NUMBER_TYPE,
-
-    [DATATYPE.XSD_DECIMAL] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_INTEGER] : DATATYPE.NUMBER_TYPE,
-
-    [DATATYPE.XSD_UNSINGNEDBYTE] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_UNSIGNEDSHORT] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_UNSIGNEDINT] : DATATYPE.NUMBER_TYPE,
-    [DATATYPE.XSD_UNSIGNEDLONG] : DATATYPE.NUMBER_TYPE,
-
-    [DATATYPE.XSD_BOOLEAN] : DATATYPE.BOOLEAN_TYPE,
-    [DATATYPE.XSD_DATE_TIME] : DATATYPE.DATE_TYPE,
-    [DATATYPE.XSD_G_YEAR] : DATATYPE.DATE_TYPE,
-    [DATATYPE.XSD_DATE] : DATATYPE.STRING_TYPE
-} 
-
-//get data type xsd: or xdd:
-// you can rewrite with an object
-export function getDataType(type) { 
-    return matchType[type]
+    let config=helper.getCodeMirrorConfig(props)
+    
+    return <React.Fragment>
+        <Stack direction="horizontal" gap={3} className="col-md-1">
+            <div>
+                {props.name} 
+                {/*props.required && <span className="required">*</span>*/}
+            </div>
+        </Stack>
+        <div className="w-100">
+            <CodeMirror onChange={onChange} 
+                value={code} 
+                theme={config.theme}
+                lineNumbers={false}
+                height={config.minHeight}
+                extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]} />
+        </div>
+    </React.Fragment>
 }
 
+/** get Markdown UI layout for create & edit mode */
+export function getMarkdownUI(props) {
+    let value = props.formData ? props.formData : ``
+    const [code, setCode]=useState(value)
 
+    function onChange(data) {
+        props.onChange(data)
+        setCode(data)
+    }
+
+    const getCode = (arr = []) => arr.map((dt) => {
+        if (typeof dt === CONST.STRING_TYPE) {
+          return dt;
+        }
+        if (dt.props && dt.props.children) {
+          return getCode(dt.props.children);
+        }
+        return false;
+    }).filter(Boolean).join("")
+
+    const Code = ({ inline, children = [], className, ...props }) => {
+        const demoid = useRef(`dome${uuid()}`);
+        const code = getCode(children);
+        const demo = useRef(null);
+        useEffect(() => {
+          if (demo.current) {
+            try {
+              const str = mermaid.render(demoid.current, code, () => null, demo.current);
+              // @ts-ignore
+              demo.current.innerHTML = str;
+            } catch (error) {
+              // @ts-ignore
+              demo.current.innerHTML = error;
+            }
+          }
+        }, [code, demo]);
+      
+        if (
+          typeof code === "string" && typeof className === "string" &&
+          /^language-mermaid/.test(className.toLocaleLowerCase())
+        ) {
+          return (
+            <code ref={demo}> 
+              <code id={demoid.current} style={{ display: "none" }} />
+            </code>
+          );
+        }
+        return <code className={String(className)}>{children}</code>;
+    };
+
+    /** set data color mode to dark data-color-mode="dark" */
+    return <div className="d-block w-100">
+        <div className="mb-3">{props.name} </div>
+        <div className="w-100" data-color-mode="dark">
+            <MDEditor
+                value={code}
+                onChange={onChange}
+                /*style={{ whiteSpace: 'pre-wrap', padding: 15}}*/
+                textareaProps={{
+                    placeholder: "Please enter Markdown text ... "
+                  }}
+                previewOptions={{
+                    components: {
+                      code: Code
+                    }
+                }}
+            />
+        </div>
+    </div>
+} 
+
+/** get Markdown UI layout for View mode */
+export function getViewMarkdownUI(formData, name, uiFrame) { 
+    let value = formData ? formData : ``
+    const [code, setCode]=useState(value)
+
+    if(formData) {
+        var css=""
+        if(uiFrame && uiFrame.hasOwnProperty(name)) {
+            css = uiFrame[name].hasOwnProperty("classNames") ? uiFrame[name]["classNames"] : ""
+        }
+
+        const getCode = (arr = []) => arr.map((dt) => {
+            if (typeof dt === "string") {
+              return dt;
+            }
+            if (dt.props && dt.props.children) {
+              return getCode(dt.props.children);
+            }
+            return false;
+        }).filter(Boolean).join("")
+    
+        const Code = ({ inline, children = [], className, ...props }) => {
+            const demoid = useRef(`dome${uuid()}`);
+            const code = getCode(children);
+            const demo = useRef(null);
+            useEffect(() => {
+              if (demo.current) {
+                try {
+                  const str = mermaid.render(demoid.current, code, () => null, demo.current);
+                  // @ts-ignore
+                  demo.current.innerHTML = str;
+                } catch (error) {
+                  // @ts-ignore
+                  demo.current.innerHTML = error;
+                }
+              }
+            }, [code, demo]);
+          
+            if (
+              typeof code === "string" && typeof className === "string" &&
+              /^language-mermaid/.test(className.toLocaleLowerCase())
+            ) {
+              return (
+                <code ref={demo}>
+                  <code id={demoid.current} style={{ display: "none" }} />
+                </code>
+              );
+            }
+            return <code className={String(className)}>{children}</code>;
+        };
+
+        return <div className={`d-block ${css} w-100`}>
+            {/*<div className="mb-3">{name} </div>*/}
+            <div className="w-100">
+                <MDEditor
+                    value={code}
+                    style={{ whiteSpace: 'pre-wrap', padding: 15}}
+                    commands={[
+                        commands.codePreview
+                    ]}
+                    height={500} 
+                    preview="preview"
+                    previewOptions={{
+                        components: {
+                        code: Code
+                        }
+                    }}
+                />
+                {/*<MDEditor.Markdown source={Code} style={{ whiteSpace: 'pre-wrap' }}/>*/}
+            </div>
+        </div>
+    }
+    return <div/>
+}
+
+/** Commenting out HTML support as of now */
+/*
 export function getCreateHTMLUI(props) {
     const [code, setCode]=useState(``)
     function onChange(data) {
@@ -154,15 +229,15 @@ export function getCreateHTMLUI(props) {
         setCode(data)
     }
 
-    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
+    if(props.schema && props.schema.hasOwnProperty(CONST.METADATA)) {
+        if(props.schema[CONST.METADATA].hasOwnProperty(CONST.CODE_MIRROR_MIN_HEIGHT)) {
+            CONST.BASIC_CODE_MIRROR_CONFIG.minHeight = props.schema[CONST.METADATA][CONST.CODE_MIRROR_MIN_HEIGHT]
         }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
+        if(props.schema[CONST.METADATA].hasOwnProperty(CONST.CODE_MIRROR_LINE_NUMBERS)) {
+            CONST.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[CONST.METADATA][CONST.CODE_MIRROR_LINE_NUMBERS]
         }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
+        if(props.schema[CONST.METADATA].hasOwnProperty(CONST.CODE_MIRROR_THEME)) {
+            CONST.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[CONST.METADATA][CONST.CODE_MIRROR_THEME]
         }
     }
    
@@ -170,14 +245,14 @@ export function getCreateHTMLUI(props) {
         <Stack direction="horizontal" gap={3}>
             <div>
                 {props.name} 
-                {/*props.required && <span className="required">*</span>*/}
+                {props.required && <span className="required">*</span>}
             </div>
         </Stack>
         <CodeMirror onChange={onChange} 
             value={code} 
-            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
+            theme={CONST.BASIC_CODE_MIRROR_CONFIG.theme}
             lineNumbers={false}
-            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
+            height={CONST.BASIC_CODE_MIRROR_CONFIG.minHeight}
             extensions={[html({ base: htmlLanguage, codeLanguages: languages })]} />
     </React.Fragment>
 
@@ -192,15 +267,15 @@ export function getEditHTMLUI(props) {
         setCode(data)
     }
 
-    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.formData ? "auto" : props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
+    if(props.schema && props.schema.hasOwnProperty(CONST.METADATA)) {
+        if(props.schema[CONST.METADATA].hasOwnProperty(CONST.CODE_MIRROR_MIN_HEIGHT)) {
+            CONST.BASIC_CODE_MIRROR_CONFIG.minHeight = props.formData ? "auto" : props.schema[CONST.METADATA][CONST.CODE_MIRROR_MIN_HEIGHT]
         }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
+        if(props.schema[CONST.METADATA].hasOwnProperty(CONST.CODE_MIRROR_LINE_NUMBERS)) {
+            CONST.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[CONST.METADATA][CONST.CODE_MIRROR_LINE_NUMBERS]
         }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
+        if(props.schema[CONST.METADATA].hasOwnProperty(CONST.CODE_MIRROR_THEME)) {
+            CONST.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[CONST.METADATA][CONST.CODE_MIRROR_THEME]
         }
     }
 
@@ -208,14 +283,14 @@ export function getEditHTMLUI(props) {
         <Stack direction="horizontal" gap={3}>
             <div>
                 {props.name} 
-                {/*props.required && <span className="required">*</span>*/}
+                {props.required && <span className="required">*</span>}
             </div>
         </Stack>
         <CodeMirror onChange={onChange} 
             value={code} 
-            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
+            theme={CONST.BASIC_CODE_MIRROR_CONFIG.theme}
             lineNumbers={false}
-            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
+            height={CONST.BASIC_CODE_MIRROR_CONFIG.minHeight}
             extensions={[html({ base: htmlLanguage, codeLanguages: languages })]} />
     </React.Fragment>
 
@@ -228,99 +303,12 @@ export function getViewHTMLUI(props) {
         <Stack direction="horizontal" gap={3}>
             <div>
                 {props.name} 
-                {/*props.required && <span className="required">*</span>*/}
+                {props.required && <span className="required">*</span>}
             </div>
         </Stack>
         {parse(value)}
     </React.Fragment>
 
 }
-
-export function getCreateMarkDownUI(props) {
-    const [code, setCode]=useState(``)
-
-    function onChange(data) {
-        props.onChange(data)
-        setCode(data)
-    }
-
-    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
-        }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
-        }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
-        }
-    }
-
-    return <React.Fragment>
-        <Stack direction="horizontal" gap={3}>
-            <div>
-                {props.name} 
-                {/*props.required && <span className="required">*</span>*/}
-            </div>
-        </Stack>
-        <CodeMirror onChange={onChange} 
-            value={code} 
-            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
-            lineNumbers={false}
-            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
-            extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]} />
-    </React.Fragment>
-
-}
-
-export function getEditMarkDownUI(props) {
-    let value = props.formData ? props.formData : ``
-    const [code, setCode]=useState(value)
-
-    function onChange(data) {
-        props.onChange(data)
-        setCode(data)
-    }
-
-    if(props.schema && props.schema.hasOwnProperty(DATATYPE.METADATA)) {
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_MIN_HEIGHT)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight = props.formData ? "auto" : props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_MIN_HEIGHT]
-        }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_LINE_NUMBERS)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.displayLines = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_LINE_NUMBERS]
-        }
-        if(props.schema[DATATYPE.METADATA].hasOwnProperty(DATATYPE.CODE_MIRROR_THEME)) {
-            DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme = props.schema[DATATYPE.METADATA][DATATYPE.CODE_MIRROR_THEME]
-        }
-    }
-
-    return <React.Fragment>
-        <Stack direction="horizontal" gap={3}>
-            <div>
-                {props.name} 
-                {/*props.required && <span className="required">*</span>*/}
-            </div>
-        </Stack>
-        <CodeMirror onChange={onChange} 
-            value={code} 
-            theme={DATATYPE.BASIC_CODE_MIRROR_CONFIG.theme}
-            lineNumbers={false}
-            height={DATATYPE.BASIC_CODE_MIRROR_CONFIG.minHeight}
-            extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]} />
-    </React.Fragment>
-}
-
-export function getViewMarkDownUI(props) {
-    if(props.formData) {
-        return <React.Fragment>
-            <Stack direction="horizontal" gap={3}>
-                <div>
-                    {props.name} 
-                    {/*props.required && <span className="required">*</span>*/}
-                </div>
-            </Stack><ReactMarkdown>{props.formData}</ReactMarkdown>
-        </React.Fragment>
-    }
-    return <div/>
-}
+*/
 

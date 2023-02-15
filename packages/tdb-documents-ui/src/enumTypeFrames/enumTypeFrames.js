@@ -1,56 +1,40 @@
-import {
-    CREATE,
-    VIEW,
-    EDIT
-} from "../constants"
-import {
-    getCreateLayout,
-    getCreateUILayout,
-    getEditLayout,
-    getEditUILayout,
-    getViewLayout,
-    getViewUILayout
-} from "./enumTypeFrames.utils"
-import {addCustomUI, extractEnumDocumentation} from "../utils"
 
+import {getLabelFromEnumDocumentation} from "../documentationTemplates"
+import * as util from "../utils"
+import * as CONST from "../constants"
+import React from "react"
+import {DisplayPropertyNameAndComment} from "../documentationTemplates"
 
-// get enum type frames
-function enumTypeFrames (fullframe, frame, item, uiFrame, mode, formData, documentation) {
-    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
-    
-    let enumClass=frame[item]["@id"]
-    
-    let enumDocumentation=extractEnumDocumentation(fullframe, enumClass, documentation)
-
-    if (mode === CREATE) {
-        layout=getCreateLayout(frame, item, enumDocumentation)
-        uiLayout=getCreateUILayout(frame, item, uiFrame, enumDocumentation)
+export function makeEnumTypeFrames (fullFrame, frame, item, uiFrame, mode, formData, documentation) {
+    let enumClassName=frame[item]["@id"] 
+    if(!enumClassName) {
+        throw new Error (`Expected to get enum class name from frames, but instead received ${enumClassName}`)
     }
-    else if (mode === EDIT) {
-        layout=getEditLayout(frame, item, formData, enumDocumentation)
-        uiLayout=getEditUILayout(frame, item, formData, uiFrame, enumDocumentation)
-    }
-    else if (mode === VIEW) {
-        layout=getViewLayout(frame, item, formData, enumDocumentation)
-        uiLayout=getViewUILayout(frame, item, formData, uiFrame, enumDocumentation)
-    }
-
-    // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-
-    // schema
-    properties[item] = layout
-    // ui schema
-    propertiesUI[item] = addedCustomUI
-
-    return {properties, propertiesUI}
+    //let extractedDocumentation = getEnumDocumentation(fullFrame, enumClassName)
+    let language=fullFrame[CONST.SELECTED_LANGUAGE]
+    let extractedDocumentation = util.extractDocumentation(fullFrame, enumClassName, language)
+    let enumDocumentation=getLabelFromEnumDocumentation(item, extractedDocumentation, frame[item]["@values"])
+    return {enum: enumDocumentation["@values"]}  
 }
 
-// mandatory
-export function makeEnumTypeFrames (fullframe, frame, item, uiFrame, mode, formData, documentation) {
-    let madeFrames = enumTypeFrames (fullframe, frame, item, uiFrame, mode, formData, documentation)
 
-    let properties = madeFrames.properties
-    let propertiesUI = madeFrames.propertiesUI
-    return {properties, propertiesUI}
+export function getUILayout (fullFrame, frame, item, uiFrame, mode, formData, documentation) {
+    
+    let label=item
+    //let enumDocumentation=getLabelFromEnumDocumentation(item, documentation, frame[item]["@values"]) 
+    //if(enumDocumentation.hasOwnProperty("@label")) label=enumDocumentation["@label"]
+    
+    let uiLayout = {
+        "ui:placeholder": `Select ${label} ...`,
+        //"ui:description": getDescription(documentation),
+        classNames: "tdb__input mb-3 mt-3 enum__select"
+    } 
+
+    // if property is lexical key then make read only
+    if(mode !== CONST.CREATE && frame && frame.hasOwnProperty("@key") && util.checkIfKey(item, frame["@key"])) {
+        //uiLayout["ui:readonly"] = true
+        uiLayout["classNames"] = uiLayout["classNames"] + " tdb__key__field "
+    } 
+
+    return uiLayout
 }

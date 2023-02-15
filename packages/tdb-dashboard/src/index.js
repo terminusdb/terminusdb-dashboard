@@ -1,24 +1,30 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import { App_test } from "./App_test"
+import {BrowserRouter,useNavigate} from "react-router-dom"
 import {App} from "./App"
 import {WOQLClientProvider} from './init-woql-client'
 import {localSettings} from "../localSettings"
 import {auth0_conf} from '../auth_config'
 import {Auth0Provider} from "./react-auth0-spa"
-import {BrowserRouter,useNavigate} from "react-router-dom"
+
 import {LoginModal} from "./components/LoginModal"
+import { createRoot } from 'react-dom/client';
 
 require('./App.css')
+require('./Colors.css')
 
 function NavigationComponent(){
 
     let navigate = useNavigate();
     const redirect_uri = window.location.origin
     
-    const onRedirectCallback = (appState) => {
-	    navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
-    };
 
+    console.log(window.location.search)
+
+    const onRedirectCallback = (appState) => {
+       navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
+    };
 
     if(localSettings && localSettings.connection_type!== "LOCAL"){
       return <Auth0Provider
@@ -38,14 +44,17 @@ function NavigationComponent(){
       return <LoginModal showModal={true} isCloseble={false}/>
     }
 
+
+   
+
     return  <WOQLClientProvider params={localSettings}>
               <App />
             </WOQLClientProvider>
 }
- 
 const basename = process.env.BASE_URL ? {basename:process.env.BASE_URL} : {}
+const container = document.getElementById('root');
+const root = createRoot(container); 
 
-ReactDOM.render( <BrowserRouter {...basename}>
-                     <NavigationComponent/>
-                  </BrowserRouter>
-    , document.getElementById('root'));
+root.render( <BrowserRouter {...basename}>
+            <NavigationComponent/>
+          </BrowserRouter>);

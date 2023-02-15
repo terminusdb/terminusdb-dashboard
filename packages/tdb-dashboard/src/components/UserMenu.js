@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {Button, Dropdown,Nav} from 'react-bootstrap';
-import {PROFILE} from "../routing/constants"
+import {PROFILE,PLANS} from "../routing/constants"
 import {NavLink as RouterNavLink} from "react-router-dom"
 import {AiOutlineUser, AiOutlinePoweroff,AiOutlineUsergroupAdd} from "react-icons/ai"
 import {FaExchangeAlt} from "react-icons/fa"
@@ -79,6 +79,15 @@ export const UserMenu = ({organization}) => {
                 <Dropdown.Toggle split className="bg-transparent border-0"  id="profile_menu_arrow">
                 </Dropdown.Toggle>
                 <Dropdown.Menu >
+               <Dropdown.Item>
+                    <Nav.Link  as={RouterNavLink}
+                        title={"View Profile Page"}  
+                        to={`/${PLANS}`} 
+                        
+                        id={"plans"}>
+                            <AiOutlineUser className="mr-3 mb-1" />Subscription
+                    </Nav.Link>
+                </Dropdown.Item>
                 {organization && <Dropdown.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={"View Profile Page"}  
@@ -88,7 +97,7 @@ export const UserMenu = ({organization}) => {
                             <AiOutlineUser className="mr-3 mb-1" />Profile
                     </Nav.Link>
                 </Dropdown.Item>}
-                {isAdmin && <Dropdown.Item>
+                {organization && isAdmin && <Dropdown.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={"View Team Members"}  
                         to={`/${organization}/administrator`} 

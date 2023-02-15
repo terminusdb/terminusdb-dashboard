@@ -45,6 +45,7 @@ const CheckboxMenu = React.forwardRef(
                 label={"All"}
                 checked={checked}
                 onChange={onChange}
+                className= "table__columns__component"
                 />
         </Form.Group>
           </div>
@@ -63,6 +64,7 @@ const CheckDropdownItem = React.forwardRef(
           label={children}
           checked={checked}
           onChange={onChange}
+          className= "table__columns__component"
         />
       </Form.Group>
     );

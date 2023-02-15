@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {Button, Dropdown} from 'react-bootstrap';
 import {Nav,Navbar} from "react-bootstrap"
 import {NewDataProduct} from "./NewDataProduct"
@@ -7,6 +7,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {DATA_PRODUCTS} from "../routing/constants"
 import history from "../routing/history"
 import { UserMenu } from "./UserMenu";
+import { sortAlphabetically } from "./utils";
 import {useNavigate,useParams,useLocation} from "react-router-dom"
 
 export const MainNavBar = ({setShowTimeTravel}) => {
@@ -22,27 +23,30 @@ export const MainNavBar = ({setShowTimeTravel}) => {
         changeOrganization(orgName)         
     }
 
+    // sort list in alphabetical order
+    const teamList = sortAlphabetically (woqlClient ? woqlClient.userOrganizations() : []) 
+
     return <Navbar className="navbar-dark bg-dark p-0 sticky-top main-navbar-shadow">           
         <div className="d-flex flex-grow-1 justify-content-end align-items-center">                    
             {dataProduct && currentPage!==`/${organization}/${dataProduct}` &&
             <React.Fragment>  
-                <h4 className="text-success ml-4 flex-grow-1 fw-bold mt-1" >
+                <h4 className="text-success ml-5 pl-3 flex-grow-1 fw-bold mt-1" >
                     {dataProduct}
                 </h4>
                 <TimeTravelWidget setShowTimeTravel={setShowTimeTravel}/>
-            </React.Fragment> 
+            </React.Fragment>   
             }
-            {accessControlDashboard && accessControlDashboard.createDB() &&
-                <NewDataProduct css={"btn-sm"}/>
+            {accessControlDashboard && accessControlDashboard.createDB() && 
+                <NewDataProduct css={"btn-sm mr-1 pt-2 pr-4 pl-4 "}/>
             }
             <Dropdown className="pl-3 pr-3 ml-3 mr-3 border-right border-left" id="team_list_menu">
-                <Button size="sm" className="bg-transparent border-0" id="team_list_nenu_button">
+                <Button size="sm" className="bg-transparent border-0" id="team_list_menu_button">
                    {organization}
                 </Button>
                 <Dropdown.Toggle split className="bg-transparent border-0" vairant="info">
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                {woqlClient && woqlClient.userOrganizations().map(element=>{
+                {teamList.map(element=>{
                     return  <Dropdown.Item id={`menu_${element['name']}`}  key={`menu_${element['name']}`} onClick={(e) => changeOrganizationHandler(element['name'])}>
                            
                            {element['name']}

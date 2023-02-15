@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
-import {gql, useQuery} from "@apollo/client";
-import {WOQLTable,ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
-import TerminusClient, {WOQL} from "@terminusdb/terminusdb-client/"
+import {gql} from "@apollo/client";
+import {GraphqlTable,ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
+//import TerminusClient, {WOQL} from "@terminusdb/terminusdb-client/"
 import { id } from 'date-fns/locale';
 
 //$rgb:String,$name:String
@@ -18,7 +18,7 @@ const material =[
 const ELEMENT_QUERY = gql` query ElementQuery($offset: Int, $limit: Int,$orderBy:Element_Ordering) {
   Element(offset: $offset, limit: $limit, orderBy:$orderBy){
     image_url
-        id
+        _id
         part {
           id
           name
@@ -30,7 +30,7 @@ const ELEMENT_QUERY = gql` query ElementQuery($offset: Int, $limit: Int,$orderBy
 const COLOR_QUERY = gql`
   query ColorQuery($offset: Int, $limit: Int, $orderBy:Color_Ordering ) {
     Color(offset: $offset, limit: $limit, orderBy:$orderBy) {
-        id
+        _id
         rgb
         name
     }
@@ -39,7 +39,7 @@ const COLOR_QUERY = gql`
 const PART_QUERY = gql` 
   query PartSetQuery($offset: Int, $limit: Int,$orderBy:Part_Ordering,$category:Category,$material:Material,$name:String,$part_number:String) {
   Part(offset: $offset, limit: $limit, orderBy:$orderBy,category: $category,material:$material,name:$name,part_number:$part_number) {
-    id
+    _id
     category
     material
     name
@@ -60,12 +60,33 @@ function Test() {
          limit,
          start,
          loading,
-         documentResults} = ControlledGraphqlQuery(COLOR_QUERY, "Color", 10,0,{},{});
+         documentResults} = ControlledGraphqlQuery(COLOR_QUERY, "Color", 10,0,{},{},true);
     
 
     const result =  documentResults ? documentResults.Color : []
 
-    const tableConfig= TerminusClient.View.table();
+   /* const ColorTableConfig = () =>{
+      const tableConfig= TerminusClient.View.table();
+      tableConfig.column_order("rgb","name")
+      tableConfig.pager("remote")
+      tableConfig.pagesize(10)
+      return tableConfig
+  }*/
+    const tableConfig = {columns:[
+      {Header: "RGB",
+        id:"rgb",
+        accessor:"rgb"
+      },
+      { Header: "Name",
+        id:"name",
+        accessor:"name"
+      }
+    ], pager:"remote",
+       //onRowClick:function(row){
+        //alert("hello test")
+     // }
+    }
+   // const tableConfig= TerminusClient.View.table();
    // tableConfig.column_order("image_url","id")
    // tableConfig.column("image_url").width(100).renderer({type: "image",options:{"width":"80px"}})
     //tableConfig.column("image_url").filterable(false).header(" ")
@@ -78,8 +99,8 @@ function Test() {
       // tabConfig.column("Copy Commit ID")
    
       // tabConfig.column("Copy Commit ID").render(getCopyButton)
-      tableConfig.pager("remote")
-      tableConfig.pagesize(limit)
+     // tableConfig.pager("remote")
+   //   tableConfig.pagesize(limit)
        // tabConfig
    
 
@@ -97,18 +118,19 @@ function Test() {
         </div>
     ))} 
     <div>{limit}_____{start}</div>
-    {result  && <WOQLTable
+    {result  && <GraphqlTable
            // dowloadConfig={{filename:"test.csv",headers:["Author","Commit ID"]}}
             result={result}
             freewidth={true}
-            view={(tableConfig ? tableConfig.json() : {})}
+            config ={tableConfig}
+         //   view={(tableConfig ? tableConfig.json() : {})}
             limit={limit}
             start={start}
             orderBy={{}} 
             setFilters = {changeFilters}
             setLimits={changeLimits}
             setOrder={changeOrder}
-            query={null}
+           // query={null}
             loading={loading}
             totalRows={230}
             onRefresh={function(){}}

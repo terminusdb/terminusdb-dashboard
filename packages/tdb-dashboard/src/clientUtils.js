@@ -2,6 +2,8 @@ export function createClientUser(useAuth0,params){
     let clientUser = {}
     try{
         const {isAuthenticated,user,getTokenSilently,logout,loginWithRedirect,loading} = useAuth0()
+
+        //console.log("AUTHO", user)
         clientUser = user || {}       
         clientUser.isAuthenticated = isAuthenticated
         clientUser.logout = logout
@@ -12,7 +14,8 @@ export function createClientUser(useAuth0,params){
         clientUser.firstLogin = user && user['http://terminusdb.com/schema/system#afterSignUp'] ? true : false 
         // the agentName is the userID
         clientUser.user = clientUser.agentName
-        clientUser.serverType = "TerminusX"
+        //clientUser.serverType = "TerminusX"
+        clientUser.serverType = "TerminusCMS"
     }catch(err){
         const lastuser = localStorage.getItem("Terminusdb-USER") //|| params.user
         clientUser = {email: lastuser } 

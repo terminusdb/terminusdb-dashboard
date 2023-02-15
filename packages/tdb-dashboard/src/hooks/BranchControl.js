@@ -1,24 +1,29 @@
 
 import React, {useState, useEffect} from "react"
+import TerminusClient from "@terminusdb/terminusdb-client"
 import {newBranchForm, TERMINUS_SUCCESS, TERMINUS_DANGER} from "../components/constants"
 import {Alerts} from "../components/Alerts"
 import {WOQLClientObj} from '../init-woql-client'
+import { ChangeRequest } from "./ChangeRequest"
 //I have to review this
-export function BranchControl (branchesReload)  {
+// we have the branches list only in document explorer and in time travel
+export function BranchControl (updateTable)  {
     const {woqlClient,
-           ref,
+            ref,
            setHead,
            branch,
-           branches,
-           branchNeedReload,
+          // branches,
+            // branchNeedReload,
            setConsoleTime} = WOQLClientObj()
     
+    const {getChangeRequestList} = ChangeRequest()
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
       
     let branchCount = typeof branches === 'object' ? Object.keys(branches).length : 0
 
     const [sourceCommit, setSourceCommit] = useState(false)
+    const [branches, setBranches] = useState([])
     
     //const [branchList, setBranchList] = useState([])
     
@@ -42,7 +47,57 @@ export function BranchControl (branchesReload)  {
         setReportAlert(false)
     }, [dataProduct])
 
-    
+
+    async function getChangeRequest  (){
+        try{
+            const changeRequestList =  await getChangeRequestList()
+            return changeRequestList
+        }catch(err){
+            return []
+        }
+    }
+    // get branch list does not change any 
+    async function getBranchList (){
+        if(woqlClient && woqlClient.db()){
+            //I have to add this again
+            //if we run a query against an empty branch we get an error
+            //we'll remove this when the error will be fixed in core db
+            try{
+                const tmpClient = woqlClient.copy()
+                tmpClient.checkout("_commits")
+
+                const branchQuery = TerminusClient.WOQL.lib().branches()
+                const changeRequestList =  await getChangeRequest()
+                const result = await tmpClient.query(branchQuery)
+                const branchesObj={}
+                if(result.bindings.length>0){
+                    result.bindings.forEach(item=>{
+                        const branchName = item.Name['@value']
+                        if(Array.isArray(changeRequestList) &&  changeRequestList.findIndex(item=>item.tracking_branch === branchName)===-1){
+                            const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
+                            const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
+                            const timestamp = item.Timestamp !== 'system:unknown' ?  item.Timestamp['@value'] : ''
+                            const branchItem={
+                                id:item.Branch,
+                                head_id:head_id,
+                                head:head,
+                                name:item.Name['@value'],
+                                timestamp:timestamp
+                                }
+                            branchesObj[branchItem.name] = branchItem
+                        } 
+                    })
+                }
+            setBranches(branchesObj)
+            }catch(err){
+                console.log(err)
+            }
+            // on change on data product get classes
+           // getUpdatedDocumentClasses(woqlClient)
+           // getUpdatedFrames(woqlClient)
+        }
+    }
+
     function createBranch (branchInfo) {
         let update_start = Date.now()
         setLoading(true)
@@ -58,7 +113,7 @@ export function BranchControl (branchesReload)  {
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
             setNewBranch(false)
             handleSwitch(branchInfo.id)
-            branchNeedReload()
+            if(updateTable)updateTable()
         })
         .catch((err) => {
             let message = `Error in creating branch - ${branchInfo.id}. ${message}`;
@@ -69,15 +124,6 @@ export function BranchControl (branchesReload)  {
         }) 
     }
 
-    /* useEffect(() => {
-        if(branches) setBranchList(branches)
-    }, [branches])*/
-
-   /* useEffect(() => {
-        if(newBranchInfo) onCreate(newBranchInfo)
-    }, [newBranchInfo])*/
-
-
     function handleDelete (branch) {
         let update_start = Date.now()
         setLoading(true)
@@ -87,7 +133,7 @@ export function BranchControl (branchesReload)  {
             handleSwitch("main")
             //this do a set in the init-main-client
             //to be review 
-            branchNeedReload()
+            if(updateTable)updateTable()
         })
         .catch((err) => {
             let message = `Error in deleting Branch - ${branch}. ${err}`;
@@ -103,17 +149,8 @@ export function BranchControl (branchesReload)  {
     function handleSwitch (branch) {
         if(!branch) return null
         let message = `Switched to Branch - ${branch}`
+        //if I'm creating a new branch from branch mode without use the change request_mode 
         setHead(branch)
-        branchNeedReload()
-        //woqlClient.ref(false)
-        //woqlClient.checkout(branch)
-
-
-        //not use set branch this is very important setHead 
-        //setBranch(branch)
-        //setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
-        
-        //updateBranches(branch)
     }
 
     function createReportAlert(message,type=TERMINUS_DANGER){
@@ -145,7 +182,7 @@ export function BranchControl (branchesReload)  {
             let message = `Successfull in resetting Branch ${branch} to ${commit}`
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
             setHead(branch, {commit: commit})
-            branchNeedReload()
+            //branchNeedReload()
             if(setRefresh) setRefresh([ arr => [...arr, arr.length+1]])
         })
         .catch((err) => {
@@ -168,7 +205,7 @@ export function BranchControl (branchesReload)  {
                 let message = `Successfull in squashing Branch ${branch} to new commit  ${new_commit}`
                 setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert} time={update_start}/>)
                 setHead(branch, {commit: new_commit})
-                branchNeedReload()
+                //branchNeedReload()
             })
         })
         .catch((err) => {
@@ -179,6 +216,8 @@ export function BranchControl (branchesReload)  {
     }
 
     return {
+        getBranchList,
+        branches,
         createReportAlert,
         createBranch,
         newBranch,

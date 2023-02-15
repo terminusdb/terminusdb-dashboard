@@ -20,15 +20,18 @@ const LoadingBar = ({message, type}) => {
     </React.Fragment>
 }
 
+
+
 export const Loading = (props) => {
     let percentage=100
+
     if(props.type == PROGRESS_BAR_COMPONENT) {
         return <Row className="text-center w-100 justify-content-center progress-bar-container">
             <ProgressBar now={percentage} label={props.message} striped variant="success" animated className="progress-bar-position" />
         </Row>
     }
 
-    return <div className="loading-parent">
+    return <div className="w-100 loading-parent ">
         <Container className="loading-bar-align justify-content-center">
             <LoadingBar message={props.message} type={props.type}/>
         </Container>

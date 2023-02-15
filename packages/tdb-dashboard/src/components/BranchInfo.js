@@ -5,7 +5,7 @@ import {BranchActions} from "./BranchActions"
 import {CommitLogs, CommitView} from "./CommitLogs"
 import {WOQLClientObj} from '../init-woql-client' 
  
-export const BranchInfoModal = ({showDefault, handleClose, handleSwitch, setSelectedCommit, selectedCommit,showDefaultForm}) => {
+export const BranchInfoModal = ({showDefault, handleClose, handleSwitch, setSelectedCommit, selectedCommit,showDefaultForm, updateTable}) => {
     const {woqlClient, branch, branchNeedReload} = WOQLClientObj()
     const [refresh, setRefresh] = useState(0)
 
@@ -25,7 +25,7 @@ export const BranchInfoModal = ({showDefault, handleClose, handleSwitch, setSele
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body className="p-5">
-            <BranchActions branchNeedReload={branchNeedReload} showDefaultForm={showDefaultForm} branch={branch} handleClose={handleClose} woqlClient={woqlClient} setRefresh={setRefresh}/>
+            <BranchActions updateTable={updateTable} branchNeedReload={branchNeedReload} showDefaultForm={showDefaultForm} branch={branch} handleClose={handleClose} woqlClient={woqlClient} setRefresh={setRefresh}/>
             <hr className="my-3 border-indigo dropdown-divider" role="separator"></hr>
             <CommitInfo/>
     

@@ -1,6 +1,8 @@
 // DATA PROPERTY TYPE
 export const STRING_TYPE="string"
+export const OBJECT_TYPE="object"
 export const JSON_TYPE="object"
+export const ARRAY_TYPE="array"
 export const NUMBER_TYPE="number"
 export const BOOLEAN_TYPE="boolean"
 export const DATE_TYPE="string"
@@ -14,11 +16,6 @@ export const XSD_ANY_URI="xsd:anyURI"
 export const XSD_NMTOKEN="xsd:NMTOKEN" // XML NMTOKENs
 export const XSD_NAME="xsd:Name" // XML Names
 export const XSD_NCNAME="xsd:NCName" // XML NCNames
-export const XDD_URL="xdd:url"
-export const XSD_NORMALIZED_STRING="xsd:normalizedString"
-export const XSD_LANGUAGE="xsd:language"
-export const RDF_LANGSTRING ="rdf:langString"
-
 //Encoded binary data
 export const XSD_HEXBINARY="xsd:hexBinary" //Hex-encoded binary data
 export const XSD_BASE64BINARY="xsd:base64Binary" //Base64-encoded binary data
@@ -38,7 +35,9 @@ export const XSD_NONNEGATIVEINTEGER = "xsd:nonNegativeInteger" // |    Integer n
 export const XSD_NEGATIVEINTEGER = "xsd:negativeInteger" // |    Integer numbers <0 |
 export const XSD_NONPOSITIVEINTEGER = "xsd:nonPositiveInteger" //Integer numbers ≤0
 
-
+export const XDD_URL="xdd:url"
+export const XSD_NORMALIZED_STRING="xsd:normalizedString"
+export const XSD_TOKEN="xsd:NMTOKEN"
 export const XSD_DECIMAL="xsd:decimal"
 export const XSD_DOUBLE = "xsd:double"
 export const XSD_FLOAT= "xsd:float "
@@ -58,7 +57,8 @@ export const XSD_G_DAY= "xsd:gDay"
 export const XSD_TIME_DURATION= "xsd:duration"
 export const XSD_DATE= "xsd:date"
 export const XSD_BOOLEAN="xsd:boolean"
-
+export const XSD_LANGUAGE="xsd:language"
+export const RDF_LANGSTRING ="rdf:langString"
 
 
 //rdf:langString
@@ -91,14 +91,14 @@ export const INFO="info"
 // Meta data constants
 export const METADATA="@metadata"
 export const RENDER_AS="render_as"
-export const ORDER_AS="order_as"
+export const ORDER_BY="order_by"
 export const WIDGET="widget"
 export const CODE_MIRROR_MIN_HEIGHT="minHeight"
 export const CODE_MIRROR_LINE_NUMBERS="displayLines"
 export const CODE_MIRROR_THEME="theme"
 
 export const BASIC_CODE_MIRROR_CONFIG =  {
-  [CODE_MIRROR_MIN_HEIGHT]:"100px", 
+  [CODE_MIRROR_MIN_HEIGHT]:"auto", 
   [CODE_MIRROR_LINE_NUMBERS]:true, 
   [CODE_MIRROR_THEME]:"dark"
 }
@@ -107,6 +107,14 @@ export const BASIC_CODE_MIRROR_CONFIG =  {
 export const MARKDOWN="markdown"
 export const HTML="HTML"
 
+// unfoldable contants
+export const UNFOLDABLE="@unfoldable"
+export const LINKED_TO="linked_to"
+export const LINKED_TO_FRAMES="linked_to_frames"
+//export const LINK_NEW_DOCUMENT="LINK_NEW_DOCUMENT"
+//export const LINK_EXISTING_DOCUMENT="LINK_EXISTING_DOCUMENT"
+export const LINK_NEW_DOCUMENT="Create New Document"
+export const LINK_EXISTING_DOCUMENT="Link an existing Document"
 
 // geo frame constants
 export const ARRAY="Array"
@@ -115,7 +123,7 @@ export const POINT_TYPE="Point"
 
 export const POINT_TYPE_DIMENSION=1
 export const LINE_STRING_TYPE_DIMENSION=2
-export const POLYGON_STRING_TYPE_DIMENSION=3
+export const POLYGON_TYPE_DIMENSION=3
 
 // react leaflet constants
 export const LNG="lng"
@@ -226,9 +234,36 @@ export const JSON_EDITOR_WIDTH="100%"
 
 export const DEFAULT_LANGUAGE="en"
 
-// diff titles
-export const ORIGINAL_VALUE="Original UI"
-export const CHANGED_VALUE="Changed UI"
-export const ORIGINAL_UI_FRAME="originalUIFrame"
-export const CHANGED_UI_FRAME="changedUIFrame"
+// set ui options 
+export const SET_UI_ARRAY_OPTIONS= {
+  addable: true,
+  orderable: false,
+  removable: true
+}
 
+export const SET_UI_HIDDEN_ARRAY_OPTIONS= {
+  addable: false,
+  orderable: false,
+  removable: false
+}
+
+export const LIST_UI_ARRAY_OPTIONS = {
+  addable: true,
+  orderable: true,
+  removable: true
+}
+
+export const LANGUAGE="@language"
+export const PROPERTY="@properties"
+export const COMMENT="@comment"
+export const LABEL="@label"
+
+/** UI Frame constants */
+export const CLASSNAME="classNames"
+export const FORMAT="format"
+export const PLACEHOLDER="placeholder"
+export const DIFF="diffElement"
+export const TITLE="title"
+export const DESCRIPTION="description"
+export const HIDDEN="hidden"
+export const URI="uri"

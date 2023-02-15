@@ -1,10 +1,21 @@
 import React, {useState} from "react"
 import {FrameViewer} from '@terminusdb/terminusdb-documents-ui'
 import {InitObj} from "./init"
-import {VIEW, CARD_OUTPUT_TITLE} from "./constants"
+import {VIEW, CREATE, CARD_OUTPUT_TITLE} from "./constants"
 import Card from 'react-bootstrap/Card'
 import Stack from 'react-bootstrap/Stack'
 import Row from "react-bootstrap/Row"
+
+// Defined list to match with searched text for Document Links 
+const SELECT_OPTIONS = [
+	{ value: 'Jobs/33e3013112e6e76381ee6aba23a15f686b98fc2c300b3608e6fb25f585d93d24', label: 'Designer' },
+	{ value: 'Jobs/c8114bddb166325e704e368da237ed87e1c2de1dd23ae103431f974eaeefbbda', label: 'Lecturer' },
+	{ value: 'Jobs/csd4bddb166325e704e3w68da237ed87e1c2de1dd23ae103431f974eaeefbbda', label: 'Writter' }
+]
+
+function handleTraverse (clicked) {
+	alert(`You have clicked on ${clicked} ...`)
+}
 
 const Form = ({frames}) => {
     const {
@@ -25,7 +36,7 @@ const Form = ({frames}) => {
     function handleSelect(inp) {
         let options=SELECT_OPTIONS, matched=[]
         options.map(item => {
-            if(item.value.toUpperCase() === inp.toUpperCase()){
+            if(item.label.toUpperCase().includes(inp.toUpperCase())) {
                 matched.push(item)
             }
         })
@@ -47,23 +58,19 @@ const Form = ({frames}) => {
         </>
     }
 
-    /*let dummyFormData = {
-        "@id": "Text/5f881b161461af1fcf2665ccefa312017e001236a4ee51e5d8b67b16786ff9b8",
-        "@type": "Text",
-        "works_as": ["job/9ad9d98e6d574fe46c555f34738ad6c2666a9f2bf9d4ce77d8c0f9ee3156c036"]
-      }*/
 
     return <FrameViewer
         frame={frames}
         uiFrame={uiFrames} 
         type={type}
-        formData={data}
+        formData={mode !==CREATE ? data : {}}
         onSelect={<Search/>}
+        //onSelect={handleSelect}
+        //language={"ka"}
         mode={mode}
         hideSubmit={mode===VIEW ? true : false}
-        //onTraverse={handleTraverse}
+        onTraverse={handleTraverse}
         //submitButton={submitJSON}
-        //language={"ka"}
         onSubmit={handleSubmit}
     />
 }

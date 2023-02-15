@@ -7,5 +7,13 @@
     "./packages/tdb-access-control-component",
     "./packages/tdb-documents-ui",
     "./packages/tdb-dashboard"
-  ]
+  ],
+  "dependencies": {
+    "bootswatch": "^5.2.3",
+    "esbuild-jest": "^0.5.0",
+    "jsonlint-mod": "^1.7.6"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^13.4.0"
+  }
 }

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient ,{UTILS} from '@terminusdb/terminusdb-client'
-import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER} from './routing/constants'
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, CHANGE_REQUESTS, PLANS,PAYMENT} from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
 import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
 import {executeQueryHook} from "./hooks/executeQueryHook"
@@ -8,31 +8,49 @@ import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-comp
 import {useLocation} from "react-router-dom"
 import {createClientUser,formatSchema} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
+import { createApolloClient } from './routing/ApolloClientConfig'
+import {sortAlphabetically} from "./components/utils"
+import {getChangesUrl} from "./hooks/hookUtils"
+
 export const WOQLContext = React.createContext()
-export const WOQLClientObj = () => useContext(WOQLContext)
+export const WOQLClientObj = () => useContext(WOQLContext) 
 
 export const WOQLClientProvider = ({children, params}) => {
     //the client user can be the local user or the auth0 user in terminusX
     //maybe a some point we'll need a local and remote connection (terminusX connection to clone/push and pull etc...) 
     let clientUser = createClientUser(useAuth0, params)
+
+    //let apolloClient
     const [woqlClient, setWoqlClient] = useState(null)
     const location = useLocation()
+    const [apolloClient , setApolloClient] = useState(null)
 
     //maybe I can move this in client
     const [accessControlDashboard, setAccessControl] = useState(null)
 
     const [loadingServer, setLoadingServer] = useState(false)
+    const [documentLoading, setDocumentLoading] = useState(false)
     const [connectionError, setError] = useState(false)
 
-   // const [currentDocument, setCurrentDocument] = useState(false) // to control document interface chosen document
-    const [branchesReload,setBranchReload] =useState(0)
+    // to control document interface chosen document
+    //const [currentDocument, setCurrentDocument] = useState(false) 
+    
     const [branch, setBranch] = useState("main")
     const [ref, setRef] = useState(false)
 
     // branchesstates
+    // I need the branches list in dataProductsHome 
+    const [branchesReload,setBranchReload] =useState(0)
     const [branches, setBranches] = useState(false)
+
     const [chosenCommit,setChosenCommit]=useState({})
 
+    const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
+
+    const [currentCRObject, setCurrentCRObject]=useState(false)
+    const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
+
+    const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
 
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -65,7 +83,7 @@ export const WOQLClientProvider = ({children, params}) => {
     // in this point params is not setted
     // to be review I need params get better
     // in pathname teamName and username are still encoded
-    const noTeam = {"":true,"invite":true,"administrator" :true}
+    const noTeam = {"":true,"invite":true,"administrator" :true,"verify":true,[PAYMENT]:true,[PLANS]:true}
     const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
@@ -113,13 +131,22 @@ export const WOQLClientProvider = ({children, params}) => {
                  const access =  new TerminusClient.AccessControl(opts.server,accessCredential)
                  const clientAccessControl = new AccessControlDashboard(access)
 
+                 //I have to create a new call in accessControl 
+                 const url = `${dbClient.server()}api/users/info`
+                 const userInfo = await  dbClient.sendCustomRequest("GET", url)
+                 // add extra info to auth0User
+                 clientUser.userInfo = userInfo
+
                  if(opts.connection_type !== "LOCAL"){
-                   await clientAccessControl.callGetRolesList()
+                   const rolesList = await clientAccessControl.callGetRolesList()
                  }
                 
                  if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
                  }
+
+                 setApolloClient(new createApolloClient(dbClient))
+
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
@@ -129,7 +156,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 setLoadingServer(false)
             }
         }
-        if(opts && opts.server){           
+        if(opts && opts.server && window.location.pathname.indexOf("verify") === -1){           
             //to be review the local connection maybe don't need a user in the cloud
             //and don't need auth0 too
             if(opts.connection_type === 'LOCAL'){
@@ -154,15 +181,19 @@ export const WOQLClientProvider = ({children, params}) => {
 
     //get all the Document Classes (no abstract or subdocument)
     function getUpdatedDocumentClasses(woqlClient) {
+        // to be review I'm adding get table config here
+        setDocumentLoading(true)
         const dataProduct = woqlClient.db()
         return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
             let test=[]
-            setDocumentClasses(classRes)
+            let list=sortAlphabetically(classRes, true) 
+            setDocumentClasses(list)
             // get number document classes
             let q=getCountOfDocumentClass(classRes)
             setQuery(q)
             let totalQ=getTotalNumberOfDocuments(classRes)
             setTotalDocumentsQuery(totalQ)
+            setDocumentLoading(false)
         })
         .catch((err) =>  {
             console.log("Error in init woql while getting classes of data product", err.message)
@@ -191,68 +222,85 @@ export const WOQLClientProvider = ({children, params}) => {
     }
 
     //dataproduct change
-    const setDataProduct = (dbName,hubClient,accessDash) =>{
+    const setDataProduct = async (dbName,hubClient,accessDash) =>{
         const client = woqlClient || hubClient
         const accDash = accessControlDashboard || accessDash
+       
         if(client){
             client.db(dbName)
             //set the allowed actios for the selected dataproduct
             const dbDetails = client.databaseInfo(dbName)
             accDash.setDBUserActions(dbDetails['@id'])
-            //reset the head
+            //reset the head after change the db
             setHead('main',{commit:false,time:false})
+
+            if(dbName){
+                // check if there is a change request related
+                const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
+
+                const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
+                const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)          
+                if(lastBranch && lastChangeRequest){
+                    //check the changeRequest Status
+                    const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
+                    if(changeObj.status=== "Open"){
+                        client.checkout(lastBranch)
+                        setBranch(lastBranch)
+                        setCurrentChangeRequest(lastChangeRequest)
+                    }else{
+                        localStorage.removeItem(TERMINUSCMS_CR)  
+                        localStorage.removeItem(TERMINUSCMS_CR_ID)  
+                        setBranch("main")
+                        setCurrentChangeRequest(false)
+                    }
+                }else{
+                    //if we are not change request
+                    setBranch("main")
+                    setCurrentChangeRequest(false)
+                }
+                //get all the configuration that you need for the documents  
+                refreshDataProductConfig(client)
+            }
             clearDocumentCounts()
         }
     }
-    //designing data intensive applications
-    //branch change
-    useEffect(() => {
-        if(woqlClient && woqlClient.db()){
-            setBranches(false)
-            clearDocumentCounts()
-            //I have to add this again
-            //if we run a query against an empty branch we get an error
-            //we'll remove this when the error will be fixed in core db
-            const tmpClient = woqlClient.copy()
-            tmpClient.checkout("_commits")
 
-            const branchQuery = TerminusClient.WOQL.lib().branches()
-            tmpClient.query(branchQuery).then(result=>{
-                 const branchesObj={}
-                 if(result.bindings.length>0){
-                    result.bindings.forEach(item=>{
-                        const head_id = item.Head !== 'system:unknown' ?  item.Head : ''
-                        const head = item.commit_identifier !== 'system:unknown' ?  item.commit_identifier['@value'] : ''
-                        const timestamp = item.Timestamp !== 'system:unknown' ?  item.Timestamp['@value'] : ''
-                        const branchItem={
-                            id:item.Branch,
-                            head_id:head_id,
-                            head:head,
-                            name:item.Name['@value'],
-                            timestamp:timestamp
-                        }
-                        branchesObj[branchItem.name] = branchItem
-                    })
-                 }
-                 setBranches(branchesObj)
-            }).catch(err=>{
-                  console.log("GET BRANCH ERROR",err.message)
-            })
+    function refreshDataProductConfig (woqlClient){
+        getUpdatedDocumentClasses(woqlClient)
+        getUpdatedFrames(woqlClient)
+        // to be review 
+        // we have to find a way to do not load this data every time 
+        // get a data with a check and see if it change 
+        getGraphqlTableConfig (woqlClient)
+    }
 
-            // on change on data product get classes
-            getUpdatedDocumentClasses(woqlClient)
-            getUpdatedFrames(woqlClient)
-        }
-    }, [branchesReload, woqlClient])
+    function getGraphqlTableConfig (client ){
+        const clientCopy = client.copy()
+        clientCopy.connectionConfig.api_extension = 'api/'
+        const baseUrl = clientCopy.connectionConfig.dbBase("tables")
 
+        clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
+            setDocumentTablesConfig(result)
+        }).catch(err=>{
+            console.log(err)
+            setDocumentTablesConfig(false)
+        })
+    }
 
     //we not need this for all the page
+    //we need to optimize this call ----
+    //we have to made this call only if schema change but how????
     useEffect(() => {
         const {page} = getLocation()
-        if(woqlClient && woqlClient.db() && ( page===DOCUMENT_EXPLORER || page===PRODUCT_EXPLORER)){
+        if(woqlClient && woqlClient.db() && 
+            ( page===DOCUMENT_EXPLORER || page===PRODUCT_EXPLORER || page===CHANGE_REQUESTS)){
             // on change on data product get classes
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
+            // to be review 
+            // we have to find a way to do not load this data every time 
+            // get a data with a check and see if it change 
+            getGraphqlTableConfig (woqlClient)
         }
     }, [window.location.pathname])
 
@@ -261,6 +309,35 @@ export const WOQLClientProvider = ({children, params}) => {
         setBranchReload(Date.now())
     }
 
+    function changeRequestName(currentClient){
+        const client = currentClient || woqlClient
+        return {TERMINUSCMS_CR:`TERMINUSCMS_CR.${client.organization()}_____${client.db()}`,
+        TERMINUSCMS_CR_ID: `TERMINUSCMS_CR_ID.${client.organization()}_____${client.db()}`}
+    }
+
+    function setChangeRequestBranch(branchName,changeRequestId){
+        woqlClient.checkout(branchName)
+        const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
+        localStorage.setItem([TERMINUSCMS_CR],branchName)
+        localStorage.setItem([TERMINUSCMS_CR_ID],changeRequestId)
+        // set the change_request brach and reset the commit 
+        setBranch(branchName)
+        setRef(null)
+        setChosenCommit({})
+        setCurrentChangeRequest(changeRequestId) 
+    }
+
+    function exitChangeRequestBranch(){
+        woqlClient.checkout("main")
+        const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
+        localStorage.removeItem([TERMINUSCMS_CR])
+        localStorage.removeItem([TERMINUSCMS_CR_ID])
+        // set the change_request brach and reset the commit 
+        setBranch("main")
+        setRef(null)
+        setChosenCommit({})
+        setCurrentChangeRequest(false) 
+    }
  
    // const currentPage = history.location.pathname
 
@@ -287,6 +364,7 @@ export const WOQLClientProvider = ({children, params}) => {
         //this is to fix the refresh of document interface
         //I added it but we have to remove it and create an hook
         const {page} = getLocation()
+        //review this
         if(woqlClient.db() && page===DOCUMENT_EXPLORER ){
             getUpdatedDocumentClasses(woqlClient)
             getUpdatedFrames(woqlClient)
@@ -313,7 +391,8 @@ export const WOQLClientProvider = ({children, params}) => {
             }
             //this is for change the base url api for the proxy
             if(opts.connection_type!== "LOCAL"){
-                hubClient.connectionConfig.api_extension = `${orgName}/api/`
+                // add  a new terminusdb method 
+                hubClient.connectionConfig.api_extension = `${UTILS.encodeURISegment(orgName)}/api/`
                 //load the list of system roles
             }
             
@@ -338,7 +417,7 @@ export const WOQLClientProvider = ({children, params}) => {
             //if I create or remove a database
             await woqlClient.getDatabases()
             woqlClient.db(currentDB)
-            setDataProduct(currentDB)
+            setDataProduct(currentDB) 
         } catch (err) {
             console.log("__CONNECT_ERROR__",err)
             setError("Connection Error")
@@ -352,9 +431,30 @@ export const WOQLClientProvider = ({children, params}) => {
         sidebarStateObj[name]=value
     }
 
+    // we not use this now
+    const hasRebaseRole=(teamUserRoles)=>{
+        try{
+            const actions = teamUserRoles[0].action
+            if(actions.find(element=>element==="rebase")){
+                setTeamUserRoleMerge(true)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return (
         <WOQLContext.Provider
             value={{
+                exitChangeRequestBranch,
+                apolloClient,
+                setChangeRequestBranch,
+                currentChangeRequest,
+                //setCurrentChangeRequest,
+                userHasMergeRole,
+                currentCRObject, 
+                setCurrentCRObject,
+                documentTablesConfig,
                 saveSidebarState,
                 sidebarStateObj,
                 clientUser,
@@ -378,7 +478,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 totalDocumentCount,
                 setSelectedDocument,
                 selectedDocument,
-                frames
+                frames,
+                documentLoading, 
+                setDocumentLoading
             }}
         >
             {children}

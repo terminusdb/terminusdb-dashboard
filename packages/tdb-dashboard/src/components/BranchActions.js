@@ -9,7 +9,7 @@ const SQUASH_FORM = 'squashForm'
 const RESET_FORM = 'resetForm'
 const DELETE_FORM = 'deleteForm'
 
-export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}) =>{
+export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm,updateTable}) =>{
     const [showForm, setShowForm] = useState(showDefaultForm || false)
     const [commit, setCommit] = useState(false)
     const [branchName,setBranchName] = useState(false)
@@ -24,7 +24,7 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
         handleOptimize,
         handleReset,
         handleSquash
-    } = BranchControl()
+    } = BranchControl(updateTable)
 
     const squashDescription = useRef(null);
 
@@ -160,7 +160,8 @@ export const BranchActions = ({branch, handleClose, setRefresh, showDefaultForm}
                                 <Form.Control required id={deleteFormConfig.id} type={"text"} onBlur={enterBranchName} placeholder={deleteFormConfig.placeholder} />
                             
                             </Form.Group>
-                            <button id="delete_branch_button" title="Delete Branch" type="submit" className="mr-1 mb-1 m-1 float-right btn btn-danger btn-sm" 
+                            <button id="delete_branch_button" 
+                            title="Delete Branch" type="submit" className="mr-1 mb-1 m-1 float-right btn btn-danger btn-sm" 
                             {...disabledDelete}>Delete Branch</button>
                         </Form>
                     </Card.Body>

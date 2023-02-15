@@ -13,6 +13,8 @@ import { DefaultColumnFilter } from './ColumnFilters';
 
 export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh})=>{
 
+    console.log("COLUMS", JSON.stringify(columns,null,4))
+
     pagesizes = pagesizes || [5, 10, 20, 30, 40, 50]
     let pager = view.config.pager()
 
@@ -71,7 +73,6 @@ export const TableComponent = ({columns, data, view, pages, freewidth, filtersBy
 
 
 
-    
     let rowCountStr = ""
     let total= ""
     if(pager){

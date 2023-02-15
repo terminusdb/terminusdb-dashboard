@@ -13,6 +13,13 @@ export const SWAP_LIST="SwapList"
 
 export const SUBDOCUMENT_DOSENT_EXIST = "No SubDocument to display"
 
+
+// diff titles
+export const ORIGINAL_VALUE="Original UI"
+export const CHANGED_VALUE="Changed UI"
+export const ORIGINAL_UI_FRAME="originalUIFrame"
+export const CHANGED_UI_FRAME="changedUIFrame"
+
 // default select styles
 export const DIFF_ORIGINAL_SELECT_STYLES = {
     control: (styles) => ({ ...styles, backgroundColor: '#f8d7da', borderColor: "#f5c2c7 !important", width: "100%" }),

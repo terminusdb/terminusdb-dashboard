@@ -78,6 +78,8 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, filt
         }
     }
 
+  
+
     function formatTableColumns(){
         const colids = woqt.getColumnsToRender()
         if(!Array.isArray(colids))return []
@@ -166,7 +168,6 @@ export const WOQLTable = ({bindings, result, view, freewidth, query, start, filt
                 setLimits={setLimits}
                 setOrder={setOrder}
                 onRefresh={onRefresh}
-                
             />
         </React.Fragment>
     )

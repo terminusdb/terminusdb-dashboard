@@ -1,56 +1,31 @@
-import {
-    CREATE,
-    VIEW,
-    EDIT
-} from "../constants"
 
-import {
-    getCreateLayout,
-    getCreateUILayout,
-    getEditLayout,
-    getEditUILayout,
-    getViewLayout,
-    getViewUILayout
-} from "./choiceSubDocumentTypeFrames.utils"
-
-import {addCustomUI} from "../utils"
-
-
-// get choice  type frames
-function choiceSubDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language) {
-    let properties={}, propertiesUI={}, layout ={}, uiLayout={}
-
-    if (mode === CREATE) {
-        layout=getCreateLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language)
-        // pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getCreateUILayout(frame, item, layout, uiFrame, documentation)
-    }
-    else if (mode === EDIT) {
-        layout=getEditLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language)
-        //// pass layout here, since it has the ui layout as well from getProperties()
-        uiLayout=getEditUILayout(frame, item, layout, uiFrame, documentation)
-    }
-    else if (mode === VIEW) {
-        layout=getViewLayout(fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language)
-        uiLayout=getViewUILayout(frame, item, layout, uiFrame, documentation)
-    }
-
-    // custom ui:schema - add to default ui schema
-    let addedCustomUI=addCustomUI(item, uiFrame, uiLayout)
-
-    // schema
-    properties[item] = layout
-    // ui schema
-    propertiesUI[item] = addedCustomUI
-
-    return {properties, propertiesUI}
-}
+import * as util from "../utils"
+import * as helper from "./helpers"
 
 // mandatory
-export function makeChoiceSubDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language) {
-    let madeFrames = choiceSubDocumentTypeFrames (fullFrame, current, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, language)
+export function makeChoiceSubDocumentTypeFrames (args) {
+    
+    
+    let anyOf={} 
+    let {frame, item, uiFrame, documentation}=args
 
-    let properties = madeFrames.properties
-    let propertiesUI = madeFrames.propertiesUI
-    return {properties, propertiesUI}
+    anyOf = helper.getAnyOfSchema(args) 
+
+    let subDocuemntBg = util.extractUIFrameSubDocumentTemplate(uiFrame) ? util.extractUIFrameSubDocumentTemplate(uiFrame) : 'bg-secondary'
+
+    let uiSchema = {
+        classNames:`card ${subDocuemntBg} p-4 mt-4 mb-4`
+    }
+
+    /** pass on ui schema */
+    if(Array.isArray(anyOf)) { 
+        anyOf.map(choices => {
+            for(var ui in choices.uiProperties) {
+                uiSchema[ui]=choices.uiProperties[ui]
+            }
+        })
+    }
+
+    return {anyOf, uiSchema}
+   
 }

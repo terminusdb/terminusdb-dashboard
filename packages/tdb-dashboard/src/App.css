@@ -27,12 +27,23 @@ body{
 
 
 
-/* ---------- css for cowduck image with clouds ---------- */
-img.cow_duck_image {
-  position: absolute;
-  top:0;
-  left:0
+/* ---------- css for cowduck image 404 ---------- */
+
+.tdb__page__not__found__text {
+  font-family: montserrat,sans-serif;
 }
+ 
+div.tdb__page__not__found__heading {
+  font-size: 146px;
+  font-weight: 700;
+  margin: 0;
+}
+
+img.cowduck__border {
+  /*margin: 20px;*/
+}
+
+
 /* ---------- css for cowduck image with clouds ---------- */
 
 img.user-avatar {
@@ -80,7 +91,7 @@ img.user-avatar {
   border-left: 1px solid rgba(255, 255, 255, 0) !important;
   border-right: 1px solid rgba(255, 255, 255, 0) !important;
   cursor: col-resize;
-  background: #535557;
+  background: inherit;
 }
 
 div.SplitPane {
@@ -98,10 +109,15 @@ div.SplitPane  .horizontal {
 }
 .Pane1 {
   background-color: #222;
-  min-width: 320px !important;
+  /*min-width: 320px !important;*/
 }
 .Pane2 {
   background-color: transparent;
+}
+
+.Resizer.vertical {
+  border-left: 0 !important;
+  border-right: 0 !important;
 }
 /* ---------- Split Pane resizing css ---------- */
 
@@ -173,6 +189,7 @@ div.progress-bar-container {
 
 .main-navbar-shadow {
   box-shadow: 1px 0px 7px rgb(0 0 0 / 50%);
+  border-bottom: 1px solid rgba(0,0,0,0.175);
 }
 
 
@@ -296,6 +313,28 @@ div.progress-bar-container {
   background: transparent !important;
 }
 
+/* accordian */
+.accordion-button {	
+  background: transparent !important;	
+  color: #fff !important;	
+  border-radius: 2px !important;
+  border-color: #444;	
+}
+
+.accordion-item {
+  border: 1px solid #444;	
+}
+
+.accordion-button:hover{	
+  background-color: #414141 !important;	
+  color: #f8f9fa !important;	
+}
+
+.diff__accordian {
+  background: transparent !important;	
+}
+
+/*
 .accordion__button {
   background-color: transparent !important;
   color: #cae4fd !important;
@@ -303,17 +342,31 @@ div.progress-bar-container {
   border-radius: 4px !important;
 }
 
+
+.accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
+  color: #adb5bd;
+}
+
 .accordion__button:hover{
   background-color: #414141 !important;
   color: #cae4fd !important;
 
-}
+}*/
 
 /* ---------- overriding react components schema builder css ---------- */
 
 
 /* ---------- form control custom dark mode ---------- */
 .form-control {
+  color: #adb5bd !important;
+  /*background-color: #444 !important;*/
+  background-color: transparent !important;
+  border-color: rgb(102, 102, 102) !important;
+  min-height: 49px !important;
+}
+
+/* ---------- form control custom dark mode ---------- */
+.form-select-light {
   color: #adb5bd !important;
   /*background-color: #444 !important;*/
   background-color: transparent !important;
@@ -385,7 +438,7 @@ tbody, td, tfoot, th, thead, tr {
 .custom-field-select-no-validation {
   background-image: none !important;
 }
-
+ 
 /*
 .css-1gtuorj-indicatorContainer {
   background-color: #303030 !important;
@@ -395,7 +448,7 @@ input {
   border-color: hsl(0,0%,80%)!important;
   border-radius: 4px !important;
   border-style: solid !important;
-  background-color: #303030 !important;
+  /*background-color: #303030 !important;*/
   min-height: 38px !important;
   color: hsl(0,0%,50%) !important;
 }
@@ -405,9 +458,6 @@ input {
 }
 /* ---------- form control custom dark mode ---------- */
 
-.accordion-item:last-of-type .accordion-button.collapsed, .accordion-button.collapsed{
-  color: #adb5bd;
-}
 
 .click-list:hover, .traverseDocument:hover {
   cursor: pointer;
@@ -611,8 +661,8 @@ input {
 
 /* ---------- feedback form ---------- */
 .cowduck-feedback-avatar{
-  height: 10rem !important;
-  width: 10rem !important;
+  height: 13rem !important;
+  width: 13rem !important;
   min-height: 10rem !important;
   min-width: 10rem !important;
   display: flex;
@@ -678,9 +728,12 @@ input {
 }
 
 .CodeMirror {
-  height: auto !important;
   min-height: 400px !important;/*150px !important;*/
-  height: 400px !important;
+  height: auto !important;
+}
+
+.CodeMirror-scroll {
+  min-height: 400px !important;
 }
 
 pre.CodeMirror-line  > span > span.cm-string {
@@ -905,6 +958,22 @@ pre.CodeMirror-line  > span > span.cm-string {
     }
   }
 
+  .center-align {
+    text-align: center;
+    margin-top: 5%;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 30%;
+    object-fit: cover;
+  }
+
+  .card-img-top {
+    height: 100px;
+    object-fit: cover;
+    object-position: top;
+  }
 
 
 .benefit--icon {
@@ -952,3 +1021,183 @@ pre.CodeMirror-line  > span > span.cm-string {
     max-width: 200px;
 }
 
+.mainGraphIql{
+  height : calc(100% - 60px);
+}
+
+.graphiql-container{
+  background-color: transparent;
+}
+
+.graphiql-un-styled, .graphiql-toolbar-button{
+  color:white !important;
+}
+
+
+.graphiql-container .graphiql-editors {
+  background-color: transparent;
+}
+#json_type_field-warning-box svg {
+  height: 15px;
+  width: 15px;
+}
+
+
+.tdb__frame__display {
+  animation: 3s tdb__frame__display;
+}
+@keyframes tdb__frame__display {
+  from {
+    /*margin-left: 100%;*/
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+
+/** align labels and input in About Page */
+.tdb__align__container {
+  display:grid;
+  /*grid-template-columns: max-content max-content;*/
+  grid-gap:7px;
+}
+
+.tdb__align__label{
+  text-align:left; 
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  word-break: break-all;
+  min-width: 12rem;
+}
+
+.cloneInp {
+  min-height: 10px !important;
+}
+
+/** pagination */
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #de7dd8 !important;
+  border-color: #de7dd8 !important;
+  color: #343a40!important;
+}
+
+.page-link { 
+  background-color: #f8f9fa!important;
+  color: #343a40!important;
+}
+
+.MuiButton-contained {
+  background-color: #a9a7a5;
+}
+.MuiButton-containedPrimary {
+  color: #fff;
+  background-color: #3f51b5;
+}
+.MuiButton-containedSecondary {
+  color: #fff;
+  background-color: #f50057;
+}
+
+.group {
+  background: transparent !important;
+  border: 1px solid #dee2e6 !important;
+}
+
+.rule_group{
+  background-color: white;
+}
+.result-window .CodeMirror{
+    height: 100%;
+}
+.MuiButton-text{
+  color: rgb(0, 188, 140)!important;
+  margin-right: 20px;
+}
+.MuiInputBase-input{
+  min-height: 20px !important;
+}
+
+/*.qb-lite .group--drag-handler, .qb-lite .group--actions {
+  transition: opacity 0.2s;
+}*/
+.qb-lite .group--header:hover .group--header .group--drag-handler, .qb-lite .group--header:hover .group--header .group--actions,
+.qb-lite .group--header:not(:hover) .group--drag-handler,
+.qb-lite .group--header:not(:hover) .group--actions,
+.qb-lite .rule_group:not(:hover) .group--drag-handler,
+.qb-lite .rule_group:not(:hover) .group--actions {
+  opacity: 1;
+}
+
+.accordion{
+  background-color: #303030;
+  --bs-accordion-bg:#303030;
+}
+
+.table__columns__component > .form-check-input{
+  min-height: 22px !important;
+  min-width: 22px;
+}
+
+.form-check-input {
+  min-height: 0 !important;
+}
+
+
+.table__columns__component > .form-check-label{
+  margin-left: 10px;
+}
+
+.MuiGrid-root .MuiGrid-item{
+  color:#303030
+}
+
+/** card border for change request component  */
+.update__change__request__card {
+  height: 20em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tdb__change__request__card {
+  border-color: #3450DC !important;
+}
+
+/** to display status if not on latest version */
+.tdb__status_latest__version {
+  color: #3450DC;
+}
+
+/*enable graph ql response to over flow*/
+.graphiql-response {
+  overflow: auto !important;
+}
+
+#profile_menu >.dropdown-menu[data-bs-popper] {
+  top: 100%;
+  right: 0;
+  left: auto !important;
+  margin-top: var(--bs-dropdown-spacer);
+}
+
+/** subscription */
+.subscription_icons {
+  font-size: 55px;
+  border-radius: 50%;
+  /*ßwidth: 130px;*/
+  line-height: 130px;
+  height: 130px;
+  padding: 1.5rem;
+  width: 100px;
+  height: 100px;
+}
+
+.payment_select{
+  background-color: transparent !important;
+  color: #adb5bd !important;
+  border-color: #adb5bd!important;
+    /* line-height: 1.5 !important; */
+  min-height: 49px!important;
+}
