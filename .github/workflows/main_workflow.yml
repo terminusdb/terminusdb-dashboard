@@ -63,12 +63,12 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: aws s3 sync packages/tdb-dashboard/dist/ s3://${{ secrets.S3_DEV_BUCKET }}
+      run: aws s3 sync packages/tdb-dashboard/dist/ s3://${{ secrets.S3_DEV_BUCKET }} --region=${{ secrets.AWS_REGION }}
     - name: Upload tdb-dashboard to prod s3
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: aws s3 sync packages/tdb-dashboard/dist/ s3://${{ secrets.S3_PROD_BUCKET }}
+      run: aws s3 sync packages/tdb-dashboard/dist/ s3://${{ secrets.S3_PROD_BUCKET }} --region=${{ secrets.AWS_REGION }}
     - name: Clean cloudflare cache
       if: ${{ github.event_name != 'pull_request' }}
       run: python3 .ci/clean_cloudflare_cache.py ${{ github.ref }}
