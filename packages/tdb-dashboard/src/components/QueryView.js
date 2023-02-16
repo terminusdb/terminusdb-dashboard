@@ -1,7 +1,7 @@
 import React from "react"
 import {QueryPane} from "./QueryPane"
 import {NEW_PANE_CONFIG} from "./constants"
-import {QueryPaneObj} from "../hooks/queryPaneContext"
+import {QueryPaneObj} from "../hooks/QueryPaneContext"
 import {Button, Row} from "react-bootstrap"
 
 export const QueryView = (props) => {

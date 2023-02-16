@@ -1,6 +1,6 @@
 import React from "react"
 import {QueryView} from "../components/QueryView"
-import {QueryPaneProvider} from "../hooks/queryPaneContext"
+import {QueryPaneProvider} from "../hooks/QueryPaneContext"
 import { Layout } from "./Layout"
 import {WOQLClientObj} from '../init-woql-client'
 
