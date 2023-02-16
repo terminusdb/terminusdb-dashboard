@@ -56,8 +56,8 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     const {type} = useParams()
     const { 
         woqlClient, 
-       // frames
     } = WOQLClientObj()
+    
     const {
         view,
         jsonContent,

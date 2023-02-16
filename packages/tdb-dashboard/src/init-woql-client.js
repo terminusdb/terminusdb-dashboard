@@ -150,7 +150,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
 
                 const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
-                const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)          
+                const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)  
+                //const classDocumentsResult = await client.getClassDocuments(dbName)    
+
                 if(lastBranch && lastChangeRequest){
                     //check the changeRequest Status
                     const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
@@ -169,6 +171,7 @@ export const WOQLClientProvider = ({children, params}) => {
                     setBranch("main")
                     setCurrentChangeRequest(false)
                 }
+                //setDocumentClasses(classDocumentsResult)
                 //get all the configuration that you need for the documents  
                 //refreshDataProductConfig(client)
             }

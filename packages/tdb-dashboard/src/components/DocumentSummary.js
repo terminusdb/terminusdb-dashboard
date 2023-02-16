@@ -29,8 +29,8 @@ export const DocumentSummary = () => {
 
     const DocumentStats = ({dataProvider}) => {
         let arr=[]
-        for (var key in dataProvider[0]) {
-            let val = dataProvider[0][key]["@value"]
+        for (var key in dataProvider) {
+            let val = dataProvider[key]["@value"]
             let type=key
             arr.push(
                 <Col key = {key +"___doc_status"} md={4} className="py-2 doc-summary-card">

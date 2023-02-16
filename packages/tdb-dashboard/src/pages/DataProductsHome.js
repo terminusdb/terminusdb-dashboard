@@ -17,17 +17,11 @@ export const DataProductsHome = (props) => {
     const {dataProduct,organization} = useParams()
     const {woqlClient,accessControlDashboard,currentChangeRequest } = WOQLClientObj()
     if(!woqlClient) return  ''
-    
-    //const dataProduct  = woqlClient.db()
     const [dataProductDetails, setDataProductDetails] = useState(false)
     const [dataProductSettings, setDataProductSettings] = useState(false)
-
     const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-    // const [currentDay, setCurrentDay] = useState()
-
     const { 
-        // branchList,
          branches,
          getBranchList,
      } = BranchControl()
@@ -46,9 +40,7 @@ export const DataProductsHome = (props) => {
                 }
             })
             updateTable()
-            //setCurrentDay(Date.now())
         }
-        //if(setReloadQuery) setReloadQuery(Date.now())
     }, [dataProduct,organization,woqlClient]) 
     
     return  <Layout>
@@ -112,5 +104,5 @@ export const DataProductsHome = (props) => {
             }
 
         </main>
-    </Layout>
+        </Layout>
 }

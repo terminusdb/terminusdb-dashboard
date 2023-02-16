@@ -2,8 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import {WOQLClientObj} from '../init-woql-client'
 import * as CONST from "../components/constants"
 import {sortAlphabetically} from "../components/utils"
-import {executeQueryHook} from "./executeQueryHook"
-import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "../queries/GeneralQueries"
+import {getTotalNumberOfDocuments} from "../queries/GeneralQueries"
 import {useParams} from "react-router-dom"
 
 export const DocumentControlContext = React.createContext()
@@ -38,6 +37,8 @@ export const DocumentControlProvider = ({children}) => {
     const [frames, setFrames]=useState(null)
 
     //get all the Document Classes (no abstract or subdocument)
+    // I can need to call this again
+    // improve performance with check last commit
     async function getUpdatedDocumentClasses() {
         try{
         // to be review I'm adding get table config here
@@ -57,7 +58,7 @@ export const DocumentControlProvider = ({children}) => {
                 setDocumentClasses(classDocumentOrder)
                 setTotalDocumentCount(getTotal)
                 //pass the count per class
-                setPerDocument(totalDocumentCount.bindings)
+                setPerDocument(totalDocumentCount.bindings[0])
                 setLoading(false)
             } 
         }catch(err){
@@ -69,6 +70,7 @@ export const DocumentControlProvider = ({children}) => {
     // I need this in all the page, 
     // so I get this in the context at the start
     // this will be available in all the page
+    // but he need to be change if something is updated ???
     useEffect(() => {
         getUpdatedDocumentClasses()
     },[dataProduct])
@@ -76,6 +78,7 @@ export const DocumentControlProvider = ({children}) => {
     //we do this call anly ones if there is any document id and the
     //frame is not set 
     useEffect(() => {
+        // data product change this have to change too
         if(id && frames === null) getUpdatedFrames()
     },[id])
 

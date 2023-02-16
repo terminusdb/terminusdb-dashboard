@@ -12,17 +12,16 @@ import {CopyButton} from "./utils"
 import { ManageDatabase } from "../hooks/ManageDatabase"
 import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
+import {DocumentControlObj} from "../hooks/DocumentControlContext"
 
 export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor ,branches}) =>{
     const {dataProduct,organization} =useParams()
     const [showHealth, setShowHealth]=useState(false)
     const [branchCount, setBranchCount]= useState(0)
+    const {woqlClient, accessControlDashboard} = WOQLClientObj()
+    const {documentClasses} = DocumentControlObj()
+    
 
-    const {
-        woqlClient,
-        documentClasses,
-        accessControlDashboard
-    } = WOQLClientObj()
     const {cloneDatabase, loading:loadingClone, error:errorClone , setError:setCloneError} =  ManageDatabase()
 
     const cloneInTeam = useRef(null);

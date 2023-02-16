@@ -1,12 +1,9 @@
 import {useState} from "react"
-import {WOQLClientObj} from '../init-woql-client'
-import {executeQueryHook} from "./executeQueryHook"
 
 export const QueryPaneControl = ({queryObj,setSaveQuery}) => {
     const [saveQueryName, setSaveQueryName] = useState()
     const [needUpdate,setNeedUpdate] = useState(0)
-
-    //let dp = executeQueryHook(woqlClient, saveQuery) 
+    
     //we can move the queryEditorRunnerHook here 
     const setExpanded = (isExpanded)=>{
         queryObj.editorPanelIsOpen = isExpanded
