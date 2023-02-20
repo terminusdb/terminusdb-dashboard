@@ -1,6 +1,7 @@
 import * as DIFFCONST from "./diff.constants"
-import {DIFF} from "../constants"
+import { DIFF, MARKDOWN } from "../constants"
 import * as util from "./diffComponents"
+import { getMarkdownFieldDiffs } from "./markdownFieldDiffs"
 
 /**
  * 
@@ -53,7 +54,15 @@ function getClassNamesForDiffs(diff) {
 
 
 // ALL SWAP VALUE OPERATIONS
-export function getDataFieldDiffs(diff) { 
+export function getDataFieldDiffs(diff, metaDataConfig) { 
+
+    if(metaDataConfig) {
+        if(metaDataConfig.metaDataType === MARKDOWN) {
+            // display as markdown
+            let ui=getMarkdownFieldDiffs(metaDataConfig) 
+            return ui
+        }
+    }
 
     if(!diff.hasOwnProperty(DIFFCONST.OPERATION)) { 
         let originalUIFrame=[], changedUIFrame=[]
@@ -72,5 +81,5 @@ export function getDataFieldDiffs(diff) {
 
     let {originalUIFrame, changedUIFrame}=getClassNamesForDiffs(diff)
     
-    return {originalUIFrame, changedUIFrame}
+    return { originalUIFrame, changedUIFrame }
 }
