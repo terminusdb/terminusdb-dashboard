@@ -63,14 +63,14 @@ export const DataProductDocuments = () => {
             <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
             {Array.isArray(documentClasses) && documentClasses.map(item => {
                     if(!searchDocument) {
-                        return <React.Fragment>
+                        return <React.Fragment key={item["@id"] }>
                             <DocumentMenu item={item} handleClassClick={setSelectedClass}/>
                             {selectedClass && selectedClass==item["@id"]  && frames && frames[item["@id"]] && 
                             <div className="ml-3">
                                 {Object.keys(frames[item["@id"]]).map(props => {
                                     if(props === "@type") props = "rdf:type"
                                     if(props !== "@key"){
-                                        return <Button className="btn btn-sm m-1 text-light" 
+                                        return <Button key={props} className="btn btn-sm m-1 text-light" 
                                         onClick={(e) => handlePropertyClick(props)}
                                         variant="outline-secondary">{props}</Button>
                                     }

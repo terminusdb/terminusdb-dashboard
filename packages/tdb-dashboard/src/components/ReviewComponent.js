@@ -13,25 +13,22 @@ import { MessageBox, MessageComponent } from "./Messages"
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai"
 
 const ToggleActions = ({ message }) => {
-    const [action, setAction] = useState(false);
     const { setCurrentCRObject, exitChangeRequestBranch }= WOQLClientObj()
     const { updateChangeRequestStatus, loading } = ChangeRequest()
-    const { organization, dataProduct , id} = useParams()
+    const { organization, dataProduct , changeid} = useParams()
     const navigate = useNavigate() 
-    
+    let action = CONST.APPROVE
 
-    useEffect(() => {
-        async function doAction() {
-            let status = action === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
-            let res=await updateChangeRequestStatus(message, status, id) 
-            if(res){
-                setCurrentCRObject(false)
-                exitChangeRequestBranch()
-                navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
-            }
+    async function doAction(submitAction) {
+        action = submitAction
+        let status = submitAction === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
+        let res=await updateChangeRequestStatus(message, status, changeid) 
+        if(res){
+            setCurrentCRObject(false)
+            exitChangeRequestBranch()
+            navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
         }
-        if(action) doAction()
-    }, [action])
+    }
 
     const reviewButtons = [
         { name: CONST.APPROVE, value: CONST.APPROVE, className: "rounded-left", variant: "outline-success", icon: <AiOutlineCheck className="mr-1 mb-1 text-success"/> },
@@ -55,8 +52,8 @@ const ToggleActions = ({ message }) => {
                 value={button.value}
                 className={button.className}
                 checked={action === button.value}
-                onChange={(e) => setAction(e.currentTarget.value)}
-            >
+                onChange={(e) => doAction(e.currentTarget.value)}
+>
                 {button.icon}{button.name}
             </ToggleButton>
             ))}

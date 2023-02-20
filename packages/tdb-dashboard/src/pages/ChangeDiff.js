@@ -80,7 +80,7 @@ const CRAction = ({}) => {
 
 
 export const ChangeDiff = () => { 
-    const {id} = useParams()
+    const {changeid:id} = useParams()
     const {
         woqlClient:client,
         setCurrentCRObject,

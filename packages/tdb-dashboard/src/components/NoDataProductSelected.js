@@ -1,6 +1,6 @@
 import React from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {ListGroup, Container, Card, Row, Col, Button, Stack,Alert} from "react-bootstrap"
+import {Container, Card, Row, Col, Button, Stack,Alert} from "react-bootstrap"
 import {NewDataProduct} from "./NewDataProduct"
 import { ManageDatabase } from "../hooks/ManageDatabase"
 import { WOQLClient } from "@terminusdb/terminusdb-client"
@@ -11,7 +11,6 @@ import { Loading } from "./Loading"
 export const NoDataProductSelected = (props) => { 
     const {woqlClient,accessControlDashboard} = WOQLClientObj()
 	const {cloneDatabase,loading:cloneLoading, error:cloneError , setError:setCloneError} = ManageDatabase()
-	const navigate = useNavigate()
 
     let list = woqlClient ? woqlClient.databases() : []
 
@@ -67,23 +66,7 @@ export const NoDataProductSelected = (props) => {
 		
 	}
 
-	/*return <main className="content w-100">
-		<Container className="center-align col-md-10">
-			<Card className="h-100">
-				<Card.Body>
-					<img src="https://assets.terminusdb.com/images/terminusx-color.png" 
-						className="logo-img mb-3" 
-						style={{height:"150px"}}/>
-					<h5 className="text-light fw-bold"> No Data Product chosen yet</h5>
-					<h6 className="text-light fw-bold">Please use the side bar to select a Data Product</h6>
-				</Card.Body>
-			</Card>
-		</Container>
-	</main>*/
-
-	/** COMMENT THE BELOW code FOR NOW, will put back once clone is fixed */
-    return <main className="content w-100">
-		
+    return <main className="content w-100">	
         <Container className="center-align col-md-10">
 			{/*<h3 className="mb-3 text-success">{"Clone Sample Data Product to your Team"}</h3>*/}
 			{cloneError && <Alert variant="danger"  onClose={() => setCloneError(false)} dismissible>{cloneError}</Alert>} 
@@ -126,17 +109,4 @@ export const NoDataProductSelected = (props) => {
 			</Row>
 		</Container>
     </main> 
-
-    /*return <React.Fragment>
-        {! showNoDataProduct && <div style={NoDataProductSelectedStyle}>
-            {props.children}
-            <Col xs={12} className="text-center d-block align-items-center justify-content-center">
-                <img src="../assets/favicon-dark.png" style={{width: "10%"}}/>
-                <h1 className="text-dark mt-5">
-                    {NO_DATA_PRODUCT_SELECTED_MESSAGE} 
-                </h1>
-            </Col>
-            </div>}
-        {showNoDataProduct && <NoDataProductsCreated/>}
-    </React.Fragment> */
 }

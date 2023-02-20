@@ -1,32 +1,22 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useState} from "react"
 import * as CONST from "./constants"
 import Stack from 'react-bootstrap/Stack'
 import {FaTimes, FaCheck} from "react-icons/fa"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import Button from "react-bootstrap/Button"
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {ToggleJsonAndFormControl} from "./ToggleJsonAndFormControl"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import * as PATH from "../routing/constants"
-import {FiCopy} from "react-icons/fi" 
 import {CopyButton} from "./utils"
 import {HiMagnifyingGlass} from "react-icons/hi2"
-import Card from 'react-bootstrap/Card';
-import Overlay from 'react-bootstrap/Overlay';
-import Tooltip from 'react-bootstrap/Tooltip';
-//import Popover from 'react-bootstrap/Popover';
-//import Popover from 'react-bootstrap/Popover';
-import { v4 as uuidv4 } from 'uuid';
-import Popover from "react-bootstrap/Popover"
-import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import Row from "react-bootstrap/Row"
+import {Card,Alert,Row,Modal} from 'react-bootstrap';
 import {DocumentsGraphqlTable} from "./DocumentsGraphqlTable"
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
 // button to view frames
 const ViewFramesButton = () => {
-
     const {
         setShowFrames
     } = DocumentControlObj()
@@ -35,8 +25,7 @@ const ViewFramesButton = () => {
         setShowFrames(Date.now())
     }
 
-    return <Button variant="light" 
-        className="text-dark ms-auto btn btn-sm" 
+    return <Button variant="light"  className="text-dark ms-auto btn btn-sm" 
         title={`View Document Frames`}
         onClick={handleViewFrames}>
             <HiMagnifyingGlass/> {"Frames"} 
@@ -50,7 +39,6 @@ const ViewFramesButton = () => {
  * @returns a close button icon
  */
 const CloseButton = ({type}) => { 
-    const {dataProduct, organization}=useParams()
     const navigate=useNavigate()
     // on close button display document list table
     return <Button variant="light" 
@@ -67,7 +55,11 @@ const CloseButton = ({type}) => {
  * @param {*} setView useState constant to set view in Form or JSON View
  * @returns Create Header 
  */
-const CreateHeader = ({type, setView}) => {
+export const CreateHeader = ({type}) => {
+    const {
+        setView
+    } = DocumentControlObj()
+
     return <Stack direction="horizontal" gap={3} className="w-100">
         <strong className="text-success">
             <span className="mr-1 h6 fst-italic">{CONST.CREATE_DOCUMENT}: </span>
@@ -83,10 +75,13 @@ const CreateHeader = ({type, setView}) => {
  * 
  * @param {*} type document Type 
  * @param {*} id document ID 
- * @param {*} setView useState constant to set view in Form or JSON View
  * @returns Edit Header 
  */
-const EditHeader = ({type, id, setView}) => {
+export const EditHeader = ({type, id}) => {
+    const {
+        setView
+    } = DocumentControlObj()
+
     return <Stack direction="horizontal" gap={3} className="w-100">
         <div className="col-md-7"> 
             <strong className="text-success">
@@ -128,41 +123,33 @@ export const DeleteMessage = ({handleDelete}) => {
     </Card>
 }
 
-/**
- * function for displaying Popover when user click to delete a document
- */
-const UpdatingPopover = React.forwardRef(
-    ({ popper, children, show: _, ...props }, ref) => {
-    useEffect(() => {
-        //console.log('updating!');
-        popper.scheduleUpdate();
-    }, [children, popper]);
-
-    return (
-        <Popover ref={ref} body {...props} id={`popover-positioned-bottom`}>
-         {children}
-        </Popover>
-    );
-    },
-);
-
-/**
- * 
- * @param {*} type document Type 
- * @param {*} id document ID 
- * @param {*} startCRMode CR Mode
- * @param {*} setView useState constant to set view in Form or JSON View
- * @returns View Header 
- */
-const ViewHeader = ({type, id, setView, setShowCRModal, setClickedDelete}) => {
+//moved the change request modal in the header
+export const ViewHeader = ({type, documentID}) => {
     const { 
-        branch
+        branch,
+        setChangeRequestBranch
     } = WOQLClientObj()
+
+    const {
+        deleteDocument,
+        loading,
+        setView
+    } = DocumentControlObj()
 
     const navigate=useNavigate()
     const [show, setShow] = React.useState(false);
-    
+    const [showCRModal, setShowCRModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal]=useState(false)
 
+    const updateViewMode =(newBranchName, changeRequestId)=>{
+        setChangeRequestBranch(newBranchName, changeRequestId)
+    }
+
+    const handleClose=() =>{
+        showDeleteModal(false)
+    }
+
+    //__KITTY___
     const handleToggle = () => {
         setShow((prev) => !prev);
       };
@@ -172,20 +159,35 @@ const ViewHeader = ({type, id, setView, setShowCRModal, setClickedDelete}) => {
     }
  
     function handleDelete(e) {
-        // show Change Request component if branch is main 
+        // I can not change main directly
+        // I can change other branches creates with create branch interface
         if(branch === "main"){
-            setShowCRModal(Date.now())
+            setShowCRModal(true)
+        }else setShowDeleteModal(true)
+    }
+
+    async function callDeleteDocument(){
+        const delCall = await deleteDocument(documentID)
+        if(delCall){
+            navigate(-1)
+        }else{
+            setShowDeleteModal(false)
         }
-        else setClickedDelete(Date.now())
     }
 
     return <Stack direction="horizontal" gap={3} className="w-100">
+            {showCRModal && <CreateChangeRequestModal showModal={showCRModal} type={type}  setShowModal={setShowCRModal} updateViewMode={updateViewMode}/>}
+            {showDeleteModal && <Modal show={showDeleteModal} onHide={handleClose}>
+            {loading && <span className="text-warning text-break p-3">{`Deleting document ${documentID} ...`}</span>}
+            {!loading && <DeleteMessage handleDelete={callDeleteDocument}/>}
+            </Modal>}
+
         <div className="col-md-6"> 
             <strong className="text-success">
                 <span className="mr-1 h6 fst-italic">{CONST.VIEW_DOCUMENT}:</span> 
-                <span className="fw-bolder h6"> {type}/{id} </span>
+                <span className="fw-bolder h6"> {documentID} </span>
             </strong>
-            <CopyButton text={`${type}/${id}`} title={`Copy Document ID`}/>
+            <CopyButton text={`${documentID}`} title={`Copy Document ID`}/>
         </div>
         <ViewFramesButton/>
         <ToggleJsonAndFormControl onClick={setView}/>
@@ -206,53 +208,10 @@ const ViewHeader = ({type, id, setView, setShowCRModal, setClickedDelete}) => {
                     className="btn-sm btn text-gray">
                     <RiDeleteBin7Line className=" mb-1"/>
             </Button>
-
-            {/** commenting overlay trigger for delete */}
-            {/*<OverlayTrigger trigger="click" 
-                placement="bottom" 
-                rootClose={true}
-                show={show}
-                onToggle={handleToggle}
-                overlay={ 
-                    <UpdatingPopover id="popover-contained">
-                        {<DeleteMessage handleToggle={handleToggle} handleDelete={handleDelete}/>}
-                    </UpdatingPopover>
-                }>
-                <Button variant="danger" 
-                    type="button" 
-                    title="Delete Document" 
-                    className="btn-sm btn text-gray">
-                        <RiDeleteBin7Line className=" mb-1"/>
-                </Button>
-            </OverlayTrigger>*/}
         </div>
         <CloseButton type={type}/>
     </Stack>
 }
-
-/**
- * 
- * @param {*} mode the mode in which FrameViewer will be displayed - CREATE, EDIT or VIEW
- * @param {*} type document type 
- * @param {*} id document ID 
- * @param {*} startCRMode CR Mode
- * @param {*} setView useState constant to set view in Form or JSON View
- * @returns 
- */ 
-export const Header = ({mode, type, id, setShowCRModal, setClickedDelete}) => {
-    const {
-        setView
-    } = DocumentControlObj()
-
-    let matchHeader ={
-        [CONST.CREATE_DOCUMENT] : <CreateHeader type={type} setView={setView}/>,
-        [CONST.EDIT_DOCUMENT]   : <EditHeader type={type} id={id} setView={setView}/>,
-        [CONST.VIEW_DOCUMENT]   : <ViewHeader type={type} id={id} setView={setView} setShowCRModal={setShowCRModal} setClickedDelete={setClickedDelete}/>
-    }
-    return matchHeader[mode]
-}
-
-
 
 /**
  * 
@@ -301,11 +260,20 @@ export const SearchComponent = ({setSelected, doctype}) => {
             </>
 
     }
-
+    //__KITTY
     return <>
         Search this dummy result ....
         {displayBasedOnType(doctype)}
     </>
+}
+
+// I put the listener for error in another component so we not lost the data inside the 
+// form
+// we review this better 
+export const ErrorMessageReport = ()=>{
+    const {error} = DocumentControlObj()
+     if(error)return <Alert variant={"danger"} className="mr-3">{error}</Alert>
+     return ""
 }
 
 

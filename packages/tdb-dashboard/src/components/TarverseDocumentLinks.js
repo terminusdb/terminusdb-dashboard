@@ -1,9 +1,10 @@
 import React, {useEffect, useState}  from "react";
 import Modal from 'react-bootstrap/Modal'
-import {WOQLClientObj} from '../init-woql-client'
+//import {WOQLClientObj} from '../init-woql-client'
 import * as CONST from "./constants"
 import {onTraverse} from "./DocumentComponents"
-import {GetDocumentHook} from "../hooks/DocumentHook"
+import {DocumentHook} from "../hooks/DocumentHook"
+import { DocumentControlObj } from "../hooks/DocumentControlContext";
 import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
@@ -38,29 +39,26 @@ const ShowLinkRoute = ({linkArray, handleTraverse}) => {
 
 	return <div/>
 }
-
-export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
-
-	const { 
-        woqlClient,
-		frames
-    } = WOQLClientObj()
+//__KITTY
+export const TarverseDocumentLinks = ({show, onHide, clicked:documentID, setClicked}) => {
+	const {frames} = DocumentControlObj()
+	const {getDocumentById,result:data,loading,error:errorMsg} = DocumentHook()
 
 	// constants to store document data 
-    const [data, setData]=useState(false)
-	const [documentID, setDocumentID]=useState(false)
+    //const [data, setData]=useState(false)
+	//const [documentID, setDocumentID]=useState(false)
 	const [type, setType]=useState(false)
 
 	// document tarverse array
 	const [linkArray, setLinkArray]=useState([])
 
-	const [loading, setLoading]=useState(false)
-    const [errorMsg, setErrorMsg]=useState(false)
+	//const [loading, setLoading]=useState(false)
+    //const [errorMsg, setErrorMsg]=useState(false)
 
 
-	useEffect(() => {
+	/*useEffect(() => {
 		if(clicked) setDocumentID(clicked)
-	}, [clicked])
+	}, [clicked])*/
 	
 	function removeDocumentIDFromLinkArray(setLinkArray) {
 		// clear array on close
@@ -69,9 +67,10 @@ export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
 
 	useEffect(() => {
         if(documentID) {
+			getDocumentById(documentID)
 			let extractedType = documentID.substring(0, documentID.indexOf("/"))
 			setType(extractedType)
-            setDocumentID(documentID)
+           // setDocumentID(documentID)
 			let tempArray=linkArray
 			if(tempArray.includes(documentID)) {
 				//tempArray.filter(arr => arr !== documentID)
@@ -86,12 +85,12 @@ export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
 
 	//loading and error message
 	// hook to view a document 
-    const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
+    // const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
 
 	function handleClose (e) {
 		removeDocumentIDFromLinkArray(setLinkArray) 
-		if(setClicked) setClicked(false)
-		setDocumentID(false)
+		//if(setClicked) setClicked(false)
+		//setDocumentID(false)
 		onHide()
 	}
 

@@ -111,7 +111,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                 
                 <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<PrivateRoute component={ChangeRequestsPage}/>} />    
-                    <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
+                    <Route path=":changeid" element={<PrivateRoute component={ChangeDiff}/>} /> 
                 </Route>
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
@@ -119,7 +119,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                             {<Route index element={<DocumentsPageList/>} /> }
                             <Route path={PATH.NEW_DOC} element={<DocumentNew/>}/> 
 
-                            <Route path=":id" >
+                            <Route path=":docid" >
                                 <Route index element={<PrivateRoute component={DocumentView}/>} /> 
                                 <Route path={PATH.EDIT_DOC} element={<DocumentEdit/>} /> 
                             </Route> 

@@ -4,17 +4,15 @@ import Card from "react-bootstrap/Card"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
-import TerminusClient from '@terminusdb/terminusdb-client'
-import {Header, SearchComponent} from "../components/DocumentComponents"
+import {CreateHeader, SearchComponent,ErrorMessageReport} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
-import {CreateDocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 
-
-const checkIfPrefix =(id)=>{
+//__KITTY__
+/*const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
         return id
     }
@@ -50,49 +48,47 @@ const onSelect = async (inp, type) => {
             console.log("query run error", error)
         })
     return results
-}
+}*/
 
-const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
-    const {type} = useParams()
-    const { 
-        woqlClient, 
-    } = WOQLClientObj()
-    
+// if you listen something your interface will be render when the status changes
+// for this I remove the loading listener form display document I only check frames
+const DisplayDocumentBody = () => {
+    const {organization,dataProduct,type} = useParams()
+    const navigate = useNavigate()
     const {
         view,
         jsonContent,
-        setJsonContent,
-        frames
+       // setJsonContent,
+        frames,
+        getUpdatedFrames,
+        createDocument
     } = DocumentControlObj()
 
-   
-    const [extracted, setExtracted]=useState({})
- 
-    // hook to create a new document  
-    const createResult = CreateDocumentHook(woqlClient, extracted, setLoading, setErrorMsg) 
+    
+    useEffect(() => {
+        if(frames===null) {
+            getUpdatedFrames()
+        }
+    },[])
 
-    // function which extracts data from document form 
-    function handleSubmit(data) { 
-        setExtracted(data)
-    } 
-
-    // function which detects a change 
-    function handleChange(data) {
-        setJsonContent(data)
+    const callCreateDocument = async (jsonDocument) =>{
+        const created = await createDocument(jsonDocument)
+        if(created){
+            navigate(`/${organization}/${dataProduct}/documents/${type}`)
+        }
     }
 
     if(!frames) return  <Loading message={`Fetching frames for document type ${type} ...`}/>
 
     // JSON View
     if(view === CONST.JSON_VIEW) { 
-        return <JsonFrameViewer jsonData={jsonContent} mode={CONST.CREATE_DOCUMENT} setExtracted={setExtracted}/>
+        return <JsonFrameViewer jsonData={jsonContent} mode={CONST.CREATE_DOCUMENT} setExtracted={callCreateDocument}/>
     }
-
-    // Form View
+    //__KITTY__
     return <FrameViewer frame={frames}
         type={type}
         mode={CONST.CREATE_DOCUMENT}
-        onSubmit={handleSubmit} 
+        onSubmit={callCreateDocument} 
         //onChange={handleChange}
         onSelect={<SearchComponent/>}   
         formData={!jsonContent ? {} : jsonContent}
@@ -101,47 +97,39 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
     />
 }
 
-export const DocumentNew = () => {   
+
+export const DocumentNew = () => {  
+    const {type} = useParams() 
     const { 
         setChangeRequestBranch, branch
     } = WOQLClientObj()
 
-
     const [showModal, setShowModal] = useState(false)
-    const {type} = useParams()
-    
-    const [loading, setLoading]=useState(false)
-    const [errorMsg, setErrorMsg]=useState(false)
 
+    // we have to check the branch no the change request
+    // in this moment we create change_request only if you 
+    //try to change/add documents in main branch
     useEffect(() => {
         if(branch === "main"){
             setShowModal(true)
-        }/*else {
-            setShowModal(false)
-        }*/
+        }
 	},[branch])
 
     const updateViewMode =(newBranchName, changeRequestId)=>{
         setChangeRequestBranch(newBranchName, changeRequestId)
-       // setCurrentMode(currentMode)
     }
 
     return <main className="content w-100 document__interface__main">      
-        {errorMsg && <Alert variant={"danger"} className="mr-3">
-            {errorMsg}
-        </Alert>}
-        {showModal && <CreateChangeRequestModal showModal={showModal}
-                type={type} 
-                setShowModal={setShowModal} 
-                updateViewMode={updateViewMode}/>}
-        {branch !== "main" &&    
-            <Card className="mr-3 bg-dark">
-                <Card.Header className="justify-content-between d-flex w-100 text-break">
-                    <Header mode={CONST.CREATE_DOCUMENT} type={type}/>
-                </Card.Header>
-                <Card.Body className="text-break">
-                    <DisplayDocumentBody setLoading={setLoading} setErrorMsg={setErrorMsg}/>
-                </Card.Body>
-            </Card>}
-    </main>
+            {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={updateViewMode}/>}
+            <ErrorMessageReport/>
+            {branch!== "main" &&             
+                <Card className="mr-3 bg-dark">
+                    <Card.Header className="justify-content-between d-flex w-100 text-break">
+                        <CreateHeader mode={CONST.CREATE_DOCUMENT} type={type}/>
+                    </Card.Header>
+                    <Card.Body className="text-break">
+                        <DisplayDocumentBody/>
+                    </Card.Body>
+                </Card>}
+            </main>
 }

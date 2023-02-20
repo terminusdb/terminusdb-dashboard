@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {Container, Row, Col, Card} from "react-bootstrap"
-import {useParams} from 'react-router-dom'
-import {GetDiffList} from "../hooks/DocumentHook"
+import {Card} from "react-bootstrap"
+import {DocumentHook} from "../hooks/DocumentHook"
 import {WOQLClientObj} from "../init-woql-client"
 import {DiffView} from "../components/DiffView"
 import Badge from 'react-bootstrap/Badge'
@@ -57,24 +56,18 @@ export const ChangeDiffComponent = () => {
         currentCRObject
     } = WOQLClientObj() 
 
+    const {getDiffList,error:errorMsg,loading,result} = DocumentHook()
     
-    const {id} = useParams()
-
     const [key, setKey] = useState(DIFFS)
-    const [action, setAction]=useState(false) 
-    const [loading, setLoading]=useState(true)
-    const [errorMsg, setErrorMsg]=useState(false)
-
-    const result = GetDiffList(client, id, setLoading, setErrorMsg)      
-
+   
     useEffect(() => {
-        if(key === DIFFS) setAction(false)
-    }, [key])
+        getDiffList()
+    }, [])
+    
 
     if(!client) return <div/>
 
     let documentModifiedCount = result ? result.length : 0
-
     // email address 
     let author= currentCRObject && currentCRObject.hasOwnProperty("creator_email") ?  currentCRObject["creator_email"] : "creator"
 
@@ -101,7 +94,8 @@ export const ChangeDiffComponent = () => {
                 </Card.Header> 
                 <Card.Body> 
                     
-                    {currentCRObject.status !== MERGED && <ReviewComponent setKey={setKey} action={action} setAction={setAction}/> }
+                    {currentCRObject.status !== MERGED &&
+                    <ReviewComponent/> }
                     <DiffView diffs={result} CRObject={currentCRObject}/> 
                 </Card.Body> 
             </Card>
@@ -111,20 +105,3 @@ export const ChangeDiffComponent = () => {
         </Tab>
     </Tabs>
 }
-
-     /*<small className="fw-bold mr-2 h6">You are in change request mode</small>
-                                    <span className="float-right fw-bold mr-2 text-dark badge bg-primary mb-1">
-                                        {currentCRObject[TRACKING_BRANCH]}
-                                    </span>*/
-
-/**
- * 
-                                <Row className="w-100 mt-5">
-                                    <Col md={6}>
-                                        {result && <DocumentModifiedCount documentModifiedCount={documentModifiedCount}/>}
-                                    </Col>
-                                    <Col md={6}>
-                                        <BranchCRMessage trackingBranch={currentCRObject.tracking_branch} originBranch={"main"}/>
-                                    </Col>
-                                </Row> 
- */
