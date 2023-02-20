@@ -234,22 +234,6 @@ export function displayElements(formData, item, schema, tagUI, metaDataConfig) {
     }
 
     if(schema.items.info === CONST.DATA_TYPE) {
-        /*formData.map((data, index) => {
-            if(metaDataConfig) {
-                let css = tagUI[item][index] ? tagUI[item][index] : ""
-                elements.push(
-                    <DisplayArrayMarkdown data={data} 
-                        item={item} 
-                        newValue={metaDataConfig.newValue[item][index]}
-                        oldValue={metaDataConfig.oldValue[item][index]}
-                        css={css}/>
-                )
-            }
-            else {
-                let css = tagUI[item][index] ? tagUI[item][index] : ""
-                elements.push(<DataTypeDiff data={data} css={css} label={item}/>)
-            }
-        })*/
         formData.map((data, index) => {
             let css = tagUI[item][index] ? tagUI[item][index] : "tdb__input"
             elements.push(<DataTypeDiff data={data} css={css} label={item} metaDataConfig={metaDataConfig} index={index}/>)

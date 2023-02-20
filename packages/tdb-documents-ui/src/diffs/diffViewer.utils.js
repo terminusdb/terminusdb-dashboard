@@ -17,12 +17,6 @@ export function generateDiffUIFrames (fullFrame, frame, type, oldValue, newValue
         else if(item === "@id") continue
         else if(item === CONST.SUBDOCUMENT) continue
         else if(item === CONST.DOCUMENTATION) continue
-        /*else if(util.checkIfRenderedAsMarkdown(frame, item, diffPatch)) {
-            let ui=getMarkdownFieldDiffs(item, oldValue, newValue) 
-            
-            diffUIFrames[DIFFCONST.ORIGINAL_UI_FRAME][item]=ui.originalUIFrame
-            diffUIFrames[DIFFCONST.CHANGED_UI_FRAME][item]=ui.changedUIFrame
-        }*/
         else if(util.isMandatory(frame, item)) {
             let diff=diffPatch.hasOwnProperty(item) ? diffPatch[item] : {}
             // check if defined in metadata
