@@ -183,9 +183,9 @@ const ViewHeader = ({type, id, setView, setShowCRModal, setClickedDelete}) => {
         <div className="col-md-6"> 
             <strong className="text-success">
                 <span className="mr-1 h6 fst-italic">{CONST.VIEW_DOCUMENT}:</span> 
-                <span className="fw-bolder h6"> {type}/{id} </span>
+                <span className="fw-bolder h6"> {id} </span>
             </strong>
-            <CopyButton text={`${type}/${id}`} title={`Copy Document ID`}/>
+            <CopyButton text={`${id}`} title={`Copy Document ID`}/>
         </div>
         <ViewFramesButton/>
         <ToggleJsonAndFormControl onClick={setView}/>

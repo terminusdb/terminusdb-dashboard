@@ -125,29 +125,44 @@ export const Output = () => {
         }
       }*/
       
-    let testFrames ={
+    let testFrames = {
       "@context": {
-        "@base": "terminusdb:///documentation/data/",
-        "@schema": "terminusdb:///documentation/schema#",
+        "@base": "terminusdb:///data/",
+        "@schema": "terminusdb:///schema#",
         "@type": "Context"
       },
-      "Body": {
+      "body": {
+        "@key": {
+          "@type": "Random"
+        },
         "@metadata": {
           "render_as": {
-            "value": "markdown"
+            "optMarkDown": "markdown",
+            "setMarkDown": "markdown"
           }
         },
         "@type": "Class",
-        "value": "xsd:string"
+        "optMarkDown": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "setMarkDown": {
+          "@class": "xsd:string",
+          "@type": "Set"
+        },
+        "text": {
+          "@class": "xsd:string",
+          "@type": "Set"
+        }
       }
-      
     }
+    
     return <div className="w-100">
         <DiffViewer 
             oldValue={doc[OLD_VALUE]} 
             newValue={doc[CHANGED_VALUE]}
             frame={testFrames}
-            type={"Body"}
+            type={"body"}
             diffPatch={diff}/>
     </div>
 }
