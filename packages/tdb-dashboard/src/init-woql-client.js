@@ -11,6 +11,7 @@ import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
 import {sortAlphabetically} from "./components/utils"
 import {getChangesUrl} from "./hooks/hookUtils"
+import {cleanGraphiqlCache} from "./pages/utils"
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
@@ -235,6 +236,8 @@ export const WOQLClientProvider = ({children, params}) => {
             setHead('main',{commit:false,time:false})
 
             if(dbName){
+                //clear graphiql interface local storage
+                cleanGraphiqlCache()
                 // check if there is a change request related
                 const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
 

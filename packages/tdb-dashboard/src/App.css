@@ -721,18 +721,33 @@ input {
 .mandatory-icon {
   font-size: 10px;
 }
-
-
+/* to be review */
 .model-builder-code-mirror {
   height: auto !important;
 }
 
-.CodeMirror {
-  min-height: 400px !important;/*150px !important;*/
+.model-builder-code-mirror .CodeMirror{
+  min-height: 400px !important;
+}
+
+.model-builder-code-mirror .CodeMirror-scroll {
+  min-height: 400px !important;
+}
+
+.model-builder-code-mirror > .qp-CodeMirror {
+  height: auto !important;
+  min-height: 400px !important;
+}
+
+
+
+
+.editor-pallet .CodeMirror {
+  min-height: 400px !important;
   height: auto !important;
 }
 
-.CodeMirror-scroll {
+.editor-pallet .CodeMirror-scroll {
   min-height: 400px !important;
 }
 
@@ -740,8 +755,7 @@ pre.CodeMirror-line  > span > span.cm-string {
   word-break: break-all !important;
 }
 
-
-.qp-CodeMirror {
+.editor-pallet > .qp-CodeMirror {
   height: auto !important;
   min-height: 400px !important;
 }
@@ -1021,8 +1035,29 @@ pre.CodeMirror-line  > span > span.cm-string {
     max-width: 200px;
 }
 
+.graphiql-container .graphiql-chevron-icon{
+  color:white;
+}
+
+button.graphiql-tab-add>svg 
+{
+  color:white;
+}
+
+.graphiql-container .graphiql-logo .graphiql-logo-link {
+  color:white;
+}
+
 .mainGraphIql{
-  height : calc(100% - 60px);
+  height : calc(100vh - 80px);
+}
+
+.mainGraphIqlCR{
+  height : calc(100vh - 150px);
+}
+
+.graphiql-session{
+  height : 100%;
 }
 
 .graphiql-container{
@@ -1033,10 +1068,22 @@ pre.CodeMirror-line  > span > span.cm-string {
   color:white !important;
 }
 
-
 .graphiql-container .graphiql-editors {
   background-color: transparent;
 }
+
+.graphiql-editor >.CodeMirror{
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.result-window >.CodeMirror{
+  height: 100% !important;
+  position: absolute;
+  width: 100%;
+}
+
 #json_type_field-warning-box svg {
   height: 15px;
   width: 15px;
@@ -1108,9 +1155,7 @@ pre.CodeMirror-line  > span > span.cm-string {
 .rule_group{
   background-color: white;
 }
-.result-window .CodeMirror{
-    height: 100%;
-}
+
 .MuiButton-text{
   color: rgb(0, 188, 140)!important;
   margin-right: 20px;
@@ -1168,11 +1213,6 @@ pre.CodeMirror-line  > span > span.cm-string {
 /** to display status if not on latest version */
 .tdb__status_latest__version {
   color: #3450DC;
-}
-
-/*enable graph ql response to over flow*/
-.graphiql-response {
-  overflow: auto !important;
 }
 
 #profile_menu >.dropdown-menu[data-bs-popper] {
