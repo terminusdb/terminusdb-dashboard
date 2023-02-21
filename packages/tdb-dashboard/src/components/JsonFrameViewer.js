@@ -66,6 +66,7 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
         if(setExtracted) setExtracted(data)
     }
     
+    // onBlur 
     return <React.Fragment>
         <CodeMirror
             value={JSON.stringify(data, null, 2)}

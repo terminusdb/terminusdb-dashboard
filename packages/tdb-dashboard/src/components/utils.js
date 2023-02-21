@@ -17,7 +17,6 @@ import {
 	MERGED, 
 	SUBMITTED
 } from "./constants"
-import { ErrorDisplay } from "./ErrorDisplay"
 
 export const isArray = (arr) => {
     if (!Array.isArray(arr) || !arr.length) {
@@ -324,20 +323,15 @@ export function sortAlphabetically (list, byID) {
 
 // function which displays CR Conflict errors 
 export const getCRConflictError = (errorData) => {
-    //const [showError, setShowError] = useState(false)
-    let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
-	
-    return <ErrorDisplay errorData={errorData} message={message}/>
 
-	/*let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
+	let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
 	return <div className="w-100">
         <Stack direction="horizontal" gap={3} className="w-100">
             <div>{message}</div>
-            <Button className="ms-auto btn btn-sm alert_danger alert_danger_text">More Info</Button>
         </Stack>
         
 		<pre>{JSON.stringify(errorData, null, 2)}</pre>
-	</div>*/
+	</div>
 }
 
 export function decodeUrl(id){

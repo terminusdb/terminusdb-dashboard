@@ -105,7 +105,7 @@ const DisplayDocumentBody = ({setLoading, setErrorMsg}) => {
 }
 
 
-const FAKE_ERROR = {
+/*const FAKE_ERROR = {
     "@type":"api:InsertDocumentErrorResponse",
     "api:error": {
       "@type":"api:SchemaCheckFailure",
@@ -113,18 +113,18 @@ const FAKE_ERROR = {
         {
             "@type":"ConstraintFailure",
             "constraint_name":"MidLifeInsurance",
-            "message":"Failed to satisfy: 12 > 30\n\n\n    In the Constraint:\n\n( 'Policy/3':'Policy'\n   ∧ 'Policy/3' =[insurance_product]> 'MidLifeInsurance/Mid-Life%20Insurance%20Product'\n   ∧ 'MidLifeInsurance/Mid-Life%20Insurance%20Product':'MidLifeInsurance'\n   ) ⇒\n    'Policy/3' =[customer]> 'Customer/Jill+Curry+2'\n     ∧ 'Customer/Jill+Curry+2' =[age]> 12\n     ∧ « 12 > 30\n     » ∧ 12 < 60\n    \n"
+            "message":"Failed to satisfy: 12 > 30\n    In the Constraint:\n\n( 'Policy/3':'Policy'\n   ∧ 'Policy/3' =[insurance_product]> 'MidLifeInsurance/Mid-Life%20Insurance%20Product'\n   ∧ 'MidLifeInsurance/Mid-Life%20Insurance%20Product':'MidLifeInsurance'\n   ) ⇒\n    'Policy/3' =[customer]> 'Customer/Jill+Curry+2'\n     ∧ 'Customer/Jill+Curry+2' =[age]> 12\n     ∧ « 12 > 30\n     » ∧ 12 < 60\n    \n"
         },
         {
             "@type":"ConstraintFailure",
             "constraint_name":"Policy",
-            "message":"Failed to satisfy: 12 > 30\n\n\n    In the Constraint:\n\n( 'Policy/3':'Policy'\n   ∧ 'Policy/3' =[insurance_product]> 'MidLifeInsurance/Mid-Life%20Insurance%20Product'\n   ∧ 'MidLifeInsurance/Mid-Life%20Insurance%20Product':'MidLifeInsurance'\n   ) ⇒\n    'Policy/3' =[customer]> 'Customer/Jill+Curry+2'\n     ∧ 'Customer/Jill+Curry+2' =[age]> 12\n     ∧ « 12 > 30\n     » ∧ 12 < 60\n    \n"
+            "message":"Failed to satisfy: 12 > 30\n    In the Constraint:\n\n( 'Policy/3':'Policy'\n   ∧ 'Policy/3' =[insurance_product]> 'MidLifeInsurance/Mid-Life%20Insurance%20Product'\n   ∧ 'MidLifeInsurance/Mid-Life%20Insurance%20Product':'MidLifeInsurance'\n   ) ⇒\n    'Policy/3' =[customer]> 'Customer/Jill+Curry+2'\n     ∧ 'Customer/Jill+Curry+2' =[age]> 12\n     ∧ « 12 > 30\n     » ∧ 12 < 60\n    \n"
         }
       ]
     },
     "api:message":"Schema check failure",
     "api:status":"api:failure"
-}
+}*/
 
 export const DocumentNew = () => {   
     const { 
@@ -140,8 +140,8 @@ export const DocumentNew = () => {
     const {type} = useParams()
     
     const [loading, setLoading]=useState(false)
-    //const [errorMsg, setErrorMsg]=useState(false)
-    const [errorMsg, setErrorMsg]=useState(FAKE_ERROR)
+    const [errorMsg, setErrorMsg]=useState(false)
+    //const [errorMsg, setErrorMsg]=useState(FAKE_ERROR)
 
     useEffect(() => {
         if(branch === "main"){

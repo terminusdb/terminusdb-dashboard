@@ -1226,3 +1226,7 @@ pre.CodeMirror-line  > span > span.cm-string {
   border-radius: 0.375rem;
   opacity: 0.4;
 }
+
+.alert_expand_icons {
+  margin-top: -20px;
+}
