@@ -322,7 +322,7 @@ export function sortAlphabetically (list, byID) {
     })
 }
 
-// function which displays CR Conflict errors
+// function which displays CR Conflict errors 
 export const getCRConflictError = (errorData) => {
     //const [showError, setShowError] = useState(false)
     let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 

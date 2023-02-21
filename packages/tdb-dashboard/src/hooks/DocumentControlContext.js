@@ -3,6 +3,9 @@ export const DocumentControlContext = React.createContext()
 export const DocumentControlObj = () => useContext(DocumentControlContext)
 import {WOQLClientObj} from '../init-woql-client'
 import * as CONST from "../components/constants"
+import { ErrorDisplay } from "../components/ErrorDisplay"
+import Stack from "react-bootstrap/Stack"
+
 
 export const DocumentControlProvider = ({children}) => {
 
@@ -37,6 +40,26 @@ export const DocumentControlProvider = ({children}) => {
 
     
 
+    // function to format and display errors in document Interface
+    function formatErrorMessages (error) {
+        let message = error["api:message"]
+        let errorElements = []
+        if(error["api:error"]) {
+            if(Array.isArray(error["api:error"]["api:witnesses"])) {
+                error["api:error"]["api:witnesses"].map(err => {
+                    errorElements.push(<Stack className="mb-3">
+                        <div className="fw-bold d-flex">
+                            {`${err["@type"]} on `}
+                            <pre className="alert_danger_border ml-1 p-1 rounded">{err["constraint_name"]}</pre>
+                        </div>
+                        <div>{err.message}</div>
+                    </Stack>)
+                })
+            }
+        }
+        return <ErrorDisplay errorData={errorElements} message={message}/>
+    }
+
     return (
         <DocumentControlContext.Provider
             value={{
@@ -46,7 +69,8 @@ export const DocumentControlProvider = ({children}) => {
                 jsonContent, 
                 setJsonContent,
                 showFrames, 
-                setShowFrames
+                setShowFrames,
+                formatErrorMessages
             }}
         >
             {children}

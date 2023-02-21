@@ -1212,7 +1212,7 @@ pre.CodeMirror-line  > span > span.cm-string {
   border: 1px solid #f5c2c7 !important;
 }
 
-.alert_more_info_border {
+.alert_danger_border {
   border: 1px solid #842029 !important;
 }
 
