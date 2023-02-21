@@ -160,7 +160,7 @@ export function displaySearchComponent(props, onSelect, linked, mode) {
 
     // display only anyof properties here 
     // schema appears twice in UI so we display empty div when props.schema has anyOf
-    if(props.schema.hasOwnProperty("anyOf")) return <div/>
+    if(props.hasOwnProperty("schema") && props.schema.hasOwnProperty("anyOf")) return <div/>
 
 
     const Selected = ({selected, mode}) => {
@@ -193,7 +193,7 @@ export function displaySearchComponent(props, onSelect, linked, mode) {
         </div>
     }
 
-    console.log("props", props, onSelect, linked, mode)
+    //console.log("props", props, onSelect, linked, mode)
 
     return <Card className="w-100 bg-secondary border border-dark">
         <DocumentSearch display={onSelect} 
