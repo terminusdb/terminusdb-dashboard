@@ -1,54 +1,28 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
-	/*"Body": {
-		"@id": "Body/c4a7f457e606df038ba5f6b4089e1e4cc5ddc8f0d5ad6fed1bb2a49d43378252",
-		"@type": "Body",
-		"value": "---\n__Advertisement :)__\n\n- __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image\n  resize in browser.\n- __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly\n  i18n with plurals support and easy syntax.\n\nYou will like those projects!\n\n---\n\n# h1 Heading 8-)\n## h2 Heading\n### h3 Heading\n#### h4 Heading\n##### h5 Heading\n###### h6 Heading\n\n\n## Horizontal Rules\n\n___\n\n---\n\n***\n\n\n## Typographic replacements\n\nEnable typographer option to see result.\n\n(c) (C) (r) (R) (tm) (TM) (p) (P) +-\n\ntest.. test... test..... test?..... test!....\n\n!!!!!! ???? ,,  -- ---\n\n\"Smartypants, double quotes\" and 'single quotes'\n\n\n## Emphasis\n\n**This is bold text**\n\n__This is bold text__\n\n*This is italic text*\n\n_This is italic text_\n\n~~Strikethrough~~\n\n\n## Blockquotes\n\n\n> Blockquotes can also be nested...\n>> ...by using additional greater-than signs right next to each other...\n> > > ...or with spaces between arrows.\n\n\n## Lists\n\nUnordered\n\n+ Create a list b",
-	},*/
-	"job": {
-		"@id": "job/16c3c5ff4003bb3d53d876504ac89703fffc378338154a5abffd012892aef332",
-		"@type": "job",
-		"company": "company",
-		"title": "saddsa",
-		"nonUnfoldable_property": "nonUnfoldable_property/239729wqdsad8921973",
-		"section": {
-			"@id": "category/215b036f11acf6b0be2e698ece217193ca9adf1eeadb8c7872f7690e93100730",
-			"@type": "category",
-			"name": "ddd",
-			"notes": "crappy",
-			"has_other": {
-				"@id": "subCategory/215b036f11acf6b0be2e698ece217193ca9adf1eeadb8c7872f7690e93100730",
-				"@type": "subCategory",
-				"description": "elaborate descr",
-			}
-		}
+	"body": {
+		"@id": "body/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+		"@type": "body",
+		"optMarkDown": "### opt",
+		"setMarkDown": [
+		  "### set 1",
+		  "### set 2"
+		],
+		"text": ["text1", "text2", "text3", "2","text4org", "5", "5"]
 	}
 } 
  
 
 export const changedData = {
-	"Body": {
-		/*"@id": "Body/c4a7f457e606df038ba5f6b4089e1e4cc5ddc8f0d5ad6fed1bb2a49d43378252",*/
-		"@type": "Body",
-		"value": "---\n__Advertisement :)__\n\n- __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image\n  resize in browser.\n- __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly\n  i18n with plurals support and easy syntax.\n\nYou will like those projects!\n\n---\n\n# h1 Heading 8-)\n## h2 Heading\n### h3 Heading\n#### h4 Heading\n##### h5 Heading\n###### h6 Heading\n\n\n## Horizontal Rules\n\n___\n\n---\n\n***\n\n\n## Typographic replacements\n\nEnable typographer option to see result.\n\n(c) (C) (r) (R) (tm) (TM) (p) (P) +-\n\ntest.. test... test..... test?..... test!....\n\n!!!!!! ???? ,,  -- ---\n\n\"Smartypants, double quotes\" and 'single quotes'\n\n\n## Emphasis\n\n**This is bold text**\n\n__This is bold text__\n\n*This is italic text*\n\n_This is italic text_\n\n~~Strikethrough~~\n\n\n## Blockquotes\n\n\n> Blockquotes can also be nested...\n>> ...by using additional greater-than signs right next to each other...\n> > > ...or with spaces between arrows.\n\n\n## Lists\n\nUnordered\n\n+ Create a list b",
-	},
-	"job": {
-		"@id": "job/16c3c5ff4003bb3d53d876504ac89703fffc378338154a5abffd012892aef332",
-		"@type": "job",
-		"company": "company",
-		"title": "saddsa",
-		"nonUnfoldable_property": "nonUnfoldable_property/239729wqdsad8921973",
-		"section": {
-			"@id": "category/215b036f11acf6b0be2e698ece217193ca9adf1eeadb8c7872f7690e93100730",
-			"@type": "category",
-			"name": "ddd",
-			"notes": "crappy new data",
-			"has_other": {
-				"@id": "subCategory/215b036f11acf6b0be2e698ece217193ca9adf1eeadb8c7872f7690e93100730",
-				"@type": "subCategory",
-				"description": "elaborate descr",
-			}
-		}
+	"body": {
+		"@id": "body/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+		"@type": "body",
+		"optMarkDown": "### opt changed",
+		"setMarkDown": [
+		  "### set 1 changed",
+		  "### set 2"
+		],
+		"text": ["text1changed", "text2", "text3ch", "2", "text4", "5", "5"]
 	}
 } 
 /*
