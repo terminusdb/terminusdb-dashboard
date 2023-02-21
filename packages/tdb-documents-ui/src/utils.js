@@ -676,6 +676,7 @@ export function getLinkedDocumentClassName (frame, item) {
  */
 export function getRowHeight(data) {
 	if(Array.isArray(data)) return 1
+	if(typeof data !== "string") return 1
     return data.split(/\r\n|\r|\n/).length
 }
 
