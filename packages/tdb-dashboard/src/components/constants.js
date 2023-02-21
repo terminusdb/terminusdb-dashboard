@@ -499,3 +499,6 @@ export const DELETE="Delete"
 export const VIEW_LIST="List"
 
 
+//ERROR MESSAGE CONSTANTS 
+export const ERROR_MORE_INFO_CLASSNAME = "float-right alert_danger alert_danger_text rounded alert_danger_border" 
+export const ERROR_DOC_EXPAND_ICON_CLASSNAME = "mr-4 alert_expand_icons bg-transparent border-0 alert_danger_text"

@@ -14,6 +14,7 @@ import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {UTILS} from "@terminusdb/terminusdb-client"
 import {decodeUrl} from "../components/utils"
+import { Alerts } from "../components/Alerts"
 
 const checkIfPrefix =(id)=>{
     if(id.indexOf(":")>-1){
@@ -116,6 +117,10 @@ export const DocumentEdit = () => {
         setChangeRequestBranch, branch
     } = WOQLClientObj()
 
+    const {
+        formatErrorMessages
+    } = DocumentControlObj()
+
     const {type, id} = useParams()
     let documentID=decodeUrl(id)
     // constants to display document body in Form or JSON View
@@ -140,9 +145,10 @@ export const DocumentEdit = () => {
  
     return <main className="content w-100 document__interface__main">
         
-        {errorMsg && <Alert variant={"danger"} className="mr-3">
+        {/*errorMsg && <Alert variant={"danger"} className="mr-3">
             {errorMsg}
-        </Alert>}
+        </Alert>*/}
+        {errorMsg && <Alerts message={formatErrorMessages(errorMsg)} type={CONST.TERMINUS_DANGER} onCancel={setErrorMsg}/>} 
         {showModal && <CreateChangeRequestModal showModal={showModal}
                 type={type} 
                 setShowModal={setShowModal} 

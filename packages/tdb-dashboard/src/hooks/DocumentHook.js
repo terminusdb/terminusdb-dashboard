@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ChangeRequest } from "./ChangeRequest";
 import { WOQLClientObj } from "../init-woql-client";
 
+
 // to be review this
 export function CheckStatusObj() {
     const {currentChangeRequest} = WOQLClientObj()
@@ -20,6 +21,14 @@ export function CheckStatusObj() {
 
     return {checkStatus}
 
+}
+
+// function to set error
+function setErrorMessage(setErrorMsg, err) {
+    if(setErrorMsg) {
+        if(err.hasOwnProperty("data")) setErrorMsg(err.data)
+        else setErrorMsg(err.message)
+    }
 }
 
 /**
@@ -47,7 +56,7 @@ export function CreateDocumentHook(client,document, setLoading, setErrorMsg) {
         }
         catch(err){ 
             setLoading(false)
-            if(setErrorMsg) setErrorMsg(err.message)
+            setErrorMessage(setErrorMsg, err)
        }
     }
 
@@ -114,7 +123,8 @@ export function GetDocumentHook(client, documentId, setData, setLoading, setErro
             }
             catch(err){
                 if(setLoading) setLoading(false)
-                if(setErrorMsg) setErrorMsg(err.message)
+                setErrorMessage(setErrorMsg, err)
+                //if(setErrorMsg) setErrorMsg(err.message)
            }
         }
     
@@ -152,7 +162,8 @@ export function EditDocumentHook(client, extractedUpdate, setLoading, setErrorMs
             navigate(-1)
         }
         catch(err){
-           setErrorMsg(err.message)
+           //setErrorMsg(err.message)
+           setErrorMessage(setErrorMsg, err)
            setLoading(false)
        }
     }

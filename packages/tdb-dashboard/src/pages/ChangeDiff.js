@@ -43,7 +43,7 @@ const CRAction = ({}) => {
         return <ChangeDiffComponent/>
 
     // if needRebase  
-    return <React.Fragment>
+    return <React.Fragment>  
         {errorMessage && <Alerts message={errorMessage} type={CONST.TERMINUS_DANGER} onCancel={setError}/>}
         <Card className="update__change__request__card">
             <Card.Header className="w-100"> 
