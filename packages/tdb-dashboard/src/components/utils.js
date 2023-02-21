@@ -3,11 +3,12 @@ import {format, subSeconds} from "date-fns"
 //import deAT from 'date-fns/locale/de-AT/index'
 //import {XSD_DATA_TYPE_PREFIX, XDD_DATA_TYPE_PREFIX} from "./constants"
 import {FiCopy} from "react-icons/fi"
-import React from "react"
+import React, {useState} from "react"
 import {VscGitPullRequestDraft} from "react-icons/vsc"
 import {VscGitPullRequest} from "react-icons/vsc"
 import {VscCheck} from "react-icons/vsc" 
 import {AiOutlineCheck} from "react-icons/ai"
+import Stack from 'react-bootstrap/Stack';
 import Badge from "react-bootstrap/Badge"
 import Button from "react-bootstrap/Button"
 import {
@@ -16,6 +17,7 @@ import {
 	MERGED, 
 	SUBMITTED
 } from "./constants"
+import { ErrorDisplay } from "./ErrorDisplay"
 
 export const isArray = (arr) => {
     if (!Array.isArray(arr) || !arr.length) {
@@ -321,12 +323,21 @@ export function sortAlphabetically (list, byID) {
 }
 
 // function which displays CR Conflict errors
-export function getCRConflictError (errorData) {
-	let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
-	return <div>
-		{message}
+export const getCRConflictError = (errorData) => {
+    //const [showError, setShowError] = useState(false)
+    let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
+	
+    return <ErrorDisplay errorData={errorData} message={message}/>
+
+	/*let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
+	return <div className="w-100">
+        <Stack direction="horizontal" gap={3} className="w-100">
+            <div>{message}</div>
+            <Button className="ms-auto btn btn-sm alert_danger alert_danger_text">More Info</Button>
+        </Stack>
+        
 		<pre>{JSON.stringify(errorData, null, 2)}</pre>
-	</div>
+	</div>*/
 }
 
 export function decodeUrl(id){

@@ -1201,3 +1201,28 @@ pre.CodeMirror-line  > span > span.cm-string {
     /* line-height: 1.5 !important; */
   min-height: 49px!important;
 }
+
+/** custom alert error message */
+.alert_danger_text {
+  color: #842029 !important;
+}
+
+.alert_danger {
+  background-color: #f8d7da !important;
+  border: 1px solid #f5c2c7 !important;
+}
+
+.alert_more_info_border {
+  border: 1px solid #842029 !important;
+}
+
+.alert_btn_close {
+  color: #842029 !important;
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: 0.25em 0.25em;
+  border: 0;
+  border-radius: 0.375rem;
+  opacity: 0.4;
+}

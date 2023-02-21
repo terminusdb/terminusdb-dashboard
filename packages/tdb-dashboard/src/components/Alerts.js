@@ -6,6 +6,24 @@ import {AiOutlineCheckCircle, AiOutlineWarning} from "react-icons/ai"
 import {BiErrorCircle} from "react-icons/bi"
 import {BsInfoCircle} from "react-icons/bs"
 import {queryTimeDisplay} from "./utils"
+import { FaTimes, FaExclamationTriangle } from "react-icons/fa"
+
+
+/**
+* 
+* @param {*} type document Type
+* @returns a close button icon
+*/
+const AlertCloseButton = ({ className,  onClick }) => { 
+    // on close button display document list table
+    return <Button variant="light" 
+        className={`${className} d-contents`}
+        style={{display: "contents"}}
+        tilte={`Close`}
+        onClick={onClick}>
+        <FaTimes/>
+    </Button>
+ }
 
 export const Alerts = ({message, type, onCancel, time}) => {
     const [hiddenAlerts, setHiddenAlerts] = React.useState([])
@@ -38,17 +56,18 @@ export const Alerts = ({message, type, onCancel, time}) => {
 
     if(type == TERMINUS_DANGER)
         return  <Alert
-            className="text-break"
-            variant="danger"
+            //className="text-break"
+            //variant="danger"
+            className="alert_danger alert_danger_text"
             show={shouldShowAlert("danger")}
             onClose={() => onClose("danger")}>
 
             <div className="d-flex justify-content-between">
-            <div>
-                <BiErrorCircle className="me-1" />
-                <strong>Error: </strong> {message}
-            </div>
-            <Button variant="close" size="xs" onClick={() => onClose("danger")} />
+                <div className="w-100">
+                    <FaExclamationTriangle className="me-1 mb-1" />
+                    <strong>Oops! Something went wrong.</strong> {message}
+                </div> 
+                <AlertCloseButton className={"alert_btn_close alert_danger_text"} onClick={() => onClose("danger")}/>
             </div>
         </Alert>
 
