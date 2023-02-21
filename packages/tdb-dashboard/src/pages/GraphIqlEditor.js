@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { createGraphiQLFetcher } from "@graphiql/toolkit";
 import { GraphiQL } from "graphiql";
 //import {Container} from "react-bootstrap"
@@ -6,8 +6,8 @@ import { Layout } from "./Layout";
 import {WOQLClientObj} from '../init-woql-client'
 //import "./style.css"
 
-export function GraphIqlEditor() {
-  const {woqlClient} = WOQLClientObj() 
+export function GraphIqlEditor({}) {
+  const {woqlClient,currentChangeRequest} = WOQLClientObj() 
   if(!woqlClient) return 
   const client = woqlClient.copy()
   const url = client.connectionConfig.branchBase("graphql")
@@ -20,14 +20,15 @@ export function GraphIqlEditor() {
         }
   });
 
+ const layoutClass = currentChangeRequest ? "container-fluid mainGraphIqlCR" :  "container-fluid mainGraphIql"
+  
   return (
-    <Layout mainClassName="container-fluid mainGraphIql" showLeftSideBar={false}>
-     
+    <Layout mainClassName={layoutClass} showLeftSideBar={false}>
         <GraphiQL 
           editorTheme="shadowfox"
           fetcher={fetcher}
+        
         />
-     
     </Layout>
   );
 }
