@@ -49,7 +49,7 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
         lineNumbers: true,
         lineWrapping: true,
         //lint: true,
-        matchBrackets: true,
+        matchBrackets: true, 
         autoCloseBrackets: true,
         height: "auto", 
         //viewportMargin: Infinity,
@@ -65,18 +65,27 @@ export const JsonFrameViewer = ({jsonData, mode, setExtracted}) => {
     function handleSubmit(data) {
         if(setExtracted) setExtracted(data)
     }
+
+    const onBlurHandler = (value) =>{
+        //setValue(value)
+        setData(JSON.parse(value))
+    }
     
     // onBlur 
     return <React.Fragment>
         <CodeMirror
             value={JSON.stringify(data, null, 2)}
             options={cmOptions}
-            onChange={(editor, data, value) => {
+            onBlur={(editor, data, value) => {
+                const editorValue =editor.doc.getValue()
+                onBlurHandler(editorValue)
+            }}
+            /*onChange={(editor, data, value) => {
                 console.log("value", value, typeof value)
                 setData(JSON.parse(value))
                 // setting constant to maintain value between form & json view
                 if(mode !== CONST.VIEW_DOCUMENT && setJsonContent) setJsonContent(JSON.parse(value))
-            }}
+            }}*/
         />
         {mode!==CONST.VIEW_DOCUMENT && 
             <Button className="btn mt-2 float-left" variant="info" onClick={(e) => handleSubmit(data)}>
