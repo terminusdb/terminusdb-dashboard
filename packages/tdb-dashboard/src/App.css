@@ -1210,6 +1210,7 @@ button.graphiql-tab-add>svg
 }
 
 /** card border for change request component  */
+
 .update__change__request__card {
   height: 20em;
   display: flex;
