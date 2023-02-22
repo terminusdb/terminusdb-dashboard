@@ -728,6 +728,7 @@ input {
 
 .model-builder-code-mirror .CodeMirror{
   min-height: 400px !important;
+  height: auto !important;
 }
 
 .model-builder-code-mirror .CodeMirror-scroll {
@@ -738,9 +739,6 @@ input {
   height: auto !important;
   min-height: 400px !important;
 }
-
-
-
 
 .editor-pallet .CodeMirror {
   min-height: 400px !important;
