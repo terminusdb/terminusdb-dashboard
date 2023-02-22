@@ -194,7 +194,8 @@ div.progress-bar-container {
 
 
 
-.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus, 
+.success__color {
     color:  #00bc8c !important;
 }
 
@@ -766,6 +767,18 @@ pre.CodeMirror-line  > span > span.cm-string {
   border-top: 1px solid #444;
   width: 1000px;
   padding-top: 20px;
+}
+
+/** Setting heigt of code mirror in doc interface */
+.document__interface__main .CodeMirror,
+.tdb__frame__display .CodeMirror {
+  min-height: 400px !important;
+  height: auto !important;
+}
+
+.document__interface__main .CodeMirror-scroll,
+.tdb__frame__display .CodeMirror-scroll {
+  min-height: 400px !important;
 }
 
 
