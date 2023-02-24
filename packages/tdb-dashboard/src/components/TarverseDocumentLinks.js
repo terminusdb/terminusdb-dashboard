@@ -40,25 +40,21 @@ const ShowLinkRoute = ({linkArray, handleTraverse}) => {
 	return <div/>
 }
 //__KITTY
-export const TarverseDocumentLinks = ({show, onHide, clicked:documentID, setClicked}) => {
+export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
 	const {frames} = DocumentControlObj()
-	const {getDocumentById,result:data,loading,error:errorMsg} = DocumentHook()
+	const {getDocumentById,result,loading,error:errorMsg} = DocumentHook()
 
 	// constants to store document data 
     //const [data, setData]=useState(false)
-	//const [documentID, setDocumentID]=useState(false)
+	const [documentID, setDocumentID]=useState(false)
 	const [type, setType]=useState(false)
 
 	// document tarverse array
 	const [linkArray, setLinkArray]=useState([])
 
-	//const [loading, setLoading]=useState(false)
-    //const [errorMsg, setErrorMsg]=useState(false)
-
-
-	/*useEffect(() => {
+	useEffect(() => {
 		if(clicked) setDocumentID(clicked)
-	}, [clicked])*/
+	}, [clicked])
 	
 	function removeDocumentIDFromLinkArray(setLinkArray) {
 		// clear array on close
@@ -70,8 +66,7 @@ export const TarverseDocumentLinks = ({show, onHide, clicked:documentID, setClic
 			getDocumentById(documentID)
 			let extractedType = documentID.substring(0, documentID.indexOf("/"))
 			setType(extractedType)
-           // setDocumentID(documentID)
-			let tempArray=linkArray
+          	let tempArray=linkArray
 			if(tempArray.includes(documentID)) {
 				//tempArray.filter(arr => arr !== documentID)
 				let elemsToDelete = tempArray.length - 1 - tempArray.indexOf(documentID)
@@ -79,18 +74,11 @@ export const TarverseDocumentLinks = ({show, onHide, clicked:documentID, setClic
 			}
 			else tempArray.push(documentID)
 			setLinkArray(tempArray)
-			//setLinkArray(arr => [...arr, documentID])
         }
     }, [documentID])
 
-	//loading and error message
-	// hook to view a document 
-    // const viewResult = GetDocumentHook(woqlClient, documentID, setData, setLoading, setErrorMsg) || null
-
 	function handleClose (e) {
 		removeDocumentIDFromLinkArray(setLinkArray) 
-		//if(setClicked) setClicked(false)
-		//setDocumentID(false)
 		onHide()
 	}
 
@@ -124,10 +112,10 @@ export const TarverseDocumentLinks = ({show, onHide, clicked:documentID, setClic
 			{loading && <Loading message={`Fetching ${documentID} ...`}/>}
 			{!frames && !type && <Loading message={`Fetching ${documentID} ...`}/>}
 			<ShowLinkRoute linkArray={linkArray} handleTraverse={handleTraverse}/>
-			{type && <FrameViewer frame={frames}
+			{type && frames && result && <FrameViewer frame={frames}
 				type={type}
 				mode={CONST.VIEW_DOCUMENT}
-				formData={data}
+				formData={result}
 				hideSubmit={true}
 				onTraverse={handleTraverse}/>}
         </Modal.Body>

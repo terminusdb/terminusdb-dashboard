@@ -43,9 +43,9 @@ export function formatErrorMessage (err){
 	}else if(err.data){ 
 		if( err.data["api:message"] === "Incorrect authentication information"){
 			message =  "Incorrect authentication information, wrong username or password"
-		}else if (err.data["api:status"]==="api:conflict"){
+		}else if (err.data["api:status"]==="api:conflict") { 
 			message = getCRConflictError(err.data["api:witnesses"])
-		}else if (err.data["api:message"]=== "Schema check failure"){
+		}else if (err.data["api:message"]=== "Schema check failure") {
 			message = `${err.data["api:message"]} ${JSON.stringify(err.data["system:witnesses"], null, 2)}`
 		}else{
 			message = err.data["api:message"]

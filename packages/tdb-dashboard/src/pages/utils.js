@@ -32,3 +32,22 @@ export const timeConverter = (UNIX_timestamp) => {
     return time
 }
 
+export  const cleanGraphiqlCache = () =>{
+    const localStorageArr = 
+    ['graphiql:docExplorerFlex',
+    'graphiql:editorFlex',
+    "graphiql:operationName",
+    "graphiql:queries",
+    "graphiql:query",
+    "graphiql:tabState",
+    "graphiql:variables",
+    "graphiql:secondaryEditorFlex"] 
+
+    localStorageArr.forEach(item=>{
+        localStorage.removeItem(item)
+    })
+  }
+  
+  
+ 
+

@@ -11,45 +11,6 @@ import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {decodeUrl} from "../components/utils"
 
-//__KITTY
-/*const checkIfPrefix =(id)=>{
-    if(id.indexOf(":")>-1){
-        return id
-    }
-    return "@schema:"+id
-}
-
-const onSelect = async (inp, type) => {
-    const { 
-        woqlClient
-    } = WOQLClientObj()
-
-    let WOQL =  TerminusClient.WOQL
-    var docType=checkIfPrefix(type)
-    let q = WOQL.isa("v:Documents", docType)
-    const results = await q.execute(woqlClient)
-        .then((response) => {
-            let options = []
-            if(inp){
-                response.bindings.map(thing => {
-                    if(thing["Documents"].toUpperCase().includes(inp.toUpperCase())){
-                        options.push({value: thing["Documents"], label: thing["Documents"]})
-                    }
-                })
-            }
-            else {
-                response.bindings.map(thing => {
-                    options.push({value: thing["Documents"], label: thing["Documents"]})
-                })
-            }
-            return options
-        })
-        .catch((error) => {
-            console.log("query run error", error)
-        })
-    return results
-}*/
-
 const DisplayDocumentBody = () => {
     const {
         view,
@@ -64,11 +25,6 @@ const DisplayDocumentBody = () => {
     const navigate = useNavigate()
     const {type, docid} = useParams()
     let documentID=decodeUrl(docid)
-    
-    // constants for extracted data 
-   // const [extracted, setExtracted]=useState(false)
-    // constants to store document data 
-   // const [data, setData]=useState(false)
 
      const  callUpadateDocument = async (jsonDoc) =>{
         const docUp = await updateDocument(jsonDoc)
@@ -124,8 +80,7 @@ export const DocumentEdit = () => {
         setChangeRequestBranch(newBranchName, changeRequestId)
     }
  
-    return <main className="content w-100 document__interface__main">
-        
+    return <main className="content w-100 document__interface__main">  
         <ErrorMessageReport/>
         {showModal && <CreateChangeRequestModal showModal={showModal}
                 type={type} 

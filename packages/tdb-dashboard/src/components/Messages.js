@@ -26,7 +26,7 @@ const CommentSection = () => {
     if(Array.isArray(currentCRObject["messages"])) {
         currentCRObject["messages"].slice(0).reverse().map(curr => {
             elements.push(
-                <React.Fragment>
+                <React.Fragment key={curr.timestamp}>
                     {curr.text}
                     <Card.Text className="text-muted">{getDays(curr.timestamp)} days ago by {curr.author} </Card.Text>
                     <hr/>

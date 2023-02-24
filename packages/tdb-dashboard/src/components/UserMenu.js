@@ -3,7 +3,7 @@ import {Button, Dropdown,Nav} from 'react-bootstrap';
 import {PROFILE,PLANS} from "../routing/constants"
 import {NavLink as RouterNavLink} from "react-router-dom"
 import {AiOutlineUser, AiOutlinePoweroff,AiOutlineUsergroupAdd} from "react-icons/ai"
-import {FaExchangeAlt} from "react-icons/fa"
+import {BsPersonCheck} from "react-icons/bs"
 import {WOQLClientObj} from '../init-woql-client'
 
 export const UserMenu = ({organization}) => {
@@ -81,11 +81,11 @@ export const UserMenu = ({organization}) => {
                 <Dropdown.Menu >
                <Dropdown.Item>
                     <Nav.Link  as={RouterNavLink}
-                        title={"View Profile Page"}  
+                        title={"View Subscription"}  
                         to={`/${PLANS}`} 
                         
                         id={"plans"}>
-                            <AiOutlineUser className="mr-3 mb-1" />Subscription
+                            <BsPersonCheck className="mr-3 mb-1" />Subscription
                     </Nav.Link>
                 </Dropdown.Item>
                 {organization && <Dropdown.Item>

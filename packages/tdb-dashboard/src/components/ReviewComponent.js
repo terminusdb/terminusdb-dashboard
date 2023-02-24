@@ -6,7 +6,7 @@ import {WOQLClientObj} from "../init-woql-client"
 import Stack from "react-bootstrap/Stack"
 import {status} from "./utils" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import {ButtonGroup, Button} from 'react-bootstrap';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import {Loading} from "../components/Loading"
 import { MessageBox, MessageComponent } from "./Messages"
@@ -14,7 +14,7 @@ import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai"
 
 const ToggleActions = ({ message }) => {
     const { setCurrentCRObject, exitChangeRequestBranch }= WOQLClientObj()
-    const { updateChangeRequestStatus, loading } = ChangeRequest()
+    const { updateChangeRequestStatus, loading, error } = ChangeRequest()
     const { organization, dataProduct , changeid} = useParams()
     const navigate = useNavigate() 
     let action = CONST.APPROVE
@@ -31,7 +31,7 @@ const ToggleActions = ({ message }) => {
     }
 
     const reviewButtons = [
-        { name: CONST.APPROVE, value: CONST.APPROVE, className: "rounded-left", variant: "outline-success", icon: <AiOutlineCheck className="mr-1 mb-1 text-success"/> },
+        { name: CONST.APPROVE, value: CONST.APPROVE, className: "rounded-left", variant: "outline-success", icon: <AiOutlineCheck className="mr-1 mb-1 success__color"/> },
         { name: CONST.REJECT, value: CONST.REJECT , className: "rounded-right", variant: "outline-danger", icon: <AiOutlineClose className="mr-1 mb-1 text-danger"/> }
     ];
 
@@ -43,7 +43,7 @@ const ToggleActions = ({ message }) => {
         </small>
         <ButtonGroup>
             {reviewButtons.map((button) => (
-            <ToggleButton
+            <Button
                 key={button.name}
                 id={button.name}
                 type="radio"
@@ -51,11 +51,10 @@ const ToggleActions = ({ message }) => {
                 name={button.name}
                 value={button.value}
                 className={button.className}
-                checked={action === button.value}
-                onChange={(e) => doAction(e.currentTarget.value)}
+                onClick={(e) => doAction(e.currentTarget.value)}
 >
                 {button.icon}{button.name}
-            </ToggleButton>
+            </Button>
             ))}
         </ButtonGroup>
     </Stack>

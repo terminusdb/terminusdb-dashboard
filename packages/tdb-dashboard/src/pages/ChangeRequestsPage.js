@@ -76,8 +76,20 @@ export const ChangeRequestsPage = () => {
 	
   
     const countType = {[OPEN] : 0 , [SUBMITTED]:0, [REJECTED]:0, [MERGED]:0 }
+	const activeClassNameType = { 
+		[OPEN] : "text-decoration-underline text-light" , 
+		[SUBMITTED]: "text-decoration-underline text-warning",  
+		[REJECTED]: "text-decoration-underline text-danger", 
+		[MERGED]: "text-decoration-underline success__color"
+	}
 
-    const getHeader = () =>{
+	function getActiveClassName (filter, status) {
+		let className = filter === status ? `p-1 rounded ${activeClassNameType[status]}` : ""
+		return className
+	}
+
+
+    const getHeader = (filter) =>{
       	changeRequestList.forEach(item=> {
         	countType[item.status] = countType[item.status]+1
     	})
@@ -85,31 +97,31 @@ export const ChangeRequestsPage = () => {
 		function displayCRs (status) {
 			setFilter(status)
 		}
-
+		
 		return  <React.Fragment>
 			<Stack direction="horizontal" gap={3}>
 				<Button variant="dark" onClick={(e) => displayCRs(OPEN)} className="btn bg-transparent border-0 text-gray">
 					<small className="text-gray fw-bold">
 						{iconTypes[OPEN]} 
-						<span className="mr-5">{countType[OPEN]} {OPEN}</span> 
+						<span className={`${getActiveClassName (filter, OPEN)}`}>{countType[OPEN]} {OPEN}</span> 
 					</small>  
 				</Button>  
 				<Button variant="dark" onClick={(e) => displayCRs(SUBMITTED)} className="btn bg-transparent border-0 text-gray">       
 					<small className="text-gray fw-bold">
 						{iconTypes[SUBMITTED]} 
-						<span className="mr-5" >{countType[SUBMITTED]} Review</span> 
+						<span className={`${getActiveClassName (filter, SUBMITTED)}`} >{countType[SUBMITTED]} Review</span> 
 					</small>
 				</Button>  
 				<Button variant="dark" onClick={(e) => displayCRs(MERGED)} className="btn bg-transparent border-0 text-gray">   
 					<small className="text-gray fw-bold">
 						{iconTypes[MERGED]} 
-						<span className="mr-5">{countType[MERGED]} {MERGED}</span> 
+						<span className={`${getActiveClassName (filter, MERGED)}`}>{countType[MERGED]} {MERGED}</span> 
 					</small>
 				</Button>  
 				<Button variant="dark" onClick={(e) => displayCRs(REJECTED)} className="btn bg-transparent border-0 text-gray">   
 					<small className="text-gray fw-bold">
 						{iconTypes[REJECTED]} 
-						<span className="mr-5">{countType[REJECTED]} {REJECTED}</span>
+						<span className={`${getActiveClassName (filter, REJECTED)}`}>{countType[REJECTED]} {REJECTED}</span>
 					</small>
 				</Button>
 			</Stack>
@@ -179,7 +191,7 @@ export const ChangeRequestsPage = () => {
 			<div className="mt-5 mb-5 mr-5">
 				<Card>
 					<Card.Header>
-						{changeRequestList && getHeader()}
+						{changeRequestList && getHeader(filter)}
 					</Card.Header>
 					<Card.Body className="p-0">
 						<ListGroup as="ol" key={"ListGroup"}> 

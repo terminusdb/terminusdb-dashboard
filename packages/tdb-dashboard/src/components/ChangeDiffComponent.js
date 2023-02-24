@@ -10,6 +10,7 @@ import Tabs from 'react-bootstrap/Tabs'
 import Stack from 'react-bootstrap/Stack'
 import {Loading} from "../components/Loading"
 import Alert from 'react-bootstrap/Alert'
+import { useParams } from 'react-router-dom'
 import {
     DIFFS, 
     MERGED, 
@@ -50,7 +51,7 @@ const DisplayHeader = ({author, documentModifiedCount, tracking_branch}) => {
 
 
 export const ChangeDiffComponent = () => { 
-
+    const {changeid} = useParams()
     const {
         woqlClient:client,
         currentCRObject
@@ -61,7 +62,7 @@ export const ChangeDiffComponent = () => {
     const [key, setKey] = useState(DIFFS)
    
     useEffect(() => {
-        getDiffList()
+        getDiffList(changeid)
     }, [])
     
 
@@ -92,8 +93,7 @@ export const ChangeDiffComponent = () => {
                             documentModifiedCount={documentModifiedCount}/>
                     </Stack>
                 </Card.Header> 
-                <Card.Body> 
-                    
+                <Card.Body>                 
                     {currentCRObject.status !== MERGED &&
                     <ReviewComponent/> }
                     <DiffView diffs={result} CRObject={currentCRObject}/> 

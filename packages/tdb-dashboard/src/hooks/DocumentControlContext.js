@@ -55,18 +55,32 @@ export const DocumentControlProvider = ({children}) => {
                 // the list of classes
                 const classDocumentsResult = await woqlClient.getClassDocuments(dataProduct)
                 const classDocumentOrder=sortAlphabetically(classDocumentsResult, true) 
-                const totalQ=getTotalNumberOfDocuments(classDocumentsResult)
+                setDocumentClasses(classDocumentOrder)
+            } 
+        }catch(err){
+            setError(err.message)
+            console.log("Error in init woql while getting classes of data product", err.message)
+        }finally{setLoading(false)}
+    }
+
+    // count the number of document I need this in 
+    // docHome and query builder
+    async function getDocNumber(){
+        try{
+            setLoading(true)
+            setError(false)
+            const classes = documentClasses
+            if(Array.isArray(documentClasses) && documentClasses.length>0){
+                const totalQ=getTotalNumberOfDocuments(classes)
                 //give me back count with the total documents number and total for classes too
                 const totalDocumentCount = await woqlClient.query(totalQ)
                 //get the total number
                 const getTotal = totalDocumentCount.bindings[0].Count["@value"]
-                delete totalDocumentCount.bindings[0].Count
-                
-                setDocumentClasses(classDocumentOrder)
+                delete totalDocumentCount.bindings[0].Count        
                 setTotalDocumentCount(getTotal)
                 //pass the count per class
                 setPerDocument(totalDocumentCount.bindings[0])
-            } 
+            }
         }catch(err){
             setError(err.message)
             console.log("Error in init woql while getting classes of data product", err.message)
@@ -76,12 +90,17 @@ export const DocumentControlProvider = ({children}) => {
     // next step good cache policy
     // I needd a way to cache this so I can
     // not call frame for a specific dataP if not changes
+    // classes and frames we need only one but count can change
+    // we reset all the object
     useEffect(() => {
-        getUpdatedDocumentClasses()
-        // reset frames and table.... 
+        setDocumentClasses(false)
+        setTotalDocumentCount(false)
+        setPerDocument(false)
         setFrames(null)
         setSelectedDocument(null)
         setDocumentTablesConfig(null) 
+        getUpdatedDocumentClasses()
+        // reset frames and table....
     },[dataProduct])
 
     useEffect(() => {
@@ -91,8 +110,9 @@ export const DocumentControlProvider = ({children}) => {
 
     // this work in edit and view 
     // not works for new document, I have to add it inside new document too
-    // I prefer do the call in the single page maybe
+    // I prefer do the call in the single page maybe ??
     // to review
+    // we need frame in the diff page too for this we are listening changeid status
     useEffect(() => {
         if(frames===null)getUpdatedFrames()
         if(id) {         
@@ -157,7 +177,7 @@ export const DocumentControlProvider = ({children}) => {
             const res = await woqlClient.addDocument(jsonDocument, null, dataProduct)
             return res
         }catch(err){ 
-            setError(err.message)
+            setError(err.data || err.message)
         }finally{
             setLoading(false)
         }
@@ -189,8 +209,7 @@ export const DocumentControlProvider = ({children}) => {
             let commitMsg=`Deleting document ${documentId}` 
             const res = await woqlClient.deleteDocument(params, dataProduct, commitMsg)
             return res
-        }
-        catch(err){
+        }catch(err){
             setError(`I can not delete the document ${err.message}`)
        }finally{setLoading(false)}
     }
@@ -216,9 +235,55 @@ export const DocumentControlProvider = ({children}) => {
             return res
         }
         catch(err){
-           setError(err.message)
+            //display conflict
+            setError(err.data || err.message)
        }finally{setLoading(false)}
     }
+
+    // function to format and display errors in document Interface
+   /* function formatErrorMessages (error) {
+
+        if(!error.hasOwnProperty("api:message")) return error
+
+        let message = error["api:message"]
+        let errorElements = []
+        if(error["api:error"]) {
+            if(Array.isArray(error["api:error"]["api:witnesses"])) {
+                error["api:error"]["api:witnesses"].map(err => {
+
+                    if(err.hasOwnProperty("constraint_name")) {
+                        // CONSTRAINT ERRORS
+                        let propertyName = err["constraint_name"]
+                        let errorType = `${err["@type"]} on `
+                        let message = err.message
+
+                        errorElements.push(
+                            <DisplayErrorPerProperty propertyName={propertyName} message={message} errorType={errorType}/>
+                        )
+                    }
+                    else {
+                        if(err.hasOwnProperty("@type")) {
+                            errorElements.push(
+                                <pre>{JSON.stringify(err, null, 2)}</pre>
+                            )
+                        }
+                        else {
+                            // OTHER TYPE ERRORS
+                            for(let items in err) {
+                                let propertyName = items
+                                let errorType = err[propertyName].hasOwnProperty("@type") ? `${err[propertyName]["@type"]} on ` : `Error occured on`
+                                let message = JSON.stringify(err[propertyName], null, 2)
+                                errorElements.push(
+                                    <DisplayErrorPerProperty propertyName={propertyName} message={message} errorType={errorType}/>
+                                )
+                            }
+                        }
+                    }
+                })   
+            }
+        }
+        return <ErrorDisplay errorData={errorElements} message={message} css={CONST.ERROR_MORE_INFO_CLASSNAME}/>
+    }*/
 
     return (
         <DocumentControlContext.Provider
@@ -229,6 +294,7 @@ export const DocumentControlProvider = ({children}) => {
                 deleteDocument,
                 createDocument,
                 updateDocument,
+                getDocNumber,
                 setView,
                 getUpdatedFrames,
                 actionControl,
@@ -244,8 +310,8 @@ export const DocumentControlProvider = ({children}) => {
                 documentClasses,
                 getGraphqlTableConfig,
                 documentTablesConfig,
-                frames
-
+                frames,
+               // formatErrorMessages
             }}
         >
             {children}

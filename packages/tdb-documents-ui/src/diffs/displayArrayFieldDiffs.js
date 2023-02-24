@@ -2,9 +2,9 @@ import React from "react"
 import * as DIFFCONST from "./diff.constants"
 import * as CONST from "../constants"
 import * as util from "./diffComponents"
-import {getDataFieldDiffs} from "./dataFieldDiffs"
 import Card from 'react-bootstrap/Card';
 import * as display from "./diffComponents"
+import { DisplayArrayMarkdown } from "./markdownFieldDiffs"
 
 /** 
  * 
@@ -13,7 +13,18 @@ import * as display from "./diffComponents"
  * @param {*} label - property name
  * @returns an input with diff css
  */
-export const DataTypeDiff = ({data, css, label}) => { 
+export const DataTypeDiff = ({data, css, label, metaDataConfig, index}) => { 
+    if(metaDataConfig) {
+        let markdownCss="tdb__input"
+        if(css === "tdb__diff__changed") markdownCss = "diff_react_viewer_changed mb-3"
+        if(css === "tdb__diff__original") markdownCss = "diff_react_viewer_original mb-3"
+        return <DisplayArrayMarkdown data={data} 
+            item={label} 
+            newValue={metaDataConfig.newValue[label][index]}
+            oldValue={metaDataConfig.oldValue[label][index]}
+            css={markdownCss}/>
+    }
+
     return <span className="d-flex">
         <span className="opacity-0 control-label">{label}</span>
         <input value={data} className={`form-control ${css} mb-3`}/>
@@ -204,7 +215,7 @@ function isValid (formData) {
  * @param {*} tagUI - extracted classnames to show diffs
  * @returns elements with diff css 
  */
-export function displayElements(formData, item, schema, tagUI) {  
+export function displayElements(formData, item, schema, tagUI, metaDataConfig) {  
     //console.log("props in doff", props, tagOriginalUI)
 
     let elements =[]
@@ -225,7 +236,7 @@ export function displayElements(formData, item, schema, tagUI) {
     if(schema.items.info === CONST.DATA_TYPE) {
         formData.map((data, index) => {
             let css = tagUI[item][index] ? tagUI[item][index] : "tdb__input"
-            elements.push(<DataTypeDiff data={data} css={css} label={item}/>)
+            elements.push(<DataTypeDiff data={data} css={css} label={item} metaDataConfig={metaDataConfig} index={index}/>)
         })
         elements.push(<RemovedElements formData={formData} tagUI={tagUI} item={item} info={CONST.DATA_TYPE}/>)
     }

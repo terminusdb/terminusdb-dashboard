@@ -542,7 +542,10 @@ div.leaflet-popup-content-wrapper > div.leaflet-popup-content {
 
 /** REACT DIFF VIEWER FOR MARKDOWN **/
 /** hide changed diff from original react-diff-viewer */
-div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(-n+3) {
+/*div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(-n+3) {
+    display: none !important;
+}*/
+div.diff_react_viewer_original  table.css-1ri4lr5-diff-container  tbody  tr.css-1n7ec1i-line td.css-1pm82w3-diff-added {
     display: none !important;
 }
 
@@ -563,7 +566,11 @@ div.diff_react_viewer_original > table.css-1ri4lr5-diff-container > tbody > tr.c
 }
 
 /** hide original diff from changed react-diff-viewer */
-div.diff_react_viewer_changed > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-child(-n+3) {
+/*div.diff_react_viewer_changed > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-child(-n+3) {
+    display: none !important;
+}*/
+
+div.diff_react_viewer_changed table.css-1ri4lr5-diff-container tbody tr.css-1n7ec1i-line td.css-14exn69-diff-removed {
     display: none !important;
 }
 
@@ -744,7 +751,8 @@ form.rjsf label.control-label:after { content: "";  }
 
 /* hide anyof select from document links in edit and view mode */
 .tdb__edit__document__link .panel .form-group select.form-control,
-.tdb__view__document__link .panel .form-group select.form-control{
+.tdb__view__document__link .panel .form-group select.form-control,
+.tdb__view__document__link + .panel {
     display: none !important; 
 }
 

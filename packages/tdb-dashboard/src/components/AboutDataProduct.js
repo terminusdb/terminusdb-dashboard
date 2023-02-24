@@ -42,7 +42,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
     }, [healthColor])
 
     useEffect(() => {
-        if(cloneDBName){
+        if(cloneDBName && cloneDBName.current){
             cloneDBName.current.value = dataProduct
         }
     }, [dataProduct])

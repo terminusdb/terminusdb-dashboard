@@ -27,13 +27,13 @@ export const DocumentView = ({props, onTraverse}) => {
         setClicked({id: val, update: Date.now()})
     }
 
-    let color = "text-light"
+    let color = "text-light" 
     //if (styles && styles.hasOwnProperty("mode") && styles["mode"]==="light") color="text-dark"
 
     if(!props.formData) return <div className="tdb__view__existing__doc__hide"/>
     if(typeof props === CONST.OBJECT_TYPE && !Object.keys(props.formData).length) return <div className="tdb__view__existing__doc__hide"/>
  
-    return <div className="mb-4 d-flex">
+    return <div className="mb-4 d-flex tdb__view__document__link">
         {<div className="control-label">
             {props.name}
         </div>}
@@ -158,7 +158,9 @@ export function displaySearchComponent(props, onSelect, linked, mode) {
         }
     }, [selected])
 
-    //let label = fetchSelectedLabel(selected)
+    // display only anyof properties here 
+    // schema appears twice in UI so we display empty div when props.schema has anyOf
+    if(props.hasOwnProperty("schema") && props.schema.hasOwnProperty("anyOf")) return <div/>
 
 
     const Selected = ({selected, mode}) => {
@@ -190,6 +192,8 @@ export function displaySearchComponent(props, onSelect, linked, mode) {
             </Button>
         </div>
     }
+
+    //console.log("props", props, onSelect, linked, mode)
 
     return <Card className="w-100 bg-secondary border border-dark">
         <DocumentSearch display={onSelect} 

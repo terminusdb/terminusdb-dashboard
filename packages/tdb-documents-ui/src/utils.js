@@ -293,9 +293,34 @@ export function checkIfRenderedAsMarkdown(frame, property, diffPatch) {
 		diffPatch.hasOwnProperty(property)) {
 			// check if any fields have been rendered as markdown 
 			// if rendered as markdown display diffViewer a bit differently 
-			return true
+			return frame[CONST.METADATA][CONST.RENDER_AS][property]
 	}
 	return false
+}
+
+/**
+ * 
+ * @param {*} frame frames
+ * @param {*} item property of interest 
+ * @param {*} diffPatch diff path between old and new Value
+ * @param {*} oldValue old value
+ * @param {*} newValue new value
+ * @returns a meta data config object which tells the ui to show Markdown view diffs
+ */
+export function gatherMetaDataConfig (frame, item, diffPatch, oldValue, newValue) {
+	let metaDataDefined = checkIfRenderedAsMarkdown(frame, item, diffPatch)
+    let metaDataConfig = false
+	// if meta data defined
+	if(metaDataDefined) {
+		// make a confilg object to pass 
+		metaDataConfig = {
+			metaDataType: metaDataDefined,
+			item: item, 
+			oldValue: oldValue, 
+			newValue: newValue
+		}
+	}
+	return metaDataConfig
 }
 
 /**
@@ -676,6 +701,7 @@ export function getLinkedDocumentClassName (frame, item) {
  */
 export function getRowHeight(data) {
 	if(Array.isArray(data)) return 1
+	if(typeof data !== "string") return 1
     return data.split(/\r\n|\r|\n/).length
 }
 

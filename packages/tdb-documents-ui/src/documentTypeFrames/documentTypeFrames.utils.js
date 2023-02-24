@@ -79,6 +79,18 @@ function getEditUILayout (frame, onSelect, css, mode) {
             }
             addUiOrderToCreateNewFrames (createNew, uiLayout) 
         }
+        else {
+            // @unfoldable is true & cycle exists
+            function getEditLinkExistingUI (props) {
+                return <>
+                    <div className="control-label">
+                        {props.name}
+                    </div>
+                    {displaySearchComponent(props, onSelect, frame.linked_to, mode)}
+                </>
+            }
+            uiLayout["ui:field"] = getEditLinkExistingUI
+        }
     }
     return uiLayout
 }

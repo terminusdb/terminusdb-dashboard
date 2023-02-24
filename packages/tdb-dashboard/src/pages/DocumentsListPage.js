@@ -12,7 +12,7 @@ export const DocumentsPageList = () => {
     const {documentTablesConfig, getGraphqlTableConfig,loading} = DocumentControlObj()
     if(!woqlClient) return ""
 
-    const viewGraphql = documentTablesConfig && documentTablesConfig.objQuery[type].query
+    const viewGraphql = documentTablesConfig &&  documentTablesConfig.objQuery[type] && documentTablesConfig.objQuery[type].query
 
     useEffect(() => {
         if(documentTablesConfig === null) getGraphqlTableConfig()

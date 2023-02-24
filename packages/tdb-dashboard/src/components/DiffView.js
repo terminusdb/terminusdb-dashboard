@@ -215,7 +215,7 @@ export const DiffView = ({diffs, CRObject}) => {
         
         // this are the diff panel for document
         elements.push(
-            <React.Fragment>
+            <React.Fragment key={`item__${start}`}>
                <DiffViewDocument frames={frames} key={actionKey}
                     action={action}
                     docType={docType}

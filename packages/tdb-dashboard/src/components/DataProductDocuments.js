@@ -24,7 +24,7 @@ export const DataProductDocuments = () => {
 
     //maybe I have to update the count when enter here well see
     const {addQueryPane} = QueryPaneObj()
-    const  {perDocumentCount:dataProvider, documentClasses,frames,getUpdatedFrames} = DocumentControlObj()
+    const  {getDocNumber,perDocumentCount:dataProvider, documentClasses,frames,getUpdatedFrames} = DocumentControlObj()
  
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
@@ -32,8 +32,9 @@ export const DataProductDocuments = () => {
 
     // I call ones
     useEffect(() => {
-        getUpdatedFrames()
-    },[dataProduct])
+        if(documentClasses)getDocNumber()
+        if(frames===null)getUpdatedFrames()
+    },[dataProduct,documentClasses])
 
     function handlePropertyClick (property) {
         let q = getPropertyRelation(property, dataProduct, woqlClient)

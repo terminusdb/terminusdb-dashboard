@@ -15,9 +15,16 @@ export const DocumentSummary = () => {
     const navigate = useNavigate() 
     const {perDocumentCount,
         totalDocumentCount, 
+        documentClasses,
+        getDocNumber,
         loading:documentLoading,
         error}=DocumentControlObj()
 
+//
+    useEffect(() => {
+        //remove the error from the preview page
+        if(documentClasses)getDocNumber()
+    },[documentClasses])
 
     const getUrl = (pageName)=> {
         return  `/${organization}/${dataProduct}/${pageName}`
@@ -68,7 +75,7 @@ export const DocumentSummary = () => {
             {error && <div className="text-danger" > {error}</div>}
             <Row>
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
-                {!perDocumentCount && <Col xs={11} className="d-block ml-5 mr-3">
+                {!documentLoading && documentClasses && !perDocumentCount && <Col xs={11} className="d-block ml-5 mr-3">
                     <div className="card card-fil m-3">
                         <div className="card-body w-100 text-center">
                             <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>

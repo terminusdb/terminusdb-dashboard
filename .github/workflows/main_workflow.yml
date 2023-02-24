@@ -17,7 +17,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
     - run: npm i
     - name: Build
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' }}
@@ -47,18 +47,18 @@ jobs:
             AUDIENCE="https://terminuscloud/users"
         ' > .env
         npm run build-terminusx
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
-      with:
-        project_id: ${{ secrets.GCLOUD_PROJECT }}
-        service_account_key: ${{ secrets.GCLOUD_SERVICE_ACCOUNT_KEY }}
-        export_default_credentials: true
-    - name: Upload tdb-dashboard dev
+    - name: Upload tdb-dashboard to dev s3
       if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
-      run: gsutil -h "Cache-Control:public, max-age=60" cp -r packages/tdb-dashboard/dist/* "gs://${{ secrets.GCLOUD_DEV_BUCKET }}/"
-    - name: Upload tdb-dashboard prod
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: aws s3 sync packages/tdb-dashboard/dist/ s3://${{ secrets.S3_DEV_BUCKET }} --region=${{ secrets.AWS_REGION }}
+    - name: Upload tdb-dashboard to prod s3
       if: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/v') }}
-      run: gsutil -h "Cache-Control:public, max-age=60" cp -r packages/tdb-dashboard/dist/* "gs://${{ secrets.GCLOUD_BUCKET }}/"
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: aws s3 sync packages/tdb-dashboard/dist/ s3://${{ secrets.S3_PROD_BUCKET }} --region=${{ secrets.AWS_REGION }}
     - name: Clean cloudflare cache
       if: ${{ github.event_name != 'pull_request' }}
       run: python3 .ci/clean_cloudflare_cache.py ${{ github.ref }}
@@ -76,7 +76,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
     - run: npm i
     - name: Build local dashboard
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' || startsWith(github.ref, 'refs/tags/v') }}
@@ -108,7 +108,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: 18
         registry-url: 'https://registry.npmjs.org'
     - name: Build packages
       run: npm i && npm run build --ws

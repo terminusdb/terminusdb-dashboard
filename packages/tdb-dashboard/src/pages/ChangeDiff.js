@@ -43,7 +43,7 @@ const CRAction = ({}) => {
         return <ChangeDiffComponent/>
 
     // if needRebase  
-    return <React.Fragment>
+    return <React.Fragment>  
         {errorMessage && <Alerts message={errorMessage} type={CONST.TERMINUS_DANGER} onCancel={setError}/>}
         <Card className="update__change__request__card">
             <Card.Header className="w-100"> 
@@ -80,7 +80,7 @@ const CRAction = ({}) => {
 
 
 export const ChangeDiff = () => { 
-    const {changeid:id} = useParams()
+    const {changeid} = useParams()
     const {
         woqlClient:client,
         setCurrentCRObject,
@@ -98,13 +98,13 @@ export const ChangeDiff = () => {
 
     useEffect(() => {
         async function getCRID() {
-            const changeRequestDoc = await getChangeRequestByID(id,true)
+            const changeRequestDoc = await getChangeRequestByID(changeid,true)
             if(changeRequestDoc){
                 setCurrentCRObject(changeRequestDoc)
             }
         }
-        if(id, client) getCRID()
-    }, [id, client])
+        if(changeid, client) getCRID()
+    }, [changeid, client])
    
     if(!client) return <div/>
 

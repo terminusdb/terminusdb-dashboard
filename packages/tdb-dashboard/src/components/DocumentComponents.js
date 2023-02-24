@@ -14,6 +14,9 @@ import {Card,Alert,Row,Modal} from 'react-bootstrap';
 import {DocumentsGraphqlTable} from "./DocumentsGraphqlTable"
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
+import { ErrorDisplay } from "./ErrorDisplay"
+import { DisplayErrorPerProperty } from "./ErrorDisplay"
+import {Alerts} from "./Alerts"
 
 // button to view frames
 const ViewFramesButton = () => {
@@ -271,9 +274,55 @@ export const SearchComponent = ({setSelected, doctype}) => {
 // form
 // we review this better 
 export const ErrorMessageReport = ()=>{
-    const {error} = DocumentControlObj()
-     if(error)return <Alert variant={"danger"} className="mr-3">{error}</Alert>
+    //<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
+    const {error,setError} = DocumentControlObj()
+     if(error)return <FormatErrorMessages error={error} setError={setError}/>
      return ""
+}
+
+function FormatErrorMessages ({error, setError}) {
+    if(!error.hasOwnProperty("api:message")) return <Alerts message={error} type={CONST.TERMINUS_DANGER} onCancel={setError}/>
+    let message = error["api:message"]
+    let errorElements = []
+    if(error["api:error"]) {
+        if(Array.isArray(error["api:error"]["api:witnesses"])) {
+            error["api:error"]["api:witnesses"].map(err => {
+
+                if(err.hasOwnProperty("constraint_name")) {
+                    // CONSTRAINT ERRORS
+                    let propertyName = err["constraint_name"]
+                    let errorType = `${err["@type"]} on `
+                    let message = err.message
+
+                    errorElements.push(
+                        <DisplayErrorPerProperty propertyName={propertyName} message={message} errorType={errorType}/>
+                    )
+                }
+                else {
+                    if(err.hasOwnProperty("@type")) {
+                        errorElements.push(
+                            <pre>{JSON.stringify(err, null, 2)}</pre>
+                        )
+                    }
+                    else {
+                        // OTHER TYPE ERRORS
+                        for(let items in err) {
+                            let propertyName = items
+                            let errorType = err[propertyName].hasOwnProperty("@type") ? `${err[propertyName]["@type"]} on ` : `Error occured on`
+                            let message = JSON.stringify(err[propertyName], null, 2)
+                            errorElements.push(
+                                <DisplayErrorPerProperty propertyName={propertyName} message={message} errorType={errorType}/>
+                            )
+                        }
+                    }
+                }
+            })   
+        }
+    }
+    const errorComp = <ErrorDisplay errorData={errorElements} message={message} css={CONST.ERROR_MORE_INFO_CLASSNAME}/>
+    return <Alerts message={errorComp} type={CONST.TERMINUS_DANGER} onCancel={setError}/>
+    
+   
 }
 
 

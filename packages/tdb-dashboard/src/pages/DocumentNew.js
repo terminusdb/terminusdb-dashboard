@@ -6,49 +6,9 @@ import * as CONST from "../components/constants"
 import { useNavigate, useParams } from "react-router-dom";
 import {CreateHeader, SearchComponent,ErrorMessageReport} from "../components/DocumentComponents"
 import {JsonFrameViewer} from "../components/JsonFrameViewer"
-import Alert from 'react-bootstrap/Alert'
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
-
-//__KITTY__
-/*const checkIfPrefix =(id)=>{
-    if(id.indexOf(":")>-1){
-        return id
-    }
-    return "@schema:"+id
-}
-
-const onSelect = async (inp, type) => {
-    const { 
-        woqlClient
-    } = WOQLClientObj()
-
-    let WOQL =  TerminusClient.WOQL
-    var docType=checkIfPrefix(type)
-    let q = WOQL.isa("v:Documents", docType)
-    const results = await q.execute(woqlClient)
-        .then((response) => {
-            let options = []
-            if(inp){
-                response.bindings.map(thing => {
-                    if(thing["Documents"].toUpperCase().includes(inp.toUpperCase())){
-                        options.push({value: thing["Documents"], label: thing["Documents"]})
-                    }
-                })
-            }
-            else {
-                response.bindings.map(thing => {
-                    options.push({value: thing["Documents"], label: thing["Documents"]})
-                })
-            }
-            return options
-        })
-        .catch((error) => {
-            console.log("query run error", error)
-        })
-    return results
-}*/
 
 // if you listen something your interface will be render when the status changes
 // for this I remove the loading listener form display document I only check frames

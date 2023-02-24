@@ -8,6 +8,7 @@ import {createClientUser} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
 import {getChangesUrl} from "./hooks/hookUtils"
+import {cleanGraphiqlCache} from "./pages/utils"
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
@@ -34,8 +35,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [currentCRObject, setCurrentCRObject]=useState(false)
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
     const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
-    const [documentClasses, setDocumentClasses] = useState(false)
-
+    
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
                              sidebarDataProductConnectedState:true,
@@ -146,13 +146,14 @@ export const WOQLClientProvider = ({children, params}) => {
             setHead('main',{commit:false,time:false})
 
             if(dbName){
+                //clear graphiql interface local storage
+                cleanGraphiqlCache()
                 // check if there is a change request related
                 const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
 
                 const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
                 const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)  
-                //const classDocumentsResult = await client.getClassDocuments(dbName)    
-
+            
                 if(lastBranch && lastChangeRequest){
                     //check the changeRequest Status
                     const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
@@ -171,11 +172,7 @@ export const WOQLClientProvider = ({children, params}) => {
                     setBranch("main")
                     setCurrentChangeRequest(false)
                 }
-                //setDocumentClasses(classDocumentsResult)
-                //get all the configuration that you need for the documents  
-                //refreshDataProductConfig(client)
             }
-           // clearDocumentCounts()
         }
     }
 
@@ -208,8 +205,6 @@ export const WOQLClientProvider = ({children, params}) => {
         setChosenCommit({})
         setCurrentChangeRequest(false) 
     }
- 
-   // const currentPage = history.location.pathname
 
     //to be review
     //to much set state we can optimize this !!!
@@ -218,27 +213,12 @@ export const WOQLClientProvider = ({children, params}) => {
         if(branchID)woqlClient.checkout(branchID)
         let sref=refObject.commit
         let refTime=refObject.time
-
-        /*if(branches && branches[branchID] && branches[branchID].head == sref){
-            sref = false
-            refTime=false
-        }*/
         sref = sref || false
         woqlClient.ref(sref)
 
         setBranch(branchID)
         setRef(sref)
-        setChosenCommit(refObject)
-        //we have to move this
-        //we need this info in 2 different point (left sidebar and the page)
-        //this is to fix the refresh of document interface
-        //I added it but we have to remove it and create an hook
-        const {page} = getLocation()
-        //review this
-        /*if(woqlClient.db() && page===DOCUMENT_EXPLORER ){
-            getUpdatedDocumentClasses(woqlClient)
-            getUpdatedFrames(woqlClient)
-        }*/
+        setChosenCommit(refObject)       
     }
 
    // review
@@ -328,8 +308,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 woqlClient,
                 loadingServer,
                 setDataProduct,
-                reconnectToServer,
-                documentClasses
+                reconnectToServer
             }}
         >
             {children}

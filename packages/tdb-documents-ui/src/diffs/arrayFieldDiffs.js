@@ -105,11 +105,17 @@ function patchListOperation (diff, item, tagOriginalUI, tagChangedUI) {
                 }
                 else {  
                     // copy list swap operation 
-                    diff[DIFFCONST.REST][DIFFCONST.REST].map(rest => { 
-                        let {originalUI, changedUI} = swapOperation(rest)
-                        tagOriginalUI[item].push(originalUI)
-                        tagChangedUI[item].push(changedUI)
-                    })
+                    if(Array.isArray(diff[DIFFCONST.REST][DIFFCONST.REST])) {
+                        diff[DIFFCONST.REST][DIFFCONST.REST].map(rest => { 
+                            let {originalUI, changedUI} = swapOperation(rest)
+                            tagOriginalUI[item].push(originalUI)
+                            tagChangedUI[item].push(changedUI)
+                        })
+                    }
+                    else {
+                        // at this point this will be patch operation - if not we will need a check here to see if @op is patch
+                        patchListOperation (diff[DIFFCONST.REST][DIFFCONST.REST], item, tagOriginalUI, tagChangedUI)
+                    }
 
                 }
             }
@@ -339,7 +345,7 @@ function getCss(props, item, tagUI) {
 
 
 // ALL ARRAY FIELDS
-export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
+export function getArrayFieldDiffs(diff, item, oldValue, newValue, metaDataConfig) {
 
     let originalUIFrame={}, changedUIFrame={}
 
@@ -420,7 +426,15 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
         // when @before is null - we will check form data here 
         let css = getCss(props, item, tagOriginalUI)
         let data=getFormData(props.formData, css)
-        return displayElements(data, item, props.schema, tagOriginalUI)
+        /*if(metaDataConfig) {
+            css= css === "tdb__diff__original" ? "diff_react_viewer_original mb-3" : ""
+            return <DisplayArrayMarkdown data={data} 
+                item={item} 
+                newValue={newValue}
+                oldValue={oldValue}
+                css={css}/>
+        }
+        else */return displayElements(data, item, props.schema, tagOriginalUI, metaDataConfig)
     }
 
     /**
@@ -433,7 +447,15 @@ export function getArrayFieldDiffs(diff, item, oldValue, newValue) {
         // when @after is null - we will check form data here 
         let css = getCss(props, item, tagChangedUI)
         let data=getFormData(props.formData, css)
-        return displayElements(data, item, props.schema, tagChangedUI)
+        /*if(metaDataConfig) {
+            css=css === "tdb__diff__changed" ? "diff_react_viewer_changed mb-3" : ""
+            return <DisplayArrayMarkdown data={data} 
+                item={item} 
+                newValue={newValue}
+                oldValue={oldValue}
+                css={css}/>
+        }
+        else*/ return displayElements(data, item, props.schema, tagChangedUI, metaDataConfig)
     }
 
     originalUIFrame[CONST.DIFF] = displayOriginal
