@@ -1,9 +1,6 @@
 import React from "react"
 import Card from "react-bootstrap/Card"
-import Badge from "react-bootstrap/Badge"
-import {BiGitBranch} from "react-icons/bi"
 import { useParams } from "react-router-dom"
-import {WOQLClientObj} from '../init-woql-client'
 import {JsonFrameViewer} from "./JsonFrameViewer"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {FaTimes} from "react-icons/fa"
@@ -26,16 +23,13 @@ import {CopyButton} from "./utils"
 }
 
 export const ViewDocumentFrames = () => {
-    const { 
-        frames
-    } = WOQLClientObj()
-
     const {
         showFrames,
-        setShowFrames
+        setShowFrames,
+        frames
     } = DocumentControlObj()
 
-    const {type, id}=useParams()
+    const {type}=useParams()
 
     if(!showFrames) return <div/>
 

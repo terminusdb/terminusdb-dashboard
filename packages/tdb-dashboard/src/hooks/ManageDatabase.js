@@ -2,9 +2,7 @@ import { useState } from "react"
 import {WOQLClientObj} from '../init-woql-client'
 
 export const ManageDatabase=()=> {
-
     const {woqlClient} = WOQLClientObj()
-
     const [error,setError] = useState(false)
     const [loading,setLoading] = useState(false)
 
@@ -17,14 +15,7 @@ export const ManageDatabase=()=> {
         try{
             setLoading(true)
             setError(false)
-            const clientCopy = woqlClient.copy()
-           /* if(isPublicDB){
-                clientCopy.remoteAuth({type:"basic","user":"anonymous",key:""})
-            }else{
-                // the user clones his database into one of his teams
-                clientCopy.remoteAuth(clientCopy.localAuth())
-            }*/
-        
+            const clientCopy = woqlClient.copy() 
             const result = await clientCopy.clonedb(cloneSource, destDB, destOrg)
             return true
         }catch ( err) {

@@ -2,76 +2,39 @@ import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css' 
-import {QueryPaneObj} from "../hooks/queryPaneContext"
-//import {DatabaseInfoControl} from "../hooks/DatabaseInfoControl" 
-import {getPropertiesOfClass, getPropertyRelation, getDocumentClasses} from '../queries/GeneralQueries'
+import {QueryPaneObj} from "../hooks/QueryPaneContext"
+import {getPropertyRelation} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
-import {getCountOfDocumentClass} from "../queries/GeneralQueries"
-import { executeQueryHook } from "../hooks/executeQueryHook"
-import {DocumentControlObj, getDocumentFrame} from '../hooks/DocumentControlContext'
+import {DocumentControlObj} from '../hooks/DocumentControlContext'
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
 import {useParams, useNavigate} from "react-router-dom"
 
 export const DataProductDocuments = () => {
-
-   // const {dataProduct,organization} = useParams()
-
+    const {dataProduct} = useParams()
     const {
         woqlClient, 
-        documentClasses,
         saveSidebarState,
         sidebarStateObj,
     } = WOQLClientObj()
-
-    const navigate = useNavigate()
     
     if(!woqlClient) return ""
-    //you can  get the current dataproduct from the url or from woqlclient
-    const dataProduct = woqlClient.db()
-    const {addQueryPane} = QueryPaneObj()
-   
-    const [query, setQuery]=useState(false)
-    var [dataProvider]=executeQueryHook(woqlClient, query)
 
+    //maybe I have to update the count when enter here well see
+    const {addQueryPane} = QueryPaneObj()
+    const  {getDocNumber,perDocumentCount:dataProvider, documentClasses,frames,getUpdatedFrames} = DocumentControlObj()
  
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
+    const [selectedClass, setSelectedClass] = useState(false)
 
-    const [property, setProperty]= useState(false)
-    const [propertyButtons, setPropertyButtons] = useState(false)
-
+    // I call ones
     useEffect(() => {
-        if(property){
-            let props=[]
-            for(var key in property) {
-                if(key=="parent_class") continue
-                if(key=="@key") continue
-                if(key === "@type") {
-                    // pass rdf:type instead
-                    props.push("rdf:type")
-                }
-                else props.push(key)
-            }
-            setPropertyButtons(props)
-        }
-    }, [property])
-
-
-    async function handleClassClick (id) {
-        
-        try{
-            let db=woqlClient.db()
-            const result = await woqlClient.getSchemaFrame(id, db)
-            result.parent_className=id
-            setProperty(result)
-        }catch(err){
-            let message=`Error in fetching frames of class ${id} : ${err}`
-            console.log(message)
-        }  
-    }
+        if(documentClasses)getDocNumber()
+        if(frames===null)getUpdatedFrames()
+    },[dataProduct,documentClasses])
 
     function handlePropertyClick (property) {
         let q = getPropertyRelation(property, dataProduct, woqlClient)
@@ -79,81 +42,65 @@ export const DataProductDocuments = () => {
         addQueryPane(q)
     } 
 
-    useEffect(() => { // get count of document classes
-        if(!documentClasses) return 
-        //console.log(" i enter here ")
-        let q=getCountOfDocumentClass(documentClasses)
-        setQuery(q)
-    }, [documentClasses])
-
-    // get count of document class to display in badge 
-    const GetCountBadge = ({id, dataProvider}) => {
-        var val
-        for (var doc in dataProvider[0]) { 
-            if(doc == id) val = dataProvider[0][doc]["@value"]
-        }
-        return <Badge title={`${val} ${id} available`}
-            className="ml-3 cursor-auto text-gray" 
-            bg="secondary">{val}</Badge>
-    }
-
     const DocumentMenu = ({item, handleClassClick}) => {
+        const docName = item["@id"]
+        const docCount = dataProvider[docName] ? dataProvider[docName]["@value"] : 0
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
             <Button className="pro-item-content btn-sm" 
                 variant="dark" 
                 title={`View documents of type ${item["@id"]}`}
-                onClick={(e) => handleClassClick(item["@id"])}>
-                
-                <span className="text-gray">{item["@id"]}</span>
-                {dataProvider && <GetCountBadge id={item["@id"]} dataProvider={dataProvider}/>}
- 
+                onClick={(e) => handleClassClick(item["@id"])}>             
+                <span className="text-gray">{docName}</span>
+                {dataProvider && <Badge title={`${docCount} ${docName} available`} 
+                className="ml-3 cursor-auto text-gray" bg="secondary">{docCount}</Badge>}
             </Button>
-
         </MenuItem>
     }
 
-
     return <SubMenu title={"Document Types"} 
-        className="menu-title"
-        defaultOpen={sidebarStateObj.sidebarSampleQueriesState}
-        onOpenChange={(e) => saveSidebarState("sidebarSampleQueriesState", e)}>
-       <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
-       {Array.isArray(documentClasses) && documentClasses.map(item => {
-            if(!searchDocument) {
-                return <React.Fragment>
-                    <DocumentMenu item={item} handleClassClick={handleClassClick}/>
-                    {propertyButtons && property.parent_className==item["@id"]  && <div className="ml-3">
-                        {propertyButtons.map(props => {
-                            return <Button className="btn btn-sm m-1 text-light" 
-                            onClick={(e) => handlePropertyClick(props)}
-                            variant="outline-secondary">{props}</Button>
-                        })}
-                    </div>
+                className="menu-title"
+                defaultOpen={sidebarStateObj.sidebarSampleQueriesState}
+                onOpenChange={(e) => saveSidebarState("sidebarSampleQueriesState", e)}>
+            <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
+            {Array.isArray(documentClasses) && documentClasses.map(item => {
+                    if(!searchDocument) {
+                        return <React.Fragment key={item["@id"] }>
+                            <DocumentMenu item={item} handleClassClick={setSelectedClass}/>
+                            {selectedClass && selectedClass==item["@id"]  && frames && frames[item["@id"]] && 
+                            <div className="ml-3">
+                                {Object.keys(frames[item["@id"]]).map(props => {
+                                    if(props === "@type") props = "rdf:type"
+                                    if(props !== "@key"){
+                                        return <Button key={props} className="btn btn-sm m-1 text-light" 
+                                        onClick={(e) => handlePropertyClick(props)}
+                                        variant="outline-secondary">{props}</Button>
+                                    }
+                                })}
+                            </div>
+                            }
+                        </React.Fragment>
                     }
-                </React.Fragment>
-            }
-            if(searchDocument && (item["@id"].toUpperCase().includes(searchDocument.toUpperCase()))) {
-                return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
-            }
-        })
-        }    
+                    if(searchDocument && (item["@id"].toUpperCase().includes(searchDocument.toUpperCase()))) {
+                        return <DocumentMenu item={item} handleClassClick={handleClassClick}/>
+                    }
+                })
+                }    
     </SubMenu>
 }
-
+// side bar document
 export const DocumentExplorerDocuments = () => {  
 
     const {
         saveSidebarState,
-        sidebarStateObj, 
-        perDocumentCount,
-        documentClasses, 
+        sidebarStateObj 
     } = WOQLClientObj()
 
     //console.log("documentClasses", documentClasses)
     const {
         actionControl,
         setShowFrames,
-        setJsonContent
+        setJsonContent,
+        documentClasses
     } = DocumentControlObj()
 
     const [loading, setLoading]=useState(false)
@@ -220,9 +167,9 @@ export const DocumentExplorerDocuments = () => {
         
         <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
 
-        {documentClasses.length==0 && <div/>}
+        {documentClasses && documentClasses.length==0 && <div/>}
 
-        {documentClasses.length>0 && documentClasses.map((item,index) => {
+        {documentClasses && documentClasses.length>0 && documentClasses.map((item,index) => {
             if (item["@type"] == "Class") {
                 if(!searchDocument) {
                     return <DocumentMenu item={item} key={`element__${index}`}/>

@@ -4,7 +4,7 @@ import {RUN_QUERY_CONFIG, COPY_QUERY_CONFIG, QUERY_BUILDER_CONFIG, SAVE_QUERY_CO
 import {Col, Row, Button, Modal, Form ,InputGroup} from "react-bootstrap"
 import {BiChevronUp, BiChevronDown} from "react-icons/bi"
 import {copyToClipboard} from "./utils"
-import {QueryPaneObj} from '../hooks/queryPaneContext'
+import {QueryPaneObj} from '../hooks/QueryPaneContext'
 
 export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageChange}) => {
 

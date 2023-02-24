@@ -6,15 +6,11 @@ import {HiPlusSm} from "react-icons/hi"
 import {NEW_DOC} from "../routing/constants"
 import {gql} from "@apollo/client";
 import { DocumentsGraphqlTable } from "../components/DocumentsGraphqlTable";
-//import { ApolloProvider} from '@apollo/client';
-//import {createApolloClient} from '../routing/ApolloClientConfig'
-import {WOQLClientObj} from '../init-woql-client'
-import {UTILS} from '@terminusdb/terminusdb-client'
-import { extractedResults, ControlledGraphqlQuery } from '@terminusdb/terminusdb-react-table'
+import { DocumentControlObj } from "../hooks/DocumentControlContext";
 
 export const DocumentsGraphqlList = () => {    
     const {type} = useParams()
-    const {documentTablesConfig,woqlClient} = WOQLClientObj()
+    const {documentTablesConfig} = DocumentControlObj()
     const [searchParams]  = useSearchParams()
     const navigate = useNavigate()
     

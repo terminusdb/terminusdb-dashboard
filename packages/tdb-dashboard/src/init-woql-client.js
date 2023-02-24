@@ -1,15 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TerminusClient ,{UTILS} from '@terminusdb/terminusdb-client'
-import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, CHANGE_REQUESTS, PLANS,PAYMENT} from './routing/constants'
+import {PLANS,PAYMENT} from './routing/constants'
 import { useAuth0 } from "./react-auth0-spa"
-import {getCountOfDocumentClass, getTotalNumberOfDocuments} from "./queries/GeneralQueries"
-import {executeQueryHook} from "./hooks/executeQueryHook"
 import {AccessControlDashboard} from "@terminusdb/terminusdb-access-control-component"
 import {useLocation} from "react-router-dom"
-import {createClientUser,formatSchema} from "./clientUtils"
+import {createClientUser} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
-import {sortAlphabetically} from "./components/utils"
 import {getChangesUrl} from "./hooks/hookUtils"
 import {cleanGraphiqlCache} from "./pages/utils"
 
@@ -28,31 +25,17 @@ export const WOQLClientProvider = ({children, params}) => {
 
     //maybe I can move this in client
     const [accessControlDashboard, setAccessControl] = useState(null)
-
     const [loadingServer, setLoadingServer] = useState(false)
-    const [documentLoading, setDocumentLoading] = useState(false)
     const [connectionError, setError] = useState(false)
-
-    // to control document interface chosen document
-    //const [currentDocument, setCurrentDocument] = useState(false) 
     
     const [branch, setBranch] = useState("main")
     const [ref, setRef] = useState(false)
 
-    // branchesstates
-    // I need the branches list in dataProductsHome 
-    const [branchesReload,setBranchReload] =useState(0)
-    const [branches, setBranches] = useState(false)
-
     const [chosenCommit,setChosenCommit]=useState({})
-
-    const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
-
     const [currentCRObject, setCurrentCRObject]=useState(false)
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
-
     const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
-
+    
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
                              sidebarDataProductConnectedState:true,
@@ -62,24 +45,6 @@ export const WOQLClientProvider = ({children, params}) => {
     //we can use setOpts for change user and key in local connection
     const [opts, setOpts] = useState(params)
 
-    //document classes
-    const [documentClasses, setDocumentClasses] = useState(false)
-
-    // get document count
-    // set constants for query to get count of document class instances
-    const [query, setQuery] = useState(false)
-    const [selectedDocument, setSelectedDocument]=useState(false) // when a document is selected from a query panel
-    var [perDocumentCountProvider]=executeQueryHook(woqlClient, query) 
-
-    const [perDocumentCount, setPerDocument]=useState(false)
-    const [totalDocumentCount, setTotalDocumentCount]=useState(false)
-
-    // get total count of all documents
-    const [totalDocumentsQuery, setTotalDocumentsQuery]=useState(false)
-    var [totalDocumentCountProvider]=executeQueryHook(woqlClient, totalDocumentsQuery)
-
-
-    const [frames, setFrames]=useState(false)
 
     // in this point params is not setted
     // to be review I need params get better
@@ -96,19 +61,6 @@ export const WOQLClientProvider = ({children, params}) => {
         
         return {organization:teamPath,dataProduct:dataPath,page}
     }
-
-    useEffect(() => {
-        if(perDocumentCountProvider && documentClasses.length>0){
-            setPerDocument(perDocumentCountProvider)
-        }
-    },[perDocumentCountProvider])
-
-    useEffect(() => {
-        if(totalDocumentCountProvider) {
-            setTotalDocumentCount(totalDocumentCountProvider)
-        }
-    },[totalDocumentCountProvider])
-   
 
      useEffect(() => {
         const initWoqlClient = async(credentials,accessCredential )=>{
@@ -147,7 +99,6 @@ export const WOQLClientProvider = ({children, params}) => {
                  }
 
                  setApolloClient(new createApolloClient(dbClient))
-
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)
             } catch (err) {
@@ -180,47 +131,6 @@ export const WOQLClientProvider = ({children, params}) => {
         }
     }, [opts.user, clientUser.email])
 
-    //get all the Document Classes (no abstract or subdocument)
-    function getUpdatedDocumentClasses(woqlClient) {
-        // to be review I'm adding get table config here
-        setDocumentLoading(true)
-        const dataProduct = woqlClient.db()
-        return woqlClient.getClassDocuments(dataProduct).then((classRes) => {
-            let test=[]
-            let list=sortAlphabetically(classRes, true) 
-            setDocumentClasses(list)
-            // get number document classes
-            let q=getCountOfDocumentClass(classRes)
-            setQuery(q)
-            let totalQ=getTotalNumberOfDocuments(classRes)
-            setTotalDocumentsQuery(totalQ)
-            setDocumentLoading(false)
-        })
-        .catch((err) =>  {
-            console.log("Error in init woql while getting classes of data product", err.message)
-        })
-    }
-
-    //when I change a dataProduct I change the user actions
-    function getUpdatedFrames(woqlClient) {
-        const dataProduct = woqlClient.db()
-        return woqlClient.getSchemaFrame(null, dataProduct).then((res) => {
-            setFrames(res)
-        })
-        .catch((err) =>  {
-            console.log("Error in init woql while getting data frames of data product", err.message)
-        })
-    }
-
-    /**
-     * function to clear document counts
-     */
-    function clearDocumentCounts () {
-        setDocumentClasses(false)
-        setPerDocument(false)
-        perDocumentCountProvider=false
-        setTotalDocumentCount(false)
-    }
 
     //dataproduct change
     const setDataProduct = async (dbName,hubClient,accessDash) =>{
@@ -242,7 +152,8 @@ export const WOQLClientProvider = ({children, params}) => {
                 const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
 
                 const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
-                const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)          
+                const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)  
+            
                 if(lastBranch && lastChangeRequest){
                     //check the changeRequest Status
                     const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
@@ -261,55 +172,8 @@ export const WOQLClientProvider = ({children, params}) => {
                     setBranch("main")
                     setCurrentChangeRequest(false)
                 }
-                //get all the configuration that you need for the documents  
-                refreshDataProductConfig(client)
             }
-            clearDocumentCounts()
         }
-    }
-
-    function refreshDataProductConfig (woqlClient){
-        getUpdatedDocumentClasses(woqlClient)
-        getUpdatedFrames(woqlClient)
-        // to be review 
-        // we have to find a way to do not load this data every time 
-        // get a data with a check and see if it change 
-        getGraphqlTableConfig (woqlClient)
-    }
-
-    function getGraphqlTableConfig (client ){
-        const clientCopy = client.copy()
-        clientCopy.connectionConfig.api_extension = 'api/'
-        const baseUrl = clientCopy.connectionConfig.dbBase("tables")
-
-        clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
-            setDocumentTablesConfig(result)
-        }).catch(err=>{
-            console.log(err)
-            setDocumentTablesConfig(false)
-        })
-    }
-
-    //we not need this for all the page
-    //we need to optimize this call ----
-    //we have to made this call only if schema change but how????
-    useEffect(() => {
-        const {page} = getLocation()
-        if(woqlClient && woqlClient.db() && 
-            ( page===DOCUMENT_EXPLORER || page===PRODUCT_EXPLORER || page===CHANGE_REQUESTS)){
-            // on change on data product get classes
-            getUpdatedDocumentClasses(woqlClient)
-            getUpdatedFrames(woqlClient)
-            // to be review 
-            // we have to find a way to do not load this data every time 
-            // get a data with a check and see if it change 
-            getGraphqlTableConfig (woqlClient)
-        }
-    }, [window.location.pathname])
-
-
-    const branchNeedReload = ()=>{
-        setBranchReload(Date.now())
     }
 
     function changeRequestName(currentClient){
@@ -341,8 +205,6 @@ export const WOQLClientProvider = ({children, params}) => {
         setChosenCommit({})
         setCurrentChangeRequest(false) 
     }
- 
-   // const currentPage = history.location.pathname
 
     //to be review
     //to much set state we can optimize this !!!
@@ -351,27 +213,12 @@ export const WOQLClientProvider = ({children, params}) => {
         if(branchID)woqlClient.checkout(branchID)
         let sref=refObject.commit
         let refTime=refObject.time
-
-        if(branches && branches[branchID] && branches[branchID].head == sref){
-            sref = false
-            refTime=false
-        }
         sref = sref || false
         woqlClient.ref(sref)
 
         setBranch(branchID)
         setRef(sref)
-        setChosenCommit(refObject)
-        //we have to move this
-        //we need this info in 2 different point (left sidebar and the page)
-        //this is to fix the refresh of document interface
-        //I added it but we have to remove it and create an hook
-        const {page} = getLocation()
-        //review this
-        if(woqlClient.db() && page===DOCUMENT_EXPLORER ){
-            getUpdatedDocumentClasses(woqlClient)
-            getUpdatedFrames(woqlClient)
-        }
+        setChosenCommit(refObject)       
     }
 
    // review
@@ -402,7 +249,7 @@ export const WOQLClientProvider = ({children, params}) => {
             localStorage.setItem("Org", orgName)
             const dataP = setDataP || false
             //reset database and commit head
-            setDataProduct(dataP,hubClient,accessControlDash)
+            await setDataProduct(dataP,hubClient,accessControlDash)
         }catch(err){
             const message = formatErrorMessage(err)
             setError(message)
@@ -410,6 +257,7 @@ export const WOQLClientProvider = ({children, params}) => {
    } 
 
     //get the list of databases
+    //we are using this??
     async function reconnectToServer (currentDB = false) { // temporary fix for loading new woqlClient when create/ delete of a data product, have to review
         if(opts.connection_type !== 'LOCAL'){
             const jwtoken = await clientUser.getTokenSilently()
@@ -434,17 +282,6 @@ export const WOQLClientProvider = ({children, params}) => {
         sidebarStateObj[name]=value
     }
 
-    // we not use this now
-    const hasRebaseRole=(teamUserRoles)=>{
-        try{
-            const actions = teamUserRoles[0].action
-            if(actions.find(element=>element==="rebase")){
-                setTeamUserRoleMerge(true)
-            }
-        }catch(err){
-            console.log(err)
-        }
-    }
 
     return (
         <WOQLContext.Provider
@@ -457,7 +294,6 @@ export const WOQLClientProvider = ({children, params}) => {
                 userHasMergeRole,
                 currentCRObject, 
                 setCurrentCRObject,
-                documentTablesConfig,
                 saveSidebarState,
                 sidebarStateObj,
                 clientUser,
@@ -466,24 +302,13 @@ export const WOQLClientProvider = ({children, params}) => {
                 chosenCommit,
                 getLocation,
                 setHead,
-                branchNeedReload,
-                branches,
                 ref,
                 branch,
                 connectionError,
                 woqlClient,
                 loadingServer,
                 setDataProduct,
-                reconnectToServer,
-                documentClasses,
-                setDocumentClasses,
-                perDocumentCount,
-                totalDocumentCount,
-                setSelectedDocument,
-                selectedDocument,
-                frames,
-                documentLoading, 
-                setDocumentLoading
+                reconnectToServer
             }}
         >
             {children}

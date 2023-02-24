@@ -10,10 +10,12 @@ import Accordion from 'react-bootstrap/Accordion'
 import {WOQLClientObj} from '../init-woql-client'
 import { ControlledGraphqlQuery } from "../hooks/ControlledGraphqlQuery";
 import {Loading} from "../components/Loading"
+import { DocumentControlObj } from "../hooks/DocumentControlContext";
 
 //to be review
 export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => {
-    const {documentTablesConfig,apolloClient} = WOQLClientObj()
+    const {apolloClient} = WOQLClientObj()
+    const {documentTablesConfig} = DocumentControlObj()
     if(!documentTablesConfig) return ''
     const tableConfig = documentTablesConfig
     const querystr  = tableConfig.objQuery[type].query

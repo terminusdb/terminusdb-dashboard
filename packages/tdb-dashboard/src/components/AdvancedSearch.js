@@ -21,10 +21,6 @@ import 'react-awesome-query-builder/lib/css/styles.css';
 // Choose your skin (ant/material/vanilla):
 const InitialConfig = MaterialConfig  //AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
 
-console.log("proxy operator", InitialConfig.operators.proximity)
-
-console.log("InitialConfig.operators" , InitialConfig.operators)
-
 
 const regex = {
   label: "Regex",
@@ -51,14 +47,6 @@ const operators = {
   regex:regex,
   like:InitialConfig.operators.like
 };
-
-console.log(InitialConfig.operators.like)
-console.log(InitialConfig.operators.proximity.options)
-
-console.log("TEXT", InitialConfig.types.text)
-
-
-
 
 const stringFilter = {"eq": "eq", //Equality
                       "ne": "ne", //Disequality
@@ -113,7 +101,7 @@ export const AdvancedSearch = (props) =>{
     const queryValue = props.queryValue || {"id": QbUtils.uuid(), "type": "group"};
     const [tree,setTree] = useState(QbUtils.loadTree(queryValue))
 
-    console.log("AdvancedSearch",props.fields)
+    //console.log("AdvancedSearch",props.fields)
 
     if(!props.fields)return ""
     

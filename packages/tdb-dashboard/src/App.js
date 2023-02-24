@@ -29,6 +29,7 @@ import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 import {PageNotFound} from "./pages/PageNotFound"
 import {DocumentsPageList} from "./pages/DocumentsListPage"
 import {PLANS} from "./routing/constants";
+import { DocumentControlMain } from "./pages/DocumentControlMain"
 
 export function App (props){
     let navigate = useNavigate();
@@ -103,27 +104,28 @@ function getRoutes(clientUser, isAdmin, woqlClient){
            {isAdmin &&  <Route path="administrator" element={<PrivateRoute component={UserManagement}/>}/>}
            {!isAdmin &&  <Route path="administrator" element={<div><PageNotFound/></div >}/>}
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
-            <Route path=":dataProduct" >
+           
+            <Route path=":dataProduct" element={<DocumentControlMain/>} >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
                 <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
                 
                 <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<PrivateRoute component={ChangeRequestsPage}/>} />    
-                    <Route path=":id" element={<PrivateRoute component={ChangeDiff}/>} /> 
+                    <Route path=":changeid" element={<PrivateRoute component={ChangeDiff}/>} /> 
                 </Route>
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">                       
-                            {/*<Route index element={<DocumentsList01/>} /> */}
                             {<Route index element={<DocumentsPageList/>} /> }
                             <Route path={PATH.NEW_DOC} element={<DocumentNew/>}/> 
 
-                            <Route path=":id" >
+                            <Route path=":docid" >
                                 <Route index element={<PrivateRoute component={DocumentView}/>} /> 
                                 <Route path={PATH.EDIT_DOC} element={<DocumentEdit/>} /> 
                             </Route> 
                     </Route>
                 </Route>
+                
                 <Route path={PATH.PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
                 <Route path={PATH.PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />                    
             </Route>

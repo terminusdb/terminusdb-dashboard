@@ -8,33 +8,36 @@ import {IconBarConfig} from "./constants"
 import {Nav} from "react-bootstrap"
 import {NavLink as RouterNavLink , useParams, useNavigate} from "react-router-dom"
 import {Loading} from "../components/Loading"
+import {DocumentControlObj} from "../hooks/DocumentControlContext"
 
 export const DocumentSummary = () => {
-
     const {dataProduct,organization} = useParams()
-
     const navigate = useNavigate() 
-    
+    const {perDocumentCount,
+        totalDocumentCount, 
+        documentClasses,
+        getDocNumber,
+        loading:documentLoading,
+        error}=DocumentControlObj()
+
+//
+    useEffect(() => {
+        //remove the error from the preview page
+        if(documentClasses)getDocNumber()
+    },[documentClasses])
+
     const getUrl = (pageName)=> {
         return  `/${organization}/${dataProduct}/${pageName}`
     }
-
-    const {
-        perDocumentCount,
-        totalDocumentCount, 
-        documentLoading
-    } = WOQLClientObj()
-
 
     function handleCardClick (doc) {
         navigate(doc) 
     }
 
     const DocumentStats = ({dataProvider}) => {
-
         let arr=[]
-        for (var key in dataProvider[0]) {
-            let val = dataProvider[0][key]["@value"]
+        for (var key in dataProvider) {
+            let val = dataProvider[key]["@value"]
             let type=key
             arr.push(
                 <Col key = {key +"___doc_status"} md={4} className="py-2 doc-summary-card">
@@ -44,7 +47,7 @@ export const DocumentSummary = () => {
                                 <div>
                                     <div className="hstack gap-3 minBreakpoint-xs">
                                         <h6 className="fw-bold text-muted text-left">{key}</h6>
-                                        <h6 className="text-muted ms-auto text-right">{val}/{getTotalNumberOfDocuments(totalDocumentCount)}</h6>
+                                        <h6 className="text-muted ms-auto text-right">{val}/{totalDocumentCount}</h6>
                                     </div>
                                 </div>
                             </Card.Header>
@@ -55,7 +58,7 @@ export const DocumentSummary = () => {
                             </Card.Body>
                             {<Card.Footer className="d-flex">
                                 {/*<small className="text-muted col-md-10">{`Number of ${type} ${val}`}</small>*/}
-                                <small className="text-muted">{`Total ${getTotalNumberOfDocuments(totalDocumentCount)}`}</small>
+                                <small className="text-muted">{`Total ${totalDocumentCount}`}</small>
                             </Card.Footer>}
                         </Card>
                     </Button>
@@ -65,25 +68,15 @@ export const DocumentSummary = () => {
         return arr
     }
 
-    function getTotalNumberOfDocuments (dataProviderCount) {
-        var count =0
-        if(!dataProviderCount) return
-        for (var key in dataProviderCount[0]) {
-            if(key == "Count") {
-                count = dataProviderCount[0][key]["@value"]
-            }
-        }
-
-        return count
-    }
-
     if(documentLoading) return  <Loading message={`Fetching documents ...`}/>
 
     return  <main className="content  ml-5 w-100">
         <Container>
+            {error && <div className="text-danger" > {error}</div>}
             <Row>
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
-                {!perDocumentCount && <Col xs={11} className="d-block ml-5 mr-3">
+                {Array.isArray(documentClasses) &&  documentClasses.length===0  &&
+                    <Col xs={11} className="d-block ml-5 mr-3">
                     <div className="card card-fil m-3">
                         <div className="card-body w-100 text-center">
                             <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>
