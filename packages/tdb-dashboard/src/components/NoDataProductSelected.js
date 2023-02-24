@@ -88,12 +88,13 @@ export const NoDataProductSelected = (props) => {
 			{/*<h3 className="mb-3 text-success">{"Clone Sample Data Product to your Team"}</h3>*/}
 			{cloneError && <Alert variant="danger"  onClose={() => setCloneError(false)} dismissible>{cloneError}</Alert>} 
 			{cloneLoading && 
-                <Loading message={`Cloning ....................`} type={'PROGRESS_BAR_COMPONENT'}/>}      
+                <Loading message={`Cloning ...`} type={'PROGRESS_BAR_COMPONENT'}/>}      
 			<Row xs={1} md={4} className="g-4 py-2 w-100">
 				<Col className="py-2 col-md-4">
 					<Card className="h-100 tdb__create__new__dp bg-info" style={{opacity: "0.8"}}>
 						<Card.Body>
-							<NewDataProduct css={"mt-5 p-5 opacity-1"}/>
+							{accessControlDashboard && accessControlDashboard.createDB() && 
+								<NewDataProduct css={"mt-5 p-5 opacity-1"}/>}
 						</Card.Body>
 					</Card>
 				</Col>

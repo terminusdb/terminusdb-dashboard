@@ -140,10 +140,18 @@ export const ChangeRequestsPage = () => {
 		switch (item.status) {
 			case OPEN :
 				return <React.Fragment>
-						<Button className='btn btn-light btn-sm text-dark mr-4' onClick={()=>setChangeRequest(item)}>Continue with the change Request</Button>
-						<Button className="btn btn-warning mr-2 btn-sm text-dark" onClick={()=>setShowUpdateChangeRequestID(id)}>
-							<AiOutlineCheck className="mr-1"/><small className="fw-bold">Submit Change Request for review</small>
-						</Button></React.Fragment> 
+						<Button className='btn btn-light btn-sm text-dark mr-4' 
+							title = "Keep Editing in this Change Request"
+							onClick={()=>setChangeRequest(item)}>
+								Keep Editing  
+						</Button>
+						<Button className="btn btn-warning mr-2 btn-sm text-dark" 
+							title="Submit Change Request for Review"
+							onClick={()=>setShowUpdateChangeRequestID(id)}>
+							<AiOutlineCheck className="mr-1"/><small className="fw-bold"></small>
+								Ready for Review
+						</Button>
+					</React.Fragment> 
 			case SUBMITTED: 
 				return <Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
 			case REJECTED: 

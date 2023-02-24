@@ -6,50 +6,77 @@ import {BiGitBranch, BiGitPullRequest} from "react-icons/bi"
 import {GrFormClose} from "react-icons/gr"
 import {AiOutlineCheck} from "react-icons/ai"
 import {WOQLClientObj} from '../init-woql-client'
-import * as path from "../routing/constants"
 import Stack from 'react-bootstrap/Stack';
 import {FaInfo} from "react-icons/fa"
+import Dropdown from 'react-bootstrap/Dropdown';
 
-// returns a help text depending on which page you are while in a Change Request Mode
-function GetHelpText () {
-    let { getLocation } = WOQLClientObj()
-    let location = getLocation()
 
-    if(location.page === path.PRODUCT_MODELS) {
-        return <div className="mt-2 small text-gray">
-            If you wish to alter the schema, click on Exit from Change Request mode button.
-            Modifying schema is only allowed in main.
-        </div>
-    }
 
-    return <div/>
+
+export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,currentChangeRequest})  => {
+    if(!currentChangeRequest) return <div/> 
+    
+    return <Dropdown>
+        <Dropdown.Toggle variant="transparent" id="dropdown-basic" className="tdb__change__request__card">
+            <Badge className="bg-primary note__badge mr-2"> <FaInfo className=" mt-1"/> </Badge>
+            <small className="fw-bold mr-2">Change Request</small>
+            <Badge className="fw-bold mr-2 bg-primary text-dark">
+                <BiGitBranch className="mr-1"/>
+                {branch}
+            </Badge> 
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+            <Dropdown.ItemText className="d-flex w-100">
+                <small>Review</small>
+                <Button className="btn btn-warning btn-sm text-dark float-right ms-auto" 
+                    title="Submit Change Request for Review"
+                    onClick={()=>{setShowModal(true)}}>
+                    <AiOutlineCheck className="mr-1"/>
+                    <small className="fw-bold">Ready for Review</small>
+                </Button> 
+            </Dropdown.ItemText>
+            <Dropdown.Divider />
+            <Dropdown.ItemText className="d-flex w-100">
+                <small>Exit Change Request</small>
+                <Button className=" btn btn-light btn-sm ms-auto" 
+                    title="Exit Change Request"
+                    onClick={()=>{closeChangeRequest()}}>
+                    <GrFormClose/> <small className="fw-bold">Exit</small>
+                </Button>  
+            </Dropdown.ItemText>
+        </Dropdown.Menu>
+    </Dropdown>
 }
 
-export const ChangeRequestComponent = ({branch, setShowModal,closeChangeRequest,currentChangeRequest}) => {
+/*export const ChangeRequestComponent_OLD = ({branch, setShowModal,closeChangeRequest,currentChangeRequest}) => {
 
     if(!currentChangeRequest) return <div/> 
 
     return <React.Fragment>
-        <Card className="d-flex tdb__change__request__card ml-5 mt-2 mb-1  col-md-8"> 
-            <Card.Body>
-                <Badge className="bg-primary note__badge mr-2"> <FaInfo/> </Badge>
-                {/*<BiGitPullRequest  className="mr-1"/>*/}
-                <span>
-                    <small className="fw-bold mr-2">You are in Change Request mode</small>
-                    <Badge className="fw-bold mr-2 bg-primary text-dark">
-                        <BiGitBranch className="mr-1"/>
-                        {branch}
-                    </Badge> 
-                </span>
-                <Button className="ml-auto btn btn-warning mr-2 btn-sm text-dark" onClick={()=>{setShowModal(true)}}>
-                    <AiOutlineCheck className="mr-1"/><small className="fw-bold">Submit Change Request for review</small>
-                </Button> 
-               
-                <Button className=" btn btn-light btn-sm" onClick={()=>{closeChangeRequest()}}>
-                   <GrFormClose/> <small className="fw-bold">Exit Change Request mode</small>
-                </Button>  
-                <GetHelpText/>
-            </Card.Body> 
-        </Card>
+        <div className="d-flex ml-5 p-2 col-md-6 rounded  border border-0"> 
+            <Badge className="bg-primary note__badge mr-2"> <FaInfo className=" mt-1"/> </Badge>
+            {/*<BiGitPullRequest  className="mr-1"/>*//*}
+            <span>
+                <small className="fw-bold mr-2">Change Request</small>
+                <Badge className="fw-bold mr-2 bg-primary text-dark">
+                    <BiGitBranch className="mr-1"/>
+                    {branch}
+                </Badge> 
+            </span>
+            <Button className="btn btn-warning mr-2 btn-sm text-dark" 
+                title="Submit Change Request for review"
+                onClick={()=>{setShowModal(true)}}>
+                <AiOutlineCheck className="mr-1"/>
+                <small className="fw-bold">Submit CR</small>
+            </Button> 
+            
+            <Button className=" btn btn-light btn-sm" 
+                title="Exit Change Request mode"
+                onClick={()=>{closeChangeRequest()}}>
+                <GrFormClose/> <small className="fw-bold">Exit CR</small>
+            </Button>  
+            <GetHelpText/>
+        </div>
     </React.Fragment>
-}
+}*/

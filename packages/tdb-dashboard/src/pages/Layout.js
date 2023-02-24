@@ -13,6 +13,22 @@ import {WOQLClientObj} from '../init-woql-client'
 import {SubmitChangeRequestModal} from '../components/SubmitChangeRequestModal'
 import {BiGitBranch} from 'react-icons/bi'
 import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
+import * as path from "../routing/constants"
+
+// returns a help text depending on which page you are while in a Change Request Mode
+function GetHelpText () {
+    let { getLocation } = WOQLClientObj()
+    let location = getLocation()
+
+    if(location.page === path.PRODUCT_MODELS) {
+        return <div className="ml-5 small text-warning fst-italic">
+            If you wish to alter the schema, click on Exit from Change Request mode button.
+            Modifying schema is only allowed in main.
+        </div>
+    }
+
+    return <div/>
+}
   
 export const Layout = (props) => { 
     const {branch,exitChangeRequestBranch,currentChangeRequest} = WOQLClientObj()
@@ -44,6 +60,9 @@ export const Layout = (props) => {
    /* useEffect(() => {
         if(organization) setDefaultSize(340)
     }, [organization])*/
+
+    const changeRequestHolder = dataProduct && noChange ? <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/> : null
+                  
     
     //defaultSize={340} 
     return <Container fluid className="p-0 flex-row">
@@ -57,9 +76,10 @@ export const Layout = (props) => {
                 </div>
             </div>              
             <div className="ml-1 main-content h-100">                      
-                <MainNavBar setShowTimeTravel={setShowTimeTravel}/>
-                <div className={`${mainClassName}`} >
-                    {dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>}
+                <MainNavBar setShowTimeTravel={setShowTimeTravel} changeRequestHolder={changeRequestHolder}/>
+                <div className={`${mainClassName} mt-4`} >
+                    {currentChangeRequest && <GetHelpText/>}
+                    {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                     {props.children}
                 </div>
