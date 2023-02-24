@@ -5,6 +5,7 @@ import 'react-pro-sidebar/dist/css/styles.css'
 import {SearchBox} from "./SearchBox"
 import {useNavigate} from "react-router-dom"
 import {sortAlphabetically} from "./utils"
+import {NewDataProduct} from "./NewDataProduct"
  
 /* returns a list of data products */
 export const DataProductItems = (props) => {
@@ -13,7 +14,8 @@ export const DataProductItems = (props) => {
         setDataProduct, 
         sidebarStateObj,
         saveSidebarState,
-        getLocation
+        getLocation,
+        accessControlDashboard
     } = WOQLClientObj()
 
     // sort list in alphabetical order
@@ -40,11 +42,13 @@ export const DataProductItems = (props) => {
     }
 
     return <React.Fragment>
+            {accessControlDashboard && accessControlDashboard.createDB() && 
+                <NewDataProduct css={"btn-sm mb-3 col-md-10 ml-4"}/>
+            }
             <SubMenu title="Data Products" 
                 className="menu-title "
                 defaultOpen={sidebarStateObj.sidebarDataProductListState}
-                onOpenChange={(e) => saveSidebarState("sidebarDataProductListState",e)}
-                >
+                onOpenChange={(e) => saveSidebarState("sidebarDataProductListState",e)}>
             <SearchBox placeholder={"Search for a Data Product"} onChange={setSearchDataProduct}/>
             {list.map(item => {
                 if(!searchDataProduct) {
