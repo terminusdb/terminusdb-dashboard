@@ -75,7 +75,8 @@ export const DocumentSummary = () => {
             {error && <div className="text-danger" > {error}</div>}
             <Row>
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
-                {!documentLoading && documentClasses && !perDocumentCount && <Col xs={11} className="d-block ml-5 mr-3">
+                {Array.isArray(documentClasses) &&  documentClasses.length===0  &&
+                    <Col xs={11} className="d-block ml-5 mr-3">
                     <div className="card card-fil m-3">
                         <div className="card-body w-100 text-center">
                             <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>

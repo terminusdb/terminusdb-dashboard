@@ -98,7 +98,7 @@ export const DocumentControlProvider = ({children}) => {
         setPerDocument(false)
         setFrames(null)
         setSelectedDocument(null)
-        setDocumentTablesConfig(null) 
+        setDocumentTablesConfig(null)
         getUpdatedDocumentClasses()
         // reset frames and table....
     },[dataProduct])
