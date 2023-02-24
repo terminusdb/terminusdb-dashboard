@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {QueryPane} from "./QueryPane"
 import {NEW_PANE_CONFIG} from "./constants"
-import {QueryPaneObj} from "../hooks/QueryPaneContext"
+import {QueryPaneObj} from "../hooks/QueryPanelContext"
 import { Button, NavItem } from "react-bootstrap"
 export const View = (props) => {
     const {queryPaneList,addQueryPane} = QueryPaneObj()

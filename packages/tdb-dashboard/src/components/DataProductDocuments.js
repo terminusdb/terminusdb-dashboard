@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css' 
-import {QueryPaneObj} from "../hooks/QueryPaneContext"
+import {QueryPaneObj} from "../hooks/QueryPanelContext"
 import {getPropertyRelation} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"

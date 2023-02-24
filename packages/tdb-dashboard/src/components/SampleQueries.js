@@ -1,6 +1,6 @@
 import React from "react"
 import {GET_CLASSES_LINK, GET_PROPERTIES_LINK, GET_DOCUMENT_METADATA_LINK} from "./constants"
-import {QueryPaneObj} from "../hooks/QueryPaneContext" 
+import {QueryPaneObj} from "../hooks/QueryPanelContext" 
 import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
