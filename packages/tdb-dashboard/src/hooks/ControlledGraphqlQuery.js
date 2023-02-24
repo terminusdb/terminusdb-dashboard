@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+/*import React, {useState, useEffect} from 'react'
 //import {useQuery} from "@apollo/client";
 
 export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter) {
@@ -166,4 +166,4 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
        // setControlledRefresh,
         controlledRefresh
     }
-}
+}*/

@@ -274,7 +274,6 @@ export const SearchComponent = ({setSelected, doctype}) => {
 // form
 // we review this better 
 export const ErrorMessageReport = ()=>{
-    //<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>
     const {error,setError} = DocumentControlObj()
      if(error)return <FormatErrorMessages error={error} setError={setError}/>
      return ""
