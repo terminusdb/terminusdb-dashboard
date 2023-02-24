@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import {  GraphqlTable} from '@terminusdb/terminusdb-react-table'
+import {  GraphqlTable, ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import { AdvancedSearch } from "./AdvancedSearch";
 import {Tab,Tabs,Form, Button,Alert} from 'react-bootstrap'
@@ -8,7 +8,7 @@ import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
 import {WOQLClientObj} from '../init-woql-client'
-import { ControlledGraphqlQuery } from "../hooks/ControlledGraphqlQuery";
+//import { ControlledGraphqlQuery } from "../hooks/ControlledGraphqlQuery";
 import {Loading} from "../components/Loading"
 import { DocumentControlObj } from "../hooks/DocumentControlContext";
 
