@@ -1,8 +1,8 @@
 import React, {useState,useContext,useEffect} from "react";
 import { v4 as uuidv4 } from 'uuid';
 import {PanelQueryObj} from "./PanelQueryObj"
-export const QueryPaneContext = React.createContext()
-export const QueryPaneObj = () => useContext(QueryPaneContext)
+export const QueryPanelContext = React.createContext()
+export const QueryPaneObj = () => useContext(QueryPanelContext)
 
 //I need to register all the change so I can rebuild the view
 export const QueryPaneProvider = ({children,woqlClient,newQueryPanelQuery}) => {
@@ -57,7 +57,7 @@ export const QueryPaneProvider = ({children,woqlClient,newQueryPanelQuery}) => {
         } 
     }
 
-    return <QueryPaneContext.Provider
+    return <QueryPanelContext.Provider
         value={{
             WOQLQueryChange,
             QueryBuilderChange,
@@ -66,5 +66,5 @@ export const QueryPaneProvider = ({children,woqlClient,newQueryPanelQuery}) => {
             getPanelObject
         }}>
         {children}
-    </QueryPaneContext.Provider>
+    </QueryPanelContext.Provider>
 }	
