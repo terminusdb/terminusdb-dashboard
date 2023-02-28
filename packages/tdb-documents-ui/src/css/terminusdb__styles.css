@@ -426,7 +426,7 @@ div.array-item label.control-label #tdb__property__name__label {
 
 
 .tdb__frame__viewer  .control-label {
-    width: 10rem;
+    width: 15rem;
     overflow-wrap: break-word;
     color: white;
     /*display: flex;*/
@@ -722,8 +722,8 @@ form.rjsf label.control-label {
   word-wrap: break-word !important;
   word-break: break-word !important;
   word-break: break-all;
-  min-width: 10rem;
-  width: 10rem;
+  min-width: 15rem;
+  width: 15rem;
 }
 
 form.rjsf span.control-label:after { content: "";  }
