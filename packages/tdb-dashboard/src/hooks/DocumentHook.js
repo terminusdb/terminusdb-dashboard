@@ -68,7 +68,7 @@ export function DocumentHook(){
     async function getDocumentById(documentID) {
         try{
             setLoading(true)
-            const result = await woqlClient.getDocument(documentID)
+            const result = await woqlClient.getDocument({id:documentID})
             setResult(result)
         }catch(err){
             setError(err.message)

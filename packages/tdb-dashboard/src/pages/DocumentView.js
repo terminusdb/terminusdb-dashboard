@@ -11,7 +11,7 @@ import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {TarverseDocumentLinks} from "../components/TarverseDocumentLinks"
 import {decodeUrl} from "../components/utils"
 
-const DisplayDocumentBody = ({setClicked, setModalShow}) => {
+const DisplayDocumentBody = ({setClicked}) => {
     const {type, docid:id} = useParams()
     const {
         view,
@@ -22,7 +22,6 @@ const DisplayDocumentBody = ({setClicked, setModalShow}) => {
     let documentID=decodeUrl(id)
     
     function handleTraverse (documentID) {
-        if(setModalShow) setModalShow(Date.now())
         onTraverse(documentID, setClicked)
     }
 
@@ -49,25 +48,22 @@ export const DocumentView = () => {
         error
     } = DocumentControlObj()
     
-     //__KITTY WHAT IS THE TRAVERSALDOCUMENT LINK
     const [clicked, setClicked]=useState(false)
-    const [modalShow, setModalShow] = React.useState(false);
-
+    
     let documentID=decodeUrl(id)
     
     return <main className="content w-100 document__interface__main">
         {error && <Alert variant={"danger"} className="mr-3">{error}</Alert>} 
-        <TarverseDocumentLinks
-            setClicked={setClicked}
+        {clicked && <TarverseDocumentLinks
             clicked={clicked}
-            show={modalShow}
-            onHide={() => setModalShow(false)}/>
+            show={clicked!==false}
+            onHide={() => setClicked(false)}/>}
         <Card className="mr-3 bg-dark">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
                 <ViewHeader type={type} documentID={documentID} />
             </Card.Header>
             <Card.Body className="text-break">
-                <DisplayDocumentBody setModalShow={setModalShow} setClicked={setClicked}/>
+                <DisplayDocumentBody setClicked={setClicked}/>
             </Card.Body>
         </Card>
     </main>

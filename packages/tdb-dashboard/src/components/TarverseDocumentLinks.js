@@ -40,7 +40,7 @@ const ShowLinkRoute = ({linkArray, handleTraverse}) => {
 	return <div/>
 }
 //__KITTY
-export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
+export const TarverseDocumentLinks = ({show, onHide, clicked}) => {
 	const {frames} = DocumentControlObj()
 	const {getDocumentById,result,loading,error:errorMsg} = DocumentHook()
 
@@ -53,7 +53,9 @@ export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
 	const [linkArray, setLinkArray]=useState([])
 
 	useEffect(() => {
-		if(clicked) setDocumentID(clicked)
+		if(clicked) {
+			setDocumentID(clicked)
+		}
 	}, [clicked])
 	
 	function removeDocumentIDFromLinkArray(setLinkArray) {
@@ -63,7 +65,7 @@ export const TarverseDocumentLinks = ({show, onHide, clicked, setClicked}) => {
 
 	useEffect(() => {
         if(documentID) {
-			getDocumentById(documentID)
+			getDocumentById(documentID)	
 			let extractedType = documentID.substring(0, documentID.indexOf("/"))
 			setType(extractedType)
           	let tempArray=linkArray
