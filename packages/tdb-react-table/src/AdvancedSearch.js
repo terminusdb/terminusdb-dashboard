@@ -32,7 +32,6 @@ const regex = {
   mongoFormatOp:null
 }
 
-
 const operators = {
   select_equals:InitialConfig.operators.select_equals,
   select_not_equals:InitialConfig.operators.select_not_equals,

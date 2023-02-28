@@ -1,5 +1,4 @@
 import React from "react"
-import ReactDOM from "react-dom"
 import { App_test } from "./App_test"
 import {BrowserRouter,useNavigate} from "react-router-dom"
 import {App} from "./App"

@@ -9,11 +9,11 @@ import {JsonFrameViewer} from "../components/JsonFrameViewer"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
- 
 // if you listen something your interface will be render when the status changes
 // for this I remove the loading listener form display document I only check frames
 const DisplayDocumentBody = () => {
     const {organization,dataProduct,type} = useParams()
+    const {currentChangeRequest} = WOQLClientObj()
     const navigate = useNavigate()
     const {
         view,
@@ -26,7 +26,7 @@ const DisplayDocumentBody = () => {
 
     
     useEffect(() => {
-        if(frames===null) {
+        if(!currentChangeRequest || frames===null) {
             getUpdatedFrames()
         }
     },[])
