@@ -65,12 +65,16 @@ export const DocumentControlProvider = ({children}) => {
 
     // count the number of document I need this in 
     // docHome and query builder
+    // I need to reload the class too
     async function getDocNumber(){
         try{
             setLoading(true)
             setError(false)
-            const classes = documentClasses
-            if(Array.isArray(documentClasses) && documentClasses.length>0){
+            // I need to reload because I do not know if this can change
+            //let classDocumentOrder
+            const classDocumentsResult = await woqlClient.getClassDocuments(dataProduct)
+            const classes =sortAlphabetically(classDocumentsResult, true) 
+            if(Array.isArray(classes) && classes.length>0){
                 const totalQ=getTotalNumberOfDocuments(classes)
                 //give me back count with the total documents number and total for classes too
                 const totalDocumentCount = await woqlClient.query(totalQ)
@@ -81,6 +85,8 @@ export const DocumentControlProvider = ({children}) => {
                 //pass the count per class
                 setPerDocument(totalDocumentCount.bindings[0])
             }
+            setDocumentClasses(classes)
+            
         }catch(err){
             setError(err.message)
             console.log("Error in init woql while getting classes of data product", err.message)
@@ -93,15 +99,19 @@ export const DocumentControlProvider = ({children}) => {
     // classes and frames we need only one but count can change
     // we reset all the object
     useEffect(() => {
+        resetAll()
+        // reset frames and table....
+    },[dataProduct])
+
+
+    function resetAll(){
         setDocumentClasses(false)
         setTotalDocumentCount(false)
         setPerDocument(false)
         setFrames(null)
         setSelectedDocument(null)
         setDocumentTablesConfig(null)
-        getUpdatedDocumentClasses()
-        // reset frames and table....
-    },[dataProduct])
+    }
 
     useEffect(() => {
         //remove the error from the preview page
@@ -114,7 +124,9 @@ export const DocumentControlProvider = ({children}) => {
     // to review
     // we need frame in the diff page too for this we are listening changeid status
     useEffect(() => {
-        if(frames===null)getUpdatedFrames()
+        // only if I'm in change request mode 
+        // I do not need to reload because the schema can not change
+        if(!currentChangeRequest || frames===null)getUpdatedFrames()
         if(id) {         
             let documentID=decodeUrl(id)
             getDocument(documentID)
@@ -125,6 +137,7 @@ export const DocumentControlProvider = ({children}) => {
         if(woqlClient){
             setLoading(true)
             setError(false)
+            setFrames(null)
             const clientCopy = woqlClient.copy()
             clientCopy.connectionConfig.api_extension = 'api/'
             const baseUrl = clientCopy.connectionConfig.dbBase("tables")
@@ -289,6 +302,7 @@ export const DocumentControlProvider = ({children}) => {
         <DocumentControlContext.Provider
             value={{
                 view, 
+                resetAll,
                 selectedDocument,
                 getDocument,
                 deleteDocument,

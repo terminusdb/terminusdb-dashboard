@@ -19,7 +19,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
     const [showHealth, setShowHealth]=useState(false)
     const [branchCount, setBranchCount]= useState(0)
     const {woqlClient, accessControlDashboard} = WOQLClientObj()
-    const {documentClasses} = DocumentControlObj()
+    const {documentClasses,getUpdatedDocumentClasses} = DocumentControlObj()
     
 
     const {cloneDatabase, loading:loadingClone, error:errorClone , setError:setCloneError} =  ManageDatabase()
@@ -42,6 +42,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
     }, [healthColor])
 
     useEffect(() => {
+        getUpdatedDocumentClasses()
         if(cloneDBName && cloneDBName.current){
             cloneDBName.current.value = dataProduct
         }

@@ -23,8 +23,8 @@ export const DocumentSummary = () => {
 //
     useEffect(() => {
         //remove the error from the preview page
-        if(documentClasses)getDocNumber()
-    },[documentClasses])
+        getDocNumber()
+    },[dataProduct])
 
     const getUrl = (pageName)=> {
         return  `/${organization}/${dataProduct}/${pageName}`

@@ -8,14 +8,14 @@ import {Loading} from "../components/Loading"
 
 export const DocumentsPageList = () => {
     const {type} = useParams()
-    const {woqlClient} = WOQLClientObj()
+    const {woqlClient, currentChangeRequest} = WOQLClientObj()
     const {documentTablesConfig, getGraphqlTableConfig,loading} = DocumentControlObj()
     if(!woqlClient) return ""
 
     const viewGraphql = documentTablesConfig &&  documentTablesConfig.objQuery[type] && documentTablesConfig.objQuery[type].query
 
     useEffect(() => {
-        if(documentTablesConfig === null) getGraphqlTableConfig()
+        if(!currentChangeRequest || documentTablesConfig === null) getGraphqlTableConfig()
     },[])
 
     if(loading || documentTablesConfig===null) return <Loading message={`Loading Documents list ...`}/>

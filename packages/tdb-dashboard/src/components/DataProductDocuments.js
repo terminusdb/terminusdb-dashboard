@@ -18,6 +18,7 @@ export const DataProductDocuments = () => {
         woqlClient, 
         saveSidebarState,
         sidebarStateObj,
+        currentChangeRequest
     } = WOQLClientObj()
     
     if(!woqlClient) return ""
@@ -32,9 +33,9 @@ export const DataProductDocuments = () => {
 
     // I call ones
     useEffect(() => {
-        if(documentClasses)getDocNumber()
-        if(frames===null)getUpdatedFrames()
-    },[dataProduct,documentClasses])
+        getDocNumber()
+        if(!currentChangeRequest || frames===null)getUpdatedFrames()
+    },[dataProduct])
 
     function handlePropertyClick (property) {
         let q = getPropertyRelation(property, dataProduct, woqlClient)
