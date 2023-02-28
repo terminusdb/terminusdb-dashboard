@@ -56,13 +56,13 @@ const DisplayLabel = ({schema, id, label, formData}) => {
 			let css = uiSchema && uiSchema.hasOwnProperty(CONST.CLASSNAME) ? uiSchema[CONST.CLASSNAME] : `tdb__input mb-3 mt-3 tdb__view`
 			return <div className={`form-group field field-boolean ${css}`}>
 				<label className="control-label" for="root_transparent">
-					<div className="d-flex h6 view__display__field__template">transparent<div>
+					<div className="d-flex h6 view__display__field__template">{schema.title}<div>
 				</div></div>
 				</label>
 				<div className="checkbox disabled">
 					<label>
 						<input type="checkbox" id="root_transparent" disabled="" checked=""/>
-						<span>transparent</span>
+						<span>{schema.title}</span>
 					</label>
 				</div>
 			</div>

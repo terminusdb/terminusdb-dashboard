@@ -26,6 +26,7 @@ import {DisplayFieldTemplate, DisplayDocumentation} from "./templates"
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 */
 export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, FieldTemplate, language}){
+    
     const [schema, setSchema]=useState(false)
     const [uiSchema, setUISchema]=useState(false)
     const [readOnly, setReadOnly]=useState(false)
