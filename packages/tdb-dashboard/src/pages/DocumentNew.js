@@ -21,7 +21,9 @@ const DisplayDocumentBody = () => {
        // setJsonContent,
         frames,
         getUpdatedFrames,
-        createDocument
+        createDocument,
+        getGraphqlTableConfig,
+        documentTablesConfig
     } = DocumentControlObj()
 
     
@@ -29,6 +31,7 @@ const DisplayDocumentBody = () => {
         if(!currentChangeRequest || frames===null) {
             getUpdatedFrames()
         }
+        if(!currentChangeRequest || documentTablesConfig === null) getGraphqlTableConfig()
     },[])
 
     const callCreateDocument = async (jsonDocument) =>{
