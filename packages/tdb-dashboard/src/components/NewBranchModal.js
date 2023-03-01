@@ -12,7 +12,7 @@ import {singleSelectStyle} from "./constants"
 import Select from 'react-select'
 
 export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => {
-    const {branches, branch, ref}=WOQLClientObj()
+    const {branch, ref}=WOQLClientObj()
 
     const [id, setID]=useState(false)
     const [select, setSelect]=useState(newBranchForm.select.head)
@@ -20,7 +20,7 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
 
     function handleCreate (e) {
         event.preventDefault()
-        if (checkSubmission(id, branches, setReportAlert)) {
+        if (checkSubmission(id, setReportAlert)) {
             createBranch({id: id, branchType: select})
         }
     }
@@ -70,24 +70,16 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
     </Modal>
 }
 
-function checkSubmission(newID, branches, setReportAlert){
+function checkSubmission(newID, setReportAlert){
     if(newID && newID.length){
         let nid = newID.trim()
-        if(typeof branches[nid] != "undefined"){
-            let message = "A Branch already exists with the same ID - choose a new ID"
-            setReportAlert(<Alerts message={message} type={TERMINUS_DANGER} onCancel={setReportAlert}/>)
-            return false
-        }
-        else {
             if(!legalURLID(nid)){
                 let message = "Branch IDs can only include lowercase characters, numbers and underscores and be no more than 40 characters long"
                 setReportAlert(<Alerts message={message} type={TERMINUS_WARNING} onCancel={setReportAlert}/>)
                 return false
             }
             return true
-        }
-    }
-    else {
+    }else {
         let message = "You must supply an ID for the new Branch"
         setReportAlert(<Alerts message={message} type={TERMINUS_WARNING} onCancel={setReportAlert}/>)
         return false
