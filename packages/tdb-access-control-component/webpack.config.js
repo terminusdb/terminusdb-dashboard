@@ -1,7 +1,9 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env, argv) => ({
-    entry: './src/index.js',
+  plugins: [new MiniCssExtractPlugin()],  
+  entry: './src/index.js',
     module: {
         rules: [
             {
@@ -21,6 +23,53 @@ module.exports = (env, argv) => ({
         sourceMapFilename: 'terminusdb-access-control-component.min.js.map',
         library: 'TerminusDBAccessControl',
     },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader:"babel-loader",
+            options:{
+              presets: [
+                ["@babel/preset-env"],
+                "@babel/preset-react"
+              ],
+            }
+          },
+        },
+        {
+          test: /\.(css|less)$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader', 'less-loader'
+          ],
+        },
+        {
+          test: /\.(svg|jpg|gif|png)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'assets/images/[name].[ext]',
+              }
+            }
+          ]
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                outputPath: (url, resourcePath, context) => {
+                  return `assets/fonts/${path.basename(resourcePath)}`;
+                }
+              }
+            }
+          ]
+        }]
+      },
     externals: {
     
     react: {
