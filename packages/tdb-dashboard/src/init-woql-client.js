@@ -84,20 +84,22 @@ export const WOQLClientProvider = ({children, params}) => {
                  const access =  new TerminusClient.AccessControl(opts.server,accessCredential)
                  const clientAccessControl = new AccessControlDashboard(access)
 
-                 //I have to create a new call in accessControl 
-                 const url = `${dbClient.server()}api/users/info`
-                 const userInfo = await  dbClient.sendCustomRequest("GET", url)
-                 // add extra info to auth0User
-                 clientUser.userInfo = userInfo
-
-                 if(opts.connection_type !== "LOCAL"){
-                   const rolesList = await clientAccessControl.callGetRolesList()
-                 }
-                
-                 if(defOrg){
+                if(opts.connection_type !== "LOCAL"){
+                    const rolesList = await clientAccessControl.callGetRolesList()
+                }
+                 
+                if(defOrg){
                     await changeOrganization(defOrg,dataProduct,dbClient,clientAccessControl)
-                 }
-
+                }
+ 
+                 //I have to create a new call in accessControl 
+                 // I do not want to wait for this call
+                 const url = `${dbClient.server()}api/users/info`
+                 dbClient.sendCustomRequest("GET", url).then(userInfo=>{
+                     // add extra info to auth0User
+                    clientUser.userInfo = userInfo
+                 })
+                
                  setApolloClient(new createApolloClient(dbClient))
                  setAccessControl(clientAccessControl)
                  setWoqlClient(dbClient)

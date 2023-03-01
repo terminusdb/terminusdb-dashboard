@@ -135,7 +135,7 @@ export const DocumentControlProvider = ({children}) => {
         }
     },[id,changeid])
 
-
+    //maybe made only one call in page
     function getGraphqlTableConfig ( ){
         if(woqlClient){
             setLoading(true)
