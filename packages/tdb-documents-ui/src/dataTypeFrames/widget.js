@@ -12,6 +12,36 @@ import * as util from "../utils"
 import MDEditor, { commands }  from '@uiw/react-md-editor';
 import mermaid from "mermaid";
 import uuid from 'react-uuid'
+import InputGroup from 'react-bootstrap/InputGroup';
+
+function booleanField(mode, props) {
+    const [checked, setChecked] = useState(mode !== CONST.CREATE ? props.formData : false)
+
+    function handleClick() {
+        setChecked(!checked)
+        props.onChange(!checked)
+    }
+    return <InputGroup className="mb-3 w-100">
+        {mode !== CONST.VIEW && <div className={`control-label`}>
+            {props.name}
+            {props.required && <span className="required">{"*"}</span>}
+        </div>}
+        <Stack direction={"horizontal"} gap={2}>
+            {checked && <input type="checkbox" id={props.name} name={props.name} checked onChange={handleClick}/>}
+            {!checked && <input type="checkbox" id={props.name} name={props.name} onChange={handleClick}/>}
+            <span>{props.name}</span>
+        </Stack>
+    </InputGroup>
+}
+
+export function getBooleanUI (mode, data) {
+    let uiLayout = {}
+    function displayBooleanField(props) {
+        return booleanField(mode, props)
+    }
+    uiLayout["ui:field"] = displayBooleanField
+    return uiLayout
+}
 
 // function to provide a ui widget to textarea for xsd:string types
 export function getTextareaUIWidget(placeholder, mode, data) {
