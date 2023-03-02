@@ -126,6 +126,7 @@ export function getFormat(frame, item) {
         */ 
         return widget.getTextareaUIWidget(CONST.XSD_STRING, mode, data) 
     }
+    if(frame[item] === CONST.XSD_BOOLEAN) return widget.getBooleanUI(mode, data) 
     /** Commenting out HTML support as of now */
     /*else if (frame[item] === CONST.XDD_HTML) {
         return { ["ui:field"]: widget.getEditHTMLUI }

@@ -75,6 +75,10 @@ export function makeMandatoryFrames (fullFrame, item, frame, uiFrame, mode, form
         let data=dataProvider.getFormData(frame, item, mode, formData)
         if(data) layout["default"]=data
     }
+    if(layout["type"] === CONST.BOOLEAN_TYPE) {
+        let data=dataProvider.getFormData(frame, item, mode, formData)
+        if(!data) layout["default"]=data
+    }
 
     /** gather ui layout of property to change look and feel */
     let uiLayout = generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames, docType)

@@ -47,7 +47,7 @@ const DisplayLabel = ({schema, id, label, formData}) => {
 	
 	//console.log("props", id, props) 
 	// return empty div when no data available
-	if(!formData && !uiSchema.hasOwnProperty("ui:field")) {
+	//if(!formData && !uiSchema.hasOwnProperty("ui:field")) {
 		// check for ui field -  we use custom fields some times to represent null fields
 		if(schema.info === CONST.DATA_TYPE && schema.type === CONST.BOOLEAN_TYPE) {
 			// display a different widget for bool type 
@@ -61,12 +61,13 @@ const DisplayLabel = ({schema, id, label, formData}) => {
 				</label>
 				<div className="checkbox disabled">
 					<label>
-						<input type="checkbox" id="root_transparent" disabled="" checked=""/>
+						{formData && <input type="checkbox" id="root_transparent" disabled="" checked/>}
+						{!formData && <input type="checkbox" id="root_transparent" disabled=""/>}
 						<span>{schema.title}</span>
 					</label>
 				</div>
 			</div>
-		}
+		//}
 		return <div className="empty__field"/>
 	}
 

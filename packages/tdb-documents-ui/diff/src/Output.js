@@ -142,6 +142,11 @@ export const Output = () => {
           }
         },
         "@type": "Class",
+        "m_like": "xsd:boolean",
+        "like": {
+          "@class": "xsd:boolean",
+          "@type": "Optional"
+        },
         "optMarkDown": {
           "@class": "xsd:string",
           "@type": "Optional"
