@@ -3,6 +3,8 @@ export const oldData = {
 	"body": {
 		"@id": "body/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "body",
+		"m_like": true,
+		"like": false,
 		"optMarkDown": "### opt",
 		"setMarkDown": [
 		  "### set 1",
@@ -17,6 +19,8 @@ export const changedData = {
 	"body": {
 		"@id": "body/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "body",
+		"m_like": true,
+		"like": true,
 		"optMarkDown": "### opt changed",
 		"setMarkDown": [
 		  "### set 1 changed",
