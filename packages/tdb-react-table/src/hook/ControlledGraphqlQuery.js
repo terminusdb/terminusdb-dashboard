@@ -11,8 +11,13 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
   //  const [hasNextPage, setHasNextPage] = useState(true)
     const [controlledRefresh, setControlledRefresh] = useState(0)
     const [data, setData] = useState(null)
+
+    let startHidden = ['_id']
+    if(tableConfigObj.length === 1){
+        startHidden =[]
+    }
     
-    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(['_id'])
+    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(hiddenColumnsStart || startHidden)
 
     //filter is the filter formatted for the query
     let filterTable  = []

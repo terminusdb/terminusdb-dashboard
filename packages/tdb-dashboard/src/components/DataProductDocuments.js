@@ -34,7 +34,7 @@ export const DataProductDocuments = () => {
     // I call ones
     useEffect(() => {
         getDocNumber()
-        if(!currentChangeRequest || frames===null)getUpdatedFrames()
+        getUpdatedFrames()
     },[dataProduct])
 
     function handlePropertyClick (property) {

@@ -23,6 +23,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
     const [queryToDisplay,setQueryTodisplay] = useState(false)
    
     if (!query) return ""
+    const tablesColumnsConfig = tableConfig.tablesColumnsConfig[type] || []
     const { documentError,
         callFetchMore,
         rowCount,
@@ -56,7 +57,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
     }
 
      const tableConfigObj = {}
-     tableConfigObj.columns = tableConfig.tablesColumnsConfig[type] || []
+     tableConfigObj.columns = tablesColumnsConfig
      tableConfigObj.rowClick = onRowClickCall
     
     let extractedResults = documentResults ? extractDocuments(documentResults[type]) : []

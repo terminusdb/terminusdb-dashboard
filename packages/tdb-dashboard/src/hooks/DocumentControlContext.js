@@ -126,8 +126,9 @@ export const DocumentControlProvider = ({children}) => {
     useEffect(() => {
         // only if I'm in change request mode 
         // I do not need to reload because the schema can not change
-        if(!currentChangeRequest || documentTablesConfig === null) getGraphqlTableConfig()
-        if(!currentChangeRequest || frames===null)getUpdatedFrames()
+        //if(!currentChangeRequest || documentTablesConfig === null) 
+        getGraphqlTableConfig()
+        getUpdatedFrames()
         // we need in edit/insert
         if(id) {         
             let documentID=decodeUrl(id)
