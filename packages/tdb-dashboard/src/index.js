@@ -18,8 +18,16 @@ function NavigationComponent(){
     let navigate = useNavigate();
     const redirect_uri = window.location.origin
 
+
+    // this happen after confirm you password linking in the email url
+   /* if (window.location.search.includes("supportSignUp=true")) {
+     // window.location.replace('/') 
+    }*/
+    // you enter here only if you are log - in 
     const onRedirectCallback = (appState) => {
+    
       navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
+      
     };
 
     if(localSettings && localSettings.connection_type!== "LOCAL"){

@@ -9,6 +9,7 @@ const CheckboxMenu = React.forwardRef(
       children,
       style,
       className,
+      setHiddenColumns,
       "aria-labelledby": labeledBy,
       onChange,
       title,
@@ -19,7 +20,8 @@ const CheckboxMenu = React.forwardRef(
     const label = checked ? "Hide All" : "Show All"
 
     const setHideShow = (evt)=>{
-        onChange(!checked)
+        if(setHiddenColumns)setHiddenColumns("__ALL__",!checked)
+        onChange(evt)
     }
 
     return (<div
@@ -44,7 +46,7 @@ const CheckboxMenu = React.forwardRef(
                 type="checkbox"
                 label={"All"}
                 checked={checked}
-                onChange={onChange}
+                onChange={setHideShow}
                 className= "table__columns__component"
                 />
         </Form.Group>
@@ -56,14 +58,19 @@ const CheckboxMenu = React.forwardRef(
 );
 
 const CheckDropdownItem = React.forwardRef(
-  ({ children, id, checked, onChange }, ref) => {
+  ({ children, id, checked, onChange , setHiddenColumns}, ref) => {
+    function hideShowColumn(evt){
+        if(setHiddenColumns)setHiddenColumns(id,evt.target.checked)
+        onChange(evt)
+    }
+
     return (
       <Form.Group ref={ref} className="dropdown-item mb-0" controlId={id}>
         <Form.Check
           type="checkbox"
           label={children}
           checked={checked}
-          onChange={onChange}
+          onChange={hideShowColumn}
           className= "table__columns__component"
         />
       </Form.Group>
@@ -72,7 +79,7 @@ const CheckDropdownItem = React.forwardRef(
 );
 
 
-export const CheckboxDropdown = ({ allColumns,getToggleHideAllColumnsProps }) => {
+export const CheckboxDropdown = ({setHiddenColumns, allColumns,getToggleHideAllColumnsProps }) => {
   return (
     <Dropdown>
       <Dropdown.Toggle variant="primary" id="dropdown-basic" className="bg-light text-dark">
@@ -81,6 +88,7 @@ export const CheckboxDropdown = ({ allColumns,getToggleHideAllColumnsProps }) =>
 
       <Dropdown.Menu
         as={CheckboxMenu}
+        setHiddenColumns={setHiddenColumns}
         {...getToggleHideAllColumnsProps()}
       >
         {allColumns.map(column => (
@@ -88,6 +96,7 @@ export const CheckboxDropdown = ({ allColumns,getToggleHideAllColumnsProps }) =>
           <Dropdown.Item
             key={column.id}
             as={CheckDropdownItem}
+            setHiddenColumns={setHiddenColumns}
             id={column.id}
             {...column.getToggleHiddenProps()}>
             {column.Header}

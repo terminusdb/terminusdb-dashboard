@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter) {
+export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter,tableConfigObj,hiddenColumnsStart) {
 
     const [limit, setLimit] = useState(queryLimit || 10)
     const [start, setStart] = useState(queryStart || 0)
@@ -12,7 +12,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
     const [controlledRefresh, setControlledRefresh] = useState(0)
     const [data, setData] = useState(null)
     
-    const [setHiddenColumnsArr, hiddenColumnsArr] = useState([])
+    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(['_id'])
 
     //filter is the filter formatted for the query
     let filterTable  = []
@@ -139,6 +139,31 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
     const onRefresh = () => {
         setRefresh(controlledRefresh+1)
     }
+
+    const setHiddenColumns =(id, checked)=>{
+      const indexof = hiddenColumnsArr.indexOf(id)
+      if(id==="__ALL__"){
+          if(checked){
+              setHiddenColumnsArr([])
+          }else{
+              //columns name
+              if(Array.isArray(tableConfigObj)){
+                tableConfigObj.forEach(item =>{
+                  if(hiddenColumnsArr.indexOf(item.id) === -1)
+                      hiddenColumnsArr.push(item.id)
+                })
+              }
+          }
+      }else{
+          if(indexof>-1 && checked===true){
+              // we remove the item if it is in the array
+              const x = hiddenColumnsArr.splice(indexof, 1);
+          }else if(checked===false && indexof=== -1) {
+              hiddenColumnsArr.push(id)
+          }
+      }
+      
+  }
     
     return {
         callFetchMore,
@@ -159,7 +184,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         onRefresh,
         documentResults:data,
         hiddenColumnsArr,
-        setHiddenColumnsArr,
+        setHiddenColumns,
         // maybe we need to set from outside
        // setDocumentResults,
        // setControlledRefresh,
