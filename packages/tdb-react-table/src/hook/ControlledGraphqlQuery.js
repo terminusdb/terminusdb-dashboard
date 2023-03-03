@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
 export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter,tableConfigObj,hiddenColumnsStart) {
-
     const [limit, setLimit] = useState(queryLimit || 10)
     const [start, setStart] = useState(queryStart || 0)
     const [orderBy, setOrderBy] = useState(order||false)
@@ -11,13 +10,8 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
   //  const [hasNextPage, setHasNextPage] = useState(true)
     const [controlledRefresh, setControlledRefresh] = useState(0)
     const [data, setData] = useState(null)
-
-    let startHidden = ['_id']
-    if(tableConfigObj.length === 1){
-        startHidden =[]
-    }
     
-    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(hiddenColumnsStart || startHidden)
+    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(['_id'])
 
     //filter is the filter formatted for the query
     let filterTable  = []
