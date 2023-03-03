@@ -15,7 +15,7 @@ export const DocumentsPageList = () => {
     const viewGraphql = documentTablesConfig &&  documentTablesConfig.objQuery[type] && documentTablesConfig.objQuery[type].query
 
     useEffect(() => {
-        if(!currentChangeRequest || documentTablesConfig === null) getGraphqlTableConfig()
+        getGraphqlTableConfig()
     },[])
 
     if(loading || documentTablesConfig===null) return <Loading message={`Loading Documents list ...`}/>

@@ -28,10 +28,11 @@ const DisplayDocumentBody = () => {
 
     
     useEffect(() => {
-        if(!currentChangeRequest || frames===null) {
-            getUpdatedFrames()
-        }
-        if(!currentChangeRequest || documentTablesConfig === null) getGraphqlTableConfig()
+        //if(!currentChangeRequest || frames===null) {
+        getUpdatedFrames()
+        //}
+        //if(!currentChangeRequest || documentTablesConfig === null)
+        getGraphqlTableConfig()
     },[])
 
     const callCreateDocument = async (jsonDocument) =>{
