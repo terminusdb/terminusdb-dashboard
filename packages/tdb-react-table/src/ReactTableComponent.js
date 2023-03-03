@@ -11,7 +11,7 @@ import { DefaultColumnFilter } from './ColumnFilters';
  * sort - no, local, remote
  */ 
 
-export const ReactTableComponent = ({columns, data, limit, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh,hiddenColumns})=>{
+export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh,hiddenColumns})=>{
 
    // console.log("COLUMS", JSON.stringify(columns,null,4))
 
@@ -114,7 +114,7 @@ export const ReactTableComponent = ({columns, data, limit, config, pages, freewi
         <span>
         <div className='d-flex justify-content-end'>
         {setFilters && <Button title="Reset filters" className="bg-light text-dark" onClick={() => setAllFilters([])}><MdOutlineResetTv/></Button>}
-        <CheckboxDropdown allColumns={allColumns} getToggleHideAllColumnsProps={getToggleHideAllColumnsProps}/>
+        <CheckboxDropdown setHiddenColumns={setHiddenColumns} allColumns={allColumns} getToggleHideAllColumnsProps={getToggleHideAllColumnsProps}/>
         </div>
         <div className="h-4" />
             <Table {...getTableProps()} hover >

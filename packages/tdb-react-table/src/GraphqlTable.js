@@ -20,7 +20,7 @@ minWidth,
 maxWidth}]*/
 
 //this only render the logic of do the query is in an external hook
-export const GraphqlTable = ({hiddenColumnsArr, result, config, freewidth, start, filtersBy ,limit, orderBy, totalRows, setLimits, setOrder, setFilters,onRefresh,dowloadConfig})=>{
+export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config, freewidth, start, filtersBy ,limit, orderBy, totalRows, setLimits, setOrder, setFilters,onRefresh,dowloadConfig})=>{
    // let wt = TerminusClient.View.table()
    // if(view)  wt.loadJSON(view.table, view.rules)
     
@@ -68,17 +68,17 @@ export const GraphqlTable = ({hiddenColumnsArr, result, config, freewidth, start
     };
 
     function formatTableColumns(){
-        const hiddenColumns = [] //hiddenColumnsArr
+        const hiddenColumns = hiddenColumnsArr || []
         // I visualise the id only if it is the only item
         const colArr = config.columns
         if(!Array.isArray(colArr))return []
         
-        if(colArr.length > 1){
+        if(!hiddenColumnsArr && colArr.length > 1){
             hiddenColumns.push("_id")
         }
 
         let listOfColumns = colArr.map((item,index) => {
-            if(index>4){
+            if(!hiddenColumnsArr && index>4){
                 hiddenColumns.push(item.id)
             }
             let col = item
@@ -144,6 +144,7 @@ export const GraphqlTable = ({hiddenColumnsArr, result, config, freewidth, start
                 </Col>
             </Row>}
             <ReactTableComponent
+                setHiddenColumns = {setHiddenColumns}
                 setFilters={setFilters}
                 data={data}
                 columns={[{columns:columns,Header:" "}]}
