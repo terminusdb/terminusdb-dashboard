@@ -1,31 +1,24 @@
 import React from "react"
 import * as util from "./utils"
-import {generateLabel, LabelComponent} from "./helpers/labelHelper"
+//import {generateLabel, LabelComponent} from "./helpers/labelHelper"
 
 /**
  * 
- * @param {*} frame - frame of document
- * @param {*} item - property 
- * @param {*} uiFrame - custom UI to change appearance
- * @param {*} mode - mode in which FrameViewer is being called
- * @param {*} formData - filled data to be displayed in form 
- * @returns a data field 
+ * @param {*} optional - extracted optional frames
+ * @param {*} property - property name
+ * @returns an optional data field 
  */
-export function makeOptionalFrames (frame, item, uiFrame, mode, formData, documentation) {
+export function makeOptionalFrames (optional, property) {
     // extracted frames will already be available at this point
-    //console.log("optionalFrames ...", frame)
     
     let layout = {}, uiLayout={} 
 
-    if(frame && frame.hasOwnProperty("properties")) {
-        layout=frame.properties[item]
+    if(optional && optional.hasOwnProperty("properties")) {
+        layout=optional.properties[property]
     }
 
-    if(frame && frame.hasOwnProperty("uiSchema")) {
-        let ui = util.removeRequired(item, documentation, frame.uiSchema[item])
-        uiLayout=ui
-        let generatedLabel=generateLabel(frame.properties, item, documentation)
-        uiLayout["ui:title"]=generatedLabel
+    if(optional && optional.hasOwnProperty("uiSchema")) {
+        uiLayout = optional.uiSchema[property]
     }
 
     return {layout, uiLayout}
