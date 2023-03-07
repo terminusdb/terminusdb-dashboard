@@ -8,7 +8,7 @@ import * as util from "./utils"
 //import {transformData} from "./extract" 
 import { v4 as uuidv4 } from 'uuid';
 import { handleSubmit } from "./formActions"
-//import {DisplayFieldTemplate, DisplayDocumentation} from "./templates"
+import { DisplayDocumentation } from "./templates"
 
 
 /*
@@ -38,6 +38,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 	const [data, setData]=useState(formData)
 
   const [message, setMessage]=useState(false)  
+	const [reference, setReference]=useState({})  
 
 	let current = `${type}`
 	let formDataTemp=formData
@@ -50,17 +51,17 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 	}
 
 	useEffect(() => {
-		try{ 
+		//try{ 
 			if(frame && type && mode) { 
 					clear()
 					//let extractedDocumentation= util.extractDocumentation(frame, current, language)
 					//store selected language here to get access to ENUM docs based on selected language
 					frame[CONST.SELECTED_LANGUAGE]= language ? language : CONST.DEFAULT_LANGUAGE
 					let extractedDocumentation= util.extractDocumentation(frame, type, language)
- 
+					setDocumentation(extractedDocumentation)
 					let fullFrame=frame
 					let documentFrame=frame[current]
-					let properties=getProperties({ fullFrame, type, documentFrame, uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation })
+					let properties=getProperties({ fullFrame, type, documentFrame, uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation, reference, setReference })
 					
 					let schema = {
 							type: CONST.OBJECT_TYPE,
@@ -69,10 +70,10 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 							dependencies: properties.dependencies,
 					}
 					/*console.log("schema", JSON.stringify(schema, null, 2))
-					console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))
+					console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))*/
 
 					console.log("schema", schema)
-					console.log("properties.uiSchema", properties.uiSchema)*/
+					console.log("properties.uiSchema", properties.uiSchema)
 					//setUISchema(uiSchema)
 					//setSchema(schema)
 
@@ -119,10 +120,10 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 					}*/
 
 			}
-		}
-		catch(e) {
-			setError(`An error has occured in generating frames. Err - ${e}`)
-		}
+		//}
+		//catch(e) {
+			//setError(`An error has occured in generating frames. Err - ${e}`)
+		//}
 
 	}, [frame, uiFrame, type, mode, formData, language]) 
 
@@ -142,7 +143,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 
 	return <div className="tdb__frame__viewer">
 		{display && message && message}
-		{/*<DisplayDocumentation documentation={documentation}/>*/}
+		<DisplayDocumentation documentation={documentation}/>
 		{display && <Form schema={display.schema}
 			uiSchema={display.uiSchema}
 			mode={mode} 

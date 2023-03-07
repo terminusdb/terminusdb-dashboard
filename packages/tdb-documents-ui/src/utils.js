@@ -1,5 +1,5 @@
 import * as CONST from "./constants" 
-
+import * as TYPE from "./dataType.constants"
 
 /***  util functions to check Mandatory/ Optional/ Set/ List property */
 /**
@@ -11,7 +11,7 @@ import * as CONST from "./constants"
 export const isMandatory = (frame, property) => { 
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return true 
-	return false
+	if(!field.hasOwnProperty(CONST.TYPE)) return true 
 }
 
 
@@ -23,7 +23,6 @@ export const isMandatory = (frame, property) => {
  */
  export const isOptional = (frame, property) => { 
 	let field=frame[property]
-	console.log("field", field)
 	if(typeof field !== CONST.OBJECT_TYPE) return false 
 	if(field.hasOwnProperty(CONST.TYPE) && 
 		field[CONST.TYPE] === CONST.OPTIONAL) return true
@@ -31,7 +30,35 @@ export const isMandatory = (frame, property) => {
 }
 
 
+/***  ------ util functions to check type of property ------ */
 
+// returns true for properties which are of data types xsd and xdd
+const dataTypePrefix = {
+	[CONST.XSD_DATA_TYPE_PREFIX]: CONST.XSD_DATA_TYPE_PREFIX,
+	[CONST.XDD_DATA_TYPE_PREFIX]: CONST.XDD_DATA_TYPE_PREFIX
+} 
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if type normal data type xsd/ xdd/ rdf
+ */
+export const isDataType = (field) => {
+	if(!field) return false
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	return dataTypePrefix[field.substring(0, 4)] || false
+}
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if type is subdocument
+ */
+ export const isSubDocumentType = (field) => {
+	if(!field) return false
+	if(field.hasOwnProperty(CONST.SUBDOCUMENT)) return CONST.SUBDOCUMENT
+	return false
+}
 
 /***  extract metadata */
 
@@ -86,6 +113,25 @@ export const isMandatory = (frame, property) => {
 	return documentation
 }
 
+/**
+ * returns property's documentation from extractedDocumentation frame
+ */
+export function checkIfPropertyHasDocumentation (extractedDocumentation, property) {
+	var label, comment
+	if(!extractedDocumentation) return { label, comment }
+	if(extractedDocumentation.hasOwnProperty("@properties") && 
+		extractedDocumentation["@properties"].hasOwnProperty(property))  {
+			// @label
+			label = extractedDocumentation["@properties"][property].hasOwnProperty(CONST.LABEL) ? 
+				extractedDocumentation["@properties"][property][CONST.LABEL] : null
+			// @comment
+			comment = extractedDocumentation["@properties"][property].hasOwnProperty(CONST.COMMENT) ?
+				extractedDocumentation["@properties"][property][CONST.COMMENT] : extractedDocumentation["@properties"][property]
+		}
+	return { label, comment }
+}
+
+
 /***  util functions to extract frame from Optional/ Set/ List */
 export const extractFrames = (frame, item, language) => {
 	if(!frame.hasOwnProperty(item)) { 
@@ -107,4 +153,11 @@ export const extractFrames = (frame, item, language) => {
         extracted[CONST.METADATA]=metadata
     }
     return extracted
+}
+
+/** checks if document typre reference definition is available or not */
+export function availableInReference (references, documentType) {
+	if(!Object.keys(references).length) return false
+	if(references.hasOwnProperty(documentType)) return true
+	return false
 }

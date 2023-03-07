@@ -8,6 +8,8 @@ import * as dataProvider from "./helpers/formDataHelper"
 import {generateUI} from "./helpers/uiHelper"*/
 import * as CONST from "./constants"
 import { uiHelper } from "./helpers/uiHelper"
+import { getPlaceholder } from "./helpers/placeholderHelper"
+import { typeHelper } from "./helpers/typeHelper"
 
 /**
  * 
@@ -21,16 +23,16 @@ import { uiHelper } from "./helpers/uiHelper"
  */
 export function makeMandatoryFrames (args, property) {
     
+  let { documentFrame } = args
+
     /** gather layout of property  */ 
     let layout = { 
-			"type": CONST.STRING_TYPE,
-      "title": property
+			"type": typeHelper(documentFrame, property),
+      "title": property,
+      [CONST.PLACEHOLDER]: getPlaceholder(args.documentFrame[property]) 
     } 
-    
-		
 
 		let uiLayout = uiHelper(args, property)
-		
-
+   
     return { layout, uiLayout }
 }
