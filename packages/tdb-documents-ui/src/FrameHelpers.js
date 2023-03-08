@@ -3,16 +3,29 @@ import { makeOptionalFrames } from "./optionalFrames"
 import * as util from "./utils"
 import * as CONST from "./constants"
 
+// add layout to references
+function addLayout (args, layout) {
+	let { reference, setReference, type } = args
+	let tempReference = reference
+	tempReference[type] = layout
+	setReference(tempReference)
+}
+
 // function to store reference of document type definition 
 // to be used later on ...
-function addToReference(args, layout) { 
-	let { reference, setReference, type } = args
+export function addToReference(args, layout) { 
+	let { reference, type } = args
 	// add reference only if not available 
 	if(!util.availableInReference(reference, type)) { 
-		let tempReference = reference
-		tempReference[type] = layout
-		setReference(tempReference)
+		addLayout (args, layout)
 	}
+	// this is in case of circular document links 
+	// if document link points to its own document class in this case reference[type]={}
+	// we add extracted frames to reference[type] when available
+	if(util.availableInReference(reference, type) && 
+		!Object.keys(reference[type]).length) {
+			addLayout (args, layout)
+		}
 }
 
 
@@ -30,6 +43,7 @@ export function getProperties (args) {
 		else if(property === "@inherits") continue
 		else if(property === CONST.DOCUMENTATION) continue
 		else if(property === CONST.SUBDOCUMENT) continue
+		else if(property === CONST.UNFOLDABLE) continue
 		else if(util.isMandatory(documentFrame, property)) {
 			let mandatoryFrames=makeMandatoryFrames(args, property)
 			//set property layout & uiLayout
@@ -46,7 +60,7 @@ export function getProperties (args) {
 			argsHolder.documentFrame=extractedFrames
 			let optional = getProperties(argsHolder)
 			// place back original document frames
-			argsHolder.documentFrame=documentFrameHolder
+			argsHolder.documentFrame=documentFrameHolder 
 			let optionalFrames = makeOptionalFrames(optional, property) 
 		 
 			//set property layout & uiLayout

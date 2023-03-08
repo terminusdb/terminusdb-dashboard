@@ -7,7 +7,7 @@ export const TDBLabel = ({ name, required, comment, className, id }) =>{
 
   if(required) {
     // required then add required identifier 
-    return <Stack direction="veritcal" gap={1} className={className}>
+    return <Stack direction="veritcal" className={className}>
       <label className="control-label" for={id}>{name}
         <DisplayPropertyNameAndComment comment={comment}/>
       </label> 

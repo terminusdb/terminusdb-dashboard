@@ -6,6 +6,7 @@ import { TDBDateTime, TDBDate } from "../widgets/dateWidgets"
 import * as TYPE from "../dataType.constants"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBSubDocument } from "../widgets/subDocumentWidget"
+import { TDBDocument } from "../widgets/documentWidget"
 import * as CONST from "../constants"
 
 /** displays widgets according to dataType */
@@ -129,4 +130,24 @@ export function getSubDocumentUIDisplay (args, extracted, property) {
       props={props}/>
   }
   return  { "ui:field": displaySubDocumentWidget }
+}
+
+// DOCUMENT LINKS UI 
+export function getDocumentUIDisplay (args, extracted, property, linked_to) {
+
+  let { fullFrame, extractedDocumentation, mode, type, documentFrame } = args
+
+  function displayDocumentLinkWidget(props) {
+
+    // add logic for required properties 
+    return  <TDBDocument extracted={extracted} 
+    //id={props.idSchema["$id"]}
+    //comment={documentation.comment ? documentation.comment : null} 
+    mode={mode}
+    //propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
+    linked_to={linked_to}
+    unfoldable={util.isUnfoldable(documentFrame)}
+    props={props}/>
+  }
+  return  { "ui:field": displayDocumentLinkWidget }
 }

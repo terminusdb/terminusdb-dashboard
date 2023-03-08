@@ -23,11 +23,11 @@ import { typeHelper } from "./helpers/typeHelper"
  */
 export function makeMandatoryFrames (args, property) {
     
-  let { documentFrame } = args
+  let { documentFrame, fullFrame } = args
 
     /** gather layout of property  */ 
     let layout = { 
-			"type": typeHelper(documentFrame, property),
+			"type": typeHelper(documentFrame, property, fullFrame),
       "title": property,
       [CONST.PLACEHOLDER]: getPlaceholder(args.documentFrame[property]) 
     } 

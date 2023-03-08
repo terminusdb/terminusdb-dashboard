@@ -14,10 +14,6 @@ function populateSubDocumentData(mode, linked_to, formData) {
   return formData
 }
 
-function getFormDataPerProperty (subDocumentData, fieldName) {
-  if(subDocumentData.hasOwnProperty(fieldName)) return subDocumentData[fieldName]
-  return ""
-}
  
 const SubDocumentProperties = ({ subDocumentPropertyName, properties, required, mode, onChange, formData, linked_to, propertyDocumentation }) => {
   
@@ -38,7 +34,7 @@ const SubDocumentProperties = ({ subDocumentPropertyName, properties, required, 
     let config = {
       dataType: properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
       name: fieldName,
-      formData: getFormDataPerProperty(subDocumentData, fieldName), 
+      formData: util.getFormDataPerProperty(subDocumentData, fieldName), 
       required: required.includes(fieldName), 
       mode: mode, 
       id: fieldID, 
@@ -55,7 +51,7 @@ const SubDocumentProperties = ({ subDocumentPropertyName, properties, required, 
     {fields}
   </Card.Body>
 }
- 
+  
 export const TDBSubDocument = ({ extracted, comment, props, mode, linked_to, propertyDocumentation }) => {
   const [open, setOpen] = useState(false);
 

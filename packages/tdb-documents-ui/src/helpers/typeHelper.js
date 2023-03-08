@@ -4,7 +4,7 @@ import * as CONST from "../constants"
 import * as util from "../utils"
 import * as TYPE from "../dataType.constants"
 
-export const typeHelper = (documentFrame, property) => {
+export const typeHelper = (documentFrame, property, fullFrame) => {
 
   let field = documentFrame[property]
 
@@ -16,5 +16,12 @@ export const typeHelper = (documentFrame, property) => {
   else if(util.isSubDocumentType(field)){
     // SUBDOCUMENT TYPE
     return CONST.OBJECT_TYPE
+  }
+  else if(util.isDocumentType(field, fullFrame)){
+    // DOCUMENT LINKS
+    // document links on create mode can expect 2 parameters
+    // to link to an existing document or to create a new document all together
+    return CONST.OBJECT_TYPE
+    //return [CONST.STRING_TYPE, CONST.OBJECT_TYPE]
   }
 }

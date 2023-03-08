@@ -141,7 +141,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 	}
 
 
-	return <div className="tdb__frame__viewer">
+	return <div className="tdb__frame__viewer ">
 		{display && message && message}
 		<DisplayDocumentation documentation={documentation}/>
 		{display && <Form schema={display.schema}
@@ -155,7 +155,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 			//fields={{
 					//collapsible: CollapsibleField
 			//}}
-			children={hideSubmit} />// hide submit button on view mode
+			children={ mode === CONST.VIEW ? true : false } />// hide submit button on view mode
 			//FieldTemplate={mode===CONST.VIEW ? DisplayFieldTemplate : null}/>
 		}
 	</div>

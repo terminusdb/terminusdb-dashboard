@@ -60,6 +60,25 @@ export const isDataType = (field) => {
 	return false
 }
 
+/**
+ * 
+ * @param {*} field - field of a property
+ * @param {*} fullFrame - data product's entire frames
+ * @returns true for properties linked to other document classes
+ */
+ export const isDocumentType = (field, fullFrame) => {
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	if(!fullFrame) return false 
+	let document = `${field}`
+	if(fullFrame[document]) {
+		// make sure document is a class and not @subdocument class
+		if(fullFrame[document]["@type"] === CONST.DOCUMENT && 
+			!fullFrame[document][CONST.SUBDOCUMENT]) return true
+	}
+	return false
+}
+
+
 /***  extract metadata */
 
 /**
@@ -155,9 +174,23 @@ export const extractFrames = (frame, item, language) => {
     return extracted
 }
 
-/** checks if document typre reference definition is available or not */
+/** checks if document type reference definition is available or not */
 export function availableInReference (references, documentType) {
 	if(!Object.keys(references).length) return false
 	if(references.hasOwnProperty(documentType)) return true
+	return false
+}
+
+
+// gets form data per property 
+// used to get config form data for subdocuments, documentlinks etc.
+export function getFormDataPerProperty (subDocumentData, fieldName) {
+  if(subDocumentData.hasOwnProperty(fieldName)) return subDocumentData[fieldName]
+  return ""
+}
+
+// @unfoldable  - checks if a document class is unfoldable
+export const isUnfoldable=(documentFrame) => {
+	if(documentFrame.hasOwnProperty(CONST.UNFOLDABLE)) return true
 	return false
 }

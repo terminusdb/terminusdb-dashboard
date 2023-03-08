@@ -1,8 +1,24 @@
 import React from "react"
 import * as CONST from "../constants"
 import * as util from "../utils"
-import { getUIDisplay, getSubDocumentUIDisplay } from "./widgetHelper"
-import { getProperties } from "../FrameHelpers"
+import { getUIDisplay, getSubDocumentUIDisplay, getDocumentUIDisplay } from "./widgetHelper"
+import { getProperties, addToReference } from "../FrameHelpers"
+
+function constructDocumentConfig(args, property, linked_to) {
+  let { fullFrame, documentFrame } = args
+  
+  let linked_frames=fullFrame[linked_to]
+  
+  // change frames & type 
+  let config = args
+  config.type=linked_to
+  config.extractedDocumentation=util.extractDocumentation(fullFrame, 
+    linked_to, 
+    fullFrame[CONST.SELECTED_LANGUAGE])
+  config.documentFrame=linked_frames
+
+  return config
+}
 
 function constructSubDocumentConfig(args, property) {
   let { fullFrame, documentFrame } = args
@@ -23,7 +39,7 @@ function constructSubDocumentConfig(args, property) {
 
 export const uiHelper = (args, property) => {
 
-  let { fullFrame, reference } =  args
+  let { fullFrame, reference, setReference } =  args
 
   let { documentFrame } = args  
   let field = documentFrame[property]
@@ -39,12 +55,45 @@ export const uiHelper = (args, property) => {
     let argsHolder={...args}
     let linked_to=field[CONST.CLASS]
     let extracted={}
+    // if linked_to definition is not available in references
     if(!util.availableInReference(reference, linked_to)){
       let config=constructSubDocumentConfig(argsHolder, property)
       extracted=getProperties(config)
-      extracted.extractedDocumentation=argsHolder.extractedDocumentation
     }
+    else {
+      // reference available 
+      extracted=reference[linked_to]
+    }
+    // add extracted documentation 
+    extracted.extractedDocumentation=argsHolder.extractedDocumentation
 
     return getSubDocumentUIDisplay(argsHolder, extracted, property)
+  }
+  else if(util.isDocumentType(field, fullFrame)) {
+    // DOCUMENT LINKS
+    let argsHolder={...args}
+    let extracted={}
+    let linked_to=field //let field = documentFrame[property]
+    // if linked_to definition is not available in references
+    if(!util.availableInReference(reference, linked_to)){
+      addToReference(args, {})
+      let config=constructDocumentConfig(argsHolder, property, linked_to)
+      
+      extracted=getProperties(config)
+      // add extracted to references
+      addToReference(args, extracted)
+     
+      return getDocumentUIDisplay(argsHolder, extracted, property, linked_to)
+    }
+    else if(reference.hasOwnProperty(linked_to) && !Object.keys(reference[linked_to]).length) {
+      // here document link is available in reference but is empty
+      // reference[type]
+      return {}
+    }
+    else {
+      // reference[type] will have extracted properties at this point
+      return getDocumentUIDisplay(argsHolder, reference[field], property, linked_to)
+    }
+    
   }
 }

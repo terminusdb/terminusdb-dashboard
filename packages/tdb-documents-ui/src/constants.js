@@ -29,6 +29,7 @@ export const ARRAY_TYPE="array"
 export const NUMBER_TYPE="number"
 export const BOOLEAN_TYPE="boolean"
 export const DATE_TYPE="string"
+export const DOCUMENT="Class"
 export const RDF_LANG_STRING="rdf:langString"
 export const RDF_DATA_TYPE_PREFIX = "rdf:"
 export const XSD_DATA_TYPE_PREFIX = "xsd:"
@@ -44,3 +45,8 @@ export const LABEL="@label"
 
 // META DATA constants
 export const METADATA="@metadata"
+
+// DOCUMENT LINK CONSTANTS 
+export const LINK_NEW_DOCUMENT="Create New Document"
+export const LINK_EXISTING_DOCUMENT="Link an existing Document"
+export const UNFOLDABLE="@unfoldable"
