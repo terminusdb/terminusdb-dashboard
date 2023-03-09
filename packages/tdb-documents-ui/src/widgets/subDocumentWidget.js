@@ -61,8 +61,8 @@ const SubDocumentProperties = ({ subDocumentPropertyName, properties, required, 
   </Card.Body>
 }
   
-export const TDBSubDocument = ({ extracted, comment, props, mode, linked_to, propertyDocumentation }) => {
-  const [open, setOpen] = useState(false);
+export const TDBSubDocument = ({ extracted, expanded, comment, props, mode, linked_to, propertyDocumentation }) => {
+  const [open, setOpen] = useState(expanded);
 
  
   return <Stack direction="horizontal">

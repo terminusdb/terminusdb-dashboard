@@ -89,6 +89,7 @@ export function getUIDisplay (args, property, dataType) {
   // checks for metaData => render_as markdown
   let metaDataType=util.fetchMetaData(documentFrame, property) 
   if(metaDataType) {
+    // expecting a string metadata type
     dataType=metaDataType
   }
 
@@ -128,18 +129,22 @@ function extractPropertyDocumentation(extractedDocumentation, selectedLanguage) 
 }
 
 // SUBDOCUMENT UI
-export function getSubDocumentUIDisplay (args, extracted, property) {
+export function getSubDocumentUIDisplay (args, extracted, property, expanded) {
   // at this point extracted will have all of the extracted documents from linked_to
 
-  let { fullFrame, extractedDocumentation, mode, type } = args
+  let { fullFrame, extractedDocumentation, mode, type, documentFrame } = args
   //let field = documentFrame[property]
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
+  // checks for metaData => render_as { expanded: true/ false }
+  // will decide to expand subdocuments accordingly 
+  
 
-  function displaySubDocumentWidget(props) {
+  function displaySubDocumentWidget(props) { 
     // add logic for required properties 
     return  <TDBSubDocument extracted={extracted} 
       id={props.idSchema["$id"]}
+      expanded={expanded}
       comment={documentation.comment ? documentation.comment : null} 
       mode={mode}
       propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}

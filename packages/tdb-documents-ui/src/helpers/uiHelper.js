@@ -67,7 +67,14 @@ export const uiHelper = (args, property) => {
     // add extracted documentation 
     extracted.extractedDocumentation=argsHolder.extractedDocumentation
 
-    return getSubDocumentUIDisplay(argsHolder, extracted, property)
+    // check for SubDocument MetaData
+    let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+    if(metaDataType) {
+      // expecting JSON at this point
+      expanded=metaDataType
+    }
+
+    return getSubDocumentUIDisplay(argsHolder, extracted, property, expanded)
   }
   else if(util.isDocumentType(field, fullFrame)) {
     // DOCUMENT LINKS
