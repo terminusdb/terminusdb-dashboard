@@ -8,14 +8,14 @@ import { logRoles } from '@testing-library/dom';
 
 
 /**
- * VIEW a Person who is friend_with Person
- * checks if all fields are displayed correctly
+ * View a Person who likes Animal 
+ * example Person has likes property which is linked to another document Animal
+ * Animal has a property owned_by which is linked back to Person 
  */
-describe("Test Circular Document Links - VIEW MODE", () => {
+describe("Test Circular Document Links - View MODE", () => {
 
-
-	// view a document link  type property 
-	test("View Document Link property", async () => {
+	// View a document link type property
+	test("View Circular Document Link property", async () => {
 		
 		const config = CONST.VIEW_CONFIG
 
@@ -27,42 +27,45 @@ describe("Test Circular Document Links - VIEW MODE", () => {
 			mode={config.mode}/>
 		)
 
+		logRoles(container)
+		
+		// check if everything is readily available at depth 1
+		// checking DEPTH 1 ( owned_by User )
 		const nameInput = document.getElementById("root_name")
-		// check if nameInput root input is available
-		expect(nameInput).toBeInTheDocument()
-		// check if correct value is displayed
+		await expect(nameInput).toBeInTheDocument()
 		expect(nameInput.value).toStrictEqual(config.formData["name"])
 
-		const ageInput = document.getElementById("root_age")
-		// check if ageInput root input is available
-		expect(ageInput).toBeInTheDocument()
-		expect(ageInput.value).toStrictEqual(config.formData["age"])
+		// checking DEPTH 1 ( likes )
+		const likes_nickName_1 = document.getElementById("root_likes_nickName_1")
+		await expect(likes_nickName_1).toBeInTheDocument()
+		expect(likes_nickName_1.value).toStrictEqual(config.formData["likes"]["nickName"])
 
-		// FILLING DEPTH 1
-		const nameInput_1 = document.getElementById("root_friends_with_name_1")
-		// check if nameInput_1 root input is available
-		expect(nameInput_1).toBeInTheDocument()
-		expect(nameInput_1.value).toStrictEqual(config.formData["friends_with"]["name"])
+		// checking DEPTH 1 ( likes )
+		const likes_category_1 = document.getElementById("root_likes_category_1")
+		await expect(likes_category_1).toBeInTheDocument()
+		expect(likes_category_1.value).toStrictEqual(config.formData["likes"]["category"])
 
-		const ageInput_1 = document.getElementById("root_friends_with_age_1")
-		// check if ageInput_1 root input is available
-		expect(ageInput_1).toBeInTheDocument()
-		expect(ageInput_1.value).toStrictEqual(config.formData["friends_with"]["age"])
+		// checking DEPTH 2 ( owned_by User )
+		const nameInput_2 = document.getElementById("root_owned_by_name_2")
+		await expect(nameInput_2).toBeInTheDocument()
+		expect(nameInput_2.value).toStrictEqual(config.formData["likes"]["owned_by"]["name"])
 
-		// FILLING DEPTH 2
-		const nameInput_2 = document.getElementById("root_friends_with_name_2")
-		// check if nameInput_2 root input is available
-		expect(nameInput_2).toBeInTheDocument()
-		expect(nameInput_2.value).toStrictEqual(config.formData["friends_with"]["friends_with"]["name"])
+		// checking DEPTH 3 ( likes )
+		const likes_nickName_3 = document.getElementById("root_likes_nickName_3")
+		await expect(likes_nickName_3).toBeInTheDocument()
+		expect(likes_nickName_3.value).toStrictEqual(config.formData["likes"]["owned_by"]["likes"]["nickName"])
 
-		const ageInput_2 = document.getElementById("root_friends_with_age_2")
-		// check if ageInput_2 root input is available
-		expect(ageInput_2).toBeInTheDocument()
-		expect(ageInput_2.value).toStrictEqual(config.formData["friends_with"]["friends_with"]["age"])
-		
+		// checking DEPTH 3 ( likes )
+		const likes_category_3 = document.getElementById("root_likes_category_3")
+		await expect(likes_category_3).toBeInTheDocument()
+		expect(likes_category_3.value).toStrictEqual(config.formData["likes"]["owned_by"]["likes"]["category"])
 
-	})
+		// checking DEPTH 4 ( owned_by User )
+		const nameInput_4 = document.getElementById("root_owned_by_name_4")
+		await expect(nameInput_4).toBeInTheDocument()
+		expect(nameInput_4.value).toStrictEqual(config.formData["likes"]["owned_by"]["likes"]["owned_by"]["name"])
 
-	
+	}) 
+
 })
 

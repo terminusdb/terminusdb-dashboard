@@ -10,49 +10,61 @@ import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./Descri
 import { v4 as uuidv4 } from 'uuid';
 
 // display based on action 
-const DisplayLinkFrame = ({ documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayLinkFrame = ({ reference, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
+  let nextCreateLink =  false
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
 
     let fields = []
 
     function handleChange(data, fieldName) {
+      //console.log("documentData", documentData)
       let tempDocumentData = documentData
       // if field name is undefined
       // at this point means that its the document link's data 
       // so we pass linked_to as param
-      tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
+      // nextCreateLink stores the next link 
+      //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
+      tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
       setDocumentData(tempDocumentData)
       if(onChange) onChange(tempDocumentData)
     }
 
-    for(let field in extracted.properties) { 
+    // definitions will have definitions of linked_to frames
+    let deifinitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
 
-      if(extracted.properties[field][CONST.PLACEHOLDER] === linked_to)  {
+
+    for(let field in deifinitions.properties) { 
+      linked_to = deifinitions.properties[field][CONST.PLACEHOLDER]
+      // if field is a document link then @placeholder will point to linked document at this point
+      if(util.availableInReference(reference, linked_to))  {
+        // store the field name here to connect to correct changed data on create
+        nextCreateLink =  field  
         // another document link 
         fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
-          mode={mode}
+          mode={mode} 
           depth={cardKey}
-          extracted={extracted}
+          reference={reference}
+          extracted={deifinitions}
           onChange={handleChange}
           //comment={comment}  // review
           required={required} />)
       }
       else {
         // internal properties
-        let fieldName = extracted.properties[field].title
+        let fieldName = deifinitions.properties[field].title
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         let config = {
-          dataType: extracted.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
+          dataType: deifinitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
           name: fieldName,
           key: `${linked_to}__${uuidv4()}`,
           formData: util.getFormDataPerProperty(documentData, fieldName),
-          required: extracted.required.includes(fieldName), 
+          required: deifinitions.required.includes(fieldName), 
           mode: mode, 
           id: fieldID,  
-          placeholder: extracted.properties[field][CONST.PLACEHOLDER],
+          placeholder: deifinitions.properties[field][CONST.PLACEHOLDER],
           className: "tdb__doc__input",
           onChange: handleChange,
           documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
@@ -71,7 +83,7 @@ const DisplayLinkFrame = ({ documentData, cardKey, setDocumentData, action, onCh
 }
 
 
-export const CreateDisplay = ({ name, required, comment, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData }) => {
+export const CreateDisplay = ({ name, reference, required, comment, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -81,6 +93,7 @@ export const CreateDisplay = ({ name, required, comment, cardKey, linked_to, ext
       required={required}
       mode={mode}
       cardKey={cardKey}
+      reference={reference}
       onChange={onChange}
       linked_to={linked_to}
       documentLinkPropertyName={name}
@@ -92,7 +105,7 @@ export const CreateDisplay = ({ name, required, comment, cardKey, linked_to, ext
 
  
 // CREATE MODE
-export const CreateDocument = ({ name, required, comment, linked_to, extracted, mode, onChange, depth }) => {
+export const CreateDocument = ({ name, required, reference, comment, linked_to, extracted, mode, onChange, depth }) => {
 
   const [action, setAction] = useState(false)
   const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
@@ -110,6 +123,7 @@ export const CreateDocument = ({ name, required, comment, linked_to, extracted, 
           linked_to={linked_to} 
           extracted={extracted} 
           mode= {mode} 
+          reference={reference}
           cardKey={cardKey}
           onChange={onChange}
           action={action} 

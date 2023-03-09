@@ -9,7 +9,7 @@ import { COMMENT } from "./constants"
 */
 export const DisplayDocumentation = ({ documentation }) => {
 	if(documentation && documentation.hasOwnProperty(COMMENT)) {
-  	return <p className="text-muted fw-bold text-left">{ documentation[COMMENT]} </p>
+  	return <p className="text-light fw-bold text-left">{ documentation[COMMENT]} </p>
  	}
  	return <div/>
 }

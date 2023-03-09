@@ -10,7 +10,7 @@ import { CreateDocument } from "../components/CreateDocumentLink"
 import { EditDocument } from "../components/EditDocumentLink"
 import { ViewDocument } from "../components/ViewDocumentLink"
 
-export const TDBDocument = ({ extracted, comment, unfoldable, props, mode, linked_to, propertyDocumentation }) => {
+export const TDBDocument = ({ extracted, reference, comment, unfoldable, props, mode, linked_to, propertyDocumentation }) => {
 
   let depth = 0
 
@@ -19,6 +19,7 @@ export const TDBDocument = ({ extracted, comment, unfoldable, props, mode, linke
     linked_to={linked_to}
     depth={depth}
     mode={mode}
+    reference={reference}
     extracted={extracted}
     //comment={comment}  // review
     required={props.required} />
@@ -27,6 +28,7 @@ export const TDBDocument = ({ extracted, comment, unfoldable, props, mode, linke
     onChange={props.onChange}
     linked_to={linked_to}
     depth={depth}
+    reference={reference}
     mode={mode}
     unfoldable={unfoldable}
     formData={props.formData}
@@ -39,6 +41,7 @@ export const TDBDocument = ({ extracted, comment, unfoldable, props, mode, linke
     linked_to={linked_to}
     mode={mode}
     depth={depth}
+    reference={reference}
     unfoldable={unfoldable}
     formData={props.formData}
     extracted={extracted}

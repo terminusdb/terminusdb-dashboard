@@ -8,7 +8,9 @@ import { logRoles } from '@testing-library/dom';
 
 
 /**
- * Create a Person who is friend_with Person
+ * Create a Person who likes Animal 
+ * example Person has likes property which is linked to another document Animal
+ * Animal has a property owned_by which is linked back to Person 
  */
 describe("Test Circular Document Links - CREATE MODE", () => {
 
@@ -22,6 +24,7 @@ describe("Test Circular Document Links - CREATE MODE", () => {
 
 		// callback function which returns back data submitted via <FrameViewer/>
 		function handleSubmit (submittedData) {
+			//console.log("submittedData ////", JSON.stringify(submittedData, null, 2))
 			data=submittedData
 			return data 
 		}
@@ -43,52 +46,66 @@ describe("Test Circular Document Links - CREATE MODE", () => {
 		// enter a nameInput root value
 		fireEvent.change(nameInput, {target: {value: config.input["name"]}})
 
-		const ageInput = screen.getByRole("textbox", { name: "age"})
-		// check if ageInput root input is available
-		expect(ageInput).toBeInTheDocument()
-		// enter a ageInput root value
-		fireEvent.change(ageInput, {target: {value: config.input["age"]}})
-
-		// FILLING DEPTH 1
-		//const createNew = screen.getByRole('radio', { level: 1 })
+		// FILLING DEPTH 1 ( likes Animal )
 		const createNew = document.getElementById("Create New Document__1")
 		await expect(createNew).toBeInTheDocument()
 		await userEvent.click(createNew); 
 		
-		const nameInput_1 = document.getElementById("root_friends_with_name_1")
-		// check if nameInput_1 root input is available
-		expect(nameInput_1).toBeInTheDocument()
-		// enter a nameInput_1 root value
-		fireEvent.change(nameInput_1, {target: {value: config.input["friends_with"]["name"]}})
+		const likes_category_1 = document.getElementById("root_likes_category_1")
+		// check if likes_category_1 root input is available
+		expect(likes_category_1).toBeInTheDocument()
+		// enter a likes_category_1 root value
+		fireEvent.change(likes_category_1, {target: {value: config.input["likes"]["category"]}})
 
+		const likes_nickName_1 = document.getElementById("root_likes_nickName_1")
+		// check if likes_nickName_1 root input is available
+		expect(likes_nickName_1).toBeInTheDocument()
+		// enter a likes_nickName_1 root value
+		fireEvent.change(likes_nickName_1, {target: {value: config.input["likes"]["nickName"]}})
 
-		const ageInput_1 = document.getElementById("root_friends_with_age_1")
-		// check if ageInput_1 root input is available
-		expect(ageInput_1).toBeInTheDocument()
-		// enter a ageInput_1 root value
-		fireEvent.change(ageInput_1, {target: {value: config.input["friends_with"]["age"]}})
-
-		
-		// FILLING DEPTH 2
-		
+		// FILLING DEPTH 2 ( owned_by User )
 		const createNew_2 = document.getElementById("Create New Document__2")
 		await expect(createNew_2).toBeInTheDocument()
 		await userEvent.click(createNew_2); 
 		
-		const nameInput_2 = document.getElementById("root_friends_with_name_2")
-		// check if nameInput_2 root input is available
-		expect(nameInput_2).toBeInTheDocument()
-		// enter a nameInput_2 root value
-		fireEvent.change(nameInput_2, {target: {value: config.input["friends_with"]["friends_with"]["name"]}})
-
-
-		const ageInput_2 = document.getElementById("root_friends_with_age_2")
-		// check if ageInput_2 root input is available
-		expect(ageInput_2).toBeInTheDocument()
-		// enter a ageInput_2 root value
-		fireEvent.change(ageInput_2, {target: {value: config.input["friends_with"]["friends_with"]["age"]}})
-
+		const owned_by_name_2 = document.getElementById("root_owned_by_name_2")
+		// check if owned_by_name_2 root input is available
+		await expect(owned_by_name_2).toBeInTheDocument()
+		// enter a owned_by_name_2 root value
+		fireEvent.change(owned_by_name_2, {target: {value: config.input["likes"]["owned_by"]["name"]}})
 		
+		// FILLING DEPTH 3 ( likes Animal )
+		const createNew_3 = document.getElementById("Create New Document__3")
+		await expect(createNew_3).toBeInTheDocument()
+		await userEvent.click(createNew_3); 
+
+
+		const likes_category_3 = document.getElementById("root_likes_category_3")
+		// check if likes_category_3 root input is available
+		expect(likes_category_3).toBeInTheDocument()
+		let categoryInput_3=config.input["likes"]["owned_by"]["likes"]["category"]
+		// enter a likes_category_3 root value
+		fireEvent.change(likes_category_3, {target: {value: categoryInput_3}})
+
+		const likes_nickName_3 = document.getElementById("root_likes_nickName_3")
+		// check if likes_nickName_3 root input is available
+		expect(likes_nickName_3).toBeInTheDocument()
+		let nickNameInput_3=config.input["likes"]["owned_by"]["likes"]["nickName"]
+		// enter a likes_category_3 root value
+		fireEvent.change(likes_nickName_3, {target: {value: nickNameInput_3}})
+
+		// FILLING DEPTH 4 ( owned_by User )
+		const createNew_4 = document.getElementById("Create New Document__4")
+		await expect(createNew_4).toBeInTheDocument()
+		await userEvent.click(createNew_4); 
+
+		const owned_by_name_4 = document.getElementById("root_owned_by_name_4")
+		// check if owned_by_name_4 root input is available
+		await expect(owned_by_name_4).toBeInTheDocument()
+		let ownedByNameInput_4=config.input["likes"]["owned_by"]["likes"]["owned_by"]["name"]
+		// enter a owned_by_name_4 root value
+		fireEvent.change(owned_by_name_4, {target: {value: ownedByNameInput_4}}) 
+
 		// check if submit button is available 
 		const submitButton = screen.getByText("Submit")
 		// check if submit button is available
@@ -100,7 +117,7 @@ describe("Test Circular Document Links - CREATE MODE", () => {
   };
 
 	// create a document link type property
-	test("Create Document Link property", async () => {
+	test("Create Circular Document Link property", async () => {
 		
 		const config = CONST.CREATE_CONFIG
 

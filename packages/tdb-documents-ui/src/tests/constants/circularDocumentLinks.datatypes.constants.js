@@ -8,96 +8,110 @@ export const DOCUMENT_LINK_DATA_TYPE_FRAME = {
 		"@type": "Context",
 		"xsd": "http://www.w3.org/2001/XMLSchema#"
 	},
+	"Animal": {
+		"@key": {"@type": "Random"},
+		"@type": "Class",
+		"owned_by":{
+			"@class": "Person",
+			"@type": "Optional"
+		},
+		"category": "xsd:string",
+		"nickName": "xsd:string"
+	},
 	"Person": {
     "@key": {
       "@type": "Random"
     },
     "@type": "Class",
-    "friends_with": {
-			"@class": "Person",
+    "likes": {
+			"@class": "Animal",
 			"@type": "Optional"
 		},
-		"name": "xsd:string",
-		"age": "xsd:integer"
+		"name": "xsd:string"
   }
 }
 
 // expected data on Create 
 export const DOCUMENT_LINK_DATA_TYPE_CREATE_DATA = {
 	"@type": "Person",
-	"friends_with": {
-		"@type": "Person", 
-		"name": "Hermione Granger",
-		"age": "15",
-		"friends_with": {
+	"likes": {
+		"@type": "Animal", 
+		"nickName": "Chooo",
+		"category": "Cats",
+		"owned_by": {
 			"@type": "Person", 
-			"name": "Ronald Weasely",
-			"age": "13"
+			"name": "Ron Terol",
+			"likes": {
+				"@type": "Animal", 
+				"nickName": "Jimmy",
+				"category": "Dogs",
+				"owned_by": {
+					"@type": "Person", 
+					"name": "Marry Ann"
+				}
+			}
 		}
 	},
-	"name": "Harry Potter",
-	"age": "18",
-	"@type": "Person"
+	"name": "John Doe"
 }
 
 // expected data on Create 
 export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA_ORIGINAL = {
 	"@id": "Person/13123123",
 	"@type": "Person",
-	"friends_with": {
-		"@id": "Person/13123123/friends_with/HermioneGranger",
-		"@type": "Person", 
-		"name": "Hermione Granger",
-		"age": "15",
-		"friends_with": {
-			"@id": "Person/13123123/friends_with/HermioneGranger/friends_with/RonaldWeasely",
+	"likes": {
+		"@id": "Person/13123123/likes/Cats",
+		"@type": "Animal", 
+		"nickName": "Chooo",
+		"category": "Cats",
+		"owned_by": {
+			"@id": "Person/13123123/owned_by/Ron",
 			"@type": "Person", 
-			"name": "Ronald Weasely",
-			"age": "13"
+			"name": "Ron Terol",
+			"likes": {
+				"@id": "Person/13123123/owned_by/Ron/likes/Dogs",
+				"@type": "Animal", 
+				"nickName": "Jimmy",
+				"category": "Dogs",
+				"owned_by": {
+					"@id": "Person/13123123/owned_by/Ron/likes/Dogs/owned_by/Mary",
+					"@type": "Person", 
+					"name": "Marry Ann"
+				}
+			}
 		}
 	},
-	"name": "Harry Potter",
-	"age": "18",
+	"name": "John Doe",
 	"@type": "Person"
 }
 
 // expected data on Edit 
 export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA = {
 	"@id": "Person/13123123",
-	"@type": "Person",
-	"friends_with": {
-		"@id": "Person/13123123/friends_with/HermioneGranger",
-		"@type": "Person", 
-		"name": "Hermione Granger",
-		"age": "19",
-		"friends_with": {
-			"@id": "Person/13123123/friends_with/HermioneGranger/friends_with/RonaldWeasely",
+	"@type": "Person", 
+	"likes": {
+		"@id": "Person/13123123/likes/Cats",
+		"@type": "Animal", 
+		"nickName": "Chooo",
+		"category": "Cats",
+		"owned_by": {
+			"@id": "Person/13123123/owned_by/Ron",
 			"@type": "Person", 
-			"name": "Ronald Bilius Weasely",
-			"age": "16"
+			"name": "Ron Terol",
+			"likes": {
+				"@id": "Person/13123123/owned_by/Ron/likes/Dogs",
+				"@type": "Animal", 
+				"nickName": "Goldie",
+				"category": "Fish",
+				"owned_by": {
+					"@id": "Person/13123123/owned_by/Ron/likes/Dogs/owned_by/Mary",
+					"@type": "Person", 
+					"name": "Jerome Kal"
+				}
+			}
 		}
 	},
-	"name": "Harry Potter",
-	"age": "18",
-	"@type": "Person"
-}
-
-export const DOCUMENT_UNLINKED_DATA ={
-	"@id": "Person/13123123",
-	"@type": "Person",
-	"friends_with": {
-		"@id": "Person/13123123/friends_with/HermioneGranger",
-		"@type": "Person", 
-		"name": "Hermione Granger",
-		"age": "15",
-		"friends_with": { // this will be new data to be created
-			"@type": "Person", 
-			"name": "Luna Lovegood",
-			"age": "11"
-		}
-	},
-	"name": "Harry Potter",
-	"age": "18",
+	"name": "John Doe",
 	"@type": "Person"
 }
 
@@ -118,7 +132,6 @@ export const EDIT_CONFIG = {
 	type: "Person",
 	formData: DOCUMENT_LINK_DATA_TYPE_EDIT_DATA_ORIGINAL, // pass created data here & we will modify with Edit data
 	input: DOCUMENT_LINK_DATA_TYPE_EDIT_DATA,
-	unLinkedInput: DOCUMENT_UNLINKED_DATA,
 	mode: "Edit"
 }
 

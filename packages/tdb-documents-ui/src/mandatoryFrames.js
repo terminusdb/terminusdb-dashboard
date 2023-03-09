@@ -25,11 +25,13 @@ export function makeMandatoryFrames (args, property) {
     
   let { documentFrame, fullFrame } = args
 
+    let placeholder=getPlaceholder(args.documentFrame[property]) 
+
     /** gather layout of property  */ 
     let layout = { 
 			"type": typeHelper(documentFrame, property, fullFrame),
       "title": property,
-      [CONST.PLACEHOLDER]: getPlaceholder(args.documentFrame[property]) 
+      [CONST.PLACEHOLDER]: placeholder
     } 
 
 		let uiLayout = uiHelper(args, property)

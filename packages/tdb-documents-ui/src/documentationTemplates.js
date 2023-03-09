@@ -71,7 +71,7 @@ export function DisplayPropertyNameAndComment ({ comment }){
 			</Tooltip>
 			}
 		> 
-			<Button className="btn-sm text-muted bg-transparent border-0" id="tdb__documentation__button">
+			<Button className="btn-sm text-light bg-transparent border-0" id="tdb__documentation__button">
 				<FiHelpCircle className="h5 mb-2"/>
 			</Button>
 		</OverlayTrigger>}

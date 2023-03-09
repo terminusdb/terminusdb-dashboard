@@ -4,27 +4,27 @@ import * as util from "./utils"
 import * as CONST from "./constants"
 
 // add layout to references
-function addLayout (args, layout) {
-	let { reference, setReference, type } = args
+function addLayout (args, layout, linked_to) {
+	let { reference, setReference } = args
 	let tempReference = reference
-	tempReference[type] = layout
+	tempReference[linked_to] = layout
 	setReference(tempReference)
 }
 
 // function to store reference of document type definition 
 // to be used later on ...
-export function addToReference(args, layout) { 
+export function addToReference(args, layout, linked_to) { 
 	let { reference, type } = args
 	// add reference only if not available 
-	if(!util.availableInReference(reference, type)) { 
-		addLayout (args, layout)
+	if(!util.availableInReference(reference, linked_to)) { 
+		addLayout (args, layout, linked_to)
 	}
 	// this is in case of circular document links 
 	// if document link points to its own document class in this case reference[type]={}
 	// we add extracted frames to reference[type] when available
-	if(util.availableInReference(reference, type) && 
-		!Object.keys(reference[type]).length) {
-			addLayout (args, layout)
+	if(util.availableInReference(reference, linked_to) && 
+		!Object.keys(reference[linked_to]).length) {
+			addLayout (args, layout, linked_to)
 		}
 }
 
@@ -32,7 +32,7 @@ export function addToReference(args, layout) {
 export function getProperties (args) {
   let properties = {}, propertiesUI = {}, required = []
 
-	let { documentFrame } = args
+	let { documentFrame, type } = args
     
 	for(let property in documentFrame) {
 
@@ -74,9 +74,6 @@ export function getProperties (args) {
 		required: required,
 		uiSchema: propertiesUI
 	}
-
-	// add to reference
-	addToReference(args, layout)
 
 	return layout
 

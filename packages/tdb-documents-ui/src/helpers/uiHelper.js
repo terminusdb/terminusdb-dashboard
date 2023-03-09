@@ -76,12 +76,14 @@ export const uiHelper = (args, property) => {
     let linked_to=field //let field = documentFrame[property]
     // if linked_to definition is not available in references
     if(!util.availableInReference(reference, linked_to)){
-      addToReference(args, {})
+      //addToReference(args, {})
+     
       let config=constructDocumentConfig(argsHolder, property, linked_to)
+      addToReference(config, {}, linked_to)
       
       extracted=getProperties(config)
       // add extracted to references
-      addToReference(args, extracted)
+      addToReference(args, extracted, linked_to)
      
       return getDocumentUIDisplay(argsHolder, extracted, property, linked_to)
     }

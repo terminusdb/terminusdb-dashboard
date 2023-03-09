@@ -12,7 +12,7 @@ import Button from "react-bootstrap/Button"
 import { BsTrashFill } from "react-icons/bs"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 
-const DisplayFilledFrame = ({ documentData, cardKey, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, reference, cardKey, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
   //if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -29,34 +29,42 @@ const DisplayFilledFrame = ({ documentData, cardKey, setDocumentData, unfoldable
       if(onChange) onChange(tempDocumentData)
     }
 
-    for(let field in extracted.properties) { 
-      if(field === documentLinkPropertyName) {
+    // definitions will have definitions of linked_to frames
+    let deifinitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
+
+
+    //for(let field in extracted.properties) {
+    for(let field in deifinitions.properties) {  
+      //if(field === documentLinkPropertyName) {
+      linked_to = deifinitions.properties[field][CONST.PLACEHOLDER]
+      if(util.availableInReference(reference, linked_to)) {
         if(!formData.hasOwnProperty(field)) fields.push(<div className="empty"/>) 
         else fields.push(<ViewDocument name={field} 
           onChange={handleChange}
           linked_to={linked_to}
           mode={mode}
           depth={cardKey}
+          reference={reference}
           unfoldable={unfoldable}
           formData={formData[field]}
-          extracted={extracted}
+          extracted={deifinitions}
           //comment={comment}  // review
           required={required} />)
       }
       else {
         // internal properties
-        let fieldName = extracted.properties[field].title
+        let fieldName = deifinitions.properties[field].title
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         let config = {
-          dataType: extracted.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
+          dataType: deifinitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
           name: fieldName,
           key: `${linked_to}__${uuidv4()}`,
           formData: util.getFormDataPerProperty(documentData, fieldName),
-          required: extracted.required.includes(fieldName), 
+          required: deifinitions.required.includes(fieldName), 
           mode: mode, 
           id: fieldID, 
           formData: documentData[field],
-          placeholder: extracted.properties[field][CONST.PLACEHOLDER],
+          placeholder: deifinitions.properties[field][CONST.PLACEHOLDER],
           className: "tdb__doc__input",
           onChange: handleChange,
           documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
@@ -86,11 +94,11 @@ function getAction (formData, unfoldable) {
 const ViewHelper = ({ linked_to }) => {
   return <Stack direction="horizontal" gap={4}>
     {getLinkedDescription (linked_to)}
-  </Stack>
+  </Stack> 
 }
  
 // VIEW MODE
-export const ViewDocument = ({ name, required, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable }) => {
+export const ViewDocument = ({ name, required, reference, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -111,6 +119,7 @@ export const ViewDocument = ({ name, required, depth, comment, formData, linked_
           onChange={onChange}
           linked_to={linked_to}
           cardKey={cardKey}
+          reference={reference}
           formData={formData}
           documentLinkPropertyName={name}
           documentData={documentData} 

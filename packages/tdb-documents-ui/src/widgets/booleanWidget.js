@@ -20,7 +20,7 @@ export const TDBBoolean = ({ id, name, value, required, mode, onChange, comment,
     <Stack direction={"horizontal"} gap={2}>
         {checked && <input type="checkbox" id={id} name={name} checked onChange={handleClick}/>}
         {!checked && <input type="checkbox" id={id} name={name} onChange={handleClick}/>}
-        <span className="text-muted">{name}</span>
+        <span className="text-light">{name}</span>
     </Stack>
   </InputGroup>
 }

@@ -36,7 +36,13 @@ describe("Test Subdocuments", () => {
 		)
 
 		logRoles(container)
-		const subDocumentButton =  screen.getByRole("button", { name: "PermanentAddress"})
+		/*const subDocumentButton =  screen.getByRole("button", { name: "PermanentAddress"})
+		expect(subDocumentButton).toBeInTheDocument()
+		// click on subdocument button to expand properties
+		await userEvent.click(subDocumentButton) */
+
+
+		const subDocumentButton =  screen.getByText("Click here to expand SubDocument PermanentAddress")
 		expect(subDocumentButton).toBeInTheDocument()
 		// click on subdocument button to expand properties
 		await userEvent.click(subDocumentButton)

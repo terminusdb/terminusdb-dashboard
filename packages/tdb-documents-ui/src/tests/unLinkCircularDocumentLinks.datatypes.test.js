@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from "@testing-library/user-event"
 import { FrameViewer } from "../FrameViewer"
-import * as CONST from "./constants/circularDocumentLinks.datatypes.constants"
+import * as CONST from "./constants/selfLinkedDocumentLinks.datatypes.constants"
 import { LINK_NEW_DOCUMENT } from '../constants';
 import '@testing-library/jest-dom'
 import { logRoles } from '@testing-library/dom';
@@ -41,9 +41,9 @@ describe("Test Circular Document Links - Unlink already populated links", () => 
 
 
 		// FILLING DEPTH 2
-		const nameInput_2 = document.getElementById("root_friends_with_name_2")
+		const nameInput_2 = document.getElementById("root_friends_with_name_2") 
 		// check if nameInput_2 root input is available
-		expect(nameInput_2).toBeInTheDocument()
+		await expect(nameInput_2).toBeInTheDocument()
 		expect(nameInput_2.value).toStrictEqual(config.formData["friends_with"]["friends_with"]["name"])
 
 		const ageInput_2 = document.getElementById("root_friends_with_age_2")
