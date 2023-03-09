@@ -45,6 +45,8 @@ export const LABEL="@label"
 
 // META DATA constants
 export const METADATA="@metadata"
+export const RENDER_AS="render_as"
+export const ORDER_BY="order_by"
 
 // DOCUMENT LINK CONSTANTS 
 export const LINK_NEW_DOCUMENT="Create New Document"

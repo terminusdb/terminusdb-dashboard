@@ -194,3 +194,16 @@ export const isUnfoldable=(documentFrame) => {
 	if(documentFrame.hasOwnProperty(CONST.UNFOLDABLE)) return true
 	return false
 }
+
+
+/**** METADATA util functions */
+export function fetchMetaData(documentFrame, property) {
+	if(!documentFrame.hasOwnProperty(CONST.METADATA)) return false
+	if(documentFrame[CONST.METADATA].hasOwnProperty(CONST.RENDER_AS)) {
+		// render as info
+		if(documentFrame[CONST.METADATA][CONST.RENDER_AS].hasOwnProperty(property)) 
+			return documentFrame[CONST.METADATA][CONST.RENDER_AS][property]
+		return false
+	}
+	return false
+}

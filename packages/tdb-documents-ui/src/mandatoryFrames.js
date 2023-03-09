@@ -7,6 +7,7 @@ import * as util from "./utils"
 import * as dataProvider from "./helpers/formDataHelper"
 import {generateUI} from "./helpers/uiHelper"*/
 import * as CONST from "./constants"
+import * as util from "./utils"
 import { uiHelper } from "./helpers/uiHelper"
 import { getPlaceholder } from "./helpers/placeholderHelper"
 import { typeHelper } from "./helpers/typeHelper"
@@ -31,7 +32,8 @@ export function makeMandatoryFrames (args, property) {
     let layout = { 
 			"type": typeHelper(documentFrame, property, fullFrame),
       "title": property,
-      [CONST.PLACEHOLDER]: placeholder
+      [CONST.PLACEHOLDER]: placeholder,
+      //[CONST.METADATA]: util.fetchMetaData(documentFrame, property)
     } 
 
 		let uiLayout = uiHelper(args, property)

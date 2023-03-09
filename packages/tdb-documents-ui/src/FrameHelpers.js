@@ -44,8 +44,9 @@ export function getProperties (args) {
 		else if(property === CONST.DOCUMENTATION) continue
 		else if(property === CONST.SUBDOCUMENT) continue
 		else if(property === CONST.UNFOLDABLE) continue
+		else if(property === CONST.METADATA) continue
 		else if(util.isMandatory(documentFrame, property)) {
-			let mandatoryFrames=makeMandatoryFrames(args, property)
+			let mandatoryFrames=makeMandatoryFrames(args, property) 
 			//set property layout & uiLayout
 			properties[property] = mandatoryFrames.layout
 			propertiesUI[property] = mandatoryFrames.uiLayout

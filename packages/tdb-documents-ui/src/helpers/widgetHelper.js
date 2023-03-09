@@ -7,6 +7,7 @@ import * as TYPE from "../dataType.constants"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBSubDocument } from "../widgets/subDocumentWidget"
 import { TDBDocument } from "../widgets/documentWidget"
+import { TDBMarkdown } from "../widgets/markdownWidget"
 import * as CONST from "../constants"
 
 /** displays widgets according to dataType */
@@ -51,6 +52,17 @@ export function display (config) {
         className={config.className} 
         onChange={config.onChange}/>
 
+    case TYPE.MARKDOWN: 
+      return <TDBMarkdown name={config.name} 
+        value={config.formData} 
+        label={config.documentation.label}
+        comment={config.documentation.comment}
+        required={config.required}
+        mode={config.mode} 
+        id={config.id}
+        className={config.className} 
+        onChange={config.onChange}/>
+
     default: 
       // ALL OTHER DATA TYPES
       return <TDBInput name={config.name} 
@@ -74,9 +86,14 @@ export function getUIDisplay (args, property, dataType) {
   let field = documentFrame[property]
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let config = {}
+  // checks for metaData => render_as markdown
+  let metaDataType=util.fetchMetaData(documentFrame, property) 
+  if(metaDataType) {
+    dataType=metaDataType
+  }
 
   function displayWidget(props) {
-
+    // normal data type inputa are being called here 
     // function expects input data and id of field into which user event occurs
     function handleChange(data, id) {
       if(props.onChange) props.onChange(data)
