@@ -185,7 +185,7 @@ export const AdvancedSearch = (props) =>{
               if(element.properties.operator === "like"){
                 value = `(?i)${value}`
               }else if(element.properties.operator === "starts_with"){
-                value = `(ˆ)${value}`
+                value = {startsWith:value}//`(ˆ)${value}`
               }
               
               let valueObj = {}
