@@ -8,7 +8,7 @@
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack --mode production",
-    "build-playground": "npm run build-es6 && webpack --mode production --config playground/webpack.config.js",
+    "build-playground": "webpack --mode production --config playground/webpack.config.js",
     "playground": "webpack serve --mode development  --open --progress --port 3033 --host localhost --config playground/webpack.config.js",
     "testDb": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config test/webpack.config.js",
     "mockTest": "webpack serve --mode development  --open --progress --port 3035 --host localhost --config mockTest/webpack.config.js",
