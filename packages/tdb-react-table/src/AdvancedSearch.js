@@ -122,7 +122,7 @@ export const AdvancedSearch = (props) =>{
                     "equal":'eq',
                     "not_equal":"ne",
                     "like":"regex",
-                    "starts_with":"regex",
+                    "starts_with":"startsWith",
                     "greater_or_equal":"ge",
                     "greater":"gt",
                     "less_or_equal":"le",
@@ -192,8 +192,6 @@ export const AdvancedSearch = (props) =>{
 
               if(element.properties.operator === "like"){
                 value = `(?i)${value}`
-              }else if(element.properties.operator === "starts_with"){
-                value = `(ˆ)${value}`
               }
               
               let valueObj = {}
