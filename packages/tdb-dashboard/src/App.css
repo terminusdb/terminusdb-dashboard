@@ -1146,7 +1146,7 @@ button.graphiql-tab-add>svg
   color: #343a40!important;
 }
 
-.MuiButton-contained {
+/*.MuiButton-contained {
   background-color: #a9a7a5;
 }
 .MuiButton-containedPrimary {
@@ -1173,7 +1173,7 @@ button.graphiql-tab-add>svg
 }
 .MuiInputBase-input{
   min-height: 20px !important;
-}
+}*/
 
 /*.qb-lite .group--drag-handler, .qb-lite .group--actions {
   transition: opacity 0.2s;

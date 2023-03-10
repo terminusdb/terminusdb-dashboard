@@ -70,7 +70,8 @@ module.exports = (env, argv) => ({
           loader: 'style-loader', // inject CSS to page
         }, {
           loader: 'css-loader', // translates CSS into CommonJS modules
-        }, {
+        }, 
+        {
           loader: 'postcss-loader', // Run post css actions
           options: {
             plugins: function () { // post css plugins, can be exported to postcss.config.js
@@ -85,14 +86,22 @@ module.exports = (env, argv) => ({
         }]
       },
       {
-        test: /\.(css|less)$/,
-        use: [
-          'style-loader',
+        test: /\.(css)$/,
+        use: [{
+            loader: 'style-loader',
+          },
           {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-            },
+            loader: 'css-loader', // translates CSS into CommonJS modules
+          },
+          ]
+      },
+      {
+        test: /\.(less)$/,
+        use: [{
+            loader: 'style-loader',
+           },
+           {
+            loader: 'css-loader', // translates CSS into CommonJS modules
           },
           {
             loader: 'less-loader',

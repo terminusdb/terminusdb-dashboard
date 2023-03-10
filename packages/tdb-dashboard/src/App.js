@@ -30,6 +30,7 @@ import {PageNotFound} from "./pages/PageNotFound"
 import {DocumentsPageList} from "./pages/DocumentsListPage"
 import {PLANS} from "./routing/constants";
 import { DocumentControlMain } from "./pages/DocumentControlMain"
+import  TestApp  from "./TestApp"
 
 export function App (props){
     let navigate = useNavigate();
@@ -86,15 +87,15 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                 <Route path=":dataProduct" >
                     <Route index element={<DataProductsHome/>} />                     
                     <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />
-                    <Route path={PATH.PRODUCT_EXPLORER} element={<ProductsExplorer/>} />
-                    <Route path={PATH.PRODUCT_MODELS} element={<ModelProductPage/>} />                    
+                                       
                 </Route>
             </Route>             
             <Route path="*" element={<div><PageNotFound/></div >} />
         </React.Fragment>
     }
     return <React.Fragment>
-        <Route path="/verify" element={<VerifyEmail/>}/>
+        {/*<Route path="/verify" element={<VerifyEmail/>}/>*/}
+        <Route path="/verify" element={<TestApp/>} />
         <Route path = {PATH.INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />                     
         <Route path={PATH.PLANS} element={<PrivateRoute component={PlansPage}/>}/>
         <Route index element={<PrivateRoute component={Home}/>} />
@@ -125,12 +126,15 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                             </Route> 
                     </Route>
                 </Route>
-                
                 <Route path={PATH.PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
-                <Route path={PATH.PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />                    
+                <Route path={PATH.PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />  
+                    
             </Route>
         </Route>
                  
         <Route path="*" element={<PageNotFound/>} />
     </React.Fragment>
 }
+
+//   <Route path={PATH.PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
+//<Route path={PATH.PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />  

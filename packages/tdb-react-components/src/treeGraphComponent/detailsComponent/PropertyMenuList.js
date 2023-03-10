@@ -1,16 +1,11 @@
 import React ,{useState} from 'react';
 import {CLASS_PROPERTIES_LIST} from '../../constants/details-labels';
-import {Dropdown} from '../../form/Dropdown'; 
+import {Dropdown,ButtonGroup,Button} from 'react-bootstrap';
 import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
 export const PropertyMenuList =(props)=>  {
-
     const propertyTypeList=Array.from(CLASS_PROPERTIES_LIST);
     
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const toggle = () => setDropdownOpen(prevState => !prevState);
-
     const addNewProperty=(propertyType,propertyRange)=>{
-        toggle();
         props.addNewProperty(propertyType,propertyRange)
     }
 
@@ -20,15 +15,18 @@ export const PropertyMenuList =(props)=>  {
              if(item.id===PROPERTY_TYPE_NAME.CHOICE_PROPERTY && props.enumDisabled===true){
                 onClick={disabled:true}
              }
-             return <button {...onClick} className="tdb__dropdown__button" key={item.id} id={item.id}> {item.label}</button>
+             return  <Dropdown.Item  {...onClick} key={item.id} id={item.id} >{item.label}</Dropdown.Item>
+             
         })
 
-	return(
-		<div className="tdb__panel__bar">
-            <Dropdown id="add_property"  toggle={toggle} isOpen={dropdownOpen} title="Add Property" className="nav__main__link tdb__commit__bar--drop" >                   
-             {entries}
+	return(<div className="tdb__panel__bar">
+            <Dropdown as={ButtonGroup}  id="add_property"  className="m-2">
+                <Button variant="success" size="sm" className="bg-transparent border-0" >Add Property</Button>
+                <Dropdown.Toggle split variant="success"  size="sm" className="bg-transparent border-0" />
+            <Dropdown.Menu>
+               {entries}
+            </Dropdown.Menu>
             </Dropdown>
 		</div>
 	) 	
 }
-

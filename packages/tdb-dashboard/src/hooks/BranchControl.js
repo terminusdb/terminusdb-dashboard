@@ -64,8 +64,7 @@ export function BranchControl (updateTable)  {
             //we'll remove this when the error will be fixed in core db
             try{
                 const tmpClient = woqlClient.copy()
-                tmpClient.checkout("_commits")
-
+                
                 const branchQuery = TerminusClient.WOQL.lib().branches()
                 const changeRequestList =  await getChangeRequest()
                 const result = await tmpClient.query(branchQuery)
