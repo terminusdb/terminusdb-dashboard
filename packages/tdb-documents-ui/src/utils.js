@@ -94,6 +94,17 @@ export const isDataType = (field) => {
 	return false
 }
 
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if type is sys:JSON
+ */
+ export const isSysJSONDataType = (field) => {
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	if(field.substring(0, 8) === TYPE.SYS_JSON_TYPE) return true 
+	return false
+}
+
 
 /***  extract metadata */
 

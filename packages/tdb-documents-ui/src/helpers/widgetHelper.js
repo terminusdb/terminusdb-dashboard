@@ -9,6 +9,7 @@ import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBSubDocument } from "../widgets/subDocumentWidget"
 import { TDBDocument } from "../widgets/documentWidget"
 import { TDBMarkdown } from "../widgets/markdownWidget"
+import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
 
 /** displays widgets according to dataType */
@@ -196,6 +197,27 @@ export function getEnumUIDisplay(args, property) {
       value={props.formData}
       mode={mode}
       label={label}
+      id={props.idSchema["$id"]}
+      onChange={props.onChange}
+      required={props.required}/>
+  }
+  return { "ui:field": displayEnumWidget }
+}
+
+// SYS:JSON 
+export function getJSONUIDisplay(args, property) {
+  
+  let { mode, extractedDocumentation } = args 
+
+  //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+
+  function displayEnumWidget(props) {
+    
+    return <TDBJSON name={props.name}
+      value={props.formData}
+      mode={mode}
+      comment={documentation.comment ? documentation.comment : null} 
       id={props.idSchema["$id"]}
       onChange={props.onChange}
       required={props.required}/>

@@ -108,4 +108,7 @@ export const uiHelper = (args, property) => {
   else if(util.isEnumType(field)) {
     return widget.getEnumUIDisplay(args, property)
   }
+  else if(util.isSysJSONDataType(field)) {
+    return widget.getJSONUIDisplay(args, property)
+  }
 }

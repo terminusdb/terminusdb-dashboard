@@ -54,3 +54,7 @@ export const ORDER_BY="order_by"
 export const LINK_NEW_DOCUMENT="Create New Document"
 export const LINK_EXISTING_DOCUMENT="Link an existing Document"
 export const UNFOLDABLE="@unfoldable"
+
+// SYS JSON UI 
+export const JSON_EDITOR_HEIGHT="200px"
+export const JSON_EDITOR_WIDTH="100%"
