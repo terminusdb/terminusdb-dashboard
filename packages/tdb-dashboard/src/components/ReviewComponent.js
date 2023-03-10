@@ -11,10 +11,10 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import {Loading} from "../components/Loading"
 import { MessageBox, MessageComponent } from "./Messages"
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai"
+import {Alerts} from "./Alerts"
 
-const ToggleActions = ({ message }) => {
+const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
     const { setCurrentCRObject, exitChangeRequestBranch }= WOQLClientObj()
-    const { updateChangeRequestStatus, loading, error } = ChangeRequest()
     const { organization, dataProduct , changeid} = useParams()
     const navigate = useNavigate() 
     let action = CONST.APPROVE
@@ -60,23 +60,13 @@ const ToggleActions = ({ message }) => {
     </Stack>
 }
 
-
-/**
- * @returns view based on CR actions
- */
-export const Review = ({ message, setMessage }) => {
-    return <React.Fragment>
-        <MessageBox setMessage={setMessage} message={message}/>
-        <ToggleActions message={message}/>
-    </React.Fragment>
-}
-
 export const ReviewComponent = () => {
     const {
         userHasMergeRole,
         currentCRObject
     }= WOQLClientObj()
 
+    const { updateChangeRequestStatus, loading, errorMessage, setError } = ChangeRequest()
     // feedback constants
     const [message, setMessage]=useState("")
 
@@ -86,17 +76,21 @@ export const ReviewComponent = () => {
         return <MessageComponent/>
     }*/
 
-    return <Card className="bg-transparent border border-dark m-3">
-        <Card.Header className="bg-transparent border border-dark">
-            <Stack direction="horizontal" gap={3} className="text-right w-100">
-                <h6>Submit your Review</h6>
-                <span className="text-light ms-auto">{`Status:`}</span>
-                {status[currentCRObject.status]}
-            </Stack>
-        </Card.Header>
-        <Card.Body>
-            <Review message={message} setMessage={setMessage}/>
-        </Card.Body>
-    </Card>
+    return <React.Fragment>
+           {errorMessage && <Alerts message={errorMessage} type={CONST.TERMINUS_DANGER} onCancel={setError}/>}
+            <Card className="bg-transparent border border-dark m-3">
+                <Card.Header className="bg-transparent border border-dark">
+                    <Stack direction="horizontal" gap={3} className="text-right w-100">
+                        <h6>Submit your Review</h6>
+                        <span className="text-light ms-auto">{`Status:`}</span>
+                        {status[currentCRObject.status]}
+                    </Stack>
+                </Card.Header>
+                <Card.Body>
+                    <MessageBox setMessage={setMessage} message={message}/>
+                    <ToggleActions message={message} loading={loading} updateChangeRequestStatus={updateChangeRequestStatus}/>
+                </Card.Body>
+            </Card>
+        </React.Fragment>
         
 }
