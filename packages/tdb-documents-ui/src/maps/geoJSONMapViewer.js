@@ -5,7 +5,6 @@ import {renderPositions, customMapOptions, customMarkerOptions} from "./markers"
 import icon from "../constants"
 import "leaflet-arrowheads"
 import L from "leaflet" 
-import uuid from 'react-uuid'
 
 export function geoJSONMapViewer  (args) {
 	 
@@ -16,7 +15,7 @@ export function geoJSONMapViewer  (args) {
       map()
     }, [])
 
-    let mapID=uuid()
+    let mapID=crypto.randomUUID()
 
     const map = () => {
           let mapOptions = customMapOptions(zoom, center)
