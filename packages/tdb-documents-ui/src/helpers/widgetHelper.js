@@ -3,6 +3,7 @@ import * as util from "../utils"
 import { TDBInput } from "../widgets/inputWidgets"
 import { TDBBoolean } from "../widgets/booleanWidget"
 import { TDBDateTime, TDBDate } from "../widgets/dateWidgets"
+import { TDBEnum } from "../widgets/enumWidget"
 import * as TYPE from "../dataType.constants"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBSubDocument } from "../widgets/subDocumentWidget"
@@ -163,14 +164,42 @@ export function getDocumentUIDisplay (args, extracted, property, linked_to) {
 
     // add logic for required properties 
     return  <TDBDocument extracted={extracted} 
-    //id={props.idSchema["$id"]}
-    //comment={documentation.comment ? documentation.comment : null} 
-    mode={mode}
-    reference={reference}
-    //propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
-    linked_to={linked_to}
-    unfoldable={util.isUnfoldable(documentFrame)}
-    props={props}/>
+      //id={props.idSchema["$id"]}
+      //comment={documentation.comment ? documentation.comment : null} 
+      mode={mode}
+      reference={reference}
+      //propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
+      linked_to={linked_to}
+      unfoldable={util.isUnfoldable(documentFrame)}
+      props={props}/>
   }
   return  { "ui:field": displayDocumentLinkWidget }
 }
+ 
+// ENUM UI 
+export function getEnumUIDisplay(args, property) {
+  let { documentFrame, mode, fullFrame } = args 
+
+  function displayEnumWidget(props) {
+    
+    let enumDocumentClass=documentFrame[props.name]["@id"]
+    let options = documentFrame[property]["@values"]
+    let documentation = util.extractEnumComment(fullFrame, enumDocumentClass, options, props.name)
+    let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
+    if(documentation && documentation.hasOwnProperty(CONST.VALUES)) {
+      options=documentation[CONST.VALUES]
+    }
+    // add logic for required properties 
+    return  <TDBEnum name={props.name}
+      options={options}
+      enumDocumentClass={enumDocumentClass}
+      value={props.formData}
+      mode={mode}
+      label={label}
+      id={props.idSchema["$id"]}
+      onChange={props.onChange}
+      required={props.required}/>
+  }
+  return { "ui:field": displayEnumWidget }
+}
+ 

@@ -24,7 +24,7 @@ export function getEnumLabelDescription(item, documentation) {
  export function getLabelFromEnumDocumentation (item, documentation, values) {
 	let enumDocumentation={
 		"@label": item,
-		"@values": values
+		"@values": values 
 	}
 	if(!documentation) return enumDocumentation
 	//if(typeof documentation === CONST.OBJECT_TYPE) return getEnumLabelDescription(item, documentation)

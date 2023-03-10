@@ -1,7 +1,7 @@
 import React from "react"
 import * as CONST from "../constants"
 import * as util from "../utils"
-import { getUIDisplay, getSubDocumentUIDisplay, getDocumentUIDisplay } from "./widgetHelper"
+import * as widget from "./widgetHelper"
 import { getProperties, addToReference } from "../FrameHelpers"
 
 function constructDocumentConfig(args, property, linked_to) {
@@ -47,7 +47,7 @@ export const uiHelper = (args, property) => {
   if(util.isDataType(field)) {
     // DATA TYPE
     let dataType=documentFrame[property]
-    return getUIDisplay(args, property, dataType)
+    return widget.getUIDisplay(args, property, dataType)
   } 
   else if(util.isSubDocumentType(field)){
     // SUBDOCUMENT TYPE
@@ -74,7 +74,7 @@ export const uiHelper = (args, property) => {
       expanded=metaDataType
     }
 
-    return getSubDocumentUIDisplay(argsHolder, extracted, property, expanded)
+    return widget.getSubDocumentUIDisplay(argsHolder, extracted, property, expanded)
   }
   else if(util.isDocumentType(field, fullFrame)) {
     // DOCUMENT LINKS
@@ -92,7 +92,7 @@ export const uiHelper = (args, property) => {
       // add extracted to references
       addToReference(args, extracted, linked_to)
      
-      return getDocumentUIDisplay(argsHolder, extracted, property, linked_to)
+      return widget.getDocumentUIDisplay(argsHolder, extracted, property, linked_to)
     }
     else if(reference.hasOwnProperty(linked_to) && !Object.keys(reference[linked_to]).length) {
       // here document link is available in reference but is empty
@@ -101,8 +101,11 @@ export const uiHelper = (args, property) => {
     }
     else {
       // reference[type] will have extracted properties at this point
-      return getDocumentUIDisplay(argsHolder, reference[field], property, linked_to)
+      return widget.getDocumentUIDisplay(argsHolder, reference[field], property, linked_to)
     }
     
+  }
+  else if(util.isEnumType(field)) {
+    return widget.getEnumUIDisplay(args, property)
   }
 }

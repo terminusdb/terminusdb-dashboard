@@ -1,7 +1,6 @@
 // constants 
 export const TYPE="@type"
 export const CLASS="@class"
-export const SUBDOCUMENT="@subdocument"
 
 // info constanst to help with rjsf forms
 export const PLACEHOLDER="@placeholder"
@@ -11,6 +10,8 @@ export const CONFIG="@config"
 export const OPTIONAL="Optional"
 export const SET="Set"
 export const LIST="List"
+export const ENUM="Enum"
+export const SUBDOCUMENT="@subdocument"
 
 // mode
 export const CREATE="Create"
@@ -42,6 +43,7 @@ export const LANGUAGE="@language"
 export const PROPERTY="@properties"
 export const COMMENT="@comment"
 export const LABEL="@label"
+export const VALUES="@values"
 
 // META DATA constants
 export const METADATA="@metadata"

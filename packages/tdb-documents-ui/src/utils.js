@@ -1,5 +1,6 @@
 import * as CONST from "./constants" 
 import * as TYPE from "./dataType.constants"
+import { getLabelFromEnumDocumentation } from "./documentationTemplates"
 
 /***  util functions to check Mandatory/ Optional/ Set/ List property */
 /**
@@ -11,7 +12,12 @@ import * as TYPE from "./dataType.constants"
 export const isMandatory = (frame, property) => { 
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return true 
-	if(!field.hasOwnProperty(CONST.TYPE)) return true 
+	if(field.hasOwnProperty(CONST.TYPE)) {
+		if(field[CONST.TYPE] === CONST.OPTIONAL) return false
+		if(field[CONST.TYPE] === CONST.SET) return false
+		if(field[CONST.TYPE] === CONST.LIST) return false
+	}
+	return true
 }
 
 
@@ -58,6 +64,16 @@ export const isDataType = (field) => {
 	if(!field) return false
 	if(field.hasOwnProperty(CONST.SUBDOCUMENT)) return CONST.SUBDOCUMENT
 	return false
+}
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true for properties linked to an enum class
+ */
+ export const isEnumType = (field) => {
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(field["@type"] === CONST.ENUM) return true
 }
 
 /**
@@ -207,3 +223,15 @@ export function fetchMetaData(documentFrame, property) {
 	}
 	return false
 }
+
+/** ENUM DOCUMENTATION */
+export const extractEnumComment = (fullFrame, enumDocumentClass, options, property) => {
+	if(!fullFrame.hasOwnProperty(enumDocumentClass)) {
+		throw new Error (`Expected full frames to have ${enumDocumentClass} defined ...`)
+	}
+	if(!fullFrame[enumDocumentClass].hasOwnProperty(CONST.DOCUMENTATION)) return false
+	let language=fullFrame[CONST.SELECTED_LANGUAGE]
+	// add chosen language to documentation array
+  let extractedDocumentation = extractDocumentation(fullFrame, enumDocumentClass, language)
+	return getLabelFromEnumDocumentation(property, extractedDocumentation, options)
+}	
