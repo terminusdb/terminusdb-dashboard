@@ -1,18 +1,19 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from "@testing-library/user-event"
 import { FrameViewer } from "../FrameViewer"
-import * as CONST from "./constants/circularDocumentLinks.datatypes.constants"
-import { LINK_NEW_DOCUMENT } from '../constants';
+import * as CONST from "./constants/unfoldableDocumentLinks.datatypes.constants"
+import { Search } from "./constants/unfoldableDocumentLinks.datatypes.constants"
 import '@testing-library/jest-dom'
-import { logRoles } from '@testing-library/dom';
+import {logRoles} from '@testing-library/dom';
 
 
 /**
- * Create a Person who likes Animal 
- * example Person has likes property which is linked to another document Animal
- * Animal has a property owned_by which is linked back to Person 
+ * create a Person likes Animal ( by linking an existing document ) @unfoldable = true 
+ * we test a mix of unfoldable and linked document links to see
+ * if create and link existing radio buttons work together 
+ * at nested levels 
  */
-describe("Test Circular Document Links - CREATE MODE", () => {
+describe("Test linking existing Document links data type Property", () => {
 
 	/**
 	 * 
@@ -24,7 +25,7 @@ describe("Test Circular Document Links - CREATE MODE", () => {
 
 		// callback function which returns back data submitted via <FrameViewer/>
 		function handleSubmit (submittedData) {
-			//console.log("submittedData ////", JSON.stringify(submittedData, null, 2))
+      console.log("submittedData ///", JSON.stringify(submittedData, null, 2))
 			data=submittedData
 			return data 
 		}
@@ -34,6 +35,7 @@ describe("Test Circular Document Links - CREATE MODE", () => {
 			type={config.type}
 			uiFrame={config.uiFrame}
 			formData={config.formData}
+      onSelect={<Search/>}
 			mode={config.mode}
 			onSubmit={handleSubmit}/>
 		)
@@ -50,18 +52,12 @@ describe("Test Circular Document Links - CREATE MODE", () => {
 		const createNew = document.getElementById("Create New Document__1")
 		await expect(createNew).toBeInTheDocument()
 		await userEvent.click(createNew); 
-		
+
 		const likes_category_1 = document.getElementById("root_likes_category_1")
 		// check if likes_category_1 root input is available
 		expect(likes_category_1).toBeInTheDocument()
 		// enter a likes_category_1 root value
 		fireEvent.change(likes_category_1, {target: {value: config.input["likes"]["category"]}})
-
-		const likes_nickName_1 = document.getElementById("root_likes_nickName_1")
-		// check if likes_nickName_1 root input is available
-		expect(likes_nickName_1).toBeInTheDocument()
-		// enter a likes_nickName_1 root value
-		fireEvent.change(likes_nickName_1, {target: {value: config.input["likes"]["nickName"]}})
 
 		// FILLING DEPTH 2 ( owned_by User )
 		const createNew_2 = document.getElementById("Create New Document__2")
@@ -73,7 +69,7 @@ describe("Test Circular Document Links - CREATE MODE", () => {
 		await expect(owned_by_name_2).toBeInTheDocument()
 		// enter a owned_by_name_2 root value
 		fireEvent.change(owned_by_name_2, {target: {value: config.input["likes"]["owned_by"]["name"]}})
-		
+
 		// FILLING DEPTH 3 ( likes Animal )
 		const createNew_3 = document.getElementById("Create New Document__3")
 		await expect(createNew_3).toBeInTheDocument()
@@ -87,43 +83,36 @@ describe("Test Circular Document Links - CREATE MODE", () => {
 		// enter a likes_category_3 root value
 		fireEvent.change(likes_category_3, {target: {value: categoryInput_3}})
 
-		const likes_nickName_3 = document.getElementById("root_likes_nickName_3")
-		// check if likes_nickName_3 root input is available
-		expect(likes_nickName_3).toBeInTheDocument()
-		let nickNameInput_3=config.input["likes"]["owned_by"]["likes"]["nickName"]
-		// enter a likes_category_3 root value
-		fireEvent.change(likes_nickName_3, {target: {value: nickNameInput_3}})
-
 		// FILLING DEPTH 4 ( owned_by User )
-		const createNew_4 = document.getElementById("Create New Document__4")
+		const createNew_4 = document.getElementById("Link an existing Document__4")
 		await expect(createNew_4).toBeInTheDocument()
 		await userEvent.click(createNew_4); 
 
-		const owned_by_name_4 = document.getElementById("root_owned_by_name_4")
-		// check if owned_by_name_4 root input is available
-		await expect(owned_by_name_4).toBeInTheDocument()
-		let ownedByNameInput_4=config.input["likes"]["owned_by"]["likes"]["owned_by"]["name"]
-		// enter a owned_by_name_4 root value
-		fireEvent.change(owned_by_name_4, {target: {value: ownedByNameInput_4}}) 
-
+		// expect search component to appear 
+		// add an ID from Search component  
+		const divInput = document.getElementById(config.input["likes"]["owned_by"]["likes"]["owned_by"])
+		// check if divInput input is available
+		expect(divInput).toBeInTheDocument()
+    // select ID 3
+    await userEvent.click(divInput); 
+		
 		// check if submit button is available 
 		const submitButton = screen.getByText("Submit")
 		// check if submit button is available
 		expect(submitButton).toBeInTheDocument()
 		// click on submit button 
-		await userEvent.click(submitButton) 
-
+		await userEvent.click(submitButton)
+			
 		return data 
-  };
+    };
 
-	// create a document link type property
-	test("Create Circular Document Link property", async () => {
+	// create an existing document link property
+	test("Create Existing Document Link  property", async () => {
 		
 		const config = CONST.CREATE_CONFIG
 
 		// setup FrameViewer 
 		let data=await setup(config)
-		
 		// check if data is same as expected data
 		expect(data).toStrictEqual(CONST.DOCUMENT_LINK_DATA_TYPE_CREATE_DATA)
 	}) 

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import * as CONST from "../constants"
 import * as util from "../utils"
 import Card from "react-bootstrap/Card"
@@ -8,9 +8,11 @@ import { TDBLabel } from "./LabelComponent"
 import { ToggleComponent } from "./ToggleDocumentLink"
 import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./DescriptionComponent"
 import { v4 as uuidv4 } from 'uuid';
+import { SearchExistingLink } from "./SearchExistingLink"
 
-// display based on action 
-const DisplayLinkFrame = ({ reference, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+
+// display based on action  
+const DisplayLinkFrame = ({ reference, onSelect, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
   let nextCreateLink =  false
 
@@ -45,6 +47,7 @@ const DisplayLinkFrame = ({ reference, documentData, cardKey, setDocumentData, a
         fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
           mode={mode} 
+          onSelect={onSelect}
           depth={cardKey}
           reference={reference}
           extracted={deifinitions}
@@ -77,13 +80,21 @@ const DisplayLinkFrame = ({ reference, documentData, cardKey, setDocumentData, a
       {fields}
     </div>
   }
-  else if(action === CONST.LINK_EXISTING_DOCUMENT)
-    return <>{CONST.LINK_EXISTING_DOCUMENT}</>
+  else if(action === CONST.LINK_EXISTING_DOCUMENT) {
+
+    return <SearchExistingLink onSelect={onSelect}
+      mode={mode} 
+      formData={null}
+      onChange={onChange}
+      id={cardKey}
+      linked_to={linked_to}/>
+
+  }
   return <div/>
 }
+ 
 
-
-export const CreateDisplay = ({ name, reference, required, comment, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData }) => {
+export const CreateDisplay = ({ name, reference, required, onSelect, comment, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -95,6 +106,7 @@ export const CreateDisplay = ({ name, reference, required, comment, cardKey, lin
       cardKey={cardKey}
       reference={reference}
       onChange={onChange}
+      onSelect={onSelect}
       linked_to={linked_to}
       documentLinkPropertyName={name}
       documentData={documentData} 
@@ -102,10 +114,9 @@ export const CreateDisplay = ({ name, reference, required, comment, cardKey, lin
   </>
 }
 
-
  
 // CREATE MODE
-export const CreateDocument = ({ name, required, reference, comment, linked_to, extracted, mode, onChange, depth }) => {
+export const CreateDocument = ({ name, required, onSelect, reference, comment, linked_to, extracted, mode, onChange, depth }) => {
 
   const [action, setAction] = useState(false)
   const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
@@ -124,6 +135,7 @@ export const CreateDocument = ({ name, required, reference, comment, linked_to, 
           extracted={extracted} 
           mode= {mode} 
           reference={reference}
+          onSelect={onSelect}
           cardKey={cardKey}
           onChange={onChange}
           action={action} 

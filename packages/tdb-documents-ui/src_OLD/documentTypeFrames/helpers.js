@@ -15,7 +15,7 @@ import Stack from 'react-bootstrap/Stack';
 
 // View mode 
 export const DocumentView = ({props, onTraverse}) => {
-    const [clicked, setClicked]=useState(false)
+    const [clicked, setClicked]=useState(false) 
 
 
     useEffect(() => {
@@ -97,7 +97,7 @@ const DocumentSearch = ({display, setSelected, linked, showSearch, setShowSearch
 
     // if mode is in View dont display Document Search Component
     if(mode === CONST.VIEW) return <div/>
-    
+     
     // display is not provided for VIEW MODE
     if(!display) return <div/>
 
@@ -120,7 +120,7 @@ const DocumentSearch = ({display, setSelected, linked, showSearch, setShowSearch
         <Button className="btn btn-sm bg-light text-dark float-right" 
             title={`Click here to search for an existing ${linked}`}
             style={{float: "right"}}
-            onClick={handleDisplay}>
+            onClick={handleDisplay}> 
                 <AiOutlineSearch className="mr-1"/> 
                 <>{`Link to an existing ${linked}`}</>
         </Button>

@@ -12,6 +12,7 @@ export const DOCUMENT_LINK_DATA_TYPE_FRAME = {
     "@key": {
       "@type": "Random"
     },
+		"@unfoldable": [],
     "@type": "Class",
     "friends_with": {
 			"@class": "Person",
@@ -38,7 +39,7 @@ export const DOCUMENT_LINK_DATA_TYPE_CREATE_DATA = {
 	"name": "Harry Potter",
 	"age": "18",
 	"@type": "Person"
-}
+} 
 
 // expected data on Create 
 export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA_ORIGINAL = {

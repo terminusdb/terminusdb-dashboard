@@ -9,15 +9,16 @@ import { getLinkedDescription, getDocumentLinkChoiceDescription } from "../compo
 import { CreateDocument } from "../components/CreateDocumentLink"
 import { EditDocument } from "../components/EditDocumentLink"
 import { ViewDocument } from "../components/ViewDocumentLink"
+ 
+export const TDBDocument = ({ extracted, reference, comment, onTraverse, onSelect, unfoldable, props, mode, linked_to, propertyDocumentation }) => {
 
-export const TDBDocument = ({ extracted, reference, comment, unfoldable, props, mode, linked_to, propertyDocumentation }) => {
-
-  let depth = 0
+  let depth = 0 
 
   if(mode === CONST.CREATE) return <CreateDocument name={props.name} 
     onChange={props.onChange}
     linked_to={linked_to}
     depth={depth}
+    onSelect={onSelect}
     mode={mode}
     reference={reference}
     extracted={extracted}
@@ -30,6 +31,8 @@ export const TDBDocument = ({ extracted, reference, comment, unfoldable, props, 
     depth={depth}
     reference={reference}
     mode={mode}
+    onSelect={onSelect}
+    onTraverse={onTraverse}
     unfoldable={unfoldable}
     formData={props.formData}
     extracted={extracted}
@@ -42,6 +45,7 @@ export const TDBDocument = ({ extracted, reference, comment, unfoldable, props, 
     mode={mode}
     depth={depth}
     reference={reference}
+    onTraverse={onTraverse}
     unfoldable={unfoldable}
     formData={props.formData}
     extracted={extracted}

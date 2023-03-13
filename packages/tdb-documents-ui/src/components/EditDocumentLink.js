@@ -8,14 +8,15 @@ import { TDBLabel } from "./LabelComponent"
 import { ToggleComponent } from "./ToggleDocumentLink"
 import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./DescriptionComponent"
 import { v4 as uuidv4 } from 'uuid';
-import Button from "react-bootstrap/Button"
 import { BsTrashFill } from "react-icons/bs" 
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
+import { UnlinkButton } from "./UnlinkButton"
+import { SearchExistingLink } from "./SearchExistingLink"
 
-const DisplayFilledFrame = ({ documentData, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
-  //if(action === CONST.LINK_NEW_DOCUMENT) {
+  if(action === CONST.LINK_NEW_DOCUMENT) {
 
     let fields = []
     let nextCreateLink =  false
@@ -44,6 +45,7 @@ const DisplayFilledFrame = ({ documentData, reference, setDocumentData, unfoldab
           linked_to={linked_to}
           mode={mode}
           depth={cardKey}
+          onSelect={onSelect}
           reference={reference}
           extracted={extracted}
           onChange={handleChange}
@@ -57,7 +59,9 @@ const DisplayFilledFrame = ({ documentData, reference, setDocumentData, unfoldab
             linked_to={linked_to}
             mode={mode}
             depth={cardKey}
+            onSelect={onSelect}
             reference={reference}
+            onTraverse={onTraverse}
             unfoldable={unfoldable}
             formData={formData[field]}
             extracted={deifinitions}
@@ -92,10 +96,17 @@ const DisplayFilledFrame = ({ documentData, reference, setDocumentData, unfoldab
       {fields}
     </div>
 
-  //}
-  //else if(action === CONST.LINK_EXISTING_DOCUMENT)
-    //return <>{CONST.LINK_EXISTING_DOCUMENT}</>
-  //return <div/>
+  }
+  else if(action === CONST.LINK_EXISTING_DOCUMENT) {
+    return <SearchExistingLink onSelect={onSelect}
+      mode={mode} 
+      formData={formData}
+      onChange={onChange}
+      onTraverse={onTraverse}
+      id={cardKey}
+      linked_to={linked_to}/>
+  }
+  return <div/>
 }
 
 const assignDepth = (data, depth = 0 , propertyLink) => {
@@ -115,23 +126,20 @@ function getAction (formData, unfoldable) {
 
 const EditHelper = ({ linked_to, cardKey, setDeleteLink }) => {
   function handleDelete(e) {
-    setDeleteLink(Number(e.target.id))
+    setDeleteLink(Number(e.target.id)) 
   }
   // <BsTrashFill className="text-danger"/>
   return <Stack direction="horizontal" gap={4}>
     {getLinkedDescription (linked_to)}
-    <Button className="btn-sm btn ms-auto text-light fw-bold border border-danger rounded" 
-      variant="dark" 
-      title="Delete document" 
-      onClick={handleDelete}
-      id={cardKey}>
-        Unlink
-    </Button>
+    <UnlinkButton onDelete={handleDelete}
+      title={"Delete document"}
+      label={"Unlink"}
+      id={cardKey} />
   </Stack>
 }
  
 // EDIT MODE
-export const EditDocument = ({ name, reference, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
+export const EditDocument = ({ name, reference, onTraverse, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -156,12 +164,14 @@ export const EditDocument = ({ name, reference, required, comment, formData, lin
           depth={depth}
           extracted={extracted}
           required={required}
+          onTraverse={onTraverse}
           mode={mode}
           cardKey={cardKey}
           unfoldable={unfoldable}
           reference={reference}
           onChange={onChange}
           linked_to={linked_to}
+          onSelect={onSelect}
           formData={formData}
           documentLinkPropertyName={name}
           documentData={documentData} 
@@ -176,6 +186,7 @@ export const EditDocument = ({ name, reference, required, comment, formData, lin
           required={required} 
           cardKey={cardKey}
           comment={comment}
+          onSelect={onSelect}
           reference={reference}
           linked_to={linked_to} 
           extracted={extracted} 

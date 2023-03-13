@@ -156,10 +156,10 @@ export function getSubDocumentUIDisplay (args, extracted, property, expanded) {
   return  { "ui:field": displaySubDocumentWidget }
 }
 
-// DOCUMENT LINKS UI 
+// DOCUMENT LINKS UI  
 export function getDocumentUIDisplay (args, extracted, property, linked_to) {
 
-  let { fullFrame, extractedDocumentation, mode, type, documentFrame, reference } = args
+  let { fullFrame, extractedDocumentation, onTraverse, mode, onSelect, documentFrame, reference } = args
 
   function displayDocumentLinkWidget(props) {
 
@@ -168,7 +168,9 @@ export function getDocumentUIDisplay (args, extracted, property, linked_to) {
       //id={props.idSchema["$id"]}
       //comment={documentation.comment ? documentation.comment : null} 
       mode={mode}
+      onSelect={onSelect}
       reference={reference}
+      onTraverse={onTraverse}
       //propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
       linked_to={linked_to}
       unfoldable={util.isUnfoldable(documentFrame)}

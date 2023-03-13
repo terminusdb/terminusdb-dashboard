@@ -10,12 +10,13 @@ import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./Descri
 import { v4 as uuidv4 } from 'uuid';
 import Button from "react-bootstrap/Button"
 import { BsTrashFill } from "react-icons/bs"
+import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 
-const DisplayFilledFrame = ({ documentData, reference, cardKey, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
-  //if(action === CONST.LINK_NEW_DOCUMENT) {
+  if(action === CONST.LINK_NEW_DOCUMENT) {
 
     let fields = []
 
@@ -77,10 +78,16 @@ const DisplayFilledFrame = ({ documentData, reference, cardKey, setDocumentData,
       {fields}
     </div>
 
-  //}
-  //else if(action === CONST.LINK_EXISTING_DOCUMENT)
-    //return <>{CONST.LINK_EXISTING_DOCUMENT}</>
-  //return <div/>
+  }
+  else if(action === CONST.LINK_EXISTING_DOCUMENT) {
+    return <SearchExistingLink mode={mode} 
+      formData={formData}
+      onChange={onChange}
+      onTraverse={onTraverse}
+      id={cardKey}
+      linked_to={linked_to}/>
+  }
+  return <div/>
 }
 
 
@@ -98,11 +105,13 @@ const ViewHelper = ({ linked_to }) => {
 }
  
 // VIEW MODE
-export const ViewDocument = ({ name, required, reference, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable }) => {
+export const ViewDocument = ({ name, required, reference, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
   const [cardKey, setCardKey]=useState(depth+1)
+
+  if(mode === CONST.VIEW && !formData) return <div className={`tdb__${name}__hidden`}/>
 
   return <Stack direction="horizontal">
     <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"}/>
@@ -116,6 +125,7 @@ export const ViewDocument = ({ name, required, reference, depth, comment, formDa
           required={required}
           mode={mode}
           unfoldable={unfoldable}
+          onTraverse={onTraverse}
           onChange={onChange}
           linked_to={linked_to}
           cardKey={cardKey}

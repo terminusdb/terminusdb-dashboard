@@ -21,7 +21,8 @@ export const typeHelper = (documentFrame, property, fullFrame) => {
     // DOCUMENT LINKS
     // document links on create mode can expect 2 parameters
     // to link to an existing document or to create a new document all together
-    return CONST.OBJECT_TYPE
-    //return [CONST.STRING_TYPE, CONST.OBJECT_TYPE]
+    //return CONST.OBJECT_TYPE
+    // pass NULL type object as well when you unlink an existing link
+    return [CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null"]
   }
 }

@@ -1,6 +1,7 @@
+import React from "react"
+import Row from "react-bootstrap/Row"
 
-
-// simple frame with Person who is friend_with Person
+// simple frame with Person who likes Animal
 export const DOCUMENT_LINK_DATA_TYPE_FRAME = {
 	"@context": {
 		"@base": "terminusdb:///data/",
@@ -36,24 +37,20 @@ export const DOCUMENT_LINK_DATA_TYPE_FRAME = {
 export const DOCUMENT_LINK_DATA_TYPE_CREATE_DATA = {
 	"@type": "Person",
 	"likes": {
-		"@type": "Animal", 
-		"nickName": "Chooo",
-		"category": "Cats",
+		"@type": "Animal",
 		"owned_by": {
-			"@type": "Person", 
-			"name": "Ron Terol",
+			"name": "Mike",
 			"likes": {
-				"@type": "Animal", 
-				"nickName": "Jimmy",
-				"category": "Dogs",
-				"owned_by": {
-					"@type": "Person", 
-					"name": "Marry Ann"
-				}
-			}
-		}
+				"@type": "Animal",
+				"owned_by": "ID 3",
+				"category": "Cats"
+			},
+			"@type": "Person"
+		},
+		"category": "Dogs"
 	},
-	"name": "John Doe"
+	"name": "John Doe",
+	"@type": "Person"
 }
 
 // expected data on Create 
@@ -61,26 +58,17 @@ export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA_ORIGINAL = {
 	"@id": "Person/13123123",
 	"@type": "Person",
 	"likes": {
-		"@id": "Person/13123123/likes/Cats",
-		"@type": "Animal", 
-		"nickName": "Chooo",
-		"category": "Cats",
+		"@type": "Animal",
 		"owned_by": {
-			"@id": "Person/13123123/owned_by/Ron",
-			"@type": "Person", 
-			"name": "Ron Terol",
+			"name": "Mike",
 			"likes": {
-				"@id": "Person/13123123/owned_by/Ron/likes/Dogs",
-				"@type": "Animal", 
-				"nickName": "Jimmy",
-				"category": "Dogs",
-				"owned_by": {
-					"@id": "Person/13123123/owned_by/Ron/likes/Dogs/owned_by/Mary",
-					"@type": "Person", 
-					"name": "Marry Ann"
-				}
-			}
-		}
+				"@type": "Animal",
+				"owned_by": "ID 3",
+				"category": "Cats"
+			},
+			"@type": "Person"
+		},
+		"category": "Dogs"
 	},
 	"name": "John Doe",
 	"@type": "Person"
@@ -88,29 +76,16 @@ export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA_ORIGINAL = {
 
 // expected data on Edit 
 export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA = {
+	"@type": "Person",
 	"@id": "Person/13123123",
-	"@type": "Person", 
 	"likes": {
-		"@id": "Person/13123123/likes/Cats",
-		"@type": "Animal", 
-		"nickName": "Chooo",
-		"category": "Cats",
+		"@type": "Animal",
 		"owned_by": {
-			"@id": "Person/13123123/owned_by/Ron",
-			"@type": "Person", 
-			"name": "Ron Terol",
-			"likes": {
-				"@id": "Person/13123123/owned_by/Ron/likes/Dogs",
-				"@type": "Animal", 
-				"nickName": "Goldie",
-				"category": "Fish",
-				"owned_by": {
-					"@id": "Person/13123123/owned_by/Ron/likes/Dogs/owned_by/Mary",
-					"@type": "Person", 
-					"name": "Jerome Kal"
-				}
-			}
-		}
+			"name": "Mike",
+			"likes": "ID 1",
+			"@type": "Person"
+		},
+		"category": "Dogs"
 	},
 	"name": "John Doe",
 	"@type": "Person"
@@ -143,5 +118,25 @@ export const VIEW_CONFIG = {
 	type: "Person",
 	formData: DOCUMENT_LINK_DATA_TYPE_EDIT_DATA,
 	mode: "View"
+}
+
+/** component to display  */
+export const Search = ({ setSelected }) => {
+
+	function handleClick(e){
+			if(setSelected) setSelected({ id: e.target.id, label: e.target.name })
+	}
+ 
+	return <>
+		Search this dummy result ....
+		<Row className="w-100 border" id={"ID 1"} name="first id" onClick={handleClick}>{"ID 1"}</Row>
+		<Row className="w-100 border" id={"ID 2"} name="second id" onClick={handleClick}>{"ID 2"}</Row>
+		<Row className="w-100 border" id={"ID 3"} name="third id" onClick={handleClick}>{"ID 3"}</Row>
+	</>
+}
+
+/** handle traverse on click  */
+export function handleTraverse (clicked) {
+	alert(`You have clicked on ${clicked} ...`)
 }
 
