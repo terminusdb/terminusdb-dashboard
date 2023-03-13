@@ -10,9 +10,10 @@ import { CreateDocument } from "../components/CreateDocumentLink"
 import { EditDocument } from "../components/EditDocumentLink"
 import { ViewDocument } from "../components/ViewDocumentLink"
  
-export const TDBDocument = ({ extracted, reference, comment, onTraverse, onSelect, unfoldable, props, mode, linked_to, propertyDocumentation }) => {
+export const TDBDocument = ({ extracted, reference, onTraverse, onSelect, unfoldable, props, mode, linked_to, propertyDocumentation }) => {
 
   let depth = 0 
+ 
 
   if(mode === CONST.CREATE) return <CreateDocument name={props.name} 
     onChange={props.onChange}
@@ -22,7 +23,7 @@ export const TDBDocument = ({ extracted, reference, comment, onTraverse, onSelec
     mode={mode}
     reference={reference}
     extracted={extracted}
-    //comment={comment}  // review
+    propertyDocumentation={propertyDocumentation}
     required={props.required} />
 
   if(mode === CONST.EDIT) return <EditDocument name={props.name} 
@@ -34,9 +35,9 @@ export const TDBDocument = ({ extracted, reference, comment, onTraverse, onSelec
     onSelect={onSelect}
     onTraverse={onTraverse}
     unfoldable={unfoldable}
+    propertyDocumentation={propertyDocumentation}
     formData={props.formData}
     extracted={extracted}
-    //comment={comment}  // review
     required={props.required} />
 
   if(mode === CONST.VIEW) return <ViewDocument name={props.name} 
@@ -47,8 +48,8 @@ export const TDBDocument = ({ extracted, reference, comment, onTraverse, onSelec
     reference={reference}
     onTraverse={onTraverse}
     unfoldable={unfoldable}
+    propertyDocumentation={propertyDocumentation}
     formData={props.formData}
     extracted={extracted}
-    //comment={comment}  // review
     required={props.required} />
 }

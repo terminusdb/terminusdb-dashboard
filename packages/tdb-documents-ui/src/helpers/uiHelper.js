@@ -91,7 +91,9 @@ export const uiHelper = (args, property) => {
       extracted=getProperties(config)
       // add extracted to references
       addToReference(args, extracted, linked_to)
-     
+      // add extracted documentation 
+      extracted.extractedDocumentation=config.extractedDocumentation
+      
       return widget.getDocumentUIDisplay(argsHolder, extracted, property, linked_to)
     }
     else if(reference.hasOwnProperty(linked_to) && !Object.keys(reference[linked_to]).length) {

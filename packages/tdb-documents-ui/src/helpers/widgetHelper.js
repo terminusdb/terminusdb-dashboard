@@ -126,6 +126,7 @@ function extractPropertyDocumentation(extractedDocumentation, selectedLanguage) 
   if(!Array.isArray(extractedDocumentation)) {
     throw new Error(`Expected extracted documentation to be an array, but instead got ${extractedDocumentation}`)
   }
+  // includes multi lang support
   let filtered = extractedDocumentation.filter( arr => arr[CONST.SELECTED_LANGUAGE] === selectedLanguage)
   return filtered[0]
 }
@@ -158,9 +159,11 @@ export function getSubDocumentUIDisplay (args, extracted, property, expanded) {
 
 // DOCUMENT LINKS UI  
 export function getDocumentUIDisplay (args, extracted, property, linked_to) {
-
-  let { fullFrame, extractedDocumentation, onTraverse, mode, onSelect, documentFrame, reference } = args
-
+ 
+  let { fullFrame, onTraverse, mode, onSelect, documentFrame, reference } = args
+  let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
+  let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
+  
   function displayDocumentLinkWidget(props) {
 
     // add logic for required properties 
@@ -171,7 +174,7 @@ export function getDocumentUIDisplay (args, extracted, property, linked_to) {
       onSelect={onSelect}
       reference={reference}
       onTraverse={onTraverse}
-      //propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
+      propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
       linked_to={linked_to}
       unfoldable={util.isUnfoldable(documentFrame)}
       props={props}/>

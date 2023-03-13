@@ -29,7 +29,7 @@ const SubDocumentProperties = ({ subDocumentPropertyName, properties, required, 
   const [subDocumentData, setSubDocumentData] = useState(populateSubDocumentData(mode, linked_to, formData))
 
   let fields = []
-
+ 
   function handleChange(data, fieldName) {
     let tempSubDocumentData = subDocumentData
     tempSubDocumentData[fieldName]=data

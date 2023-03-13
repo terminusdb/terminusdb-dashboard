@@ -9,10 +9,10 @@ import { ToggleComponent } from "./ToggleDocumentLink"
 import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./DescriptionComponent"
 import { v4 as uuidv4 } from 'uuid';
 import { SearchExistingLink } from "./SearchExistingLink"
-
+import { DisplayDocumentation } from "../templates"
 
 // display based on action  
-const DisplayLinkFrame = ({ reference, onSelect, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
   let nextCreateLink =  false
 
@@ -46,13 +46,14 @@ const DisplayLinkFrame = ({ reference, onSelect, documentData, cardKey, setDocum
         // another document link 
         fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
+          propertyDocumentation={propertyDocumentation}
           mode={mode} 
           onSelect={onSelect}
           depth={cardKey}
           reference={reference}
           extracted={deifinitions}
           onChange={handleChange}
-          //comment={comment}  // review
+          linkPropertyComment={linkPropertyComment}
           required={required} />)
       }
       else {
@@ -70,7 +71,7 @@ const DisplayLinkFrame = ({ reference, onSelect, documentData, cardKey, setDocum
           placeholder: deifinitions.properties[field][CONST.PLACEHOLDER],
           className: "tdb__doc__input",
           onChange: handleChange,
-          documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
+          documentation: util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
         }
         fields.push(display(config))
       }
@@ -94,7 +95,7 @@ const DisplayLinkFrame = ({ reference, onSelect, documentData, cardKey, setDocum
 }
  
 
-export const CreateDisplay = ({ name, reference, required, onSelect, comment, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData }) => {
+export const CreateDisplay = ({ name, linkPropertyComment, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -102,7 +103,9 @@ export const CreateDisplay = ({ name, reference, required, onSelect, comment, ca
     <DisplayLinkFrame action={action} 
       extracted={extracted}
       required={required}
+      linkPropertyComment={linkPropertyComment}
       mode={mode}
+      propertyDocumentation={propertyDocumentation}
       cardKey={cardKey}
       reference={reference}
       onChange={onChange}
@@ -116,34 +119,42 @@ export const CreateDisplay = ({ name, reference, required, onSelect, comment, ca
 
  
 // CREATE MODE
-export const CreateDocument = ({ name, required, onSelect, reference, comment, linked_to, extracted, mode, onChange, depth }) => {
+export const CreateDocument = ({ name, required, onSelect, reference, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkPropertyComment }) => {
 
   const [action, setAction] = useState(false)
   const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
   //const [cardKey, setCardKey]=useState(uuidv4())
   const [cardKey, setCardKey]=useState(depth+1)
-  
-  return <Stack direction="horizontal">
-    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"}/>
-    <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
-      <Card.Header>{getLinkedDescription (linked_to)}</Card.Header>
-      <Card.Body>
-        <CreateDisplay name={name} 
-          required={required} 
-          comment={comment}
-          linked_to={linked_to} 
-          extracted={extracted} 
-          mode= {mode} 
-          reference={reference}
-          onSelect={onSelect}
-          cardKey={cardKey}
-          onChange={onChange}
-          action={action} 
-          setAction={setAction}
-          documentData={documentData}
-          setDocumentData={setDocumentData}
-        />
-      </Card.Body>
-    </Card>
-  </Stack>
+
+  let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name)
+  let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
+
+    
+  return <>
+    <DisplayDocumentation documentation={propertyDocumentation}/>
+    <Stack direction="horizontal">
+      <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"}/>
+      <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
+        <Card.Header>{getLinkedDescription (linked_to)}</Card.Header>
+        <Card.Body>
+          <CreateDisplay name={name} 
+            required={required} 
+            comment={comment}
+            linked_to={linked_to} 
+            extracted={extracted} 
+            mode= {mode} 
+            propertyDocumentation={propertyDocumentation}
+            reference={reference}
+            onSelect={onSelect}
+            cardKey={cardKey}
+            onChange={onChange}
+            action={action} 
+            setAction={setAction}
+            documentData={documentData}
+            setDocumentData={setDocumentData}
+          />
+        </Card.Body>
+      </Card>
+    </Stack>
+  </>
 }
