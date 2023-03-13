@@ -10,7 +10,7 @@ import { TDBLabel } from "../components/LabelComponent"
 }*/
 
 // widget displays input boxes 
-export const TDBJSON = ({ id, name, value, required, mode, className, onChange, comment, label }) => {
+export const TDBJSON = ({ id, name, value, required, mode, hideFieldLabel, onChange, comment, label }) => {
 
   if(mode === CONST.VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
 
@@ -24,7 +24,11 @@ export const TDBJSON = ({ id, name, value, required, mode, className, onChange, 
   let readOnly= (mode === CONST.VIEW) ? true : false
 
   return <Stack direction="horizontal">
-    <TDBLabel name={label ? label : name} required={required} comment={comment} id={id}/>
+    <TDBLabel name={label ? label : name} 
+      required={required} 
+      hideFieldLabel={hideFieldLabel}
+      comment={comment} 
+      id={id}/>
     <JSONInput
       id          = {id}
       locale      = { locale }

@@ -1,5 +1,6 @@
 import { makeMandatoryFrames } from "./mandatoryFrames"
 import { makeOptionalFrames } from "./optionalFrames"
+import { makeSetFrames } from "./setFrames"
 import * as util from "./utils"
 import * as CONST from "./constants"
 
@@ -67,6 +68,21 @@ export function getProperties (args) {
 			//set property layout & uiLayout
 			properties[property] = optionalFrames.layout
 			propertiesUI[property] = optionalFrames.uiLayout
+		}
+		else if(util.isSet(documentFrame, property)) { 
+			let extractedFrames = util.extractFrames(documentFrame, property)
+			// make a copy
+			let argsHolder = {...args}
+			let documentFrameHolder=argsHolder.documentFrame
+			argsHolder.documentFrame=extractedFrames
+			let dataFrames = getProperties(argsHolder)
+			// place back original document frames
+			argsHolder.documentFrame=documentFrameHolder 
+			let setFrames = makeSetFrames(argsHolder, dataFrames, property) 
+		 
+			//set property layout & uiLayout
+			properties[property] = setFrames.layout
+			propertiesUI[property] = setFrames.uiLayout
 		}
 	}
 

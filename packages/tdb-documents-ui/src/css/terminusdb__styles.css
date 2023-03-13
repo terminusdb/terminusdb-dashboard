@@ -49,6 +49,7 @@ label.control-label {
 /** tdb property labels */
 .tdb__label__width {
   max-width: var(--tdb-label-width);
+  width: var(--tdb-label-width);
 }
 
 /** react calander */

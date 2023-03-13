@@ -11,7 +11,8 @@ export const typeHelper = (documentFrame, property, fullFrame) => {
   if(util.isDataType(field)) {
     // DATA TYPE
     if(field === TYPE.XSD_BOOLEAN)
-    return CONST.BOOLEAN_TYPE
+      return CONST.BOOLEAN_TYPE
+    return CONST.STRING_TYPE
   } 
   else if(util.isSubDocumentType(field)){
     // SUBDOCUMENT TYPE

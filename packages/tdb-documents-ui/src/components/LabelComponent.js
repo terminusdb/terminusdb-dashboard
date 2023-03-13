@@ -3,7 +3,10 @@ import Stack from "react-bootstrap/Stack"
 import { DisplayPropertyNameAndComment } from "../documentationTemplates"
 
 // displays all labels of properies
-export const TDBLabel = ({ name, required, comment, className, id }) =>{
+export const TDBLabel = ({ name, required, comment, className, id, hideFieldLabel }) =>{
+
+  // hideFieldLabel is true for sets/lists
+  if(hideFieldLabel) return <label className="tdb__label__width invisible" htmlFor={id} for={id}>{name}</label>
 
   if(required) {
     // required then add required identifier 

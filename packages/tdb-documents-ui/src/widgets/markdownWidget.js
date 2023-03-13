@@ -152,13 +152,17 @@ export function getViewMarkdownUI( formData, name, uiFrame ) {
 }
 
 // widget displays Markdown
-export const TDBMarkdown = ({ id, name, value, required, mode, className, onChange, comment, label }) => {
+export const TDBMarkdown = ({ id, name, value, required, mode, hideFieldLabel, onChange, comment, label }) => {
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
 
 
   return <Stack direction="horizontal">
-    <TDBLabel name={label ? label : name} required={required} comment={comment} id={id}/>
+    <TDBLabel name={label ? label : name} 
+      required={required} 
+      comment={comment} 
+      hideFieldLabel={hideFieldLabel}
+      id={id}/>
     {mode !== VIEW && getMarkdownUI(value, onChange, name)}
     {mode === VIEW && getViewMarkdownUI(value, name)}
   </Stack>

@@ -21,7 +21,7 @@ function fetchDateValue (value) {
 }
 
 //XSD_DATE_TIME
-export const TDBDateTime = ({ id, name, value, required, mode, onChange, comment, label }) => {
+export const TDBDateTime = ({ id, name, value, required, mode, onChange, comment, label, hideFieldLabel }) => {
   const [selected, setSelected] = useState(fetchDateValue(value));
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
@@ -34,7 +34,11 @@ export const TDBDateTime = ({ id, name, value, required, mode, onChange, comment
 
   //"2023-03-15T08:44:00.000Z"
   return <Stack direction="horizontal" className="mb-3">
-    <TDBLabel name={label ? label : name} required={required} comment={comment} className={"tdb__label__width"}/>
+    <TDBLabel name={label ? label : name} 
+      required={required} 
+      hideFieldLabel={hideFieldLabel}
+      comment={comment} 
+      className={"tdb__label__width"}/>
     <DateTimePicker
       amPmAriaLabel="Select AM/PM"
       id={id}
@@ -58,7 +62,7 @@ export const TDBDateTime = ({ id, name, value, required, mode, onChange, comment
 
 
 //XSD_DATE
-export const TDBDate = ({ id, name, value, required, mode, onChange, comment }) => {
+export const TDBDate = ({ id, name, value, required, mode, onChange, comment, hideFieldLabel }) => {
   const [selected, setSelected] = useState(fetchDateValue(value));
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
@@ -70,7 +74,11 @@ export const TDBDate = ({ id, name, value, required, mode, onChange, comment }) 
   }
 
   return <Stack direction="horizontal" className="mb-3">
-    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"}/>
+    <TDBLabel name={name} 
+      hideFieldLabel={hideFieldLabel}
+      required={required} 
+      comment={comment} 
+      className={"tdb__label__width"}/>
     <DatePicker onChange={handleOnChange} value={selected} format="dd/MM/yyyy"/>
   </Stack>
 }

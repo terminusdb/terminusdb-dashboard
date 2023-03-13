@@ -18,6 +18,7 @@ export function display (config) {
     case TYPE.XSD_BOOLEAN: 
       //XSD_BOOLEAN
       return <TDBBoolean name={config.name} 
+        hideFieldLabel={config.hideFieldLabel}
         label={config.documentation.label}
         comment={config.documentation.comment}
         value={config.formData} 
@@ -32,6 +33,7 @@ export function display (config) {
       //XSD_DATE_TIME
       return <TDBDateTime name={config.name} 
       value={config.formData} 
+      hideFieldLabel={config.hideFieldLabel}
       label={config.documentation.label}
       comment={config.documentation.comment}
       required={config.required}
@@ -45,6 +47,7 @@ export function display (config) {
         //XSD_DATE
         return <TDBDate name={config.name} 
         value={config.formData} 
+        hideFieldLabel={config.hideFieldLabel}
         label={config.documentation.label}
         comment={config.documentation.comment}
         required={config.required}
@@ -57,6 +60,7 @@ export function display (config) {
     case TYPE.MARKDOWN: 
       return <TDBMarkdown name={config.name} 
         value={config.formData} 
+        hideFieldLabel={config.hideFieldLabel}
         label={config.documentation.label}
         comment={config.documentation.comment}
         required={config.required}
@@ -69,6 +73,7 @@ export function display (config) {
       // ALL OTHER DATA TYPES
       return <TDBInput name={config.name} 
         value={config.formData} 
+        hideFieldLabel={config.hideFieldLabel}
         label={config.documentation.label}
         comment={config.documentation.comment}
         required={config.required}

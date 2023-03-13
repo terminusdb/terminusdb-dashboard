@@ -23,11 +23,14 @@ function getDefaultValue(options, value) {
 }
 
 // widget displays enum widget
-export const TDBEnum = ({ id, options, name, value, required, mode, enumDocumentClass, className, onChange, label }) => {
+export const TDBEnum = ({ id, options, name, value, required, mode, enumDocumentClass, hideFieldLabel, onChange, label }) => {
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
   if(mode === VIEW && value) return <Stack direction="horizontal"  className="mb-3">
-    <TDBLabel name={label ? label : name} required={required} id={id}/>
+    <TDBLabel name={label ? label : name} 
+      hideFieldLabel={hideFieldLabel}
+      required={required} 
+      id={id}/>
     <div className="w-100">
       {value}
     </div>

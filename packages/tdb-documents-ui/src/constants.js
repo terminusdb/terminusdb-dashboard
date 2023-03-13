@@ -58,3 +58,24 @@ export const UNFOLDABLE="@unfoldable"
 // SYS JSON UI 
 export const JSON_EDITOR_HEIGHT="200px"
 export const JSON_EDITOR_WIDTH="100%"
+
+// set ui Array options 
+export const SET_UI_ARRAY_OPTIONS= {
+  addable: true,
+  orderable: false,
+  removable: true
+}
+
+// set ui Array options 
+export const LIST_UI_ARRAY_OPTIONS = {
+  addable: true,
+  orderable: true,
+  removable: true
+}
+
+// hide all controls for array types
+export const SET_UI_HIDDEN_ARRAY_OPTIONS= {
+  addable: false,
+  orderable: false,
+  removable: false
+}

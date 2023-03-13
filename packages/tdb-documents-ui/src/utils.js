@@ -36,6 +36,32 @@ export const isMandatory = (frame, property) => {
 }
 
 
+/**
+ * 
+ * @param {*} frame - sub frame of properties
+ * @param {*} property - property 
+ * @returns true if property is Set 
+ */
+ export const isSet = (frame, property) => {
+	let field=frame[property]
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(field.hasOwnProperty("@type") && field["@type"] === CONST.SET)  return true
+	return false
+}
+
+/**
+ * 
+ * @param {*} frame - sub frame of properties
+ * @param {*} property - property 
+ * @returns true if property is list 
+ */
+ export const isList = (frame, property) => {
+	let field=frame[property]
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(field.hasOwnProperty("@type") && field["@type"] === CONST.LIST)  return true
+	return false
+}
+
 /***  ------ util functions to check type of property ------ */
 
 // returns true for properties which are of data types xsd and xdd

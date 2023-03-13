@@ -5,13 +5,17 @@ import { XSD_STRING  } from "../dataType.constants"
 import { TDBLabel } from "../components/LabelComponent"
 
 // widget displays input boxes 
-export const TDBInput = ({ id, name, value, required, mode, placeholder, className, onChange, comment, label }) => {
+export const TDBInput = ({ id, name, value, required, hideFieldLabel, mode, placeholder, className, onChange, comment, label }) => {
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
 
 
   return <Stack direction="horizontal">
-    <TDBLabel name={label ? label : name} required={required} comment={comment} id={id}/>
+    <TDBLabel name={label ? label : name} 
+      required={required} 
+      comment={comment} 
+      id={id} 
+      hideFieldLabel={hideFieldLabel}/>
     {placeholder !== XSD_STRING &&  <input type="text"
       id={id}
       name={id}
