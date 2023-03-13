@@ -16,11 +16,11 @@ import {Alerts} from "./Alerts"
 const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
     const { setCurrentCRObject, exitChangeRequestBranch }= WOQLClientObj()
     const { organization, dataProduct , changeid} = useParams()
+    const  [loadingMessage,setLoadingMessage] = useState(`Approving Change Request ...`)
     const navigate = useNavigate() 
-    let action = CONST.APPROVE
 
     async function doAction(submitAction) {
-        action = submitAction
+        if(submitAction !== CONST.APPROVE ) setLoadingMessage(`Rejecting Change Request ...`)
         let status = submitAction === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
         let res=await updateChangeRequestStatus(message, status, changeid) 
         if(res){
@@ -35,7 +35,7 @@ const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
         { name: CONST.REJECT, value: CONST.REJECT , className: "rounded-right", variant: "outline-danger", icon: <AiOutlineClose className="mr-1 mb-1 text-danger"/> }
     ];
 
-    if(loading) return <Loading message={action === CONST.APPROVE ? `Approving Change Request ...` : `Rejecting Change Request ...`}/>
+    if(loading) return <Loading message={loadingMessage}/>
 
     return <Stack directtion="horizontal" className="float-right">
         <small className="text-muted fst-italic fw-light mr-2 ms-auto">
