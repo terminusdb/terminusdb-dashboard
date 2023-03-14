@@ -7,46 +7,35 @@ import { RiDeleteBin5Fill } from "react-icons/ri"
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import * as CONST from "../constants"
 import * as util from "../utils"
-import { display } from "../helpers/widgetHelper"
 import { TDBLabel } from "../components/LabelComponent"
+import { getDisplay } from "./fieldDisplay"
+import { getPlaceholder } from "../helpers/placeholderHelper"
 
-// returns each field info 
-const ConfigureEachField = ({ dataFrames, property, mode, id, element }) => {
-	let field =[]
-	let propertyType=dataFrames.properties[property][CONST.PLACEHOLDER]
-	let fieldID = `${id}`
-
-	function handleChange(data) {
-		if(element.children.props.onChange) element.children.props.onChange(data)
-	}
-
-	function getFormData() {
-		return element.children.props.formData ? element.children.props.formData : ""
-	}
-
-	let config = {
-		dataType: propertyType,
-		//dataType: deifinitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
-		name: fieldID,
-		key: fieldID, ///props.idSchema["$id"],
-		formData: getFormData(),
-		//required: deifinitions.required.includes(fieldName), 
-		mode: mode, 
-		hideFieldLabel: true,
-		id: fieldID,  
-		placeholder: propertyType,
+// get each field display 
+function getFieldDisplay (args, property, element, id) {
+	let placeholder=getPlaceholder(args.documentFrame[property]) 
+	let newProps = { 
+		dataType: placeholder,
+		//name: props.title,
+		formData: element.children.props.formData, 
+		mode: args.mode,
+		id: id, 
+		placeholder: placeholder, 
 		className: "tdb__doc__input",
-		onChange: handleChange, 
-		documentation: "" //util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
+		hideFieldLabel: true,
+		onChange: element.children.props.onChange,
+		hideFieldLabel: true
 	}
-	field.push(display(config))
-
-	return field
+	let fieldDisplay=getDisplay(newProps, args, property)
+	return fieldDisplay
 }
 
 // EDIT or CREATE MODE
 // Array field templates for lists and sets 
-export function ArrayFieldTemplate(props, dataFrames, property, mode, extractedDocumentation) { 
+export function ArrayFieldTemplate(args, props, fieldDisplay, property) { 
+
+	let { extractedDocumentation } = args
+
 	//console.log("props", props)
 	var variant="dark"
   let label=props.title  
@@ -60,12 +49,7 @@ export function ArrayFieldTemplate(props, dataFrames, property, mode, extractedD
 				let id = `${props.idSchema["$id"]}_${CONST.SET}_${index}`
 				return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
 					{<div className="w-100">
-						<ConfigureEachField 
-							mode={mode}
-							element={element}
-							id={id}
-							dataFrames={dataFrames} 
-							property={property}/>
+						{getFieldDisplay(args, property, element, id)}
 					</div>}
 					{element.hasMoveDown && (
 						<Button variant={variant} 

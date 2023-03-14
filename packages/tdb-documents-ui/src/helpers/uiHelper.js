@@ -27,7 +27,7 @@ function constructSubDocumentConfig(args, property) {
   let linked_frames=fullFrame[linked_to]
   
   // change frames & type 
-  let config = args
+  let config = args 
   config.type=linked_to
   config.extractedDocumentation=util.extractDocumentation(fullFrame, 
     linked_to, 
@@ -39,9 +39,8 @@ function constructSubDocumentConfig(args, property) {
 
 export const uiHelper = (args, property) => {
 
-  let { fullFrame, reference, setReference } =  args
+  let { fullFrame, reference, documentFrame } =  args
 
-  let { documentFrame } = args  
   let field = documentFrame[property]
 
   if(util.isDataType(field)) {

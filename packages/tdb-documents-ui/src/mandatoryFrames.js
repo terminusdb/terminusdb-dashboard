@@ -26,17 +26,17 @@ export function makeMandatoryFrames (args, property) {
     
   let { documentFrame, fullFrame } = args
 
-    let placeholder=getPlaceholder(args.documentFrame[property]) 
+  let placeholder=getPlaceholder(args.documentFrame[property]) 
 
-    /** gather layout of property  */ 
-    let layout = { 
-			"type": typeHelper(documentFrame, property, fullFrame),
-      "title": property,
-      [CONST.PLACEHOLDER]: placeholder,
-      //[CONST.METADATA]: util.fetchMetaData(documentFrame, property)
-    } 
+  /** gather layout of property  */ 
+  let layout = { 
+    "type": typeHelper(documentFrame, property, fullFrame),
+    "title": property,
+    [CONST.PLACEHOLDER]: placeholder,
+    //[CONST.METADATA]: util.fetchMetaData(documentFrame, property)
+  } 
 
-		let uiLayout = uiHelper(args, property)
-   
-    return { layout, uiLayout }
+  let uiLayout = uiHelper(args, property)
+  
+  return { layout, uiLayout }
 }

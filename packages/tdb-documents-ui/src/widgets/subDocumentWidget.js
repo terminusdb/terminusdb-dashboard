@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import Card from 'react-bootstrap/Card';
 import { TDBLabel } from "../components/LabelComponent"
-import { display } from "../helpers/widgetHelper"
+import { display } from "../helpers/displayHelper"
 import * as CONST from "../constants";
 import Stack from "react-bootstrap/Stack"
 import * as util from "../utils"

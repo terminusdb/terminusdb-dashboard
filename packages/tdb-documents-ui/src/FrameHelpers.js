@@ -1,6 +1,7 @@
 import { makeMandatoryFrames } from "./mandatoryFrames"
 import { makeOptionalFrames } from "./optionalFrames"
 import { makeSetFrames } from "./setFrames"
+import { makeListFrames } from "./listFrames"
 import * as util from "./utils"
 import * as CONST from "./constants"
 
@@ -58,11 +59,8 @@ export function getProperties (args) {
 			let extractedFrames = util.extractFrames(documentFrame, property)
 			// make a copy
 			let argsHolder = {...args}
-			let documentFrameHolder=argsHolder.documentFrame
 			argsHolder.documentFrame=extractedFrames
 			let optional = getProperties(argsHolder)
-			// place back original document frames
-			argsHolder.documentFrame=documentFrameHolder 
 			let optionalFrames = makeOptionalFrames(optional, property) 
 		 
 			//set property layout & uiLayout
@@ -73,17 +71,34 @@ export function getProperties (args) {
 			let extractedFrames = util.extractFrames(documentFrame, property)
 			// make a copy
 			let argsHolder = {...args}
-			let documentFrameHolder=argsHolder.documentFrame
-			argsHolder.documentFrame=extractedFrames
-			let dataFrames = getProperties(argsHolder)
+			//let documentFrameHolder=argsHolder.documentFrame
+			//argsHolder.documentFrame=extractedFrames
+			//let dataFrames = getProperties(argsHolder)
 			// place back original document frames
-			argsHolder.documentFrame=documentFrameHolder 
-			let setFrames = makeSetFrames(argsHolder, dataFrames, property) 
+			//argsHolder.documentFrame=documentFrameHolder 
+			//let setFrames = makeSetFrames(argsHolder, dataFrames, property) 
+
+			let setFrames = makeSetFrames(args, property) 
 		 
 			//set property layout & uiLayout
 			properties[property] = setFrames.layout
 			propertiesUI[property] = setFrames.uiLayout
 		}
+		/*else if(util.isList(documentFrame, property)) { 
+			let extractedFrames = util.extractFrames(documentFrame, property)
+			// make a copy
+			let argsHolder = {...args}
+			let documentFrameHolder=argsHolder.documentFrame
+			argsHolder.documentFrame=extractedFrames
+			let dataFrames = getProperties(argsHolder)
+			// place back original document frames
+			argsHolder.documentFrame=documentFrameHolder 
+			let listFrames = makeListFrames(argsHolder, dataFrames, property) 
+		 
+			//set property layout & uiLayout
+			properties[property] = listFrames.layout
+			propertiesUI[property] = listFrames.uiLayout
+		}*/
 	}
 
 	let layout = {
