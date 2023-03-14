@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {BaseElement} from './BaseElement';
 import {Accordion} from '../../form/Accordion';
+
 import {GET_ICON_NAME} from '../../constants/details-labels';
 import {BaseSelectComponent} from './BaseSelectComponent';
 import PropTypes from "prop-types";

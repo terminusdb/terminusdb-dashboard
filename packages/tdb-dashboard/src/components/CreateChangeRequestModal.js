@@ -4,7 +4,7 @@ import {ChangeRequest} from "../hooks/ChangeRequest"
 import {useNavigate} from "react-router-dom"
 
 export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMode, type}) => { 
-    const nameRef = useRef(null);
+    //const nameRef = useRef(null);
     const messageRef = useRef(null);
     const {loading,errorMessage,setError,createChangeRequest} =  ChangeRequest()
     const navigate = useNavigate()
@@ -14,17 +14,17 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
     }
 
     const runCreate = async () => {
-        const name = nameRef.current.value
+      //  const name = nameRef.current.value
         const message = messageRef.current.value
-        if(!name || name === "" || !message || message === "") {
-            setError("Change request name and message are mandatory")
+        if(!message || message === "") {
+            setError("Change request message is mandatory")
             return
         }else{
-            const changeReqId = await createChangeRequest(name, message)         
-            if(changeReqId){
-                nameRef.current.value = ""
+            const {changeRequestId,branchName} = await createChangeRequest(message)         
+            if(changeRequestId){
+                //nameRef.current.value = ""
                 messageRef.current.value = ""
-                updateViewMode(name,changeReqId)
+                updateViewMode(branchName,changeRequestId)
                 setShowModal(false)
             }                  
         }
@@ -40,15 +40,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
         <Modal.Body className="p-3">
             {errorMessage && 
              <Alert variant="danger"  onClose={() => setError(false)} dismissible>{errorMessage}</Alert>}
-            <Form>
-                <Form.Group className="mb-3 tdb__input">
-                    <Form.Control required  
-                        ref={nameRef}
-                        id="add_changerequest_name" 
-                        type="text"
-                        placeholder={`Please type the change request name`} />
-                   
-                </Form.Group>
+            <Form>              
                 <Form.Group className="tdb__input">
                     <Form.Control required 
                         ref={messageRef}
@@ -70,4 +62,13 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
         </Modal.Footer>
     </Modal>
 }
+
+/*<Form.Group className="mb-3 tdb__input">
+                    <Form.Control required  
+                        ref={nameRef}
+                        id="add_changerequest_name" 
+                        type="text"
+                        placeholder={`Please type the change request name`} />
+                   
+                </Form.Group>*/
 

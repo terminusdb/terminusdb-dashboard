@@ -2,47 +2,46 @@ import React, {useState,useEffect} from "react";
 import MainGraphObject from "../MainGraphObject"
 import {errorMessageFormatter} from "../../errorMonitoring/ResponseMessageDecoder"
 
-export const modelCallServerHook = (woqlClient,branch,ref,dbId, pendoMsgAfterCreateSchema) => {
+export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 
 	//const [mainGraphDataProvider, setResultMainGraph] = useState({classesResult:null,propsResult:null,restResult:null});*/
 	const [mainGraphDataProvider, setResultMainGraph] = useState(false)
 	const [reloadGraph, setReloadGraph] = useState(null);
-
 	const [callServerLoading, setLoading] = useState(false);
-
 	const [reportMessage, setReport] = useState(false);
 
 
 	/*
 	* create the mainGraphObject and format the data
 	*/
-	useEffect(() => {
-		const loadGraphData= async ()=> {
-			setLoading(true)
-			setReport(false)
-			let jsonSchema=[]
-			const ts = Date.now()
-			try{
-				
-				const params={"as_list":true,"graph_type":"schema"}
-				//save with all the context so we can use it for update the schema
-				jsonSchema = await woqlClient.getDocument(params)
-				if(!Array.isArray(jsonSchema)){
-					setResultMainGraph([]);
-					throw Error(jsonSchema)
-				}
-				setResultMainGraph(jsonSchema);
-			}catch(err){
-				//tobe review
-				const message = errorMessageFormatter(err,err.message)	
-				//I have to reset the schema here not in finally 						
-				setReport({message:message, status: "error",err: err,time: Date.now() - ts,})
-			}finally{				
-				setLoading(false)
-			}	
-    	}
-    	if(woqlClient)loadGraphData()
+	const loadGraphData= async ()=> {
+		setLoading(true)
+		setReport(false)
+		let jsonSchema=[]
+		const ts = Date.now()
+		try{
+			
+			const params={"as_list":true,"graph_type":"schema"}
+			//save with all the context so we can use it for update the schema
+			jsonSchema = await woqlClient.getDocument(params)
+			if(!Array.isArray(jsonSchema)){
+				setResultMainGraph([]);
+				throw Error(jsonSchema)
+			}
+			setResultMainGraph(jsonSchema);
+			return jsonSchema;
+		}catch(err){
+			//tobe review
+			const message = errorMessageFormatter(err,err.message)	
+			//I have to reset the schema here not in finally 						
+			setReport({message:message, status: "error",err: err,time: Date.now() - ts,})
+		}finally{				
+			setLoading(false)
+		}	
+	}
 
+	useEffect(() => {
+       if(woqlClient)loadGraphData()
 	}, [reloadGraph,branch,ref,dbId])
 
 	//lets see how use it
@@ -102,7 +101,8 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId, pendoMsgAfterCre
 				await woqlClient.addDocument(newSchema,params,null,commitM)					
 
 				let msg = `Successfully updated schema graph`
-	            setReloadGraph(Date.now())
+	            const jsonSchema = await loadGraphData()
+				return jsonSchema
 			}catch(err){
 				//console.log("err", err.message)
 				//setError(err.message)

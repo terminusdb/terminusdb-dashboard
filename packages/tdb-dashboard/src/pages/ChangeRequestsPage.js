@@ -169,14 +169,15 @@ export const ChangeRequestsPage = () => {
         let display=changeRequestList.slice(0).reverse().map((item,index)=>{
 			if(item.status === filter) {
 				statusCount+=1
+				const name  = item.messages[0].text || item[tracking_branch]
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
 					{iconTypes[item.status]}
 					<div className="ms-2 me-auto">
 						<div className="fw-bold text-gray">
-							{item['tracking_branch']}
+							{name}
 						</div>
 						<small className="text-light text-small fw-bold">
-							opened {getDays(item.creation_time)} days ago by {item['creator']}
+							opened {getDays(item.creation_time)} days ago by {item['creator_email'] || item['creator']}
 						</small>
 					</div>
 					{buttonstatus(item)}

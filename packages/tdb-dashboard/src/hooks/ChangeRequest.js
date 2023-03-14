@@ -18,15 +18,15 @@ export function ChangeRequest(){
         return client.connectionConfig.dbBase("changes")
     }
     
-    const createChangeRequest = async(branchName, message) =>{
+    const createChangeRequest = async(message) =>{
         try{
             setLoading(true)
-        const payload = {tracking_branch:branchName,
-                        original_branch:"main",
+        const payload = {original_branch:"main",
                         message:message,
                         author:woqlClient.user()}
         const result = await woqlClient.sendCustomRequest("POST", getUrl(),payload)
-        return result.change_request_id
+        //{changeRequestId,branchName}
+        return result
         }catch(err){
             const errMessage = formatErrorMessage(err)
             setError(errMessage)

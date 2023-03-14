@@ -66,10 +66,15 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
-      }]
+        test: /\.(css)$/,
+        use: [{
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader', // translates CSS into CommonJS modules
+          },
+          ]
+      },]
   }
 };
 

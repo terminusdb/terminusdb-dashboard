@@ -150,7 +150,8 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	        availableParentsList,
 	        objectChoicesList,
 	        isFocusOnNode,
-	        needToSave
+	        needToSave,
+			updateMainGraphData
 	    	}}>
 	     {children}
         </GraphContext.Provider>

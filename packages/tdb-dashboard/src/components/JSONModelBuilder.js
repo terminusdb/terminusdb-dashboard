@@ -9,10 +9,11 @@ import 'codemirror/theme/material-darker.css'
 //import 'codemirror/addon/display/autorefresh.js'
 import {PROGRESS_BAR_COMPONENT, TERMINUS_SUCCESS} from "./constants"
 import {Loading} from "./Loading"
+import {Alert} from "react-bootstrap"
 import {MODEL_BUILDER_EDITOR_OPTIONS} from "./constants"
 import { BiUndo } from "react-icons/bi"
 import {FaRegEdit} from 'react-icons/fa'
-import {Alerts} from "./Alerts"
+//import {Alerts} from "./Alerts"
 import {TERMINUS_DANGER,DOCUMENT_PREFIX} from "./constants"
 import {GRAPH_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
@@ -20,16 +21,16 @@ import {CopyButton} from "./utils"
 import Card from "react-bootstrap/Card"
 import {BsSave} from "react-icons/bs"
 import Stack from "react-bootstrap/Stack"
+import {modelCallServerHook} from "@terminusdb-live/tdb-react-components"
 
-export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReportMessage}) => {
+// we moved the save data at this level or we lost our change if there is an error
+export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
     
-    const {getSchemaGraph,mainGraphObj} = GraphContextObj();
-    const {dataProduct} = WOQLClientObj()
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
+    const {getSchemaGraph,mainGraphObj,updateMainGraphData} = GraphContextObj();
+    const {dataProduct,woqlClient} = WOQLClientObj()
+   // const [loading, setLoading] = useState(false)
     const [commitMsg, setCommitMessage]=useState("Add new schema")
-    const [report, setReport]=useState(false)
-
+    
     const [jsonSchema, setJsonSchema]=useState(false)
 
     const [editMode, setEditMode]=useState(false)
@@ -38,26 +39,33 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReport
     let branch = "main"
     let ref = ""
 
+
+    const {saveGraphChanges,
+        reportMessage,
+        setReport,
+        callServerLoading:loading,
+    } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
+    
     const onBlurHandler = (value) =>{
         setValue(value)
     }
 
-    async function getJSONSchema () {
+    async function loadSchema () {
+        setEditMode(false); 
+        setReport(false)
         //get the schema from the mainGraphObj
         //the result is the schema in json format
-        const resultJson = getSchemaGraph()// await woqlClient.getDocument(params, dataProduct)
+        const resultJson = await getSchemaGraph()// await woqlClient.getDocument(params, dataProduct)
         setJsonSchema(resultJson)
         setValue(resultJson)
     }
     
     useEffect(() => {
         if(tab == GRAPH_TAB) return
-        setEditMode(false)
-        getJSONSchema()
+        loadSchema()
     }, [tab,dataProduct,mainGraphObj])
 
     
-
 
     MODEL_BUILDER_EDITOR_OPTIONS.readOnly=!editMode
 
@@ -66,32 +74,17 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReport
     }
 
 
-    async function saveChange (){
-        setLoading(<Loading message={"Updating schema"} type={PROGRESS_BAR_COMPONENT}/>)
-
+    async function saveGraph (){
         if(value) {
-            try{
-                //save change in the server
-                await saveGraph(value, commitMsg)   
-                setLoading(false)
-                //setEditMode(false)
-             
-            }catch(err){
-                let jsonError= JSON.parse(JSON.stringify(err))
-                setLoading(false)
-                if(jsonError.data && jsonError.data["api:message"]) {
-                    setReport(<Alerts message={jsonError.data["api:message"]} type={TERMINUS_DANGER}/>)
-                }
-                else setReport(<Alerts message={err.toString()} type={TERMINUS_DANGER}/>) 
-            }       
+            const result = await saveGraphChanges(value, commitMsg)
+            if(result){
+                const resultJson = JSON.stringify(result,null,4)
+                updateMainGraphData(result)
+                setJsonSchema(resultJson)
+                setValue(resultJson)
+                setEditMode(false); 
+            }   
         }
-    }
-
-    function handleUndo () {
-        // sets report messagen from modelCallServerHook to false
-        if(setReportMessage) setReportMessage(false)
-        setEditMode(false); 
-        getJSONSchema();
     }
 
     const editStyle = editMode ? {className:"border rounded border-warning position-sticky"} : {}
@@ -100,8 +93,14 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReport
     //console.log("editMode", editMode)
     return <>
         <label className="text-warning mt-4">{editMessage}</label>
+        {reportMessage && !loading &&
+                 <Alert className ="mt-3" variant="danger" dismissible onClose={() => setReport(false)}>
+                          <Alert.Heading>{reportMessage.message.title}</Alert.Heading>
+
+                        <p>{reportMessage.message.text}</p>
+        </Alert>}
         <Card className={`border border-secondary mt-4`} {...editStyle}>
-            {loading && loading} 
+            {loading && <Loading message={"Updating schema"} type={PROGRESS_BAR_COMPONENT}/>}       
             <Card.Header>
                 <Stack direction="horizontal" className="w-100 justify-content-end">
                     {editMode && <div className="w-100">
@@ -109,12 +108,12 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReport
                             <div className="col-md-10 pr-0 pl-0">
                                 <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
                             </div>
-                            <button  type="button" id="schema_save_button" className="btn btn-sm bg-light text-dark" onClick={saveChange}>
+                            <button  type="button" id="schema_save_button" className="btn btn-sm bg-light text-dark" onClick={saveGraph}>
                                 <BsSave className="small"/> {"Save"}
                             </button>
                             <button  type="button" 
                                 title="Undo changes"
-                                className="btn btn-sm bg-danger text-white mr-2" onClick={()=>{ handleUndo() }}>
+                                className="btn btn-sm bg-danger text-white mr-2" onClick={()=>{ loadSchema() }}>
                                 <BiUndo className="h5"/> {"Undo"}
                             </button>
                         </div>
@@ -133,7 +132,6 @@ export const JSONModelBuilder = ({tab,saveGraph,accessControlEditMode, setReport
                 </Stack>
             </Card.Header>
             <div className="h-100">
-                {report && <span className="w-100 m-4">{report}</span>}
                 <CodeMirror  
                     onBlur={(editor, data) => {
                         const editorValue =editor.doc.getValue()

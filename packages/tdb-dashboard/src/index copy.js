@@ -1,7 +1,6 @@
 import React from "react"
-import {BrowserRouter,useNavigate,Routes,Route} from "react-router-dom"
-import TestApp from "./TestApp"
-import { App } from "./App"
+import {BrowserRouter,useNavigate} from "react-router-dom"
+import {App} from "./App"
 import {WOQLClientProvider} from './init-woql-client'
 import {localSettings} from "../localSettings"
 import {auth0_conf} from '../auth_config'
@@ -9,9 +8,9 @@ import {Auth0Provider} from "./react-auth0-spa"
 
 import {LoginModal} from "./components/LoginModal"
 import { createRoot } from 'react-dom/client';
-
-require('./App.css')
-require('./Colors.css')
+import TestApp from "./TestApp"
+//require('./App.css')
+//require('./Colors.css')
 
 function NavigationComponent(){
 
@@ -39,7 +38,7 @@ function NavigationComponent(){
               audience={auth0_conf.audience}
           >
           <WOQLClientProvider params={localSettings}>
-         <App/>
+              <App />
           </WOQLClientProvider>
           </Auth0Provider>
     }
@@ -52,14 +51,14 @@ function NavigationComponent(){
    
 
     return  <WOQLClientProvider params={localSettings}>
-            <App/>
+              <App />
             </WOQLClientProvider>
 }
 const basename = process.env.BASE_URL ? {basename:process.env.BASE_URL} : {}
 const container = document.getElementById('root');
 const root = createRoot(container); 
 
-//root.render(<TestApp/>)
-root.render( <BrowserRouter {...basename}>
+root.render(<TestApp/>)
+/*root.render( <BrowserRouter {...basename}>
             <NavigationComponent/>
-          </BrowserRouter>);
+          </BrowserRouter>);*/

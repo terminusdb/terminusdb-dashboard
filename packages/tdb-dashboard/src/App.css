@@ -1146,7 +1146,7 @@ button.graphiql-tab-add>svg
   color: #343a40!important;
 }
 
-.MuiButton-contained {
+/*.MuiButton-contained {
   background-color: #a9a7a5;
 }
 .MuiButton-containedPrimary {
@@ -1173,7 +1173,7 @@ button.graphiql-tab-add>svg
 }
 .MuiInputBase-input{
   min-height: 20px !important;
-}
+}*/
 
 /*.qb-lite .group--drag-handler, .qb-lite .group--actions {
   transition: opacity 0.2s;
@@ -1281,4 +1281,41 @@ button.graphiql-tab-add>svg
 
 .alert_expand_icons {
   margin-top: -20px;
+}
+
+.group {
+  background: transparent !important;
+  border: 1px solid #dee2e6;
+}
+
+.rule {
+  background: transparent !important;
+  border: 1px solid #dee2e6;
+  padding: 10px;
+}
+
+.rule--field > .dropdown > .form-select {
+    min-width: 200px;
+    line-height: 1.5 !important;
+    min-height: 40px !important;
+    /* background: transparent !important; */
+    color: black;
+}
+
+.rule--operator > .dropdown > .form-select {
+  min-width: 100px;
+  line-height: 1.5 !important;
+  min-height: 40px !important;
+  /* background: transparent !important; */
+  color: black;
+}
+
+.widget--widget > .form-control{
+  min-width: 250px;
+  line-height: 1.5 !important;
+  min-height: 40px !important;
+}
+
+.accordion{
+  --bs-accordion-bg: #303030 !important;
 }
