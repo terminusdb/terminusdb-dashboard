@@ -11,16 +11,16 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import {Loading} from "../components/Loading"
 import { MessageBox, MessageComponent } from "./Messages"
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai"
+import {Alerts} from "./Alerts"
 
-const ToggleActions = ({ message }) => {
+const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
     const { setCurrentCRObject, exitChangeRequestBranch }= WOQLClientObj()
-    const { updateChangeRequestStatus, loading, error } = ChangeRequest()
     const { organization, dataProduct , changeid} = useParams()
+    const  [loadingMessage,setLoadingMessage] = useState(`Approving Change Request ...`)
     const navigate = useNavigate() 
-    let action = CONST.APPROVE
 
     async function doAction(submitAction) {
-        action = submitAction
+        if(submitAction !== CONST.APPROVE ) setLoadingMessage(`Rejecting Change Request ...`)
         let status = submitAction === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
         let res=await updateChangeRequestStatus(message, status, changeid) 
         if(res){
@@ -35,7 +35,7 @@ const ToggleActions = ({ message }) => {
         { name: CONST.REJECT, value: CONST.REJECT , className: "rounded-right", variant: "outline-danger", icon: <AiOutlineClose className="mr-1 mb-1 text-danger"/> }
     ];
 
-    if(loading) return <Loading message={action === CONST.APPROVE ? `Approving Change Request ...` : `Rejecting Change Request ...`}/>
+    if(loading) return <Loading message={loadingMessage}/>
 
     return <Stack directtion="horizontal" className="float-right">
         <small className="text-muted fst-italic fw-light mr-2 ms-auto">
@@ -60,23 +60,13 @@ const ToggleActions = ({ message }) => {
     </Stack>
 }
 
-
-/**
- * @returns view based on CR actions
- */
-export const Review = ({ message, setMessage }) => {
-    return <React.Fragment>
-        <MessageBox setMessage={setMessage} message={message}/>
-        <ToggleActions message={message}/>
-    </React.Fragment>
-}
-
 export const ReviewComponent = () => {
     const {
         userHasMergeRole,
         currentCRObject
     }= WOQLClientObj()
 
+    const { updateChangeRequestStatus, loading, errorMessage, setError } = ChangeRequest()
     // feedback constants
     const [message, setMessage]=useState("")
 
@@ -86,17 +76,21 @@ export const ReviewComponent = () => {
         return <MessageComponent/>
     }*/
 
-    return <Card className="bg-transparent border border-dark m-3">
-        <Card.Header className="bg-transparent border border-dark">
-            <Stack direction="horizontal" gap={3} className="text-right w-100">
-                <h6>Submit your Review</h6>
-                <span className="text-light ms-auto">{`Status:`}</span>
-                {status[currentCRObject.status]}
-            </Stack>
-        </Card.Header>
-        <Card.Body>
-            <Review message={message} setMessage={setMessage}/>
-        </Card.Body>
-    </Card>
+    return <React.Fragment>
+           {errorMessage && <Alerts message={errorMessage} type={CONST.TERMINUS_DANGER} onCancel={setError}/>}
+            <Card className="bg-transparent border border-dark m-3">
+                <Card.Header className="bg-transparent border border-dark">
+                    <Stack direction="horizontal" gap={3} className="text-right w-100">
+                        <h6>Submit your Review</h6>
+                        <span className="text-light ms-auto">{`Status:`}</span>
+                        {status[currentCRObject.status]}
+                    </Stack>
+                </Card.Header>
+                <Card.Body>
+                    <MessageBox setMessage={setMessage} message={message}/>
+                    <ToggleActions message={message} loading={loading} updateChangeRequestStatus={updateChangeRequestStatus}/>
+                </Card.Body>
+            </Card>
+        </React.Fragment>
         
 }

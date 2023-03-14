@@ -1282,3 +1282,40 @@ button.graphiql-tab-add>svg
 .alert_expand_icons {
   margin-top: -20px;
 }
+
+.group {
+  background: transparent !important;
+  border: 1px solid #dee2e6;
+}
+
+.rule {
+  background: transparent !important;
+  border: 1px solid #dee2e6;
+  padding: 10px;
+}
+
+.rule--field > .dropdown > .form-select {
+    min-width: 200px;
+    line-height: 1.5 !important;
+    min-height: 40px !important;
+    /* background: transparent !important; */
+    color: black;
+}
+
+.rule--operator > .dropdown > .form-select {
+  min-width: 100px;
+  line-height: 1.5 !important;
+  min-height: 40px !important;
+  /* background: transparent !important; */
+  color: black;
+}
+
+.widget--widget > .form-control{
+  min-width: 250px;
+  line-height: 1.5 !important;
+  min-height: 40px !important;
+}
+
+.accordion{
+  --bs-accordion-bg: #303030 !important;
+}

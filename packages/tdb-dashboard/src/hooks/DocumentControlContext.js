@@ -224,7 +224,7 @@ export const DocumentControlProvider = ({children}) => {
             const params={id:documentId}
             let commitMsg=`Deleting document ${documentId}` 
             const res = await woqlClient.deleteDocument(params, dataProduct, commitMsg)
-            return res
+            return true
         }catch(err){
             setError(`I can not delete the document ${err.message}`)
        }finally{setLoading(false)}
@@ -232,7 +232,11 @@ export const DocumentControlProvider = ({children}) => {
 
 
     // check if the current change request is still open
-    async function checkStatus (){   
+    async function checkStatus (){ 
+        // I can decide to change a document 
+        // in a new branch without using the change request workflow
+        // in this case currentChangeRequest is false
+        if(!currentChangeRequest) return 
         const CRObject = await getChangeRequestByID(currentChangeRequest)
         if(CRObject.status !== "Open"){
             throw Error(`The current Change Request has been ${CRObject.status}. 
