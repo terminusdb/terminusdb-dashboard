@@ -2,6 +2,13 @@ import React, { useState } from "react"
 import Select from 'react-select'
 import chroma from 'chroma-js';
 
+
+// sends default value from options
+export function getDefaultValue(options, value) {
+  let extractedOption=options.filter(opts => opts.value === value)
+  return extractedOption
+}
+
 export const SelectComponent = ({ options, onChange, value, id, placeholder }) => {
 
   /*const optionsExample = [

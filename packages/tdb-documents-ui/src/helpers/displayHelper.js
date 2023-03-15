@@ -4,6 +4,7 @@ import { TDBInput } from "../widgets/inputWidgets"
 import { TDBBoolean } from "../widgets/booleanWidget"
 import { TDBDateTime, TDBDate } from "../widgets/dateWidgets"
 import { TDBEnum } from "../widgets/enumWidget"
+import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 import * as TYPE from "../dataType.constants"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBSubDocument } from "../widgets/subDocumentWidget"
@@ -140,15 +141,15 @@ export function displaySubDocument(props, args, extracted, property, expanded) {
 }
 
 // DOCUMENT LINKS 
-export function displayDocumentLink(props, args, extracted, property, linked_to) {
+export function displayDocumentLink(props, args, extracted, property, linked_to) { 
 
   let { fullFrame, onTraverse, mode, onSelect, documentFrame, reference } = args
   let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
 
   // add logic for required properties 
-  return  <TDBDocument extracted={extracted} 
-    //id={props.idSchema["$id"]}
+  return  <TDBDocument extracted={extracted}  
+    linkId={props.hasOwnProperty("id") ? props["id"] : null}
     //comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
     onSelect={onSelect}
@@ -199,4 +200,16 @@ export function displayJSON(props, args, property) {
     id={props.idSchema["$id"]}
     onChange={props.onChange}
     required={props.required}/>
+}
+
+// CHOICE SUB DOCUMENTS 
+export function displayChoiceSubDocument (props, args, property) {
+  let { fullFrame, mode, documentFrame, reference } = args
+  //let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
+  //let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
+
+  // add logic for required properties 
+  return  <TDBChoiceDocuments args={args}
+    property={property}
+    props={props}/>
 }

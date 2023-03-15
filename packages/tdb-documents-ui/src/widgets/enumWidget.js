@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import Stack from "react-bootstrap/Stack"
-import { VIEW } from "../constants"
-import { SelectComponent  } from "../components/SelectComponent"
+import { VIEW } from "../constants" 
+import { SelectComponent, getDefaultValue  } from "../components/SelectComponent"
 import { TDBLabel } from "../components/LabelComponent"
 
 // construct options to be supported by react-select
@@ -16,11 +16,6 @@ function constructOptions(options) {
   return constructed
 }
 
-// sends default value from options
-function getDefaultValue(options, value) {
-  let extractedOption=options.filter(opts => opts.value === value)
-  return extractedOption
-}
 
 // widget displays enum widget
 export const TDBEnum = ({ id, options, name, value, required, mode, enumDocumentClass, hideFieldLabel, onChange, label }) => {

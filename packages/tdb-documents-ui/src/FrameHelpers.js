@@ -71,9 +71,9 @@ export function getProperties (args) {
 			let extractedFrames = util.extractFrames(documentFrame, property)
 			// make a copy
 			let argsHolder = {...args}
-			//let documentFrameHolder=argsHolder.documentFrame
-			//argsHolder.documentFrame=extractedFrames
-			//let dataFrames = getProperties(argsHolder)
+			let documentFrameHolder=argsHolder.documentFrame
+			argsHolder.documentFrame=extractedFrames
+			let dataFrames = getProperties(argsHolder)
 			// place back original document frames
 			//argsHolder.documentFrame=documentFrameHolder 
 			//let setFrames = makeSetFrames(argsHolder, dataFrames, property) 

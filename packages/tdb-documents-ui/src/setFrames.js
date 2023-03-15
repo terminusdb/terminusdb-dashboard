@@ -1,11 +1,42 @@
-import React from "react"
+import React, { useState } from "react"
 import * as util from "./utils"
 import * as CONST from "./constants"
 import * as helper from "./arrayFrames/helpers"
 import { uiHelper } from "./helpers/uiHelper"
 import { typeHelper } from "./helpers/typeHelper"
-import { getDisplay } from "./arrayFrames/fieldDisplay"
 import * as template from "./arrayFrames/templates"
+import { getPlaceholder } from "./helpers/placeholderHelper"
+import { getDisplay } from "./arrayFrames/fieldDisplay"
+
+// get each field display 
+function getFieldDisplay (args, property) {
+
+	const [fd, setFD] = useState("")
+
+	function handleFieldChange(data, fieldName) {
+		console.log("data //// ", fieldName, data)
+		setFD(data)
+	}
+	
+
+	let placeholder=getPlaceholder(args.documentFrame[property]) 
+	let newProps = { 
+		dataType: placeholder,
+		name: property,//props.title,
+		formData: fd,
+		//formData: fieldData,//getFormData(fieldData, property), 
+		mode: args.mode,
+		//id: id, 
+		placeholder: placeholder, 
+		className: "tdb__doc__input",
+		hideFieldLabel: true,
+		onChange: handleFieldChange,
+		hideFieldLabel: true
+	}  
+
+	let fieldDisplay=getDisplay(newProps, args, property)
+	return fieldDisplay
+}
 
 /**
  * 
@@ -17,44 +48,27 @@ import * as template from "./arrayFrames/templates"
  * @param {*} documentation - formData - filled data to be displayed in form 
  * @returns a data field 
  */  
-export function makeSetFrames(args, property)  {
+export function makeSetFrames(args, property)  { 
     
 	let { mode, documentFrame } = args
-		
-	/*let layout={ 
-		"type": CONST.ARRAY_TYPE,  
-		"title": property,
-		"minItems": helper.getSetMinItems(),
-		"items": { type: dataFrames.properties[property].type }
-	}
-
-	if(mode === CONST.VIEW) {
-			// hide Add array button in View mode
-			uiLayout=helper.getViewArrayUILayout(args, dataFrames, property)
-	}
-	else { 
-			// Create and Edit 
-			uiLayout=helper.getArrayUILayout(args, CONST.SET, dataFrames, property)
-	} */
-    
-
 
 	/** gather layout of property  */ 
 	let layout = { 
 		"type": CONST.ARRAY_TYPE,  
 		"title": property,
 		"minItems": helper.getSetMinItems(),
-		"items": { type: "string" }
+		"items": { type: CONST.STRING_TYPE /* [CONST.STRING_TYPE, CONST.OBJECT_TYPE] */},
+		[CONST.PLACEHOLDER]: getPlaceholder(args.documentFrame[property]) ,
 	} 
 
 	let argsHolder = {...args}
-	if(!documentFrame[property].hasOwnProperty(CONST.CLASS)) {
-		throw new Error (`Expected to have class defintion for Set frames ...`)
-	}
-	argsHolder.documentFrame[property] = documentFrame[property][CONST.CLASS]
+
+	argsHolder.documentFrame[property] = documentFrame[property].hasOwnProperty(CONST.CLASS) ? 
+		documentFrame[property][CONST.CLASS] : documentFrame[property]
  
 	function showEachField(props) {
-		return template.ArrayFieldTemplate(args, props, null, property)
+		let test = getFieldDisplay(args, property)
+		return template.ArrayFieldTemplate(args, props, test, property)
 	}
 
   let uiLayout={}

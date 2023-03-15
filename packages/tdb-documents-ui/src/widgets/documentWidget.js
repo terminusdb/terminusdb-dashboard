@@ -10,15 +10,15 @@ import { CreateDocument } from "../components/CreateDocumentLink"
 import { EditDocument } from "../components/EditDocumentLink"
 import { ViewDocument } from "../components/ViewDocumentLink"
  
-export const TDBDocument = ({ extracted, reference, onTraverse, onSelect, unfoldable, props, mode, linked_to, propertyDocumentation }) => {
+export const TDBDocument = ({ extracted, reference, onTraverse, onSelect, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
 
   let depth = 0 
- 
 
   if(mode === CONST.CREATE) return <CreateDocument name={props.name} 
     onChange={props.onChange}
     linked_to={linked_to}
     depth={depth}
+    linkId={linkId}
     onSelect={onSelect}
     mode={mode}
     reference={reference}

@@ -132,6 +132,23 @@ export const isDataType = (field) => {
 }
 
 
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if choice sub documenst
+ */
+ export const isChoiceSubDocumentType = (field) => {
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(Array.isArray(field) && field.length > 0) {
+		let props=field[0]
+		if(props.hasOwnProperty(CONST.CLASS) && props.hasOwnProperty(CONST.SUBDOCUMENT))
+			return true
+		return false
+	}
+	return false
+}
+
+
 /***  extract metadata */
 
 /**

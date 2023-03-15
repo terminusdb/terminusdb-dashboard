@@ -20,9 +20,8 @@ function constructDocumentConfig(args, property, linked_to) {
   return config
 }
 
-function constructSubDocumentConfig(args, property) {
+function constructSubDocumentConfig(args, property, field) {
   let { fullFrame, documentFrame } = args
-  let field = documentFrame[property]
   let linked_to=field[CONST.CLASS]
   let linked_frames=fullFrame[linked_to]
   
@@ -56,7 +55,8 @@ export const uiHelper = (args, property) => {
     let extracted={}
     // if linked_to definition is not available in references
     if(!util.availableInReference(reference, linked_to)){
-      let config=constructSubDocumentConfig(argsHolder, property)
+      let field = documentFrame[property]
+      let config=constructSubDocumentConfig(argsHolder, property, field)
       extracted=getProperties(config)
     }
     else {
@@ -111,5 +111,37 @@ export const uiHelper = (args, property) => {
   }
   else if(util.isSysJSONDataType(field)) {
     return widget.getJSONUIDisplay(args, property)
+  }
+  else if(util.isChoiceSubDocumentType(field)) {
+    
+    
+    field.map(subDocs => {
+      let argsHolder={...args}
+      let linked_to=subDocs[CONST.CLASS]
+      let extracted={}
+      // if linked_to definition is not available in references
+      if(!util.availableInReference(reference, linked_to)){
+        let config=constructSubDocumentConfig(argsHolder, property, subDocs)
+        extracted=getProperties(config)
+        // add extracted documentation 
+        extracted.extractedDocumentation=argsHolder.extractedDocumentation
+
+        // check for SubDocument MetaData
+        let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+        if(metaDataType) {
+          // expecting JSON at this point
+          expanded=metaDataType
+        } 
+        // add extracted to references
+        addToReference(args, extracted, linked_to)
+      }
+      else {
+        // reference available 
+        extracted=reference[linked_to]
+      }
+    })
+
+    
+    return widget.getChoiceSubDocumentUIDisplay(args, property)
   }
 }

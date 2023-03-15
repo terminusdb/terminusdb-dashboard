@@ -12,7 +12,7 @@ import { SearchExistingLink } from "./SearchExistingLink"
 import { DisplayDocumentation } from "../templates"
 
 // display based on action  
-const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
   let nextCreateLink =  false
 
@@ -34,11 +34,11 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDo
     }
 
     // definitions will have definitions of linked_to frames
-    let deifinitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
+    let definitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
 
 
-    for(let field in deifinitions.properties) { 
-      linked_to = deifinitions.properties[field][CONST.PLACEHOLDER]
+    for(let field in definitions.properties) { 
+      linked_to = definitions.properties[field][CONST.PLACEHOLDER]
       // if field is a document link then @placeholder will point to linked document at this point
       if(util.availableInReference(reference, linked_to))  {
         // store the field name here to connect to correct changed data on create
@@ -48,27 +48,28 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDo
           linked_to={linked_to}
           propertyDocumentation={propertyDocumentation}
           mode={mode} 
+          linkId={linkId}
           onSelect={onSelect}
           depth={cardKey}
           reference={reference}
-          extracted={deifinitions}
+          extracted={definitions}
           onChange={handleChange}
           linkPropertyComment={linkPropertyComment}
           required={required} />)
       }
       else {
         // internal properties
-        let fieldName = deifinitions.properties[field].title
+        let fieldName = definitions.properties[field].title
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         let config = {
-          dataType: deifinitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
+          dataType: definitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
           name: fieldName,
           key: `${linked_to}__${uuidv4()}`,
           formData: util.getFormDataPerProperty(documentData, fieldName),
-          required: deifinitions.required.includes(fieldName), 
+          required: definitions.required.includes(fieldName), 
           mode: mode, 
           id: fieldID,  
-          placeholder: deifinitions.properties[field][CONST.PLACEHOLDER],
+          placeholder: definitions.properties[field][CONST.PLACEHOLDER],
           className: "tdb__doc__input",
           onChange: handleChange,
           documentation: util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
@@ -95,7 +96,7 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDo
 }
  
 
-export const CreateDisplay = ({ name, linkPropertyComment, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData }) => {
+export const CreateDisplay = ({ name, linkPropertyComment, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -103,6 +104,7 @@ export const CreateDisplay = ({ name, linkPropertyComment, reference, required, 
     <DisplayLinkFrame action={action} 
       extracted={extracted}
       required={required}
+      linkId={linkId}
       linkPropertyComment={linkPropertyComment}
       mode={mode}
       propertyDocumentation={propertyDocumentation}
@@ -117,14 +119,21 @@ export const CreateDisplay = ({ name, linkPropertyComment, reference, required, 
   </>
 }
 
+
+function getID (linkId, depth) {
+  if(linkId) {
+    return `${linkId}__${depth+1}`
+  }
+  return depth+1
+}
  
 // CREATE MODE
-export const CreateDocument = ({ name, required, onSelect, reference, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkPropertyComment }) => {
+export const CreateDocument = ({ name, required, onSelect, reference, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
 
   const [action, setAction] = useState(false)
   const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
   //const [cardKey, setCardKey]=useState(uuidv4())
-  const [cardKey, setCardKey]=useState(depth+1)
+  const [cardKey, setCardKey]=useState(getID(linkId, depth)) 
 
   let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name)
   let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
@@ -143,6 +152,7 @@ export const CreateDocument = ({ name, required, onSelect, reference, linked_to,
             linked_to={linked_to} 
             extracted={extracted} 
             mode= {mode} 
+            linkId={linkId}
             propertyDocumentation={propertyDocumentation}
             reference={reference}
             onSelect={onSelect}

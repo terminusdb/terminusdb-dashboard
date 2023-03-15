@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import Card from 'react-bootstrap/Card';
@@ -20,14 +20,16 @@ const CollapseMessage = ({ message, name, icon }) => {
 // populate SubDocument data based on modes
 function populateSubDocumentData(mode, linked_to, formData) {
   if(mode === CONST.CREATE) return { [CONST.TYPE]: linked_to }
+  else if(mode === CONST.EDIT) {
+    if(linked_to === formData[CONST.TYPE]) return formData 
+    else return  { [CONST.TYPE]: linked_to }
+  }
   return formData
 }
 
  
-const SubDocumentProperties = ({ subDocumentPropertyName, properties, required, mode, onChange, formData, linked_to, propertyDocumentation }) => {
+const SubDocumentProperties = ({ subDocumentPropertyName, subDocumentData, setSubDocumentData, properties, required, mode, onChange, linked_to, propertyDocumentation }) => {
   
-  const [subDocumentData, setSubDocumentData] = useState(populateSubDocumentData(mode, linked_to, formData))
-
   let fields = []
  
   function handleChange(data, fieldName) {
@@ -61,13 +63,27 @@ const SubDocumentProperties = ({ subDocumentPropertyName, properties, required, 
   </Card.Body>
 }
   
-export const TDBSubDocument = ({ extracted, expanded, comment, props, mode, linked_to, propertyDocumentation }) => {
+export const TDBSubDocument = ({ extracted, expanded, comment, props, hideFieldLabel, mode, linked_to, propertyDocumentation }) => {
   const [open, setOpen] = useState(expanded);
+  let populated = populateSubDocumentData(mode, linked_to, props.formData)
+  const [subDocumentData, setSubDocumentData] = useState(populated)
+
+  useEffect(() => {
+    // linked_to will change in cases of choice sub documents 
+    if(linked_to) {
+      let populated = populateSubDocumentData(mode, linked_to, props.formData)
+      setSubDocumentData(populated)
+    }
+  }, [linked_to]) 
 
  
   return <Stack direction="horizontal">
-    <TDBLabel name={props.name} required={props.required} comment={comment} className="tdb__label__width"/>
-    <Card bg="secondary" className="mb-3 border border-secondary w-100">
+    <TDBLabel name={props.name} 
+      required={props.required} 
+      comment={comment} 
+      className="tdb__label__width" 
+      hideFieldLabel={hideFieldLabel}/>
+    <Card bg="secondary" className="mb-3 border border-dark w-100">
       <Button variant={"secondary"}
         className={`text-start p-4`}
         data-testid={`root_subdocument_${props.name}_button`}
@@ -82,14 +98,16 @@ export const TDBSubDocument = ({ extracted, expanded, comment, props, mode, link
       </Button>
       <Collapse in={open}>
         <div id={`root_subdocument_${props.name}`}>
-          <SubDocumentProperties properties={extracted.properties} 
+          {linked_to === subDocumentData[CONST.TYPE] && <SubDocumentProperties properties={extracted.properties} 
             required={extracted.required}
-            formData={props.formData}
+            //formData={props.formData}
             subDocumentPropertyName={props.name}
             propertyDocumentation={propertyDocumentation}
             onChange={props.onChange}
+            subDocumentData={subDocumentData} 
+            setSubDocumentData={setSubDocumentData}
             linked_to={linked_to}
-            mode={mode}/>
+            mode={mode}/>}
         </div>
       </Collapse>
     </Card>

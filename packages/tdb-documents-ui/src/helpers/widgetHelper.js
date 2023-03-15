@@ -72,4 +72,13 @@ export function getJSONUIDisplay(args, property) {
 
   return { "ui:field": displayJSONWidget }
 }
+
+// Choice Sub documents
+export function getChoiceSubDocumentUIDisplay(args, property) {
+  function displayChoiceSubDocumentWidget (props) {
+    return display.displayChoiceSubDocument(props, args, property)
+  }
+
+  return { "ui:field": displayChoiceSubDocumentWidget }
+}
  
