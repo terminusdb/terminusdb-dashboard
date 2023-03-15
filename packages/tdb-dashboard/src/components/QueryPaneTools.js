@@ -67,6 +67,12 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
             setCommitModal(false)
         } 
 
+        const onKeyPress  = (e) =>{
+            if (e.which === 13 /* Enter */) {
+                e.preventDefault()
+            }
+        }
+
         return <Modal centered size="sm" show={commitModal} onHide={(e) => setCommitModal(false)}>
         <Modal.Header>
             <Modal.Title className="h6">This query contain's an Update</Modal.Title>
@@ -75,10 +81,10 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
         <Modal.Body className="p-5">
             <h6>Enter an optional reason for update here</h6>
 
-        <Form>
+        <Form onKeyPress={onKeyPress}>
         <Form.Group className="mb-3">
             <InputGroup>
-            <Form.Control type="text" placeholder={COMMIT_TEXT_AREA.placeholder}/>
+            <Form.Control  type="text" placeholder={COMMIT_TEXT_AREA.placeholder}/>
             </InputGroup>
         </Form.Group>
         </Form>
@@ -97,7 +103,9 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
         <Row className="w-100"> 
             <Col md={10}>
 
-                <TDBToggleButtonGroup selected={queryObj.editorObj.language} type={"TOGGLE"} config={LANGUAGE_SWITCHER_BUTTON_GROUP} onClick={handleLanguageChange}/>
+                <TDBToggleButtonGroup selected={queryObj.editorObj.language} 
+                type={"TOGGLE"} config={LANGUAGE_SWITCHER_BUTTON_GROUP} 
+                onClick={handleLanguageChange}/>
 
                 <Button {...COPY_QUERY_CONFIG} className={"mr-1 mb-2 m-1  btn btn-light btn-sm"} onClick={(e) => copyToClipboard(queryObj.editorObj.text)}>
                     <i className={`${COPY_QUERY_CONFIG.icon} me-2`}/>{COPY_QUERY_CONFIG.label}  

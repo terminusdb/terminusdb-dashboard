@@ -13,8 +13,9 @@ import { ManageDatabase } from "../hooks/ManageDatabase"
 import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
 import {DocumentControlObj} from "../hooks/DocumentControlContext"
+import { UTILS } from "@terminusdb/terminusdb-client"
 
-export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, healthColor ,branches}) =>{
+export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setShowUpdate, healthColor ,branches}) =>{
     const {dataProduct,organization} =useParams()
     const [showHealth, setShowHealth]=useState(false)
     const [branchCount, setBranchCount]= useState(0)
@@ -61,20 +62,33 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
 		const orgName = cloneInTeam.current.value
         const dbName = cloneDBName.current.value
 		
-		const tmpClient = woqlClient.copy()
-		const connection = tmpClient.connectionConfig
-		connection.api_extension = `${organization}/`
-		
-		const cloneSource= {
-			label:dataProduct,
-			comment:"please clone the db",
-			remote_url: `${connection.dbURLFragment()}`
-		}
-		const success = await cloneDatabase(cloneSource,orgName,dbName)
-		if(success){
-            window.location.replace(`/${orgName}/${dbName}`)
-		}
+        if(!UTILS.checkValidName(dbName)) {
+            setCloneError("The database name is mandatory and can only contain underscores and alphanumeric characters.")
+          
+        }else if(orgName === "false"){
+            setCloneError("Please select an organization from the list")
+        }else{
+            const tmpClient = woqlClient.copy()
+            const connection = tmpClient.connectionConfig
+            connection.api_extension = `${organization}/`
+            
+            const cloneSource= {
+                label:dbName,
+                comment:"please clone the db",
+                remote_url: `${connection.dbURLFragment()}`
+            }
+          //
+          
+          const success = await cloneDatabase(cloneSource,orgName,dbName)
+            if(success){
+                window.location.replace(`/${orgName}/${dbName}`)
+            }
+        }
 	}
+
+    const showUpdateHandler = () =>{
+        setShowUpdate(dataProductDetails)
+    }
     
     return <React.Fragment> 
         <HealthModal dataProduct={dataProduct} showHealth={showHealth} setShowHealth={setShowHealth}/>
@@ -128,8 +142,18 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, health
                         {/*<h6 className="text-break text-light">{getCloneUrl()}</h6>*/}
                     </span>
                 </span>
-        
-            
+                {accessControlDashboard && accessControlDashboard.createDB() && <Fragment>
+                    <div className="w-100 d-block align-items-center gx-0">
+                        <Button variant="secondary" 
+                            id="update_database"
+                            title={`Update Data Product ${dataProduct} info`} 
+                            className=" btn btn-lg h2 fw-bold w-100 mt-4"
+                            onClick={showUpdateHandler}>
+                             Update Dataproduct details 
+                        </Button>
+                    </div>
+                    </Fragment>
+                } 
             </Card.Body>
         </Card>
         <hr className="my-4 border-indigo dropdown-divider" role="separator"></hr>

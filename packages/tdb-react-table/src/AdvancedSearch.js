@@ -4,7 +4,7 @@ import {BootstrapConfig} from '@react-awesome-query-builder/bootstrap'
 //import "bootstrap/dist/css/bootstrap.css";
 // import {AntdConfig} from '@react-awesome-query-builder/antd';
 //'@react-awesome-query-builder/ui/css/styles.css';
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.css";
 import '@react-awesome-query-builder/bootstrap/css/styles.css';
 //import '@react-awesome-query-builder/ui/css/styles.css';
 //import {Query, Builder, BasicConfig, Utils as QbUtils} from 'react-awesome-query-builder';

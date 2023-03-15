@@ -5,8 +5,3 @@
     text-overflow: ellipsis;
     max-width: 200px;
 }
-
-.group {
-    background: transparent !important;
-    border: 1px solid #DCC896;
-}
