@@ -12,6 +12,8 @@ import {AboutDataProduct} from "../components/AboutDataProduct"
 import {DATA_PRODUCT_HEALTHY} from "./constants"
 import {Layout} from "./Layout"
 import {useParams} from 'react-router-dom'
+import {NewDatabaseModal} from "../components/NewDatabaseModal"
+
 //MAYBE WE CAN CREATE A VIEM MODE PAGE
 export const DataProductsHome = (props) => {  
     const {dataProduct,organization} = useParams()
@@ -20,6 +22,7 @@ export const DataProductsHome = (props) => {
     const [dataProductDetails, setDataProductDetails] = useState(false)
     const [dataProductSettings, setDataProductSettings] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [showDetailsToUpdate, setShowUpdate] = useState(false)
 
     const { 
          branches,
@@ -42,9 +45,11 @@ export const DataProductsHome = (props) => {
             updateTable()
         }
     }, [dataProduct,organization,woqlClient]) 
-    
+
     return  <Layout>
             <main className="content mr-3 ml-5">
+            { showDetailsToUpdate && <NewDatabaseModal  showModal={showDetailsToUpdate!==false} setShowModal={setShowUpdate} dbDetails={showDetailsToUpdate}/>}
+          
             <DeleteDatabaseModal showModal={showDeleteModal} 
                 setShowModal={setShowDeleteModal}  
                 dataProductDetails={dataProductDetails}/>
@@ -95,6 +100,7 @@ export const DataProductsHome = (props) => {
                     <Col xs={4}>
                         <AboutDataProduct branches={branches} dataProductDetails={dataProductDetails} 
                             setShowDeleteModal={setShowDeleteModal}
+                            setShowUpdate = {setShowUpdate}
                             healthColor={DATA_PRODUCT_HEALTHY}/>
                     </Col>
                     

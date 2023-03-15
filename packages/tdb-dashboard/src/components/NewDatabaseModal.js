@@ -13,68 +13,55 @@ import {Alerts} from "./Alerts"
 import {useNavigate,useParams} from "react-router-dom"
 import { UTILS } from "@terminusdb/terminusdb-client"
 import {Loading} from "../components/Loading"
-
-export const NewDatabaseModal = ({showModal, setShowModal}) => {
+import { ManageDatabase } from "../hooks/ManageDatabase"
+export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) => {
     const {
-        woqlClient, 
         reconnectToServer
     } = WOQLClientObj()
 
     const {organization} = useParams()
+    const {createDatabase,updateDatabase,error,loading,setError} = ManageDatabase()
 
-    const [loading, setLoading] = useState(false)
-    const [id, setID]=useState(false)
-    const [label, setLabel]=useState(false)
-    const [description, setDescription]=useState('')
-    const [reportAlert, setReportAlert]=useState(false)
+    const startid = dbDetails && dbDetails.name ? dbDetails.name : ''
+    const startlabel = dbDetails && dbDetails.label ? dbDetails.label : '' 
+    const startComment =  dbDetails && dbDetails.comment ? dbDetails.comment : '' 
+    const title = startid ? `Update the Dataproduct ${startid} details` : 'New Data Product'
+    const loadingMessage = startid ? `Updating ${startid}` : `Creating ${label}`
+    const defValueId = startid ? {style:{display:"none"}} : {}
+    const action = startid ? {onClick:handleUpdate} : {onClick:handleCreate}
+    const buttonLabel = startid ? "Update Dataproduct" : CREATE_NEW_DATA_PRODUCT_BUTTON.label 
 
+    const [id, setID]=useState(startid)
+    const [label, setLabel]=useState(startlabel)
+    const [description, setDescription]=useState(startComment)
+  
     let navigate = useNavigate();
 
-    function handleCreate () {
-        if(!UTILS.checkValidName(id)) {
-            setReportAlert("Id is mandatory and can only contain underscores and alphanumeric characters.")
-            return
-        }else if(!label) {
-            setReportAlert('Name cannot be empty')
-            return
-        }
+    
 
-        let dbInfo = {id: id, label: label, comment: description, organization:woqlClient.organization()}
-        if(woqlClient && dbInfo.id && dbInfo.label) {
-            setLoading(true)
-            woqlClient.createDatabase(dbInfo.id, dbInfo).then((res) => { 
-                reconnectToServer(dbInfo.id).then(()=>{
-                    navigate(`/${organization}/${dbInfo.id}`)                     
-                    setLoading(false)
-                    setShowModal(false)
-                    setReportAlert(false)
-                    //clear all the fields
-                    setID('');
-                    setLabel('');
-                    setDescription(''); 
-                })           
-                               
-            }).catch((err) => {
-                let errMsg = err
-                if(err.data && err.data["api:message"]){
-                    errMsg = err.data["api:message"]
-                }
-                let message=`Error in creating database ${dbInfo.label}. ${errMsg}`
-                setReportAlert(message)
-                setLoading(false)
-
-                //clear all the fields
-                setID('');
-                setLabel('');
-                setDescription('');
-            })
+    async function handleCreate () {
+        const result = await createDatabase(id,label,description)
+        if(result){
+            await reconnectToServer(id)
+            setShowModal(false)
+            navigate(`/${organization}/${id}`) 
         }
     }
+
+    async function handleUpdate () {
+        const result = await updateDatabase(label,description)
+        if(result){
+            dbDetails.label = label
+            dbDetails.comment = description
+            setShowModal(false)
+        }
+    }
+
 
     function handleOnBlur (e) {
         e.preventDefault()
         e.stopPropagation()
-        setReportAlert(false)
+        setError(false)
         if(e.target.id == newDataProductForm.id.id)
             setID(e.target.value)
         else if (e.target.id == newDataProductForm.label.id)
@@ -92,28 +79,32 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
  
     function handleClose (e) {
         if(setShowModal) setShowModal(false)
-    
-        setReportAlert(false)
+        setError(false)
     }
     
     
     return <Modal onClick={onClickPrevent} size="lg" className="modal-dialog-right" show={showModal} onHide={handleClose}>
         <Modal.Header>
-            <Modal.Title className="h6">{/*<FaPlus className="me-2 mr-3"/>*/} New Data Product </Modal.Title>
+            <Modal.Title className="h6">{/*<FaPlus className="me-2 mr-3"/>*/}{title} </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
-        {loading && <div style={{height: "300px"}}><Loading message={`Creating ${label} ...`}/></div>}
+        {loading && <div style={{height: "300px"}}><Loading message={loadingMessage}/></div>}
         <Modal.Body className="p-5">
-            {reportAlert && <Alerts message={reportAlert} type={TERMINUS_DANGER}/>}
+            {!loading && error && <Alerts message={error} type={TERMINUS_DANGER} onCancel={()=>{setError(false)}}/>}
             {!loading && <Form >
-                <Form.Group className="mb-3">
-                    <Form.Control required id={newDataProductForm.id.id} type={"text"} onBlur={handleOnBlur} placeholder={newDataProductForm.id.placeholder} />
+                <Form.Group className="mb-3" {...defValueId}>
+                    <Form.Control required id={newDataProductForm.id.id} 
+                        type={"text"} 
+                        defaultValue={id}
+                        onBlur={handleOnBlur} 
+                        placeholder={newDataProductForm.id.placeholder} />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Control  required id={newDataProductForm.label.id} type={"text"} onBlur={handleOnBlur} placeholder={newDataProductForm.label.placeholder} />
+                    <Form.Control  defaultValue={label}
+                    required id={newDataProductForm.label.id} type={"text"} onBlur={handleOnBlur} placeholder={newDataProductForm.label.placeholder} />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Control  id={newDataProductForm.description.id} as="textarea"  onBlur={handleOnBlur} rows="5" placeholder={newDataProductForm.description.placeholder} />
+                    <Form.Control  defaultValue={description} id={newDataProductForm.description.id} as="textarea"  onBlur={handleOnBlur} rows="5" placeholder={newDataProductForm.description.placeholder} />
                 </Form.Group>
             </Form>}
         </Modal.Body>
@@ -121,9 +112,9 @@ export const NewDatabaseModal = ({showModal, setShowModal}) => {
               <button title={IconBarConfig.dataProductView.title}  
                     className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info" 
                     to={IconBarConfig.dataProductView.path} 
-                    onClick={(e) => handleCreate()}
+                    {...action}
                     id="create_data_product_button">
-                    <BiPlus className="mr-1" size="1em"/>{CREATE_NEW_DATA_PRODUCT_BUTTON.label}
+                    <BiPlus className="mr-1" size="1em"/>{buttonLabel}
                </button>
         </Modal.Footer>
     </Modal>
