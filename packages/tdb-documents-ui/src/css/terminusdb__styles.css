@@ -52,6 +52,11 @@ label.control-label {
   width: var(--tdb-label-width);
 }
 
+/** tdb add array button */
+.tdb__add__button {
+  margin-left: var(--tdb-label-width);
+}
+
 /** react calander */
 .react-calendar {
   background-color: var(--input-calander-color);

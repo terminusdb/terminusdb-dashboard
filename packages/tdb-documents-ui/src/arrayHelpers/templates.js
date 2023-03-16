@@ -54,7 +54,7 @@ export function ArrayFieldTemplate(args, props, property) {
 	var variant="dark"
   let label=props.title  
 	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
-	return  <div className={`${props.className} w-100`}>
+	return  <div className={`${props.className} w-100 mb-3`}>
 		<TDBLabel name={label} 
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
@@ -111,12 +111,10 @@ export function ArrayFieldTemplate(args, props, property) {
 			})} 
 
 		{props.canAdd && (
-			<div className="row">
-				<p className="col-xs-3 col-xs-offset-9 array-item-add text-right"> 
-					<Button data-cy={`add_${label}`} variant="light" className="btn-sm text-dark" type="button" onClick={props.onAddClick}>
+			<div>
+					<Button data-cy={`add_${label}`} variant="light" className=" tdb__add__button btn-sm text-dark" type="button" onClick={props.onAddClick}>
 						<BiPlus className="mr-2"/> <label>{`Add `} {label}</label>
 					</Button> 
-				</p>
 			</div>
 		)}
   </div>
