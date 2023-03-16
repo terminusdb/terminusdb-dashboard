@@ -1,7 +1,6 @@
 import { makeMandatoryFrames } from "./mandatoryFrames"
 import { makeOptionalFrames } from "./optionalFrames"
-import { makeSetFrames } from "./setFrames"
-import { makeListFrames } from "./listFrames"
+import { makeArrayFrames } from "./arrayFrames"
 import * as util from "./utils"
 import * as CONST from "./constants"
 
@@ -48,6 +47,7 @@ export function getProperties (args) {
 		else if(property === CONST.UNFOLDABLE) continue
 		else if(property === CONST.METADATA) continue
 		else if(util.isMandatory(documentFrame, property)) {
+			// MANDATORY FRAMES
 			let mandatoryFrames=makeMandatoryFrames(args, property) 
 			//set property layout & uiLayout
 			properties[property] = mandatoryFrames.layout
@@ -56,6 +56,7 @@ export function getProperties (args) {
 			required.push(property)
 		}
 		else if(util.isOptional(documentFrame, property)) { 
+			// OPTIONAL FRAMES
 			let extractedFrames = util.extractFrames(documentFrame, property)
 			// make a copy
 			let argsHolder = {...args}
@@ -67,38 +68,20 @@ export function getProperties (args) {
 			properties[property] = optionalFrames.layout
 			propertiesUI[property] = optionalFrames.uiLayout
 		}
-		else if(util.isSet(documentFrame, property)) { 
+		else if(util.isArrayType(documentFrame, property)) {
+			// SET/ LIST/ ARRAY FRAMES
 			let extractedFrames = util.extractFrames(documentFrame, property)
 			// make a copy
 			let argsHolder = {...args}
-			let documentFrameHolder=argsHolder.documentFrame
 			argsHolder.documentFrame=extractedFrames
+			// getProperties will make set definitions available in reference
 			let dataFrames = getProperties(argsHolder)
-			// place back original document frames
-			//argsHolder.documentFrame=documentFrameHolder 
-			//let setFrames = makeSetFrames(argsHolder, dataFrames, property) 
-
-			let setFrames = makeSetFrames(args, property) 
+			let arrayFrames = makeArrayFrames(args, property, util.getArrayType(documentFrame, property)) 
 		 
 			//set property layout & uiLayout
-			properties[property] = setFrames.layout
-			propertiesUI[property] = setFrames.uiLayout
+			properties[property] = arrayFrames.layout
+			propertiesUI[property] = arrayFrames.uiLayout
 		}
-		/*else if(util.isList(documentFrame, property)) { 
-			let extractedFrames = util.extractFrames(documentFrame, property)
-			// make a copy
-			let argsHolder = {...args}
-			let documentFrameHolder=argsHolder.documentFrame
-			argsHolder.documentFrame=extractedFrames
-			let dataFrames = getProperties(argsHolder)
-			// place back original document frames
-			argsHolder.documentFrame=documentFrameHolder 
-			let listFrames = makeListFrames(argsHolder, dataFrames, property) 
-		 
-			//set property layout & uiLayout
-			properties[property] = listFrames.layout
-			propertiesUI[property] = listFrames.uiLayout
-		}*/
 	}
 
 	let layout = {

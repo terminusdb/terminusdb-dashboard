@@ -16,6 +16,7 @@ export const isMandatory = (frame, property) => {
 		if(field[CONST.TYPE] === CONST.OPTIONAL) return false
 		if(field[CONST.TYPE] === CONST.SET) return false
 		if(field[CONST.TYPE] === CONST.LIST) return false
+		if(field[CONST.TYPE] === CONST.ARRAY) return false
 	}
 	return true
 }
@@ -35,32 +36,24 @@ export const isMandatory = (frame, property) => {
 	return false
 }
 
-
 /**
  * 
  * @param {*} frame - sub frame of properties
  * @param {*} property - property 
- * @returns true if property is Set 
+ * @returns true if property is SET/ LIST/ ARRAY 
  */
- export const isSet = (frame, property) => {
+export const isArrayType = (frame, property) => { 
 	let field=frame[property]
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(field.hasOwnProperty("@type") && field["@type"] === CONST.SET)  return true
+	if(typeof field !== CONST.OBJECT_TYPE) return false 
+	if(field.hasOwnProperty(CONST.TYPE)) {
+		if(field[CONST.TYPE] === CONST.SET || 
+			field[CONST.TYPE] === CONST.LIST ||
+			field[CONST.TYPE] === CONST.ARRAY) return true
+	}
 	return false
 }
 
-/**
- * 
- * @param {*} frame - sub frame of properties
- * @param {*} property - property 
- * @returns true if property is list 
- */
- export const isList = (frame, property) => {
-	let field=frame[property]
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(field.hasOwnProperty("@type") && field["@type"] === CONST.LIST)  return true
-	return false
-}
+
 
 /***  ------ util functions to check type of property ------ */
 
@@ -146,6 +139,25 @@ export const isDataType = (field) => {
 		return false
 	}
 	return false
+}
+
+/**
+ * 
+ * @param {*} frame - sub frame of properties
+ * @param {*} property - property 
+ * @returns type of array - if property is SET/ LIST/ ARRAY 
+ */
+ export const getArrayType = (frame, property) => { 
+	let field=frame[property]
+	if(typeof field !== CONST.OBJECT_TYPE) {
+		throw new Error (`Expected Array Frames to be an object, instead received ${field}`)
+	}
+	if(!field.hasOwnProperty(CONST.TYPE)) {
+		throw new Error (`Expected Array Frames to have @type defined, instead received ${field}`)
+	}
+	if(field[CONST.TYPE] === CONST.SET) return CONST.SET
+	if(field[CONST.TYPE] === CONST.LIST) return CONST.LIST
+	if(field[CONST.TYPE] === CONST.ARRAY) return CONST.ARRAY
 }
 
 

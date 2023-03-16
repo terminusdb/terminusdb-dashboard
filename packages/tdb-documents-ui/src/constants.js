@@ -10,6 +10,7 @@ export const CONFIG="@config"
 export const OPTIONAL="Optional"
 export const SET="Set"
 export const LIST="List"
+export const ARRAY="Array"
 export const ENUM="Enum"
 export const SUBDOCUMENT="@subdocument"
 
