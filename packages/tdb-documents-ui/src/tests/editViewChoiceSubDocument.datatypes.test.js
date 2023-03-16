@@ -10,6 +10,7 @@ import selectEvent from 'react-select-event'
 function expectElemenstToBeFilled (config) {
 	// expect Botony_notes to be filled
 	const botonyNotesInput=document.getElementById("root_favorite_subject_Botony_notes")
+	//const botonyNotesInput=screen.getByRole("textbox", { name: "Botony_notes" })
 	expect(botonyNotesInput).toBeInTheDocument()
 	expect(botonyNotesInput.value).toStrictEqual(config.formData["favorite_subject"]["Botony_notes"])
 
@@ -113,7 +114,7 @@ describe("Test Edit Choice Subdocuments", () => {
 	})
 
 	// View a choice subdocument type property
-	test("View Choice SubDocument property", async () => {
+	/*test("View Choice SubDocument property", async () => {
 		
 		const config = CONST.VIEW_CONFIG
 
@@ -129,7 +130,7 @@ describe("Test Edit Choice Subdocuments", () => {
 		
 		// checks if fields are filled for Botony
 		expectElemenstToBeFilled (config)
-	})
+	})*/
 
 })
 

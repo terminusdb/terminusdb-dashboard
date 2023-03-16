@@ -1,4 +1,4 @@
-import React from "react"
+import React, {  useState } from "react"
 import * as util from "../utils"
 import { TDBInput } from "../widgets/inputWidgets"
 import { TDBBoolean } from "../widgets/booleanWidget"
@@ -7,7 +7,7 @@ import { TDBEnum } from "../widgets/enumWidget"
 import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 import * as TYPE from "../dataType.constants"
 import { getPlaceholder } from "../helpers/placeholderHelper"
-import { TDBSubDocument } from "../widgets/subDocumentWidget"
+import { TDBSubDocument, populateSubDocumentData } from "../widgets/subDocumentWidget"
 import { TDBDocument } from "../widgets/documentWidget"
 import { TDBMarkdown } from "../widgets/markdownWidget"
 import { TDBJSON } from "../widgets/JSONWidget"
@@ -119,24 +119,29 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
   return display(config)
 }
 
-// SUBDOCUMENTs
-export function displaySubDocument(props, args, extracted, property, expanded) { 
+// SUBDOCUMENTs 
+export function displaySubDocument(props, args, extracted, property, expanded, id, hideFieldLabel, linked_to) { 
 
-  let { fullFrame, extractedDocumentation, mode, type, documentFrame } = args
-  //let field = documentFrame[property]
+  let { fullFrame, extractedDocumentation, mode, type,  } = args
+ 
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
-  // checks for metaData => render_as { expanded: true/ false }
-  // will decide to expand subdocuments accordingly 
+  // constants to control sub document data 
+  let populated = populateSubDocumentData(mode, linked_to, props.formData)
+  const [subDocumentData, setSubDocumentData] = useState(populated)
+  
 
-  // add logic for required properties 
+  // add logic for required properties  
   return  <TDBSubDocument extracted={extracted} 
-    id={props.idSchema["$id"]}
+    id={id}
+    hideFieldLabel={hideFieldLabel}
     expanded={expanded}
+    subDocumentData={subDocumentData} 
+    setSubDocumentData={setSubDocumentData}
     comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
     propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
-    linked_to={type}
+    linked_to={linked_to}
     props={props}/>
 }
 
@@ -203,13 +208,19 @@ export function displayJSON(props, args, property) {
 }
 
 // CHOICE SUB DOCUMENTS 
-export function displayChoiceSubDocument (props, args, property) {
-  let { fullFrame, mode, documentFrame, reference } = args
+export function displayChoiceSubDocument (props, args, property, id) {
+  //let { fullFrame, mode, documentFrame, reference } = args
   //let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
   //let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
 
-  // add logic for required properties 
+  //const [extractedData, setExtractedData] = useState(props.formData ? props.formData : {})
+  const [choiceSubDocumentData, setChoiceSubDocumentData] = useState(props.formData ? props.formData : {})
+
+  // add logic for required properties  
   return  <TDBChoiceDocuments args={args}
     property={property}
+    choiceSubDocumentData={choiceSubDocumentData} 
+    setChoiceSubDocumentData={setChoiceSubDocumentData}
+    id={id}
     props={props}/>
 }

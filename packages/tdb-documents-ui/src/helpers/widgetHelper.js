@@ -34,12 +34,14 @@ export function extractPropertyDocumentation(extractedDocumentation, selectedLan
 
 // SUBDOCUMENT UI
 export function getSubDocumentUIDisplay (args, extracted, property, expanded) {
+  let { type } = args
 
   // at this point extracted will have all of the extracted documents from linked_to
   function displaySubDocumentWidget(props) {
-    return display.displaySubDocument(props, args, extracted, property, expanded)
+    let id = props.idSchema["$id"], linked_to=type
+    return display.displaySubDocument(props, args, extracted, property, expanded, id, null, linked_to)
   }
-  
+   
   return  { "ui:field": displaySubDocumentWidget }
 }
 
@@ -76,7 +78,8 @@ export function getJSONUIDisplay(args, property) {
 // Choice Sub documents
 export function getChoiceSubDocumentUIDisplay(args, property) {
   function displayChoiceSubDocumentWidget (props) {
-    return display.displayChoiceSubDocument(props, args, property)
+    let id = props.idSchema["$id"]
+    return display.displayChoiceSubDocument(props, args, property, id)
   }
 
   return { "ui:field": displayChoiceSubDocumentWidget }

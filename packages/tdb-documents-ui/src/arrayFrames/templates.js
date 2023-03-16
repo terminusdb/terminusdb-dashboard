@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { BiPlus } from "react-icons/bi"
 import Stack from "react-bootstrap/Stack"
 import Form from "react-bootstrap/Form"
@@ -11,21 +11,42 @@ import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "./fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 
-// gets form data per field
-function getFormData (fieldData, property) {
-	return fieldData[property]
-	if(element.children.props.formData && 
-		element.children.props.formData.hasOwnProperty(CONST.TYPE)){
-		return element.children.props.formData
+// custom display of elements based on schema
+const GetFieldDisplay = ({ args, props, element, id, property }) => {
+
+	function handleFieldChange(data, fieldName) {
+		//console.log("data", data, fieldName) 
+		element.children.props.onChange(data)
 	}
-	else return element.children.props.formData
+
+	function fieldDisplay() {
+		let placeholder=getPlaceholder(args.documentFrame[property]) 
+		let newProps = { 
+			dataType: placeholder,
+			name: property,
+			formData: element.children.props.formData,
+			mode: args.mode,
+			id: id, 
+			placeholder: placeholder, 
+			className: "tdb__doc__input",
+			hideFieldLabel: true,
+			onChange: handleFieldChange,
+			hideFieldLabel: true
+		}  
+
+		return getDisplay(newProps, args, property)
+
+	}
+
+	return <span>
+		{fieldDisplay()}
+	</span>
 }
 
-
-
+ 
 // EDIT or CREATE MODE
 // Array field templates for lists and sets 
-export function ArrayFieldTemplate(args, props, fieldDisplay, property) { 
+export function ArrayFieldTemplate(args, props, property) { 
 
 	let { extractedDocumentation } = args
 
@@ -37,14 +58,23 @@ export function ArrayFieldTemplate(args, props, fieldDisplay, property) {
 		<TDBLabel name={label} 
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
+		
 		{props.items &&
 			props.items.map((element, index) => {
-				let id = `${props.idSchema["$id"]}_${CONST.SET}_${index}`
+				//let id = `${props.idSchema["$id"]}_${CONST.SET}_${index}`
+			
+				let id = `${element.children.props.idSchema["$id"]}__${element.index}`
 				return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
-					{<div className="w-100">
-						{fieldDisplay}
-						{/*getFieldDisplay(args, property, element, id)*/}
+				
+					{<div className="w-100"> 
+						{/** display custom elements  */}
+						{<GetFieldDisplay args={args} 
+							props={props} 
+							element={element} 
+							id={id} 
+							property={property}/>}
 					</div>}
+
 					{element.hasMoveDown && (
 						<Button variant={variant} 
 							className="mb-3 tdb__array__item__list bg-transparent border-0" 
@@ -57,6 +87,7 @@ export function ArrayFieldTemplate(args, props, fieldDisplay, property) {
 							<FaArrowDown className="text-light" style={{fontSize: "20px"}}/>
 						</Button>
 					)}
+
 					{element.hasMoveUp && (
 						<Button variant={variant} title="Move Up"  
 							id={`MoveDown_${id}`} 

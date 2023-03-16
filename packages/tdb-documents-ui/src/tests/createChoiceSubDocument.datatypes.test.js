@@ -43,7 +43,7 @@ describe("Test Choice Subdocuments", () => {
 		
 		// add Botony_notes 
 		const botonyNotesInput=document.getElementById("root_favorite_subject_Botony_notes")
-		expect(botonyNotesInput).toBeInTheDocument()
+		await expect(botonyNotesInput).toBeInTheDocument()
 		fireEvent.change(botonyNotesInput, {target: {value: config.input["favorite_subject"]["Botony_notes"]}})
 		
 		// add Botony_grade
@@ -61,7 +61,7 @@ describe("Test Choice Subdocuments", () => {
 		// check if submit button is available
 		expect(submitButton).toBeInTheDocument()
 		// click on submit button 
-		await userEvent.click(submitButton)
+		await userEvent.click(submitButton) 
 
 		return data 
   };

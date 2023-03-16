@@ -9,13 +9,12 @@ import { getPlaceholder } from "./helpers/placeholderHelper"
 import { getDisplay } from "./arrayFrames/fieldDisplay"
 
 // get each field display 
-function getFieldDisplay (args, property) {
+function getFieldDisplay (args, props, property) {
 
-	const [fd, setFD] = useState("")
 
-	function handleFieldChange(data, fieldName) {
-		console.log("data //// ", fieldName, data)
-		setFD(data)
+	function handleFieldChange(data, fieldName, something) {
+		console.log("data //// ", fieldName, data, something)
+		//if(props)
 	}
 	
 
@@ -23,10 +22,10 @@ function getFieldDisplay (args, property) {
 	let newProps = { 
 		dataType: placeholder,
 		name: property,//props.title,
-		formData: fd,
+		//formData: "",
 		//formData: fieldData,//getFormData(fieldData, property), 
 		mode: args.mode,
-		//id: id, 
+		id: props.idSchema["$id"], 
 		placeholder: placeholder, 
 		className: "tdb__doc__input",
 		hideFieldLabel: true,
@@ -50,26 +49,25 @@ function getFieldDisplay (args, property) {
  */  
 export function makeSetFrames(args, property)  { 
     
-	let { mode, documentFrame } = args
+	let { mode, documentFrame, fullFrame } = args
 
 	/** gather layout of property  */ 
 	let layout = { 
 		"type": CONST.ARRAY_TYPE,  
-		"title": property,
+		"title": property, 
 		"minItems": helper.getSetMinItems(),
-		"items": { type: CONST.STRING_TYPE /* [CONST.STRING_TYPE, CONST.OBJECT_TYPE] */},
+		"items": { type: typeHelper (documentFrame, property, fullFrame) },// { type: [CONST.STRING_TYPE, CONST.OBJECT_TYPE] },
 		[CONST.PLACEHOLDER]: getPlaceholder(args.documentFrame[property]) ,
 	} 
-
+ 
 	let argsHolder = {...args}
 
 	argsHolder.documentFrame[property] = documentFrame[property].hasOwnProperty(CONST.CLASS) ? 
 		documentFrame[property][CONST.CLASS] : documentFrame[property]
  
 	function showEachField(props) {
-		let test = getFieldDisplay(args, property)
-		return template.ArrayFieldTemplate(args, props, test, property)
-	}
+		return template.ArrayFieldTemplate(args, props, property)
+	} 
 
   let uiLayout={}
 	

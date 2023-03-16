@@ -20,7 +20,7 @@ const setupCreate = async(config) => {
     //console.log("submittedData///" , submittedData)
     data=submittedData
     return data 
-  }
+  } 
 
   // render FrameViewer 
   const { container } = render(<FrameViewer frame={config.frame}
@@ -39,7 +39,7 @@ const setupCreate = async(config) => {
   await userEvent.click(button)
 
   // enter 1st 
-  const nameInput_0 = document.getElementById(`root_name_Set_0`) 
+  const nameInput_0 = document.getElementById(`root_name_0__0`) 
   // check if name input is available
   await expect(nameInput_0).toBeInTheDocument()
   // clear 
@@ -51,7 +51,7 @@ const setupCreate = async(config) => {
   // click on Add name button
   await userEvent.click(button)
 
-  const nameInput_1 = document.getElementById(`root_name_Set_1`) 
+  const nameInput_1 = document.getElementById(`root_name_1__1`) 
   // check if name input is available
   await expect(nameInput_1).toBeInTheDocument()
   // clear 
@@ -63,7 +63,7 @@ const setupCreate = async(config) => {
   // click on Add name button
   await userEvent.click(button)
 
-  const nameInput_2 = document.getElementById(`root_name_Set_2`) 
+  const nameInput_2 = document.getElementById(`root_name_2__2`) 
   // check if name input is available
   await expect(nameInput_2).toBeInTheDocument()
   // clear 

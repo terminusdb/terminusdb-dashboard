@@ -6,7 +6,7 @@ import * as CONST from "../constants"
 export const getDisplay = (props, args, property) => {
   let { fullFrame, reference, documentFrame } =  args
 
-  let field = documentFrame[property]
+  let field = documentFrame[property] 
 
   if(util.isDataType(field)) {
     //displayDataTypesWidget(props, args, property, dataType, id, onChange)
@@ -14,17 +14,25 @@ export const getDisplay = (props, args, property) => {
   } 
   else if(util.isSubDocumentType(field)){
     // SUBDOCUMENT TYPE
-    // make a copy of args
+    let id = props.id, linked_to=field[CONST.CLASS]
+    let extracted=args.reference[linked_to], hideFieldLabel = true // hide label for set
+    let expanded=util.checkIfSubDocumentShouldBeExapnded(documentFrame, property) 
+    // set default expanded as true for now
+    return display.displaySubDocument(props, args, extracted, property, true, id, hideFieldLabel, linked_to)
   }
   else if(util.isDocumentType(field, fullFrame)) {
     // DOCUMENT LINKS
-    let linked_to = field 
+    /*let linked_to = field 
     // at this point we will have reference available for linked_to
     let extracted=args.reference[field]
-    return display.displayDocumentLink(props, args, extracted, property, linked_to)
+    return display.displayDocumentLink(props, args, extracted, property, linked_to) */
   }
   else if(util.isEnumType(field)) {
   }
   else if(util.isSysJSONDataType(field)) {
+  }
+  else if(util.isChoiceSubDocumentType(field)) {
+    let id = props.id
+    //return display.displayChoiceSubDocument(props, args, property, id)
   }
 }

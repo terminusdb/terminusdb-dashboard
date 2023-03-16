@@ -278,6 +278,16 @@ export function fetchMetaData(documentFrame, property) {
 	return false
 }
 
+export function checkIfSubDocumentShouldBeExapnded(documentFrame, property) {
+	// check for SubDocument MetaData
+	let metaDataType=fetchMetaData(documentFrame, property), expanded = false
+	if(metaDataType) {
+		// expecting JSON at this point
+		expanded=metaDataType
+	}
+	return expanded
+}
+
 /** ENUM DOCUMENTATION */
 export const extractEnumComment = (fullFrame, enumDocumentClass, options, property) => {
 	if(!fullFrame.hasOwnProperty(enumDocumentClass)) {

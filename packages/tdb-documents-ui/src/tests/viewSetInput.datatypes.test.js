@@ -26,21 +26,21 @@ import {logRoles} from '@testing-library/dom';
 
 		
 		// 1st entry
-    const nameInput_0 = document.getElementById(`root_name_Set_0`) 
+    const nameInput_0 = document.getElementById(`root_name_0__0`) 
     // check if name input is available
     await expect(nameInput_0).toBeInTheDocument()
     // check if it has filled value  
     await expect(nameInput_0.value).toStrictEqual(CONST.VIEW_CONFIG.formData["name"][0])
 
     // 2nd entry
-    const nameInput_1 = document.getElementById(`root_name_Set_1`) 
+    const nameInput_1 = document.getElementById(`root_name_1__1`) 
     // check if name input is available
     await expect(nameInput_1).toBeInTheDocument()
     // check if it has filled value  
     await expect(nameInput_1.value).toStrictEqual(CONST.VIEW_CONFIG.formData["name"][1])
 
     // 3rd entry
-    const nameInput_2 = document.getElementById(`root_name_Set_2`) 
+    const nameInput_2 = document.getElementById(`root_name_2__2`) 
     // check if name input is available
     await expect(nameInput_2).toBeInTheDocument()
     // check if it has filled value  

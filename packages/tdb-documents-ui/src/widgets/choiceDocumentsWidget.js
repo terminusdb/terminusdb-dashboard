@@ -18,10 +18,9 @@ function getChoices(documentFrame, property) {
   return options
 }
 
-const DisplaySelectedSubDocument = ({ props, selected, args }) => {
+const DisplaySelectedSubDocument = ({ props, selected, args, id, choiceSubDocumentData, setChoiceSubDocumentData }) => {
   let { reference, mode, fullFrame } = args
-  const [extractedData, setExtractedData] = useState(props.formData ? props.formData : {})
-
+  
   if(!selected) return <div/>
 
   function handleChoiceDocumentChange (data, fieldName) {
@@ -36,13 +35,16 @@ const DisplaySelectedSubDocument = ({ props, selected, args }) => {
     required: props.required,
     name: props.name,
     onChange: handleChoiceDocumentChange,
-    formData: extractedData
-  }
+    formData: choiceSubDocumentData
+  } 
   //{ extracted, expanded, comment, props, hideFieldLabel, mode, linked_to, propertyDocumentation }
   return <Card.Body>
     <TDBSubDocument extracted={extracted} 
       //id={props.idSchema["$id"]}
+      id={id}
       expanded={true}
+      subDocumentData={choiceSubDocumentData} 
+      setSubDocumentData={setChoiceSubDocumentData}
       //comment={documentation.comment ? documentation.comment : null} 
       mode={mode}
       hideFieldLabel={true}
@@ -52,27 +54,30 @@ const DisplaySelectedSubDocument = ({ props, selected, args }) => {
   </Card.Body>
 }
 
-export const TDBChoiceDocuments = ({ args, props, property }) => {
+export const TDBChoiceDocuments = ({ args, props, property, id, choiceSubDocumentData, setChoiceSubDocumentData }) => { 
   
   const [selected, setSelected]=useState(props.formData ? props.formData["@type"] : false)
   let { documentFrame } = args
 
   function handleChoiceSelect(chosen) {
-    if(chosen) setSelected(chosen)
+    if(chosen) setSelected(chosen) 
   }
 
   let choices = getChoices(documentFrame, property)
 
   return <Stack direction="horizontal"  className="mb-3">
-    <TDBLabel name={property} required={props.required} id={props.idSchema["$id"]}/>
-    <Card bg="secondary" className="w-100 p-3">
+    <TDBLabel name={property} required={props.required} id={id} hideFieldLabel={props.hideFieldLabel}/>
+    <Card bg="secondary" className="w-100 p-3" key={id}>
       <SelectComponent options={choices} 
         placeholder={`Select choices ...`}
-        value={getDefaultValue(choices, selected)}
-        id={props.idSchema["$id"]}
+        value={getDefaultValue(choices, selected)} 
+        id={id}
         onChange={handleChoiceSelect}/>
       <DisplaySelectedSubDocument props={props} 
         selected={selected} 
+        choiceSubDocumentData={choiceSubDocumentData} 
+        setChoiceSubDocumentData={setChoiceSubDocumentData}
+        id={id}
         args={args} />
     </Card>
   </Stack>

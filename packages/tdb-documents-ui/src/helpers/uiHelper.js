@@ -58,6 +58,8 @@ export const uiHelper = (args, property) => {
       let field = documentFrame[property]
       let config=constructSubDocumentConfig(argsHolder, property, field)
       extracted=getProperties(config)
+      // add extracted to references
+      addToReference(args, extracted, linked_to)
     }
     else {
       // reference available 
@@ -65,14 +67,8 @@ export const uiHelper = (args, property) => {
     }
     // add extracted documentation 
     extracted.extractedDocumentation=argsHolder.extractedDocumentation
-
-    // check for SubDocument MetaData
-    let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
-    if(metaDataType) {
-      // expecting JSON at this point
-      expanded=metaDataType
-    }
-
+    let expanded=util.checkIfSubDocumentShouldBeExapnded(documentFrame, property) 
+    
     return widget.getSubDocumentUIDisplay(argsHolder, extracted, property, expanded)
   }
   else if(util.isDocumentType(field, fullFrame)) {

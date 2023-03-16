@@ -9,7 +9,6 @@ export const TDBInput = ({ id, name, value, required, hideFieldLabel, mode, plac
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
 
-
   return <Stack direction="horizontal">
     <TDBLabel name={label ? label : name} 
       required={required} 

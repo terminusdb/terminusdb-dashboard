@@ -5,7 +5,7 @@
 export const CHOICE_SUBDOCUMENT_DATA_TYPE_FRAME = {
 	"@context": {
 		"@base": "terminusdb:///data/",
-		"@schema": "terminusdb:///schema#",
+		"@schema": "terminusdb:///schema#", 
 		"@type": "Context",
 		"xsd": "http://www.w3.org/2001/XMLSchema#"
 	},
