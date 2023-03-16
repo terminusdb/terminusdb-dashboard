@@ -46,6 +46,24 @@ export function getProperties (args) {
 		else if(property === CONST.SUBDOCUMENT) continue
 		else if(property === CONST.UNFOLDABLE) continue
 		else if(property === CONST.METADATA) continue
+		// check if first Array Type - because as of now we treat geo jsons separately
+		// to know if a property is part pf geo json we check if frame is inherrited from 
+		// Geo JSON constants - if inheritted from these constants then we treact such documents
+		// as mandatory frames 
+		if(util.isArrayType(documentFrame, property)) {
+			// SET/ LIST/ ARRAY FRAMES
+			let extractedFrames = util.extractFrames(documentFrame, property)
+			// make a copy
+			let argsHolder = {...args}
+			argsHolder.documentFrame=extractedFrames
+			// getProperties will make set definitions available in reference
+			let dataFrames = getProperties(argsHolder)
+			let arrayFrames = makeArrayFrames(args, property, util.getArrayType(documentFrame, property)) 
+		 
+			//set property layout & uiLayout
+			properties[property] = arrayFrames.layout
+			propertiesUI[property] = arrayFrames.uiLayout
+		}
 		else if(util.isMandatory(documentFrame, property)) {
 			// MANDATORY FRAMES
 			let mandatoryFrames=makeMandatoryFrames(args, property) 
@@ -67,20 +85,6 @@ export function getProperties (args) {
 			//set property layout & uiLayout
 			properties[property] = optionalFrames.layout
 			propertiesUI[property] = optionalFrames.uiLayout
-		}
-		else if(util.isArrayType(documentFrame, property)) {
-			// SET/ LIST/ ARRAY FRAMES
-			let extractedFrames = util.extractFrames(documentFrame, property)
-			// make a copy
-			let argsHolder = {...args}
-			argsHolder.documentFrame=extractedFrames
-			// getProperties will make set definitions available in reference
-			let dataFrames = getProperties(argsHolder)
-			let arrayFrames = makeArrayFrames(args, property, util.getArrayType(documentFrame, property)) 
-		 
-			//set property layout & uiLayout
-			properties[property] = arrayFrames.layout
-			propertiesUI[property] = arrayFrames.uiLayout
 		}
 	}
 

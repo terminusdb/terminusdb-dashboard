@@ -1,6 +1,7 @@
 // constants 
 export const TYPE="@type"
 export const CLASS="@class"
+export const INHERITS="@inherits"
 
 // info constanst to help with rjsf forms
 export const PLACEHOLDER="@placeholder"
@@ -75,8 +76,46 @@ export const LIST_UI_ARRAY_OPTIONS = {
 }
 
 // hide all controls for array types
-export const SET_UI_HIDDEN_ARRAY_OPTIONS= {
+export const UI_HIDDEN_ARRAY_OPTIONS= {
   addable: false,
   orderable: false,
   removable: false
 }
+
+// GEO JSON constants
+export const DIMENSIONS="@dimensions"
+export const GEOJSON="GeoJSON"
+export const GEOMETRY="Geometry"
+export const GEOJSON_ARRAY_TYPES=[ GEOJSON, GEOMETRY ]
+
+// react leaflet constants
+export const LNG="lng"
+export const LAT="lat"
+export const REFRESH="refresh"
+
+// geo JSON constants 
+export const POINT="Point"
+export const LINE_STRING_TYPE="LineString"
+export const POLYGON="Polygon"
+export const MULTIPOLYGON="MultiPolygon"
+export const POLYLINE="Polyline"
+export const GEOMETRY_COLLECTION="GeometryCollection"
+export const FEATURE_COLLECTION="FeatureCollection"
+export const GEOMETRIES="geometries"
+export const FEATURE="feature"
+export const B_BOX="bbox"
+
+// map icon component
+import L from "leaflet";
+
+export default L.icon({
+    iconSize: [25, 41],
+    iconAnchor: [10, 41],
+    popupAnchor: [2, -40],
+    iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+})
+
+// DIMENSION DEFINITIONS
+export const POINT_TYPE_DIMENSIONS=1
+export const LINE_STRING_TYPE_DIMENSIONS=2 

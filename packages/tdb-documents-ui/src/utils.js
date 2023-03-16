@@ -16,7 +16,10 @@ export const isMandatory = (frame, property) => {
 		if(field[CONST.TYPE] === CONST.OPTIONAL) return false
 		if(field[CONST.TYPE] === CONST.SET) return false
 		if(field[CONST.TYPE] === CONST.LIST) return false
-		if(field[CONST.TYPE] === CONST.ARRAY) return false
+		if(field[CONST.TYPE] === CONST.ARRAY) {
+			// return true if geo json else false
+			return isInherritedFromGeoJSONTypes(frame)
+		}
 	}
 	return true
 }
@@ -46,9 +49,17 @@ export const isArrayType = (frame, property) => {
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return false 
 	if(field.hasOwnProperty(CONST.TYPE)) {
-		if(field[CONST.TYPE] === CONST.SET || 
-			field[CONST.TYPE] === CONST.LIST ||
-			field[CONST.TYPE] === CONST.ARRAY) return true
+		// return true for SETs/ LIST
+		if(field[CONST.TYPE] === CONST.SET || field[CONST.TYPE] === CONST.LIST ) return true
+		if(field[CONST.TYPE] === CONST.ARRAY) {
+			// check if frame is inherrited from Geo JSON constants 
+			if(frame.hasOwnProperty(CONST.INHERITS)) {
+				// return false if not geoJSON types
+				if(isInherritedFromGeoJSONTypes(frame)) return false
+				else return true
+			}
+			return true 
+		}
 	}
 	return false
 }
@@ -311,3 +322,25 @@ export const extractEnumComment = (fullFrame, enumDocumentClass, options, proper
   let extractedDocumentation = extractDocumentation(fullFrame, enumDocumentClass, language)
 	return getLabelFromEnumDocumentation(property, extractedDocumentation, options)
 }	
+
+/** Geo JSON util functions */
+
+export function isPointType (field) {
+	if(field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.ARRAY && 
+		field.hasOwnProperty(CONST.DIMENSIONS) && 
+		field[CONST.DIMENSIONS] === CONST.POINT_TYPE_DIMENSIONS) {
+			return true
+	}
+	return false
+}
+
+/***
+ * checks if frame is inherrited from geo json types
+ */
+export function isInherritedFromGeoJSONTypes(frame) {
+	if(!frame.hasOwnProperty(CONST.INHERITS)) return false
+	return frame[CONST.INHERITS].every(item => {
+		return CONST.GEOJSON_ARRAY_TYPES.includes(item);
+	});
+}

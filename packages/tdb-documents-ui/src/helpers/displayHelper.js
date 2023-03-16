@@ -12,6 +12,7 @@ import { TDBDocument } from "../widgets/documentWidget"
 import { TDBMarkdown } from "../widgets/markdownWidget"
 import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
+import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
 
 /** displays widgets according to dataType */
@@ -223,4 +224,27 @@ export function displayChoiceSubDocument (props, args, property, id) {
     setChoiceSubDocumentData={setChoiceSubDocumentData}
     id={id}
     props={props}/>
+}
+
+// POINT DOCUMENTS 
+export function displayPointDocument (props, args, property, id) {
+
+
+  let { mode, extractedDocumentation } = args 
+
+  //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+
+  let config = {
+    name: props.name,
+    formData: props.formData,
+    mode: mode,
+    label: documentation.label,
+    comment: documentation.comment ? documentation.comment : null,
+    id: id,
+    className: "tdb__doc__input",
+    required: props.required
+  }
+
+  return <TDBPointDocuments config={config}/>
 }

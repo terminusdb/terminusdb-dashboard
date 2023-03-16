@@ -24,7 +24,7 @@ function getMinItemsToDisplay (arrayType) {
  * 
  * @param {*} arrayType - SET/ LIST/ ARRAY
  * @param {*} mode - Create/ Edit or View mode
- * @returns if View mode then return CONST.SET_UI_HIDDEN_ARRAY_OPTIONS where add/ delete/ order
+ * @returns if View mode then return CONST.UI_HIDDEN_ARRAY_OPTIONS where add/ delete/ order
  * components are not displayed
  * For Create/ Edit mode, check the type of array. If type is LIST/ ARRAY then 
  * return CONST.LIST_UI_ARRAY_OPTIONS where ordering components are displayed
@@ -32,7 +32,7 @@ function getMinItemsToDisplay (arrayType) {
  * are NOT displayed
  */
 function getUIArrayOptions (arrayType, mode) {
-  if(mode === CONST.VIEW) return CONST.SET_UI_HIDDEN_ARRAY_OPTIONS
+  if(mode === CONST.VIEW) return CONST.UI_HIDDEN_ARRAY_OPTIONS
   return arrayType===CONST.SET ? CONST.SET_UI_ARRAY_OPTIONS : CONST.LIST_UI_ARRAY_OPTIONS 
 }
 

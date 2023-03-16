@@ -3,6 +3,7 @@
   --input-border: 1px solid rgb(102, 102, 102);
   --required-color: #6c757d;
   --tdb-label-width: 10rem;
+  --tdb-latlng-label-width: 5rem;
   --input-calander-color: #000;
   --rounded: 0.375rem;
 }
@@ -31,6 +32,16 @@ label.control-label {
   word-break: break-all;
   min-width: var(--tdb-label-width);
   width: var(--tdb-label-width);
+}
+
+/** labels for latitude & longitude */
+label.latlng-control-label {
+  text-align:left; 
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  word-break: break-all;
+  min-width: var(--tdb-latlng-label-width);
+  width: var(--tdb-latlng-label-width);
 }
 
 /** required */

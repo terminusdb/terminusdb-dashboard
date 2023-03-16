@@ -36,6 +36,12 @@ export function makeMandatoryFrames (args, property) {
     //[CONST.METADATA]: util.fetchMetaData(documentFrame, property)
   } 
 
+  if(util.isInherritedFromGeoJSONTypes(documentFrame)) {
+    // GEO JSON types so set items in layout 
+    layout["items"]= { type: CONST.STRING_TYPE }
+    layout["minItems"] = 2
+  }
+
   let uiLayout = uiHelper(args, property)
   
   return { layout, uiLayout }

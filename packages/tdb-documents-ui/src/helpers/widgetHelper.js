@@ -1,6 +1,6 @@
 import React from "react"
 import * as CONST from "../constants"
-
+import * as geoTemplate from "../arrayHelpers/geoJSONTemplates"
 import * as display from "./displayHelper"
 
 
@@ -84,4 +84,29 @@ export function getChoiceSubDocumentUIDisplay(args, property) {
 
   return { "ui:field": displayChoiceSubDocumentWidget }
 }
- 
+
+// POINT GEO JSONs
+export function getPointUIDisplay (args, property) {
+
+  let { mode } = args
+
+  if(mode === CONST.VIEW) {
+    function displayPointUI(props) {
+      let id = props.idSchema["$id"]
+      return display.displayPointDocument(props, args, property, id)
+    }
+    return { "ui:field": displayPointUI }
+  }
+
+  function showPointUI(props) {
+    let argsHolder = {...args}
+    argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
+		return geoTemplate.PointFieldTemplate(argsHolder, props, property)
+	} 
+
+
+  return {
+    "ui:options": CONST.UI_HIDDEN_ARRAY_OPTIONS,
+    "ui:ArrayFieldTemplate" : showPointUI
+  }
+}
