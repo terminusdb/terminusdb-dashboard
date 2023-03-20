@@ -325,6 +325,45 @@ export const extractEnumComment = (fullFrame, enumDocumentClass, options, proper
 
 /** Geo JSON util functions */
 
+// get min items to display 
+export function getMinItems(documentFrame, property) {
+	let dimension = documentFrame[property][CONST.DIMENSIONS]
+	if(dimension === CONST.POINT_TYPE_DIMENSIONS) {
+		//@dimension = 1
+		if(property === CONST.B_BOX) return CONST.BBOX_MIN_ITEMS
+		return CONST.POINT_MIN_ITEMS
+	}
+}
+
+// setBounds converts geo json bound to bounds format supported in leaflet 
+export function setBounds(data) {
+	if(data.length<4) return []
+	//[west, south, east, north]
+	let westSouth=[data[0], data[1]]
+	let eastNorth=[data[2], data[3]]
+	let bounds=[westSouth, eastNorth]
+	return bounds
+}
+
+// get bbox label based on index 
+export function getBBoxLabel(index) {
+	if(index === 0) return "left"
+	else if (index === 1) return "bottom"
+	else if (index === 2) return "right"
+	else return "top"
+}
+
+// sets b_box from tdb to react leaflet b_box
+export function checkIfBoundsAvailable(frame, formData) {
+	if(frame.hasOwnProperty(CONST.B_BOX) && 
+		frame[CONST.B_BOX][CONST.DIMENSIONS] === 1 && 
+		formData.hasOwnProperty(CONST.B_BOX))  {
+			return setBounds(formData[CONST.B_BOX])
+		}
+	return []
+}
+
+// checks if field is point type
 export function isPointType (field) {
 	if(field.hasOwnProperty(CONST.TYPE) && 
 		field[CONST.TYPE] === CONST.ARRAY && 
@@ -334,6 +373,15 @@ export function isPointType (field) {
 	}
 	return false
 }
+
+// checks if field is binding box type
+export function isBBoxType(field, property) {
+	if(property === CONST.B_BOX) {
+		return isPointType (field)
+	}
+	return false
+}
+
 
 /***
  * checks if frame is inherrited from geo json types

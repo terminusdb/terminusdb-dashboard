@@ -6,12 +6,11 @@ import { MapViewer } from "../mapComponents/mapViewer"
 import * as CONST from "../constants"
 import * as util from "../utils"
 
-export const TDBPointDocuments = ({ config }) => {
+export const TDBBBoxDocuments = ({ config }) => {
 
   let mapConfig = { 
-    type: CONST.POINT,
-    documents: config.formData,
-    bounds: config.bounds
+    type: CONST.B_BOX,
+    documents: util.setBounds(config.formData)
   }
 
   return <Stack direction="horizontal"  className="mb-3">
@@ -21,3 +20,5 @@ export const TDBPointDocuments = ({ config }) => {
     <MapViewer mapConfig={mapConfig}/>
   </Stack>
 }
+
+//onChange={ (event) => onChange(event.target.value, name) } />

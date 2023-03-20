@@ -26,11 +26,9 @@ export const pointMapViewer = (args) => {
 	
 		const map = L.map(`map-leaflet-id-${mapID}`, mapOptions) 
 
-        // set center of maps 
+    // set bounds if available
 		if(bounds && Array.isArray(bounds) && bounds.length > 0){
-			map.setView(bounds, 5) 
 			map.fitBounds(bounds)
-			map.flyToBounds(bounds)
 		}
 
 		const tileLayer =  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

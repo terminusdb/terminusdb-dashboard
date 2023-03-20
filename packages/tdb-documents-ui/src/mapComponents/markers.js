@@ -40,7 +40,7 @@ export function customMarkerOptions (icon) {
 
 
 
-const MarkerInfo = ({clicked}) => {
+const MarkerInfo = ({ clicked }) => {
 	let info = []
 	for(var thing in clicked) {
 		if(thing === "@type") continue

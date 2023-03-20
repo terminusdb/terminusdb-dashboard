@@ -238,11 +238,11 @@ export const GEO_JSON_FRAME = {
 		],
 		"@type": "Class",
 		"@unfoldable": [],
-		/*"bbox": {
+		"bbox": {
 			"@class": "xsd:decimal",
 			"@dimensions": 1,
 			"@type": "Array"
-		},*/
+		},
 		"coordinates": {
 			"@class": "xsd:decimal",
 			"@dimensions": 1,
@@ -295,34 +295,40 @@ export const GEO_JSON_FRAME = {
 	}
 }
 
+/** ----- POINT TYPE ------------- */
 // expected data on Create 
 // database stores decimals in the form strings under the hood
 // so we make string comparisons
+
+/** ----- POINT TYPE ------------- */
 export const POINT_DATA_TYPE_CREATE_DATA = {
 	"@type": "Point",
+	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
 	"coordinates": [
-		"53.34393439514184",
-		"-6.254528686083641"
+		"51.4974896136178", 
+		"-0.13607115537826134"
 	],
 	"type": "Point"
-} 
+}
 
 export const POINT_DATA_TYPE_EDIT_DATA_ORIGINAL = {
 	"@id": "Point/f5d210ec6071a06b312dd1f7c6173eee1099ce52046755ca8153aa0c37d98948",
 	"@type": "Point",
+	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
 	"coordinates": [
-		"53.34393439514184",
-		"-6.254528686083641"
+		"51.4974896136178", 
+		"-0.13607115537826134"
 	],
 	"type": "Point"
-} 
+}
 
 export const POINT_DATA_TYPE_EDIT_DATA = {
 	"@id": "Point/f5d210ec6071a06b312dd1f7c6173eee1099ce52046755ca8153aa0c37d98948",
 	"@type": "Point",
-	"coordinates": [ 
-		"27.103096853590444",
-		"17.376148189841988"
+	"bbox": ["50.505", "-29.09", "52.505", "29.09"],
+	"coordinates": [
+		"51.4974896136178", 
+		"-0.13607115537826134"
 	],
 	"type": "Point"
 }
@@ -337,21 +343,12 @@ export const POINT_CREATE_CONFIG = {
 	mode: "Create"
 }
 
-// edit config 
+// create config 
 export const POINT_EDIT_CONFIG = {
 	frame: GEO_JSON_FRAME, 
 	uiFrame: {},
 	type: "Point",
 	formData: POINT_DATA_TYPE_EDIT_DATA_ORIGINAL,
 	input: POINT_DATA_TYPE_EDIT_DATA,
-	mode: "Edit"
-}
-
-// view config 
-export const POINT_VIEW_CONFIG = {
-	frame: GEO_JSON_FRAME, 
-	uiFrame: {},
-	type: "Point",
-	formData: POINT_DATA_TYPE_EDIT_DATA,
-	mode: "View"
+	mode: "Create"
 }

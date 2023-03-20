@@ -116,6 +116,10 @@ export default L.icon({
     shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 })
 
+// MIN ITEMS PER DIMENSIONS
+export const BBOX_MIN_ITEMS=4
+export const POINT_MIN_ITEMS=2
+
 // DIMENSION DEFINITIONS
 export const POINT_TYPE_DIMENSIONS=1
 export const LINE_STRING_TYPE_DIMENSIONS=2 

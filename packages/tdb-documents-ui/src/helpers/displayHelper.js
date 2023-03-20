@@ -13,6 +13,7 @@ import { TDBMarkdown } from "../widgets/markdownWidget"
 import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
 import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
+import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
 
 /** displays widgets according to dataType */
@@ -230,9 +231,35 @@ export function displayChoiceSubDocument (props, args, property, id) {
 export function displayPointDocument (props, args, property, id) {
 
 
-  let { mode, extractedDocumentation } = args 
+  let { mode, extractedDocumentation, documentFrame, formData } = args 
+
+  
+  let bounds= util.checkIfBoundsAvailable( documentFrame, formData)
 
   //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+
+  let config = {
+    name: props.name,
+    formData: props.formData,
+    mode: mode,
+    label: documentation.label,
+    comment: documentation.comment ? documentation.comment : null,
+    id: id,
+    className: "tdb__doc__input",
+    required: props.required,
+    bounds: bounds
+  }
+
+  return <TDBPointDocuments config={config}/>
+}
+
+// B_BOX 
+export function displayBBoxDocument (props, args, property, id) {
+
+
+  let { mode, extractedDocumentation, documentFrame, formData } = args 
+
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
 
   let config = {
@@ -246,5 +273,5 @@ export function displayPointDocument (props, args, property, id) {
     required: props.required
   }
 
-  return <TDBPointDocuments config={config}/>
+  return <TDBBBoxDocuments config={config}/>
 }

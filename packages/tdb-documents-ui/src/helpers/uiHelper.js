@@ -140,6 +140,9 @@ export const uiHelper = (args, property) => {
     
     return widget.getChoiceSubDocumentUIDisplay(args, property)
   }
+  else if(util.isBBoxType(field, property)){
+    return widget.getBBoxUIDisplay(args, property)
+  }
   else if (util.isPointType(field)) {
     return widget.getPointUIDisplay(args, property)
   } 

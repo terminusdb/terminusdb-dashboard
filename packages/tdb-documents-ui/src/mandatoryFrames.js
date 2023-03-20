@@ -39,7 +39,7 @@ export function makeMandatoryFrames (args, property) {
   if(util.isInherritedFromGeoJSONTypes(documentFrame)) {
     // GEO JSON types so set items in layout 
     layout["items"]= { type: CONST.STRING_TYPE }
-    layout["minItems"] = 2
+    layout["minItems"] = util.getMinItems(documentFrame, property)
   }
 
   let uiLayout = uiHelper(args, property)

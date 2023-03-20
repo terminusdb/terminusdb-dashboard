@@ -93,7 +93,9 @@ export function getPointUIDisplay (args, property) {
   if(mode === CONST.VIEW) {
     function displayPointUI(props) {
       let id = props.idSchema["$id"]
-      return display.displayPointDocument(props, args, property, id)
+      if(props.formData && props.formData.includes(undefined)) 
+        return <div className={`tdb__${props.name}__hidden`}/>
+      else return display.displayPointDocument(props, args, property, id)
     }
     return { "ui:field": displayPointUI }
   }
@@ -108,5 +110,31 @@ export function getPointUIDisplay (args, property) {
   return {
     "ui:options": CONST.UI_HIDDEN_ARRAY_OPTIONS,
     "ui:ArrayFieldTemplate" : showPointUI
+  }
+}
+
+// BINDING BOX 
+export function getBBoxUIDisplay (args, property) { 
+  let { mode } = args
+
+  if(mode === CONST.VIEW) {
+    function displayBBoxUI(props) {
+      let id = props.idSchema["$id"]
+      if(props.formData && props.formData.includes(undefined)) 
+        return <div className={`tdb__${props.name}__hidden`}/>
+      else return display.displayBBoxDocument(props, args, property, id)
+    }
+    return { "ui:field": displayBBoxUI }
+  }
+
+  function showBBoxUI(props) {
+    let argsHolder = {...args}
+    argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
+		return geoTemplate.BBoxFieldTemplate(argsHolder, props, property)
+	}  
+
+  return {
+    "ui:options": CONST.UI_HIDDEN_ARRAY_OPTIONS,
+    "ui:ArrayFieldTemplate" : showBBoxUI
   }
 }
