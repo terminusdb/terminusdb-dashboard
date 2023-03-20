@@ -7,7 +7,6 @@ function InitComponent () {
 
     let config = {
         server:  process.env.SERVER,
-        user: process.env.USER,
         team: process.env.TEAM,
         token: process.env.TOKEN,
         dataProduct: process.env.DATA_PRODUCT

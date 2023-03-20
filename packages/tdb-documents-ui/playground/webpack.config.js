@@ -33,11 +33,11 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      "@terminusdb/terminusdb-documents-ui": path.resolve('./src/index.js')
+      "@terminusdb/terminusdb-documents-ui": path.resolve('./src/index.js'),
       //"@terminusdb/terminusdb-documents-ui": path.join(__dirname, '..', 'src/index.js'),
       //"@rjsf/core": path.resolve('../react-jsonschema-form/packages/core/src/index.js'),
       //"@rjsf/core": path.join(__dirname, '..', src, '/index.js'),
-      //react: path.resolve('./node_modules/react')
+     // react: path.resolve('./node_modules/react')
     },
     extensions: ['.js', '.jsx', '.json', '.css'],
   },

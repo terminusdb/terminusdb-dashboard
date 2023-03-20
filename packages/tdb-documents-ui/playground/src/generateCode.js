@@ -30,7 +30,6 @@ export async function getFrames (client, dataProduct, setFrames) {
 /* Connect to TerminusDB using TerminusDB Client */
 const initClient = async (setFrames, setConnectionError)=>{
     const client = new TerminusDBClient.WOQLClient(process.env.SERVER/process.env.TEAM, {
-        user: process.env.USER,
         organization: process.env.TEAM
     })
     client.setApiKey(process.env.TOKEN)
@@ -112,7 +111,6 @@ export async function getFrames (client, dataProduct, setFrames) {
 /* Connect to TerminusDB using TerminusDB Client */
 const initClient = async (setFrames, setConnectionError)=>{
     const client = new TerminusDBClient.WOQLClient(process.env.SERVER/process.env.TEAM, {
-        user: process.env.USER,
         organization: process.env.TEAM
     })
     client.setApiKey(process.env.TOKEN)
@@ -193,7 +191,6 @@ export async function getFrames (client, dataProduct, setFrames) {
 /* Connect to TerminusDB using TerminusDB Client */
 const initClient = async (setFrames, setConnectionError)=>{
     const client = new TerminusDBClient.WOQLClient(process.env.SERVER/process.env.TEAM, {
-        user: process.env.USER,
         organization: process.env.TEAM
     })
     client.setApiKey(process.env.TOKEN)

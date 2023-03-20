@@ -3,6 +3,7 @@ const TerminusDBClient = require("@terminusdb/terminusdb-client")
 export const InitContext = React.createContext()
 export const InitObj = () => useContext(InitContext)
 import {getFrames} from "./utils"
+import schema from './schema.json'
 import {MANDATORY, MANDATORY_DOCUMENT, DIFF_VIEWER} from "./menu.constants"
 import {CREATE} from "./constants"
 import {
@@ -48,12 +49,19 @@ export const InitProvider = ({children, config}) => {
     /* Connect to TerminusDB using TerminusDB Client */
     const initClient = async (setFrames, setConnectionError)=>{
         const client = new TerminusDBClient.WOQLClient(`${config.server}${config.team}/`, {
-            user: config.user,
+       //     user: config.user,
             organization: config.team
         })
         client.setApiKey(config.token)
-        client.db(config.dataProduct)
-        getFrames (client, config.dataProduct, setFrames, setConnectionError)
+        let dbName = localStorage.getItem("data_product")
+        if (dbName == null) {
+            dbName = `playground${crypto.randomUUID()}`
+            localStorage.setItem("data_product", dbName)
+            await client.createDatabase(dbName, {label: "playground", comment: "playground"})
+            await client.addDocument(schema, {"graph_type":"schema", "full_replace": true}, dbName, "add new schema")
+        }
+        client.db(dbName)
+        getFrames (client, dbName, setFrames, setConnectionError)
         setTDBClient(client)
     }
 
