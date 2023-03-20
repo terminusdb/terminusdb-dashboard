@@ -127,12 +127,14 @@ export const DocumentControlProvider = ({children}) => {
         // only if I'm in change request mode 
         // I do not need to reload because the schema can not change
         //if(!currentChangeRequest || documentTablesConfig === null) 
-        getGraphqlTableConfig()
-        getUpdatedFrames()
         // we need in edit/insert
-        if(id) {         
-            let documentID=decodeUrl(id)
-            getDocument(documentID)
+        if(id || changeid) {              
+            getUpdatedFrames()  
+            if(id){
+                getGraphqlTableConfig()
+                let documentID=decodeUrl(id)
+                getDocument(documentID)
+            }
         }
     },[id,changeid])
 
@@ -143,7 +145,8 @@ export const DocumentControlProvider = ({children}) => {
             setError(false)
             const clientCopy = woqlClient.copy()
             clientCopy.connectionConfig.api_extension = 'api/'
-            const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+           // const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+            const baseUrl = clientCopy.connectionConfig.branchBase("tables")
             clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
                 setDocumentTablesConfig(result)  
             }).catch(err=>{
