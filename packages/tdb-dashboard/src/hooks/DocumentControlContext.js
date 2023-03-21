@@ -49,6 +49,7 @@ export const DocumentControlProvider = ({children}) => {
         try{
         // to be review I'm adding get table config here
             if(woqlClient){
+                setDocumentClasses(false)
                 setLoading(true)
                 setError(false)
                 const dataProduct = woqlClient.db()
@@ -68,6 +69,9 @@ export const DocumentControlProvider = ({children}) => {
     // I need to reload the class too
     async function getDocNumber(){
         try{
+            setDocumentClasses(false)
+            setTotalDocumentCount(false)
+            setPerDocument(false)
             setLoading(true)
             setError(false)
             // I need to reload because I do not know if this can change
@@ -140,6 +144,7 @@ export const DocumentControlProvider = ({children}) => {
 
 
     function getGraphqlTableConfig ( ){
+        setDocumentTablesConfig(null)
         if(woqlClient){
             setLoading(true)
             setError(false)
@@ -157,6 +162,7 @@ export const DocumentControlProvider = ({children}) => {
     }
 
     function getUpdatedFrames() {
+        setFrames(null)
         if(woqlClient){
             setLoading(true)
             setError(false)
