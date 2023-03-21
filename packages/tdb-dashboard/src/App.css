@@ -1283,6 +1283,11 @@ button.graphiql-tab-add>svg
   margin-top: -20px;
 }
 
+
+/* advanced search css */
+.query-builder-container > .query-builder {
+  overflow: unset !important;
+}
 .group {
   background: transparent !important;
   border: 1px solid #dee2e6;
@@ -1300,6 +1305,14 @@ button.graphiql-tab-add>svg
     min-height: 40px !important;
     /* background: transparent !important; */
     color: black;
+}
+
+.widget--widget >.dropdown > .form-select{
+  min-width: 100px;
+  line-height: 1.5 !important;
+  min-height: 40px !important;
+  /* background: transparent !important; */
+  color: black;
 }
 
 .rule--operator > .dropdown > .form-select {

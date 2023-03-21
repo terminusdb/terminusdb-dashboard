@@ -70,18 +70,18 @@ describe('visit dashboard dev', () => {
             // add document
         cy.get('input#id').type(docName).trigger('change');
             //save document
-        cy.get('input#schema_save_description').type(commit_message_doc).trigger('change');
+        cy.get('input#schema_save_description').type(commit_message_doc).blur();
         cy.get('#schema_save_button').click();
 
         cy.get(`#${docName}`).click()
         cy.get('div.RRT__showmore').click()
         cy.get('#tab-2').click()
         cy.get('#tab-2').should('have.class', 'RRT__tab--selected').should("contain","Properties")
-        cy.get('#add_property').click()
+        cy.get('#add_property').find('.dropdown-toggle').click()
         cy.get('#StringProperty').click()
             // add string property
         cy.get('input#id').type(stringProperty).trigger('change');
-        cy.get('input#schema_save_description').type(commit_message_prop).trigger('change');
+        cy.get('input#schema_save_description').type(commit_message_prop).blur();
         cy.get('#schema_save_button').click();
         cy.get('#model_schema_left_panel_title').should("contain",`${dataProduct} - Schema`)    
   }) 
@@ -97,7 +97,7 @@ describe('visit dashboard dev', () => {
     cy.get('#home_open_create_new_branch_modal').click() 
 
      
-    cy.get('input#id').type(branchName).trigger('change');
+    cy.get('input#id').type(branchName).blur();
     cy.get('#create_new_branch_button').click()
     // check that the dataproduct is NOT in the dataproduct list
     cy.get("h5.fw-bold.text-success").should("contain" , branchName)
@@ -113,7 +113,7 @@ it('Check that the new branch has 2 commits', ()=>{
 
   it('Check that the new branch can be squashed', ()=>{
     cy.get('#squash_branch').click()
-    cy.get('input#squash').type(squash_commit_message).trigger('change');
+    cy.get('input#squash').type(squash_commit_message).blur();
     cy.get('#squash_branch_button').click()
     cy.wait(3000)
     cy.get('tbody').find('tr').should('have.length', 1)
@@ -123,7 +123,7 @@ it('Check that the new branch has 2 commits', ()=>{
 
   it('Check that the new branch can be deleted', ()=>{
     cy.get('#delete_branch').click()
-    cy.get('input#delete').type(branchName).trigger('change').blur()
+    cy.get('input#delete').type(branchName).blur()
     cy.get('#delete_branch_button').click()
     cy.get("h5.fw-bold.text-success").should("not.contain" , branchName)
   })

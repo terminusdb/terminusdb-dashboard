@@ -52,13 +52,13 @@ describe('visit dashboard dev', () => {
     }
 
     it('the user check can not visualize the dashboard, need to verify the email', ()=>{
-        cy.get('h1').should("contain","Please verify your email before going on!")
+        cy.get('h1').should("contain","Verify your Email")
     })
 
 
     it('check verification email has been sent and activate the account', ()=>{
       cy.mailslurp().then(mailslurp => mailslurp.waitForLatestEmail(inboxIdOwner, 30000, true))
-        .then(email => { expect(email.subject).to.contain("TerminusX Email Verification")
+        .then(email => { expect(email.subject).to.contain("TerminusCMS Email Verification")
         // get the verification link
         const link = email.body.match(/href="([^"]*)/)[1];
          // cy.origin('terminusdb.com', { args: { link } }, ({ link }) => {
