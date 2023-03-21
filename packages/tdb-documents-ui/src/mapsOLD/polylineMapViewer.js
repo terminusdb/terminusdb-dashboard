@@ -22,7 +22,7 @@ export const polylineMapViewer = (args) => {
 		let mapOptions = customMapOptions(zoom, center)
         let markerOptions= customMarkerOptions(icon)
 		
-		const map = L.map(`map-polyline-id-${mapID}`, mapOptions)
+		const map = L.map(`map-polyline-id-${mapID}`)
 
         // set center of maps 
 		if(bounds && Array.isArray(bounds) && bounds.length > 0){

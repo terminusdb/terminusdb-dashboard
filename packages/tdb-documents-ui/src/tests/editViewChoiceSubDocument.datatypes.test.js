@@ -7,11 +7,11 @@ import { logRoles } from '@testing-library/dom';
 import selectEvent from 'react-select-event'
 
 // checks if fields are filled
-function expectElemenstToBeFilled (config) {
-	// expect Botony_notes to be filled
+async function expectElemenstToBeFilled (config) {
+	// expect Botony_notes to be filled 
 	const botonyNotesInput=document.getElementById("root_favorite_subject_Botony_notes")
 	//const botonyNotesInput=screen.getByRole("textbox", { name: "Botony_notes" })
-	expect(botonyNotesInput).toBeInTheDocument()
+	await expect(botonyNotesInput).toBeInTheDocument()
 	expect(botonyNotesInput.value).toStrictEqual(config.formData["favorite_subject"]["Botony_notes"])
 
 	// expect Botony_grade to be filled
@@ -114,7 +114,7 @@ describe("Test Edit Choice Subdocuments", () => {
 	})
 
 	// View a choice subdocument type property
-	/*test("View Choice SubDocument property", async () => {
+	test("View Choice SubDocument property", async () => {
 		
 		const config = CONST.VIEW_CONFIG
 
@@ -130,7 +130,7 @@ describe("Test Edit Choice Subdocuments", () => {
 		
 		// checks if fields are filled for Botony
 		expectElemenstToBeFilled (config)
-	})*/
+	})
 
 })
 

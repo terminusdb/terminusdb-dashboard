@@ -5,78 +5,98 @@ import Stack from "react-bootstrap/Stack"
 import Card from "react-bootstrap/Card"
 import { SelectComponent, getDefaultValue  } from "../components/SelectComponent"
 import { TDBLabel } from "../components/LabelComponent"
-import { TDBSubDocument } from "./subDocumentWidget"
+import { TDBDocument } from "./documentWidget"
 import { extractPropertyDocumentation } from "../helpers/widgetHelper"
 
-function getChoices(documentFrame, property) {
-  let options = []
-  // documentFrame[property] will have choices
-  documentFrame[property].map ( docs => {
-    let documentChoice=docs[CONST.CLASS]
-    options.push({ value: documentChoice, label: documentChoice, color: "#adb5bd" })
-  })
-  return options
-}
-
-const DisplaySelectedSubDocument = ({ props, selected, args, id, choiceSubDocumentData, setChoiceSubDocumentData }) => {
-  let { reference, mode, fullFrame } = args
+const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, choiceDocumentData, setChoiceDocumentData }) => {
+  let { reference, mode, fullFrame, onSelect, onTraverse, documentFrame } = args
   
   if(!selected) return <div/>
 
   function handleChoiceDocumentChange (data, fieldName) {
-    setExtractedData(data)
+    // make sure data has @type same as that of selected 
+    // if not then we force at this point - logic for type is controlled in 
+    // choice documents rather than in TDB Document widget
+    data[CONST.TYPE]=selected
     if(props.onChange) props.onChange(data)
-    //console.log("onChange", data, fieldName)
   } 
+
 
   let extracted = util.availableInReference (reference, selected) ? reference[selected] : {}
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
   let config = {
-    required: props.required,
+    required: props.required, 
     name: props.name,
     onChange: handleChoiceDocumentChange,
-    formData: choiceSubDocumentData
+    formData: selected===choiceDocumentData[CONST.TYPE] ? choiceDocumentData : {}
   } 
-  //{ extracted, expanded, comment, props, hideFieldLabel, mode, linked_to, propertyDocumentation }
+ 
   return <Card.Body>
-    <TDBSubDocument extracted={extracted} 
-      //id={props.idSchema["$id"]}
-      id={id}
-      expanded={true}
-      subDocumentData={choiceSubDocumentData} 
-      setSubDocumentData={setChoiceSubDocumentData}
+    <TDBDocument extracted={extracted}  
+      linkId={props.hasOwnProperty("id") ? props["id"] : null}
       //comment={documentation.comment ? documentation.comment : null} 
       mode={mode}
       hideFieldLabel={true}
+      onSelect={onSelect}
+      clickedUnlinked={clickedUnlinked}
+      reference={reference}
+      onTraverse={onTraverse}
       propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
       linked_to={selected}
+      unfoldable={util.isUnfoldable(fullFrame[selected])}
       props={config}/>
   </Card.Body>
 }
 
-export const TDBChoiceDocuments = ({ args, props, property, id, choiceSubDocumentData, setChoiceSubDocumentData }) => { 
+function getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocumentData) {
+  let choices = util.getChoices(documentFrame, property)
+  if(mode === CONST.EDIT && !unlinked && choiceDocumentData.hasOwnProperty(CONST.TYPE)) {
+    // show only linked type here
+    // if user wants to change this user will have to unlink the document 
+    //to get both the choices back
+    choices = choices.filter (arr => arr.value === choiceDocumentData[CONST.TYPE])
+  }
+  //else if(mode === CONST.EDIT && unlinked) choices = util.getChoices(documentFrame, property)
+  return choices
+}
+
+export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentData, setChoiceDocumentData }) => { 
   
   const [selected, setSelected]=useState(props.formData ? props.formData["@type"] : false)
-  let { documentFrame } = args
+  const [unlinked, clickedUnlinked]=useState(false)
+  let { documentFrame, mode } = args
+  let displayChoices = getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocumentData)
+  const [choices, setChoices]= useState(displayChoices)
+
+  useEffect(() => {
+    if(unlinked) setChoices(util.getChoices(documentFrame, property))
+  }, [unlinked])
+
 
   function handleChoiceSelect(chosen) {
     if(chosen) setSelected(chosen) 
   }
 
-  let choices = getChoices(documentFrame, property)
-
+  let documentation = util.checkIfPropertyHasDocumentation (args.extractedDocumentation, property) 
+ 
+  
   return <Stack direction="horizontal"  className="mb-3">
-    <TDBLabel name={property} required={props.required} id={id} hideFieldLabel={props.hideFieldLabel}/>
+    <TDBLabel name={documentation.label ?  documentation.label : property} 
+      required={props.required} 
+      comment={documentation.comment} 
+      id={id} 
+      hideFieldLabel={props.hideFieldLabel}/>
     <Card bg="secondary" className="w-100 p-3" key={id}>
       <SelectComponent options={choices} 
         placeholder={`Select choices ...`}
         value={getDefaultValue(choices, selected)} 
         id={id}
-        onChange={handleChoiceSelect}/>
-      <DisplaySelectedSubDocument props={props} 
+        onChange={handleChoiceSelect}/> 
+      <DisplaySelectedDocument props={props} 
         selected={selected} 
-        choiceSubDocumentData={choiceSubDocumentData} 
-        setChoiceSubDocumentData={setChoiceSubDocumentData}
+        clickedUnlinked={clickedUnlinked}
+        choiceDocumentData={choiceDocumentData} 
+        setChoiceDocumentData={setChoiceDocumentData}
         id={id}
         args={args} />
     </Card>

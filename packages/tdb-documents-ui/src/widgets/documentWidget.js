@@ -10,7 +10,7 @@ import { CreateDocument } from "../components/CreateDocumentLink"
 import { EditDocument } from "../components/EditDocumentLink"
 import { ViewDocument } from "../components/ViewDocumentLink"
  
-export const TDBDocument = ({ extracted, reference, onTraverse, onSelect, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
+export const TDBDocument = ({ extracted, reference, clickedUnlinked, onTraverse, onSelect, hideFieldLabel, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
 
   let depth = 0 
 
@@ -21,7 +21,8 @@ export const TDBDocument = ({ extracted, reference, onTraverse, onSelect, unfold
     linkId={linkId}
     onSelect={onSelect}
     mode={mode}
-    reference={reference}
+    hideFieldLabel={hideFieldLabel}
+    reference={reference} 
     extracted={extracted}
     propertyDocumentation={propertyDocumentation}
     required={props.required} />
@@ -29,9 +30,11 @@ export const TDBDocument = ({ extracted, reference, onTraverse, onSelect, unfold
   if(mode === CONST.EDIT) return <EditDocument name={props.name} 
     onChange={props.onChange}
     linked_to={linked_to}
+    clickedUnlinked={clickedUnlinked}
     depth={depth}
     reference={reference}
     mode={mode}
+    hideFieldLabel={hideFieldLabel}
     onSelect={onSelect}
     onTraverse={onTraverse}
     unfoldable={unfoldable}
@@ -47,6 +50,7 @@ export const TDBDocument = ({ extracted, reference, onTraverse, onSelect, unfold
     depth={depth}
     reference={reference}
     onTraverse={onTraverse}
+    hideFieldLabel={hideFieldLabel}
     unfoldable={unfoldable}
     propertyDocumentation={propertyDocumentation}
     formData={props.formData}

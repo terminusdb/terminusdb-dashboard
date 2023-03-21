@@ -13,7 +13,7 @@ import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { UnlinkButton } from "./UnlinkButton"
 import { SearchExistingLink } from "./SearchExistingLink"
 
-const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, onTraverse, hideFieldLabel, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, clickedUnlinked }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -48,6 +48,7 @@ const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, set
           onSelect={onSelect}
           reference={reference}
           extracted={extracted}
+          hideFieldLabel={hideFieldLabel}
           onChange={handleChange}
           //comment={comment}  // review
           required={required} />) 
@@ -58,7 +59,9 @@ const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, set
             onChange={handleChange}
             linked_to={linked_to}
             mode={mode}
+            clickedUnlinked={clickedUnlinked}
             depth={cardKey}
+            hideFieldLabel={hideFieldLabel}
             onSelect={onSelect}
             reference={reference}
             onTraverse={onTraverse}
@@ -124,8 +127,12 @@ function getAction (formData, unfoldable) {
   return CONST.LINK_EXISTING_DOCUMENT
 }
 
-const EditHelper = ({ linked_to, cardKey, setDeleteLink }) => {
+const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {
   function handleDelete(e) {
+    // clickedUnlinked is set in the case of choice documents 
+    // where user has decided to unlink doc - after unlink is clicked all 
+    // other choices will appear in the select component 
+    if(clickedUnlinked) clickedUnlinked(Date.now())
     setDeleteLink(Number(e.target.id)) 
   }
   // <BsTrashFill className="text-danger"/>
@@ -139,7 +146,7 @@ const EditHelper = ({ linked_to, cardKey, setDeleteLink }) => {
 }
  
 // EDIT MODE
-export const EditDocument = ({ name, reference, onTraverse, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
+export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -154,10 +161,10 @@ export const EditDocument = ({ name, reference, onTraverse, onSelect, required, 
   //let depth=assignDepth(formData, 0, name)
 
   return <Stack direction="horizontal">
-    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"}/>
+    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>
     {deleteLink!==cardKey && <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
       <Card.Header>
-        <EditHelper linked_to={linked_to} cardKey={cardKey} setDeleteLink={setDeleteLink}/>
+        <EditHelper linked_to={linked_to} cardKey={cardKey} setDeleteLink={setDeleteLink} clickedUnlinked={clickedUnlinked}/>
       </Card.Header>
       <Card.Body>
         <DisplayFilledFrame action={action} 
@@ -166,6 +173,8 @@ export const EditDocument = ({ name, reference, onTraverse, onSelect, required, 
           required={required}
           onTraverse={onTraverse}
           mode={mode}
+          clickedUnlinked={clickedUnlinked}
+          hideFieldLabel={hideFieldLabel}
           cardKey={cardKey}
           unfoldable={unfoldable}
           reference={reference}

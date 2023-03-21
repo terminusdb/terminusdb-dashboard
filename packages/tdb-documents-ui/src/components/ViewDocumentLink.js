@@ -13,7 +13,7 @@ import { BsTrashFill } from "react-icons/bs"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 
-const DisplayFilledFrame = ({ documentData, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, hideFieldLabel, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -44,6 +44,7 @@ const DisplayFilledFrame = ({ documentData, reference, cardKey, onTraverse, setD
           onChange={handleChange}
           linked_to={linked_to}
           mode={mode}
+          hideFieldLabel={hideFieldLabel}
           depth={cardKey}
           reference={reference}
           unfoldable={unfoldable}
@@ -105,7 +106,7 @@ const ViewHelper = ({ linked_to }) => {
 }
  
 // VIEW MODE
-export const ViewDocument = ({ name, required, reference, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse }) => {
+export const ViewDocument = ({ name, required, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -114,7 +115,7 @@ export const ViewDocument = ({ name, required, reference, depth, comment, formDa
   if(mode === CONST.VIEW && !formData) return <div className={`tdb__${name}__hidden`}/>
 
   return <Stack direction="horizontal">
-    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"}/>
+    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>
     <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
       <Card.Header>
         <ViewHelper linked_to={linked_to}/>
@@ -130,6 +131,7 @@ export const ViewDocument = ({ name, required, reference, depth, comment, formDa
           linked_to={linked_to}
           cardKey={cardKey}
           reference={reference}
+          hideFieldLabel={hideFieldLabel}
           formData={formData}
           documentLinkPropertyName={name}
           documentData={documentData} 

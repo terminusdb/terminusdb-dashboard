@@ -16,7 +16,7 @@ export const TDBInput = ({ id, name, value, required, hideFieldLabel, mode, plac
       id={id} 
       hideFieldLabel={hideFieldLabel}/>
     {placeholder !== XSD_STRING &&  <input type="text"
-      id={id}
+      id={id}   
       name={id}
       className={`${className} rounded w-100 mb-3`}
       value={value}

@@ -38,8 +38,25 @@ export function makeMandatoryFrames (args, property) {
 
   if(util.isInherritedFromGeoJSONTypes(documentFrame)) {
     // GEO JSON types so set items in layout 
-    layout["items"]= { type: CONST.STRING_TYPE }
-    layout["minItems"] = util.getMinItems(documentFrame, property)
+    let field = documentFrame[property]
+    
+    if(util.isPointType(field)) {
+      // display 2 items for lat & lng for point
+      layout["items"]= { type: CONST.STRING_TYPE }
+      layout["minItems"] = util.getMinItems(documentFrame, property)
+    }
+    else if (util.isLineStringType(field)) {
+      layout["items"]= { 
+        "type": "array",
+        "items": { type: CONST.STRING_TYPE },
+        "minItems": 2
+      }
+      layout["additionalItems"]= { 
+        "type": "array",
+        "items": { type: CONST.STRING_TYPE },
+        "minItems": 2
+      }
+    } 
   }
 
   let uiLayout = uiHelper(args, property)

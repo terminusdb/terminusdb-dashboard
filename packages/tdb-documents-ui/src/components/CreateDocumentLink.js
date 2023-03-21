@@ -12,7 +12,7 @@ import { SearchExistingLink } from "./SearchExistingLink"
 import { DisplayDocumentation } from "../templates"
 
 // display based on action  
-const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
+const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
   let nextCreateLink =  false
 
@@ -48,6 +48,7 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDo
           linked_to={linked_to}
           propertyDocumentation={propertyDocumentation}
           mode={mode} 
+          hideFieldLabel={hideFieldLabel}
           linkId={linkId}
           onSelect={onSelect}
           depth={cardKey}
@@ -96,7 +97,7 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, onSelect, propertyDo
 }
  
 
-export const CreateDisplay = ({ name, linkPropertyComment, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
+export const CreateDisplay = ({ name, linkPropertyComment, reference, hideFieldLabel, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -106,6 +107,7 @@ export const CreateDisplay = ({ name, linkPropertyComment, reference, required, 
       required={required}
       linkId={linkId}
       linkPropertyComment={linkPropertyComment}
+      hideFieldLabel={hideFieldLabel}
       mode={mode}
       propertyDocumentation={propertyDocumentation}
       cardKey={cardKey}
@@ -128,7 +130,7 @@ function getID (linkId, depth) {
 }
  
 // CREATE MODE
-export const CreateDocument = ({ name, required, onSelect, reference, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
+export const CreateDocument = ({ name, required, onSelect, reference, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
 
   const [action, setAction] = useState(false)
   const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
@@ -142,7 +144,7 @@ export const CreateDocument = ({ name, required, onSelect, reference, linked_to,
   return <>
     <DisplayDocumentation documentation={propertyDocumentation}/>
     <Stack direction="horizontal">
-      <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"}/>
+      <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>
       <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
         <Card.Header>{getLinkedDescription (linked_to)}</Card.Header>
         <Card.Body>
@@ -152,6 +154,7 @@ export const CreateDocument = ({ name, required, onSelect, reference, linked_to,
             linked_to={linked_to} 
             extracted={extracted} 
             mode= {mode} 
+            hideFieldLabel={hideFieldLabel}
             linkId={linkId}
             propertyDocumentation={propertyDocumentation}
             reference={reference}

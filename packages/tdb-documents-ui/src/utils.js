@@ -143,9 +143,27 @@ export const isDataType = (field) => {
  */
  export const isChoiceSubDocumentType = (field) => {
 	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(Array.isArray(field) && field.length > 0) {
+	if(Array.isArray(field) && field.length) {
 		let props=field[0]
 		if(props.hasOwnProperty(CONST.CLASS) && props.hasOwnProperty(CONST.SUBDOCUMENT))
+			return true
+		return false
+	}
+	return false
+}
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @param {*} fullFrame - fullFrame of data product
+ * @returns true if choice documents
+ */
+ export const isChoiceDocumentType = (field, fullFrame) => {
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(Array.isArray(field) && field.length) {
+		// check if fields in array are document classes 
+		// just check for first class
+		if(fullFrame.hasOwnProperty(field[0]))
 			return true
 		return false
 	}
@@ -171,6 +189,24 @@ export const isDataType = (field) => {
 	if(field[CONST.TYPE] === CONST.ARRAY) return CONST.ARRAY
 }
 
+
+/** choice documents/ sub documents utils */
+/**
+ * 
+ * @param {*} documentFrame document frame
+ * @param {*} property property
+ * @returns extracts choices from frame to be displayed in select component 
+ */
+export function getChoices(documentFrame, property) {
+  let options = []
+  // documentFrame[property] will have choices
+  documentFrame[property].map ( docs => {
+		// docs[CONST.CLASS] will be defined in the case of choice sub documents 
+    let documentChoice=docs.hasOwnProperty(CONST.CLASS) ? docs[CONST.CLASS] : docs
+    options.push({ value: documentChoice, label: documentChoice, color: "#adb5bd" })
+  })
+  return options
+}
 
 /***  extract metadata */
 
@@ -369,6 +405,18 @@ export function isPointType (field) {
 		field[CONST.TYPE] === CONST.ARRAY && 
 		field.hasOwnProperty(CONST.DIMENSIONS) && 
 		field[CONST.DIMENSIONS] === CONST.POINT_TYPE_DIMENSIONS) {
+			return true
+	}
+	return false
+}
+
+
+// checks if field is line string type
+export function isLineStringType (field) {
+	if(field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.ARRAY && 
+		field.hasOwnProperty(CONST.DIMENSIONS) && 
+		field[CONST.DIMENSIONS] === CONST.LINE_STRING_TYPE_DIMENSIONS) {
 			return true
 	}
 	return false

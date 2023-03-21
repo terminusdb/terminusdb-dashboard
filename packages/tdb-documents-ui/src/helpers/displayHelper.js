@@ -4,7 +4,7 @@ import { TDBInput } from "../widgets/inputWidgets"
 import { TDBBoolean } from "../widgets/booleanWidget"
 import { TDBDateTime, TDBDate } from "../widgets/dateWidgets"
 import { TDBEnum } from "../widgets/enumWidget"
-import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
+import { TDBChoiceSubDocuments } from "../widgets/choiceSubDocumentsWidget"
 import * as TYPE from "../dataType.constants"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBSubDocument, populateSubDocumentData } from "../widgets/subDocumentWidget"
@@ -13,8 +13,10 @@ import { TDBMarkdown } from "../widgets/markdownWidget"
 import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
 import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
+import { TDBLineStringDocuments } from "../widgets/lineStringGeoJSONWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
+import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 
 /** displays widgets according to dataType */
 export function display (config) {
@@ -159,6 +161,7 @@ export function displayDocumentLink(props, args, extracted, property, linked_to)
     linkId={props.hasOwnProperty("id") ? props["id"] : null}
     //comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
+    hideFieldLabel={false}
     onSelect={onSelect}
     reference={reference}
     onTraverse={onTraverse}
@@ -219,10 +222,23 @@ export function displayChoiceSubDocument (props, args, property, id) {
   const [choiceSubDocumentData, setChoiceSubDocumentData] = useState(props.formData ? props.formData : {})
 
   // add logic for required properties  
-  return  <TDBChoiceDocuments args={args}
+  return  <TDBChoiceSubDocuments args={args}
     property={property}
     choiceSubDocumentData={choiceSubDocumentData} 
     setChoiceSubDocumentData={setChoiceSubDocumentData}
+    id={id}
+    props={props}/>
+}
+
+// CHOICE DOCUMENTS 
+export function displayChoiceDocument(props, args, property, id) {
+  const [choiceDocumentData, setChoiceDocumentData] = useState(props.formData ? props.formData : {})
+
+  // add logic for required properties  
+  return  <TDBChoiceDocuments args={args}
+    property={property}
+    choiceDocumentData={choiceDocumentData} 
+    setChoiceDocumentData={setChoiceDocumentData}
     id={id}
     props={props}/>
 }
@@ -252,6 +268,33 @@ export function displayPointDocument (props, args, property, id) {
   }
 
   return <TDBPointDocuments config={config}/>
+}
+
+// LINE STRING 
+export function displayLineStringDocument(props, args, property, id) {
+
+
+  let { mode, extractedDocumentation, documentFrame, formData } = args 
+
+  
+  let bounds= util.checkIfBoundsAvailable( documentFrame, formData)
+
+  //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+
+  let config = {
+    name: props.name,
+    formData: props.formData,
+    mode: mode,
+    label: documentation.label,
+    comment: documentation.comment ? documentation.comment : null,
+    id: id,
+    className: "tdb__doc__input",
+    required: props.required,
+    bounds: bounds
+  }
+
+  return <TDBLineStringDocuments config={config}/>
 }
 
 // B_BOX 

@@ -85,6 +85,46 @@ export function getChoiceSubDocumentUIDisplay(args, property) {
   return { "ui:field": displayChoiceSubDocumentWidget }
 }
 
+// CHOICE DOCUMENTS 
+export function getChoiceDocumentUIDisplay(args, property) {
+
+  function displayChoiceDocumentWidget(props) {
+    let id = props.idSchema["$id"]
+    return display.displayChoiceDocument(props, args, property, id)
+  }
+  return { "ui:field": displayChoiceDocumentWidget }
+}
+
+// LINE STRING GEO JSONs
+export function getlineStringUIDisplay (args, property) {
+
+
+  let { mode } = args
+
+  if(mode === CONST.VIEW) {
+    function displayLineStringUI(props) {
+      let id = props.idSchema["$id"]
+      if(props.formData && props.formData.includes(undefined)) 
+        return <div className={`tdb__${props.name}__hidden`}/>
+      else return display.displayLineStringDocument(props, args, property, id)
+    }
+    return { "ui:field": displayLineStringUI }
+  }
+
+  function showLineStringUI(props) {
+    let argsHolder = {...args}
+    argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
+   
+		return geoTemplate.LineStringFieldTemplate(argsHolder, props, property)
+	} 
+
+
+  return {
+    "ui:options": CONST.GEO_FRAMES_ARRAY_OPTIONS,
+    "ui:ArrayFieldTemplate" : showLineStringUI
+  }
+}
+
 // POINT GEO JSONs
 export function getPointUIDisplay (args, property) {
 

@@ -140,10 +140,46 @@ export const uiHelper = (args, property) => {
     
     return widget.getChoiceSubDocumentUIDisplay(args, property)
   }
+  else if(util.isChoiceDocumentType(field, fullFrame)){
+    // CHOICE DOCUMENTS 
+    
+
+    field.map(choices => {
+      let argsHolder={...args}
+      let linked_to=choices
+      let extracted={}
+      // if linked_to definition is not available in references
+      if(!util.availableInReference(reference, linked_to)){
+        //let config=constructSubDocumentConfig(argsHolder, property, subDocs)
+        let config=constructDocumentConfig(argsHolder, property, linked_to) 
+        extracted=getProperties(config)
+        // add extracted documentation 
+        extracted.extractedDocumentation=argsHolder.extractedDocumentation
+
+        // check for SubDocument MetaData
+        let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+        if(metaDataType) {
+          // expecting JSON at this point
+          expanded=metaDataType
+        } 
+        // add extracted to references
+        addToReference(args, extracted, linked_to)
+      }
+      else {
+        // reference available 
+        extracted=reference[linked_to]
+      }
+    })
+
+    return widget.getChoiceDocumentUIDisplay(args, property)
+  }
   else if(util.isBBoxType(field, property)){
     return widget.getBBoxUIDisplay(args, property)
   }
   else if (util.isPointType(field)) {
     return widget.getPointUIDisplay(args, property)
+  } 
+  else if (util.isLineStringType(field)) {
+    return widget.getlineStringUIDisplay(args, property)
   } 
 }

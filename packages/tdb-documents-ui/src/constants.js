@@ -82,6 +82,13 @@ export const UI_HIDDEN_ARRAY_OPTIONS= {
   removable: false
 }
 
+// geo JSON array types
+export const GEO_FRAMES_ARRAY_OPTIONS= {
+  addable: true,
+  orderable: false,
+  removable: false
+}
+
 // GEO JSON constants
 export const DIMENSIONS="@dimensions"
 export const GEOJSON="GeoJSON"
@@ -91,6 +98,8 @@ export const GEOJSON_ARRAY_TYPES=[ GEOJSON, GEOMETRY ]
 // react leaflet constants
 export const LNG="lng"
 export const LAT="lat"
+export const LONGITUDE="longitude"
+export const LATITUDE="latitude"
 export const REFRESH="refresh"
 
 // geo JSON constants 

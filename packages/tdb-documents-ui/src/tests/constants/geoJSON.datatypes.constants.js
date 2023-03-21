@@ -352,3 +352,26 @@ export const POINT_EDIT_CONFIG = {
 	input: POINT_DATA_TYPE_EDIT_DATA,
 	mode: "Create"
 }
+
+/** ----- LINE STRING TYPE ------------- */
+
+let LINE_STRING_DATA_TYPE_CREATE_DATA = {
+	"@type": "LineString",
+	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
+	"coordinates": [
+		["51.505", "-0.09"],
+		["51.51", "-0.1"],
+		["51.51", "-0.12"],
+	],
+	"type": "LineString"
+}
+
+// create config 
+export const LINE_STRING_CREATE_CONFIG = {
+	frame: GEO_JSON_FRAME, 
+	uiFrame: {},
+	type: "LineString",
+	formData: {},
+	input: LINE_STRING_DATA_TYPE_CREATE_DATA,
+	mode: "Create"
+}
