@@ -30,7 +30,6 @@ import {PageNotFound} from "./pages/PageNotFound"
 import {DocumentsPageList} from "./pages/DocumentsListPage"
 import {PLANS} from "./routing/constants";
 import { DocumentControlMain } from "./pages/DocumentControlMain"
-import  TestApp  from "./TestApp"
 
 export function App (props){
     let navigate = useNavigate();
@@ -95,7 +94,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
     }
     return <React.Fragment>
         {/*<Route path="/verify" element={<VerifyEmail/>}/>*/}
-        <Route path="/verify" element={<TestApp/>} />
+        <Route path="/verify" element={<VerifyEmail/>}/>
         <Route path = {PATH.INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />                     
         <Route path={PATH.PLANS} element={<PrivateRoute component={PlansPage}/>}/>
         <Route index element={<PrivateRoute component={Home}/>} />

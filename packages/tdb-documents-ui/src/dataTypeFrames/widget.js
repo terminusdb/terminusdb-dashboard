@@ -11,7 +11,6 @@ import * as helper from "./helpers"
 import * as util from "../utils"
 import MDEditor, { commands }  from '@uiw/react-md-editor';
 import mermaid from "mermaid";
-import uuid from 'react-uuid'
 import InputGroup from 'react-bootstrap/InputGroup';
 
 function booleanField(mode, props) {
@@ -125,7 +124,7 @@ export function getMarkdownUI(props) {
     }).filter(Boolean).join("")
 
     const Code = ({ inline, children = [], className, ...props }) => {
-        const demoid = useRef(`dome${uuid()}`);
+        const demoid = useRef(`dome${crypto.randomUUID()}`);
         const code = getCode(children);
         const demo = useRef(null);
         useEffect(() => {
@@ -197,7 +196,7 @@ export function getViewMarkdownUI(formData, name, uiFrame) {
         }).filter(Boolean).join("")
     
         const Code = ({ inline, children = [], className, ...props }) => {
-            const demoid = useRef(`dome${uuid()}`);
+            const demoid = useRef(`dome${crypto.randomUUID()}`);
             const code = getCode(children);
             const demo = useRef(null);
             useEffect(() => {

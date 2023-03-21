@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb-live/tdb-react-components",
-  "version": "6.1.4",
+  "version": "6.1.6",
   "description": "components tools for terminusdb",
   "main": "src/index",
   "module": "es6/index",
@@ -44,7 +44,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@terminusdb/terminusdb-client": "^10.0.27",
+    "@terminusdb/terminusdb-client": "^10.0.28",
     "babel-jest": "^29.3.1",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.5",

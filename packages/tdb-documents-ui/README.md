@@ -4,7 +4,7 @@ SDK to build UI from terminusdb documents
 ## Run playground
 Run playground to get a demo.
 
-Create a new data product in TerminusX and name it ```Playground```. 
+Create a new data product in TerminusCMS and name it ```Playground```. 
 Go to /product_model page and copy paste the schema from file - playground/src/schema.json.
 
 Make a .env file and add the following
@@ -20,7 +20,7 @@ After adding .env file, run the below command
 ```npm run playground```
 
 ## Run test
-To connect to a particular data product in TerminusX - add the following variables to .env file 
+To connect to a particular data product in TerminusCMS - add the following variables to .env file 
 
 ```
 SERVER=https://cloud.terminusdb.com/

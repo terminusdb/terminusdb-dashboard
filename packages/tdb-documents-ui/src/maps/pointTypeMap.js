@@ -5,12 +5,11 @@ import {customMapOptions, customMarkerOptions} from "./markers"
 import icon from "../constants"
 import "leaflet-arrowheads"
 import L from "leaflet"
-import uuid from 'react-uuid'
 
 export const pointMapViewer = (args) => {
 	let {property, type, documents, zoom, scrollWheelZoom, display, onMarkerClick, polyLine, polygon, icon, geojsonFeature, center, bounds}=args
 	
-	let mapID=uuid()
+	let mapID=crypto.randomUUID()
 
 	useEffect(() => {
 		map()

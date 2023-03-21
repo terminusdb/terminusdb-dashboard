@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb/terminusdb-documents-ui",
-  "version": "6.1.4",
+  "version": "6.1.6",
   "description": "SDK to build UI from terminusdb documents",
   "main": "src/index.js",
   "module": "es6/index",
@@ -8,6 +8,7 @@
   "scripts": {
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
     "build": "npm run build-es6 && rimraf dist && webpack --mode production",
+    "build-playground": "npm run build-es6 && webpack --mode production --config playground/webpack.config.js",
     "playground": "webpack serve --mode development  --open --progress --port 3033 --host localhost --config playground/webpack.config.js",
     "testDb": "webpack serve --mode development  --open --progress --port 3032 --host localhost --config test/webpack.config.js",
     "mockTest": "webpack serve --mode development  --open --progress --port 3035 --host localhost --config mockTest/webpack.config.js",
@@ -90,7 +91,7 @@
     "@rjsf/utils": "^5.0.0-beta.14",
     "@rjsf/validator-ajv8": "^5.0.0-beta.14",
     "@terminusdb/rjsf-core": "^4.0.5",
-    "@terminusdb/terminusdb-client": "^10.0.27",
+    "@terminusdb/terminusdb-client": "^10.0.28",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
