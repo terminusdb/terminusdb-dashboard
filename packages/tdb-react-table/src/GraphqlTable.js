@@ -82,11 +82,12 @@ export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config,
                 hiddenColumns.push(item.id)
             }
             let col = item
-            if(!item.Header){
-                col.Header = labelFromVariable(item.id)
-            }
-            
-            if(item.renderer && matchRendererType[item.renderer.type]){
+            // check if it is a custom component
+            if(typeof item.renderer === "function"){
+                col.Cell=function(props){
+                    return item.renderer(props)
+                }
+            }else if(item.renderer && matchRendererType[item.renderer.type]){
                 col.Cell=function(props){
                     return matchRendererType[item.renderer.type](props)
                 }
