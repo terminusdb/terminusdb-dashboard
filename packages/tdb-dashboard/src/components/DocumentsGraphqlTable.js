@@ -33,6 +33,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
         setAdvancedFilters,
         limit,
         queryFilters,
+        queryOrderBy,
         start,
         orderBy,
         filterBy,
@@ -147,11 +148,10 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                    //   view={(tableConfig ? tableConfig.json() : {})}
                       limit={limit}
                       start={start}
-                      orderBy={[]} 
+                      orderBy={orderBy} 
                       setFilters = {changeFilters}
                       setLimits={changeLimits}
-                      //setOrder={changeOrder}
-                     // query={null}
+                      setOrder={changeOrder}
                       loading={loading}
                       totalRows={rowCount}
                       onRefresh={function(){}}
@@ -162,7 +162,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                 {queryToDisplay && 
                    <GraphqlQueryView 
                      filterBy={queryFilters}
-                     orderBy={orderBy}
+                     orderBy={queryOrderBy}
                      start={start}
                      limit={limit}
                      queryToDisplay={queryToDisplay} />
