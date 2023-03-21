@@ -3,7 +3,7 @@ import {Card, Button} from "react-bootstrap"
 import {useParams, useNavigate, useSearchParams} from "react-router-dom";
 import Stack from 'react-bootstrap/Stack'
 import {HiPlusSm} from "react-icons/hi"
-import {NEW_DOC} from "../routing/constants"
+import {NEW_DOC,EDIT_DOC} from "../routing/constants"
 import {gql} from "@apollo/client";
 import { DocumentsGraphqlTable } from "../components/DocumentsGraphqlTable";
 import { DocumentControlObj } from "../hooks/DocumentControlContext";
@@ -28,6 +28,24 @@ export const DocumentsGraphqlList = () => {
         navigate(fullIdEncode)
     }
 
+    const onViewClick = (row) =>{
+        let fullId = row['id']
+        let fullIdEncode = btoa(fullId)
+        navigate(fullIdEncode)
+    }
+
+    const onEditClick = (row) =>{
+        let fullId = row['id']
+        let fullIdEncode = btoa(fullId)
+        navigate(`${fullIdEncode}/${EDIT_DOC}`)
+    }
+
+    const onDeleteClick = (row) =>{
+        let fullId = row['id']
+        let fullIdEncode = btoa(fullId)
+        alert(fullIdEncode)
+    }
+
     function handleCreate(e) {
         navigate(`${NEW_DOC}`)
     }
@@ -48,7 +66,10 @@ export const DocumentsGraphqlList = () => {
             <DocumentsGraphqlTable tableConfig={documentTablesConfig} 
                     type={type} 
                     startFilters={startFilters} 
-                    onRowClick={onRowClick}/>
+                   // onRowClick={onRowClick}
+                    onDeleteButtonClick={onDeleteClick}
+                    onViewButtonClick={onViewClick}
+                    onEditButtonClick={onEditClick}/>
             </Card.Body>
         </Card>
        

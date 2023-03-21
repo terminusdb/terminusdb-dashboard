@@ -22,33 +22,19 @@ import {CopyButton} from "./utils"
     </Button>
 }
 
-export const ViewDocumentFrames = () => {
-    const {
-        showFrames,
-        setShowFrames,
-        frames
-    } = DocumentControlObj()
-
-    const {type}=useParams()
-
-    if(!showFrames) return <div/>
-
-    if(!frames.hasOwnProperty(type)) {
-        throw new Error (`Something's not right ... Frame is missing document type ${type} ...`)
-    }
-
+export const ViewDocumentFrames = ({type,documentFrame,setShowFrames}) => {
     return <Card className="tdb__frame__display" style={{width: "50%"}}>
         <Card.Header>
             {`Frames of `}
             <span className="fw-bold">{type}</span>
             <CloseFrameDisplay setShowFrames={setShowFrames}/>
-            <CopyButton text={JSON.stringify(frames[type], null, 2)} 
+            <CopyButton text={JSON.stringify(documentFrame, null, 2)} 
                 label={"Copy Frames"} 
                 css={`float-right bg-light mr-2 btn-sm text-dark`}
                 title={`Copy ${type} frames`}/>
         </Card.Header>
         <Card.Body>
-            <JsonFrameViewer jsonData={frames[type]} mode="View"/>
+            <JsonFrameViewer jsonData={documentFrame} mode="View"/>
         </Card.Body>
     </Card>
 }

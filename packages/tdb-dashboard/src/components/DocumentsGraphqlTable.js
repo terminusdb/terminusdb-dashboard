@@ -9,9 +9,11 @@ import Accordion from 'react-bootstrap/Accordion'
 import {WOQLClientObj} from '../init-woql-client'
 import {Loading} from "../components/Loading"
 import { DocumentControlObj } from "../hooks/DocumentControlContext";
+import {RiDeleteBin7Line, RiEdit2Fill} from "react-icons/ri"
+import {HiOutlineDocument} from "react-icons/hi"
 
 //to be review
-export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => {
+export const DocumentsGraphqlTable = ({type,onRowClick, onViewButtonClick, onEditButtonClick, onDeleteButtonClick, showGraphqlTab=true}) => {
     const {apolloClient} = WOQLClientObj()
     const {documentTablesConfig} = DocumentControlObj()
     if(!documentTablesConfig) return ''
@@ -57,10 +59,54 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
         }
     }
 
+    const deleteAction =(row)=>{
+        if (onDeleteButtonClick) {
+            const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
+            onDeleteButtonClick(rowTmp)
+        }
+    }
+
+    const viewAction =(row)=>{
+         if (onViewButtonClick) {
+            const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
+            onViewButtonClick(rowTmp)
+        }
+    }
+
+    const editAction =(row)=>{
+        if (onEditButtonClick) {
+            const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
+            onEditButtonClick(rowTmp)
+        }
+
+    }
+      
+    const getActionButtons = (props) =>{
+        const invFullId = props.cell.row//.original['id']
+        //const name = cell.row.original['name']
+        return <React.Fragment>
+                <span className="d-flex justify-content-end mr-4">  
+                <Button variant="success" size="sm" className="ml-3" title={`view document`} onClick={() => viewAction(invFullId)}>
+                    <HiOutlineDocument/> 
+                </Button>           
+                <Button variant="success" size="sm" className="ml-3" title={`edit document`} onClick={() => editAction(invFullId)}>
+                    <RiEdit2Fill/> 
+                </Button>  
+                <Button variant="danger" size="sm" className="ml-3" title={`delete document`} onClick={() => deleteAction(invFullId)}>
+                    <RiDeleteBin7Line/> 
+                </Button>
+                </span>
+            </React.Fragment>
+    }
+    const actionsButttons = {Header :  "", accessor: "Actions", disableFilters:true, disableSortBy:true, 
+    id:"Actions" ,renderer:getActionButtons}
+
+
      const tableConfigObj = {}
-     tableConfigObj.columns = tablesColumnsConfig
+     tableConfigObj.columns = JSON.parse(JSON.stringify(tablesColumnsConfig))
+     tableConfigObj.columns.push(actionsButttons)
      tableConfigObj.rowClick = onRowClickCall
-    
+
     let extractedResults = documentResults ? extractDocuments(documentResults[type]) : []
 
     function cleanIdValue(keyName, keyValue){
@@ -112,6 +158,7 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
         return extractedResults
     }
 
+ 
 
 
    // const showBar = loading ? {className:"visible"} : {className:"invisible"}

@@ -19,20 +19,15 @@ import { DisplayErrorPerProperty } from "./ErrorDisplay"
 import {Alerts} from "./Alerts"
 
 // button to view frames
-const ViewFramesButton = () => {
-    const {
-        setShowFrames
-    } = DocumentControlObj()
-
+export const ViewFramesButton = ({setShowFrames}) => {
     function handleViewFrames () {
         setShowFrames(Date.now())
     }
 
-    return <Button variant="light"  className="text-dark ms-auto btn btn-sm" 
-        title={`View Document Frames`}
-        onClick={handleViewFrames}>
-            <HiMagnifyingGlass/> {"Frames"} 
-    </Button>
+    return <Button variant="light"  className="text-dark ms-auto btn btn-sm" title={`View Document Frames`}
+                onClick={handleViewFrames}>
+                <HiMagnifyingGlass/> {"Frames"} 
+            </Button>
 }
 
 
@@ -41,7 +36,7 @@ const ViewFramesButton = () => {
  * @param {*} type document Type
  * @returns a close button icon
  */
-const CloseButton = ({type}) => { 
+export const CloseButton = ({type}) => { 
     const navigate=useNavigate()
     // on close button display document list table
     return <Button variant="light" 
