@@ -16,7 +16,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
     let filterTable  = []
     
     // the original orderBy from the table and the object for the query
-    const [orderBy, setOrderBy] = useState(order||false)
+    const [orderBy, setOrderBy] = useState([])
     const [queryOrderBy, setQueryOrderBy] = useState(false)
 
     const [filterBy, setFilters] = useState(filterTable)
@@ -82,7 +82,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         setFilters([])
         setQueryFilters(advfilter)
         console.log("setAdvancedFilters" ,advfilter, queryFilters)
-        callFetchMore(limit,start,orderBy,advfilter) 
+        callFetchMore(limit,start,queryOrderBy,advfilter) 
      }
     
     /*
@@ -184,6 +184,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         orderBy,
         filterBy,
         queryFilters,
+        queryOrderBy,
        // controlledDocument,
         limit,
         start,
