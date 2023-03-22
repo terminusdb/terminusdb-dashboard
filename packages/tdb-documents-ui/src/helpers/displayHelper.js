@@ -14,6 +14,7 @@ import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
 import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
 import { TDBLineStringDocuments } from "../widgets/lineStringGeoJSONWidget"
+import { TDBPolygonDocuments } from "../widgets/polygonGeoJSONWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
 import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
@@ -296,6 +297,34 @@ export function displayLineStringDocument(props, args, property, id) {
 
   return <TDBLineStringDocuments config={config}/>
 }
+
+// POLYGON
+export function displayPolygonDocument (props, args, property, id) {
+
+
+  let { mode, extractedDocumentation, documentFrame, formData } = args 
+
+  
+  let bounds= util.checkIfBoundsAvailable( documentFrame, formData)
+
+  //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+
+  let config = {
+    name: props.name,
+    formData: props.formData,
+    mode: mode,
+    label: documentation.label,
+    comment: documentation.comment ? documentation.comment : null,
+    id: id,
+    className: "tdb__doc__input",
+    required: props.required,
+    bounds: bounds
+  }
+
+  return <TDBPolygonDocuments config={config}/>
+}
+
 
 // B_BOX 
 export function displayBBoxDocument (props, args, property, id) {

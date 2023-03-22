@@ -182,4 +182,10 @@ export const uiHelper = (args, property) => {
   else if (util.isLineStringType(field)) {
     return widget.getlineStringUIDisplay(args, property)
   } 
+  else if(util.isPolygonType(field) && util.isPolygon(documentFrame)) {
+    return widget.getPolygonUIDisplay(args, property)
+  }
+  else if(util.isPolygonType(field) && util.isMultiPolygon(documentFrame)) {
+    return widget.getMultiPolygonUIDisplay(args, property)
+  }
 }

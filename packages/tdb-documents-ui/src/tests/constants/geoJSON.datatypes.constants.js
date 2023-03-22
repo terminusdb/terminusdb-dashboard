@@ -355,7 +355,7 @@ export const POINT_EDIT_CONFIG = {
 
 /** ----- LINE STRING TYPE ------------- */
 
-let LINE_STRING_DATA_TYPE_CREATE_DATA = {
+export const LINE_STRING_DATA_TYPE_CREATE_DATA = {
 	"@type": "LineString",
 	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
 	"coordinates": [
@@ -366,6 +366,21 @@ let LINE_STRING_DATA_TYPE_CREATE_DATA = {
 	"type": "LineString"
 }
 
+
+export const LINE_STRING_DATA_TYPE_EDIT_DATA_ORIGINAL = {
+	"@id": "LineString/234324",
+	"@type": "LineString",
+	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
+	"coordinates": [
+		["51.505", "-0.09"],
+		["51.51", "-0.1"],
+		["51.51", "-0.12"],
+	],
+	"type": "LineString"
+}
+
+
+
 // create config 
 export const LINE_STRING_CREATE_CONFIG = {
 	frame: GEO_JSON_FRAME, 
@@ -374,4 +389,74 @@ export const LINE_STRING_CREATE_CONFIG = {
 	formData: {},
 	input: LINE_STRING_DATA_TYPE_CREATE_DATA,
 	mode: "Create"
+}
+
+// edit config 
+export const LINE_STRING_EDIT_CONFIG = {
+	frame: GEO_JSON_FRAME, 
+	uiFrame: {},
+	type: "LineString",
+	formData: LINE_STRING_DATA_TYPE_EDIT_DATA_ORIGINAL,
+	mode: "Create"
+}
+
+/** ----- MULTI POLYGON STRING TYPE ------------- */
+
+export const MULTI_POLYGON_DATA_TYPE_CREATE_DATA = {
+	"@type": "MultiPolygon",
+	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
+	"coordinates": [
+		[
+			["51.515", "-0.09"],
+			["51.52", "-0.1"],
+			["51.52", "-0.12"]
+		]
+	],
+	"type": "MultiPolygon"
+}
+
+export const MULTI_POLYGON_DATA_TYPE_EDIT_DATA_ORIGINAL = {
+	"@type": "MultiPolygon",
+	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
+	"coordinates": [
+		[
+			["51.515", "-0.09"],
+			["51.52", "-0.1"],
+			["51.52", "-0.12"]
+		]
+	],
+	"type": "MultiPolygon"
+}
+
+export const MULTI_POLYGON_DATA_TYPE_EDIT_DATA = {
+	"@type": "MultiPolygon",
+	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
+	"coordinates": [
+		[
+			["51.515", "-0.09"],
+			["51.52", "-0.1"],
+			["51.52", "-0.12"]
+		]
+	],
+	"type": "MultiPolygon"
+}
+
+// create config 
+export const MULTI_POLYGON_CREATE_CONFIG = {
+	frame: GEO_JSON_FRAME, 
+	uiFrame: {},
+	type: "MultiPolygon",
+	formData: {},
+	input: MULTI_POLYGON_DATA_TYPE_CREATE_DATA,
+	mode: "Create"
+}
+
+// edit config 
+export const MULTI_POLYGON_EDIT_CONFIG = {
+	frame: GEO_JSON_FRAME, 
+	uiFrame: {},
+	type: "MultiPolygon",
+	formData: MULTI_POLYGON_DATA_TYPE_EDIT_DATA_ORIGINAL,
+	input: MULTI_POLYGON_DATA_TYPE_EDIT_DATA,
+	mode: "Edit"
 }

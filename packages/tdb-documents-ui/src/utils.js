@@ -422,6 +422,35 @@ export function isLineStringType (field) {
 	return false
 }
 
+// checks if field is polygon/ multipolygon type & matches with dimension 3
+export function isPolygonType (field) {
+	if(field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.ARRAY && 
+		field.hasOwnProperty(CONST.DIMENSIONS) && 
+		field[CONST.DIMENSIONS] === CONST.POLYGON_TYPE_DIMENSIONS) {
+			return true
+	}
+	return false
+}
+
+// checks if polygon from type 
+export function isPolygon(frame) {
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@values") && 
+    frame["type"]["@values"][0] === CONST.POLYGON) 
+			return true
+	return false 
+}
+
+// checks if MultiPolygon from type 
+export function isMultiPolygon(frame) {
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@values") && 
+    frame["type"]["@values"][0] === CONST.MULTIPOLYGON) 
+			return true
+	return false 
+}
+
 // checks if field is binding box type
 export function isBBoxType(field, property) {
 	if(property === CONST.B_BOX) {

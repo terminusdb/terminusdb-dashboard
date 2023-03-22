@@ -6,6 +6,7 @@ import * as CONST from "../constants"
 import { pointMapViewer } from "./pointMapView"
 import { lineStringMapViewer } from "./lineStringMapView"
 import { bboxMapViewer } from "./bboxMapView"
+import { polygonMapViewer } from "./polygonMapView"
 
 
 
@@ -19,9 +20,9 @@ export const MapViewer = ({ mapConfig }) => {
 			return pointMapViewer(mapConfig)
 		case CONST.LINE_STRING_TYPE:
 			return lineStringMapViewer(mapConfig)
-		/*case CONST.POLYGON: 
-			return polygonMapViewer(args)
-		case CONST.FEATURE_COLLECTION: 
+		case CONST.POLYGON: 
+			return polygonMapViewer(mapConfig)
+		/*case CONST.FEATURE_COLLECTION: 
 			return geoJSONMapViewer(args) */
 	}
 }

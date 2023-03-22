@@ -1,7 +1,7 @@
 import React from "react"
 import * as CONST from "../constants"
-import * as geoTemplate from "../arrayHelpers/geoJSONTemplates"
 import * as display from "./displayHelper"
+import * as geoTemplate from "../arrayHelpers/geoJSONTemplates"
 
 
 // NORMAL DATA TYPES
@@ -114,8 +114,7 @@ export function getlineStringUIDisplay (args, property) {
   function showLineStringUI(props) {
     let argsHolder = {...args}
     argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
-   
-		return geoTemplate.LineStringFieldTemplate(argsHolder, props, property)
+    return geoTemplate.LineStringFieldTemplate(argsHolder, props, property) 
 	} 
 
 
@@ -143,7 +142,8 @@ export function getPointUIDisplay (args, property) {
   function showPointUI(props) {
     let argsHolder = {...args}
     argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
-		return geoTemplate.PointFieldTemplate(argsHolder, props, property)
+    return geoTemplate.PointFieldTemplate(argsHolder, props, property) 
+		//return geoTemplate.PointFieldTemplate(argsHolder, props, property)
 	} 
 
 
@@ -151,6 +151,65 @@ export function getPointUIDisplay (args, property) {
     "ui:options": CONST.UI_HIDDEN_ARRAY_OPTIONS,
     "ui:ArrayFieldTemplate" : showPointUI
   }
+}
+
+// POLYGON 
+export function getPolygonUIDisplay (args, property) {
+  let { mode } = args
+
+  if(mode === CONST.VIEW) {
+    function displayPolygonUI(props) {
+      let id = props.idSchema["$id"]
+      if(props.formData && props.formData.includes(undefined)) 
+        return <div className={`tdb__${props.name}__hidden`}/>
+      else return display.displayPolygonDocument(props, args, property, id)
+    }
+    return { "ui:field": displayPolygonUI }
+  }
+
+  function coordinatesArrayTemplate(props) {
+    return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+  }
+  return  { 
+    "ui:ArrayFieldTemplate": geoTemplate.PolygonArrayFieldTemplate,
+    "items": {
+      "ui:ArrayFieldTemplate": coordinatesArrayTemplate,
+      "items": {
+        "ui:options": CONST.UI_HIDDEN_ARRAY_OPTIONS
+      }
+    }
+  }
+}
+
+
+// MULTIPOLYGON 
+export function getMultiPolygonUIDisplay (args, property) {
+  let { mode } = args
+
+  if(mode === CONST.VIEW) {
+    function displayMultiPolygonUI(props) {
+      let id = props.idSchema["$id"]
+      if(props.formData && props.formData.includes(undefined)) 
+        return <div className={`tdb__${props.name}__hidden`}/>
+      else return display.displayPolygonDocument(props, args, property, id) // pass to polygon map viewer
+    }
+    return { "ui:field": displayMultiPolygonUI }
+  }
+
+  function coordinatesArrayTemplate(props) {
+    return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+  }
+  
+  return { 
+    "ui:ArrayFieldTemplate": geoTemplate.MultiPolygonArrayFieldTemplate,
+    "items": {
+      "ui:ArrayFieldTemplate": coordinatesArrayTemplate,
+      "items": {
+        "ui:options": CONST.UI_HIDDEN_ARRAY_OPTIONS
+      }
+    }
+  }
+
 }
 
 // BINDING BOX 

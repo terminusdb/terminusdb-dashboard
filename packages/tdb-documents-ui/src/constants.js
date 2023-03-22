@@ -113,6 +113,7 @@ export const FEATURE_COLLECTION="FeatureCollection"
 export const GEOMETRIES="geometries"
 export const FEATURE="feature"
 export const B_BOX="bbox"
+export const COORDINATES="Coordinates"
 
 // map icon component
 import L from "leaflet";
@@ -132,3 +133,4 @@ export const POINT_MIN_ITEMS=2
 // DIMENSION DEFINITIONS
 export const POINT_TYPE_DIMENSIONS=1
 export const LINE_STRING_TYPE_DIMENSIONS=2 
+export const POLYGON_TYPE_DIMENSIONS=3

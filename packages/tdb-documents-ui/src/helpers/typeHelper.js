@@ -26,7 +26,9 @@ export const typeHelper = (documentFrame, property, fullFrame) => {
     // pass NULL type object as well when you unlink an existing link
     return [CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null"]
   }
-  else if (util.isPointType(field) || util.isLineStringType(field)) {
+  else if (util.isPointType(field) || 
+    util.isLineStringType(field) ||
+    util.isPolygonType(field)) {
     // POINT TYPE
     return CONST.ARRAY_TYPE
   } 

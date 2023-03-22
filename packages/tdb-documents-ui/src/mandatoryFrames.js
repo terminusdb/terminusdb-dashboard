@@ -1,16 +1,9 @@
-/*import * as typeHelper from "./helpers/typeHelper"
-import * as infoHelper from "./helpers/infoHelper"
-import * as metaDataHelper from "./helpers/metaDataHelper"
-import * as formatHelper from "./helpers/formatHelper"
-import * as propertyHelper from "./helpers/propertyHelper"
-import * as util from "./utils"
-import * as dataProvider from "./helpers/formDataHelper"
-import {generateUI} from "./helpers/uiHelper"*/
 import * as CONST from "./constants"
 import * as util from "./utils"
 import { uiHelper } from "./helpers/uiHelper"
 import { getPlaceholder } from "./helpers/placeholderHelper"
 import { typeHelper } from "./helpers/typeHelper"
+import { addGeoJSONLayout } from "./addGeoJSONLayout"
 
 /**
  * 
@@ -37,28 +30,9 @@ export function makeMandatoryFrames (args, property) {
   } 
 
   if(util.isInherritedFromGeoJSONTypes(documentFrame)) {
-    // GEO JSON types so set items in layout 
-    let field = documentFrame[property]
-    
-    if(util.isPointType(field)) {
-      // display 2 items for lat & lng for point
-      layout["items"]= { type: CONST.STRING_TYPE }
-      layout["minItems"] = util.getMinItems(documentFrame, property)
-    }
-    else if (util.isLineStringType(field)) {
-      layout["items"]= { 
-        "type": "array",
-        "items": { type: CONST.STRING_TYPE },
-        "minItems": 2
-      }
-      layout["additionalItems"]= { 
-        "type": "array",
-        "items": { type: CONST.STRING_TYPE },
-        "minItems": 2
-      }
-    } 
+    addGeoJSONLayout(layout, documentFrame, property)
   }
-
+  
   let uiLayout = uiHelper(args, property)
   
   return { layout, uiLayout }

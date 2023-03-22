@@ -28,6 +28,7 @@ export const handleSubmit = (data, onSubmit, setData, type, mode) => {
 
     onSubmit(extracted)
     console.log("Data submitted: ",  extracted)
+    console.log("Data submitted: STRINGIFY",  JSON.stringify(extracted, null, 2))
     return extracted
   }
 }
