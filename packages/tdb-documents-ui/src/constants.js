@@ -39,6 +39,12 @@ export const XSD_DATA_TYPE_PREFIX = "xsd:"
 export const XDD_DATA_TYPE_PREFIX = "xdd:"
 export const SYS_UNIT_TYPE_PREFIX = "sys:"
 
+// rdf:language constants
+export const RDF_LANGUAGE_LABEL="language"
+export const RDF_VALUE_LABEL="value"
+export const RDF_LANGUAGE="@lang"
+export const RDF_VALUE="@value"
+
 // DOCUMENTATION constants
 export const DOCUMENTATION="@documentation"
 export const LANGUAGE="@language"

@@ -17,6 +17,7 @@ import { TDBLineStringDocuments } from "../widgets/lineStringGeoJSONWidget"
 import { TDBPolygonDocuments } from "../widgets/polygonGeoJSONWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
+import { TDBRDFLanguage } from "../widgets/rdfLanguageWidget"
 import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 
 /** displays widgets according to dataType */
@@ -191,6 +192,26 @@ export function displayEnum(args, props, property) {
     value={props.formData}
     mode={mode}
     label={label}
+    id={props.idSchema["$id"]}
+    onChange={props.onChange}
+    required={props.required}/>
+}
+
+// rdf:language
+export function displayRDFLanguageWidget (args, props, property){
+
+  let { documentFrame, mode, extractedDocumentation } = args 
+    
+  
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
+
+  // add logic for required properties 
+  return  <TDBRDFLanguage name={label}
+    formData={props.formData}
+    mode={mode}
+    className={"tdb__doc__input"}
+    comment={documentation.comment ? documentation.comment : null} 
     id={props.idSchema["$id"]}
     onChange={props.onChange}
     required={props.required}/>

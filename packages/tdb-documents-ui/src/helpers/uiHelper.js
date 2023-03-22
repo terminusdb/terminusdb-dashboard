@@ -188,4 +188,7 @@ export const uiHelper = (args, property) => {
   else if(util.isPolygonType(field) && util.isMultiPolygon(documentFrame)) {
     return widget.getMultiPolygonUIDisplay(args, property)
   }
+  else if(util.isRdfLangString(field)) {
+    return widget.getRDFLangUIDisplay(args, property)
+  }
 }

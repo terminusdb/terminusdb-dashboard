@@ -65,6 +65,15 @@ export function getEnumUIDisplay(args, property) {
   return { "ui:field": displayEnumWidget }
 }
 
+// rdf:Lang
+export function getRDFLangUIDisplay(args, property) {
+  function rdfLanguageWidget(props) {
+    return display.displayRDFLanguageWidget(args, props, property) 
+  }  
+
+  return { "ui:field": rdfLanguageWidget }
+}
+ 
 // SYS:JSON 
 export function getJSONUIDisplay(args, property) {
   

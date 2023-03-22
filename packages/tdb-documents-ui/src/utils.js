@@ -135,6 +135,13 @@ export const isDataType = (field) => {
 	return false
 }
 
+// returns true for properties which are of data types is rdf:langString
+export const isRdfLangString = (field) => {
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	if(field === CONST.RDF_LANG_STRING) return true
+	return false
+}
+
 
 /**
  * 
