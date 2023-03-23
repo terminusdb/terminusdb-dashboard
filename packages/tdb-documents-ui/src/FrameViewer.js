@@ -87,14 +87,15 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 
 					//console.log("uiSchema", uiSchema)
 
-					/*if(mode === CONST.VIEW) {
+					if(mode === CONST.VIEW) {
 							setReadOnly(true)
+					}
+					else if(mode === CONST.EDIT && util.isValueHashDocument(frame[current])) {
+						setMessage(util.getValueHashMessage())
+						setReadOnly(true)
 					}
 					//else if(mode === CONST.CREATE) setInput(formData)
-					else if(mode === CONST.EDIT && util.isValueHashDocument(frame[current])) {
-							setMessage(util.getValueHashMessage())
-							setReadOnly(true)
-					}
+					/*
 					else {
 							setReadOnly(false)
 					}

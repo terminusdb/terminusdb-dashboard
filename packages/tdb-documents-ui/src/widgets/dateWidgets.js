@@ -6,6 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import Stack from "react-bootstrap/Stack"
 import { VIEW } from "../constants"
+import { checkIfReadOnly } from "../utils"
 import { TDBLabel } from "../components/LabelComponent"
 
 function parseISOString(s) {
@@ -21,7 +22,7 @@ function fetchDateValue (value) {
 }
 
 //XSD_DATE_TIME
-export const TDBDateTime = ({ id, name, value, required, mode, onChange, comment, label, hideFieldLabel }) => {
+export const TDBDateTime = ({ id, name, value, required, isKey, mode, onChange, comment, label, hideFieldLabel }) => {
   const [selected, setSelected] = useState(fetchDateValue(value));
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
@@ -37,11 +38,13 @@ export const TDBDateTime = ({ id, name, value, required, mode, onChange, comment
     <TDBLabel name={label ? label : name} 
       required={required} 
       hideFieldLabel={hideFieldLabel}
+      isKey={isKey}
       comment={comment} 
       className={"tdb__label__width"}/>
     <DateTimePicker
       amPmAriaLabel="Select AM/PM"
       id={id}
+      disabled={checkIfReadOnly(mode, selected, isKey)}
       calendarAriaLabel="Toggle calendar"
       clearAriaLabel="Clear value"
       dayAriaLabel="Day"
@@ -62,7 +65,7 @@ export const TDBDateTime = ({ id, name, value, required, mode, onChange, comment
 
 
 //XSD_DATE
-export const TDBDate = ({ id, name, value, required, mode, onChange, comment, hideFieldLabel }) => {
+export const TDBDate = ({ id, name, value, required, isKey, mode, onChange, comment, hideFieldLabel }) => {
   const [selected, setSelected] = useState(fetchDateValue(value));
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
@@ -77,8 +80,12 @@ export const TDBDate = ({ id, name, value, required, mode, onChange, comment, hi
     <TDBLabel name={name} 
       hideFieldLabel={hideFieldLabel}
       required={required} 
+      isKey={isKey}
       comment={comment} 
       className={"tdb__label__width"}/>
-    <DatePicker onChange={handleOnChange} value={selected} format="dd/MM/yyyy"/>
+    <DatePicker onChange={handleOnChange} 
+      value={selected} 
+      disabled={checkIfReadOnly(mode, selected, isKey)}
+      format="dd/MM/yyyy"/>
   </Stack>
 }

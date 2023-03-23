@@ -105,3 +105,13 @@ label.latlng-control-label {
   line-height: 1.5;
   background-clip: padding-box;
 }
+
+/* datepciker css when date has been chosen */
+.react-datetime-picker--closed { 
+  color: var(--input-color) !important;
+  background-color: transparent!important;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}

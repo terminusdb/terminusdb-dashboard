@@ -1,6 +1,8 @@
+import React from "react"
 import * as CONST from "./constants" 
 import * as TYPE from "./dataType.constants"
 import { getLabelFromEnumDocumentation } from "./documentationTemplates"
+import { FcKey } from "react-icons/fc"
 
 /***  util functions to check Mandatory/ Optional/ Set/ List property */
 /**
@@ -480,20 +482,64 @@ export function isInherritedFromGeoJSONTypes(frame) {
 /*** Key utility */
 /**  check if field is a key */
 /**
- * 
+ *  
  * @param {*} property - property 
  * @param {*} key - key field 
  * @returns  checks if property is a key of a document
  */
 export function checkIfKey(property, key) {
-	if(!key) return
+	if(!key) return 
 	if(!key["@fields"]) return 
 	return key["@fields"].filter( arr => arr === property)
-	/*var isKey=false
-	key["@fields"].map(item => {
-		if(item === property) {
-			isKey=true
-		}
-	})
-	return isKey*/
+}
+
+/**
+ * 
+ * @param {*} label name of the property 
+ * @returns a key symbol along with property label in UI - to tell user that this is a lexical field
+ */
+ export function displayIfKeyField(isKey, label) {
+	if(!isKey.length) return <div/>
+	return <span key={label}  
+		className="mt-1"
+		id="tdb__property__key__icon"
+		title={`${label} is a key field. Once created, you will not be able to update this field.`}>
+		<FcKey className="mr-2"/>
+	</span>
+}
+
+// function to check if field is lexical key 
+// if mode === EDIT, and isKey = true, set input field to readOnly
+export function checkIfReadOnly(mode, value, isKey) {
+  if(mode === CONST.VIEW) return true
+  if(mode === CONST.EDIT && value && isKey && isKey.length) return true 
+  return false
+}
+
+
+ /**
+  * 
+  * @param {*} frame - document frame
+  * @returns true if document has ValueHash type key
+*/
+export function isValueHashDocument(frame) {
+	if(!frame) return null
+	if(frame["@key"] && frame["@key"]["@type"] &&
+		frame["@key"]["@type"] ===  CONST.VALUE_HASH_KEY) {
+			return true
+	}
+	return false
+}
+	 
+/**
+ * 
+ * @returns a help message on why value hah field cant be edited
+ */
+export function getValueHashMessage () {
+	return <p className="text-warning fst-light small">
+		<FcKey className="mr-2"/>
+		Edit is disabled for a document with Value Hash key.
+		A Value Hash object will change its id and is generated from its properties. Best way would be to
+		delete this document and create a new one.
+	</p>
 }

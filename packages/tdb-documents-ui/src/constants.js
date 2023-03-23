@@ -15,6 +15,9 @@ export const ARRAY="Array"
 export const ENUM="Enum"
 export const SUBDOCUMENT="@subdocument"
 
+// Value Hash
+export const VALUE_HASH_KEY="ValueHash"
+
 // mode
 export const CREATE="Create"
 export const EDIT="Edit"

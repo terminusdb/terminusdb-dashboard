@@ -3,9 +3,10 @@ import Stack from "react-bootstrap/Stack"
 import * as CONST from "../constants"
 import InputGroup from 'react-bootstrap/InputGroup';
 import { TDBLabel } from "../components/LabelComponent"
+import { checkIfReadOnly } from "../utils"
 
 // widget displays input boxes 
-export const TDBBoolean = ({ id, name, value, required, mode, onChange, comment, label, hideFieldLabel }) => {
+export const TDBBoolean = ({ id, name, value, isKey, required, mode, onChange, comment, label, hideFieldLabel }) => {
   
   const [checked, setChecked] = useState(mode !== CONST.CREATE ? value : false)
 
@@ -19,11 +20,21 @@ export const TDBBoolean = ({ id, name, value, required, mode, onChange, comment,
     <TDBLabel name={label ? label : name} 
       required={required} 
       comment={comment} 
+      isKey={isKey}
       hideFieldLabel={hideFieldLabel}
       className={"tdb__label__width"}/>
     <Stack direction={"horizontal"} gap={2}>
-        {checked && <input type="checkbox" id={id} name={name} checked onChange={handleClick}/>}
-        {!checked && <input type="checkbox" id={id} name={name} onChange={handleClick}/>}
+        {checked && <input type="checkbox" 
+          id={id} 
+          name={name} 
+          checked 
+          disabled={checkIfReadOnly(mode, checked, isKey)}
+          onChange={handleClick}/>}
+        {!checked && <input type="checkbox" 
+          id={id} 
+          disabled={checkIfReadOnly(mode, checked, isKey)}
+          name={name} 
+          onChange={handleClick}/>}
         <span className="text-light">{name}</span>
     </Stack>
   </InputGroup>

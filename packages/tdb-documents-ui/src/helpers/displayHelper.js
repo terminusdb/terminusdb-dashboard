@@ -30,6 +30,7 @@ export function display (config) {
         label={config.documentation.label}
         comment={config.documentation.comment}
         value={config.formData} 
+        isKey={config.isKey}
         required={config.required}
         mode={config.mode} 
         id={config.id}
@@ -42,6 +43,7 @@ export function display (config) {
       return <TDBDateTime name={config.name} 
       value={config.formData} 
       hideFieldLabel={config.hideFieldLabel}
+      isKey={config.isKey}
       label={config.documentation.label}
       comment={config.documentation.comment}
       required={config.required}
@@ -60,6 +62,7 @@ export function display (config) {
         comment={config.documentation.comment}
         required={config.required}
         mode={config.mode} 
+        isKey={config.isKey}
         id={config.id}
         placeholder={config.placeholder} 
         className={config.className} 
@@ -86,6 +89,7 @@ export function display (config) {
         comment={config.documentation.comment}
         required={config.required}
         mode={config.mode} 
+        isKey={config.isKey}
         id={config.id}
         placeholder={config.placeholder} 
         className={config.className} 
@@ -115,6 +119,7 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
     formData: props.formData,
     required: props.required,
     mode: mode,
+    isKey: util.checkIfKey(property, documentFrame["@key"]),
     id: id, 
     placeholder: getPlaceholder(field),
     className: "tdb__doc__input",
