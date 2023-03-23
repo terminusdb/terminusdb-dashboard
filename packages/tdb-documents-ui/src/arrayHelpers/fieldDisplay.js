@@ -33,9 +33,13 @@ export const getDisplay = (props, args, property) => {
     return display.displayEnum(args, props, property, id, hideFieldLabel)
   }
   else if(util.isSysJSONDataType(field)) {
+    // SYS JSON 
+    let id=props.id, hideFieldLabel=true
+    return display.displayJSON(props, args, property, id, hideFieldLabel)
   }
   else if(util.isChoiceSubDocumentType(field)) {
+    // CHOICE SUB DOCUMENTS
     let id = props.id
-    //return display.displayChoiceSubDocument(props, args, property, id)
+    return display.displayChoiceSubDocument (props, args, property, id) 
   }
 }

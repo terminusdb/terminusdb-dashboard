@@ -105,7 +105,7 @@ describe("Test Edit Choice Subdocuments", () => {
 	// Edit a choice subdocument type property
 	test("Edit Choice SubDocument property", async () => {
 		
-		const config = CONST.EDIT_CONFIG
+		const config = CONST.EDIT_CONFIG 
 
 		// setup FrameViewer 
 		let data=await setup(config)

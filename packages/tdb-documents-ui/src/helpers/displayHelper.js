@@ -219,7 +219,7 @@ export function displayRDFLanguageWidget (args, props, property){
 }
 
 // SYS:JSON
-export function displayJSON(props, args, property) {
+export function displayJSON(props, args, property, id, hideFieldLabel) {
   
   let { mode, extractedDocumentation } = args 
 
@@ -229,8 +229,9 @@ export function displayJSON(props, args, property) {
   return <TDBJSON name={props.name}
     value={props.formData}
     mode={mode}
+    hideFieldLabel={hideFieldLabel}
     comment={documentation.comment ? documentation.comment : null} 
-    id={props.idSchema["$id"]}
+    id={id}
     onChange={props.onChange}
     required={props.required}/>
 }

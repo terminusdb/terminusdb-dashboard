@@ -79,7 +79,8 @@ export function getRDFLangUIDisplay(args, property) {
 export function getJSONUIDisplay(args, property) {
   
   function displayJSONWidget (props) {
-    return display.displayJSON(props, args, property)
+    let id=props.idSchema["$id"]
+    return display.displayJSON(props, args, property, id)
   }
 
   return { "ui:field": displayJSONWidget }

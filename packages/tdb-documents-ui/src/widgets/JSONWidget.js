@@ -23,7 +23,7 @@ export const TDBJSON = ({ id, name, value, required, mode, hideFieldLabel, onCha
   let displayJSON=value ? value : {}
   let readOnly= (mode === CONST.VIEW) ? true : false
 
-  return <Stack direction="horizontal">
+  return <Stack direction="horizontal" className="mb-3">
     <TDBLabel name={label ? label : name} 
       required={required} 
       hideFieldLabel={hideFieldLabel}
