@@ -9,10 +9,10 @@ export const getDisplay = (props, args, property) => {
   let field = documentFrame[property] 
 
   if(util.isDataType(field)) {
-    //displayDataTypesWidget(props, args, property, dataType, id, onChange)
+    // DATA TYPES
     return display.displayDataTypesWidget(props, args, property, "xsd:string", props.id, props.onChange) // review
   } 
-  else if(util.isSubDocumentType(field)){
+  else if(util.isSubDocumentType(field)){ 
     // SUBDOCUMENT TYPE
     let id = props.id, linked_to=field[CONST.CLASS]
     let extracted=args.reference[linked_to], hideFieldLabel = true // hide label for set
@@ -28,6 +28,9 @@ export const getDisplay = (props, args, property) => {
     return display.displayDocumentLink(props, args, extracted, property, linked_to) */
   }
   else if(util.isEnumType(field)) {
+    // ENUM LINKS 
+    let id = props.id, hideFieldLabel=true
+    return display.displayEnum(args, props, property, id, hideFieldLabel)
   }
   else if(util.isSysJSONDataType(field)) {
   }

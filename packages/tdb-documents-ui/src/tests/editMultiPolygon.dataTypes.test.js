@@ -40,23 +40,23 @@ describe("Test edit multipolygon data type Property", () => {
 		
 		
 		// latitude
-		const latitudeInput = screen.getByRole("textbox", { name: "latitude__0" })
+		const latitudeInput = screen.getByRole("spinbutton", { name: "latitude__0" })
 		expect(latitudeInput).toBeInTheDocument()
 		expect(latitudeInput.value).toStrictEqual(config.formData["coordinates"][0][0][0] )
 
 		// longitude
-		const longitudeInput = screen.getByRole("textbox", { name: "longitude__0" })
+		const longitudeInput = screen.getByRole("spinbutton", { name: "longitude__0" })
 		expect(longitudeInput).toBeInTheDocument()
 		expect(longitudeInput.value).toStrictEqual(config.formData["coordinates"][0][0][1] ) 
 
 		// first entry 
-		const latitudeInput_1 = screen.getByRole("textbox", { name: "latitude__1" })
+		const latitudeInput_1 = screen.getByRole("spinbutton", { name: "latitude__1" })
 		expect(latitudeInput_1).toBeInTheDocument()
 		expect(latitudeInput_1.value).toStrictEqual(config.formData["coordinates"][0][1][0] )
 
 
 		// first entry 
-		const longitudeInput_1 = screen.getByRole("textbox", { name: "longitude__1" })
+		const longitudeInput_1 = screen.getByRole("spinbutton", { name: "longitude__1" })
 		expect(longitudeInput_1).toBeInTheDocument()
 		expect(longitudeInput_1.value).toStrictEqual(config.formData["coordinates"][0][1][1] )
 
@@ -73,9 +73,6 @@ describe("Test edit multipolygon data type Property", () => {
 
 		// setup FrameViewer 
 		let data=await setup(config)
-		// check if data is same as expected data
-		//expect(data).toStrictEqual(CONST.MULTI_POLYGON_DATA_TYPE_EDIT_DATA)
-
 		
 	})  
  

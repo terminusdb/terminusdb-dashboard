@@ -476,3 +476,24 @@ export function isInherritedFromGeoJSONTypes(frame) {
 		return CONST.GEOJSON_ARRAY_TYPES.includes(item);
 	});
 }
+
+/*** Key utility */
+/**  check if field is a key */
+/**
+ * 
+ * @param {*} property - property 
+ * @param {*} key - key field 
+ * @returns  checks if property is a key of a document
+ */
+export function checkIfKey(property, key) {
+	if(!key) return
+	if(!key["@fields"]) return 
+	return key["@fields"].filter( arr => arr === property)
+	/*var isKey=false
+	key["@fields"].map(item => {
+		if(item === property) {
+			isKey=true
+		}
+	})
+	return isKey*/
+}

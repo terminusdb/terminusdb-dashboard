@@ -44,7 +44,7 @@ describe("Test Self linked Document Links - CREATE MODE", () => {
 		// enter a nameInput root value
 		fireEvent.change(nameInput, {target: {value: config.input["name"]}})
 
-		const ageInput = screen.getByRole("textbox", { name: "age"})
+		const ageInput = screen.getByRole("spinbutton", { name: "age"})
 		// check if ageInput root input is available
 		expect(ageInput).toBeInTheDocument()
 		// enter a ageInput root value

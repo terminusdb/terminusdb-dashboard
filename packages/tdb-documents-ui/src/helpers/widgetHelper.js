@@ -59,7 +59,8 @@ export function getDocumentUIDisplay (args, extracted, property, linked_to) {
 export function getEnumUIDisplay(args, property) {
 
   function displayEnumWidget(props) {
-    return display.displayEnum(args, props, property) 
+    let id = props.idSchema["$id"], hideFieldLabel=false
+    return display.displayEnum(args, props, property, id, hideFieldLabel) 
   }  
 
   return { "ui:field": displayEnumWidget }

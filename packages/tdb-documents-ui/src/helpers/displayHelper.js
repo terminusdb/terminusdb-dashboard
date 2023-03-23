@@ -174,7 +174,7 @@ export function displayDocumentLink(props, args, extracted, property, linked_to)
 }
 
 // ENUMs
-export function displayEnum(args, props, property) {
+export function displayEnum (args, props, property, id, hideFieldLabel) {
 
   let { documentFrame, mode, fullFrame } = args 
     
@@ -188,11 +188,12 @@ export function displayEnum(args, props, property) {
   // add logic for required properties 
   return  <TDBEnum name={props.name}
     options={options}
+    hideFieldLabel={hideFieldLabel}
     enumDocumentClass={enumDocumentClass}
     value={props.formData}
     mode={mode}
     label={label}
-    id={props.idSchema["$id"]}
+    id={id}
     onChange={props.onChange}
     required={props.required}/>
 }

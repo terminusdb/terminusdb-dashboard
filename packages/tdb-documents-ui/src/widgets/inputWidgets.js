@@ -15,9 +15,11 @@ export const TDBInput = ({ id, name, value, required, hideFieldLabel, mode, plac
       comment={comment} 
       id={id} 
       hideFieldLabel={hideFieldLabel}/>
-    {placeholder !== XSD_STRING &&  <input type="text"
+    {/** only allow numbers */}
+    {placeholder !== XSD_STRING &&  <input type="number"
       id={id}   
       name={id}
+      pattern="[0-9]*"
       className={`${className} rounded w-100 mb-3`}
       value={value}
       placeholder={placeholder}

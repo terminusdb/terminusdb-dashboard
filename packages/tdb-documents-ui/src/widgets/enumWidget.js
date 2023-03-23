@@ -34,7 +34,7 @@ export const TDBEnum = ({ id, options, name, value, required, mode, enumDocument
   let constructedOpts= constructOptions(options)
 
   return <Stack direction="horizontal"  className="mb-3">
-    <TDBLabel name={label ? label : name} required={required} id={id}/>
+    <TDBLabel name={label ? label : name} required={required} hideFieldLabel={hideFieldLabel} id={id}/>
     <div className="w-100">
       <SelectComponent options={constructedOpts} 
         placeholder={`Select ${enumDocumentClass} ...`}

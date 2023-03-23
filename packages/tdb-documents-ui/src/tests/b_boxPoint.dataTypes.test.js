@@ -10,35 +10,35 @@ import selectEvent from 'react-select-event'
 function enterCoordinates(config) {
 	// B_BOX coordinates
 	// left
-	const leftInput = screen.getByRole("textbox", { name: "left__0" })
+	const leftInput = screen.getByRole("spinbutton", { name: "left__0" })
 	expect(leftInput).toBeInTheDocument()
 	fireEvent.change(leftInput, {target: {value: config.input["bbox"][0] }})
 
 	// bottom 
-	const bottomInput = screen.getByRole("textbox", { name: "bottom__1" })
+	const bottomInput = screen.getByRole("spinbutton", { name: "bottom__1" })
 	expect(bottomInput).toBeInTheDocument()
 	fireEvent.change(bottomInput, {target: {value: config.input["bbox"][1] }})
 
 	// right
-	const rightInput = screen.getByRole("textbox", { name: "right__2" })
+	const rightInput = screen.getByRole("spinbutton", { name: "right__2" })
 	expect(rightInput).toBeInTheDocument()
 	fireEvent.change(rightInput, {target: {value: config.input["bbox"][2] }})
 
 	// top
-	const topInput = screen.getByRole("textbox", { name: "top__3" })
+	const topInput = screen.getByRole("spinbutton", { name: "top__3" })
 	expect(topInput).toBeInTheDocument()
 	fireEvent.change(topInput, {target: {value: config.input["bbox"][3] }})
 
 
 	// POINT coordinates
 	// enter latitude
-	const latitudeInput = screen.getByRole("textbox", { name: "latitude__0" })
+	const latitudeInput = screen.getByRole("spinbutton", { name: "latitude__0" })
 	expect(latitudeInput).toBeInTheDocument()
 
 	fireEvent.change(latitudeInput, {target: {value: config.input["coordinates"][0] }})
 
 	// enter longitude
-	const longiudeInput = screen.getByRole("textbox", { name: "longitude__1" })
+	const longiudeInput = screen.getByRole("spinbutton", { name: "longitude__1" })
 	expect(longiudeInput).toBeInTheDocument()
 	fireEvent.change(longiudeInput, {target: {value: config.input["coordinates"][1] }}) 
 
@@ -130,33 +130,33 @@ describe("Test point data type Property", () => {
 		
 		// check if filled coordinates are displayed 
 		// left
-		const leftInput = screen.getByRole("textbox", { name: "left__0" })
+		const leftInput = screen.getByRole("spinbutton", { name: "left__0" })
 		expect(leftInput).toBeInTheDocument()
 		expect(leftInput.value).toStrictEqual(config.formData["bbox"][0])
 
 		// bottom
-		const bottomInput = screen.getByRole("textbox", { name: "bottom__1" })
+		const bottomInput = screen.getByRole("spinbutton", { name: "bottom__1" })
 		expect(bottomInput).toBeInTheDocument()
 		expect(bottomInput.value).toStrictEqual(config.formData["bbox"][1])
 
 		// right
-		const rightInput = screen.getByRole("textbox", { name: "right__2" })
+		const rightInput = screen.getByRole("spinbutton", { name: "right__2" })
 		expect(rightInput).toBeInTheDocument()
 		expect(rightInput.value).toStrictEqual(config.formData["bbox"][2])
 
 		// top
-		const topInput = screen.getByRole("textbox", { name: "top__3" })
+		const topInput = screen.getByRole("spinbutton", { name: "top__3" })
 		expect(topInput).toBeInTheDocument()
 		expect(topInput.value).toStrictEqual(config.formData["bbox"][3])
 
 
 		// latitude
-		const latitudeInput = screen.getByRole("textbox", { name: "latitude__0" })
+		const latitudeInput = screen.getByRole("spinbutton", { name: "latitude__0" })
 		expect(latitudeInput).toBeInTheDocument()
 		expect(latitudeInput.value).toStrictEqual(config.formData["coordinates"][0])
 
 		// longitude
-		const longitudeInput = screen.getByRole("textbox", { name: "longitude__1" })
+		const longitudeInput = screen.getByRole("spinbutton", { name: "longitude__1" })
 		expect(longitudeInput).toBeInTheDocument()
 		expect(longitudeInput.value).toStrictEqual(config.formData["coordinates"][1])
 

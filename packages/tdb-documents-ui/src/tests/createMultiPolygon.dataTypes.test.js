@@ -37,25 +37,25 @@ describe("Test Create a multipolygon data type Property", () => {
 
 		logRoles(container)
 		
-		console.log(" --- test////////////////// ", config.input["coordinates"][0][1][0])
+		//console.log(" --- test////////////////// ", config.input["coordinates"][0][1][0])
 
 		// enter lat & lng
-		const leftInput = screen.getByRole("textbox", { name: "left__0" })
+		const leftInput = screen.getByRole("spinbutton", { name: "left__0" })
 		expect(leftInput).toBeInTheDocument()
 		fireEvent.change(leftInput, {target: {value: config.input["bbox"][0] }})
 
 		// bottom 
-		const bottomInput = screen.getByRole("textbox", { name: "bottom__1" })
+		const bottomInput = screen.getByRole("spinbutton", { name: "bottom__1" })
 		expect(bottomInput).toBeInTheDocument()
 		fireEvent.change(bottomInput, {target: {value: config.input["bbox"][1] }})
 
 		// right
-		const rightInput = screen.getByRole("textbox", { name: "right__2" })
+		const rightInput = screen.getByRole("spinbutton", { name: "right__2" })
 		expect(rightInput).toBeInTheDocument()
 		fireEvent.change(rightInput, {target: {value: config.input["bbox"][2] }})
 
 		// top
-		const topInput = screen.getByRole("textbox", { name: "top__3" })
+		const topInput = screen.getByRole("spinbutton", { name: "top__3" })
 		expect(topInput).toBeInTheDocument()
 		fireEvent.change(topInput, {target: {value: config.input["bbox"][3] }})
 
@@ -72,13 +72,13 @@ describe("Test Create a multipolygon data type Property", () => {
 		await userEvent.click(addCoordinatesButton)
 
 		// enter latitude
-		const latitudeInput = screen.getByRole("textbox", { name: "latitude__0" })
+		const latitudeInput = screen.getByRole("spinbutton", { name: "latitude__0" })
 		expect(latitudeInput).toBeInTheDocument()
 		
 		fireEvent.change(latitudeInput, {target: { value: config.input["coordinates"][0][0][0] }})
 
 		// enter longitude
-		const longiudeInput = screen.getByRole("textbox", { name: "longitude__0" })
+		const longiudeInput = screen.getByRole("spinbutton", { name: "longitude__0" })
 		expect(longiudeInput).toBeInTheDocument()
 		fireEvent.change(longiudeInput, {target: { value: config.input["coordinates"][0][0][1] }})
 
@@ -86,12 +86,12 @@ describe("Test Create a multipolygon data type Property", () => {
 		await userEvent.click(addCoordinatesButton)
 
 		// enter latitude
-		const latitudeInput_1 = screen.getByRole("textbox", { name: "latitude__1" })
+		const latitudeInput_1 = screen.getByRole("spinbutton", { name: "latitude__1" })
 		expect(latitudeInput_1).toBeInTheDocument()
 		fireEvent.change(latitudeInput_1, {target: { value: config.input["coordinates"][0][1][0] }})
 
 		// enter longitude
-		const longiudeInput_1 = screen.getByRole("textbox", { name: "longitude__1" })
+		const longiudeInput_1 = screen.getByRole("spinbutton", { name: "longitude__1" })
 		expect(longiudeInput_1).toBeInTheDocument()
 		fireEvent.change(longiudeInput_1, {target: { value: config.input["coordinates"][0][1][1] }})
 
@@ -99,12 +99,12 @@ describe("Test Create a multipolygon data type Property", () => {
 		await userEvent.click(addCoordinatesButton)
 
 		// enter latitude
-		const latitudeInput_2 = screen.getByRole("textbox", { name: "latitude__2" })
+		const latitudeInput_2 = screen.getByRole("spinbutton", { name: "latitude__2" })
 		expect(latitudeInput_2).toBeInTheDocument()
 		fireEvent.change(latitudeInput_2, {target: { value: config.input["coordinates"][0][2][0] }})
 
 		// enter longitude
-		const longiudeInput_2 = screen.getByRole("textbox", { name: "longitude__2" })
+		const longiudeInput_2 = screen.getByRole("spinbutton", { name: "longitude__2" })
 		expect(longiudeInput_2).toBeInTheDocument()
 		fireEvent.change(longiudeInput_2, {target: { value: config.input["coordinates"][0][2][1] }}) 
 
@@ -129,7 +129,7 @@ describe("Test Create a multipolygon data type Property", () => {
 
 		// setup FrameViewer 
 		let data=await setup(config)
-		// check if data is same as expected data
+		// check if data is same as expected data 
 		expect(data).toStrictEqual(CONST.MULTI_POLYGON_DATA_TYPE_CREATE_DATA)
 	})  
 

@@ -410,7 +410,7 @@ export const MULTI_POLYGON_DATA_TYPE_CREATE_DATA = {
 			["51.515", "-0.09"],
 			["51.52", "-0.1"],
 			["51.52", "-0.12"]
-		]
+		] 
 	],
 	"type": "MultiPolygon"
 }
