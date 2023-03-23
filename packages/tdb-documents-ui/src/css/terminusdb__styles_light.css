@@ -1,12 +1,13 @@
-@import "https://bootswatch.com/5/darkly/bootstrap.css";
+@import "https://bootswatch.com/5/sandstone/bootstrap.css";
 
 :root {
-	--input-color: #adb5bd;
-  --input-border: 1px solid rgb(102, 102, 102);
+	--input-color: #000;
+  --input-border: 1px solid #000;
   --required-color: #6c757d;
   --tdb-label-width: 10rem;
-  --tdb-latlng-label-width: 5rem;
-  --input-calander-color: #000;
+  --nested-control-label-color: #f8f8f8;
+  --nested-required-label-color: #ccc;
+  --tdb-latlng-label-width: 5rem; 
   --rounded: 0.375rem;
 }
 
@@ -34,6 +35,11 @@ label.control-label {
   width: var(--tdb-label-width);
 }
 
+/** enabling labels in subdocument to appear in light color when in light mode */
+.bg-secondary label.control-label {
+  color: var(--nested-control-label-color);
+}
+
 /** labels for latitude & longitude */
 label.latlng-control-label {
   text-align:left; 
@@ -50,6 +56,11 @@ label.latlng-control-label {
   color: var(--required-color) !important;
   display: flex;
   width: var(--tdb-label-width);
+}
+
+/** enabling labels in subdocument to appear in light color when in light mode */
+.bg-secondary .required {
+  color: var(--nested-required-label-color) !important;
 }
 
 .required::after {
@@ -69,9 +80,9 @@ label.latlng-control-label {
 }
 
 /** react calander */
-.react-calendar {
+/*.react-calendar {
   background-color: var(--input-calander-color);
-}
+}*/
 
 .react-datetime-picker { 
   width: 100%;
@@ -86,18 +97,18 @@ label.latlng-control-label {
 }
 
 /** react calander set color to dark on select or hover */
-.react-calendar__tile:hover,
+/*.react-calendar__tile:hover,
 .react-calendar__tile--now,
 .react-calendar__navigation__label:hover,
 .react-calendar__navigation__label__labelText:hover,
 .react-calendar__navigation__arrow:hover { 
   color: var(--input-calander-color);
-}
+}*/
 
 .react-datetime-picker__wrapper { 
-  color: var(--input-color) !important;
+  /*color: var(--input-color) !important;
   background-color: transparent!important;
-  border: var(--input-border) !important;
+  border: var(--input-border) !important;*/
   width: 100%;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
@@ -107,11 +118,11 @@ label.latlng-control-label {
 }
 
 /* datepciker css when date has been chosen */
-.react-datetime-picker--closed { 
+/*.react-datetime-picker--closed { 
   color: var(--input-color) !important;
   background-color: transparent!important;
   width: 100%;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-}
+}*/
