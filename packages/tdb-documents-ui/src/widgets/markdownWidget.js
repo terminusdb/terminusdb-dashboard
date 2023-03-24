@@ -58,7 +58,7 @@ export function getMarkdownUI( formData, onChange, name ) {
   };
 
   /** set data color mode to dark data-color-mode="dark" */
-  return <div className="d-block w-100">
+  return <div className="d-block w-100 mb-3">
       <div className="w-100" data-color-mode="dark">
           <MDEditor
               value={code}
@@ -127,7 +127,7 @@ export function getViewMarkdownUI( formData, name, uiFrame ) {
           return <code className={String(className)}>{children}</code>;
       };
 
-      return <div className={`d-block ${css} w-100`}>
+      return <div className={`d-block ${css} w-100 mb-3`}>
           {/*<div className="mb-3">{name} </div>*/}
           <div className="w-100">
               <MDEditor

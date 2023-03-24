@@ -15,7 +15,7 @@ export const typeHelper = (documentFrame, property, fullFrame) => {
     return CONST.STRING_TYPE
   } 
   else if(util.isSubDocumentType(field)){
-    // SUBDOCUMENT TYPE
+    // SUBDOCUMENT TYPE 
     return CONST.OBJECT_TYPE
   }
   else if(util.isDocumentType(field, fullFrame)){
@@ -24,7 +24,8 @@ export const typeHelper = (documentFrame, property, fullFrame) => {
     // to link to an existing document or to create a new document all together
     //return CONST.OBJECT_TYPE
     // pass NULL type object as well when you unlink an existing link
-    return [CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null"]
+ 
+    return [CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null"] 
   }
   else if(util.isRdfLangString(field)) {
     return CONST.OBJECT_TYPE

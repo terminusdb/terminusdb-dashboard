@@ -16,7 +16,7 @@ const GetFieldDisplay = ({ args, props, element, id, property }) => {
 
 	function handleFieldChange(data, fieldName) {
 		//console.log("data", data, fieldName) 
-		element.children.props.onChange(data)
+		element.children.props.onChange(data) 
 	}
 
 	function fieldDisplay() {
@@ -57,7 +57,7 @@ export function ArrayFieldTemplate(args, props, property) {
 	return  <div className={`${props.className} w-100 mb-3`}>
 		<TDBLabel name={label} 
       comment={documentation.comment} 
-      id={`root_Set_${label}`}/>
+      id={`root_Set_${label}`}/> 
 		
 		{props.items &&
 			props.items.map((element, index) => {

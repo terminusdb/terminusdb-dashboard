@@ -39,7 +39,7 @@ export const TDBRDFLanguage = ({ name, formData, mode, comment, id, className, o
       <Card.Body>
         {/** language */}
         <TDBInput name={CONST.RDF_LANGUAGE} 
-          value={ formData.hasOwnProperty(CONST.RDF_LANGUAGE) ? formData[CONST.RDF_LANGUAGE] : "" } 
+          value={ formData && formData.hasOwnProperty(CONST.RDF_LANGUAGE) ? formData[CONST.RDF_LANGUAGE] : "" } 
           label={CONST.RDF_LANGUAGE_LABEL}
           mode={mode} 
           id={`${CONST.RDF_LANGUAGE_LABEL}_${id}`}
@@ -48,7 +48,7 @@ export const TDBRDFLanguage = ({ name, formData, mode, comment, id, className, o
           onChange={handleChange}/>
         {/** value */}
         <TDBInput name={CONST.RDF_VALUE} 
-          value={ formData.hasOwnProperty(CONST.RDF_VALUE) ? formData[CONST.RDF_VALUE] : "" } 
+          value={ formData && formData.hasOwnProperty(CONST.RDF_VALUE) ? formData[CONST.RDF_VALUE] : "" } 
           label={CONST.RDF_VALUE_LABEL}
           mode={mode} 
           id={`${CONST.RDF_VALUE_LABEL}_${id}`}

@@ -204,7 +204,7 @@ export function displayEnum (args, props, property, id, hideFieldLabel) {
 }
 
 // rdf:language
-export function displayRDFLanguageWidget (args, props, property){
+export function displayRDFLanguageWidget (args, props, property, id, hideFieldLabel){
 
   let { documentFrame, mode, extractedDocumentation } = args 
     
@@ -215,10 +215,11 @@ export function displayRDFLanguageWidget (args, props, property){
   // add logic for required properties 
   return  <TDBRDFLanguage name={label}
     formData={props.formData}
+    hideFieldLabel={hideFieldLabel}
     mode={mode}
     className={"tdb__doc__input"}
     comment={documentation.comment ? documentation.comment : null} 
-    id={props.idSchema["$id"]}
+    id={id}
     onChange={props.onChange}
     required={props.required}/>
 }

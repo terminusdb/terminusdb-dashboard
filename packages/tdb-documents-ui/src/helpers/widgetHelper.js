@@ -24,12 +24,14 @@ export function getUIDisplay (args, property, dataType) {
 
 // retrieves declaration for selected language
 export function extractPropertyDocumentation(extractedDocumentation, selectedLanguage) {
-  if(!Array.isArray(extractedDocumentation)) {
-    throw new Error(`Expected extracted documentation to be an array, but instead got ${extractedDocumentation}`)
+  if(Array.isArray(extractedDocumentation)) {// includes multi lang support
+    let filtered = extractedDocumentation.filter( arr => arr[CONST.SELECTED_LANGUAGE] === selectedLanguage)
+    return filtered[0]//throw new Error(`Expected extracted documentation to be an array, but instead got ${extractedDocumentation}`)
   }
-  // includes multi lang support
-  let filtered = extractedDocumentation.filter( arr => arr[CONST.SELECTED_LANGUAGE] === selectedLanguage)
-  return filtered[0]
+  else { 
+    // @documentation is also defined as object sometimes
+    return extractedDocumentation
+  }
 }
 
 // SUBDOCUMENT UI
@@ -69,7 +71,8 @@ export function getEnumUIDisplay(args, property) {
 // rdf:Lang
 export function getRDFLangUIDisplay(args, property) {
   function rdfLanguageWidget(props) {
-    return display.displayRDFLanguageWidget(args, props, property) 
+    let id =props.idSchema["$id"]
+    return display.displayRDFLanguageWidget(args, props, property, id) 
   }  
 
   return { "ui:field": rdfLanguageWidget }

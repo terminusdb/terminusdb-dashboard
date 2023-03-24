@@ -8,9 +8,9 @@ export const getDisplay = (props, args, property) => {
 
   let field = documentFrame[property] 
 
-  if(util.isDataType(field)) {
+  if(util.isDataType(field)) { 
     // DATA TYPES
-    return display.displayDataTypesWidget(props, args, property, "xsd:string", props.id, props.onChange) // review
+    return display.displayDataTypesWidget(props, args, property, field, props.id, props.onChange) // review
   } 
   else if(util.isSubDocumentType(field)){ 
     // SUBDOCUMENT TYPE
@@ -21,11 +21,11 @@ export const getDisplay = (props, args, property) => {
     return display.displaySubDocument(props, args, extracted, property, true, id, hideFieldLabel, linked_to)
   }
   else if(util.isDocumentType(field, fullFrame)) {
-    // DOCUMENT LINKS
-    /*let linked_to = field 
+    // DOCUMENT LINKS 
+    let linked_to = field 
     // at this point we will have reference available for linked_to
     let extracted=args.reference[field]
-    return display.displayDocumentLink(props, args, extracted, property, linked_to) */
+    return display.displayDocumentLink(props, args, extracted, property, linked_to)
   }
   else if(util.isEnumType(field)) {
     // ENUM LINKS 
@@ -42,4 +42,10 @@ export const getDisplay = (props, args, property) => {
     let id = props.id
     return display.displayChoiceSubDocument (props, args, property, id) 
   }
+  else if(util.isRdfLangString(field)) {
+    // RDF LANGUAGE
+    let id = props.id, hideFieldLabel=true
+    return display.displayRDFLanguageWidget (args, props, property, id, hideFieldLabel)
+  }
+
 }

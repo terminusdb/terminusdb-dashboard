@@ -75,5 +75,5 @@ export function makeArrayFrames(args, property, arrayType)  {
 		"ui:ArrayFieldTemplate" : showEachField
 	}
 
-	return {layout, uiLayout}
+	return { layout, uiLayout }
 }
