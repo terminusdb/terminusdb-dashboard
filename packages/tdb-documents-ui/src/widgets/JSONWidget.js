@@ -5,10 +5,6 @@ import Stack from "react-bootstrap/Stack"
 import * as CONST from "../constants"
 import { TDBLabel } from "../components/LabelComponent"
 
-/*{
-  "kitty": "jose"
-}*/
-
 // widget displays input boxes 
 export const TDBJSON = ({ id, name, value, required, mode, hideFieldLabel, onChange, comment, label }) => {
 

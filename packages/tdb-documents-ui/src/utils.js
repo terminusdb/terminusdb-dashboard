@@ -351,7 +351,7 @@ export function checkIfSubDocumentShouldBeExapnded(documentFrame, property) {
 	let metaDataType=fetchMetaData(documentFrame, property), expanded = false
 	if(metaDataType) {
 		// expecting JSON at this point
-		expanded=metaDataType
+		expanded=metaDataType["expand"]
 	}
 	return expanded
 }
