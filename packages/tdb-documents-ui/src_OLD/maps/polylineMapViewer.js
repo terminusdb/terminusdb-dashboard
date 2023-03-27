@@ -6,12 +6,11 @@ import icon from "../constants"
 import "leaflet-arrowheads"
 import L from "leaflet"
 import {MAP_OPTION, MARKER_OPTION} from "./map.constants"
-import uuid from 'react-uuid'
 
 export const polylineMapViewer = (args) => {
 	let {property, documents, zoom, icon, center, bounds}=args
 
-	let mapID=uuid()
+	let mapID=crypto.randomUUID()
 	
 	useEffect(() => {
 		map()

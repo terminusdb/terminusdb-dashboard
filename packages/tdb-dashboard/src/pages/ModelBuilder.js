@@ -44,7 +44,8 @@ export const ModelBuilder = (props) =>{
        {/* <SplitPane split="horizontal" >
         <div>*/}
          {dataProduct &&  
-         <GraphObjectProvider currentChangeRequest={currentChangeRequest} setError={setReport} mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
+         <GraphObjectProvider currentChangeRequest={currentChangeRequest} setError={setReport} 
+            mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
            <Tabs defaultActiveKey={GRAPH_TAB} id="model-builder-tab" className="mt-3" onSelect={(k) => setTab(k)} >                 
                 {<Tab eventKey={GRAPH_TAB} title="Graph View">
                     {/*callServerLoading && <Loading message={`Fetching schema of ${dataProduct}...`} type={PROGRESS_BAR_COMPONENT}/>*/}    
@@ -63,7 +64,7 @@ export const ModelBuilder = (props) =>{
                     {callServerLoading &&  <Loading message={`Fetching schema of ${dataProduct}...`}/>}                   
                                                     
                     {!callServerLoading && dataProduct && 
-                        <JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} saveGraph={saveData} setReportMessage={setReport}/>
+                        <JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />
                     }
                 </Tab>
            

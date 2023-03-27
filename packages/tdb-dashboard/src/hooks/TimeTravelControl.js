@@ -86,7 +86,6 @@ export const TimeTravelControl = (limit=5) => {
             } 
             const tmpWoqlClient =  woqlClient.copy()
             
-            tmpWoqlClient.checkout('_commits')
             tmpWoqlClient.query(queryObj).then((result) => {
                 if (result.bindings) {
                     const dataFormatted=formatResult(result.bindings);

@@ -47,7 +47,7 @@ export function formatErrorMessage (err){
 			message = getCRConflictError(err.data["api:witnesses"])
 		}else if (err.data["api:message"]=== "Schema check failure") {
 			message = `${err.data["api:message"]} ${JSON.stringify(err.data["system:witnesses"], null, 2)}`
-		}else{
+		}else if(err.data["api:message"]){
 			message = err.data["api:message"]
 		}
 	}

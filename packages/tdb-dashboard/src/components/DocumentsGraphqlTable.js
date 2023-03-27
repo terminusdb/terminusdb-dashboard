@@ -147,10 +147,10 @@ export const DocumentsGraphqlTable = ({type,onRowClick,showGraphqlTab=true}) => 
                    //   view={(tableConfig ? tableConfig.json() : {})}
                       limit={limit}
                       start={start}
-                      orderBy={{}} 
+                      orderBy={[]} 
                       setFilters = {changeFilters}
                       setLimits={changeLimits}
-                     // setOrder={changeOrder}
+                      //setOrder={changeOrder}
                      // query={null}
                       loading={loading}
                       totalRows={rowCount}

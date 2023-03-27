@@ -6,3 +6,7 @@ Removed debug code from onClick property
 
 Fixed cell viewer to make it work with full json-ld results in bindings
 
+
+
+/aws/containerinsights/terminusx-dev-cluster/application
+

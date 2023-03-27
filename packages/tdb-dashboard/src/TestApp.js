@@ -1,9 +1,15 @@
 import React , {useEffect,useState} from 'react';
 import TerminusClient from '@terminusdb/terminusdb-client'
-import { AdvancedSearch } from '../src/AdvancedSearch';
+import { AdvancedSearch } from '@terminusdb/terminusdb-react-table';
+import {
+   Dropdown,
+   DropdownMenu,
+   DropdownToggle,
+   DropdownItem,
+ } from "reactstrap"; 
 //import {WOQLResult} from "@terminusdb/terminusdb-client";
 
-const App = (props) =>{
+const TestApp = (props) =>{
     const claimCaseAdvancedSearch = {
         "death_certificate_for_claim":{
            "label":"death_certificate_for_claim",
@@ -107,6 +113,29 @@ const App = (props) =>{
         
      }
      
-    return <AdvancedSearch fields={claimCaseAdvancedSearch} setFilter={claimCaseAdvancedFilter}/>
-}
-export default App;
+
+     const [dropdownOpen, setDropdownOpen] = useState(false);
+
+     const toggle = () => setDropdownOpen((prevState) => !prevState);
+   
+    return <div style={{marginLeft:"500px"}} >
+       <div className="d-flex p-5">
+       COMPLETE APP NO ModelProductPage
+      <Dropdown isOpen={dropdownOpen} toggle={toggle} >
+        <DropdownToggle caret>Dropdown</DropdownToggle>
+        <DropdownMenu container="body">
+          <DropdownItem header>Header</DropdownItem>
+          <DropdownItem>Some Action</DropdownItem>
+          <DropdownItem text>Dropdown Item Text</DropdownItem>
+          <DropdownItem disabled>Action (disabled)</DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem>Foo Action</DropdownItem>
+          <DropdownItem>Bar Action</DropdownItem>
+          <DropdownItem>Quo Action</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    </div>
+      <AdvancedSearch  fields={claimCaseAdvancedSearch} setFilter={claimCaseAdvancedFilter}/>
+          </div>
+}           
+export default TestApp;

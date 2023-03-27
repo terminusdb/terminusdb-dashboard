@@ -49,6 +49,7 @@ export const DocumentControlProvider = ({children}) => {
         try{
         // to be review I'm adding get table config here
             if(woqlClient){
+                setDocumentClasses(false)
                 setLoading(true)
                 setError(false)
                 const dataProduct = woqlClient.db()
@@ -68,6 +69,9 @@ export const DocumentControlProvider = ({children}) => {
     // I need to reload the class too
     async function getDocNumber(){
         try{
+            setDocumentClasses(false)
+            setTotalDocumentCount(false)
+            setPerDocument(false)
             setLoading(true)
             setError(false)
             // I need to reload because I do not know if this can change
@@ -127,23 +131,27 @@ export const DocumentControlProvider = ({children}) => {
         // only if I'm in change request mode 
         // I do not need to reload because the schema can not change
         //if(!currentChangeRequest || documentTablesConfig === null) 
-        getGraphqlTableConfig()
-        getUpdatedFrames()
         // we need in edit/insert
-        if(id) {         
-            let documentID=decodeUrl(id)
-            getDocument(documentID)
+        if(id || changeid) {              
+            getUpdatedFrames()  
+            if(id){
+                getGraphqlTableConfig()
+                let documentID=decodeUrl(id)
+                getDocument(documentID)
+            }
         }
     },[id,changeid])
 
 
     function getGraphqlTableConfig ( ){
+        setDocumentTablesConfig(null)
         if(woqlClient){
             setLoading(true)
             setError(false)
             const clientCopy = woqlClient.copy()
             clientCopy.connectionConfig.api_extension = 'api/'
-            const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+           // const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+            const baseUrl = clientCopy.connectionConfig.branchBase("tables")
             clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
                 setDocumentTablesConfig(result)  
             }).catch(err=>{
@@ -154,6 +162,7 @@ export const DocumentControlProvider = ({children}) => {
     }
 
     function getUpdatedFrames() {
+        setFrames(null)
         if(woqlClient){
             setLoading(true)
             setError(false)
@@ -224,7 +233,7 @@ export const DocumentControlProvider = ({children}) => {
             const params={id:documentId}
             let commitMsg=`Deleting document ${documentId}` 
             const res = await woqlClient.deleteDocument(params, dataProduct, commitMsg)
-            return res
+            return true
         }catch(err){
             setError(`I can not delete the document ${err.message}`)
        }finally{setLoading(false)}
@@ -232,7 +241,11 @@ export const DocumentControlProvider = ({children}) => {
 
 
     // check if the current change request is still open
-    async function checkStatus (){   
+    async function checkStatus (){ 
+        // I can decide to change a document 
+        // in a new branch without using the change request workflow
+        // in this case currentChangeRequest is false
+        if(!currentChangeRequest) return 
         const CRObject = await getChangeRequestByID(currentChangeRequest)
         if(CRObject.status !== "Open"){
             throw Error(`The current Change Request has been ${CRObject.status}. 

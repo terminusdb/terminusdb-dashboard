@@ -1,25 +1,17 @@
 import React, {useState} from 'react';
-import {Query, Builder, BasicConfig, Utils as QbUtils} from 'react-awesome-query-builder';
+import { Query, Builder, Utils as QbUtils, BasicConfig } from '@react-awesome-query-builder/ui';
+import {BootstrapConfig} from '@react-awesome-query-builder/bootstrap'
+//import "bootstrap/dist/css/bootstrap.css";
+// import {AntdConfig} from '@react-awesome-query-builder/antd';
+//'@react-awesome-query-builder/ui/css/styles.css';
+import "bootstrap/dist/css/bootstrap.css";
+import '@react-awesome-query-builder/bootstrap/css/styles.css';
+//import '@react-awesome-query-builder/ui/css/styles.css';
+//import {Query, Builder, BasicConfig, Utils as QbUtils} from 'react-awesome-query-builder';
 import {Button} from 'react-bootstrap'
 
-// For AntDesign widgets only:
-//import AntdConfig from 'react-awesome-query-builder/lib/config/antd';
-//import 'antd/dist/antd.css'; // or import "react-awesome-query-builder/css/antd.less";
-// For MUI 4/5 widgets only:
-import MaterialConfig from 'react-awesome-query-builder/lib/config/material';
-
-//import MuiConfig from 'react-awesome-query-builder/lib/config/mui';
-
-// For Bootstrap widgets only:
-//import BootstrapConfig from "react-awesome-query-builder/lib/config/bootstrap";
-
-import 'react-awesome-query-builder/lib/css/styles.css';
-
-
-//import 'react-awesome-query-builder/lib/css/compact_styles.css'; //optional, for more compact styles
-
 // Choose your skin (ant/material/vanilla):
-const InitialConfig = MaterialConfig  //AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
+const InitialConfig = BootstrapConfig // AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
 
 
 const regex = {
@@ -122,7 +114,7 @@ export const AdvancedSearch = (props) =>{
                     "equal":'eq',
                     "not_equal":"ne",
                     "like":"regex",
-                    "starts_with":"regex",
+                    "starts_with":"startsWith",
                     "greater_or_equal":"ge",
                     "greater":"gt",
                     "less_or_equal":"le",
@@ -192,8 +184,6 @@ export const AdvancedSearch = (props) =>{
 
               if(element.properties.operator === "like"){
                 value = `(?i)${value}`
-              }else if(element.properties.operator === "starts_with"){
-                value = `(ˆ)${value}`
               }
               
               let valueObj = {}

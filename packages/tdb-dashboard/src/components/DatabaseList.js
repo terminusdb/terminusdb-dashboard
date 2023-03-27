@@ -37,7 +37,7 @@ export const DataProductItems = (props) => {
             onClick={(e) => handleClick(item)}     
             icon={false} 
             className="sub-menu-title">
-            {item.label}
+            {item.label || item.name}
         </MenuItem>
     }
 
