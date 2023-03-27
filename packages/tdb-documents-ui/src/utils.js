@@ -179,25 +179,6 @@ export const isRdfLangString = (field) => {
 	return false
 }
 
-/**
- * 
- * @param {*} frame - sub frame of properties
- * @param {*} property - property 
- * @returns type of array - if property is SET/ LIST/ ARRAY 
- */
- export const getArrayType = (frame, property) => { 
-	let field=frame[property]
-	if(typeof field !== CONST.OBJECT_TYPE) {
-		throw new Error (`Expected Array Frames to be an object, instead received ${field}`)
-	}
-	if(!field.hasOwnProperty(CONST.TYPE)) {
-		throw new Error (`Expected Array Frames to have @type defined, instead received ${field}`)
-	}
-	if(field[CONST.TYPE] === CONST.SET) return CONST.SET
-	if(field[CONST.TYPE] === CONST.LIST) return CONST.LIST
-	if(field[CONST.TYPE] === CONST.ARRAY) return CONST.ARRAY
-}
-
 
 /** choice documents/ sub documents utils */
 /**

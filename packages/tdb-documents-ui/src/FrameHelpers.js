@@ -54,11 +54,11 @@ export function getProperties (args) {
 			// SET/ LIST/ ARRAY FRAMES
 			let extractedFrames = util.extractFrames(documentFrame, property)
 			// make a copy
-			let argsHolder = {...args}
+			let argsHolder = {...args}, arrayType = documentFrame[property][CONST.TYPE]
 			argsHolder.documentFrame=extractedFrames
 			// getProperties will make set definitions available in reference
 			let dataFrames = getProperties(argsHolder)
-			let arrayFrames = makeArrayFrames(args, property, util.getArrayType(documentFrame, property)) 
+			let arrayFrames = makeArrayFrames(args, property, arrayType)
 		 
 			//set property layout & uiLayout
 			properties[property] = arrayFrames.layout

@@ -53,12 +53,13 @@ export function makeArrayFrames(args, property, arrayType)  {
 	/** gather layout of property  */ 
 	// construct new frame to be passed as array 
 	let arrayFrame = { [property]: documentFrame[property].hasOwnProperty(CONST.CLASS) ?  
-		documentFrame[property][CONST.CLASS] : documentFrame[property] }
+		documentFrame[property][CONST.CLASS] : documentFrame[property] },
+		isArray=true
 	let layout = { 
 		"type": CONST.ARRAY_TYPE,  
 		"title": property, 
 		"minItems": getMinItemsToDisplay(arrayType), 
-    "items": { type: typeHelper (arrayFrame, property, fullFrame) },
+    "items": { type: typeHelper (arrayFrame, property, fullFrame, isArray) },
 		[CONST.PLACEHOLDER]: getPlaceholder(args.documentFrame[property]) ,
 	} 
  

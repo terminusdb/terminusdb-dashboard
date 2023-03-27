@@ -4,7 +4,7 @@ import * as CONST from "../constants"
 import * as util from "../utils"
 import * as TYPE from "../dataType.constants"
 
-export const typeHelper = (documentFrame, property, fullFrame) => {
+export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
 
   let field = documentFrame[property]
 
@@ -20,12 +20,15 @@ export const typeHelper = (documentFrame, property, fullFrame) => {
   }
   else if(util.isDocumentType(field, fullFrame)){
     // DOCUMENT LINKS
+    // if isArray then we are only expecting Object Types
+    if(isArray) return CONST.OBJECT_TYPE
     // document links on create mode can expect 2 parameters
     // to link to an existing document or to create a new document all together
-    //return CONST.OBJECT_TYPE
     // pass NULL type object as well when you unlink an existing link
- 
-    return [CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null"] 
+    return [ CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null" ] 
+  }
+  else if(util.isChoiceSubDocumentType(field)) {
+    return CONST.OBJECT_TYPE
   }
   else if(util.isRdfLangString(field)) {
     return CONST.OBJECT_TYPE

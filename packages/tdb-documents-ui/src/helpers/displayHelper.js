@@ -157,7 +157,7 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
 }
 
 // DOCUMENT LINKS 
-export function displayDocumentLink(props, args, extracted, property, linked_to) { 
+export function displayDocumentLink(props, args, extracted, property, linked_to, hideFieldLabel) { 
 
   let { fullFrame, onTraverse, mode, onSelect, documentFrame, reference } = args
   let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
@@ -168,13 +168,13 @@ export function displayDocumentLink(props, args, extracted, property, linked_to)
     linkId={props.hasOwnProperty("id") ? props["id"] : null}
     //comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
-    hideFieldLabel={false}
+    hideFieldLabel={hideFieldLabel}
     onSelect={onSelect}
     reference={reference}
     onTraverse={onTraverse}
     propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
     linked_to={linked_to}
-    unfoldable={util.isUnfoldable(documentFrame)}
+    unfoldable={util.isUnfoldable(fullFrame[linked_to])}
     props={props}/>
 }
 
