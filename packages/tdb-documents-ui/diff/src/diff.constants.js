@@ -1,32 +1,122 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
-	"body": {
-		"@id": "body/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
-		"@type": "body",
-		"m_like": true,
-		"like": false,
-		"optMarkDown": "### opt",
-		"setMarkDown": [
-		  "### set 1",
-		  "### set 2"
-		],
-		"text": ["text1", "text2", "text3", "2","text4org", "5", "5"]
+	"Person": {
+		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+		"@type": "Person",
+		"likes": {
+			"@type": "Animal", 
+			"nickName": "Chooo",
+			"category": "Cats",
+			"owned_by": {
+				"@type": "Person", 
+				"name": "Ron Terol",
+				"likes": {
+					"@type": "Animal", 
+					"nickName": "Ronny",
+					"category": "Dogs",
+					/*"owned_by": {
+						"@type": "Person", 
+						"name": "Marry Ann"
+					}*/
+				}
+			}
+		},
+		/*"manYAddress": [
+			{
+				"@type": "Address",
+				"AddressLine1": "AddressLine1 ",
+				"City": "City",
+				"Country": "Country ",
+				"postalCode": "postalCode "
+			},
+			{
+				"@type": "Address",
+				"AddressLine1": "AddressLine1 ",
+				"City": "City",
+				"Country": "Country ",
+				"postalCode": "postalCode "
+			},
+			{
+				"@type": "Address",
+				"AddressLine1": "AddressLine1 ",
+				"City": "City",
+				"Country": "Country ",
+				"postalCode": "postalCode "
+			}
+		]*/
+		/*"nickNames": [
+			"Nano N", "Parka N", "Li N"
+		],*/
+		//"name": "Nina",
+		//"age": 23,
+		/*"permanentAddress": {
+			"@type": "Address",
+			"AddressLine1": "AddressLine1",
+			"City": "City",
+			"Country": "Country",
+			"postalCode": "postalCode"
+		}*/
 	}
 } 
  
 
 export const changedData = {
-	"body": {
-		"@id": "body/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
-		"@type": "body",
-		"m_like": true,
-		"like": true,
-		"optMarkDown": "### opt changed",
-		"setMarkDown": [
-		  "### set 1 changed",
-		  "### set 2"
-		],
-		"text": ["text1changed", "text2", "text3ch", "2", "text4", "5", "5"]
+	"Person": {
+		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+		"@type": "Person",
+		"likes": {
+			"@type": "Animal", 
+			"nickName": "Chooo",
+			"category": "Cats",
+			"owned_by": {
+				"@type": "Person", 
+				"name": "Ron Terol",
+				"likes": {
+					"@type": "Animal", 
+					"nickName": "Jimmy",
+					"category": "Dogs",
+					/*"owned_by": {
+						"@type": "Person", 
+						"name": "Marry Ann"
+					}*/
+				}
+			}
+		},
+		/*"manYAddress": [
+			{
+				"@type": "Address",
+				"AddressLine1": "AddressLine1 ",
+				"City": "City",
+				"Country": "Country ",
+				"postalCode": "postalCode "
+			},
+			{
+				"@type": "Address",
+				"AddressLine1": "AddressLine1 new",
+				"City": "City",
+				"Country": "Country new",
+				"postalCode": "postalCode new"
+			},
+			{
+				"@type": "Address",
+				"AddressLine1": "ADDR ",
+				"City": "LATER",
+				"Country": "LATER ",
+				"postalCode": "LATER "
+			},
+		]*/
+		/*"nickNames": [
+			"Nano", "Parka N", "Li N"
+		],*/
+		//"name": "Jose",
+		//"age": 13,
+		/*"permanentAddress": {
+			"@type": "Address",
+			"AddressLine1": "AddressLine1 new",
+			"City": "City new",
+			"Country": "Country new",
+			"postalCode": "postalCode new"
+		}*/
 	}
 } 
 /*

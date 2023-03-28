@@ -2,19 +2,22 @@ import React from "react"
 import * as CONST from "../constants"
 import * as display from "./displayHelper"
 import * as geoTemplate from "../arrayHelpers/geoJSONTemplates"
-
+import { v4 as uuidv4 } from 'uuid';
 
 // NORMAL DATA TYPES
 export function getUIDisplay (args, property, dataType) {
-
+  let key = uuidv4()
+  
   function displayWidget (props) {
+    // console.log("key", key)
     // we pass ID at this point since we have sepratae IDs for normal dataTypes & for Sets/ List
     let id = props.idSchema["$id"]
-    // normal data type inputa are being called here 
+    
+    // normal data type input are being called here 
     // function expects input data and id of field into which user event occurs
     function handleChange(data) {
       if(props.onChange) props.onChange(data)
-    }
+    } 
 
     return display.displayDataTypesWidget(props, args, property, dataType, id, handleChange)
   }

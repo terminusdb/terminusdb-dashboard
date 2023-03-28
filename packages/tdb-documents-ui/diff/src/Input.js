@@ -51,9 +51,9 @@ export const Input = () => {
 			<span>{`Connected to `}</span>
 			<span className="fw-bold text-success">{dataProduct}</span>
 		</Stack>
-		<span className="text-muted">{`Select a document type`}</span> 
+		{/*<span className="text-muted">{`Select a document type`}</span> 
 		<Form noValidate validated={validated} onSubmit={handleSubmit}>
 			<SelectList/>
-		</Form>
+		</Form>*/}
 	</React.Fragment>
 }

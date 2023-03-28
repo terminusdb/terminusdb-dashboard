@@ -13,7 +13,7 @@ import { BsTrashFill } from "react-icons/bs"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 
-const DisplayFilledFrame = ({ documentData, hideFieldLabel, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, uiFrame, hideFieldLabel, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -33,12 +33,15 @@ const DisplayFilledFrame = ({ documentData, hideFieldLabel, reference, cardKey, 
     // definitions will have definitions of linked_to frames
     let deifinitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
 
+    let defaultClassName="tdb__doc__input"
 
     //for(let field in extracted.properties) {
     for(let field in deifinitions.properties) {  
-      //if(field === documentLinkPropertyName) {
+          
       linked_to = deifinitions.properties[field][CONST.PLACEHOLDER]
       if(util.availableInReference(reference, linked_to)) {
+        // unfolderdLinkPropertyName stores the property name which is linked to unfolded Document
+        // we need this value to understand diff uis 
         if(!formData.hasOwnProperty(field)) fields.push(<div className="empty"/>) 
         else fields.push(<ViewDocument name={field} 
           onChange={handleChange}
@@ -57,6 +60,7 @@ const DisplayFilledFrame = ({ documentData, hideFieldLabel, reference, cardKey, 
         // internal properties
         let fieldName = deifinitions.properties[field].title
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
+        
         let config = {
           dataType: deifinitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
           name: fieldName,
@@ -67,7 +71,7 @@ const DisplayFilledFrame = ({ documentData, hideFieldLabel, reference, cardKey, 
           id: fieldID, 
           formData: documentData[field],
           placeholder: deifinitions.properties[field][CONST.PLACEHOLDER],
-          className: "tdb__doc__input",
+          className:  defaultClassName,
           onChange: handleChange,
           documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
         }
@@ -106,7 +110,7 @@ const ViewHelper = ({ linked_to }) => {
 }
  
 // VIEW MODE
-export const ViewDocument = ({ name, required, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse }) => {
+export const ViewDocument = ({ name, required, uiFrame, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -127,6 +131,7 @@ export const ViewDocument = ({ name, required, reference, hideFieldLabel, depth,
           mode={mode}
           unfoldable={unfoldable}
           onTraverse={onTraverse}
+          uiFrame={uiFrame}
           onChange={onChange}
           linked_to={linked_to}
           cardKey={cardKey}

@@ -90,6 +90,7 @@ export function display (config) {
         required={config.required}
         mode={config.mode} 
         isKey={config.isKey}
+        inputKey={config.key}
         id={config.id}
         placeholder={config.placeholder} 
         className={config.className} 
@@ -98,13 +99,16 @@ export function display (config) {
   }
 }
 
+
+
+
 /** display widget is called for normal dattypes like xsd:string/ xsd:float etc */
 export function displayDataTypesWidget(props, args, property, dataType, id, onChange) {
 
-  let { documentFrame, extractedDocumentation, mode } = args
+  let { documentFrame, extractedDocumentation, mode, uiFrame } = args
   let field = documentFrame[property]
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
-  let config = {}
+  let config = {}, defaultClassName="tdb__doc__input"
   // checks for metaData => render_as markdown
   let metaDataType=util.fetchMetaData(documentFrame, property) 
   if(metaDataType) {
@@ -121,8 +125,9 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
     mode: mode,
     isKey: util.checkIfKey(property, documentFrame["@key"]),
     id: id, 
+    //key: key,
     placeholder: getPlaceholder(field),
-    className: "tdb__doc__input",
+    className: util.getUIClassNames(uiFrame, property, defaultClassName, props.index),
     onChange: onChange,
     documentation: documentation,
     hideFieldLabel: props.hideFieldLabel
@@ -133,7 +138,7 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
 // SUBDOCUMENTs 
 export function displaySubDocument(props, args, extracted, property, expanded, id, hideFieldLabel, linked_to) { 
 
-  let { fullFrame, extractedDocumentation, mode, type,  } = args
+  let { fullFrame, extractedDocumentation, mode, uiFrame  } = args
  
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
@@ -145,12 +150,14 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
   // add logic for required properties  
   return  <TDBSubDocument extracted={extracted} 
     id={id}
+    uiFrame={uiFrame}
     hideFieldLabel={hideFieldLabel}
     expanded={expanded}
     subDocumentData={subDocumentData} 
     setSubDocumentData={setSubDocumentData}
     comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
+    index={props.index}
     propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
     linked_to={linked_to}
     props={props}/>
@@ -159,7 +166,7 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
 // DOCUMENT LINKS 
 export function displayDocumentLink(props, args, extracted, property, linked_to, hideFieldLabel) { 
 
-  let { fullFrame, onTraverse, mode, onSelect, documentFrame, reference } = args
+  let { fullFrame, onTraverse, mode, onSelect, uiFrame, reference } = args
   let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
 
@@ -168,6 +175,7 @@ export function displayDocumentLink(props, args, extracted, property, linked_to,
     linkId={props.hasOwnProperty("id") ? props["id"] : null}
     //comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
+    uiFrame={uiFrame}
     hideFieldLabel={hideFieldLabel}
     onSelect={onSelect}
     reference={reference}

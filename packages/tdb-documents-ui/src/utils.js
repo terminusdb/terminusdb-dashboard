@@ -524,3 +524,65 @@ export function getValueHashMessage () {
 		delete this document and create a new one.
 	</p>
 }
+
+/**** ui frame functions */
+
+/**
+ * 
+ * @param {*} uiFrame ui json  
+ * @returns custom ui function
+ */
+export function getUIClassNames (uiFrame, property, defaultClassName, index) {
+	if(uiFrame && uiFrame.hasOwnProperty(property)) {
+		if(Array.isArray(uiFrame[property])) {
+			// SET/ LIST/ ARRAY
+			// expecting index to be populated from Array templates 
+			return index === undefined ?  `` : uiFrame[property][index] !== undefined ? `${uiFrame[property][index][CONST.CLASSNAME]}` : `tdb__doc__input`
+		}
+		else if(uiFrame[property].hasOwnProperty(CONST.CLASSNAME)) {
+			// SUBDOCUMENTS ( property will be fields of subdocuments)
+			// NORMAL DATA TYPES
+			return `${uiFrame[property][CONST.CLASSNAME]}`
+		}
+		else return defaultClassName 
+	}
+  return defaultClassName 
+}
+
+/**
+ * 
+ * @param {c} uiFrame ui frame 
+ * @param {*} subDocumentPropertyName subdocument property name 
+ * @param {*} defaultClassName default classname "tdb__doc__input"
+ * @returns  ui frame for subdocument property which would contain each field uiframes to display from diffviewer
+ */
+export function getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index) {
+  if(uiFrame && uiFrame.hasOwnProperty(subDocumentPropertyName)) {
+		if(index) return uiFrame[subDocumentPropertyName][index]
+		else return uiFrame[subDocumentPropertyName]
+	}
+  return defaultClassName
+}
+
+/**
+ * 
+ * @param {*} uiFrame ui frame 
+ * @param {*} subDocumentPropertyName subdocument property name 
+ * @param {*} index index for Arrays
+ * @returns 
+ */
+export function getBorder (uiFrame, subDocumentPropertyName, index) {
+  if(uiFrame && uiFrame.hasOwnProperty(subDocumentPropertyName)) {
+		if(index) {
+			if(uiFrame[subDocumentPropertyName][index].hasOwnProperty(CONST.BORDER)) {
+				return uiFrame[subDocumentPropertyName][index][CONST.BORDER]
+			}
+			else return "border border-dark"
+		}
+		else {
+			if(uiFrame[subDocumentPropertyName].hasOwnProperty(CONST.BORDER)) 
+				return uiFrame[subDocumentPropertyName][CONST.BORDER]
+		}
+	}
+	return "border border-dark"
+}

@@ -2,12 +2,12 @@ import React from "react"
 import * as display from "../helpers/displayHelper"
 import * as util from "../utils"
 import * as CONST from "../constants"
+import { v4 as uuidv4 } from 'uuid';
  
 export const getDisplay = (props, args, property) => {
   let { fullFrame, reference, documentFrame } =  args
 
-  let field = documentFrame[property],
-    hideFieldLabel=true  // hide label for set
+  let field = documentFrame[property], hideFieldLabel=true  // hide label for set
 
   if(util.isDataType(field)) { 
     // DATA TYPES

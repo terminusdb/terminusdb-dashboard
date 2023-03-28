@@ -6,10 +6,8 @@ import { XSD_STRING  } from "../dataType.constants"
 import { TDBLabel } from "../components/LabelComponent"
 
 
-
 // widget displays input boxes 
 export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mode, placeholder, className, onChange, comment, label }) => {
-  
   // use this input Value to indentify if value was filled or not in EDIT mode 
   // input Value is used to check if peoperty isKey in EDIT mode so as to stop user 
   // from altering the value
@@ -31,6 +29,7 @@ export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mod
       pattern="[0-9]*"
       className={`${className} rounded w-100 mb-3`}
       value={value}
+      //key={inputKey}
       readOnly={checkIfReadOnly(mode, inputValue, isKey)}
       placeholder={placeholder}
       required={required}
@@ -39,6 +38,7 @@ export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mod
     {placeholder === XSD_STRING &&  <textarea type="text"
       id={id}
       name={id}
+      //key={inputKey}
       className={`${className} rounded w-100 mb-3`}
       value={value}
       placeholder={placeholder}

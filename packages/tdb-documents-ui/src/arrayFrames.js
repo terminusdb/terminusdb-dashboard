@@ -6,7 +6,6 @@ import { uiHelper } from "./helpers/uiHelper"
 import { typeHelper } from "./helpers/typeHelper"
 import * as template from "./arrayHelpers/templates"
 import { getPlaceholder } from "./helpers/placeholderHelper"
-import { getDisplay } from "./arrayHelpers/fieldDisplay"
 
 /**
  * 
@@ -36,6 +35,27 @@ function getUIArrayOptions (arrayType, mode) {
   return arrayType===CONST.SET ? CONST.SET_UI_ARRAY_OPTIONS : CONST.LIST_UI_ARRAY_OPTIONS 
 }
 
+// copy args document frame manually 
+// reason for doing this is to not modify the original frames so we can call
+// multiple frameviewer from same page ( mostly used in diffViewer )
+function makeACopy(args, property) {
+	let argsHolder = {} 
+	for(let props in args) {
+		if(props === "documentFrame") {
+			argsHolder["documentFrame"] = {}
+			for( let docProperty in args["documentFrame"]) {
+				if(docProperty === property){
+					argsHolder["documentFrame"][property] = args["documentFrame"][property].hasOwnProperty(CONST.CLASS) ? 
+					args["documentFrame"][property][CONST.CLASS] : args["documentFrame"][property] 
+				}
+				else argsHolder["documentFrame"][docProperty]=args["documentFrame"][docProperty]
+			}	
+		}
+		else argsHolder[props] = args[props]
+	}
+	return argsHolder
+}
+
 /**
  * 
  * @param {*} frame - frame of document
@@ -63,13 +83,12 @@ export function makeArrayFrames(args, property, arrayType)  {
 		[CONST.PLACEHOLDER]: getPlaceholder(args.documentFrame[property]) ,
 	} 
  
-	let argsHolder = {...args}
 
-	argsHolder.documentFrame[property] = documentFrame[property].hasOwnProperty(CONST.CLASS) ? 
-		documentFrame[property][CONST.CLASS] : documentFrame[property]
+	let argsHolder = makeACopy(args, property)
  
 	function showEachField(props) {
-		return template.ArrayFieldTemplate(args, props, property)
+		return template.ArrayFieldTemplate(argsHolder, props, property)
+		//return template.ArrayFieldTemplate(args, props, property)
 	} 
 
   let uiLayout={}

@@ -28,7 +28,7 @@ export function populateSubDocumentData(mode, linked_to, formData) {
 }
 
  
-const SubDocumentProperties = ({ subDocumentPropertyName, id, subDocumentData, setSubDocumentData, properties, required, mode, onChange, linked_to, propertyDocumentation }) => {
+const SubDocumentProperties = ({ subDocumentPropertyName, index, id, uiFrame, subDocumentData, setSubDocumentData, properties, required, mode, onChange, linked_to, propertyDocumentation }) => {
   
   //const [fields, setFields] = useState([])
  
@@ -40,11 +40,13 @@ const SubDocumentProperties = ({ subDocumentPropertyName, id, subDocumentData, s
   } 
                                   
   //console.log("subDocumentData SubDocumentProperties", subDocumentData)
+  let defaultClassName="tdb__doc__input"
+  let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
 
   const getSubDocumentFields = (subDocumentData) => {
     let subDocumentFields = []
     for(let field in properties) { 
-      let fieldName = properties[field].title
+      let fieldName = properties[field].title 
       let fieldID=`root_${subDocumentPropertyName}_${fieldName}`
       if(id) {
         // id will be filled if Sets/List
@@ -59,7 +61,8 @@ const SubDocumentProperties = ({ subDocumentPropertyName, id, subDocumentData, s
         mode: mode, 
         id: fieldID, 
         placeholder: properties[field][CONST.PLACEHOLDER],
-        className: "tdb__doc__input",
+        className: util.getUIClassNames(fieldUIFrame, field, defaultClassName),
+        //className: "tdb__doc__input", 
         onChange: handleChange,
         documentation: util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
       }
@@ -75,17 +78,19 @@ const SubDocumentProperties = ({ subDocumentPropertyName, id, subDocumentData, s
   </Card.Body>
 }
   
-export const TDBSubDocument = ({ extracted, expanded, comment, props, hideFieldLabel, mode, linked_to, propertyDocumentation, id, subDocumentData, setSubDocumentData }) => {
+export const TDBSubDocument = ({ extracted, expanded, comment, props, index, uiFrame, hideFieldLabel, mode, linked_to, propertyDocumentation, id, subDocumentData, setSubDocumentData }) => {
   const [open, setOpen] = useState(expanded);
-   
+
+  if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) return <div className={`tdb__${props.name}__hidden`}/>
+    
 
   return <Stack direction="horizontal">
     <TDBLabel name={props.name} 
       required={props.required} 
       comment={comment} 
       className="tdb__label__width" 
-      hideFieldLabel={hideFieldLabel}/>
-    <Card bg="secondary" className="mb-3 border border-dark w-100" key={id}>
+      hideFieldLabel={hideFieldLabel}/> 
+    <Card bg="secondary" className={`mb-3 ${util.getBorder(uiFrame, props.name, index)} w-100`} key={id}>
       <Button variant={"secondary"}
         className={`text-start p-4`}
         data-testid={`root_subdocument_${props.name}_button`}
@@ -104,10 +109,12 @@ export const TDBSubDocument = ({ extracted, expanded, comment, props, hideFieldL
             required={extracted.required}
             //formData={props.formData}
             id={id}
+            index={index}
             subDocumentPropertyName={props.name}
             propertyDocumentation={propertyDocumentation}
             onChange={props.onChange}
             subDocumentData={subDocumentData} 
+            uiFrame={uiFrame}
             setSubDocumentData={setSubDocumentData}
             linked_to={linked_to}
             mode={mode}/>}

@@ -11,7 +11,7 @@ import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "./fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 
-// custom display of elements based on schema
+// custom display of elements based on schema 
 const GetFieldDisplay = ({ args, props, element, id, property }) => {
 
 	function handleFieldChange(data, fieldName) {
@@ -20,7 +20,8 @@ const GetFieldDisplay = ({ args, props, element, id, property }) => {
 	}
 
 	function fieldDisplay() {
-		let placeholder=getPlaceholder(args.documentFrame[property]) 
+		let test = args.documentFrame[property]
+		let placeholder=getPlaceholder(test) 
 		let newProps = { 
 			dataType: placeholder,
 			name: property,
@@ -31,7 +32,8 @@ const GetFieldDisplay = ({ args, props, element, id, property }) => {
 			className: "tdb__doc__input",
 			hideFieldLabel: true,
 			onChange: handleFieldChange,
-			hideFieldLabel: true
+			hideFieldLabel: true,
+			index: element.index.toString() // convert index to String - this index controls diff set ups for Arrays 
 		}  
 
 		return getDisplay(newProps, args, property)
@@ -48,7 +50,10 @@ const GetFieldDisplay = ({ args, props, element, id, property }) => {
 // Array field templates for lists and sets 
 export function ArrayFieldTemplate(args, props, property) { 
 
-	let { extractedDocumentation } = args
+	let { extractedDocumentation, mode } = args
+
+	//hide set when mode is view
+	if(mode === CONST.VIEW && !Object.keys(props.formData).length) return <div className={`tdb__${props.title}__hidden`}/>
 
 	//console.log("props", props)
 	var variant="dark"

@@ -8,21 +8,30 @@
   --tdb-latlng-label-width: 5rem;
   --input-calander-color: #000;
   --rounded: 0.375rem;
+  /** diff colors */
+  --danger-color: #842029;
+  --danger-bg: #f8d7da;
+  --danger-border-color: #f5c2c7;
+  --success-color: #0f5132;
+  --success-bg: #d1e7dd;
+  --success-border-color: #badbcc;
 }
 
+
 /** tdb input */
-.tdb__doc__input {
-  color: var(--input-color) !important;
-  background-color: transparent!important;
-  border: var(--input-border) !important;
+.tdb__doc__input { 
+  color: var(--input-color);
+  background-color: transparent;
+  border: var(--input-border);
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 400; 
   line-height: 1;
   background-clip: padding-box;
 }
+
 
 /** all property labels */
 label.control-label {
@@ -114,4 +123,27 @@ label.latlng-control-label {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
+}
+
+/** diff classNames */
+.tdb__diff__original {
+  color: var(--danger-color);
+  background-color: var(--danger-bg);
+  border: var(--danger-border-color);
+} 
+
+/** for documents with fields inside - like subdocuments/ choice subdocuments */
+.tdb__diff__original-border { 
+  border: 1px solid var(--danger-border-color);
+}
+
+.tdb__diff__changed {
+  color: var(--success-color);
+  background-color: var(--success-bg);
+  border: var(--success-border-color);
+} 
+
+/** for documents with fields inside - like subdocuments/ choice subdocuments */
+.tdb__diff__changed-border { 
+  border: 1px solid var(--success-border-color);
 }

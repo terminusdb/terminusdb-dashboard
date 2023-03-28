@@ -26,13 +26,14 @@ export function makeMandatoryFrames (args, property) {
   let layout = { 
     "type": typeHelper(documentFrame, property, fullFrame, isArray),
     "title": property,
-    [CONST.PLACEHOLDER]: placeholder,
+    [CONST.PLACEHOLDER]: placeholder
     //[CONST.METADATA]: util.fetchMetaData(documentFrame, property)
   } 
 
   if(util.isInherritedFromGeoJSONTypes(documentFrame)) {
     addGeoJSONLayout(layout, documentFrame, property)
   }
+  
   
   let uiLayout = uiHelper(args, property)
   

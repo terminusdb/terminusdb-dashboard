@@ -28,7 +28,7 @@ import { Viewer } from "./Viewer"
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 */
 export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, language}){
-    
+  console.log("frame ///", frame)
 	const [schema, setSchema]=useState(false)
 	const [uiSchema, setUISchema]=useState(false)
 	const [display, setDisplay]=useState(false)
@@ -52,9 +52,12 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 			setLanguage(false)
 	}
 
+	
+
 	useEffect(() => {
 		//try{ 
 			if(frame && type && mode) { 
+				
 				clear()
 				//let extractedDocumentation= util.extractDocumentation(frame, current, language)
 				//store selected language here to get access to ENUM docs based on selected language
@@ -139,9 +142,6 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 	if(error) {
 		return <Alert variant="danger">{error}</Alert>
 	}
-
-
-
 
 
 	return <div className="tdb__frame__viewer ">
