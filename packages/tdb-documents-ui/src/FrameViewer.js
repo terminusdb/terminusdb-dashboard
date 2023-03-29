@@ -28,7 +28,7 @@ import { Viewer } from "./Viewer"
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 */
 export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, language}){
-  console.log("frame ///", frame)
+  
 	const [schema, setSchema]=useState(false)
 	const [uiSchema, setUISchema]=useState(false)
 	const [display, setDisplay]=useState(false)
@@ -82,13 +82,17 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 				//setUISchema(uiSchema)
 				//setSchema(schema)
 
+				// order is set to place @documentation field at the start of the document
+				properties.uiSchema["ui:order"] = util.getDocumentOrderBy(documentFrame)
+
 				let schemata = {
 					schema: schema,
 					uiSchema: properties.uiSchema
 				}
 
 				setDisplay(schemata)
-					
+				
+				
 
 				//console.log("uiSchema", uiSchema)
 

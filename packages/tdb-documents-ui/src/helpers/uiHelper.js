@@ -67,9 +67,9 @@ export const uiHelper = (args, property) => {
     }
     // add extracted documentation 
     extracted.extractedDocumentation=argsHolder.extractedDocumentation
-    let expanded=util.checkIfSubDocumentShouldBeExapnded(documentFrame, property) 
+    let expanded=util.checkIfSubDocumentShouldBeExpanded(documentFrame, property) 
     
-    return widget.getSubDocumentUIDisplay(argsHolder, extracted, property, expanded)
+    return widget.getSubDocumentUIDisplay(argsHolder, extracted, property, expanded, linked_to)
   }
   else if(util.isDocumentType(field, fullFrame)) {
     // DOCUMENT LINKS

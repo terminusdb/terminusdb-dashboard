@@ -12,7 +12,7 @@ import { SearchExistingLink } from "./SearchExistingLink"
 import { DisplayDocumentation } from "../templates"
 
 // display based on action  
-const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
+const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
   let nextCreateLink =  false
 
@@ -80,7 +80,8 @@ const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, onSe
     }
 
     return <div className="mt-4">
-      {fields}
+      {/*fields*/}
+      {util.sortDocumentProperties(order_by, fields)}
     </div>
   }
   else if(action === CONST.LINK_EXISTING_DOCUMENT) {
@@ -97,7 +98,7 @@ const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, onSe
 }
  
 
-export const CreateDisplay = ({ name, linkPropertyComment, reference, hideFieldLabel, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
+export const CreateDisplay = ({ name, linkPropertyComment, order_by, reference, hideFieldLabel, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -114,6 +115,7 @@ export const CreateDisplay = ({ name, linkPropertyComment, reference, hideFieldL
       reference={reference}
       onChange={onChange}
       onSelect={onSelect}
+      order_by={order_by}
       linked_to={linked_to}
       documentLinkPropertyName={name}
       documentData={documentData} 
@@ -130,7 +132,7 @@ function getID (linkId, depth) {
 }
  
 // CREATE MODE
-export const CreateDocument = ({ name, required, onSelect, reference, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
+export const CreateDocument = ({ name, required, onSelect, reference, order_by, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
 
   const [action, setAction] = useState(false)
   const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
@@ -156,6 +158,7 @@ export const CreateDocument = ({ name, required, onSelect, reference, hideFieldL
             mode= {mode} 
             hideFieldLabel={hideFieldLabel}
             linkId={linkId}
+            order_by={order_by}
             propertyDocumentation={propertyDocumentation}
             reference={reference}
             onSelect={onSelect}

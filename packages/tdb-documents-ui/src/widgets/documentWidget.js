@@ -10,7 +10,7 @@ import { CreateDocument } from "../components/CreateDocumentLink"
 import { EditDocument } from "../components/EditDocumentLink"
 import { ViewDocument } from "../components/ViewDocumentLink"
  
-export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, onTraverse, onSelect, hideFieldLabel, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
+export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, order_by, onTraverse, onSelect, hideFieldLabel, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
 
   let depth = 0 
 
@@ -19,6 +19,7 @@ export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, on
     linked_to={linked_to}
     depth={depth}
     linkId={linkId}
+    order_by={order_by}
     onSelect={onSelect}
     mode={mode}
     hideFieldLabel={hideFieldLabel}
@@ -34,6 +35,7 @@ export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, on
     depth={depth}
     reference={reference}
     mode={mode}
+    order_by={order_by}
     hideFieldLabel={hideFieldLabel}
     onSelect={onSelect}
     onTraverse={onTraverse}
@@ -49,6 +51,7 @@ export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, on
     mode={mode}
     uiFrame={uiFrame}
     depth={depth}
+    order_by={order_by}
     reference={reference}
     onTraverse={onTraverse}
     hideFieldLabel={hideFieldLabel}

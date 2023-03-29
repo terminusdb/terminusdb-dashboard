@@ -28,7 +28,7 @@ export function populateSubDocumentData(mode, linked_to, formData) {
 }
 
  
-const SubDocumentProperties = ({ subDocumentPropertyName, index, id, uiFrame, subDocumentData, setSubDocumentData, properties, required, mode, onChange, linked_to, propertyDocumentation }) => {
+const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index, id, uiFrame, subDocumentData, setSubDocumentData, properties, required, mode, onChange, linked_to, propertyDocumentation }) => {
   
   //const [fields, setFields] = useState([])
  
@@ -68,7 +68,8 @@ const SubDocumentProperties = ({ subDocumentPropertyName, index, id, uiFrame, su
       }
       subDocumentFields.push(display(config))
     }
-    return subDocumentFields
+
+    return util.sortDocumentProperties(order_by, subDocumentFields)
   }
   
   return <Card.Body className="border-top border-dark">
@@ -78,7 +79,7 @@ const SubDocumentProperties = ({ subDocumentPropertyName, index, id, uiFrame, su
   </Card.Body>
 }
   
-export const TDBSubDocument = ({ extracted, expanded, comment, props, index, uiFrame, hideFieldLabel, mode, linked_to, propertyDocumentation, id, subDocumentData, setSubDocumentData }) => {
+export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, index, uiFrame, hideFieldLabel, mode, linked_to, propertyDocumentation, id, subDocumentData, setSubDocumentData }) => {
   const [open, setOpen] = useState(expanded);
 
   if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) return <div className={`tdb__${props.name}__hidden`}/>
@@ -110,6 +111,7 @@ export const TDBSubDocument = ({ extracted, expanded, comment, props, index, uiF
             //formData={props.formData}
             id={id}
             index={index}
+            order_by={order_by}
             subDocumentPropertyName={props.name}
             propertyDocumentation={propertyDocumentation}
             onChange={props.onChange}

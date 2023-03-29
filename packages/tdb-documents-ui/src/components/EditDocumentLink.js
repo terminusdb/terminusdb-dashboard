@@ -146,7 +146,7 @@ const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {
 }
  
 // EDIT MODE
-export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
+export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, order_by, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)

@@ -316,6 +316,7 @@ export const isUnfoldable=(documentFrame) => {
 
 
 /**** METADATA util functions */
+// RENDER_AS
 export function fetchMetaData(documentFrame, property) {
 	if(!documentFrame.hasOwnProperty(CONST.METADATA)) return false
 	if(documentFrame[CONST.METADATA].hasOwnProperty(CONST.RENDER_AS)) {
@@ -327,7 +328,32 @@ export function fetchMetaData(documentFrame, property) {
 	return false
 }
 
-export function checkIfSubDocumentShouldBeExapnded(documentFrame, property) {
+// ORDER_BY
+// get order by for parent document type
+export function getDocumentOrderBy(documentFrame) {
+	if(!documentFrame.hasOwnProperty(CONST.METADATA)) return false
+	if(documentFrame[CONST.METADATA].hasOwnProperty(CONST.ORDER_BY)) {
+		// order by info
+		return documentFrame[CONST.METADATA][CONST.ORDER_BY]
+	}
+	return false
+}
+
+// get order by for documents which are subdocuments/ choice sub documents or links pointing to document 
+export function getOrderBy(fullFrame, linked_to) {
+	if(!fullFrame.hasOwnProperty(linked_to)) {
+		throw new Error (`Expectd to find ${linked_to} in frames, but instead didnt find definition`)
+	}
+	if(!fullFrame[linked_to].hasOwnProperty(CONST.METADATA)) return false
+	if(fullFrame[linked_to][CONST.METADATA].hasOwnProperty(CONST.ORDER_BY)) {
+		// order by info
+		return fullFrame[linked_to][CONST.METADATA][CONST.ORDER_BY]
+	}
+	return false
+}
+
+// if subdocument should be expanded
+export function checkIfSubDocumentShouldBeExpanded(documentFrame, property) {
 	// check for SubDocument MetaData
 	let metaDataType=fetchMetaData(documentFrame, property), expanded = false
 	if(metaDataType) {
@@ -336,6 +362,42 @@ export function checkIfSubDocumentShouldBeExapnded(documentFrame, property) {
 	}
 	return expanded
 }
+
+// sort remaining properties not mentioned in order_by
+function addRemainingFields (documentFields, sortedFieldNames, sorted) {
+	let remainingFields = []
+	// all fields have been sorted correctly
+	if(documentFields.length === sorted.length) return sorted
+	// if length do not match then some fields are remaining
+	documentFields.map( field => {
+		// check if fields are included in sortedFieldNames
+		if(sortedFieldNames.indexOf(field.props.name)) {
+			// push into remainingFields
+			remainingFields.push(field)
+		}
+	})
+	//console.log("remainingFields", remainingFields)
+	return [ ...sorted, ...remainingFields ]
+}
+
+// sort properties based on order_by
+export function sortDocumentProperties (order_by, documentFields) {
+	if(Array.isArray(order_by) && order_by.length) {
+		let sorted = [], sortedFieldNames =[]
+		order_by.map( field => {
+			let entry = documentFields.filter ( arr => arr.props.name === field )
+			if(entry.length) {
+				sorted.push(entry[0])
+				// keep a tab of field names which are being sorted
+				sortedFieldNames.push(field)
+			}
+		})
+		return addRemainingFields(documentFields, sortedFieldNames, sorted)
+		//return sorted
+	}
+	return documentFields
+}
+
 
 /** ENUM DOCUMENTATION */
 export const extractEnumComment = (fullFrame, enumDocumentClass, options, property) => {

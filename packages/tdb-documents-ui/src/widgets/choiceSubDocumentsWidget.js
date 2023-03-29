@@ -27,12 +27,20 @@ const DisplaySelectedSubDocument = ({ props, selected, args, id, choiceSubDocume
     onChange: handleChoiceDocumentChange,
     formData: choiceSubDocumentData
   } 
-  //{ extracted, expanded, comment, props, hideFieldLabel, mode, linked_to, propertyDocumentation }
+
+  // get order_by
+  // at this point selected is the linked_to documnet in fullframe
+  let order_by = false
+  if(fullFrame.hasOwnProperty(selected)) {
+    order_by=util.getOrderBy(fullFrame, selected)
+  }
+
   return <Card.Body>
     <TDBSubDocument extracted={extracted} 
       //id={props.idSchema["$id"]}
       id={id}
       expanded={true}
+      order_by={order_by}
       subDocumentData={choiceSubDocumentData} 
       setSubDocumentData={setChoiceSubDocumentData}
       //comment={documentation.comment ? documentation.comment : null} 

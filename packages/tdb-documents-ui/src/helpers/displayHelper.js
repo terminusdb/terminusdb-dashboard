@@ -138,20 +138,26 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
 // SUBDOCUMENTs 
 export function displaySubDocument(props, args, extracted, property, expanded, id, hideFieldLabel, linked_to) { 
 
-  let { fullFrame, extractedDocumentation, mode, uiFrame  } = args
+  let { fullFrame, extractedDocumentation, mode, uiFrame } = args
  
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
   // constants to control sub document data 
   let populated = populateSubDocumentData(mode, linked_to, props.formData)
   const [subDocumentData, setSubDocumentData] = useState(populated)
-  
+  // get order_by
+  // at this point linked_to in fullframe
+  let order_by = false
+  if(fullFrame.hasOwnProperty(linked_to)) {
+    order_by=util.getOrderBy(fullFrame, linked_to)
+  }
 
   // add logic for required properties  
   return  <TDBSubDocument extracted={extracted} 
     id={id}
     uiFrame={uiFrame}
     hideFieldLabel={hideFieldLabel}
+    order_by={order_by}
     expanded={expanded}
     subDocumentData={subDocumentData} 
     setSubDocumentData={setSubDocumentData}
@@ -170,12 +176,19 @@ export function displayDocumentLink(props, args, extracted, property, linked_to,
   let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
 
+  // at this point linked_to in fullframe
+  let order_by = false
+  if(fullFrame.hasOwnProperty(linked_to)) {
+    order_by=util.getOrderBy(fullFrame, linked_to)
+  }
+
   // add logic for required properties 
   return  <TDBDocument extracted={extracted}  
     linkId={props.hasOwnProperty("id") ? props["id"] : null}
     //comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
     uiFrame={uiFrame}
+    order_by={order_by}
     hideFieldLabel={hideFieldLabel}
     onSelect={onSelect}
     reference={reference}

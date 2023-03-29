@@ -38,12 +38,12 @@ export function extractPropertyDocumentation(extractedDocumentation, selectedLan
 }
 
 // SUBDOCUMENT UI
-export function getSubDocumentUIDisplay (args, extracted, property, expanded) {
+export function getSubDocumentUIDisplay (args, extracted, property, expanded, linked_to) {
   let { type } = args
 
   // at this point extracted will have all of the extracted documents from linked_to
   function displaySubDocumentWidget(props) {
-    let id = props.idSchema["$id"], linked_to=type
+    let id = props.idSchema["$id"]
     return display.displaySubDocument(props, args, extracted, property, expanded, id, null, linked_to)
   }
    

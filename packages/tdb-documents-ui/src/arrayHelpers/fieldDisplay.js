@@ -17,7 +17,7 @@ export const getDisplay = (props, args, property) => {
     // SUBDOCUMENT TYPE
     let id = props.id, linked_to=field[CONST.CLASS]
     let extracted=args.reference[linked_to]
-    let expanded=util.checkIfSubDocumentShouldBeExapnded(documentFrame, property) 
+    let expanded=util.checkIfSubDocumentShouldBeExpanded(documentFrame, property) 
     // set default expanded as true for now
     return display.displaySubDocument(props, args, extracted, property, true, id, hideFieldLabel, linked_to)
   }
