@@ -1,20 +1,17 @@
 import React,{useState,useEffect} from "react";
 import {AdvancedSearch, GraphqlTable, ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
-import {Tab,Tabs, Button,Alert} from 'react-bootstrap'
+import {Tab,Tabs,Button,Alert,Container,ProgressBar} from 'react-bootstrap'
 import { GraphqlQueryView } from "./GraphqlQueryViewer";
-import {gql} from "@apollo/client";
+//import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
-import {Loading} from "../components/Loading"
 import {RiDeleteBin7Line, RiEdit2Fill} from "react-icons/ri"
 import {HiOutlineDocument} from "react-icons/hi"
 
 //to be review
-export const DocumentsGraphqlTable = ({apolloClient,tableConfig, type,onRowClick, onViewButtonClick, onEditButtonClick, onDeleteButtonClick, showGraphqlTab=true}) => {
+export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, onRowClick, onViewButtonClick, onEditButtonClick, onDeleteButtonClick, showGraphqlTab=true}) => {
     if(!tableConfig) return ''
-    const querystr  = tableConfig.objQuery[type].query
-    const query = gql`${querystr}`
-    //const query =gql`query Doc01Query($offset: Int, $limit: Int, $filter: Doc01_Filter, $orderBy: Doc01_Ordering) {\n  Doc01(offset: $offset, limit: $limit, filter: $filter, orderBy: $orderBy) {\n    _id\n    label\n  }\n}`
+    const query = gqlQuery//gql`${querystr}`
     const [advSearchFields,setAdvFields] = useState(false)
     const [queryToDisplay,setQueryTodisplay] = useState(false)
    
@@ -82,34 +79,40 @@ export const DocumentsGraphqlTable = ({apolloClient,tableConfig, type,onRowClick
         //const name = cell.row.original['name']
         return <React.Fragment>
                 <span className="d-flex justify-content-end mr-4">  
-                <Button variant="success" size="sm" className="ml-3" title={`view document`} onClick={() => viewAction(invFullId)}>
-                    <HiOutlineDocument/> 
-                </Button>           
-                <Button variant="success" size="sm" className="ml-3" title={`edit document`} onClick={() => editAction(invFullId)}>
-                    <RiEdit2Fill/> 
-                </Button>  
-                <Button variant="danger" size="sm" className="ml-3" title={`delete document`} onClick={() => deleteAction(invFullId)}>
-                    <RiDeleteBin7Line/> 
-                </Button>
+                    {onViewButtonClick && <Button variant="success" size="sm" className="ml-3" title={`view document`} onClick={() => viewAction(invFullId)}>
+                        <HiOutlineDocument/> 
+                    </Button>}        
+                    {onEditButtonClick && <Button variant="success" size="sm" className="ml-3" title={`edit document`} onClick={() => editAction(invFullId)}>
+                        <RiEdit2Fill/> 
+                    </Button>}  
+                    {onDeleteButtonClick && <Button variant="danger" size="sm" className="ml-3" title={`delete document`} onClick={() => deleteAction(invFullId)}>
+                        <RiDeleteBin7Line/> 
+                    </Button>}
                 </span>
             </React.Fragment>
     }
 
-    const actionsButttons = {Header :  "", accessor: "Actions", disableFilters:true, disableSortBy:true, 
-    id:"Actions" ,renderer:getActionButtons}
+    const actionsButttons = {Header :  "", accessor: "__ACTIONS__", disableFilters:true, disableSortBy:true, 
+    id:"__ACTIONS__" ,renderer:getActionButtons}
 
+    // to be review
+    const tableConfigObj = {}
+    tableConfigObj.columns = JSON.parse(JSON.stringify(tablesColumnsConfig))
+    if(onDeleteButtonClick || onEditButtonClick || onViewButtonClick) {
+        tableConfigObj.columns.push(actionsButttons)
+    }
+    if(onRowClickCall) {
+        tableConfigObj.rowClick = onRowClickCall
+    }
 
-     const tableConfigObj = {}
-     tableConfigObj.columns = JSON.parse(JSON.stringify(tablesColumnsConfig))
-     tableConfigObj.columns.push(actionsButttons)
-     tableConfigObj.rowClick = onRowClickCall
+    const error = documentError  && typeof documentError === "object" ? JSON.stringify(documentError, null, 4) : documentError
 
     return <div> 
-            {documentError && <Alert
+            {error && <Alert
             className="text-break"
             variant="danger">
-
             GraphQL query error
+            {error}
             </Alert>
 }         
             {advSearchFields &&
@@ -121,7 +124,9 @@ export const DocumentsGraphqlTable = ({apolloClient,tableConfig, type,onRowClick
                         </Accordion.Body>
                     </Accordion.Item>
             </Accordion>}       
-            {loading && <Loading message={`Loading ${type} ...`}/>}
+            {loading && <Container className="loading-bar-align justify-content-center">
+                            <ProgressBar  message={`Loading ${type} ...`}/>
+                        </Container>}
             {!loading && 
             <Tabs defaultActiveKey="table" className="mb-3" >
                 <Tab eventKey="table" title="Result Table">

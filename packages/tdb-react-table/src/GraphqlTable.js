@@ -59,14 +59,6 @@ export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config,
     minWidth,
     maxWidth}]}*/
 
-    const labelFromVariable = (v) => {
-        if(typeof v !== "string"){
-            return ""
-        }
-        v = v.replace(/_/g, ' ');
-        return v.charAt(0).toUpperCase() + v.slice(1);
-    };
-
     function formatTableColumns(){
         const hiddenColumns = hiddenColumnsArr || []
         // I visualise the id only if it is the only item
@@ -78,7 +70,7 @@ export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config,
         }
 
         let listOfColumns = colArr.map((item,index) => {
-            if(!hiddenColumnsArr && index>4){
+            if(item.id!== "__ACTIONS__" && !hiddenColumnsArr && index>4){
                 hiddenColumns.push(item.id)
             }
             let col = item

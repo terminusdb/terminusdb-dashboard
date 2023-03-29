@@ -2,11 +2,14 @@ import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
 
-export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent, updateChangeRequestID}) => { 
+export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent, updateChangeRequestID, operation}) => { 
     const messageRef = useRef(null);
     const {loading,errorMessage,setError,updateChangeRequestStatus} =  ChangeRequest()
     
     const closeModal = () => setShowModal(false)
+
+    const statusUpdate = operation || "Submitted"
+    const title = statusUpdate === "Submitted" ? 'Submit the Change Request for review' : `Reopen the change request`
 
     const runCreate = async () => {
         const message = messageRef.current.value
@@ -14,7 +17,7 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
             setError("Change request message are mandatory")
             return
         }else{
-            const done = await updateChangeRequestStatus(message,"Submitted",updateChangeRequestID)          
+            const done = await updateChangeRequestStatus(message,statusUpdate,updateChangeRequestID)          
             if(done){
                 messageRef.current.value = ""
                 updateParent()
@@ -27,7 +30,7 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
         <Modal.Header>
             <Modal.Title className="text-success">
-                <small className="fw-bold mr-2 h6">Submit the Change Request for review</small>
+                <small className="fw-bold mr-2 h6">{title}</small>
             </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={closeModal} />
         </Modal.Header>

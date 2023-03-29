@@ -1,31 +1,44 @@
-import React,{useState,useEffect} from "react";
-import {Card, Button} from "react-bootstrap"
-import {useParams, useNavigate, useSearchParams} from "react-router-dom";
-import Stack from 'react-bootstrap/Stack'
-import {HiPlusSm} from "react-icons/hi"
+import React, {useState} from "react";
+import {useParams, useNavigate} from "react-router-dom";
 import {NEW_DOC,EDIT_DOC} from "../routing/constants"
 import {gql} from "@apollo/client";
-import { DocumentsGraphqlTable } from "../components/DocumentsGraphqlTable";
-import { DocumentControlObj } from "../hooks/DocumentControlContext";
+import { ListDocumentsComponent } from "@terminusdb/terminusdb-documents-ui-template";
+import {WOQLClientObj} from '../init-woql-client'
+import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
+import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
+import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {ErrorMessageReport} from "../components/DocumentComponents"
 
-export const DocumentsGraphqlList = () => {    
+// I pass this so I'm sure it exists before loading the component
+export const DocumentsGraphqlList = ({documentTablesConfig}) => {    
     const {type} = useParams()
-    const {documentTablesConfig} = DocumentControlObj()
-    const [searchParams]  = useSearchParams()
+    const {apolloClient,branch,setChangeRequestBranch,woqlClient} = WOQLClientObj()
+    const {deleteDocument,loading,error,setError} = DocumentsUIHook(woqlClient)
+    const [showCRModal, setShowCRModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal]=useState(false)
+    const [tobeDeleted, setTobeDeleted] = useState(false)
+  
     const navigate = useNavigate()
     
-   //if(!woqlClient) return ""
-    //const client = createApolloClient(woqlClient)
-    if(!documentTablesConfig) return 
-   
-    let startFilters = {}
-    if(searchParams.get('filters')){
-        startFilters ={"name":{"regex":searchParams.get('filters')}}
-    }      
-    const onRowClick = (row) =>{
+    const querystr  = documentTablesConfig.objQuery[type].query
+    const query = gql`${querystr}`
+
+    function deleteDocumentHandler(row) {
         let fullId = row['id']
-        let fullIdEncode = btoa(fullId)
-        navigate(fullIdEncode)
+        setTobeDeleted(fullId)
+        // I can not change main directly
+        // I can change other branches creates with create branch interface
+        if(woqlClient.checkout() === "main"){
+            setShowCRModal(true)
+        }else setShowDeleteModal(true)
+    }
+
+    async function callDeleteDocument(){
+        const delCall = await deleteDocument(tobeDeleted)
+        if(delCall){
+            setShowDeleteModal(false)
+            setTobeDeleted(false)
+        }
     }
 
     const onViewClick = (row) =>{
@@ -40,43 +53,30 @@ export const DocumentsGraphqlList = () => {
         navigate(`${fullIdEncode}/${EDIT_DOC}`)
     }
 
-    const onDeleteClick = (row) =>{
-        let fullId = row['id']
-        let fullIdEncode = btoa(fullId)
-        alert(fullIdEncode)
-    }
-
     function handleCreate(e) {
         navigate(`${NEW_DOC}`)
     }
  
-    return <Card className="content border-secondary w-100 mt-5" variant="light">
-            <Card.Header>
-                <Stack direction="horizontal" gap={3}>
-                    <h6>Documents of type - <strong className="text-success">{type}</strong></h6>
-                        <div className="ms-auto">
-                            <Button className="bg-light text-dark" onClick={handleCreate}>
-                                <HiPlusSm className="mr-1 mb-1"/>
-                                <small>{`Add new ${type}`}</small>
-                            </Button>
-                        </div>
-                </Stack>   
-            </Card.Header>
-            <Card.Body className="text-break">
-            <DocumentsGraphqlTable tableConfig={documentTablesConfig} 
-                    type={type} 
-                    startFilters={startFilters} 
-                   // onRowClick={onRowClick}
-                    onDeleteButtonClick={onDeleteClick}
-                    onViewButtonClick={onViewClick}
-                    onEditButtonClick={onEditClick}/>
-            </Card.Body>
-        </Card>
-       
+    return  <React.Fragment>
+            {showCRModal && 
+                <CreateChangeRequestModal showModal={showCRModal}
+                 type={type}  setShowModal={setShowCRModal}
+                updateViewMode={setChangeRequestBranch}/>}   
+            {showDeleteModal && <DeleteDocumentModal
+                loading={loading}
+                deleteDocument={callDeleteDocument}
+                documentID={tobeDeleted}
+                showDeleteModal={showDeleteModal}
+                handleClose={()=>setShowDeleteModal(false)}
+             /> }
+             {error && <ErrorMessageReport error={error} setError={setError}/>}
+            <ListDocumentsComponent type={type}
+                gqlQuery={query} 
+                apolloClient={apolloClient} 
+                tablesConfig={documentTablesConfig}  
+                onViewButtonClick={onViewClick}
+                onEditButtonClick={onEditClick}
+                onDeleteButtonClick={deleteDocumentHandler}
+                onCreateButtonClick={handleCreate}/>
+            </React.Fragment> 
 }
-
-/*
- <DocumentsTable tableConfig={{}} 
-                    type={type} 
-                    startFilters={startFilters} 
-                    onRowClick={onRowClick}/>*/

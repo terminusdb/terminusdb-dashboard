@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import {extractDocuments} from './hookUtility'
 
 export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter,tableConfigObj,hiddenColumnsStart) {
     const [limit, setLimit] = useState(queryLimit || 10)
@@ -9,6 +10,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
   //  const [hasNextPage, setHasNextPage] = useState(true)
     const [controlledRefresh, setControlledRefresh] = useState(0)
     const [data, setData] = useState(null)
+    const [extractedData, setExtractedData] = useState(null)
     
     const [hiddenColumnsArr,setHiddenColumnsArr] = useState(['_id'])
 
@@ -58,7 +60,9 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
                 data[documentType].pop()
                 }
                 setRowCount(rowCountTmp)
+                const extractedData = extractDocuments(data[documentType])
                 setData(data)
+                setExtractedData(extractedData)
         }
         }catch(err){
             console.log("ERRORRRRR",err)
@@ -192,6 +196,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         rowCount,
         onRefresh,
         documentResults:data,
+        extractedData,
         hiddenColumnsArr,
         setHiddenColumns,
         // maybe we need to set from outside

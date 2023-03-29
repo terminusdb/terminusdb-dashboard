@@ -36,6 +36,7 @@ export const ChangeRequestsPage = () => {
 	const navigate = useNavigate()
 
 	const [updateChangeRequestID,setShowUpdateChangeRequestID] = useState(false)
+	const [updateOperation,setUpdateOperation] = useState(SUBMITTED)
 
 	const startStatus = searchParams.get("status") || OPEN
 
@@ -53,12 +54,6 @@ export const ChangeRequestsPage = () => {
     } =  ChangeRequest() 
 
 	const [filter, setFilter]=useState(startStatus)
-
-	const updateParent = () =>{
-		exitChangeRequestBranch()
-		getChangeRequestList()
-		setFilter(SUBMITTED)
-    }
 
 	// const [refresh, setRefersh]=useState(Date.now())
 	
@@ -128,12 +123,28 @@ export const ChangeRequestsPage = () => {
 		</React.Fragment>
    }
 
+   const updateParent = () =>{
+		exitChangeRequestBranch()
+		getChangeRequestList()
+		setFilter(updateOperation)
+	}
+
     const setChangeRequest = (item)=>{
 		const id = extractID(item["@id"]) 
-		setChangeRequestBranch(item.tracking_branch,id)
+		const name = item.name || item.messages[0].text
+		setChangeRequestBranch(item.tracking_branch,id,name)
 		navigate(`/${organization}/${dataProduct}`)
 	}
 
+	const submitCR = (id)=>{
+		setUpdateOperation(SUBMITTED)
+		setShowUpdateChangeRequestID(id)
+	}
+
+	const reopenCR = (id)=>{
+		setUpdateOperation(OPEN)
+		setShowUpdateChangeRequestID(id)
+	}
 
 	function buttonstatus (item, actions) {
 		const id = extractID(item["@id"]) 
@@ -147,7 +158,7 @@ export const ChangeRequestsPage = () => {
 						</Button>
 						<Button className="btn btn-warning mr-2 btn-sm text-dark" 
 							title="Submit Change Request for Review"
-							onClick={()=>setShowUpdateChangeRequestID(id)}>
+							onClick={()=>submitCR(id)}>
 							<AiOutlineCheck className="mr-1"/><small className="fw-bold"></small>
 								Ready for Review
 						</Button>
@@ -155,9 +166,15 @@ export const ChangeRequestsPage = () => {
 			case SUBMITTED: 
 				return <Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
 			case REJECTED: 
-				return <Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>
+				return <React.Fragment>
+					   		<Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>
+					   		<Button className="bg-warning text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
+					   </React.Fragment>
 			case MERGED : 
-				return <Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>View Approved Diff</Button>
+				return <React.Fragment>
+							<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>View Approved Diff</Button>
+							<Button className="bg-warning text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
+					  </React.Fragment>
 		}
 
 	}
@@ -169,12 +186,16 @@ export const ChangeRequestsPage = () => {
         let display=changeRequestList.slice(0).reverse().map((item,index)=>{
 			if(item.status === filter) {
 				statusCount+=1
-				const name  = item.messages[0].text || item[tracking_branch]
+				const name  = item.name 
+				const message  = item.messages[0].text || item[tracking_branch]
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
 					{iconTypes[item.status]}
 					<div className="ms-2 me-auto">
-						<div className="fw-bold text-gray">
+						{name && <div className="fw-bold text-gray">
 							{name}
+						</div>}
+						<div className="fw-bold text-gray">
+							{message}
 						</div>
 						<small className="text-light text-small fw-bold">
 							opened {getDays(item.creation_time)} days ago by {item['creator_email'] || item['creator']}
@@ -196,7 +217,7 @@ export const ChangeRequestsPage = () => {
 
 	return <Layout>  
 		<div className="content mr-3 ml-5"> 
-		{updateChangeRequestID && <SubmitChangeRequestModal updateChangeRequestID={updateChangeRequestID} showModal={updateChangeRequestID!==false} setShowModal={setShowUpdateChangeRequestID} updateParent={updateParent}/>}            
+		{updateChangeRequestID && <SubmitChangeRequestModal operation={updateOperation} updateChangeRequestID={updateChangeRequestID} showModal={updateChangeRequestID!==false} setShowModal={setShowUpdateChangeRequestID} updateParent={updateParent}/>}            
 			<div className="mt-5 mb-5 mr-5">
 				<Card>
 					<Card.Header>

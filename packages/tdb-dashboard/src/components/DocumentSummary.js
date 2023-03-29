@@ -8,21 +8,23 @@ import {IconBarConfig} from "./constants"
 import {Nav} from "react-bootstrap"
 import {NavLink as RouterNavLink , useParams, useNavigate} from "react-router-dom"
 import {Loading} from "../components/Loading"
-import {DocumentControlObj} from "../hooks/DocumentControlContext"
+import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {ErrorMessageReport} from "./DocumentComponents"
 
 export const DocumentSummary = () => {
+    const {woqlClient} = WOQLClientObj()
     const {dataProduct,organization} = useParams()
     const navigate = useNavigate() 
     const {perDocumentCount,
         totalDocumentCount, 
         documentClasses,
         getDocNumber,
+        setError,
         loading:documentLoading,
-        error}=DocumentControlObj()
+        error}=DocumentsUIHook(woqlClient)
 
 //
     useEffect(() => {
-        //remove the error from the preview page
         getDocNumber()
     },[dataProduct])
 
@@ -72,7 +74,7 @@ export const DocumentSummary = () => {
 
     return  <main className="content  ml-5 w-100">
         <Container>
-            {error && <div className="text-danger" > {error}</div>}
+            {error && <ErrorMessageReport error={error} setError={setError}/>  }
             <Row>
                 {perDocumentCount && <DocumentStats dataProvider={perDocumentCount}/>}
                 {Array.isArray(documentClasses) &&  documentClasses.length===0  &&
