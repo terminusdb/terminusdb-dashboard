@@ -9,8 +9,8 @@ import { getLinkedDescription, getDocumentLinkChoiceDescription } from "../compo
 import { CreateDocument } from "../components/CreateDocumentLink"
 import { EditDocument } from "../components/EditDocumentLink"
 import { ViewDocument } from "../components/ViewDocumentLink"
- 
-export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, order_by, onTraverse, onSelect, hideFieldLabel, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
+  
+export const TDBDocument = ({ args, extracted, reference, uiFrame, clickedUnlinked, order_by, onTraverse, onSelect, hideFieldLabel, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
 
   let depth = 0 
 
@@ -20,6 +20,7 @@ export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, or
     depth={depth}
     linkId={linkId}
     order_by={order_by}
+    args={args}
     onSelect={onSelect}
     mode={mode}
     hideFieldLabel={hideFieldLabel}
@@ -36,6 +37,7 @@ export const TDBDocument = ({ extracted, reference, uiFrame, clickedUnlinked, or
     reference={reference}
     mode={mode}
     order_by={order_by}
+    index={props.index}
     hideFieldLabel={hideFieldLabel}
     onSelect={onSelect}
     onTraverse={onTraverse}

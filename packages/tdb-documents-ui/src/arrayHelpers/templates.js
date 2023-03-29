@@ -12,16 +12,11 @@ import { getDisplay } from "./fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 
 // custom display of elements based on schema 
-const GetFieldDisplay = ({ args, props, element, id, property }) => {
-
-	function handleFieldChange(data, fieldName) {
-		//console.log("data", data, fieldName) 
-		element.children.props.onChange(data) 
-	}
+const GetFieldDisplay = ({ args, props, element, id, property, setUpdate }) => {
 
 	function fieldDisplay() {
-		let test = args.documentFrame[property]
-		let placeholder=getPlaceholder(test) 
+		let doc = args.documentFrame[property]
+		let placeholder=getPlaceholder(doc) 
 		let newProps = { 
 			dataType: placeholder,
 			name: property,
@@ -31,7 +26,7 @@ const GetFieldDisplay = ({ args, props, element, id, property }) => {
 			placeholder: placeholder, 
 			className: "tdb__doc__input",
 			hideFieldLabel: true,
-			onChange: handleFieldChange,
+			onChange: (data) => { element.children.props.onChange(data); setUpdate(Date.now()) },
 			hideFieldLabel: true,
 			index: element.index.toString() // convert index to String - this index controls diff set ups for Arrays 
 		}  
@@ -49,6 +44,13 @@ const GetFieldDisplay = ({ args, props, element, id, property }) => {
 // EDIT or CREATE MODE
 // Array field templates for lists and sets 
 export function ArrayFieldTemplate(args, props, property) { 
+
+	/**
+	 * constants for dealing with update - when it comes to document links rjsf lib 
+	 * has a problem in which it fails to update documentlinks of different types (object/ string)
+	 * in this case we force update 
+	 */
+	const [update, setUpdate] = useState({})
 
 	let { extractedDocumentation, mode } = args
 
@@ -73,10 +75,12 @@ export function ArrayFieldTemplate(args, props, property) {
 				
 					{<div className="w-100"> 
 						{/** display custom elements  */}
-						{<GetFieldDisplay args={args} 
+						{update && <GetFieldDisplay args={args} 
 							props={props} 
 							element={element} 
 							id={id} 
+							update={update} 
+							setUpdate={setUpdate}
 							property={property}/>}
 					</div>}
 

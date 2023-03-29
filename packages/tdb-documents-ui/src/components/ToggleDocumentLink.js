@@ -7,7 +7,7 @@ import { TDBCheckBox } from "../components/CheckBoxComponent"
 export const ToggleComponent = ({ action, setAction, toggleKey }) => {
 
   return <div key={toggleKey}>
-    <TDBCheckBox checked={action} 
+    <TDBCheckBox checked={action}  
       name={CONST.LINK_NEW_DOCUMENT} 
       checkBoxKey={`${CONST.LINK_NEW_DOCUMENT}__${toggleKey}`}
       onChange={setAction}/> 

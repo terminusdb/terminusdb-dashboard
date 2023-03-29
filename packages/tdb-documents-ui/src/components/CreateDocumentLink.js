@@ -132,7 +132,7 @@ function getID (linkId, depth) {
 }
  
 // CREATE MODE
-export const CreateDocument = ({ name, required, onSelect, reference, order_by, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
+export const CreateDocument = ({ args, name, required, onSelect, reference, order_by, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
 
   const [action, setAction] = useState(false)
   const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
@@ -142,7 +142,6 @@ export const CreateDocument = ({ name, required, onSelect, reference, order_by, 
   let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name)
   let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
 
-    
   return <>
     <DisplayDocumentation documentation={propertyDocumentation}/>
     <Stack direction="horizontal">

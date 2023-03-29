@@ -55,7 +55,7 @@ const setupEdit = async(config) => {
   const button = screen.getByRole("button", { name: "Add lang" })
   await expect(button).toBeInTheDocument()
   
-  checkIfDataFilled (config)
+  await checkIfDataFilled (config)
 
   // change first entry value 
   const value_0 = document.getElementById(`value_root_lang_0__0`) 

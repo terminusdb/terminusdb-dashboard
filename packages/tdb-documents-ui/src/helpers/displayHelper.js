@@ -187,6 +187,7 @@ export function displayDocumentLink(props, args, extracted, property, linked_to,
     linkId={props.hasOwnProperty("id") ? props["id"] : null}
     //comment={documentation.comment ? documentation.comment : null} 
     mode={mode}
+    args={args}
     uiFrame={uiFrame}
     order_by={order_by}
     hideFieldLabel={hideFieldLabel}

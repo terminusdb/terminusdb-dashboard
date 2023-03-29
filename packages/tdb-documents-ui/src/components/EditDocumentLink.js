@@ -37,6 +37,7 @@ const DisplayFilledFrame = ({ documentData, onTraverse, hideFieldLabel, onSelect
 
     //for(let field in extracted.properties) { 
     for(let field in deifinitions.properties) { 
+
       linked_to = deifinitions.properties[field][CONST.PLACEHOLDER]
       if(util.availableInReference(reference, linked_to)) {
         if(!formData.hasOwnProperty(field)) {
@@ -122,6 +123,7 @@ const assignDepth = (data, depth = 0 , propertyLink) => {
 };
 
 function getAction (formData, unfoldable) {
+  if(!formData) return false
   if(unfoldable && 
     typeof formData === CONST.OBJECT_TYPE) return CONST.LINK_NEW_DOCUMENT
   return CONST.LINK_EXISTING_DOCUMENT
@@ -146,7 +148,7 @@ const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {
 }
  
 // EDIT MODE
-export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, order_by, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
+export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, index, order_by, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -167,7 +169,7 @@ export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, ord
         <EditHelper linked_to={linked_to} cardKey={cardKey} setDeleteLink={setDeleteLink} clickedUnlinked={clickedUnlinked}/>
       </Card.Header>
       <Card.Body>
-        <DisplayFilledFrame action={action} 
+        {action && <DisplayFilledFrame action={action} 
           depth={depth}
           extracted={extracted}
           required={required}
@@ -184,7 +186,26 @@ export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, ord
           formData={formData}
           documentLinkPropertyName={name}
           documentData={documentData} 
-          setDocumentData={setDocumentData}/>
+          setDocumentData={setDocumentData}/>}
+
+        {!action && <>
+          <CreateDisplay 
+            name={name} 
+            required={required} 
+            cardKey={cardKey}
+            comment={comment}
+            onSelect={onSelect}
+            reference={reference}
+            linked_to={linked_to} 
+            extracted={extracted} 
+            mode= {mode} 
+            onChange={onChange}
+            action={linkNewAction} 
+            setAction={setLinkNewAction}
+            documentData={linkNewDocumentData} // pass branch new info here
+            setDocumentData={setLinkNewDocumentData }
+          />
+        </>}
       </Card.Body>
     </Card>}
     {/** user has deleted a link and have decided to add new */}
