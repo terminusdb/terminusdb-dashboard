@@ -7,7 +7,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
 import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
-import {ErrorMessageReport} from "../components/DocumentComponents"
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 // I pass this so I'm sure it exists before loading the component
 export const DocumentsGraphqlList = ({documentTablesConfig}) => {    

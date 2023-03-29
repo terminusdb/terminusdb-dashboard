@@ -2,7 +2,7 @@
 import React from "react"
 import {DocumentSummary} from "@terminusdb/terminusdb-documents-ui-template"
 import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
-import {ErrorMessageReport} from "../components/DocumentComponents"
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {IconBarConfig} from "../components/constants"
 import { Layout } from "./Layout"
 import {Nav} from "react-bootstrap"

@@ -9,7 +9,7 @@ import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
-import {ErrorMessageReport} from "../components/DocumentComponents"
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 export const DocumentView = () => {   
     const { branch,setChangeRequestBranch,woqlClient} = WOQLClientObj()

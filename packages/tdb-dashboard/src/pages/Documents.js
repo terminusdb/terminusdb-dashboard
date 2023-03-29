@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {DocumentSummary} from "@terminusdb/terminusdb-documents-ui-template"
 import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
-import {ErrorMessageReport} from "../components/DocumentComponents"
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {BiPlus} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
 import 'react-accessible-accordion/dist/fancy-example.css'

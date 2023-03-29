@@ -29,7 +29,6 @@ import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 import {PageNotFound} from "./pages/PageNotFound"
 import {DocumentsPageList} from "./pages/DocumentsListPage"
 import {PLANS} from "./routing/constants";
-import { DocumentControlMain } from "./pages/DocumentControlMain"
 
 export function App (props){
     let navigate = useNavigate();
@@ -105,7 +104,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
            {!isAdmin &&  <Route path="administrator" element={<div><PageNotFound/></div >}/>}
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
            
-            <Route path=":dataProduct" element={<DocumentControlMain/>} >
+            <Route path=":dataProduct"  >
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
                 <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
                 

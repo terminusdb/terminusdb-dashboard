@@ -2,7 +2,7 @@ import React, {useEffect, useState}  from "react";
 import {WOQLClientObj} from '../init-woql-client'
 import {EditDocumentComponent} from "@terminusdb/terminusdb-documents-ui-template"
 import {useNavigate, useParams } from "react-router-dom";
-import {ErrorMessageReport} from "../components/DocumentComponents"
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {decodeUrl} from "../components/utils"

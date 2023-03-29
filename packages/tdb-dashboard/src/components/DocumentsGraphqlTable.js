@@ -10,7 +10,7 @@ import {RiDeleteBin7Line, RiEdit2Fill} from "react-icons/ri"
 import {HiOutlineDocument} from "react-icons/hi"
 
 //to be review
-export const DocumentsGraphqlTable = ({apolloClient,tableConfig, type,onRowClick, onViewButtonClick, onEditButtonClick, onDeleteButtonClick, showGraphqlTab=true}) => {
+/*export const DocumentsGraphqlTable = ({apolloClient,tableConfig, type,onRowClick, onViewButtonClick, onEditButtonClick, onDeleteButtonClick, showGraphqlTab=true}) => {
     if(!tableConfig) return ''
     const querystr  = tableConfig.objQuery[type].query
     const query = gql`${querystr}`
@@ -158,4 +158,4 @@ export const DocumentsGraphqlTable = ({apolloClient,tableConfig, type,onRowClick
             </Tab>}
          </Tabs>}
     </div>
-}
+}*/
