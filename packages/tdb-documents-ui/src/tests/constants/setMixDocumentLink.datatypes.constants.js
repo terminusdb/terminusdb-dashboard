@@ -44,18 +44,13 @@ export const SET_UNFOLDED_DATA_TYPE_FRAME = {
 export const SET_UNFOLDED_DATA_TYPE_CREATE_DATA = {
 	"@type": "Person",
 	"likes": [
+		"ID 2",
     {
       "@type": "Animal",
       "category": "dogs",
       "nickName": "jimmy"
-    },
-    {
-      "@type": "Animal",
-      "category": "cats",
-      "nickName": "furry"
     }
-  ],
-  "@type": "Person"
+  ]
 }
 
 // expected data on Create 
@@ -91,7 +86,8 @@ export const SET_UNFOLDED_DATA_TYPE_EDIT_DATA = {
       "@type": "Animal",
       "category": "cats",
       "nickName": "furry"
-    }
+    },
+		"ID 3"
   ]
 }
 
