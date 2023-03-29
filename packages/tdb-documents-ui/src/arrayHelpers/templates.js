@@ -61,7 +61,7 @@ export function ArrayFieldTemplate(args, props, property) {
 	var variant="dark"
   let label=props.title  
 	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
-	return  <div className={`${props.className} w-100 mb-3`}>
+	return  <div className={`${props.className} w-100 tdb__array__holder`}>
 		<TDBLabel name={label} 
       comment={documentation.comment} 
       id={`root_Set_${label}`}/> 
@@ -71,7 +71,7 @@ export function ArrayFieldTemplate(args, props, property) {
 				//let id = `${props.idSchema["$id"]}_${CONST.SET}_${index}`
 			
 				let id = `${element.children.props.idSchema["$id"]}__${element.index}`
-				return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
+				return <Stack direction="horizontal" key={element.key} className={`${element.className} tdb__array__input align-items-baseline w-100`}>
 				
 					{<div className="w-100"> 
 						{/** display custom elements  */}

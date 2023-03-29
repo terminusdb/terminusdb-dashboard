@@ -32,7 +32,7 @@ const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index, id, u
   
   //const [fields, setFields] = useState([])
  
-  function handleChange(data, fieldName) {
+  function handleChange(data, fieldName) { 
     let tempSubDocumentData = subDocumentData
     tempSubDocumentData[fieldName]=data
     setSubDocumentData(tempSubDocumentData)
@@ -91,7 +91,7 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
       comment={comment} 
       className="tdb__label__width" 
       hideFieldLabel={hideFieldLabel}/> 
-    <Card bg="secondary" className={`mb-3 ${util.getBorder(uiFrame, props.name, index)} w-100`} key={id}>
+    <Card bg="secondary" className={`tdb__subdocument__input ${util.getBorder(uiFrame, props.name, index)} w-100`} key={id}>
       <Button variant={"secondary"}
         className={`text-start p-4`}
         data-testid={`root_subdocument_${props.name}_button`}

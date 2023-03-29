@@ -13,7 +13,7 @@ import { BsTrashFill } from "react-icons/bs"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 
-const DisplayFilledFrame = ({ documentData, uiFrame, hideFieldLabel, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, uiFrame, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -47,7 +47,6 @@ const DisplayFilledFrame = ({ documentData, uiFrame, hideFieldLabel, reference, 
           onChange={handleChange}
           linked_to={linked_to}
           mode={mode}
-          hideFieldLabel={hideFieldLabel}
           depth={cardKey}
           reference={reference}
           unfoldable={unfoldable}
@@ -136,7 +135,6 @@ export const ViewDocument = ({ name, required, uiFrame, reference, hideFieldLabe
           linked_to={linked_to}
           cardKey={cardKey}
           reference={reference}
-          hideFieldLabel={hideFieldLabel}
           formData={formData}
           documentLinkPropertyName={name}
           documentData={documentData} 

@@ -18,6 +18,10 @@ export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
     // SUBDOCUMENT TYPE 
     return CONST.OBJECT_TYPE
   }
+  else if(util.isEnumType(field)){
+    // SUBDOCUMENT TYPE 
+    return CONST.STRING_TYPE
+  }
   else if(util.isDocumentType(field, fullFrame)){
     // DOCUMENT LINKS 
     // if isArray then we are only expecting Object Types

@@ -9,6 +9,8 @@
   --nested-required-label-color: #ccc;
   --tdb-latlng-label-width: 5rem; 
   --rounded: 0.375rem;
+  --field-margin-bottom: 1rem;
+  --array-margin-bottom: 2rem;
 }
 
 /** tdb input */
@@ -23,6 +25,7 @@
   font-weight: 400;
   line-height: 1;
   background-clip: padding-box;
+  margin-bottom: var(--fields-margin-botom) !important;
 }
 
 /** all property labels */
@@ -57,6 +60,17 @@ label.latlng-control-label {
   display: flex;
   width: var(--tdb-label-width);
 }
+
+/** margin bottom for enum fields  fields */
+.tdb__enum__input {
+  margin-bottom: var(--array-margin-botom);
+}
+
+/** margin bottom for Array fields */
+.field .field-array {
+  margin-bottom: var(--array-margin-botom) !important;
+}
+
 
 /** enabling labels in subdocument to appear in light color when in light mode */
 .bg-secondary .required {
@@ -115,6 +129,21 @@ label.latlng-control-label {
   font-weight: 400;
   line-height: 1.5;
   background-clip: padding-box;
+}
+
+
+/** margin bottom for fields */
+.tdb__doc__input,
+.tdb__subdocument__input,
+.react-datetime-picker,
+.tdb__enum__input,
+.tdb__array__input {
+  margin-bottom: var(--field-margin-bottom);
+}
+
+/** margin bottom for array templates */
+.tdb__array__holder {
+  margin-bottom: var(--array-margin-bottom);
 }
 
 /* datepciker css when date has been chosen */

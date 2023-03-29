@@ -21,7 +21,7 @@ function constructOptions(options) {
 export const TDBEnum = ({ id, options, name, value, required, mode, enumDocumentClass, hideFieldLabel, onChange, label }) => {
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
-  if(mode === VIEW && value) return <Stack direction="horizontal"  className="mb-3">
+  if(mode === VIEW && value) return <Stack direction="horizontal"  className="tdb__enum__input">
     <TDBLabel name={label ? label : name} 
       hideFieldLabel={hideFieldLabel}
       required={required} 
@@ -33,7 +33,7 @@ export const TDBEnum = ({ id, options, name, value, required, mode, enumDocument
 
   let constructedOpts= constructOptions(options)
 
-  return <Stack direction="horizontal"  className="mb-3">
+  return <Stack direction="horizontal"  className="tdb__enum__input">
     <TDBLabel name={label ? label : name} required={required} hideFieldLabel={hideFieldLabel} id={id}/>
     <div className="w-100">
       <SelectComponent options={constructedOpts} 

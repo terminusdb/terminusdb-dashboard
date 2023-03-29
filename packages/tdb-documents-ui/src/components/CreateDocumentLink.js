@@ -12,7 +12,7 @@ import { SearchExistingLink } from "./SearchExistingLink"
 import { DisplayDocumentation } from "../templates"
 
 // display based on action  
-const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
+const DisplayLinkFrame = ({ reference, linkPropertyComment, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
   let nextCreateLink =  false
 
@@ -48,7 +48,7 @@ const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, orde
           linked_to={linked_to}
           propertyDocumentation={propertyDocumentation}
           mode={mode} 
-          hideFieldLabel={hideFieldLabel}
+          //hideFieldLabel={hideFieldLabel}
           linkId={linkId}
           onSelect={onSelect}
           depth={cardKey}
@@ -98,7 +98,7 @@ const DisplayLinkFrame = ({ reference, hideFieldLabel, linkPropertyComment, orde
 }
  
 
-export const CreateDisplay = ({ name, linkPropertyComment, order_by, reference, hideFieldLabel, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
+export const CreateDisplay = ({ name, linkPropertyComment, order_by, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -108,7 +108,6 @@ export const CreateDisplay = ({ name, linkPropertyComment, order_by, reference, 
       required={required}
       linkId={linkId}
       linkPropertyComment={linkPropertyComment}
-      hideFieldLabel={hideFieldLabel}
       mode={mode}
       propertyDocumentation={propertyDocumentation}
       cardKey={cardKey}
@@ -142,6 +141,7 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
   let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name)
   let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
 
+
   return <>
     <DisplayDocumentation documentation={propertyDocumentation}/>
     <Stack direction="horizontal">
@@ -155,7 +155,6 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
             linked_to={linked_to} 
             extracted={extracted} 
             mode= {mode} 
-            hideFieldLabel={hideFieldLabel}
             linkId={linkId}
             order_by={order_by}
             propertyDocumentation={propertyDocumentation}

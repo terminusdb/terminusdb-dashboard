@@ -76,7 +76,7 @@ export const TDBDate = ({ id, name, value, required, isKey, mode, onChange, comm
     if(data) onChange(data.toISOString())
   }
 
-  return <Stack direction="horizontal" className="mb-3">
+  return <Stack direction="horizontal" className="tdb__date__input">
     <TDBLabel name={name} 
       hideFieldLabel={hideFieldLabel}
       required={required} 

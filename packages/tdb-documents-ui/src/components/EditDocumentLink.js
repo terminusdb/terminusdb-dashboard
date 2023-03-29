@@ -13,7 +13,7 @@ import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { UnlinkButton } from "./UnlinkButton"
 import { SearchExistingLink } from "./SearchExistingLink"
 
-const DisplayFilledFrame = ({ documentData, onTraverse, hideFieldLabel, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, clickedUnlinked }) => {
+const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, clickedUnlinked }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -49,7 +49,6 @@ const DisplayFilledFrame = ({ documentData, onTraverse, hideFieldLabel, onSelect
           onSelect={onSelect}
           reference={reference}
           extracted={extracted}
-          hideFieldLabel={hideFieldLabel}
           onChange={handleChange}
           //comment={comment}  // review
           required={required} />) 
@@ -62,7 +61,6 @@ const DisplayFilledFrame = ({ documentData, onTraverse, hideFieldLabel, onSelect
             mode={mode}
             clickedUnlinked={clickedUnlinked}
             depth={cardKey}
-            hideFieldLabel={hideFieldLabel}
             onSelect={onSelect}
             reference={reference}
             onTraverse={onTraverse}
@@ -176,7 +174,6 @@ export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, ind
           onTraverse={onTraverse}
           mode={mode}
           clickedUnlinked={clickedUnlinked}
-          hideFieldLabel={hideFieldLabel}
           cardKey={cardKey}
           unfoldable={unfoldable}
           reference={reference}
