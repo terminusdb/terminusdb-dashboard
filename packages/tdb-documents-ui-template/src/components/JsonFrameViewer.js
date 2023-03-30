@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react"
 import * as CONST from "./constants"
 import Button from "react-bootstrap/Button"
 import { UnControlled as CodeMirror } from "react-codemirror2";
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material-darker.css'
+//import 'codemirror/lib/codemirror.css';
+//import 'codemirror/theme/material-darker.css'
 // we have to add for folding json
 /*import 'codemirror/addon/lint/lint.css';
 import 'codemirror/addon/hint/show-hint.css';
