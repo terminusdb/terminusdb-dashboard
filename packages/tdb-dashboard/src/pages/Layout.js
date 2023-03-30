@@ -31,7 +31,7 @@ function GetHelpText () {
 }
   
 export const Layout = (props) => { 
-    const {branch,exitChangeRequestBranch,currentChangeRequest} = WOQLClientObj()
+    const {branch,exitChangeRequestBranch,currentChangeRequest,currentCRName} = WOQLClientObj()
     const { organization, dataProduct } = useParams();
 
     const noChange = window.location.pathname.indexOf("change_requests")=== -1 ? true : false
@@ -61,7 +61,7 @@ export const Layout = (props) => {
         if(organization) setDefaultSize(340)
     }, [organization])*/
 
-    const changeRequestHolder = dataProduct && noChange ? <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/> : null
+    const changeRequestHolder = dataProduct && noChange ? <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} title={currentCRName || branch} setShowModal={setShowModal}/> : null
                   
     
     //defaultSize={340} 

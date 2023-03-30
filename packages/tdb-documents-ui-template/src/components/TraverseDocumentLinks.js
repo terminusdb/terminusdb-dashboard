@@ -1,23 +1,26 @@
 import React, {useEffect, useState}  from "react";
-import Modal from 'react-bootstrap/Modal'
-//import {WOQLClientObj} from '../init-woql-client'
+import {Modal, ProgressBar} from 'react-bootstrap'
 import * as CONST from "./constants"
-import {onTraverse} from "./DocumentComponents"
-import {DocumentHook} from "../hooks/DocumentHook"
-import { DocumentControlObj } from "../hooks/DocumentControlContext";
 import Alert from 'react-bootstrap/Alert'
-import {Loading} from "../components/Loading"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
 import Button from 'react-bootstrap/Button'
 import {AiOutlineArrowRight} from "react-icons/ai"
 import Card from "react-bootstrap/Card"
 import {AiOutlineClose} from "react-icons/ai"
  
+/**
+ * 
+ * @param {*} clicked document clicked by user to traverse
+ * @param {*} setClicked function to store which document has been clicked by user
+ * this function is only used in DocumentView & for Traversing via documents
+ */
+export function onTraverse(documentID, setClicked) { 
+    if(setClicked) setClicked(documentID)
+}
+
+
 const ShowLinkRoute = ({linkArray, handleTraverse}) => {
 	let elements=[]
-
-	console.log("linkArray", linkArray)
-
 	linkArray.map((link, index) => {
 		elements.push(<span>
 			<Button variant="link" onClick={(e) => {handleTraverse(link)}}>{`${link}`}</Button>
@@ -40,14 +43,13 @@ const ShowLinkRoute = ({linkArray, handleTraverse}) => {
 	return <div/>
 }
 //__KITTY
-export const TarverseDocumentLinks = ({show, onHide, clicked}) => {
-	const {frames} = DocumentControlObj()
-	const {getDocumentById,result,loading,error:errorMsg} = DocumentHook()
-
-	// constants to store document data 
-    //const [data, setData]=useState(false)
+export const TraverseDocumentLinks = ({show, onHide, clicked,getDocumentById,frames}) => {
 	const [documentID, setDocumentID]=useState(false)
 	const [type, setType]=useState(false)
+	const [loading, setLoading]=useState(false)
+	const [error, setError]=useState(false)
+	const [result, setResult]=useState(false)
+
 
 	// document tarverse array
 	const [linkArray, setLinkArray]=useState([])
@@ -63,9 +65,20 @@ export const TarverseDocumentLinks = ({show, onHide, clicked}) => {
 		setLinkArray([])
 	}
 
+	const getDocument = async (documentID) =>{
+		if(!getDocumentById)return 
+		try{
+			setLoading(true)
+			const result = await getDocumentById(documentID)	
+			setResult(result) 
+		}catch(err){
+			setError(err.message)
+		}
+	}
+
 	useEffect(() => {
         if(documentID) {
-			getDocumentById(documentID)	
+			getDocument(documentID)
 			let extractedType = documentID.substring(0, documentID.indexOf("/"))
 			setType(extractedType)
           	let tempArray=linkArray
@@ -108,13 +121,11 @@ export const TarverseDocumentLinks = ({show, onHide, clicked}) => {
 			</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{height: "500px"}} className="p-4">
-			{errorMsg && <Alert variant={"danger"} className="mr-3">
-				{errorMsg}
-			</Alert>}
-			{loading && <Loading message={`Fetching ${documentID} ...`}/>}
-			{!frames && !type && <Loading message={`Fetching ${documentID} ...`}/>}
+			{error && <Alert variant={"danger"} className="mr-3">{error}</Alert>}
+			{loading ||  (!frames && !type) && <ProgressBar message={`Fetching ${documentID} ...`}/>}
 			<ShowLinkRoute linkArray={linkArray} handleTraverse={handleTraverse}/>
-			{type && frames && result && <FrameViewer frame={frames}
+			{type && frames && result && 
+			<FrameViewer frame={frames}
 				type={type}
 				mode={CONST.VIEW_DOCUMENT}
 				formData={result}

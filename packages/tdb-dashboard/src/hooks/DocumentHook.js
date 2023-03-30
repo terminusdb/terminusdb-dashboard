@@ -2,7 +2,7 @@ import React, {useState,useEffect} from "react";
 import { WOQLClientObj } from "../init-woql-client";
 
 export function DocumentHook(){
-    const {woqlClient} = WOQLClientObj()
+    const {woqlClient,currentChangeRequest} = WOQLClientObj()
 
     const [result, setResult] = useState(false)
     const [error, setError] = useState(false)
@@ -76,7 +76,21 @@ export function DocumentHook(){
         }finally{setLoading(false)}
     }
 
+        // check if the current change request is still open
+    async function checkStatus (){ 
+        // I can decide to change a document 
+        // in a new branch without using the change request workflow
+        // in this case currentChangeRequest is false
+        if(!currentChangeRequest) return 
+            const CRObject = await getChangeRequestByID(currentChangeRequest)
+            if(CRObject.status !== "Open"){
+                throw Error(`The current Change Request has been ${CRObject.status}. 
+                            Please exit the change request and create a new one`)
+        }
+    }
+
     return {result, 
+            checkStatus,
             getDocumentByBranches,
             getDiffList,
             getDocumentById,

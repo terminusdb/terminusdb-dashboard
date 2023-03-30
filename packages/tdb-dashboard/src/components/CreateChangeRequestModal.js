@@ -2,9 +2,10 @@ import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {useNavigate} from "react-router-dom"
+import { FormLabel } from "react-bootstrap"
 
 export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMode, type}) => { 
-    //const nameRef = useRef(null);
+    const nameRef = useRef(null);
     const messageRef = useRef(null);
     const {loading,errorMessage,setError,createChangeRequest} =  ChangeRequest()
     const navigate = useNavigate()
@@ -14,17 +15,17 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
     }
 
     const runCreate = async () => {
-      //  const name = nameRef.current.value
+        const name = nameRef.current.value
         const message = messageRef.current.value
-        if(!message || message === "") {
-            setError("Change request message is mandatory")
+        if(!name || name === "") {
+            setError("Change request name is mandatory")
             return
         }else{
-            const {changeRequestId,branchName} = await createChangeRequest(message)         
+            const {changeRequestId,branchName} = await createChangeRequest(name,message)         
             if(changeRequestId){
-                //nameRef.current.value = ""
+                nameRef.current.value = ""
                 messageRef.current.value = ""
-                updateViewMode(branchName,changeRequestId)
+                updateViewMode(branchName,changeRequestId,name)
                 setShowModal(false)
             }                  
         }
@@ -40,9 +41,16 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
         <Modal.Body className="p-3">
             {errorMessage && 
              <Alert variant="danger"  onClose={() => setError(false)} dismissible>{errorMessage}</Alert>}
-            <Form>              
+            <Form> 
+                <Form.Group className="mb-3 tdb__input">
+                    <Form.Control required  
+                        ref={nameRef}
+                        id="add_changerequest_name" 
+                        type="text"
+                        placeholder={`Please type the change request name`} />          
+                </Form.Group>          
                 <Form.Group className="tdb__input">
-                    <Form.Control required 
+                    <Form.Control 
                         ref={messageRef}
                         id="add_message" 
                         type="text"

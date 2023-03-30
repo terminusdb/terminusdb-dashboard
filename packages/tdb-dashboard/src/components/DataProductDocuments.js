@@ -7,7 +7,8 @@ import {getPropertyRelation} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
-import {DocumentControlObj} from '../hooks/DocumentControlContext'
+import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
 import {useParams, useNavigate} from "react-router-dom"
@@ -25,7 +26,8 @@ export const DataProductDocuments = () => {
 
     //maybe I have to update the count when enter here well see
     const {addQueryPane} = QueryPaneObj()
-    const  {getDocNumber,perDocumentCount:dataProvider, documentClasses,frames,getUpdatedFrames} = DocumentControlObj()
+    const  {getDocNumber,perDocumentCount:dataProvider, documentClasses,frames,getUpdatedFrames} = 
+    DocumentsUIHook(woqlClient)
  
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
@@ -90,19 +92,19 @@ export const DataProductDocuments = () => {
 }
 // side bar document
 export const DocumentExplorerDocuments = () => {  
-
     const {
         saveSidebarState,
-        sidebarStateObj 
+        woqlClient,
+        sidebarStateObj,
+        accessControlDashboard
     } = WOQLClientObj()
 
     //console.log("documentClasses", documentClasses)
     const {
-        actionControl,
         setShowFrames,
         setJsonContent,
         documentClasses
-    } = DocumentControlObj()
+    } = DocumentsUIHook(woqlClient)
 
     const [loading, setLoading]=useState(false)
 
@@ -119,7 +121,7 @@ export const DocumentExplorerDocuments = () => {
 
     useEffect(() => {
         // disable document clicks if role - info reader
-        if(!actionControl.write && !actionControl.read) setDisabled(true)
+        if(!accessControlDashboard || ( !accessControlDashboard.instanceRead() && !accessControlDashboard.instanceWrite())) setDisabled(true)
     }) 
 
     const DocumentMenu = ({item}) => { 

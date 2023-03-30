@@ -1,98 +1,68 @@
 import React, {useEffect, useState}  from "react";
 import {WOQLClientObj} from '../init-woql-client'
-import Card from "react-bootstrap/Card"
-import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
-import * as CONST from "../components/constants"
-import { useNavigate, useParams } from "react-router-dom";
-import {EditHeader, SearchComponent, ErrorMessageReport} from "../components/DocumentComponents"
-import {JsonFrameViewer} from "../components/JsonFrameViewer"
+import {EditDocumentComponent} from "@terminusdb/terminusdb-documents-ui-template"
+import {useNavigate, useParams } from "react-router-dom";
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {Loading} from "../components/Loading"
-import {DocumentControlObj} from "../hooks/DocumentControlContext"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {decodeUrl} from "../components/utils"
+import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
+import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
 
-const DisplayDocumentBody = () => {
-    const {
-        view,
-        jsonContent,
-        frames,
-        selectedDocument,
-        setJsonContent,
-        updateDocument,
-        getDocument
-    } = DocumentControlObj()
-
-    const navigate = useNavigate()
+export const DocumentEdit = () => { 
+    const {setChangeRequestBranch, branch,woqlClient} = WOQLClientObj()
+    if(!woqlClient) return ''
+    const [showModal, setShowModal] = useState(false) 
     const {type, docid} = useParams()
+    const navigate = useNavigate()
+    
+    const {
+        updateDocument,
+        getDocument,
+        selectedDocument,
+        getUpdatedFrames,
+        frames,
+        error,
+        setError
+    } = DocumentsUIHook(woqlClient)
+
     let documentID=decodeUrl(docid)
 
-     const  callUpadateDocument = async (jsonDoc) =>{
+     const  updateDocumentHandler = async (jsonDoc) =>{
         const docUp = await updateDocument(jsonDoc)
         if(docUp){
             getDocument(documentID)
             navigate(-1)
         }
    }
-
-    /*useEffect(() => {
-        if(jsonContent) setData(jsonContent)
-    }, [jsonContent])*/
-    // function which extracts data from document form 
-
-
-    if(!selectedDocument || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
-
-    // JSON View
-    if(view === CONST.JSON_VIEW) {
-        return <JsonFrameViewer jsonData={selectedDocument} setExtracted={callUpadateDocument} mode={CONST.EDIT_DOCUMENT}/>
-    }
-
-    // Form View
-    return <FrameViewer frame={frames}
-        type={type}
-        mode={CONST.EDIT_DOCUMENT}
-        onSubmit={callUpadateDocument}
-        //onChange={handleChange}
-        onSelect={<SearchComponent/>}   
-        formData={selectedDocument}
-        hideSubmit={false}
-        //onTraverse={onTraverse}
-    />
-}
-
-export const DocumentEdit = () => {   
-    const { 
-        setChangeRequestBranch, branch
-    } = WOQLClientObj()
-
-    const {type, docid:id} = useParams()
-    let documentID=decodeUrl(id)
-    const [showModal, setShowModal] = useState(false)
-
+    // implement the chage method
     useEffect(() => {
         if(branch === "main"){
             setShowModal(true)
         }
+        getUpdatedFrames()
+        getDocument(documentID)
 	},[branch])
-  
 
-    const updateViewMode =(newBranchName, changeRequestId)=>{
-        setChangeRequestBranch(newBranchName, changeRequestId)
+    const closeButtonClick = () =>{
+        navigate(-1)
     }
- 
-    return <main className="content w-100 document__interface__main">  
-        <ErrorMessageReport/>
-        {showModal && <CreateChangeRequestModal showModal={showModal}
-                type={type} 
-                setShowModal={setShowModal} 
-                updateViewMode={updateViewMode}/>}
-        {branch !== "main" && <Card className="mr-3 bg-dark">
-            <Card.Header className="justify-content-between d-flex w-100 text-break">
-                <EditHeader mode={CONST.EDIT_DOCUMENT} id={documentID} type={type}/>
-            </Card.Header>
-            <Card.Body className="text-break">
-                <DisplayDocumentBody/>
-            </Card.Body>
-        </Card>}
-    </main>
+  
+    if(!selectedDocument || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
+
+    return <React.Fragment>
+        {error && <ErrorMessageReport error={error} setError={setError}/>}
+        {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
+        {branch !== "main" && 
+            <EditDocumentComponent
+                SearchComponent={DocumentSearchComponent}
+                documentID={documentID} 
+                updateDocument={updateDocumentHandler}
+                type={type}
+                frames={frames}
+                closeButtonClick={closeButtonClick}
+                selectedDocument={selectedDocument}
+            />
+        }
+        </React.Fragment>
 }

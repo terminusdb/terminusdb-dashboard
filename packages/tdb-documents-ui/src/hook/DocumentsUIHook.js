@@ -1,35 +1,9 @@
-import React, {useState, useEffect, useContext} from 'react'
-import {WOQLClientObj} from '../init-woql-client'
-import * as CONST from "../components/constants"
-import {sortAlphabetically} from "../components/utils"
-import {getTotalNumberOfDocuments} from "../queries/GeneralQueries"
-import {useParams} from "react-router-dom"
-import { ChangeRequest } from "./ChangeRequest";
-import {decodeUrl} from "../components/utils"
+import React, {useState} from 'react'
+import {sortAlphabetically} from "./utils"
+import {getTotalNumberOfDocuments} from "./GeneralQueries"
 
-export const DocumentControlContext = React.createContext()
-export const DocumentControlObj = () => useContext(DocumentControlContext)
-export const DocumentControlProvider = ({children}) => {
-    const {dataProduct,docid:id,changeid} = useParams()
-    const {getChangeRequestByID} = ChangeRequest()
-
-    const { 
-        accessControlDashboard,
-        currentChangeRequest,
-        woqlClient
-    } = WOQLClientObj()
-
-    // access control constants based on access control priviliges
-    const [actionControl, setActionControl]=useState({})
-    // constants to display document body in Form or JSON View
-    const [view, setView]= useState(CONST.FORM_VIEW)
-    // constant to maintain state of json object between form & JSON View
-    const [jsonContent, setJsonContent]=useState(false)
-    // constant to show document frames in document interface
-    const [showFrames, setShowFrames]=useState(false)
-
+export const DocumentsUIHook = (woqlClient) => {
     const [error, setError] = useState(false)
-    // when we are doing some server call
     const [loading, setLoading] = useState(false)
 
     const [documentClasses, setDocumentClasses] = useState(false)
@@ -59,7 +33,7 @@ export const DocumentControlProvider = ({children}) => {
                 setDocumentClasses(classDocumentOrder)
             } 
         }catch(err){
-            setError(err.message)
+            setError(err.data || err.message)
             console.log("Error in init woql while getting classes of data product", err.message)
         }finally{setLoading(false)}
     }
@@ -74,6 +48,7 @@ export const DocumentControlProvider = ({children}) => {
             setPerDocument(false)
             setLoading(true)
             setError(false)
+            const dataProduct = woqlClient.db()
             // I need to reload because I do not know if this can change
             //let classDocumentOrder
             const classDocumentsResult = await woqlClient.getClassDocuments(dataProduct)
@@ -92,7 +67,7 @@ export const DocumentControlProvider = ({children}) => {
             setDocumentClasses(classes)
             
         }catch(err){
-            setError(err.message)
+            setError(err.data || err.message)
             console.log("Error in init woql while getting classes of data product", err.message)
         }finally{setLoading(false)}
     }
@@ -102,7 +77,7 @@ export const DocumentControlProvider = ({children}) => {
     // not call frame for a specific dataP if not changes
     // classes and frames we need only one but count can change
     // we reset all the object
-    useEffect(() => {
+   /* useEffect(() => {
         resetAll()
         // reset frames and table....
     },[dataProduct])
@@ -115,19 +90,19 @@ export const DocumentControlProvider = ({children}) => {
         setFrames(null)
         setSelectedDocument(null)
         setDocumentTablesConfig(null)
-    }
+    }*/
 
-    useEffect(() => {
+ /*  useEffect(() => {
         //remove the error from the preview page
         if(error!== false)setError(false)
-    },[window.location.pathname])
+    },[window.location.pathname])*/
 
     // this work in edit and view 
     // not works for new document, I have to add it inside new document too
     // I prefer do the call in the single page maybe ??
     // to review
     // we need frame in the diff page too for this we are listening changeid status
-    useEffect(() => {
+   /* useEffect(() => {
         // only if I'm in change request mode 
         // I do not need to reload because the schema can not change
         //if(!currentChangeRequest || documentTablesConfig === null) 
@@ -140,14 +115,13 @@ export const DocumentControlProvider = ({children}) => {
                 getDocument(documentID)
             }
         }
-    },[id,changeid])
+    },[id,changeid])*/
 
 
     function getGraphqlTableConfig ( ){
         setDocumentTablesConfig(null)
         if(woqlClient){
             setLoading(true)
-            setError(false)
             const clientCopy = woqlClient.copy()
             clientCopy.connectionConfig.api_extension = 'api/'
            // const baseUrl = clientCopy.connectionConfig.dbBase("tables")
@@ -155,6 +129,7 @@ export const DocumentControlProvider = ({children}) => {
             clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
                 setDocumentTablesConfig(result)  
             }).catch(err=>{
+                setError(err.data || err.message)
                 console.log(err)
                 setDocumentTablesConfig(false)
             }).finally(setLoading(false))
@@ -162,44 +137,24 @@ export const DocumentControlProvider = ({children}) => {
     }
 
     function getUpdatedFrames() {
-        setFrames(null)
+       // setFrames(null)
         if(woqlClient){
             setLoading(true)
-            setError(false)
-            const dataProduct = woqlClient.db()
-            woqlClient.getSchemaFrame(null, dataProduct).then((res) => {
+            woqlClient.getSchemaFrame().then((res) => {
                 setFrames(res)
             })
             .catch((err) =>  {
                 setFrames(false)
-                setError(er.message)
+                setError(err.data || err.message)
             }).finally(setLoading(false))
         }
     }
 
-// to be review
-    useState(() => {
-        if(accessControlDashboard) { 
-            let control={
-                read: false,
-                write: false
-            }
-            if(accessControlDashboard.instanceRead()) {
-                control.read=true
-            }
-            if(accessControlDashboard.instanceWrite()) {
-                control.write=true
-            }
-            setActionControl(control)
-        }
-    }, [accessControlDashboard])
-
-    async function createDocument(jsonDocument) {
+  async function createDocument(jsonDocument) {
         try{
             setLoading(true)
-            setError(false)
-            await checkStatus()
-            const res = await woqlClient.addDocument(jsonDocument, null, dataProduct)
+            //await checkStatus()
+            const res = await woqlClient.addDocument(jsonDocument)
             return res
         }catch(err){ 
             setError(err.data || err.message)
@@ -214,10 +169,10 @@ export const DocumentControlProvider = ({children}) => {
             setLoading(true)
             setError(false)
             const params={id:documentId}
-            const res = await woqlClient.getDocument(params, dataProduct)
+            const res = await woqlClient.getDocument(params)
             setSelectedDocument(res)
         }catch(err){
-            setError(err.message)
+            setError(err.data || err.message)
         }finally{
             setLoading(false)
         }
@@ -229,38 +184,27 @@ export const DocumentControlProvider = ({children}) => {
         try{
             setLoading(true)
             setError(false)
-            await checkStatus ()
+           // await checkStatus ()
             const params={id:documentId}
             let commitMsg=`Deleting document ${documentId}` 
-            const res = await woqlClient.deleteDocument(params, dataProduct, commitMsg)
+            const res = await woqlClient.deleteDocument(params, null, commitMsg)
             return true
         }catch(err){
-            setError(`I can not delete the document ${err.message}`)
+            setError(err.data || err.message)
        }finally{setLoading(false)}
     }
 
 
-    // check if the current change request is still open
-    async function checkStatus (){ 
-        // I can decide to change a document 
-        // in a new branch without using the change request workflow
-        // in this case currentChangeRequest is false
-        if(!currentChangeRequest) return 
-        const CRObject = await getChangeRequestByID(currentChangeRequest)
-        if(CRObject.status !== "Open"){
-            throw Error(`The current Change Request has been ${CRObject.status}. 
-                        Please exit the change request and create a new one`)
-        }
-    }
+
     
     async function updateDocument(jsonDoc) {
         try{
             setLoading(true)
             setError(false)
-            await checkStatus ()
+           // await checkStatus ()
             let commitMsg=`Updating document ${jsonDoc["@id"]}`
             // pass create:true 
-            const res = await woqlClient.updateDocument(jsonDoc, {}, dataProduct, commitMsg, false, false, false, true)
+            const res = await woqlClient.updateDocument(jsonDoc, {}, null, commitMsg, false, false, false, true)
             return res
         }
         catch(err){
@@ -269,24 +213,22 @@ export const DocumentControlProvider = ({children}) => {
        }finally{setLoading(false)}
     }
 
-    return (
-        <DocumentControlContext.Provider
-            value={{
-                view, 
-                resetAll,
+    return {
+               // view, 
+               // resetAll,
                 selectedDocument,
                 getDocument,
                 deleteDocument,
                 createDocument,
                 updateDocument,
                 getDocNumber,
-                setView,
+               // setView,
                 getUpdatedFrames,
-                actionControl,
-                jsonContent, 
-                setJsonContent,
-                showFrames, 
-                setShowFrames,
+               // actionControl,
+               // jsonContent, 
+               // setJsonContent,
+               // showFrames, 
+               // setShowFrames,
                 loading,
                 getUpdatedDocumentClasses,
                 error,
@@ -297,10 +239,6 @@ export const DocumentControlProvider = ({children}) => {
                 documentTablesConfig,
                 frames,
                // formatErrorMessages
-            }}
-        >
-            {children}
-        </DocumentControlContext.Provider>
-    )
+            }
 }
 

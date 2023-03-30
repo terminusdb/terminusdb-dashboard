@@ -6,6 +6,7 @@
     "./packages/tdb-react-components",
     "./packages/tdb-access-control-component",
     "./packages/tdb-documents-ui",
+    "./packages/tdb-documents-ui-template",
     "./packages/tdb-dashboard"
   ],
   "dependencies": {

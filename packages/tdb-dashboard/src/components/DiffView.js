@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState,useEffect} from "react"
 import Accordion from 'react-bootstrap/Accordion'
 import {DiffViewer} from '@terminusdb/terminusdb-documents-ui'
 import Badge from 'react-bootstrap/Badge'
@@ -9,12 +9,11 @@ import {DIFFS_PER_PAGE_LIMIT} from "./constants"
 import {Row, Col} from "react-bootstrap"
 import {DocumentHook} from "../hooks/DocumentHook"
 import Alert from 'react-bootstrap/Alert'
-import ProgressBar from 'react-bootstrap/ProgressBar'
 import {BsPlus} from "react-icons/bs"
 import {BiMinusCircle} from "react-icons/bi"
 import {Loading} from "./Loading"
-import {DocumentControlObj} from "../hooks/DocumentControlContext" 
-
+import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {WOQLClientObj} from '../init-woql-client'
 /**
  * 
  * @param {*} diff diff list 
@@ -165,7 +164,8 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
  * @returns 
  */
 export const DiffView = ({diffs, CRObject}) => { 
-    const {frames} = DocumentControlObj()
+    const {woqlClient} = WOQLClientObj()
+    const {frames,getUpdatedFrames} = DocumentsUIHook(woqlClient)
     // pagination constants
     const [activePage, setActivePage]=useState(1)
     const [current, setCurrent]=useState(0)
@@ -174,6 +174,9 @@ export const DiffView = ({diffs, CRObject}) => {
 
     let divide = diffs.length/DIFFS_PER_PAGE_LIMIT
 
+    useEffect(() => {
+        getUpdatedFrames()
+	},[])
     // function to handle on click of page
     function handlePagination(number) {
         if(number > activePage) {
