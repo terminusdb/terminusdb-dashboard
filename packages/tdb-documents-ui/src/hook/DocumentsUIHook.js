@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {sortAlphabetically} from "./utils"
 import {getTotalNumberOfDocuments} from "./GeneralQueries"
 

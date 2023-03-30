@@ -60,6 +60,7 @@ export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config,
     maxWidth}]}*/
 
     function formatTableColumns(){
+        if(!config) return {columns:[], hiddenColumns:[]}
         const hiddenColumns = hiddenColumnsArr || []
         // I visualise the id only if it is the only item
         const colArr = config.columns
