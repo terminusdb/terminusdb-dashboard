@@ -111,7 +111,7 @@ jobs:
         node-version: 18
         registry-url: 'https://registry.npmjs.org'
     - name: Build packages
-      run: npm i && npm run build --ws
+      run: node --max-heap-size=100000 && npm i && npm run build --ws
     - name: Publish workspaces
       if: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/v') }}
       env:
