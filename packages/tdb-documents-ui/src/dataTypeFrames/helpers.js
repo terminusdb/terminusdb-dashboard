@@ -29,7 +29,7 @@ const matchType ={
     [CONST.XSD_INT]: CONST.STRING_TYPE,
 
     [CONST.XSD_BOOLEAN] : CONST.BOOLEAN_TYPE,
-
+    [CONST.XSD_DATE_TIMESTAMP]: CONST.DATE_TYPE,
     [CONST.XSD_DATE_TIME] : CONST.DATE_TYPE,
     [CONST.XSD_TIME]: CONST.STRING_TYPE,
     [CONST.XSD_G_YEAR] : CONST.DATE_TYPE,
@@ -64,7 +64,8 @@ export function getCodeMirrorConfig(props) {
 const format = {
     [CONST.XSD_ANY_URI]: "uri",
     [CONST.XSD_DATE_TIME]: "date-time",
-    [CONST.XSD_DATE]: "date"
+    [CONST.XSD_DATE]: "date",
+    [CONST.XSD_DATE_TIMESTAMP]:"date-time"
 }
 
 /**

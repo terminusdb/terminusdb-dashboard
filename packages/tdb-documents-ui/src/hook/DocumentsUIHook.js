@@ -119,12 +119,16 @@ export const DocumentsUIHook = (woqlClient) => {
 
 
     function getGraphqlTableConfig ( ){
-        setDocumentTablesConfig(null)
         if(woqlClient){
             setLoading(true)
+            // create a  new client instance copying all the settings
             const clientCopy = woqlClient.copy()
             clientCopy.connectionConfig.api_extension = 'api/'
-           // const baseUrl = clientCopy.connectionConfig.dbBase("tables")
+            // I need to remove the team name in the url
+            // this call is for the cloud-api
+            if(clientCopy.connectionConfig.baseServer){
+                clientCopy.connectionConfig.server = clientCopy.connectionConfig.baseServer
+            }
             const baseUrl = clientCopy.connectionConfig.branchBase("tables")
             clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
                 setDocumentTablesConfig(result)  
@@ -214,21 +218,14 @@ export const DocumentsUIHook = (woqlClient) => {
     }
 
     return {
-               // view, 
-               // resetAll,
+                setError,
                 selectedDocument,
                 getDocument,
                 deleteDocument,
                 createDocument,
                 updateDocument,
                 getDocNumber,
-               // setView,
                 getUpdatedFrames,
-               // actionControl,
-               // jsonContent, 
-               // setJsonContent,
-               // showFrames, 
-               // setShowFrames,
                 loading,
                 getUpdatedDocumentClasses,
                 error,
@@ -238,7 +235,6 @@ export const DocumentsUIHook = (woqlClient) => {
                 getGraphqlTableConfig,
                 documentTablesConfig,
                 frames,
-               // formatErrorMessages
-            }
+    }
 }
 

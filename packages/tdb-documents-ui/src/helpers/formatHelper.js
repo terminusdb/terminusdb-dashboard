@@ -6,7 +6,8 @@ import * as util from "../utils"
 const format = {
     [CONST.XSD_ANY_URI]: "uri",
     [CONST.XSD_DATE_TIME]: "date-time",
-    [CONST.XSD_DATE]: "date"
+    [CONST.XSD_DATE]: "date",
+    [CONST.XSD_DATE_TIMESTAMP]:"date-time"
 }
 
 export function getFormat(frame, item, mode, formData) {
