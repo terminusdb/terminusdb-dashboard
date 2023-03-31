@@ -1,15 +1,12 @@
 import React,{useState,useEffect,useRef} from "react";
 import {FiCopy} from "react-icons/fi"
 import {Button} from 'react-bootstrap'
-import 'codemirror/theme/ayu-dark.css'
-import CodeMirror from 'codemirror';
-import 'codemirror/addon/hint/show-hint';
-import 'codemirror/addon/lint/lint';
-import 'codemirror-graphql/hint';
+//import 'codemirror/theme/ayu-dark.css'
+import * as CodeMirror from 'codemirror';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror/addon/display/autorefresh.js'
-
+// i have to fix this anbd update to codemiro 6
 export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) => {
 
     const variablesObj = {"offset":start,"limit":limit,"orderBy":orderBy || {} ,"filter":filterBy || {}}
