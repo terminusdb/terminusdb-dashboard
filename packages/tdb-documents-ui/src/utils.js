@@ -47,7 +47,7 @@ export const isMandatory = (frame, property) => {
  * @param {*} property - property 
  * @returns true if property is SET/ LIST/ ARRAY 
  */
-export const isArrayType = (frame, property) => { 
+export const isArrayTypeFromFrames = (frame, property) => { 
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return false 
 	if(field.hasOwnProperty(CONST.TYPE)) {
@@ -67,6 +67,14 @@ export const isArrayType = (frame, property) => {
 }
 
 
+// just returns back the type
+export const isArrayType = (type) => {
+	if(type === CONST.SET || 
+    type === CONST.LIST || 
+    type === CONST.ARRAY) 
+			return true
+	return false
+}
 
 /***  ------ util functions to check type of property ------ */
 
@@ -128,13 +136,35 @@ export const isDataType = (field) => {
 
 /**
  * 
+ * @param {*} frame - property frame
+ * @param {*} property - property name
+ */
+ export function isOneOfDataType (frame, property) {
+	if(property === CONST.ONEOFVALUES && Array.isArray(frame[property])) return true
+	return false
+}
+
+
+/**
+ * 
  * @param {*} field - field of a property
  * @returns true if type is sys:JSON
  */
  export const isSysJSONDataType = (field) => {
 	if(typeof field === CONST.OBJECT_TYPE) return false
-	if(field.substring(0, 8) === TYPE.SYS_JSON_TYPE) return true 
+	if(field && field.substring(0, 8) === TYPE.SYS_JSON_TYPE) return true 
 	return false
+}
+
+/**
+* 
+* @param {*} field - field of a property
+* @returns true if type is sys:Unit
+*/
+export const isSysUnitDataType = (field) => {
+ if(typeof field === CONST.OBJECT_TYPE) return false
+ if(field && field.substring(0, 8) === TYPE.SYS_UNIT_DATA_TYPE) return true 
+ return false
 }
 
 // returns true for properties which are of data types is rdf:langString
@@ -180,13 +210,13 @@ export const isRdfLangString = (field) => {
 }
 
 
-/** choice documents/ sub documents utils */
+/** choice documents/ sub documents/ oneOf utils */
 /**
  * 
  * @param {*} documentFrame document frame
  * @param {*} property property
  * @returns extracts choices from frame to be displayed in select component 
- */
+ */ 
 export function getChoices(documentFrame, property) {
   let options = []
   // documentFrame[property] will have choices
@@ -196,6 +226,35 @@ export function getChoices(documentFrame, property) {
     options.push({ value: documentChoice, label: documentChoice, color: "#adb5bd" })
   })
   return options
+}
+
+/**
+ * 
+ * @param {*} documentFrame document frame
+ * @param {*} property property
+ * @returns extracts choices from frame to be displayed in select component 
+ */
+export function getOneOfChoices (oneOfFrame) {
+  let options = []
+  // oneOfFrame will have choices
+	for(let choices in oneOfFrame) {
+		//let documentChoice=oneOfFrame[choices].hasOwnProperty(CONST.CLASS) ? oneOfFrame[choices][CONST.CLASS] : oneOfFrame[choices]
+		options.push({ value: choices, label: choices, color: "#adb5bd" })
+	}
+  return options
+}
+
+// this function checks if any properties in nested documents have sys:unit properties
+// if sys:Unit property available then we assign default value [] to formData
+export function checkForSysUnit (args, props, linked_to) {
+	for(let subProps in args.documentFrame) {
+    if(isSysUnitDataType(args.documentFrame[subProps])) {
+      // assigning default value 
+      props.formData[CONST.TYPE] = linked_to
+      props.formData["subProps"] = []
+    }
+  }
+	return 
 }
 
 /***  extract metadata */
@@ -331,7 +390,7 @@ export function fetchMetaData(documentFrame, property) {
 // ORDER_BY
 // get order by for parent document type
 export function getDocumentOrderBy(documentFrame) {
-	if(!documentFrame.hasOwnProperty(CONST.METADATA)) return false
+	if(!documentFrame || !documentFrame.hasOwnProperty(CONST.METADATA)) return false
 	if(documentFrame[CONST.METADATA].hasOwnProperty(CONST.ORDER_BY)) {
 		// order by info
 		return documentFrame[CONST.METADATA][CONST.ORDER_BY]
@@ -453,7 +512,7 @@ export function checkIfBoundsAvailable(frame, formData) {
 
 // checks if field is point type
 export function isPointType (field) {
-	if(field.hasOwnProperty(CONST.TYPE) && 
+	if(field && field.hasOwnProperty(CONST.TYPE) && 
 		field[CONST.TYPE] === CONST.ARRAY && 
 		field.hasOwnProperty(CONST.DIMENSIONS) && 
 		field[CONST.DIMENSIONS] === CONST.POINT_TYPE_DIMENSIONS) {
@@ -465,7 +524,7 @@ export function isPointType (field) {
 
 // checks if field is line string type
 export function isLineStringType (field) {
-	if(field.hasOwnProperty(CONST.TYPE) && 
+	if(field && field.hasOwnProperty(CONST.TYPE) && 
 		field[CONST.TYPE] === CONST.ARRAY && 
 		field.hasOwnProperty(CONST.DIMENSIONS) && 
 		field[CONST.DIMENSIONS] === CONST.LINE_STRING_TYPE_DIMENSIONS) {
@@ -476,7 +535,7 @@ export function isLineStringType (field) {
 
 // checks if field is polygon/ multipolygon type & matches with dimension 3
 export function isPolygonType (field) {
-	if(field.hasOwnProperty(CONST.TYPE) && 
+	if(field && field.hasOwnProperty(CONST.TYPE) && 
 		field[CONST.TYPE] === CONST.ARRAY && 
 		field.hasOwnProperty(CONST.DIMENSIONS) && 
 		field[CONST.DIMENSIONS] === CONST.POLYGON_TYPE_DIMENSIONS) {

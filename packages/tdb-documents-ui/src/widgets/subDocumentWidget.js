@@ -3,12 +3,12 @@ import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import Card from 'react-bootstrap/Card';
 import { TDBLabel } from "../components/LabelComponent"
-import { display } from "../helpers/displayHelper"
 import * as CONST from "../constants";
 import Stack from "react-bootstrap/Stack"
 import * as util from "../utils"
 import { DisplayDocumentation } from "../templates"
 import { AiOutlineUp, AiOutlineRight } from "react-icons/ai"
+import { displayInternalProperties } from "../helpers/documentHelpers"
 
 const CollapseMessage = ({ message, name, icon }) => {
   return <>
@@ -28,9 +28,11 @@ export function populateSubDocumentData(mode, linked_to, formData) {
 }
 
  
-const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index, id, uiFrame, subDocumentData, setSubDocumentData, properties, required, mode, onChange, linked_to, propertyDocumentation }) => {
+export const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index, id, reference, subDocumentData, setSubDocumentData, properties, required, onChange, args, propertyDocumentation }) => {
   
   //const [fields, setFields] = useState([])
+
+  let { uiFrame, mode } = args
  
   function handleChange(data, fieldName) { 
     let tempSubDocumentData = subDocumentData
@@ -44,47 +46,45 @@ const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index, id, u
   let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
 
   const getSubDocumentFields = (subDocumentData) => {
-    let subDocumentFields = []
-    for(let field in properties) { 
-      let fieldName = properties[field].title 
-      let fieldID=`root_${subDocumentPropertyName}_${fieldName}`
-      if(id) {
-        // id will be filled if Sets/List
-        fieldID=`${id}_${fieldName}`
-      }
-      let config = {
-        dataType: properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
-        name: fieldName,
-        //formData: util.getFormDataPerProperty(subDocumentData, fieldName), 
-        formData: subDocumentData[fieldName],
-        required: required.includes(fieldName), 
-        mode: mode, 
-        id: fieldID, 
-        placeholder: properties[field][CONST.PLACEHOLDER],
-        className: util.getUIClassNames(fieldUIFrame, field, defaultClassName),
-        //className: "tdb__doc__input", 
-        onChange: handleChange,
-        documentation: util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
-      }
-      subDocumentFields.push(display(config))
+    //let subDocumentFields = []
+
+    let subDocConfig = {
+      properties: properties,
+      propertyName: subDocumentPropertyName,
+      id: id,
+      formData: subDocumentData,
+      required: required,
+      mode: mode,
+      args: args,
+      fieldUIFrame: fieldUIFrame,
+      onChange: handleChange,
+      defaultClassName: defaultClassName,
+      propertyDocumentation: propertyDocumentation
+
     }
 
+    //return displayInternalProperties(subDocConfig)
+
+    // review fix order_by
+    let subDocumentFields = displayInternalProperties(subDocConfig)
+    
+    // sort based on order_by
     return util.sortDocumentProperties(order_by, subDocumentFields)
-  }
+  } 
   
   return <Card.Body className="border-top border-dark">
     {/** DisplayDocumentation for @comment of linked document class */}
     <DisplayDocumentation documentation={propertyDocumentation}/>
     {getSubDocumentFields(subDocumentData)}
   </Card.Body>
-}
+} 
   
-export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, index, uiFrame, hideFieldLabel, mode, linked_to, propertyDocumentation, id, subDocumentData, setSubDocumentData }) => {
+export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, index, hideFieldLabel, linked_to, propertyDocumentation, id, reference, subDocumentData, setSubDocumentData, args }) => {
   const [open, setOpen] = useState(expanded);
+  let uiFrame = args.uiFrame, mode = args.mode 
 
   if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) return <div className={`tdb__${props.name}__hidden`}/>
     
-
   return <Stack direction="horizontal">
     <TDBLabel name={props.name} 
       required={props.required} 
@@ -111,15 +111,15 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
             //formData={props.formData}
             id={id}
             index={index}
+            reference={reference}
             order_by={order_by}
             subDocumentPropertyName={props.name}
             propertyDocumentation={propertyDocumentation}
             onChange={props.onChange}
             subDocumentData={subDocumentData} 
-            uiFrame={uiFrame}
             setSubDocumentData={setSubDocumentData}
             linked_to={linked_to}
-            mode={mode}/>}
+            args={args}/>}
         </div>
       </Collapse>
     </Card>

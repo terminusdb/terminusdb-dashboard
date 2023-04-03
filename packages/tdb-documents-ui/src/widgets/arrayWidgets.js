@@ -11,55 +11,15 @@ import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "../helpers/fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 
-// custom display of elements based on schema 
-export const GetFieldDisplay = ({ args, props, element, id, property, setUpdate, update }) => {
 
-	function handleElementChange(data, name, element) {
-		if(element.children.props.hasOwnProperty("child")) {
-			element.children.props.onChange(data, element.index); 
-		}
-		else element.children.props.onChange(data); 
-		setUpdate(Date.now()) 
-	}
 
-	function fieldDisplay() {
-		let doc = args.documentFrame[property]
-		let placeholder=getPlaceholder(doc) 
-		let newProps = { 
-			dataType: placeholder,
-			name: property,
-			formData: element.children.props.formData,
-			mode: args.mode, 
-			id: id, 
-			isArray: true,
-			placeholder: placeholder, 
-			className: "tdb__doc__input",
-			hideFieldLabel: props.hasOwnProperty(CONST.HIDE_FIELD_LABEL) ? props[CONST.HIDE_FIELD_LABEL] : true, // always hide label for Set fields
-			onChange: (data, name) => handleElementChange(data, name, element),
-			hideFieldLabel: true,
-			index: element.index.toString() // convert index to String - this index controls diff set ups for Arrays 
-		}  
-
-		return getDisplay(newProps, args, property)
-
-	}
-
-	return <span> 
-		{fieldDisplay()}
-	</span>
-}
-
- 
-// EDIT or CREATE MODE
-// Array field templates for lists and sets 
-export function ArrayFieldTemplate(args, props, property) { 
-
-	/** 
+export const ArrayTemplates = (args, props, property, ui) => {
+  /**
 	 * constants for dealing with update - when it comes to document links rjsf lib 
 	 * has a problem in which it fails to update documentlinks of different types (object/ string)
 	 * in this case we force update 
 	 */
-	const [update, setUpdate] = useState(Date.now())
+	const [update, setUpdate] = useState({})
 
 	let { extractedDocumentation, mode } = args
 
@@ -74,23 +34,19 @@ export function ArrayFieldTemplate(args, props, property) {
 		<TDBLabel name={label} 
       comment={documentation.comment} 
       id={`root_Set_${label}`}/> 
-		 
 		{props.items &&
 			props.items.map((element, index) => {
 				//let id = `${props.idSchema["$id"]}_${CONST.SET}_${index}`
 			
-				let id = `${element.children.props.idSchema["$id"]}__${element.index}`
+				let id = `${element.id}__${index}`
 				return <Stack direction="horizontal" key={element.key} className={`${element.className} tdb__array__input align-items-baseline w-100`}>
 				
 					{<div className="w-100"> 
+
+
 						{/** display custom elements  */}
-						{update && <GetFieldDisplay args={args} 
-							props={props} 
-							element={element} 
-							id={id} 
-							update={update} 
-							setUpdate={setUpdate}
-							property={property}/>}
+            { element.display }
+					
 					</div>}
 
 					{element.hasMoveDown && (
@@ -137,5 +93,3 @@ export function ArrayFieldTemplate(args, props, property) {
 		)}
   </div>
 }
-
-

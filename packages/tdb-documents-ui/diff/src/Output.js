@@ -129,8 +129,8 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "likes": "Animal"
-        /*"nickNames": {
+        //"likes": "Animal"
+        "nickNames": {
           "@class": "xsd:string",
           "@type": "Set"
         },
@@ -145,14 +145,14 @@ export const Output = () => {
         "permanentAddress":  {
           "@class": "Address",
           "@subdocument": []
-        },*/
-        /*"manYAddress":  {
+        },
+        "manYAddress":  {
           "@class": {
             "@class": "Address",
             "@subdocument": []
           },
           "@type": "Set"
-        }*/
+        }
       }
     }
     

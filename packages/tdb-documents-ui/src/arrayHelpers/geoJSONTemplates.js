@@ -8,7 +8,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import * as CONST from "../constants"
 import * as util from "../utils"
 import { TDBLabel } from "../components/LabelComponent"
-import { getDisplay } from "./fieldDisplay"
+import { getDisplay } from "../helpers/fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBInput } from "../widgets/inputWidgets"
 
@@ -93,8 +93,7 @@ export const GetFieldDisplay = ({ args, onChange, formData, id, property }) => {
 			placeholder: placeholder, 
 			className: "tdb__doc__input",
 			hideFieldLabel: true,
-			onChange: handleFieldChange,
-			hideFieldLabel: true
+			onChange: handleFieldChange
 		}  
 
 		return getDisplay(newProps, args, property)
@@ -153,6 +152,7 @@ export function PointFieldTemplate(args, props, property) {
   
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
 		<TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
       required={props.required}
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
@@ -200,6 +200,7 @@ export function LineStringFieldTemplate(args, props, property) {
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
 		<TDBLabel name={label} 
       required={props.required}
+      hideFieldLabel={props.hideFieldLabel}
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
 
@@ -238,6 +239,7 @@ export function PolygonArrayFieldTemplate(props) {
   
 	return  <div className={`${props.className} w-100 mb-3`}>
     <TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
       id={`root_Set_${label}`}/> 
     {props.items && 
       props.items.map(element => (
@@ -260,6 +262,7 @@ export function MultiPolygonArrayFieldTemplate(props) {
   
 	return  <div className={`${props.className} w-100 mb-3`}>
     <TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
       id={`root_Set_${label}`}/> 
     {props.items && 
       props.items.map(element => (
@@ -284,6 +287,7 @@ export function CoordinatesArrayFieldTemplate(args, props, property) {
 
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
 		<TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
       required={props.required}
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
@@ -326,6 +330,7 @@ export function BBoxFieldTemplate(args, props, property) {
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
 		<TDBLabel name={label} 
       required={props.required}
+      hideFieldLabel={props.hideFieldLabel}
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
 

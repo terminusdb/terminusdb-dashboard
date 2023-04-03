@@ -49,5 +49,6 @@ export const XSD_LANGUAGE="xsd:language"
 
 export const RDF_LANGSTRING ="rdf:langString"
 export const SYS_JSON_TYPE="sys:JSON"
+export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
 export const MARKDOWN="markdown"

@@ -21,17 +21,20 @@ export function makeMandatoryFrames (args, property) {
 
   let placeholder=getPlaceholder(args.documentFrame[property]),
   isArray=false
-
+ 
   /** gather layout of property  */ 
   let layout = { 
     "type": typeHelper(documentFrame, property, fullFrame, isArray),
     "title": property,
     [CONST.PLACEHOLDER]: placeholder
-    //[CONST.METADATA]: util.fetchMetaData(documentFrame, property)
   } 
 
   if(util.isInherritedFromGeoJSONTypes(documentFrame)) {
     addGeoJSONLayout(layout, documentFrame, property)
+  }
+  if(util.isSysUnitDataType(documentFrame[property])) {
+    // assign default value if sys unit
+    layout["default"]=[]
   }
   
   

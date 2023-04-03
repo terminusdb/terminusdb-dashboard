@@ -1,15 +1,12 @@
-import React, {  useState } from "react"
+import React, {  useEffect, useState } from "react"
 import * as util from "../utils"
-import { TDBInput } from "../widgets/inputWidgets"
-import { TDBBoolean } from "../widgets/booleanWidget"
-import { TDBDateTime, TDBDate } from "../widgets/dateWidgets"
+import * as geoTemplate from "../arrayHelpers/geoJSONTemplates"
 import { TDBEnum } from "../widgets/enumWidget"
 import { TDBChoiceSubDocuments } from "../widgets/choiceSubDocumentsWidget"
-import * as TYPE from "../dataType.constants"
+import { TDBOneOfDocuments } from "../widgets/oneOfDocumentsWidget"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBSubDocument, populateSubDocumentData } from "../widgets/subDocumentWidget"
 import { TDBDocument } from "../widgets/documentWidget"
-import { TDBMarkdown } from "../widgets/markdownWidget"
 import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
 import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
@@ -18,87 +15,9 @@ import { TDBPolygonDocuments } from "../widgets/polygonGeoJSONWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
 import { TDBRDFLanguage } from "../widgets/rdfLanguageWidget"
+import { TDBSysUnit } from "../widgets/sysUnitWidget"
 import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
-
-/** displays widgets according to dataType */
-export function display (config) {
-  switch(config.dataType) { 
-    case TYPE.XSD_BOOLEAN: 
-      //XSD_BOOLEAN
-      return <TDBBoolean name={config.name} 
-        hideFieldLabel={config.hideFieldLabel}
-        label={config.documentation.label}
-        comment={config.documentation.comment}
-        value={config.formData} 
-        isKey={config.isKey}
-        required={config.required}
-        mode={config.mode} 
-        id={config.id}
-        placeholder={config.placeholder} 
-        className={config.className} 
-        onChange={config.onChange}/>
-    
-    case TYPE.XSD_DATE_TIME:
-      //XSD_DATE_TIME
-      return <TDBDateTime name={config.name} 
-      value={config.formData} 
-      hideFieldLabel={config.hideFieldLabel}
-      isKey={config.isKey}
-      label={config.documentation.label}
-      comment={config.documentation.comment}
-      required={config.required}
-      mode={config.mode} 
-      id={config.id}
-      placeholder={config.placeholder} 
-      className={config.className} 
-      onChange={config.onChange}/>
-
-    case TYPE.XSD_DATE:
-        //XSD_DATE
-        return <TDBDate name={config.name} 
-        value={config.formData} 
-        hideFieldLabel={config.hideFieldLabel}
-        label={config.documentation.label}
-        comment={config.documentation.comment}
-        required={config.required}
-        mode={config.mode} 
-        isKey={config.isKey}
-        id={config.id}
-        placeholder={config.placeholder} 
-        className={config.className} 
-        onChange={config.onChange}/>
-
-    case TYPE.MARKDOWN: 
-      return <TDBMarkdown name={config.name} 
-        value={config.formData} 
-        hideFieldLabel={config.hideFieldLabel}
-        label={config.documentation.label}
-        comment={config.documentation.comment}
-        required={config.required}
-        mode={config.mode} 
-        id={config.id}
-        className={config.className} 
-        onChange={config.onChange}/>
-
-    default: 
-      // ALL OTHER DATA TYPES
-      return <TDBInput name={config.name} 
-        value={config.formData} 
-        hideFieldLabel={config.hideFieldLabel}
-        label={config.documentation.label}
-        comment={config.documentation.comment}
-        required={config.required}
-        mode={config.mode} 
-        isKey={config.isKey}
-        inputKey={config.key}
-        id={config.id}
-        placeholder={config.placeholder} 
-        className={config.className} 
-        onChange={config.onChange}/>
-    
-  }
-}
-
+import { display } from "./display"
 
 
 
@@ -138,31 +57,44 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
 // SUBDOCUMENTs 
 export function displaySubDocument(props, args, extracted, property, expanded, id, hideFieldLabel, linked_to) { 
 
-  let { fullFrame, extractedDocumentation, mode, uiFrame } = args
- 
+  let { fullFrame, extractedDocumentation, mode, uiFrame, reference } = args
+
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
   // constants to control sub document data 
-  let populated = populateSubDocumentData(mode, linked_to, props.formData)
-  const [subDocumentData, setSubDocumentData] = useState(populated)
+  util.checkForSysUnit (args, props, linked_to)
+  //let populated = populateSubDocumentData(mode, linked_to, props.formData)
+  //const [subDocumentData, setSubDocumentData] = useState(populated)
+  const [subDocumentData, setSubDocumentData] = useState({})
+
+  // linked_to changes 
+  useEffect(() => {
+    // pass linked_to in use Effect since the same widget is used for choice subdocuemnts & one ofs
+    if(linked_to) {
+      let populated = populateSubDocumentData(mode, linked_to, props.formData)
+      setSubDocumentData(populated)
+    }
+  }, [linked_to])
+
   // get order_by
   // at this point linked_to in fullframe
   let order_by = false
   if(fullFrame.hasOwnProperty(linked_to)) {
-    order_by=util.getOrderBy(fullFrame, linked_to)
+    order_by=util.getOrderBy(fullFrame, linked_to) 
   }
 
   // add logic for required properties  
   return  <TDBSubDocument extracted={extracted} 
     id={id}
-    uiFrame={uiFrame}
+    //uiFrame={uiFrame}
+    args={args}
     hideFieldLabel={hideFieldLabel}
     order_by={order_by}
     expanded={expanded}
     subDocumentData={subDocumentData} 
     setSubDocumentData={setSubDocumentData}
     comment={documentation.comment ? documentation.comment : null} 
-    mode={mode}
+    //mode={mode}
     index={props.index}
     propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
     linked_to={linked_to}
@@ -246,6 +178,25 @@ export function displayRDFLanguageWidget (args, props, property, id, hideFieldLa
     required={props.required}/>
 }
 
+// SYS:Unit
+export function displaySysUnitWidget(args, props, property, id, hideFieldLabel) {
+  let { documentFrame, mode, extractedDocumentation } = args 
+    
+  
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
+
+  // add logic for required properties 
+  return  <TDBSysUnit name={label}
+    formData={props.formData}
+    hideFieldLabel={hideFieldLabel}
+    mode={mode}
+    className={"tdb__doc__input"}
+    comment={documentation.comment ? documentation.comment : null} 
+    id={id}
+    required={props.required}/>
+}
+
 // SYS:JSON
 export function displayJSON(props, args, property, id, hideFieldLabel) {
   
@@ -280,6 +231,18 @@ export function displayChoiceSubDocument (props, args, property, id) {
     setChoiceSubDocumentData={setChoiceSubDocumentData}
     id={id}
     props={props}/>
+} 
+
+// ONE OF 
+export function displayOneOfProperty(props, args, property, id) {
+  const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : {})
+ 
+  return  <TDBOneOfDocuments args={args}
+    property={property}
+    oneOfDocumentData={oneOfDocumentData} 
+    setOneOfDocumentData={setOneOfDocumentData}
+    id={id}
+    props={props}/>
 }
 
 // CHOICE DOCUMENTS 
@@ -294,8 +257,15 @@ export function displayChoiceDocument(props, args, property, id) {
     id={id}
     props={props}/>
 }
-
+ 
 // POINT DOCUMENTS 
+export function displayPointEditDocument (props, args, property) {
+
+  let argsHolder = {...args}
+  argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
+  return geoTemplate.PointFieldTemplate(argsHolder, props, property) 
+}
+
 export function displayPointDocument (props, args, property, id) {
 
 

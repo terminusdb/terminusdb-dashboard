@@ -8,7 +8,7 @@ import {Connect} from "./Connect"
 export const View = () => {
     return <React.Fragment>
         <br/><br/>
-        <div className="mt-2 container-fluid">
+        <Container className="mt-2">
             <Row className="w-100">
                 <Connect/>
                 <Input/>  
@@ -16,6 +16,6 @@ export const View = () => {
                     <Output/>
                 </Col>
             </Row>
-        </div> 
+        </Container> 
     </React.Fragment>
 }

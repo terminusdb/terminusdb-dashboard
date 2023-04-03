@@ -10,7 +10,7 @@ export function addGeoJSONLayout (layout, documentFrame, property) {
     layout["items"]= { type: CONST.STRING_TYPE }
     layout["minItems"] = util.getMinItems(documentFrame, property)
   }
-  else if (util.isLineStringType(field)) {
+  else if (util.isLineStringType(field)) { 
     layout["items"]= { 
       "type": CONST.ARRAY_TYPE,
       "items": { type: CONST.STRING_TYPE },

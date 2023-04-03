@@ -18,7 +18,7 @@ export const SET_RDF_LANG_DATA_TYPE_FRAME = {
 			"@type": "Set"
 		}
   }
-}
+} 
 
 // expected data on Create 
 export const SET_RDF_LANG_DATA_TYPE_CREATE_DATA = {

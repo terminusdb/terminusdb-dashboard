@@ -12,8 +12,12 @@ export const OPTIONAL="Optional"
 export const SET="Set"
 export const LIST="List"
 export const ARRAY="Array"
+export const PRIMITIVE_DATA_TYPES="DataTypes"
 export const ENUM="Enum"
+export const DOCUMENTS="DocumentLink"
 export const SUBDOCUMENT="@subdocument"
+export const CHOICE_SUBDOCUMENT="ChoiceSubDocument"
+export const ONEOFVALUES="@oneOf"
 
 // Value Hash
 export const VALUE_HASH_KEY="ValueHash"
@@ -60,6 +64,7 @@ export const VALUES="@values"
 export const METADATA="@metadata"
 export const RENDER_AS="render_as"
 export const ORDER_BY="order_by"
+export const HIDE_FIELD_LABEL="hideFieldLabel"
 
 // DOCUMENT LINK CONSTANTS 
 export const LINK_NEW_DOCUMENT="Create New Document"

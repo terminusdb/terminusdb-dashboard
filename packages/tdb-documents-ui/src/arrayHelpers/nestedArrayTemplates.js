@@ -10,61 +10,29 @@ import * as util from "../utils"
 import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "../helpers/fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
+import { GetFieldDisplay } from "./templates"
 
-// custom display of elements based on schema 
-export const GetFieldDisplay = ({ args, props, element, id, property, setUpdate, update }) => {
 
-	function handleElementChange(data, name, element) {
-		if(element.children.props.hasOwnProperty("child")) {
-			element.children.props.onChange(data, element.index); 
-		}
-		else element.children.props.onChange(data); 
-		setUpdate(Date.now()) 
-	}
-
-	function fieldDisplay() {
-		let doc = args.documentFrame[property]
-		let placeholder=getPlaceholder(doc) 
-		let newProps = { 
-			dataType: placeholder,
-			name: property,
-			formData: element.children.props.formData,
-			mode: args.mode, 
-			id: id, 
-			isArray: true,
-			placeholder: placeholder, 
-			className: "tdb__doc__input",
-			hideFieldLabel: props.hasOwnProperty(CONST.HIDE_FIELD_LABEL) ? props[CONST.HIDE_FIELD_LABEL] : true, // always hide label for Set fields
-			onChange: (data, name) => handleElementChange(data, name, element),
-			hideFieldLabel: true,
-			index: element.index.toString() // convert index to String - this index controls diff set ups for Arrays 
-		}  
-
-		return getDisplay(newProps, args, property)
-
-	}
-
-	return <span> 
-		{fieldDisplay()}
-	</span>
-}
 
  
 // EDIT or CREATE MODE
 // Array field templates for lists and sets 
-export function ArrayFieldTemplate(args, props, property) { 
+export const ArrayFieldTemplate = ({ args, props, property, items, handleAdd, handleDelete, handleReorderClick }) => { 
 
 	/** 
 	 * constants for dealing with update - when it comes to document links rjsf lib 
 	 * has a problem in which it fails to update documentlinks of different types (object/ string)
 	 * in this case we force update 
 	 */
-	const [update, setUpdate] = useState(Date.now())
+	const [update, setUpdate] = useState({})
+	const [refresh, setRefresh] = useState(Date.now())
+
+	//console.log("props", props)
 
 	let { extractedDocumentation, mode } = args
 
 	//hide set when mode is view
-	if(mode === CONST.VIEW && !Object.keys(props.formData).length) return <div className={`tdb__${props.title}__hidden`}/>
+	if(mode === CONST.VIEW && items && !items.length) return <div className={`tdb__${props.title}__hidden`}/>
 
 	//console.log("props", props)
 	var variant="dark"
@@ -75,12 +43,12 @@ export function ArrayFieldTemplate(args, props, property) {
       comment={documentation.comment} 
       id={`root_Set_${label}`}/> 
 		 
-		{props.items &&
-			props.items.map((element, index) => {
+		{refresh && items &&
+			items.map((element, index) => {
 				//let id = `${props.idSchema["$id"]}_${CONST.SET}_${index}`
-			
+		
 				let id = `${element.children.props.idSchema["$id"]}__${element.index}`
-				return <Stack direction="horizontal" key={element.key} className={`${element.className} tdb__array__input align-items-baseline w-100`}>
+				return <Stack direction="horizontal" key={id} className={`${element.className} tdb__array__input align-items-baseline w-100`}>
 				
 					{<div className="w-100"> 
 						{/** display custom elements  */}
@@ -98,10 +66,11 @@ export function ArrayFieldTemplate(args, props, property) {
 							className="mb-3 tdb__array__item__list bg-transparent border-0" 
 							title="Move Down" 
 							id={`MoveDown_${id}`} 
-							onClick={element.onReorderClick(
-									element.index,
-									element.index + 1
-							)}>
+							onClick={(e) => {
+									handleReorderClick(
+										element.index,
+										element.index + 1
+								)}}>
 							<FaArrowDown className="text-light" style={{fontSize: "20px"}}/>
 						</Button>
 					)}
@@ -110,19 +79,23 @@ export function ArrayFieldTemplate(args, props, property) {
 						<Button variant={variant} title="Move Up"  
 							id={`MoveDown_${id}`} 
 							className="mb-3 tdb__array__item__list bg-transparent border-0" 
-							onClick={element.onReorderClick(
-								element.index,
-								element.index - 1
-							)}>
+							onClick={(e) => {
+								handleReorderClick(
+									element.index,
+									element.index - 1
+								)}}>
 						<FaArrowUp className="text-light" style={{fontSize: "20px"}}/>
 					</Button>
 					)}
-
+ 
 					{element.hasRemove && <Button  variant={variant} 
 						className="mb-3 tdb__array__item__list bg-transparent border-0 " 
 						title="Delete" 
 						id={`Remove_${id}`} 
-						onClick={element.onDropIndexClick(element.index)}>
+						onClick={(e) => handleDelete(element.index)}
+						//onClick={ (e) => deleteIndex(element.index, props.items) }
+						//onClick={ (e) => { element.hide = true; setUpdate(Date.now) }}
+						>
 						<RiDeleteBin5Fill className="text-danger" style={{fontSize: "25px"}}/>
 					</Button>}
 				</Stack>
@@ -130,7 +103,11 @@ export function ArrayFieldTemplate(args, props, property) {
 
 		{props.canAdd && (
 			<div>
-					<Button data-cy={`add_${label}`} variant="light" className=" tdb__add__button btn-sm text-dark" type="button" onClick={props.onAddClick}>
+					<Button data-cy={`add_${label}`} 
+						variant="light" 
+						className=" tdb__add__button btn-sm text-dark" 
+						type="button" 
+						onClick={handleAdd}>
 						<BiPlus className="mr-2"/> <label>{`Add `} {label}</label>
 					</Button> 
 			</div>

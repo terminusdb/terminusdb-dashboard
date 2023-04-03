@@ -26,7 +26,7 @@ const DisplaySelectedSubDocument = ({ props, selected, args, id, choiceSubDocume
     name: props.name,
     onChange: handleChoiceDocumentChange,
     formData: choiceSubDocumentData
-  } 
+  }  
 
   // get order_by
   // at this point selected is the linked_to documnet in fullframe
@@ -39,12 +39,13 @@ const DisplaySelectedSubDocument = ({ props, selected, args, id, choiceSubDocume
     <TDBSubDocument extracted={extracted} 
       //id={props.idSchema["$id"]}
       id={id}
+      args={args}
       expanded={true}
       order_by={order_by}
       subDocumentData={choiceSubDocumentData} 
       setSubDocumentData={setChoiceSubDocumentData}
       //comment={documentation.comment ? documentation.comment : null} 
-      mode={mode}
+      //mode={mode}
       hideFieldLabel={true}
       propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
       linked_to={selected}

@@ -7,6 +7,11 @@ import * as CONST from "../constants"
  */
 export function getPlaceholder (frame)  {
   if(typeof frame === CONST.STRING_TYPE) return frame
+  if(frame.hasOwnProperty(CONST.TYPE) && 
+    frame[CONST.TYPE] === CONST.ENUM) {
+      // frame["@id"] will contain the name of enum class
+      return `Select ${frame["@id"]}`
+    }
   // Object 
   //if(!frame.hasOwnProperty(CONST.TYPE)) {
     //throw new Error(`Expected to have ${CONST.TYPE}... but received ${frame} instead`)

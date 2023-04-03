@@ -3,7 +3,7 @@ export const oldData = {
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
-		"likes": {
+		/*"likes": {
 			"@type": "Animal", 
 			"nickName": "Chooo",
 			"category": "Cats",
@@ -18,10 +18,10 @@ export const oldData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-				}
+				/*}
 			}
-		},
-		/*"manYAddress": [
+		},*/
+		"manYAddress": [
 			{
 				"@type": "Address",
 				"AddressLine1": "AddressLine1 ",
@@ -43,19 +43,19 @@ export const oldData = {
 				"Country": "Country ",
 				"postalCode": "postalCode "
 			}
-		]*/
+		],
 		/*"nickNames": [
 			"Nano N", "Parka N", "Li N"
 		],*/
-		//"name": "Nina",
-		//"age": 23,
-		/*"permanentAddress": {
+		"name": "Nina",
+		"age": 23,
+		"permanentAddress": {
 			"@type": "Address",
 			"AddressLine1": "AddressLine1",
 			"City": "City",
 			"Country": "Country",
 			"postalCode": "postalCode"
-		}*/
+		}
 	}
 } 
  
@@ -64,7 +64,7 @@ export const changedData = {
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
-		"likes": {
+		/*"likes": {
 			"@type": "Animal", 
 			"nickName": "Chooo",
 			"category": "Cats",
@@ -79,10 +79,10 @@ export const changedData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-				}
+				/*}
 			}
-		},
-		/*"manYAddress": [
+		},*/
+		"manYAddress": [
 			{
 				"@type": "Address",
 				"AddressLine1": "AddressLine1 ",
@@ -104,19 +104,19 @@ export const changedData = {
 				"Country": "LATER ",
 				"postalCode": "LATER "
 			},
-		]*/
+		],
 		/*"nickNames": [
 			"Nano", "Parka N", "Li N"
 		],*/
-		//"name": "Jose",
-		//"age": 13,
-		/*"permanentAddress": {
+		"name": "Jose",
+		"age": 13,
+		"permanentAddress": {
 			"@type": "Address",
 			"AddressLine1": "AddressLine1 new",
-			"City": "City new",
+			"City": "City",
 			"Country": "Country new",
 			"postalCode": "postalCode new"
-		}*/
+		}
 	}
 } 
 /*

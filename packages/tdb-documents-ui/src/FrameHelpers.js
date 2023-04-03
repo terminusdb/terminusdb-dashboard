@@ -50,7 +50,7 @@ export function getProperties (args) {
 		// to know if a property is part pf geo json we check if frame is inherrited from 
 		// Geo JSON constants - if inheritted from these constants then we treact such documents
 		// as mandatory frames 
-		if(util.isArrayType(documentFrame, property)) {
+		if(util.isArrayTypeFromFrames(documentFrame, property)) {
 			// SET/ LIST/ ARRAY FRAMES
 			let extractedFrames = util.extractFrames(documentFrame, property)
 			// make a copy

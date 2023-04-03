@@ -21,7 +21,7 @@ export function getUIDisplay (args, property, dataType) {
 
     return display.displayDataTypesWidget(props, args, property, dataType, id, handleChange)
   }
-
+  
   return { "ui:field": displayWidget }
 }
 
@@ -80,6 +80,17 @@ export function getRDFLangUIDisplay(args, property) {
 
   return { "ui:field": rdfLanguageWidget }
 }
+
+// sys:Unit
+export function getSysUnitUIDisplay (args, property) {
+
+  function sysUnitWidget(props) {
+    let id =props.idSchema["$id"]
+    return display.displaySysUnitWidget(args, props, property, id) 
+  } 
+
+  return { "ui:field": sysUnitWidget }
+}
  
 // SYS:JSON 
 export function getJSONUIDisplay(args, property) {
@@ -90,6 +101,17 @@ export function getJSONUIDisplay(args, property) {
   }
 
   return { "ui:field": displayJSONWidget }
+}
+
+// ONE OF PROPERTY
+export function  getOneOfUIDisplay (args, property) {
+  // at this point extracted will have all of the extracted documents from linked_to
+  function displayOneOfWidget(props) {
+    let id = props.idSchema["$id"]
+    return display.displayOneOfProperty(props, args, property, id)
+  }
+
+  return  { "ui:field": displayOneOfWidget }
 }
 
 // Choice Sub documents
@@ -156,11 +178,9 @@ export function getPointUIDisplay (args, property) {
     return { "ui:field": displayPointUI }
   }
 
+
   function showPointUI(props) {
-    let argsHolder = {...args}
-    argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
-    return geoTemplate.PointFieldTemplate(argsHolder, props, property) 
-		//return geoTemplate.PointFieldTemplate(argsHolder, props, property)
+    return display.displayPointEditDocument(props, args, property)
 	} 
 
 
