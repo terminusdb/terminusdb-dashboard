@@ -12,8 +12,9 @@ import Button from "react-bootstrap/Button"
 import { BsTrashFill } from "react-icons/bs"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
+import { documentInternalProperties } from "../helpers/documentHelpers"
 
-const DisplayFilledFrame = ({ documentData, uiFrame, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -31,14 +32,14 @@ const DisplayFilledFrame = ({ documentData, uiFrame, reference, cardKey, onTrave
     }
 
     // definitions will have definitions of linked_to frames
-    let deifinitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
+    let definitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
 
     let defaultClassName="tdb__doc__input"
 
     //for(let field in extracted.properties) {
-    for(let field in deifinitions.properties) {  
+    for(let field in definitions.properties) {  
           
-      linked_to = deifinitions.properties[field][CONST.PLACEHOLDER]
+      linked_to = definitions.properties[field][CONST.PLACEHOLDER]
       if(util.availableInReference(reference, linked_to)) {
         // unfolderdLinkPropertyName stores the property name which is linked to unfolded Document
         // we need this value to understand diff uis 
@@ -47,17 +48,46 @@ const DisplayFilledFrame = ({ documentData, uiFrame, reference, cardKey, onTrave
           onChange={handleChange}
           linked_to={linked_to}
           mode={mode}
+          args={args}
           depth={cardKey}
           reference={reference}
+          propertyDocumentation={propertyDocumentation}
           unfoldable={unfoldable}
           formData={formData[field]}
-          extracted={deifinitions}
+          extracted={definitions}
           //comment={comment}  // review
           required={required} />)
       }
       else {
+
         // internal properties
-        let fieldName = deifinitions.properties[field].title
+        let fieldName = definitions.properties[field].title
+        let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
+        let defaultClassName="tdb__doc__input"
+        //let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
+
+
+        let config = {
+          properties: definitions.properties,
+          propertyName: documentLinkPropertyName,
+          id: fieldID,
+          key: `${linked_to}__${uuidv4()}`,
+          formData: { [fieldName] : util.getFormDataPerProperty(documentData, fieldName) },
+          required: definitions.required.includes(fieldName),
+          mode: mode,
+          args: args,
+          //fieldUIFrame: fieldUIFrame, // review diff ui
+          onChange: handleChange,
+          defaultClassName: defaultClassName,
+          propertyDocumentation: propertyDocumentation
+        }
+
+        // review fix order_by
+        fields.push(documentInternalProperties(config, field))
+
+
+        // internal properties
+        /*let fieldName = deifinitions.properties[field].title
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         
         let config = {
@@ -74,7 +104,7 @@ const DisplayFilledFrame = ({ documentData, uiFrame, reference, cardKey, onTrave
           onChange: handleChange,
           documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
         }
-        fields.push(display(config))
+        fields.push(display(config)) */
       }
     }
 
@@ -109,7 +139,7 @@ const ViewHelper = ({ linked_to }) => {
 }
  
 // VIEW MODE
-export const ViewDocument = ({ name, required, uiFrame, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse }) => {
+export const ViewDocument = ({ name, required, args, uiFrame, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse, propertyDocumentation }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -127,12 +157,14 @@ export const ViewDocument = ({ name, required, uiFrame, reference, hideFieldLabe
         <DisplayFilledFrame action={action} 
           extracted={extracted}
           required={required}
+          args={args}
           mode={mode}
           unfoldable={unfoldable}
           onTraverse={onTraverse}
           uiFrame={uiFrame}
           onChange={onChange}
           linked_to={linked_to}
+          propertyDocumentation={propertyDocumentation}
           cardKey={cardKey}
           reference={reference}
           formData={formData}

@@ -39,6 +39,7 @@ const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, c
       //comment={documentation.comment ? documentation.comment : null} 
       mode={mode}
       hideFieldLabel={true}
+      args={args}
       onSelect={onSelect}
       clickedUnlinked={clickedUnlinked}
       reference={reference}

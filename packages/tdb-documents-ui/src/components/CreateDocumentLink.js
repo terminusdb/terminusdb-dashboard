@@ -10,9 +10,10 @@ import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./Descri
 import { v4 as uuidv4 } from 'uuid';
 import { SearchExistingLink } from "./SearchExistingLink"
 import { DisplayDocumentation } from "../templates"
+import { documentInternalProperties } from "../helpers/documentHelpers"
 
 // display based on action  
-const DisplayLinkFrame = ({ reference, linkPropertyComment, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
+const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
   let nextCreateLink =  false
 
@@ -51,6 +52,7 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, order_by, onSelect, 
           //hideFieldLabel={hideFieldLabel}
           linkId={linkId}
           onSelect={onSelect}
+          args={args}
           depth={cardKey}
           reference={reference}
           extracted={definitions}
@@ -58,9 +60,35 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, order_by, onSelect, 
           linkPropertyComment={linkPropertyComment}
           required={required} />)
       }
-      else {
+      else { 
         // internal properties
         let fieldName = definitions.properties[field].title
+        let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
+        let defaultClassName="tdb__doc__input"
+        //let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
+
+
+        let config = {
+          properties: definitions.properties,
+          propertyName: documentLinkPropertyName,
+          id: fieldID,
+          key: `${linked_to}__${uuidv4()}`,
+          formData: util.getFormDataPerProperty(documentData, fieldName),
+          required: definitions.required.includes(fieldName),
+          mode: mode,
+          args: args,
+          //fieldUIFrame: fieldUIFrame, // review diff ui
+          onChange: handleChange,
+          defaultClassName: defaultClassName,
+          propertyDocumentation: propertyDocumentation
+        }
+
+        // review fix order_by
+        fields.push(documentInternalProperties(config, field))
+
+
+
+        /*let fieldName = definitions.properties[field].title
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         let config = {
           dataType: definitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
@@ -75,7 +103,7 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, order_by, onSelect, 
           onChange: handleChange,
           documentation: util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
         }
-        fields.push(display(config))
+        fields.push(display(config)) */
       }
     }
 
@@ -98,7 +126,7 @@ const DisplayLinkFrame = ({ reference, linkPropertyComment, order_by, onSelect, 
 }
  
 
-export const CreateDisplay = ({ name, linkPropertyComment, order_by, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
+export const CreateDisplay = ({ args, name, linkPropertyComment, order_by, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -107,6 +135,7 @@ export const CreateDisplay = ({ name, linkPropertyComment, order_by, reference, 
       extracted={extracted}
       required={required}
       linkId={linkId}
+      args={args}
       linkPropertyComment={linkPropertyComment}
       mode={mode}
       propertyDocumentation={propertyDocumentation}
@@ -156,6 +185,7 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
             extracted={extracted} 
             mode= {mode} 
             linkId={linkId}
+            args={args}
             order_by={order_by}
             propertyDocumentation={propertyDocumentation}
             reference={reference}

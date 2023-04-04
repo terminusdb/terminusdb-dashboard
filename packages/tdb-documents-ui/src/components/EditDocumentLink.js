@@ -12,8 +12,9 @@ import { BsTrashFill } from "react-icons/bs"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { UnlinkButton } from "./UnlinkButton"
 import { SearchExistingLink } from "./SearchExistingLink"
+import { documentInternalProperties } from "../helpers/documentHelpers"
 
-const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, clickedUnlinked }) => {
+const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTraverse, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, clickedUnlinked }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -33,18 +34,20 @@ const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, set
     }
 
     // definitions will have definitions of linked_to frames
-    let deifinitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
+    let definitions = util.availableInReference(reference, linked_to) ?  reference[linked_to]: extracted.properties
 
     //for(let field in extracted.properties) { 
-    for(let field in deifinitions.properties) { 
+    for(let field in definitions.properties) { 
 
-      linked_to = deifinitions.properties[field][CONST.PLACEHOLDER]
+      linked_to = definitions.properties[field][CONST.PLACEHOLDER]
       if(util.availableInReference(reference, linked_to)) {
         if(!formData.hasOwnProperty(field)) {
           nextCreateLink =  field  
           fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
           mode={mode}
+          args={args}
+          propertyDocumentation={propertyDocumentation}
           depth={cardKey}
           onSelect={onSelect}
           reference={reference}
@@ -63,18 +66,46 @@ const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, set
             depth={cardKey}
             onSelect={onSelect}
             reference={reference}
+            propertyDocumentation={propertyDocumentation}
+            args={args}
             onTraverse={onTraverse}
             unfoldable={unfoldable}
             formData={formData[field]}
-            extracted={deifinitions}
+            extracted={definitions}
             //comment={comment}  // review
             required={required} />)
           }
       }
       else {
+
+        // internal properties
+        let fieldName = definitions.properties[field].title
+        let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
+        let defaultClassName="tdb__doc__input"
+        //let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
+
+
+        let config = {
+          properties: definitions.properties,
+          propertyName: documentLinkPropertyName,
+          id: fieldID,
+          key: `${linked_to}__${uuidv4()}`,
+          formData: { [fieldName] : util.getFormDataPerProperty(documentData, fieldName) },
+          required: definitions.required.includes(fieldName),
+          mode: mode,
+          args: args,
+          //fieldUIFrame: fieldUIFrame, // review diff ui
+          onChange: handleChange,
+          defaultClassName: defaultClassName,
+          propertyDocumentation: propertyDocumentation
+        }
+
+        // review fix order_by
+        fields.push(documentInternalProperties(config, field))
+
         // internal properties
         //let fieldName = extracted.properties[field].title
-        let fieldName = deifinitions.properties[field].title
+        /*let fieldName = deifinitions.properties[field].title
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         let config = {
           dataType: deifinitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
@@ -90,7 +121,7 @@ const DisplayFilledFrame = ({ documentData, onTraverse, onSelect, reference, set
           onChange: handleChange,
           documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
         }
-        fields.push(display(config))
+        fields.push(display(config)) */
       }
     }
 
@@ -146,7 +177,7 @@ const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {
 }
  
 // EDIT MODE
-export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, index, order_by, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
+export const EditDocument = ({ name, args, reference, onTraverse, clickedUnlinked, index, order_by, propertyDocumentation, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -159,7 +190,7 @@ export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, ind
   const [linkNewDocumentData, setLinkNewDocumentData]=useState({ [CONST.TYPE]: linked_to}) 
 
   //let depth=assignDepth(formData, 0, name)
-
+ 
   return <Stack direction="horizontal">
     <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>
     {deleteLink!==cardKey && <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
@@ -171,7 +202,9 @@ export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, ind
           depth={depth}
           extracted={extracted}
           required={required}
+          args={args}
           onTraverse={onTraverse}
+          propertyDocumentation={propertyDocumentation}
           mode={mode}
           clickedUnlinked={clickedUnlinked}
           cardKey={cardKey}
@@ -191,6 +224,8 @@ export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, ind
             required={required} 
             cardKey={cardKey}
             comment={comment}
+            propertyDocumentation={propertyDocumentation}
+            args={args}
             onSelect={onSelect}
             reference={reference}
             linked_to={linked_to} 
@@ -215,6 +250,8 @@ export const EditDocument = ({ name, reference, onTraverse, clickedUnlinked, ind
           comment={comment}
           onSelect={onSelect}
           reference={reference}
+          propertyDocumentation={propertyDocumentation}
+          args={args}
           linked_to={linked_to} 
           extracted={extracted} 
           mode= {mode} 

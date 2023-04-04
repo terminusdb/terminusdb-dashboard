@@ -12,6 +12,7 @@ import { FcKey } from "react-icons/fc"
  * @returns true if property is Mandaroty 
  */
 export const isMandatory = (frame, property) => { 
+	if(!frame) return false
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return true 
 	if(field.hasOwnProperty(CONST.TYPE)) {
@@ -34,6 +35,7 @@ export const isMandatory = (frame, property) => {
  * @returns true if property is Mandaroty 
  */
  export const isOptional = (frame, property) => { 
+	if(!frame) return false
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return false 
 	if(field.hasOwnProperty(CONST.TYPE) && 
@@ -48,6 +50,7 @@ export const isMandatory = (frame, property) => {
  * @returns true if property is SET/ LIST/ ARRAY 
  */
 export const isArrayTypeFromFrames = (frame, property) => { 
+	if(!frame) return false
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return false 
 	if(field.hasOwnProperty(CONST.TYPE)) {

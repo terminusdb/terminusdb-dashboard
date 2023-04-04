@@ -16,6 +16,7 @@ function addUiFrameForEachField(docConfig, property) {
 // keeps tab of internal properties and store their types - if array/ mandatory/ optional
 function extractDocumentFrame(currentDocumentClass, fullFrame, property) {
   let documentFrame = fullFrame[currentDocumentClass]
+
   if(util.isArrayTypeFromFrames(documentFrame, property)) {
     // ARRAY TYPE
     return { [CONST.TYPE]: documentFrame[property][CONST.TYPE] , propertyFrame: documentFrame[property][CONST.CLASS] }
@@ -26,7 +27,9 @@ function extractDocumentFrame(currentDocumentClass, fullFrame, property) {
   }
   else {
     // MANDATORY
-    return { propertyFrame: documentFrame[property] }
+    return { propertyFrame: documentFrame ? 
+      documentFrame.hasOwnProperty(property) ? documentFrame[property] : documentFrame 
+      : currentDocumentClass }
   }
 }
 
@@ -45,6 +48,55 @@ function constructProps(fieldID, field, expanded, docConfig) {
     hideFieldLabel: false 
   }
   return props
+}
+ 
+export function documentInternalProperties(docConfig, field) {
+  let fields = []
+
+  // gather field info 
+  let fieldName =  docConfig.properties[field].title 
+  let fieldID=docConfig.id //: `root_${docConfig.propertyName}_${fieldName}`
+  /*if(docConfig.id) {
+    // id will be filled if Sets/List
+    fieldID=`${docConfig.id}_${fieldName}`
+  }*/
+
+  // subdocument formdata will have type assosciated with it other wise its some other data types
+  let currentDocumentClass= docConfig.formData && docConfig.formData[CONST.TYPE] ? 
+    docConfig.formData[CONST.TYPE] : docConfig.properties[field][CONST.PLACEHOLDER]
+
+  // construct document frame to get UI 
+  let documentFrame = extractDocumentFrame(currentDocumentClass, docConfig.args.fullFrame, field)
+  if(documentFrame.propertyFrame.hasOwnProperty(CONST.TYPE) && 
+    documentFrame.propertyFrame[CONST.TYPE] === CONST.ENUM) {
+    if(!documentFrame.propertyFrame.hasOwnProperty("@id")) {
+      // enum definition
+      documentFrame.propertyFrame["@id"] = currentDocumentClass
+    }
+  }
+
+  // pass on newly formed document frame
+  let args = docConfig.args
+  let argsHolder = {...args}
+  //argsHolder.documentFrame = documentFrame
+  argsHolder.documentFrame = { [field]: documentFrame.propertyFrame }
+  argsHolder.extractedType = documentFrame[CONST.TYPE]
+  
+
+  if(util.isArrayType(argsHolder.extractedType)) {
+    // if array, we expect formData to be an object type
+    fields.push(displayDocumentFieldArrayHelpers(fieldID, field, null, argsHolder, docConfig))
+  }
+  else {
+    //normal data types we expect formData to be an string/ number type
+    let props = constructProps(fieldID, field, null, docConfig)
+    argsHolder.uiFrame = addUiFrameForEachField(docConfig, field)
+    let propertyUIDisplay = getDisplay (props, argsHolder, field)
+    fields.push(propertyUIDisplay)  
+  }
+
+  return fields
+
 }
 
 /**
@@ -88,7 +140,6 @@ export function displayInternalProperties (docConfig) {
     if(util.isArrayType(argsHolder.extractedType)) {
       // if array, we expect formData to be an object type
       subDocumentFields.push(displayDocumentFieldArrayHelpers(fieldID, field, expanded, argsHolder, docConfig))
-      
     }
     else {
       //normal data types we expect formData to be an string/ number type

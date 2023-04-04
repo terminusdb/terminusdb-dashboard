@@ -10,7 +10,7 @@ export function getPlaceholder (frame)  {
   if(frame.hasOwnProperty(CONST.TYPE) && 
     frame[CONST.TYPE] === CONST.ENUM) {
       // frame["@id"] will contain the name of enum class
-      return `Select ${frame["@id"]}`
+      return `${frame["@id"]}`
     }
   // Object 
   //if(!frame.hasOwnProperty(CONST.TYPE)) {
