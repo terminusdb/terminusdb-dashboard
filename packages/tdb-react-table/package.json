@@ -40,6 +40,9 @@
   "repository": {},
   "author": "terminusdb group",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@react-awesome-query-builder/antd": "^6.1.2",
     "@react-awesome-query-builder/bootstrap": "^6.1.2",
     "@react-awesome-query-builder/ui": "^6.1.2",
@@ -52,6 +55,7 @@
     "react-icon": "^1.0.0",
     "react-icons": "^4.3.1",
     "react-table": "^7.8.0",
+    "reactstrap": "^9.1.6",
     "ts-jest": "^29.0.5"
   },
   "devDependencies": {

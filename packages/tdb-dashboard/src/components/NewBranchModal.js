@@ -46,7 +46,10 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
            {reportAlert && reportAlert}
            <Form> 
                 <Form.Group className="mb-3">
-                    <Form.Control required id={newBranchForm.id.id} type={"text"} onBlur={handleOnBlur} placeholder={newBranchForm.id.placeholder} />
+                    <Form.Control required id={newBranchForm.id.id} 
+                    type={"text"} 
+                    onBlur={handleOnBlur} 
+                    placeholder={newBranchForm.id.placeholder} />
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                     <Select options={[

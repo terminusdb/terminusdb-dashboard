@@ -30,10 +30,10 @@ const DocumentModifiedCount = ({documentModifiedCount}) => {
     </h6>
 }
 
-export const BranchCRMessage = ({css, branch}) => {
+export const BranchCRMessage = ({css, title}) => {
     return <React.Fragment>
         <Badge bg={css} className="fw-bold mr-2 text-dark">
-            <BiGitBranch className=" mr-1"/>{branch}
+            <BiGitBranch className=" mr-1"/>{title}
         </Badge>
     </React.Fragment>
 }
@@ -43,9 +43,9 @@ const DisplayHeader = ({author, documentModifiedCount, tracking_branch}) => {
         <h6 className="mt-2">{`${author} wants to merge `}</h6>
         <DocumentModifiedCount documentModifiedCount={documentModifiedCount}/>
         <h6 className="mt-2">{` into `}</h6>
-        <BranchCRMessage branch={"main"} css={"success"}/>
+        <BranchCRMessage title={"main"} css={"success"}/>
         <h6 className="mt-2">{`from `}</h6>
-        <BranchCRMessage branch={tracking_branch} css={"primary"}/>
+        <BranchCRMessage title={tracking_branch} css={"primary"}/>
     </>
 }
 

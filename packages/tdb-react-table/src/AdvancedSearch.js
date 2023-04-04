@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
-import { Query, Builder, Utils as QbUtils, BasicConfig } from '@react-awesome-query-builder/ui';
+import { Query, Builder, Utils as QbUtils } from '@react-awesome-query-builder/ui';
 import {BootstrapConfig} from '@react-awesome-query-builder/bootstrap'
-//import "bootstrap/dist/css/bootstrap.css";
-// import {AntdConfig} from '@react-awesome-query-builder/antd';
-//'@react-awesome-query-builder/ui/css/styles.css';
 import "bootstrap/dist/css/bootstrap.css";
 import '@react-awesome-query-builder/bootstrap/css/styles.css';
 //import '@react-awesome-query-builder/ui/css/styles.css';
@@ -12,7 +9,6 @@ import {Button} from 'react-bootstrap'
 
 // Choose your skin (ant/material/vanilla):
 const InitialConfig = BootstrapConfig // AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
-
 
 const regex = {
   label: "Regex",
