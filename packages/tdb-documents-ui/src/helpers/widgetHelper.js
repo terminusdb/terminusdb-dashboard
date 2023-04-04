@@ -151,9 +151,7 @@ export function getlineStringUIDisplay (args, property) {
   }
 
   function showLineStringUI(props) {
-    let argsHolder = {...args}
-    argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
-    return geoTemplate.LineStringFieldTemplate(argsHolder, props, property) 
+    return display.displayLineStringEditDocument(props, args, property)
 	} 
 
 

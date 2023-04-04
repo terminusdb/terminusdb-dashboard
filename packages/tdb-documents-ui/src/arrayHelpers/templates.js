@@ -16,6 +16,7 @@ export const GetFieldDisplay = ({ args, props, element, id, property, setUpdate,
 
 	function handleElementChange(data, name, element) {
 		if(element.children.props.hasOwnProperty("child")) {
+			// for array properties inside documents 
 			element.children.props.onChange(data, element.index); 
 		}
 		else element.children.props.onChange(data); 

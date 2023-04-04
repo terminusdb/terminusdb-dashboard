@@ -279,7 +279,7 @@ export function displayPointDocument (props, args, property, id) {
 
   let config = {
     name: props.name,
-    formData: props.formData,
+    formData: props.formData, 
     mode: mode,
     label: documentation.label,
     comment: documentation.comment ? documentation.comment : null,
@@ -293,6 +293,14 @@ export function displayPointDocument (props, args, property, id) {
 }
 
 // LINE STRING 
+
+export function displayLineStringEditDocument (props, args, property) {
+  
+  let argsHolder = {...args}
+  argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
+  return geoTemplate.LineStringFieldTemplate(argsHolder, props, property) 
+}
+
 export function displayLineStringDocument(props, args, property, id) {
 
 

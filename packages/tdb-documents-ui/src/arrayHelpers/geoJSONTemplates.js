@@ -62,7 +62,8 @@ const RemoveButton = ({ element, variant }) => {
 const AddButton = ({ props, label }) => {
   return <>
     {props.canAdd && 
-      <Button data-cy={`add_${props.title}`} variant="light" className="btn-sm text-dark" type="button" onClick={props.onAddClick}>
+      <Button data-cy={`add_${props.title}`} variant="light" className="btn-sm text-dark" type="button" 
+        onClick={ (e) => props.onAddClick(e) }>
         <BiPlus className="mr-2"/> <label>{`Add ${label}`} </label>
       </Button> 
     }
@@ -168,11 +169,11 @@ export function PointFieldTemplate(args, props, property) {
 
               {<div className="w-100"> 
                 {/** display custom elements  */}
-                {<GetFieldDisplay args={args} 
+                <GetFieldDisplay args={args} 
                   onChange={element.children.props.onChange} 
                   formData={element.children.props.formData}
                   id={id} 
-                  property={property}/>}
+                  property={property}/>
               </div>}
               <MoveDownButton element={element} variant={variant}/>
               <MoveUpButton element={element} variant={variant}/>

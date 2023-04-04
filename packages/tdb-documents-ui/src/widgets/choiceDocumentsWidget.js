@@ -17,7 +17,9 @@ const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, c
     // make sure data has @type same as that of selected 
     // if not then we force at this point - logic for type is controlled in 
     // choice documents rather than in TDB Document widget
-    data[CONST.TYPE]=selected
+    if(typeof data === CONST.OBJECT_TYPE) {
+     data[CONST.TYPE]=selected
+    }
     if(props.onChange) props.onChange(data)
   } 
 
