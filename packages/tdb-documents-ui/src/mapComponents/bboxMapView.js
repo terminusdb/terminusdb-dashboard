@@ -32,5 +32,5 @@ export const bboxMapViewer = (args) => {
 		window.map = map
 	}
 
-	return <div id={`map-leaflet-id-${mapID}`} style={{ height: "100vh" }}></div>
+	return <div id={`map-leaflet-id-${mapID}`} className="rounded"></div>
 }

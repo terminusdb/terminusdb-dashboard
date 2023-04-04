@@ -25,6 +25,21 @@ export function display (config) {
         className={config.className} 
         onChange={config.onChange}/>
     
+    case TYPE.XSD_DATE_TIMESTAMP: 
+      //XSD_DATE_TIME_STAMP
+      return <TDBDateTime name={config.name} 
+      value={config.formData} 
+      hideFieldLabel={config.hideFieldLabel}
+      isKey={config.isKey}
+      label={config.documentation.label}
+      comment={config.documentation.comment}
+      required={config.required}
+      mode={config.mode} 
+      id={config.id}
+      placeholder={config.placeholder} 
+      className={config.className} 
+      onChange={config.onChange}/>
+    
     case TYPE.XSD_DATE_TIME:
       //XSD_DATE_TIME
       return <TDBDateTime name={config.name} 

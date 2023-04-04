@@ -48,7 +48,7 @@ function constructProps(fieldID, field, expanded, docConfig) {
     hideFieldLabel: false 
   }
   return props
-}
+} 
  
 export function documentInternalProperties(docConfig, field) {
   let fields = []

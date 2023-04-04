@@ -44,6 +44,7 @@ export const TDBDateTime = ({ id, name, value, required, isKey, mode, onChange, 
     <DateTimePicker
       amPmAriaLabel="Select AM/PM"
       id={id}
+      data-testid={`date-picker__${name}`}
       disabled={checkIfReadOnly(mode, selected, isKey)}
       calendarAriaLabel="Toggle calendar"
       clearAriaLabel="Clear value"
@@ -85,6 +86,7 @@ export const TDBDate = ({ id, name, value, required, isKey, mode, onChange, comm
       className={"tdb__label__width"}/>
     <DatePicker onChange={handleOnChange} 
       value={selected} 
+      data-testid={`date-picker__${name}`}
       disabled={checkIfReadOnly(mode, selected, isKey)}
       format="dd/MM/yyyy"/>
   </Stack>

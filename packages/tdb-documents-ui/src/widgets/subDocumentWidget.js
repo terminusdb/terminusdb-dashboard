@@ -52,6 +52,7 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index
       properties: properties,
       propertyName: subDocumentPropertyName,
       id: id,
+      key: id,
       formData: subDocumentData,
       required: required,
       mode: mode,

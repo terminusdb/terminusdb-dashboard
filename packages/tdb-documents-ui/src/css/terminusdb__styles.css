@@ -164,3 +164,10 @@ label.latlng-control-label {
 .tdb__array__holder {
   margin-bottom: var(--array-margin-bottom);
 }
+
+/** leaflet container */
+.leaflet-container {
+  height: 200px !important;
+  width: 80%;
+  margin: 0 auto;
+}

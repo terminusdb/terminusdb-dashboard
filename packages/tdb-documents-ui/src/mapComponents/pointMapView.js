@@ -54,5 +54,5 @@ export const pointMapViewer = (args) => {
 		window.map = map
 	}
 
-	return <div id={`map-leaflet-id-${mapID}`} style={{ height: "100vh" }}></div>
+	return <div id={`map-leaflet-id-${mapID}`} className="rounded" data-testid={`map-leaflet-id`}></div>
 }

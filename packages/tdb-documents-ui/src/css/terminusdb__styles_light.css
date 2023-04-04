@@ -146,6 +146,13 @@ label.latlng-control-label {
   margin-bottom: var(--array-margin-bottom);
 }
 
+/** leaflet container */
+.leaflet-container {
+  height: 200px !important;
+  width: 80%;
+  margin: 0 auto;
+}
+
 /* datepciker css when date has been chosen */
 /*.react-datetime-picker--closed { 
   color: var(--input-color) !important;
