@@ -43,11 +43,13 @@ const CRAction = ({}) => {
         return <ChangeDiffComponent/>
 
     // if needRebase  
+    const title = currentCRObject && currentCRObject.name ? currentCRObject.name : currentCRObject.messages[0].text
+
     return <React.Fragment>  
         {errorMessage && <Alerts message={errorMessage} type={CONST.TERMINUS_DANGER} onCancel={setError}/>}
         <Card className="update__change__request__card">
             <Card.Header className="w-100"> 
-                {`You are in Change Request `}<BranchCRMessage branch={currentCRObject.tracking_branch} css={"primary"}/>
+                {`You are in Change Request `}<BranchCRMessage title={title} css={"primary"}/>
             </Card.Header>
             <Card.Body>
                 <Stack direction="vertical" gap={3}>
@@ -57,7 +59,7 @@ const CRAction = ({}) => {
                     </div>
                     <div className='d-flex'>
                         <h4 className="mr-3">Merge latest changes from </h4>
-                        <BranchCRMessage branch={"main"} css={"success"}/>
+                        <BranchCRMessage title={"main"} css={"success"}/>
                         <h4>into this Change Request</h4> 
                     </div>
                 </Stack>

@@ -59,15 +59,8 @@ export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config,
     minWidth,
     maxWidth}]}*/
 
-    const labelFromVariable = (v) => {
-        if(typeof v !== "string"){
-            return ""
-        }
-        v = v.replace(/_/g, ' ');
-        return v.charAt(0).toUpperCase() + v.slice(1);
-    };
-
     function formatTableColumns(){
+        if(!config) return {columns:[], hiddenColumns:[]}
         const hiddenColumns = hiddenColumnsArr || []
         // I visualise the id only if it is the only item
         const colArr = config.columns
@@ -78,15 +71,16 @@ export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config,
         }
 
         let listOfColumns = colArr.map((item,index) => {
-            if(!hiddenColumnsArr && index>4){
+            if(item.id!== "__ACTIONS__" && !hiddenColumnsArr && index>4){
                 hiddenColumns.push(item.id)
             }
             let col = item
-            if(!item.Header){
-                col.Header = labelFromVariable(item.id)
-            }
-            
-            if(item.renderer && matchRendererType[item.renderer.type]){
+            // check if it is a custom component
+            if(typeof item.renderer === "function"){
+                col.Cell=function(props){
+                    return item.renderer(props)
+                }
+            }else if(item.renderer && matchRendererType[item.renderer.type]){
                 col.Cell=function(props){
                     return matchRendererType[item.renderer.type](props)
                 }

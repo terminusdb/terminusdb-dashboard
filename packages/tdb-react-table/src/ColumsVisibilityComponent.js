@@ -91,17 +91,18 @@ export const CheckboxDropdown = ({setHiddenColumns, allColumns,getToggleHideAllC
         setHiddenColumns={setHiddenColumns}
         {...getToggleHideAllColumnsProps()}
       >
-        {allColumns.map(column => (
-            
-          <Dropdown.Item
-            key={column.id}
-            as={CheckDropdownItem}
-            setHiddenColumns={setHiddenColumns}
-            id={column.id}
-            {...column.getToggleHiddenProps()}>
-            {column.Header}
-          </Dropdown.Item>
-        ))}
+        {allColumns.map(column => {
+          if(column.id!=="__ACTIONS__"){
+            return <Dropdown.Item
+              key={column.id}
+              as={CheckDropdownItem}
+              setHiddenColumns={setHiddenColumns}
+              id={column.id}
+              {...column.getToggleHiddenProps()}>
+              {column.Header}
+            </Dropdown.Item>
+          }
+        })}
       </Dropdown.Menu>
     </Dropdown>
   );

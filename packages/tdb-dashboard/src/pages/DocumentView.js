@@ -1,70 +1,82 @@
-import React, {useState}  from "react";
-import Card from "react-bootstrap/Card"
-import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
-import * as CONST from "../components/constants"
-import {useParams } from "react-router-dom";
-import {ViewHeader, onTraverse} from "../components/DocumentComponents"
-import {JsonFrameViewer} from "../components/JsonFrameViewer"
+import React, {useState,useEffect}  from "react";
+import {ViewDocumentComponent} from "@terminusdb/terminusdb-documents-ui-template"
+import {useParams,useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
-import {DocumentControlObj} from "../hooks/DocumentControlContext"
-import {TarverseDocumentLinks} from "../components/TarverseDocumentLinks"
 import {decodeUrl} from "../components/utils"
+import {EDIT_DOC} from "../routing/constants"
+import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
+import {WOQLClientObj} from '../init-woql-client'
+import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
+import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
-const DisplayDocumentBody = ({setClicked}) => {
-    const {type, docid:id} = useParams()
+export const DocumentView = () => {   
+    const { branch,setChangeRequestBranch,woqlClient} = WOQLClientObj()
+    const {type, docid} = useParams()
+    const [showCRModal, setShowCRModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal]=useState(false)
+    const navigate = useNavigate()
     const {
-        view,
         frames,
-        selectedDocument
-    } = DocumentControlObj()
+        selectedDocument,
+        error,
+        setError,
+        loading,
+        deleteDocument,
+        getDocument,
+        getUpdatedFrames
+    } = DocumentsUIHook(woqlClient)
 
-    let documentID=decodeUrl(id)
-    
-    function handleTraverse (documentID) {
-        onTraverse(documentID, setClicked)
+    let documentID=decodeUrl(docid)
+ 
+    useEffect(() => {
+        getUpdatedFrames()
+        getDocument(documentID)
+	},[])
+
+    function deleteDocumentHandler(e) {
+        // I can not change main directly
+        // I can change other branches creates with create branch interface
+        if(branch === "main"){
+            setShowCRModal(true)
+        }else setShowDeleteModal(true)
+    }
+
+    async function callDeleteDocument(){
+        const delCall = await deleteDocument(documentID)
+        if(delCall){
+            navigate(-1)
+        }else{
+            setShowDeleteModal(false)
+        }
     }
 
     if(!selectedDocument || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
-
-    // JSON View
-    if(view === CONST.JSON_VIEW) {
-        return <JsonFrameViewer jsonData={selectedDocument} mode={CONST.VIEW_DOCUMENT}/>
+    
+    const getDocumentById=(docId)=>{
+        return woqlClient.getDocument({id:docId})
     }
 
-    // Form View
-    return<FrameViewer frame={frames}
-        type={type}
-        mode={CONST.VIEW_DOCUMENT}
-        formData={selectedDocument}
-        hideSubmit={true}
-        onTraverse={handleTraverse}
-    />
-}
-
-export const DocumentView = () => {   
-    const {type, docid:id} = useParams()
-    const {
-        error
-    } = DocumentControlObj()
-    
-    const [clicked, setClicked]=useState(false)
-    
-    let documentID=decodeUrl(id)
-    
-    return <main className="content w-100 document__interface__main">
-        {error && <Alert variant={"danger"} className="mr-3">{error}</Alert>} 
-        {clicked && <TarverseDocumentLinks
-            clicked={clicked}
-            show={clicked!==false}
-            onHide={() => setClicked(false)}/>}
-        <Card className="mr-3 bg-dark">
-            <Card.Header className="justify-content-between d-flex w-100 text-break">
-                <ViewHeader type={type} documentID={documentID} />
-            </Card.Header>
-            <Card.Body className="text-break">
-                <DisplayDocumentBody setClicked={setClicked}/>
-            </Card.Body>
-        </Card>
-    </main>
+    return <React.Fragment>
+        {showCRModal && <CreateChangeRequestModal showModal={showCRModal} type={type}  setShowModal={setShowCRModal} updateViewMode={setChangeRequestBranch}/>}
+        {error && <ErrorMessageReport error={error} setError={setError}/>}
+        {showDeleteModal && <DeleteDocumentModal
+            loading={loading}
+            deleteDocument={callDeleteDocument}
+            documentID={documentID}
+            showDeleteModal={showDeleteModal}
+            handleClose={()=>showDeleteModal(false)}
+        /> }
+        <ViewDocumentComponent 
+          type={type}
+          getDocumentById={getDocumentById}
+          selectedDocument={selectedDocument}
+          frames={frames}
+          closeButtonClick={()=>navigate(-1)}
+          documentID={documentID}
+          deleteDocument={deleteDocumentHandler}
+          editDocument = {()=>navigate(`${EDIT_DOC}`)}
+        />
+    </React.Fragment>
 }
