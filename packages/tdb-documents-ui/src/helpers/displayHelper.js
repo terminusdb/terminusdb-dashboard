@@ -293,7 +293,6 @@ export function displayPointDocument (props, args, property, id) {
 }
 
 // LINE STRING 
-
 export function displayLineStringEditDocument (props, args, property) {
   
   let argsHolder = {...args}
@@ -328,6 +327,10 @@ export function displayLineStringDocument(props, args, property, id) {
 }
 
 // POLYGON
+export function displayPolygonEditDocument (props, args, property) {
+  return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+}
+
 export function displayPolygonDocument (props, args, property, id) {
 
 

@@ -141,3 +141,4 @@ export function constructLineStringProps (props){
   return geoJSONProps
 }
 
+

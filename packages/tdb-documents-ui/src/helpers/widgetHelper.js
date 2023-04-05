@@ -134,33 +134,6 @@ export function getChoiceDocumentUIDisplay(args, property) {
   return { "ui:field": displayChoiceDocumentWidget }
 }
 
-// LINE STRING GEO JSONs
-export function getlineStringUIDisplay (args, property) {
-
-
-  let { mode } = args
-
-  if(mode === CONST.VIEW) {
-    function displayLineStringUI(props) {
-      let id = props.idSchema["$id"]
-      if(props.formData && props.formData.includes(undefined)) 
-        return <div className={`tdb__${props.name}__hidden`}/>
-      else return display.displayLineStringDocument(props, args, property, id)
-    }
-    return { "ui:field": displayLineStringUI }
-  }
-
-  function showLineStringUI(props) {
-    return display.displayLineStringEditDocument(props, args, property)
-	} 
-
-
-  return {
-    "ui:options": CONST.GEO_FRAMES_ARRAY_OPTIONS,
-    "ui:ArrayFieldTemplate" : showLineStringUI
-  }
-}
-
 // POINT GEO JSONs
 export function getPointUIDisplay (args, property) {
 
@@ -188,6 +161,33 @@ export function getPointUIDisplay (args, property) {
   }
 }
 
+// LINE STRING GEO JSONs
+export function getlineStringUIDisplay (args, property) {
+
+
+  let { mode } = args
+
+  if(mode === CONST.VIEW) {
+    function displayLineStringUI(props) {
+      let id = props.idSchema["$id"]
+      if(props.formData && props.formData.includes(undefined)) 
+        return <div className={`tdb__${props.name}__hidden`}/>
+      else return display.displayLineStringDocument(props, args, property, id)
+    }
+    return { "ui:field": displayLineStringUI }
+  }
+
+  function showLineStringUI(props) {
+    return display.displayLineStringEditDocument(props, args, property)
+	} 
+
+
+  return {
+    "ui:options": CONST.GEO_FRAMES_ARRAY_OPTIONS,
+    "ui:ArrayFieldTemplate" : showLineStringUI
+  }
+}
+
 // POLYGON 
 export function getPolygonUIDisplay (args, property) {
   let { mode } = args
@@ -203,7 +203,7 @@ export function getPolygonUIDisplay (args, property) {
   }
 
   function coordinatesArrayTemplate(props) {
-    return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+    return display.displayPolygonEditDocument (props, args, property)
   }
   return  { 
     "ui:ArrayFieldTemplate": geoTemplate.PolygonArrayFieldTemplate,

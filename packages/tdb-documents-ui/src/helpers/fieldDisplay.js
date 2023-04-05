@@ -3,7 +3,7 @@ import * as display from "../helpers/displayHelper"
 import * as util from "../utils"
 import * as CONST from "../constants"
 import { v4 as uuidv4 } from 'uuid';
-import { constructGeoJSONProps, constructLineStringProps } from "../arrayHelpers/geoJsonProps"
+import * as geo from "../arrayHelpers/geoJsonProps"
  
 export const getDisplay = (props, args, property) => {
   let { fullFrame, mode, documentFrame } =  args   
@@ -68,15 +68,22 @@ export const getDisplay = (props, args, property) => {
   else if (util.isPointType(field)) {
     // POINT TYPE
     let id = props.id 
-    let newProps = constructGeoJSONProps(props)
+    let newProps = geo.constructGeoJSONProps(props)
     if(mode === CONST.VIEW) return display.displayPointDocument(newProps, args, property, id)
     else return display.displayPointEditDocument(newProps, args, property, id)
   } 
   else if (util.isLineStringType(field)) {
     // LINE STRING 
     let id = props.id 
-    let newProps = constructLineStringProps(props)
+    let newProps = geo.constructLineStringProps(props)
     if(mode === CONST.VIEW) return display.displayLineStringDocument(newProps, args, property, id)
+    else return display.displayLineStringEditDocument(newProps, args, property, id)
+  }
+  else if (util.isPolygonType(field)) {
+    // POLYGON TYPE
+    let id = props.id 
+    let newProps = geo.constructLineStringProps(props)
+    if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id)
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }
 } 

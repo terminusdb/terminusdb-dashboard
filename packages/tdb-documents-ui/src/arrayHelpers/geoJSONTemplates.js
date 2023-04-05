@@ -117,7 +117,8 @@ function displayCoordinates(args, element, index, property) {
       let lat = fieldName === `${CONST.LATITUDE}__${index}` ? data : element.children.props.formData[0]
       let lng = fieldName === `${CONST.LONGITUDE}__${index}` ? data  : element.children.props.formData[1]
      
-      //
+      // child is set to ttrue when nested in subdocument 
+      // child is set to true when custom 
       if(element.children.props.child) {
         element.children.props.onChange([lat, lng], fieldName, index)
       }
