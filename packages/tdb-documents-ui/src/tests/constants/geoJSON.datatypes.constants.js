@@ -7,6 +7,68 @@ export const GEO_JSON_FRAME = {
 		"@schema": "terminusdb:///schema#",
 		"@type": "Context"
 	},
+	"Asset": {
+		"@key": {
+			"@fields": [
+				"asset_identifier"
+			],
+			"@type": "Lexical"
+		},
+		"@type": "Class",
+		"@metadata": {
+			"render_as": {
+				"location": {
+					"expand": true
+				}
+			}
+		},
+		"location": {
+			"@class": "LineStringLocation",
+			"@subdocument": []
+		}
+	},
+	"LineStringLocation": {
+		"@key": {
+			"@type": "Random"
+		},
+		"@subdocument": [],
+		"@type": "Class",
+		"geometry_location": {
+			"@class": [
+				{
+					"@class": "LineString_NOBBBOX",
+					"@subdocument": []
+				}
+			],
+			"@type": "Optional"
+		}
+	},
+	"LineString_NOBBBOX": {
+		"@inherits": [
+			"GeoJSON",
+			"Geometry"
+		],
+		"@type": "Class",
+		"@unfoldable": [],
+		"coordinates": {
+			"@class": "xsd:decimal",
+			"@dimensions": 2,
+			"@type": "Array"
+		},
+		"type": {
+			"@id": "LineString_Type",
+			"@type": "Enum",
+			"@values": [
+				"LineString"
+			]
+		}
+	},
+	"MultiPolygon_Type": {
+		"@type": "Enum",
+		"@values": [
+			"MultiPolygon"
+		]
+	},
 	"Feature": {
 		"@inherits": [
 			"GeoJSON"
@@ -441,6 +503,52 @@ export const MULTI_POLYGON_DATA_TYPE_EDIT_DATA = {
 	"type": "MultiPolygon"
 }
 
+export const SUBDOCUMENT_LINE_STRING_CREATE_DATA = {
+  "location": {
+    "@type": "LineStringLocation",
+    "geometry_location": {
+      "@type": "LineString_NOBBBOX",
+      "coordinates": [
+        [
+          "11",
+          "11"
+        ],
+				[
+          "22",
+          "22"
+        ]
+      ],
+      "type": "LineString"
+    }
+  },
+  "@type": "Asset"
+}
+
+export const SUBDOCUMENT_LINE_STRING_EDIT_DATA ={
+  "location": {
+    "@type": "LineStringLocation",
+    "geometry_location": {
+      "@type": "LineString_NOBBBOX",
+      "coordinates": [
+        [
+          "1111",
+          "1111"
+        ],
+				[
+          "22",
+          "22"
+        ],
+				[
+          "33",
+          "33"
+        ]
+      ],
+      "type": "LineString"
+    }
+  },
+  "@type": "Asset"
+}
+
 // create config 
 export const MULTI_POLYGON_CREATE_CONFIG = {
 	frame: GEO_JSON_FRAME, 
@@ -458,5 +566,24 @@ export const MULTI_POLYGON_EDIT_CONFIG = {
 	type: "MultiPolygon",
 	formData: MULTI_POLYGON_DATA_TYPE_EDIT_DATA_ORIGINAL,
 	input: MULTI_POLYGON_DATA_TYPE_EDIT_DATA,
+	mode: "Edit"
+}
+
+// NESTED 
+export const CREATE_SUBDOCUMENT_LINE_STRING_CONFIG = {
+	frame: GEO_JSON_FRAME, 
+	uiFrame: {},
+	type: "Asset",
+	formData: {},
+	input: SUBDOCUMENT_LINE_STRING_CREATE_DATA,
+	mode: "Create"
+}
+
+export const EDIT_SUBDOCUMENT_LINE_STRING_CONFIG = {
+	frame: GEO_JSON_FRAME, 
+	uiFrame: {},
+	type: "Asset",
+	formData: SUBDOCUMENT_LINE_STRING_CREATE_DATA,
+	input: SUBDOCUMENT_LINE_STRING_EDIT_DATA,
 	mode: "Edit"
 }

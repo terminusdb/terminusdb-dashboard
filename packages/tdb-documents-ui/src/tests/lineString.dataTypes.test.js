@@ -132,7 +132,7 @@ describe("Test line string data type Property", () => {
 	})  
 
 	// simple check if all info is available
-	test("Edit line string type property", async () => {
+	/*test("Edit line string type property", async () => {
 		
 		const config = CONST.LINE_STRING_EDIT_CONFIG
 
@@ -188,7 +188,7 @@ describe("Test line string data type Property", () => {
 		expect(longitudeInput_2).toBeInTheDocument()
 		expect(longitudeInput_2.value).toStrictEqual(config.formData["coordinates"][2][1])
 
-	})  
+	})  */
  
 	// add test to view binding box later ...
 

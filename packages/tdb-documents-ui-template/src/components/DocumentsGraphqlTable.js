@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import {AdvancedSearch, GraphqlTable, ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
 import {Tab,Tabs,Button,Alert,Container,ProgressBar} from 'react-bootstrap'
-import { GraphqlQueryView } from "./GraphqlQueryViewer";
+//import { GraphqlQueryView } from "./GraphqlQueryViewer";
 //import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
@@ -152,12 +152,12 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
            {showGraphqlTab && <Tab eventKey="graphql" title="Graphql Query">
                 <div>
                 {queryToDisplay && 
-                   <GraphqlQueryView 
+                   {/*<GraphqlQueryView 
                      filterBy={queryFilters}
                      orderBy={queryOrderBy}
                      start={start}
                      limit={limit}
-                     queryToDisplay={queryToDisplay} />
+                   queryToDisplay={queryToDisplay} />*/}
                 }
                 </div>
             </Tab>}

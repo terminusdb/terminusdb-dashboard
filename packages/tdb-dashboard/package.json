@@ -52,6 +52,7 @@
     "@stripe/react-stripe-js": "^1.16.4",
     "@stripe/stripe-js": "^1.46.0",
     "@terminusdb/terminusdb-client": "^10.0.28",
+    "@terminusdb/terminusdb-documents-ui-template": "^6.1.6",
     "axios": "^0.21.1",
     "babel-jest": "^29.3.1",
     "classnames": "^2.2.5",

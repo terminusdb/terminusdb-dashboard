@@ -45,7 +45,8 @@ function constructProps(fieldID, field, expanded, docConfig) {
     required: docConfig.required,
     formData: docConfig.formData[field],
     onChange: (data) => docConfig.onChange(data, field), 
-    hideFieldLabel: false 
+    hideFieldLabel: false,
+    mode: docConfig.mode
   }
   return props
 } 

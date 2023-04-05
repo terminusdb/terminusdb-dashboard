@@ -117,7 +117,11 @@ function displayCoordinates(args, element, index, property) {
       let lat = fieldName === `${CONST.LATITUDE}__${index}` ? data : element.children.props.formData[0]
       let lng = fieldName === `${CONST.LONGITUDE}__${index}` ? data  : element.children.props.formData[1]
      
-      element.children.props.onChange([lat, lng])
+      //
+      if(element.children.props.child) {
+        element.children.props.onChange([lat, lng], fieldName, index)
+      }
+      else element.children.props.onChange([lat, lng])
     }
   }
 
@@ -206,7 +210,7 @@ export function LineStringFieldTemplate(args, props, property) {
       id={`root_Set_${label}`}/>
 
     <Card bg="transparent" className="w-100">
-      <Card.Body>
+      <Card.Body> 
         {props.items &&
           props.items.map((element, index) => {
 

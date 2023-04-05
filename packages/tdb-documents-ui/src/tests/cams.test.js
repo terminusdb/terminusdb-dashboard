@@ -160,7 +160,7 @@ describe("Create/ Edit an Asset in CAMS Data Product", () => {
   };
 
 	// create 
-	/*test("Create an Asset", async () => {
+	test("Create an Asset", async () => {
 		
 		const config = CONST.CREATE_CONFIG
 
@@ -168,7 +168,7 @@ describe("Create/ Edit an Asset in CAMS Data Product", () => {
 		let data=await setup(config)
 		// check if data is same as expected data
 		expect(data).toStrictEqual(config.input)
-	}) */
+	}) 
 
   // view
 	test("View as Asset", async () => {

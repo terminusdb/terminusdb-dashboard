@@ -129,8 +129,8 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        //"likes": "Animal"
-        "nickNames": {
+        "likes": "Animal"
+        /*"nickNames": {
           "@class": "xsd:string",
           "@type": "Set"
         },
@@ -152,9 +152,9 @@ export const Output = () => {
             "@subdocument": []
           },
           "@type": "Set"
-        }
+        }*/
       }
-    }
+    } 
     
     return <div className="w-100">
         <DiffViewer 
