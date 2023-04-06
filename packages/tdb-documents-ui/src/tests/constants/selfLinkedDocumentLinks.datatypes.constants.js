@@ -78,7 +78,7 @@ export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA = {
 			"age": "16"
 		}
 	},
-	"name": "Harry Potter",
+	"name": "Harry Potter", 
 	"age": "18",
 	"@type": "Person"
 }

@@ -13,14 +13,16 @@ export const getDisplay = (props, args, property) => {
 
   if(util.isDataType(field)) {  
     // DATA TYPES
+    //(props, args, property, dataType, id, onChange)
     return display.displayDataTypesWidget(props, args, property, field, props.id, props.onChange) // review
   } 
   else if(util.isSubDocumentType(field)){ 
     // SUBDOCUMENT TYPE
+    if(props.mode === CONST.VIEW && props.formData === "") return <div/>
     let id = props.id, linked_to=field[CONST.CLASS]
     let extracted=args.reference[linked_to]
     let expand=props.isArray ? true : props.expand
-    // set default expanded as true for now
+    // set default expanded as true for now 
     return display.displaySubDocument(props, args, extracted, property, expand, id, hideFieldLabel, linked_to)
   }
   else if(util.isDocumentType(field, fullFrame)) {

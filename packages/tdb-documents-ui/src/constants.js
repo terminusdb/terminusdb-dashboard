@@ -30,6 +30,7 @@ export const VIEW="View"
 // constants
 export const DEFAULT_LANGUAGE="en"
 export const SELECTED_LANGUAGE="@selectedLanguge"
+export const ONEOF_SELECTED="@selected"
 
 // DATA PROPERTY TYPE
 export const STRING_TYPE="string"

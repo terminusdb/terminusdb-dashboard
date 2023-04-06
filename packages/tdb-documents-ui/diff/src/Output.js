@@ -129,22 +129,10 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "likes": "Animal"
-        /*"nickNames": {
-          "@class": "xsd:string",
-          "@type": "Set"
-        },
+        "likes": "Animal",
         "name": {
           "@class": "xsd:string",
           "@type": "Optional"
-        },
-        "age": {
-          "@class": "xsd:decimal",
-          "@type": "Optional"
-        },
-        "permanentAddress":  {
-          "@class": "Address",
-          "@subdocument": []
         },
         "manYAddress":  {
           "@class": {
@@ -152,7 +140,19 @@ export const Output = () => {
             "@subdocument": []
           },
           "@type": "Set"
-        }*/
+        }
+        /*"permanentAddress":  {
+          "@class": "Address",
+          "@subdocument": []
+        },
+        /*"nickNames": {
+          "@class": "xsd:string",
+          "@type": "Set" 
+        },
+        "age": {
+          "@class": "xsd:decimal",
+          "@type": "Optional"
+        },*/
       }
     } 
     

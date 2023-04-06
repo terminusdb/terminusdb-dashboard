@@ -80,6 +80,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
           //fieldUIFrame: fieldUIFrame, // review diff ui
           onChange: handleChange,
           defaultClassName: defaultClassName,
+          currentDocumentClass: documentData[CONST.TYPE],
           propertyDocumentation: propertyDocumentation
         }
 

@@ -84,6 +84,7 @@ export const TDBChoiceSubDocuments = ({ args, props, property, id, choiceSubDocu
         placeholder={`Select choices ...`}
         value={getDefaultValue(choices, selected)} 
         id={id}
+        mode={mode}
         onChange={handleChoiceSelect}/>
       <DisplaySelectedSubDocument props={props} 
         selected={selected} 

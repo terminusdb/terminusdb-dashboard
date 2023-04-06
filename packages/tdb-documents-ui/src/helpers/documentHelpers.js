@@ -16,7 +16,7 @@ function addUiFrameForEachField(docConfig, property) {
 // keeps tab of internal properties and store their types - if array/ mandatory/ optional
 function extractDocumentFrame(currentDocumentClass, fullFrame, property) {
   let documentFrame = fullFrame[currentDocumentClass]
-
+ 
   if(util.isArrayTypeFromFrames(documentFrame, property)) {
     // ARRAY TYPE
     return { [CONST.TYPE]: documentFrame[property][CONST.TYPE] , propertyFrame: documentFrame[property][CONST.CLASS] }
@@ -33,20 +33,48 @@ function extractDocumentFrame(currentDocumentClass, fullFrame, property) {
   }
 }
 
-
+/** get data of property which have been selected for one ofs */
+function getPropertyName(docConfig) {
+  // only @type wil be defined if length 1
+  if(Object.keys(docConfig.formData).length === 1) return { data: undefined, [CONST.ONEOF_SELECTED]: false }
+  /*if(Object.keys(docConfig.formData).length > 2) {
+    let newFormData = {}
+    newFormData[CONST.TYPE] = docConfig.formData[CONST.TYPE]
+  }*/
+  for(let items in docConfig.formData) {
+    if(items === CONST.TYPE) continue
+    else return { data: docConfig.formData[items], [CONST.ONEOF_SELECTED]: items } // some choice in one of will be populated => return its data 
+  }
+  return { data: undefined, [CONST.ONEOF_SELECTED]: false }
+}
 
 // construct props for optional/ mandatory types
 function constructProps(fieldID, field, expanded, docConfig) {
   // props to control documents props
+
+  let data = null, selectedForOneOf = null
+  if(field === CONST.ONEOFVALUES) {
+    let extractedData = getPropertyName(docConfig)
+    data = extractedData.data
+    selectedForOneOf=extractedData[CONST.ONEOF_SELECTED]
+  }
+  else data = docConfig.formData[field]
+
   let props = {
     id: fieldID, 
     name: field,  
     expand: expanded,
     required: docConfig.required,
-    formData: docConfig.formData[field],
-    onChange: (data) => docConfig.onChange(data, field), 
+    //formData: docConfig.formData[field],
+    //onChange: (data) => docConfig.onChange(data, field), 
+    formData: data,
+    //onChange: (data, name) => docConfig.onChange(data, field, name), 
+    onChange: (data, name, selectedOneOf) => docConfig.onChange(data, field, selectedOneOf), 
     hideFieldLabel: false,
     mode: docConfig.mode
+  }
+  if(field === CONST.ONEOFVALUES) {
+    props[CONST.ONEOF_SELECTED] = selectedForOneOf
   }
   return props
 } 
@@ -63,8 +91,19 @@ export function documentInternalProperties(docConfig, field) {
   }*/
 
   // subdocument formdata will have type assosciated with it other wise its some other data types
-  let currentDocumentClass= docConfig.formData && docConfig.formData[CONST.TYPE] ? 
-    docConfig.formData[CONST.TYPE] : docConfig.properties[field][CONST.PLACEHOLDER]
+  //let currentDocumentClass= docConfig.formData && docConfig.formData[CONST.TYPE] ? 
+    //docConfig.formData[CONST.TYPE] : docConfig.properties[field][CONST.PLACEHOLDER]
+
+    //currentDocumentClass = "Person"
+  let currentDocumentClass= docConfig.currentDocumentClass
+
+  /**
+   * let currentDocumentClass= docConfig.formData && docConfig.formData[CONST.TYPE] ? 
+    docConfig.formData[CONST.TYPE] : 
+    docConfig.properties[field][CONST.PLACEHOLDER].hasOwnProperty(CONST.CLASS) ?
+    docConfig.properties[field][CONST.PLACEHOLDER][CONST.CLASS] : 
+    docConfig.properties[field][CONST.PLACEHOLDER]
+   */
 
   // construct document frame to get UI 
   let documentFrame = extractDocumentFrame(currentDocumentClass, docConfig.args.fullFrame, field)
@@ -91,7 +130,7 @@ export function documentInternalProperties(docConfig, field) {
   else {
     //normal data types we expect formData to be an string/ number type
     let props = constructProps(fieldID, field, null, docConfig)
-    argsHolder.uiFrame = addUiFrameForEachField(docConfig, field)
+    argsHolder.uiFrame = addUiFrameForEachField(docConfig, field) 
     let propertyUIDisplay = getDisplay (props, argsHolder, field)
     fields.push(propertyUIDisplay)  
   }

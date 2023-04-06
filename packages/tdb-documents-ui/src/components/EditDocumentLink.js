@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import * as CONST from "../constants"
 import * as util from "../utils"
 import Card from "react-bootstrap/Card"
@@ -96,6 +96,7 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
           args: args,
           //fieldUIFrame: fieldUIFrame, // review diff ui
           onChange: handleChange,
+          currentDocumentClass: documentData[CONST.TYPE],
           defaultClassName: defaultClassName,
           propertyDocumentation: propertyDocumentation
         }
@@ -184,10 +185,14 @@ export const EditDocument = ({ name, args, reference, onTraverse, clickedUnlinke
   const [deleteLink, setDeleteLink] = useState(false)
   const [cardKey, setCardKey]=useState(depth+1)
   //const [cardKey, setCardKey]=useState(uuidv4())
-
+ 
   // constants to link new document 
   const [linkNewAction, setLinkNewAction]=useState(false)
   const [linkNewDocumentData, setLinkNewDocumentData]=useState({ [CONST.TYPE]: linked_to}) 
+
+  useEffect(() => {
+    if(linked_to) setLinkNewDocumentData({ [CONST.TYPE]: linked_to})
+  }, [linked_to])
 
   //let depth=assignDepth(formData, 0, name)
  

@@ -13,8 +13,9 @@ import { BsTrashFill } from "react-icons/bs"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { documentInternalProperties } from "../helpers/documentHelpers"
+import { DisplayLink } from "./DisplayLink"
 
-const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayFilledFrame_OLD = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -84,27 +85,6 @@ const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation
 
         // review fix order_by
         fields.push(documentInternalProperties(config, field))
-
-
-        // internal properties
-        /*let fieldName = deifinitions.properties[field].title
-        let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
-        
-        let config = {
-          dataType: deifinitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
-          name: fieldName,
-          key: `${linked_to}__${uuidv4()}`,
-          formData: util.getFormDataPerProperty(documentData, fieldName),
-          required: deifinitions.required.includes(fieldName), 
-          mode: mode, 
-          id: fieldID, 
-          formData: documentData[field],
-          placeholder: deifinitions.properties[field][CONST.PLACEHOLDER],
-          className:  defaultClassName,
-          onChange: handleChange,
-          documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
-        }
-        fields.push(display(config)) */
       }
     }
 
@@ -122,6 +102,43 @@ const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation
       linked_to={linked_to}/>
   }
   return <div/>
+}
+
+const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+
+  let dataID = action === CONST.LINK_NEW_DOCUMENT ? formData["@id"] : formData
+
+  if(action === CONST.LINK_NEW_DOCUMENT) {
+    
+    return <DisplayLink mode={mode} 
+      action={action} 
+      extracted={extracted}
+      required={required}
+      args={args}
+      unfoldable={unfoldable}
+      onTraverse={onTraverse}
+      uiFrame={uiFrame}
+      onChange={onChange}
+      linked_to={linked_to}
+      propertyDocumentation={propertyDocumentation}
+      cardKey={cardKey}
+      reference={reference}
+      hideFieldLabel={true}
+      formData={formData}
+      dataID={dataID}
+      documentLinkPropertyName={documentLinkPropertyName}
+      documentData={documentData} 
+      id={cardKey}
+      child={false}
+      setDocumentData={setDocumentData}/>
+  }
+
+  return <SearchExistingLink mode={mode} 
+      formData={dataID}
+      onChange={onChange}
+      onTraverse={onTraverse}
+      id={cardKey}
+      linked_to={linked_to}/>
 }
 
 

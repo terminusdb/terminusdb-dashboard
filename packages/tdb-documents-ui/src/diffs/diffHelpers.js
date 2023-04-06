@@ -47,7 +47,7 @@ function swapOperation (diffState) {
 }
 
 function getDiffUi (diffPatch, diffState) {
-  let uiFrame = {}
+  let uiFrame = {} 
 
   if(diffPatch.hasOwnProperty(DIFFCONST.OPERATION)) {
     if(diffPatch[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
@@ -99,7 +99,8 @@ function getDiffUi (diffPatch, diffState) {
     else {
       // SUBDOCUMENTS 
       uiFrame = generateDiffUIFrames(diffPatch, diffState) 
-      uiFrame[CONST.BORDER] = getBorder(diffState) 
+      if(Object.keys(uiFrame).length)
+        uiFrame[CONST.BORDER] = getBorder(diffState) 
     }
   }
 
@@ -120,10 +121,12 @@ export function generateDiffUIFrames(diffPatch, diffState) {
   for (let property in diffPatch) {
     if(property === "@id") continue
     else {
-      uiFrame[property] = getDiffUi (diffPatch[property], diffState)
+      let diffUi =getDiffUi (diffPatch[property], diffState)
+      if(Object.keys(diffUi).length)
+        uiFrame[property] = diffUi  
     }
   }
 
-  console.log("!!! uiFrame !!!", uiFrame)
+  console.log("!!! uiFrame !!!", diffState, uiFrame)
   return  uiFrame
 }

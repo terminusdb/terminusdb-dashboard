@@ -108,7 +108,7 @@ export function  getOneOfUIDisplay (args, property) {
   // at this point extracted will have all of the extracted documents from linked_to
   function displayOneOfWidget(props) {
     let id = props.idSchema["$id"]
-    return display.displayOneOfProperty(props, args, property, id)
+    return display.displayOneOfProperty(props, args, property, id) 
   }
 
   return  { "ui:field": displayOneOfWidget }

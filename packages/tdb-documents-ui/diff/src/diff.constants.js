@@ -5,12 +5,15 @@ export const oldData = {
 		"@type": "Person",
 		"likes": {
 			"@type": "Animal", 
+			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"nickName": "Chooo",
 			"category": "Cats",
 			"owned_by": {
+				"@id": "owned_by/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 				"@type": "Person", 
-				"name": "Ron Terol",
-				"likes": {
+				"name": "Ron",
+				"likes": { 
+					"@id": "likes/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 					"@type": "Animal", 
 					"nickName": "Ronny",
 					"category": "Dogs",
@@ -21,7 +24,7 @@ export const oldData = {
 				}
 			}
 		},
-		/*"manYAddress": [
+		"manYAddress": [
 			{
 				"@type": "Address",
 				"AddressLine1": "AddressLine1 ",
@@ -43,19 +46,19 @@ export const oldData = {
 				"Country": "Country ",
 				"postalCode": "postalCode "
 			}
-		],*/
+		], 
 		/*"nickNames": [
 			"Nano N", "Parka N", "Li N"
 		],*/
 		/*"name": "Nina",
-		"age": 23,
+		"age": 23,*/
 		"permanentAddress": {
 			"@type": "Address",
 			"AddressLine1": "AddressLine1",
 			"City": "City",
 			"Country": "Country",
 			"postalCode": "postalCode"
-		}*/
+		}
 	}
 } 
  
@@ -65,13 +68,16 @@ export const changedData = {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
 		"likes": {
+			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"@type": "Animal", 
 			"nickName": "Chooo",
 			"category": "Cats",
 			"owned_by": {
+				"@id": "owned_by/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 				"@type": "Person", 
 				"name": "Ron Terol",
 				"likes": {
+					"@id": "likes/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 					"@type": "Animal", 
 					"nickName": "Jimmy",
 					"category": "Dogs",
@@ -82,7 +88,7 @@ export const changedData = {
 				}
 			}
 		},
-		/*"manYAddress": [
+		"manYAddress": [
 			{
 				"@type": "Address",
 				"AddressLine1": "AddressLine1 ",
@@ -109,8 +115,8 @@ export const changedData = {
 			"Nano", "Parka N", "Li N"
 		],*/
 		/*"name": "Jose",
-		"age": 13,
-		"permanentAddress": {
+		"age": 13,*/
+		/*"permanentAddress": {
 			"@type": "Address",
 			"AddressLine1": "AddressLine1 new",
 			"City": "City",

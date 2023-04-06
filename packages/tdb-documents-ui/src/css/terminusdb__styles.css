@@ -139,6 +139,11 @@ label.latlng-control-label {
   border: 1px solid var(--danger-border-color);
 }
 
+/** for document link properties */
+.tdb__diff__original-underline { 
+  color: var(--danger-bg);
+}
+
 .tdb__diff__changed {
   color: var(--success-color);
   background-color: var(--success-bg);
@@ -150,6 +155,10 @@ label.latlng-control-label {
   border: 1px solid var(--success-border-color);
 }
 
+/** for document link properties */
+.tdb__diff__changed-underline { 
+  color: var(--success-bg);
+}
 
 /** margin bottom for fields */
 .tdb__doc__input,
@@ -170,4 +179,9 @@ label.latlng-control-label {
   height: 200px !important;
   width: 80%;
   margin: 0 auto;
+}
+
+/** modal width */
+.modal-90w {
+  min-width: 1000px;
 }

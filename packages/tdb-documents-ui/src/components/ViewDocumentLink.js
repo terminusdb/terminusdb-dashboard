@@ -79,6 +79,7 @@ const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation
           //fieldUIFrame: fieldUIFrame, // review diff ui
           onChange: handleChange,
           defaultClassName: defaultClassName,
+          currentDocumentClass: formData[CONST.TYPE],
           propertyDocumentation: propertyDocumentation
         }
 

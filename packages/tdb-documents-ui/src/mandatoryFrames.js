@@ -21,7 +21,7 @@ export function makeMandatoryFrames (args, property) {
 
   let placeholder=getPlaceholder(args.documentFrame[property]),
   isArray=false
- 
+
   /** gather layout of property  */ 
   let layout = { 
     "type": typeHelper(documentFrame, property, fullFrame, isArray),

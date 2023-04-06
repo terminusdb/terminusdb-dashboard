@@ -15,21 +15,8 @@ const DisplaySelectedChoices = ({ props, selected, args, id, oneOfDocumentData, 
   
   if(!selected) return <div/>
 
-  function handleChoiceDocumentChange (data, fieldName) {
-    
-    //if(props.onChange) props.onChange(data)
-    //console.log("onChange", data, fieldName)
-  }  
-
-  //let extracted = util.availableInReference (reference, selected) ? reference[selected] : {}
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
-
-  let config = {
-    required: props.required,
-    name: props.name,
-    onChange: handleChoiceDocumentChange,
-    formData: oneOfDocumentData
-  }  
+  
 
   // get order_by
   // at this point selected is the linked_to documnet in fullframe
@@ -44,19 +31,28 @@ const DisplaySelectedChoices = ({ props, selected, args, id, oneOfDocumentData, 
   let argsHolder = {...args}
   argsHolder.documentFrame = { [selected]: selectedFrame }
 
+  function handleOneOfChange (data, name) {
+    //console.log(data, name) 
+    if(props.onChange) props.onChange(data, name, selected)
+  }
+
   // construct props
-  props.expand = true
-  props.name = selected
-  props.required = true
-  props.formData = oneOfDocumentData
-  
-  return <Card.Body>
-    { getDisplay (props, argsHolder, selected)  }
+  let oneOfProps = {}
+  oneOfProps.documentFrame={ [selected]:  args.documentFrame[CONST.ONEOFVALUES][0][selected] }
+  oneOfProps.expand = true
+  oneOfProps.name = selected
+  oneOfProps.required = true
+  oneOfProps.formData = oneOfDocumentData
+  oneOfProps.onChange = handleOneOfChange
+  oneOfProps[CONST.ONEOF_SELECTED] = selected
+
+  return <Card.Body> 
+    { getDisplay (oneOfProps, argsHolder, selected)  }
   </Card.Body> 
 }
 
 /** populate one of data when selected has changed  */
-function setOneOfFormData (args, selected) {
+function setOneOfFormData (args, selected, data) {
   // subdocuments
   if(args.documentFrame[CONST.ONEOFVALUES][0][selected].hasOwnProperty(CONST.CLASS))
     return { [CONST.TYPE]: selected }
@@ -64,23 +60,32 @@ function setOneOfFormData (args, selected) {
     return []
   else return ""
 }
+
  
 export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentData, oneOfDocumentData }) => { 
   
-  const [selected, setSelected]=useState(props.formData ? props.formData["@type"] : false)
+  const [selected, setSelected]=useState(props[CONST.ONEOF_SELECTED] ? props[CONST.ONEOF_SELECTED] : false)
   let { documentFrame, mode } = args
 
   useEffect(() => {
     if(selected) {
       if(mode === CONST.EDIT) {
-        if(props.formData && props.formData.hasOwnProperty(CONST.TYPE) && selected !== props.formData[CONST.TYPE]) {
-          setOneOfDocumentData({ [CONST.TYPE]: selected })
+        if(props.formData && props.formData.hasOwnProperty(CONST.TYPE) && 
+          selected === props[CONST.ONEOF_SELECTED]) {
+            setOneOfDocumentData(props.formData)
         }
-        else if(props.formData) setOneOfDocumentData(props.formData)
-        else setOneOfDocumentData({ [CONST.TYPE]: selected }) // when props.formData not populated
+        else {
+          if(util.isDataType(args.documentFrame[CONST.ONEOFVALUES][0][selected]))
+            setOneOfDocumentData("")
+          else setOneOfDocumentData({ [CONST.TYPE]: selected }) // when props.formData not populated
+        }
       }
       else if (mode === CONST.CREATE) {
         setOneOfDocumentData(setOneOfFormData(args, selected))
+      }
+      if(args.documentFrame[CONST.ONEOFVALUES][0][selected] === SYS_UNIT_DATA_TYPE) {
+        // SET DEFAULT VALUE [] if selected is sys:Unit type
+        if(props.onChange) props.onChange([], CONST.ONEOFVALUES, selected)
       }
     }
   }, [selected]) 
@@ -94,9 +99,11 @@ export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentD
   return <Stack direction="horizontal"  className="mb-3">
     <Card bg="secondary" className="w-100 " key={id}>
       <SelectComponent options={choices} 
+        mode = {mode}
         placeholder={`Select choices ...`}
         value={getDefaultValue(choices, selected)} 
         id={id}
+        required={true}
         onChange={handleChoiceSelect}/>
       <DisplaySelectedChoices props={props} 
         selected={selected} 

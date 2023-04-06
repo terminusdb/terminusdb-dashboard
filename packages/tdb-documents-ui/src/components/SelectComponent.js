@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import Select from 'react-select'
 import chroma from 'chroma-js';
-
+import { VIEW } from "../constants"
 
 // sends default value from options
 export function getDefaultValue(options, value) {
@@ -9,7 +9,7 @@ export function getDefaultValue(options, value) {
   return extractedOption
 }
 
-export const SelectComponent = ({ options, onChange, value, id, placeholder }) => {
+export const SelectComponent = ({ options, mode, onChange, value, id, placeholder, required }) => {
 
   /*const optionsExample = [
     { value: 'chocolate', label: 'Chocolate', color: "#adb5bd" },
@@ -89,7 +89,19 @@ export const SelectComponent = ({ options, onChange, value, id, placeholder }) =
     //console.log("selected", selected)
     if(onChange) onChange(selected.value)
   }
-  
+
+  if(mode === VIEW) {
+    // set menuIsOpen false when in VIEW mode
+    return <Select options={options} 
+    onChange={handleChange}
+    placeholder={placeholder}
+    data-testid="select"
+    menuIsOpen = {false}
+    inputId={id}
+    defaultValue={value}
+    styles={colourStyles}/>
+  }
+
 
   return <Select options={options} 
     onChange={handleChange}

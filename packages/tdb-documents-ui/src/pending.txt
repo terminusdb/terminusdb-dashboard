@@ -1,4 +1,4 @@
-- one ofs
+- one ofs - make select required
 - fix document links for sets 
 - review diff component & uiFrame
 - add ui order back

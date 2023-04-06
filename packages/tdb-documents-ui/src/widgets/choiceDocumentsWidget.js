@@ -93,6 +93,7 @@ export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentDa
       <SelectComponent options={choices} 
         placeholder={`Select choices ...`}
         value={getDefaultValue(choices, selected)} 
+        mode={args.mode}
         id={id}
         onChange={handleChoiceSelect}/> 
       <DisplaySelectedDocument props={props} 

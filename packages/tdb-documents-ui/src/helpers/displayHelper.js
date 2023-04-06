@@ -23,7 +23,7 @@ import { display } from "./display"
 
 /** display widget is called for normal dattypes like xsd:string/ xsd:float etc */
 export function displayDataTypesWidget(props, args, property, dataType, id, onChange) {
-
+ 
   let { documentFrame, extractedDocumentation, mode, uiFrame } = args
   let field = documentFrame[property]
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
@@ -45,7 +45,7 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
     isKey: util.checkIfKey(property, documentFrame["@key"]),
     id: id, 
     //key: key,
-    placeholder: getPlaceholder(field),
+    placeholder: getPlaceholder(field), 
     className: util.getUIClassNames(uiFrame, property, defaultClassName, props.index),
     onChange: onChange,
     documentation: documentation,
@@ -56,7 +56,7 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
 
 // SUBDOCUMENTs 
 export function displaySubDocument(props, args, extracted, property, expanded, id, hideFieldLabel, linked_to) { 
-
+  const [subDocumentData, setSubDocumentData] = useState({})
   let { fullFrame, extractedDocumentation, mode, uiFrame, reference } = args
 
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
@@ -65,13 +65,13 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
   util.checkForSysUnit (args, props, linked_to)
   //let populated = populateSubDocumentData(mode, linked_to, props.formData)
   //const [subDocumentData, setSubDocumentData] = useState(populated)
-  const [subDocumentData, setSubDocumentData] = useState({})
+  
 
   // linked_to changes 
   useEffect(() => {
     // pass linked_to in use Effect since the same widget is used for choice subdocuemnts & one ofs
     if(linked_to) {
-      let populated = populateSubDocumentData(mode, linked_to, props.formData)
+      let populated = populateSubDocumentData(mode, linked_to, props.formData, args.documentFrame)
       setSubDocumentData(populated)
     }
   }, [linked_to])
@@ -236,6 +236,11 @@ export function displayChoiceSubDocument (props, args, property, id) {
 // ONE OF 
 export function displayOneOfProperty(props, args, property, id) {
   const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : {})
+
+  useEffect(() => {
+    // formdata on change
+    if(props.formData) setOneOfDocumentData(props.formData)
+  }, [props.formData])
  
   return  <TDBOneOfDocuments args={args}
     property={property}

@@ -18,25 +18,34 @@ const CollapseMessage = ({ message, name, icon }) => {
 }
 
 // populate SubDocument data based on modes
-export function populateSubDocumentData(mode, linked_to, formData) {
+export function populateSubDocumentData(mode, linked_to, formData, frame) {
   if(mode === CONST.CREATE) return { [CONST.TYPE]: linked_to }
   else if(mode === CONST.EDIT) {
     if(formData && linked_to === formData[CONST.TYPE]) return formData 
     else return  { [CONST.TYPE]: linked_to } 
   }
   return formData
-}
+} 
 
  
-export const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index, id, reference, subDocumentData, setSubDocumentData, properties, required, onChange, args, propertyDocumentation }) => {
+export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by, index, id, reference, subDocumentData, setSubDocumentData, properties, required, onChange, args, propertyDocumentation }) => {
   
   //const [fields, setFields] = useState([])
 
   let { uiFrame, mode } = args
  
-  function handleChange(data, fieldName) { 
+  function handleChange(data, fieldName, selectedOneOf) { 
     let tempSubDocumentData = subDocumentData
-    tempSubDocumentData[fieldName]=data
+    if(fieldName === CONST.ONEOFVALUES) {
+      if(selectedOneOf) {
+        let tmp={}
+        // change data to add on selected choice from one of 
+        tmp[CONST.TYPE] = tempSubDocumentData[CONST.TYPE]
+        tmp[selectedOneOf] = data
+        tempSubDocumentData=tmp
+      }
+    }
+    else tempSubDocumentData[fieldName]=data
     setSubDocumentData(tempSubDocumentData)
     if(onChange) onChange(tempSubDocumentData)
   } 
@@ -61,9 +70,12 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, order_by, index
       onChange: handleChange,
       defaultClassName: defaultClassName,
       propertyDocumentation: propertyDocumentation
-
     }
 
+    if(props.hasOwnProperty(CONST.ONEOF_SELECTED)) {
+      // some choice might have been selected in @oneOfs
+      subDocConfig[CONST.ONEOF_SELECTED] = props[CONST.ONEOF_SELECTED]
+    }
     //return displayInternalProperties(subDocConfig)
 
     // review fix order_by
@@ -114,6 +126,7 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
             index={index}
             reference={reference}
             order_by={order_by}
+            props={props}
             subDocumentPropertyName={props.name}
             propertyDocumentation={propertyDocumentation}
             onChange={props.onChange}

@@ -40,6 +40,7 @@ export const TDBEnum = ({ id, options, name, value, required, mode, enumDocument
         placeholder={`Select ${enumDocumentClass} ...`}
         value={getDefaultValue(constructedOpts, value)}
         id={id}
+        mode={mode}
         onChange={onChange}/>
     </div>
   </Stack>
