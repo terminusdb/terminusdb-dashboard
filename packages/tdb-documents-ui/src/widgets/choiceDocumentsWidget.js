@@ -30,7 +30,8 @@ const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, c
     required: props.required, 
     name: props.name,
     onChange: handleChoiceDocumentChange,
-    formData: selected===choiceDocumentData[CONST.TYPE] ? choiceDocumentData : {}
+    formData: extractDataBasedOnChoices(choiceDocumentData, selected)
+    //formData: selected===choiceDocumentData[CONST.TYPE] ? choiceDocumentData : {}
   } 
  
   return <Card.Body>
@@ -63,9 +64,34 @@ function getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocu
   return choices
 }
 
+// function which provides data to TDBDocuments based on choices selected 
+function extractDataBasedOnChoices(choiceDocumentData, selected) {
+  if(selected === extractSelectedChoice (choiceDocumentData))
+    return choiceDocumentData
+  return {}
+}
+
+// extract selected type from filled data when its a string (@unfoldbale is false)
+function getTypeFromFilledData (formData) {
+  let arr = formData.split("/")
+  return arr[0] // arr[0] will have the type chosen to be displayed in select component 
+}
+
+// extract selected choice to display in select component
+function extractSelectedChoice (formData) {
+  if(formData) {
+    if(typeof formData === CONST.STRING_TYPE) {
+      //@unfolded is false in this case
+      return getTypeFromFilledData (formData)
+    }
+    return formData["@type"] // @unfolded is true
+  }
+  return false
+}
+
 export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentData, setChoiceDocumentData }) => { 
   
-  const [selected, setSelected]=useState(props.formData ? props.formData["@type"] : false)
+  const [selected, setSelected]=useState(extractSelectedChoice(props.formData))
   const [unlinked, clickedUnlinked]=useState(false)
   let { documentFrame, mode } = args
   let displayChoices = getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocumentData)
@@ -74,6 +100,8 @@ export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentDa
   useEffect(() => {
     if(unlinked) setChoices(util.getChoices(documentFrame, property))
   }, [unlinked])
+
+  
 
 
   function handleChoiceSelect(chosen) {

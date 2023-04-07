@@ -230,9 +230,9 @@ export function getMultiPolygonUIDisplay (args, property) {
     }
     return { "ui:field": displayMultiPolygonUI }
   }
-
+ 
   function coordinatesArrayTemplate(props) {
-    return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+    return display.displayMultiPolygonEditDocument(args, props, property)
   }
   
   return { 

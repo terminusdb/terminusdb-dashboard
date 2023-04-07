@@ -86,31 +86,12 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
 
         // review fix order_by
         fields.push(documentInternalProperties(config, field))
-
-
-
-        /*let fieldName = definitions.properties[field].title
-        let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
-        let config = {
-          dataType: definitions.properties[field][CONST.PLACEHOLDER], // dataType will be xsd:string or xsd:dateTime etc
-          name: fieldName,
-          key: `${linked_to}__${uuidv4()}`,
-          formData: util.getFormDataPerProperty(documentData, fieldName),
-          required: definitions.required.includes(fieldName), 
-          mode: mode, 
-          id: fieldID,  
-          placeholder: definitions.properties[field][CONST.PLACEHOLDER],
-          className: "tdb__doc__input",
-          onChange: handleChange,
-          documentation: util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
-        }
-        fields.push(display(config)) */
       }
     }
 
     return <div className="mt-4">
-      {/*fields*/}
-      {util.sortDocumentProperties(order_by, fields)}
+      {fields} 
+      {/*util.sortDocumentProperties(order_by, fields)*/}
     </div>
   }
   else if(action === CONST.LINK_EXISTING_DOCUMENT) {

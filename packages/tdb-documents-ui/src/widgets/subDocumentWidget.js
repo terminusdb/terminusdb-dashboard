@@ -81,8 +81,11 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
     // review fix order_by
     let subDocumentFields = displayInternalProperties(subDocConfig)
     
+    return <>
+    {subDocumentFields}
+    </>
     // sort based on order_by
-    return util.sortDocumentProperties(order_by, subDocumentFields)
+    //return util.sortDocumentProperties(order_by, subDocumentFields)
   } 
   
   return <Card.Body className="border-top border-dark">
@@ -96,6 +99,8 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
   const [open, setOpen] = useState(expanded);
   let uiFrame = args.uiFrame, mode = args.mode 
 
+
+  if(mode === CONST.VIEW && !props.formData) return <div className={`tdb__${props.name}__hidden`}/>
   if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) return <div className={`tdb__${props.name}__hidden`}/>
     
   return <Stack direction="horizontal">
@@ -119,7 +124,7 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
       </Button>
       <Collapse in={open}>
         <div id={`root_subdocument_${props.name}`}>
-          {linked_to === subDocumentData[CONST.TYPE] && <SubDocumentProperties properties={extracted.properties} 
+          {subDocumentData && linked_to === subDocumentData[CONST.TYPE] && <SubDocumentProperties properties={extracted.properties} 
             required={extracted.required}
             //formData={props.formData}
             id={id}

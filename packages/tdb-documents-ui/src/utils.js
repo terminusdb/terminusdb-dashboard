@@ -372,7 +372,7 @@ export function getFormDataPerProperty (subDocumentData, fieldName) {
 
 // @unfoldable  - checks if a document class is unfoldable
 export const isUnfoldable=(documentFrame) => {
-	if(documentFrame.hasOwnProperty(CONST.UNFOLDABLE)) return true
+	if(documentFrame && documentFrame.hasOwnProperty(CONST.UNFOLDABLE)) return true
 	return false
 }
 
@@ -425,39 +425,41 @@ export function checkIfSubDocumentShouldBeExpanded(documentFrame, property) {
 	return expanded
 }
 
+
 // sort remaining properties not mentioned in order_by
-function addRemainingFields (documentFields, sortedFieldNames, sorted) {
-	let remainingFields = []
+function addRemainingProperties (properties, sortedFieldNames, sorted) {
+	let remainingFields = {}
 	// all fields have been sorted correctly
-	if(documentFields.length === sorted.length) return sorted
+	if(Object.keys(properties).length === Object.keys(sorted).length) return sorted
 	// if length do not match then some fields are remaining
-	documentFields.map( field => {
+
+	remainingFields = sorted
+
+	for(let props in properties) {
 		// check if fields are included in sortedFieldNames
-		if(sortedFieldNames.indexOf(field.props.name)) {
-			// push into remainingFields
-			remainingFields.push(field)
+		if(!sortedFieldNames.includes(props)) {
+			remainingFields[props] = properties[props]
 		}
-	})
+	}
 	//console.log("remainingFields", remainingFields)
-	return [ ...sorted, ...remainingFields ]
+	return remainingFields
 }
 
-// sort properties based on order_by
-export function sortDocumentProperties (order_by, documentFields) {
+export function sortProperties (properties, order_by) {
 	if(Array.isArray(order_by) && order_by.length) {
-		let sorted = [], sortedFieldNames =[]
+		let sorted = {}, sortedFieldNames =[]
 		order_by.map( field => {
-			let entry = documentFields.filter ( arr => arr.props.name === field )
-			if(entry.length) {
-				sorted.push(entry[0])
-				// keep a tab of field names which are being sorted
+			if(properties.hasOwnProperty(field)) {
+				//sorted.push(properties[field])
+
+				sorted[field] = properties[field]
 				sortedFieldNames.push(field)
 			}
 		})
-		return addRemainingFields(documentFields, sortedFieldNames, sorted)
+		return addRemainingProperties(properties, sortedFieldNames, sorted)
 		//return sorted
 	}
-	return documentFields
+	return properties
 }
 
 

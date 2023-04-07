@@ -58,6 +58,13 @@ export const uiHelper = (args, property) => {
       let field = documentFrame[property]
       let config=constructSubDocumentConfig(argsHolder, property, field)
       extracted=getProperties(config)
+      // add order_by at this point if meta data available
+      let order_by = util.getDocumentOrderBy(fullFrame[linked_to])
+      if(order_by){
+        // rearrange the fields 
+        let properties = extracted.properties
+        extracted.properties = util.sortProperties (properties, order_by)
+      }
       // add extracted to references
       addToReference(args, extracted, linked_to)
     }
@@ -84,6 +91,13 @@ export const uiHelper = (args, property) => {
       addToReference(config, {}, linked_to)
       
       extracted=getProperties(config)
+      // add order_by at this point if meta data available
+      let order_by = util.getDocumentOrderBy(fullFrame[field])
+      if(order_by){
+        // rearrange the fields 
+        let properties = extracted.properties
+        extracted.properties = util.sortProperties (properties, order_by)
+      }
       // add extracted to references
       addToReference(args, extracted, linked_to)
       // add extracted documentation 

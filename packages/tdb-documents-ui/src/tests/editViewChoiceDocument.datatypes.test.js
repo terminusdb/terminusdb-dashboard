@@ -6,13 +6,13 @@ import '@testing-library/jest-dom'
 import { logRoles } from '@testing-library/dom';
 import selectEvent from 'react-select-event'
 
-
+ 
 /**
  * Edit a Teacher document with teach property which points to 
  * an array of choices of documents 
  */
 describe("Test Choice Documents", () => {
-
+  
 	/**
 	 * 
 	 * @returns submitted data from <FrameViewer/>

@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from "react";
 import {AdvancedSearch, GraphqlTable, ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
 import {Tab,Tabs,Button,Alert,Container,ProgressBar} from 'react-bootstrap'
-//import { GraphqlQueryView } from "./GraphqlQueryViewer";
-//import {gql} from "@apollo/client";
+import { GraphqlQueryView } from "./GraphqlQueryViewer";
+import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
 import {RiDeleteBin7Line, RiEdit2Fill} from "react-icons/ri"

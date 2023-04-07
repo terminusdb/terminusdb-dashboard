@@ -43,6 +43,7 @@ function getPropertyName(docConfig) {
   }*/
   for(let items in docConfig.formData) {
     if(items === CONST.TYPE) continue
+    if(items === "@id") continue
     else return { data: docConfig.formData[items], [CONST.ONEOF_SELECTED]: items } // some choice in one of will be populated => return its data 
   }
   return { data: undefined, [CONST.ONEOF_SELECTED]: false }

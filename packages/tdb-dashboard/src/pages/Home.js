@@ -26,6 +26,7 @@ export const Home = () => {
 
     const addCreateTeam = clientUser && (clientUser.connection_type !== "LOCAL" || clientUser.user === "admin") ? true : false
 
+    
     return <Layout  showLeftSideBar={false}>
         <main className="content w-100">
             <Container>

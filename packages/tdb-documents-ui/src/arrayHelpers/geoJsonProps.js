@@ -44,7 +44,7 @@ export function constructGeoJSONProps(props) {
   return geoJSONProps
 }
 
-// LINE_STRING
+// LINE_STRING & POLYGON uses the same props
 export function constructLineStringProps (props){
   const [update, setUpdate] = useState(Date.now())
   const [items, setItems] = useState(gatherItems(props, update))
@@ -140,5 +140,8 @@ export function constructLineStringProps (props){
 
   return geoJSONProps
 }
+
+
+
 
 

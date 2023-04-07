@@ -16,6 +16,10 @@ import { addGeoJSONLayout } from "./addGeoJSONLayout"
  * @returns a data field 
  */
 export function makeMandatoryFrames (args, property) {
+
+  if(property  === "pilot" ) {
+    console.log("pilot")
+  }
     
   let { documentFrame, fullFrame } = args
 

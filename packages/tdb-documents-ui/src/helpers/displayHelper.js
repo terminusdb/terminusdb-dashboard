@@ -336,6 +336,12 @@ export function displayPolygonEditDocument (props, args, property) {
   return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
 }
 
+// MULTIPOLYGON
+export function displayMultiPolygonEditDocument(props, args, property) {
+  return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+}
+
+
 export function displayPolygonDocument (props, args, property, id) {
 
 

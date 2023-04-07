@@ -73,8 +73,12 @@ export const TDBDate = ({ id, name, value, required, isKey, mode, onChange, comm
 
   function handleOnChange(data) { 
     setSelected(data)
-    // convert to ISO timeStamp 
-    if(data) onChange(data.toISOString())
+    // convert yyyy-mm-dd
+    if(data) {
+      var date = new Date(data); 
+      var dateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )) .toISOString() .split("T")[0]; 
+      onChange(dateString)
+    }
   }
 
   return <Stack direction="horizontal" className="tdb__date__input">

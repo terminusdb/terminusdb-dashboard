@@ -88,4 +88,13 @@ export const getDisplay = (props, args, property) => {
     if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id)
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }
+  else if(util.isPolygonType(field) && 
+    props.hasOwnProperty("currentDocumentClass") &&
+    props.currentDocumentClass===CONST.MULTIPOLYGON) {
+    // MULTIPOLYGON 
+    let id = props.id 
+    let newProps = geo.constructLineStringProps (props)
+    if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id)
+    else return display.displayLineStringEditDocument(newProps, args, property, id)
+  }
 } 
