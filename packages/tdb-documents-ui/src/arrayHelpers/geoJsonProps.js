@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { CREATE } from "../constants"
+import { CREATE, B_BOX } from "../constants"
 
 // POINT
 export function constructGeoJSONProps(props) {
@@ -138,6 +138,82 @@ export function constructLineStringProps (props){
 
   geoJSONProps["items"] = items
 
+  return geoJSONProps
+}
+
+/*let props = {
+  canAdd: false,
+  formData: [undefined, undefined, undefined, undefined],
+  idSchema: {$id: "root_bbox"},
+  className: "field field-array field-array-of-string",
+  title: "bbox",
+  required: true,
+  items: [
+    {
+      children: {
+        props: {
+          formData:  props.formData ?  props.formData : undefined,
+          idSchema: {"$id": `root_bbox_${index}`},
+          index: index,
+          onChange: (data, name, index) => {},
+          required: true,
+          child: true
+        }
+      },
+      className: "array-item",
+      hasMoveDown: false,
+      hasMoveUp: false,
+      hasRemove: false,
+      index: index,
+      key: `root_coordinates_${index}`
+        
+    }
+  ]
+}*/
+
+// BBOX 
+export function constructBBoxProps (props) {
+  // change in lat & lng
+  function handleChange(data, name, props) {
+    let tmpFormData = props.formData ? props.formData : []
+    if(name === "left__0") tmpFormData[0] = data 
+    if(name === "bottom__1") tmpFormData[1] = data 
+    if(name === "right__2") tmpFormData[2] = data 
+    if(name === "top__3") tmpFormData[3] = data 
+    props.onChange(tmpFormData, B_BOX )
+  }
+
+  let geoJSONProps = {
+    canAdd: false,
+    className: "field field-array field-array-of-string",
+    formData: props.formData ? props.formData : [undefined, undefined, undefined, undefined],
+    idSchema: {"$id": 'root_bbox' },
+    required: props.required,
+    title: props.name,
+    name: props.name,
+    hideFieldLabel: false
+  }
+
+  geoJSONProps["items"] = []
+  for(let count = 0; count < 4; count++) {
+    let item = {
+      children: {
+        props: {
+          formData:  props.formData ? props.formData[count] : undefined,
+          idSchema: {"$id": `root_bbox_${count}`},
+          index: count,
+          onChange: (data, name) =>  handleChange(data, name, props) ,
+          required: true
+        }
+      },
+      className: "array-item",
+      hasMoveDown: false,
+      hasRemove: false,
+      hasMoveUp: false,
+      index: count,
+    }
+    geoJSONProps["items"].push(item)
+  }
   return geoJSONProps
 }
 

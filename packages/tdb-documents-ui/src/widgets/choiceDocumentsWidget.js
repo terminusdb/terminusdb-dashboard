@@ -101,8 +101,6 @@ export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentDa
     if(unlinked) setChoices(util.getChoices(documentFrame, property))
   }, [unlinked])
 
-  
-
 
   function handleChoiceSelect(chosen) {
     if(chosen) setSelected(chosen) 

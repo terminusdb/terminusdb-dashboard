@@ -64,7 +64,8 @@ export function getCodeMirrorConfig(props) {
 const format = {
     [CONST.XSD_ANY_URI]: "uri",
     [CONST.XSD_DATE_TIME]: "date-time",
-    [CONST.XSD_DATE]: "date"
+    [CONST.XSD_DATE]: "date",
+    [CONST.XSD_DATE_TIMESTAMP]:"date-time"
 }
 
 /**

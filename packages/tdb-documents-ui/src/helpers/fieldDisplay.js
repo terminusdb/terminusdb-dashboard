@@ -3,10 +3,14 @@ import * as display from "../helpers/displayHelper"
 import * as util from "../utils"
 import * as CONST from "../constants"
 import { v4 as uuidv4 } from 'uuid';
-import * as geo from "../arrayHelpers/geoJsonProps"
+import * as geo from "../arrayHelpers/geoJsonProps" 
  
 export const getDisplay = (props, args, property) => {
   let { fullFrame, mode, documentFrame } =  args   
+
+  if(property === "bbox") {
+    console.log("bb")
+  }
 
   let field = documentFrame[property], 
     hideFieldLabel=props.hasOwnProperty(CONST.HIDE_FIELD_LABEL) ? props[CONST.HIDE_FIELD_LABEL] : true // always hide label for Set fields
@@ -66,6 +70,12 @@ export const getDisplay = (props, args, property) => {
     // SYS unit
     let id = props.id
     return display.displaySysUnitWidget (args, props, property, id, hideFieldLabel)
+  }
+  else if(util.isBBoxType(field, property)){
+    let id = props.id 
+    let newProps = geo.constructBBoxProps(props)
+    if(mode === CONST.VIEW) return display.displayBBoxDocument(newProps, args, property, id)
+    else return display.displayBBoxEditDocument(args, newProps, property, id) //(newProps, args, property, id)
   }
   else if (util.isPointType(field)) {
     // POINT TYPE

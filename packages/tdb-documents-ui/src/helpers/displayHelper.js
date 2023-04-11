@@ -371,6 +371,13 @@ export function displayPolygonDocument (props, args, property, id) {
 
 
 // B_BOX 
+export function displayBBoxEditDocument(args, props, property) {
+  let argsHolder = {...args}
+  argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
+  return geoTemplate.BBoxFieldTemplate(argsHolder, props, property)
+}
+
+
 export function displayBBoxDocument (props, args, property, id) {
 
 
@@ -391,3 +398,4 @@ export function displayBBoxDocument (props, args, property, id) {
 
   return <TDBBBoxDocuments config={config}/>
 }
+

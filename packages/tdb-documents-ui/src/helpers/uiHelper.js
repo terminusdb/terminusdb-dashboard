@@ -36,6 +36,9 @@ function constructSubDocumentConfig(args, property, field) {
   return config
 }
 
+
+
+
 export const uiHelper = (args, property) => {
 
   let { fullFrame, reference, documentFrame } =  args
@@ -150,11 +153,9 @@ export const uiHelper = (args, property) => {
         extracted=reference[linked_to]
       }
     })
-
     
     return widget.getChoiceSubDocumentUIDisplay(args, property)
   }
-
   else if(util.isOneOfDataType(documentFrame, property)) {
 
     //field.map(subDocs => {
@@ -201,6 +202,7 @@ export const uiHelper = (args, property) => {
       if(!util.availableInReference(reference, linked_to)){
         //let config=constructSubDocumentConfig(argsHolder, property, subDocs)
         let config=constructDocumentConfig(argsHolder, property, linked_to) 
+        addToReference(config, {}, linked_to)
         extracted=getProperties(config)
         // add extracted documentation 
         extracted.extractedDocumentation=argsHolder.extractedDocumentation

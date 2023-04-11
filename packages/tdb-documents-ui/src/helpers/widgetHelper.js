@@ -251,7 +251,7 @@ export function getMultiPolygonUIDisplay (args, property) {
 export function getBBoxUIDisplay (args, property) { 
   let { mode } = args
 
-  if(mode === CONST.VIEW) {
+  if(mode === CONST.VIEW) { 
     function displayBBoxUI(props) {
       let id = props.idSchema["$id"]
       if(props.formData && props.formData.includes(undefined)) 
@@ -262,9 +262,10 @@ export function getBBoxUIDisplay (args, property) {
   }
 
   function showBBoxUI(props) {
-    let argsHolder = {...args}
+    return display.displayBBoxEditDocument(args, props, property)
+    /*let argsHolder = {...args}
     argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
-		return geoTemplate.BBoxFieldTemplate(argsHolder, props, property)
+		return geoTemplate.BBoxFieldTemplate(argsHolder, props, property)*/
 	}  
 
   return {
@@ -272,3 +273,4 @@ export function getBBoxUIDisplay (args, property) {
     "ui:ArrayFieldTemplate" : showBBoxUI
   }
 }
+
