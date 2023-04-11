@@ -22,7 +22,7 @@ export const TDBLabel = ({ name, required, comment, className, id, isKey, hideFi
   
   // !required
   return <div className="d-flex">
-    <label className="control-label" htmlFor={id}>{name}
+    <label className={`control-label ${className} rounded`} htmlFor={id}>{name}
       {isKey && displayIfKeyField(isKey, name)}
       <DisplayPropertyNameAndComment comment={comment}/>
     </label> 

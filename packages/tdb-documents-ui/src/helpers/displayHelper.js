@@ -180,18 +180,19 @@ export function displayRDFLanguageWidget (args, props, property, id, hideFieldLa
 
 // SYS:Unit
 export function displaySysUnitWidget(args, props, property, id, hideFieldLabel) {
-  let { documentFrame, mode, extractedDocumentation } = args 
+  let { uiFrame, mode, extractedDocumentation } = args 
     
   
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
+  let defaultClassName = "tdb__doc__input"
 
   // add logic for required properties 
   return  <TDBSysUnit name={label}
-    formData={props.formData}
+    value={props.formData}
     hideFieldLabel={hideFieldLabel}
     mode={mode}
-    className={"tdb__doc__input"}
+    className={util.getUIClassNames(uiFrame, property, defaultClassName, props.index)}
     comment={documentation.comment ? documentation.comment : null} 
     id={id}
     required={props.required}/>

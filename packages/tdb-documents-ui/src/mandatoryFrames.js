@@ -17,10 +17,7 @@ import { addGeoJSONLayout } from "./addGeoJSONLayout"
  */
 export function makeMandatoryFrames (args, property) {
 
-  if(property  === "pilot" ) {
-    console.log("pilot")
-  }
-    
+   
   let { documentFrame, fullFrame } = args
 
   let placeholder=getPlaceholder(args.documentFrame[property]),

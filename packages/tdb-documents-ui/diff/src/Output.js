@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["Person"], changedData["Person"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["Graduate"], changedData["Graduate"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -271,15 +271,70 @@ export const Output = () => {
           "@class": "xsd:decimal",
           "@type": "Optional"
         },*/
-      }
+      },
+      "GoodStudents": {
+        "@key": {
+          "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "name": "xsd:string",
+        "qualities": "xsd:string"
+      },
+      "AverageStudents": {
+        "@key": {
+          "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "name": "xsd:string",
+        "average": "xsd:string"
+      },
+      "GradeReports": {
+        "@key": {
+          "@type": "Random"
+        },
+        "@oneOf": [
+          {
+            "Excellent": {
+              "@class": "GoodStudents",
+              "@subdocument": []
+            },
+            "Average": {
+              "@class": "AverageStudents",
+              "@subdocument": []
+            },
+            "notes": "xsd:string",
+            "absent": "sys:Unit",
+            "unknown": "sys:Unit"
+          }
+        ],
+        "@subdocument": [],
+        "@type": "Class"
+      },
+      "Graduate": {
+        "@type": "Class",
+        "@metadata": {
+          "render_as": {
+            "grades": { "expand": true }
+          }
+        },
+        "grades": {
+          "@class": {
+            "@class": "GradeReports",
+            "@subdocument": []
+          },
+          "@type": "Set"
+        }
+      },
     } 
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["Person"]} 
-            newValue={changedData["Person"]}
+            oldValue={oldData["Graduate"]} 
+            newValue={changedData["Graduate"]}
             frame={testFrames}
-            type={"Person"}
+            type={"Graduate"}
             diffPatch={diff}/>
     </div>
 }

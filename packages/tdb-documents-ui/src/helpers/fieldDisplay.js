@@ -13,7 +13,7 @@ export const getDisplay = (props, args, property) => {
 
   if(util.isDataType(field)) {  
     // DATA TYPES
-    //(props, args, property, dataType, id, onChange)
+    //(props, args, property, dataType, id, onChange) 
     return display.displayDataTypesWidget(props, args, property, field, props.id, props.onChange) // review
   } 
   else if(util.isSubDocumentType(field)){ 

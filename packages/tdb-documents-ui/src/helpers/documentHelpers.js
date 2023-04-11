@@ -10,7 +10,8 @@ function addUiFrameForEachField(docConfig, property) {
   if(docConfig.hasOwnProperty("fieldUIFrame") && docConfig["fieldUIFrame"].hasOwnProperty(property)) {
     return { [property] : docConfig["fieldUIFrame"][property] }
   } 
-  return {}
+  // it can be some assosciated properties of @oneOfs at this point
+  return docConfig["fieldUIFrame"]
 }
 
 // keeps tab of internal properties and store their types - if array/ mandatory/ optional
@@ -78,7 +79,7 @@ function constructProps(fieldID, field, expanded, docConfig) {
     props[CONST.ONEOF_SELECTED] = selectedForOneOf
   }
   return props
-} 
+}  
  
 export function documentInternalProperties(docConfig, field) {
   let fields = []

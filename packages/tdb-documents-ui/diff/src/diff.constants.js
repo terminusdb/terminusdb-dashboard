@@ -1,5 +1,24 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
+	"Graduate": {
+		"grades": [{
+			"@type": "GradeReports",
+			"unknown": [],
+		},
+		{
+			"@type": "GradeReports",
+			"Excellent": {
+				"@type": "GoodStudents",
+				"name": "Jim 1",
+				"qualities": "good person"
+			}
+		},
+		{
+			"@type": "GradeReports",
+			"notes": "sd"
+		}],
+		"@type": "Graduate"
+	},
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
@@ -75,6 +94,25 @@ export const oldData = {
  
 
 export const changedData = {
+	"Graduate": {
+		"grades": [{
+			"@type": "GradeReports",
+			"absent": [],
+		},
+		{
+			"@type": "GradeReports",
+			"Excellent": {
+				"@type": "GoodStudents",
+				"name": "Jim 11",
+				"qualities": "good person1"
+			}
+		},
+		{
+			"@type": "GradeReports",
+			"notes": "sd 1"
+		}],
+		"@type": "Graduate"
+	},
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",

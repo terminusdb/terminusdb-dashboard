@@ -17,7 +17,7 @@ const DisplaySelectedChoices = ({ props, selected, args, id, oneOfDocumentData, 
 
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
   
-
+ 
   // get order_by
   // at this point selected is the linked_to documnet in fullframe
   let order_by = false
