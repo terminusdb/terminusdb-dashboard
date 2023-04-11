@@ -53,7 +53,7 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
   //console.log("subDocumentData SubDocumentProperties", subDocumentData)
   let defaultClassName="tdb__doc__input"
   let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
-
+ 
   const getSubDocumentFields = (subDocumentData) => {
     //let subDocumentFields = []
 
@@ -82,7 +82,7 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
     let subDocumentFields = displayInternalProperties(subDocConfig)
     
     return <>
-    {subDocumentFields}
+      {subDocumentFields}
     </>
     // sort based on order_by
     //return util.sortDocumentProperties(order_by, subDocumentFields)

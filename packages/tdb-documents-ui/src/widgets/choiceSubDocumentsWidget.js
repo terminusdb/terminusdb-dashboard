@@ -41,6 +41,7 @@ const DisplaySelectedSubDocument = ({ props, selected, args, id, choiceSubDocume
       id={id}
       args={args}
       expanded={true}
+      index={props.index}
       order_by={order_by}
       subDocumentData={choiceSubDocumentData} 
       setSubDocumentData={setChoiceSubDocumentData}

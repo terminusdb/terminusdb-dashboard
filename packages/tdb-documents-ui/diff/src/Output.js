@@ -124,12 +124,130 @@ export const Output = () => {
         "category": "xsd:string",
         "nickName": "xsd:string"
       },
+
+      "Zoology": {
+        "@documentation": [
+          {
+            "@language": "en",
+            "@properties": {
+              "Zoology_notes": {
+                "@comment": "Notes taken for Zoology",
+                "@label": "Zoology Notes"
+              },
+              "subject_name": {
+                "@comment": "Course Subject Name",
+                "@label": "Subject Name"
+              }
+            }
+          },
+          {
+            "@language": "ka",
+            "@properties": {
+              "Zoology_notes": {
+                "@comment": "კლასების რაოდენობა",
+                "@label": "კლასები დაესწრო"
+              },
+              "subject_name": {
+                "@comment": "კურსის დაწყების თარიღი",
+                "@label": "\\x1C93\\აწყების თარიღი"
+              }
+            }
+          }
+        ],
+        //"@unfoldable": [],
+        "@metadata": {
+          "order_by": [ "subject_name", "Zoology_notes" ]
+        },
+        "@inherits": [
+          "Subject"
+        ],
+        "@key": {
+          "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "Zoology_notes": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "subject_name": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+      },
+      "Botony": {
+        "@documentation": [
+          {
+            "@language": "en",
+            "@properties": {
+              "Botony_notes": {
+                "@comment": "Notes taken care of in Botony",
+                "@label": "Botony Notes"
+              },
+              "subject_name": {
+                "@comment": "Course Subject Name",
+                "@label": "Subject Name"
+              }
+            }
+          },
+          {
+            "@language": "ka",
+            "@properties": {
+              "Botony_notes": {
+                "@comment": "კლასების რაოდენობა",
+                "@label": "კლასები დაესწრო"
+              },
+              "subject_name": {
+                "@comment": "კურსის დაწყების თარიღი",
+                "@label": "\\x1C93\\აწყების თარიღი"
+              }
+            }
+          }
+        ],
+        "@inherits": [
+          "Subject"
+        ],
+        "@metadata": {
+          "order_by": [ "subject_name", "Botony_grade", "Botony_notes" ]
+        },
+        //"@unfoldable": [],
+        "@key": {
+          "@type": "Random"
+        },
+        "@subdocument": [],
+        "@type": "Class",
+        "Botony_notes": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "Botony_grade": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "subject_name": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+      },
       "Person": {
         "@key": {
           "@type": "Random"
         },
         "@type": "Class",
-        "likes": "Animal",
+        "favorite_subject": {
+          "@class": [
+            {
+              "@class": "Zoology",
+              "@subdocument": []
+            },
+            {
+              "@class": "Botony",
+              "@subdocument": []
+            }
+          ],
+          "@type": "Set"
+        }
+        /*"likes": "Animal",
         "name": {
           "@class": "xsd:string",
           "@type": "Optional"
@@ -140,7 +258,7 @@ export const Output = () => {
             "@subdocument": []
           },
           "@type": "Set"
-        }
+        }*/
         /*"permanentAddress":  {
           "@class": "Address",
           "@subdocument": []

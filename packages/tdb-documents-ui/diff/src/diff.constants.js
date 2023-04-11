@@ -3,7 +3,18 @@ export const oldData = {
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
-		"likes": {
+		"favorite_subject": [{
+			"@type": "Zoology",
+			"Zoology_notes": "some notes 1",
+			"subject_name": "zoology 1" 
+		},
+		{
+			"@type": "Botony",
+			"Botony_notes": "Botony_notes notes",
+			"Botony_grade": "A",
+			"subject_name": "Botony" 
+		}],
+		/*"likes": {
 			"@type": "Animal", 
 			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"nickName": "Chooo",
@@ -21,7 +32,7 @@ export const oldData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-				}
+			/*	}
 			}
 		},
 		"manYAddress": [
@@ -46,28 +57,39 @@ export const oldData = {
 				"Country": "Country ",
 				"postalCode": "postalCode "
 			}
-		], 
+		], */
 		/*"nickNames": [
 			"Nano N", "Parka N", "Li N"
 		],*/
 		/*"name": "Nina",
 		"age": 23,*/
-		"permanentAddress": {
+		/*"permanentAddress": {
 			"@type": "Address",
 			"AddressLine1": "AddressLine1",
 			"City": "City",
 			"Country": "Country",
 			"postalCode": "postalCode"
-		}
+		}*/
 	}
-} 
+}  
  
 
 export const changedData = {
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
-		"likes": {
+		"favorite_subject": [{
+			"@type": "Zoology",
+			"Zoology_notes": "some notes",
+			"subject_name": "zoology" 
+		},
+		{
+			"@type": "Botony",
+			"Botony_notes": "Botony_notes notes",
+			"Botony_grade": "A",
+			"subject_name": "Botony" 
+		}],
+		/*"likes": {
 			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"@type": "Animal", 
 			"nickName": "Chooo",
@@ -85,7 +107,7 @@ export const changedData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-				}
+				/*}
 			}
 		},
 		"manYAddress": [
@@ -110,7 +132,7 @@ export const changedData = {
 				"Country": "LATER ",
 				"postalCode": "LATER "
 			},
-		],
+		],*/
 		/*"nickNames": [
 			"Nano", "Parka N", "Li N"
 		],*/
