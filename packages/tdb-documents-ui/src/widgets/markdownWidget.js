@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { VIEW } from "../constants"
 import { TDBLabel } from "../components/LabelComponent"
 const parse = require('html-react-parser')
@@ -6,6 +6,7 @@ import Stack from 'react-bootstrap/Stack'
 import MDEditor, { commands }  from '@uiw/react-md-editor';
 import mermaid from "mermaid";
 import uuid from 'react-uuid'
+import ReactDiffViewer from 'react-diff-viewer' 
 
 /** get Markdown UI layout for create & edit mode */
 export function getMarkdownUI( formData, onChange, name ) {
@@ -77,11 +78,57 @@ export function getMarkdownUI( formData, onChange, name ) {
 } 
 
 /** get Markdown UI layout for View mode */
-export function getViewMarkdownUI( formData, name, uiFrame ) { 
+export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, className, index ) { 
   let value = formData ? formData : ``
   const [code, setCode]=useState(value)
 
   if(formData) {
+
+    if(className === "tdb__doc__input tdb__diff__original") {
+
+      let style = {
+        variables: {
+            dark: {
+                addedBackground: "#f8d7da"
+            }
+        }
+      }
+
+      return <div className="tdb__markdown_diff__original w-100 border border-secondary rounded">
+        <ReactDiffViewer 
+          oldValue={formData} 
+          newValue={compareFormData.hasOwnProperty(name) ? index ? compareFormData[name][index] : compareFormData[name] : "" } 
+          useDarkTheme={true} 
+          linesOffset={0}
+          showDiffOnly={true}
+          splitView={true}
+          styles={style}
+          disableWordDiff={true}/>
+      </div>
+ 
+    }
+    else if(className === "tdb__doc__input tdb__diff__changed") {
+
+      let style = {
+        variables: {
+            dark: { 
+                addedBackground: "#00bc8c"
+            }
+        }
+      }
+      
+      return <div className="tdb__markdown_diff__changed w-100 border border-secondary rounded">
+        <ReactDiffViewer 
+            oldValue={compareFormData.hasOwnProperty(name) ? index ? compareFormData[name][index] : compareFormData[name] : ""} 
+            newValue={formData} 
+            useDarkTheme={true} 
+            linesOffset={0}
+            showDiffOnly={true}
+            styles={style}
+            disableWordDiff={true}/>
+      </div> 
+    }
+    else {
       var css=""
       if(uiFrame && uiFrame.hasOwnProperty(name)) {
           css = uiFrame[name].hasOwnProperty("classNames") ? uiFrame[name]["classNames"] : ""
@@ -147,23 +194,25 @@ export function getViewMarkdownUI( formData, name, uiFrame ) {
               {/*<MDEditor.Markdown source={Code} style={{ whiteSpace: 'pre-wrap' }}/>*/}
           </div>
       </div>
+    }
   }
   return <div/>
 }
 
 // widget displays Markdown
-export const TDBMarkdown = ({ id, name, value, required, mode, hideFieldLabel, onChange, comment, label }) => {
+export const TDBMarkdown = ({ id, name, value, required, index, mode, hideFieldLabel, onChange, comment, label, className, compareFormData }) => {
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
 
-
+  
   return <Stack direction="horizontal">
     <TDBLabel name={label ? label : name} 
-      required={required} 
+      required={required}  
       comment={comment} 
+      className={"tdb__label__width"}
       hideFieldLabel={hideFieldLabel}
       id={id}/>
     {mode !== VIEW && getMarkdownUI(value, onChange, name)}
-    {mode === VIEW && getViewMarkdownUI(value, name)}
+    {mode === VIEW && getViewMarkdownUI(value, name, {}, compareFormData, className, index)}
   </Stack>
 }

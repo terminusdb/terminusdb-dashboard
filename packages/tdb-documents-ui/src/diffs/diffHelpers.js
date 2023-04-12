@@ -21,7 +21,7 @@ function getEachArrayDiff(diffPatch, diffState) {
   let uiArray= []
   // SETS/ LIST/ ARRAY
   diffPatch.map( diff => {
-    if(diff.hasOwnProperty[DIFFCONST.OPERATION]) {
+    if(diff.hasOwnProperty(DIFFCONST.OPERATION)) {
       uiArray.push(processOperation(diff, diffState) )
     }
     else {

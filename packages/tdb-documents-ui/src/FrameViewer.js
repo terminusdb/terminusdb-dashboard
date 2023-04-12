@@ -27,7 +27,7 @@ import { Viewer } from "./Viewer"
 **  FieldTemplate - a js function which you can pass at root level of FrameViewer to alter look and feel of fields
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 */
-export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, language}){
+export function FrameViewer({frame, uiFrame, type, mode, formData, compareFormData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, language}){
   
 	const [schema, setSchema]=useState(false)
 	const [uiSchema, setUISchema]=useState(false)
@@ -66,7 +66,7 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, onSubmit, onT
 				setDocumentation(extractedDocumentation)
 				let fullFrame=frame
 				let documentFrame=frame[current]
-				let properties=getProperties({ fullFrame, type, documentFrame, uiFrame, mode, formData, onTraverse, onSelect, extractedDocumentation, reference, setReference })
+				let properties=getProperties({ fullFrame, type, documentFrame, uiFrame, mode, formData, compareFormData, onTraverse, onSelect, extractedDocumentation, reference, setReference })
 					
 				let schema = {
 						type: CONST.OBJECT_TYPE,

@@ -30,6 +30,7 @@ export const DiffViewer = (args) => {
             uiFrame={generateDiffUIFrames(diffPatch, DIFFCONST.BEFORE)}
             type={type}
             formData={oldValue}
+            compareFormData={newValue}
             mode={CONST.VIEW}
             hideSubmit={true}
           />
@@ -47,6 +48,7 @@ export const DiffViewer = (args) => {
             uiFrame={generateDiffUIFrames(diffPatch, DIFFCONST.AFTER)}
             type={type}
             formData={newValue}
+            compareFormData={oldValue}
             mode={CONST.VIEW}
             hideSubmit={true}
           />

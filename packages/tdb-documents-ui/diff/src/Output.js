@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["Graduate"], changedData["Graduate"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["MarkDown"], changedData["MarkDown"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -50,6 +50,18 @@ export const Output = () => {
         "@base": "terminusdb:///data/",
         "@schema": "terminusdb:///schema#",
         "@type": "Context"
+      },
+      "MarkDown": {
+        "@type": "Class",
+        "@metadata": {
+          "render_as": {
+            "text": "markdown"
+          }
+        },
+        "text": {
+          "@class": "xsd:string",
+          "@type": "Set"
+        }
       },
       "Address": {
         "@documentation": [
@@ -124,7 +136,6 @@ export const Output = () => {
         "category": "xsd:string",
         "nickName": "xsd:string"
       },
-
       "Zoology": {
         "@documentation": [
           {
@@ -331,10 +342,10 @@ export const Output = () => {
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["Graduate"]} 
-            newValue={changedData["Graduate"]}
+            oldValue={oldData["MarkDown"]} 
+            newValue={changedData["MarkDown"]}
             frame={testFrames}
-            type={"Graduate"}
+            type={"MarkDown"}
             diffPatch={diff}/>
     </div>
 }

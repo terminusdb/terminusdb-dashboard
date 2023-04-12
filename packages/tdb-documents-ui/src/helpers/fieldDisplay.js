@@ -8,15 +8,11 @@ import * as geo from "../arrayHelpers/geoJsonProps"
 export const getDisplay = (props, args, property) => {
   let { fullFrame, mode, documentFrame } =  args   
 
-  if(property === "bbox") {
-    console.log("bb")
-  }
-
   let field = documentFrame[property], 
     hideFieldLabel=props.hasOwnProperty(CONST.HIDE_FIELD_LABEL) ? props[CONST.HIDE_FIELD_LABEL] : true // always hide label for Set fields
 
   if(util.isDataType(field)) {  
-    // DATA TYPES
+    // DATA TYPES 
     //(props, args, property, dataType, id, onChange) 
     return display.displayDataTypesWidget(props, args, property, field, props.id, props.onChange) // review
   } 
