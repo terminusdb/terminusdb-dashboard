@@ -8,7 +8,6 @@ import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
 import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
-
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
 import {useParams, useNavigate} from "react-router-dom"
@@ -91,7 +90,10 @@ export const DataProductDocuments = () => {
     </SubMenu>
 }
 // side bar document
-export const DocumentExplorerDocuments = () => {  
+
+
+
+export const DocumentExplorerDocuments= () => {  
     const {
         saveSidebarState,
         woqlClient,
@@ -171,7 +173,7 @@ export const DocumentExplorerDocuments = () => {
         <SearchBox placeholder={"Search for a Document Class"} onChange={setSearchDocument}/>
 
         {documentClasses && documentClasses.length==0 && <div/>}
-
+            
         {documentClasses && documentClasses.length>0 && documentClasses.map((item,index) => {
             if (item["@type"] == "Class") {
                 if(!searchDocument) {

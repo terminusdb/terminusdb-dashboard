@@ -36,7 +36,7 @@ export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, con
             pageSize : startPageSize,
             pageIndex : pageNumber || 0,
             hiddenColumns: hiddenColumns,
-            sortBy : orderBy,
+            //sortBy : orderBy,
         }
     }
 
@@ -109,7 +109,7 @@ export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, con
         setLimits(pageSize, (pageIndex)*pageSize)
      }
 
-
+     
      return (
         <span>
         <div className='d-flex justify-content-end'>

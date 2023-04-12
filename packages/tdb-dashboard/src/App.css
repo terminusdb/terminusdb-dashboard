@@ -1,3 +1,6 @@
+/** review this link after build of tdb-dcoumnets-ui*/
+@import "../../tdb-documents-ui/src/css/terminusdb__styles";
+
 html, body {
   height: 100% ;
 }

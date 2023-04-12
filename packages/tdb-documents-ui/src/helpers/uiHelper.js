@@ -1,70 +1,246 @@
-
+import React from "react"
 import * as CONST from "../constants"
 import * as util from "../utils"
-import * as dataType from "../dataTypeFrames/dataType.utils"
-import * as subDocumentType from "../subDocumentTypeFrames/subDocumentType.utils"
-//import {getCommentFromDocumentation} from '../documentationTemplates'
-import * as choiceDocumentType from "../choiceDocumentTypeFrames/choiceDocumentTypeFrames.utils"
-import * as choiceSubDocumentType from "../choiceSubDocumentTypeFrames/choiceSubDocumentTypeFrames.utils"
-import * as documentType from "../documentTypeFrames/documentTypeFrames.utils"
-import * as enumType from "../enumTypeFrames/enumTypeFrames"
-import * as sysType from "../sysDataTypeFrames/sysDataTypeFrames"
-import {addCustomUI} from "../addCustomUI"
-import {generateLabel} from "./labelHelper"
-import * as oneOfDataType from "../oneOfTypeFrames/oneOfTypeFrames.utils"
-import * as rdfType from "../rdfLanguageString/rdfLanguageString.utils"
-import * as featureCollection from "../arrayTypeFrames/featureCollectionTypeFrames"
+import * as widget from "./widgetHelper"
+import { getProperties, addToReference } from "../FrameHelpers"
 
-export function generateUI(fullFrame, frame, item, uiFrame, mode, formData, onTraverse, onSelect, documentation, extractedFrames, setChainedData) {
-    /** return null if frmae doesnt have property in it */
-    if(!frame.hasOwnProperty(item)) return null
+function constructDocumentConfig(args, property, linked_to) {
+  let { fullFrame, documentFrame } = args
+  
+  let linked_frames=fullFrame[linked_to]
+  
+  // change frames & type 
+  let config = args
+  config.type=linked_to
+  config.extractedDocumentation=util.extractDocumentation(fullFrame, 
+    linked_to, 
+    fullFrame[CONST.SELECTED_LANGUAGE])
+  config.documentFrame=linked_frames
 
-    let generatedUILayout={} 
- 
-    if(util.isDataType(frame[item])) { 
-        generatedUILayout=dataType.getUILayout(frame, item, uiFrame, mode, formData, documentation)
-    } 
-    else if(util.isOneOfSubDocumentType(fullFrame, frame[item])) {
-        return oneOfDataType.getUILayout(extractedFrames)
-    }
-    else if(util.isSubDocumentType(frame[item])) {
-        generatedUILayout=subDocumentType.getUILayout(extractedFrames, item, uiFrame, mode, formData, documentation)
-    }
-    else if(util.isChoiceSubDocumentType(frame[item])) {
-        generatedUILayout=choiceSubDocumentType.getUILayout(extractedFrames, item, uiFrame, mode, formData, documentation)
-    }
-    else if(util.isChoiceDocumentType(frame[item])) {
-        generatedUILayout=choiceDocumentType.getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation)
-    }
-    /*else if(util.isFeatureCollection(frame[item], mode)) {
-        generatedUILayout=featureCollection.getUILayout(extractedFrames, frame, item, uiFrame, mode, formData, onSelect, onTraverse, documentation)
-    }*/
-    else if(util.isDocumentType(frame[item], fullFrame)) {
-        generatedUILayout=documentType.getUILayout(fullFrame, frame, extractedFrames, onSelect, onTraverse, item, uiFrame, mode, formData, documentation, setChainedData)
-    }
-    else if(util.isEnumType(frame[item])) {
-        generatedUILayout=enumType.getUILayout(fullFrame, frame, item, uiFrame, mode, formData, documentation)
-    }
-    else if(util.isSysJSONDataType(frame[item])) {
-        generatedUILayout=sysType.getSysJSONUILayout(fullFrame, frame, item, uiFrame, mode, formData, documentation)
-    }
-    else if(util.isSysUnitDataType(frame[item])) {
-        generatedUILayout=sysType.getSysUnitUILayout(fullFrame, frame, item, uiFrame, mode, formData, documentation)
-    }
-    else if(util.isRdfLangString(frame[item])) {
-        generatedUILayout=rdfType.getUILayout(fullFrame, frame, item, uiFrame, mode, formData, documentation)
-    }
+  return config
+}
 
-    /** add description if available */
-    //let description = getCommentFromDocumentation(item, documentation)
-    //if(description) generatedUILayout["ui:description"]=description
+function constructSubDocumentConfig(args, property, field) {
+  let { fullFrame, documentFrame } = args
+  let linked_to=field[CONST.CLASS]
+  let linked_frames=fullFrame[linked_to]
+  
+  // change frames & type 
+  let config = args 
+  config.type=linked_to
+  config.extractedDocumentation=util.extractDocumentation(fullFrame, 
+    linked_to, 
+    fullFrame[CONST.SELECTED_LANGUAGE])
+  config.documentFrame=linked_frames
 
-    /** add custom ui Frame if available */
-    let generatedCustomUI=addCustomUI(item, generatedUILayout, uiFrame)
-    //console.log("generatedCustomUI", generatedCustomUI)
+  return config
+}
 
-    let generatedLabel=generateLabel(frame, item, documentation, fullFrame)
-    generatedCustomUI["ui:title"]=generatedLabel
+export const uiHelper = (args, property) => {
+
+  let { fullFrame, reference, documentFrame } =  args
+
+  let field = documentFrame[property]
+
+  if(util.isDataType(field)) {
+    // DATA TYPE
+    let dataType=documentFrame[property]
+    return widget.getUIDisplay(args, property, dataType)
+  } 
+  else if(util.isSubDocumentType(field)){
+    // SUBDOCUMENT TYPE
+    // make a copy of args
+    let argsHolder={...args}
+    let linked_to=field[CONST.CLASS]
+    let extracted={}
+    // if linked_to definition is not available in references
+    if(!util.availableInReference(reference, linked_to)){
+      let field = documentFrame[property]
+      let config=constructSubDocumentConfig(argsHolder, property, field)
+      extracted=getProperties(config)
+      // add order_by at this point if meta data available
+      let order_by = util.getDocumentOrderBy(fullFrame[linked_to])
+      if(order_by){
+        // rearrange the fields 
+        let properties = extracted.properties
+        extracted.properties = util.sortProperties (properties, order_by)
+      }
+      // add extracted to references
+      addToReference(args, extracted, linked_to)
+    }
+    else {
+      // reference available 
+      extracted=reference[linked_to]
+    }
+    // add extracted documentation 
+    extracted.extractedDocumentation=argsHolder.extractedDocumentation
+    let expanded=util.checkIfSubDocumentShouldBeExpanded(documentFrame, property) 
     
-    return generatedCustomUI
+    return widget.getSubDocumentUIDisplay(argsHolder, extracted, property, expanded, linked_to)
+  }
+  else if(util.isDocumentType(field, fullFrame)) {
+    // DOCUMENT LINKS
+    let argsHolder={...args}
+    let extracted={}
+    let linked_to=field //let field = documentFrame[property]
+    // if linked_to definition is not available in references
+    if(!util.availableInReference(reference, linked_to)){
+      //addToReference(args, {})
+     
+      let config=constructDocumentConfig(argsHolder, property, linked_to)
+      addToReference(config, {}, linked_to)
+      
+      extracted=getProperties(config)
+      // add order_by at this point if meta data available
+      let order_by = util.getDocumentOrderBy(fullFrame[field])
+      if(order_by){
+        // rearrange the fields 
+        let properties = extracted.properties
+        extracted.properties = util.sortProperties (properties, order_by)
+      }
+      // add extracted to references
+      addToReference(args, extracted, linked_to)
+      // add extracted documentation 
+      extracted.extractedDocumentation=config.extractedDocumentation
+      
+      return widget.getDocumentUIDisplay(argsHolder, extracted, property, linked_to)
+    }
+    else if(reference.hasOwnProperty(linked_to) && !Object.keys(reference[linked_to]).length) {
+      // here document link is available in reference but is empty
+      // reference[type]
+      return {}
+    }
+    else {
+      // reference[type] will have extracted properties at this point
+      return widget.getDocumentUIDisplay(argsHolder, reference[field], property, linked_to)
+    }
+    
+  }
+  else if(util.isEnumType(field)) {
+    return widget.getEnumUIDisplay(args, property)
+  }
+  else if(util.isSysJSONDataType(field)) {
+    return widget.getJSONUIDisplay(args, property)
+  }
+  else if(util.isChoiceSubDocumentType(field)) {
+    
+    
+    field.map(subDocs => {
+      let argsHolder={...args}
+      let linked_to=subDocs[CONST.CLASS]
+      let extracted={}
+      // if linked_to definition is not available in references
+      if(!util.availableInReference(reference, linked_to)){
+        let config=constructSubDocumentConfig(argsHolder, property, subDocs)
+        extracted=getProperties(config)
+        // add extracted documentation 
+        extracted.extractedDocumentation=argsHolder.extractedDocumentation
+
+        // check for SubDocument MetaData
+        let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+        if(metaDataType) {
+          // expecting JSON at this point
+          expanded=metaDataType
+        } 
+        // add extracted to references
+        addToReference(args, extracted, linked_to)
+      }
+      else {
+        // reference available 
+        extracted=reference[linked_to]
+      }
+    })
+
+    
+    return widget.getChoiceSubDocumentUIDisplay(args, property)
+  }
+
+  else if(util.isOneOfDataType(documentFrame, property)) {
+
+    //field.map(subDocs => {
+    let oneOfField = documentFrame[property][0]
+    for(let choices in oneOfField) {
+      let argsHolder={...args}
+      if(oneOfField[choices].hasOwnProperty(CONST.CLASS)) {
+        let linked_to=oneOfField[choices][CONST.CLASS]
+        let extracted={}
+        // if linked_to definition is not available in references
+        if(!util.availableInReference(reference, linked_to)){
+          let config=constructSubDocumentConfig(argsHolder, property, oneOfField[choices])
+          extracted=getProperties(config)
+          // add extracted documentation 
+          extracted.extractedDocumentation=argsHolder.extractedDocumentation
+
+          // check for SubDocument MetaData
+          let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+          if(metaDataType) {
+            // expecting JSON at this point
+            expanded=metaDataType
+          } 
+          // add extracted to references
+          addToReference(args, extracted, linked_to)
+        }
+        else {
+          // reference available 
+          extracted=reference[linked_to]
+        }
+      }
+    }
+
+    return widget.getOneOfUIDisplay(args, property)
+  }
+  else if(util.isChoiceDocumentType(field, fullFrame)){
+    // CHOICE DOCUMENTS 
+    
+
+    field.map(choices => {
+      let argsHolder={...args}
+      let linked_to=choices
+      let extracted={}
+      // if linked_to definition is not available in references
+      if(!util.availableInReference(reference, linked_to)){
+        //let config=constructSubDocumentConfig(argsHolder, property, subDocs)
+        let config=constructDocumentConfig(argsHolder, property, linked_to) 
+        extracted=getProperties(config)
+        // add extracted documentation 
+        extracted.extractedDocumentation=argsHolder.extractedDocumentation
+
+        // check for SubDocument MetaData
+        let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+        if(metaDataType) {
+          // expecting JSON at this point
+          expanded=metaDataType
+        } 
+        // add extracted to references
+        addToReference(args, extracted, linked_to)
+      }
+      else {
+        // reference available 
+        extracted=reference[linked_to]
+      }
+    })
+
+    return widget.getChoiceDocumentUIDisplay(args, property)
+  }
+  else if(util.isBBoxType(field, property)){
+    return widget.getBBoxUIDisplay(args, property)
+  }
+  else if (util.isPointType(field)) {
+    return widget.getPointUIDisplay(args, property) 
+  } 
+  else if (util.isLineStringType(field)) {
+    return widget.getlineStringUIDisplay(args, property)
+  } 
+  else if(util.isPolygonType(field) && util.isPolygon(documentFrame)) {
+    return widget.getPolygonUIDisplay(args, property)
+  }
+  else if(util.isPolygonType(field) && util.isMultiPolygon(documentFrame)) {
+    return widget.getMultiPolygonUIDisplay(args, property)
+  }
+  else if(util.isRdfLangString(field)) {
+    return widget.getRDFLangUIDisplay(args, property)
+  }
+  else if (util.isSysUnitDataType(field)) {
+    return widget.getSysUnitUIDisplay(args, property)
+  }
 }
