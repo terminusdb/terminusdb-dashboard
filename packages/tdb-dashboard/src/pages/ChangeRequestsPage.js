@@ -194,7 +194,7 @@ export const ChangeRequestsPage = () => {
 						{name && <div className="fw-bold text-gray">
 							{name}
 						</div>}
-						<div className="fw-bold text-gray">
+						<div className="text-gray font-italic">
 							{message}
 						</div>
 						<small className="text-light text-small fw-bold">
