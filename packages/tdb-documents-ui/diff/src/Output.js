@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["MarkDown"], changedData["MarkDown"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["Sys"], changedData["Sys"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -53,6 +53,7 @@ export const Output = () => {
       },
       "Sys": {
         "@type": "Class",
+        "rdfProperty": "rdf:langString",
         "jsonProp": {
           "@class": "sys:JSON",
           "@type": "Set"
@@ -349,10 +350,10 @@ export const Output = () => {
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["MarkDown"]} 
-            newValue={changedData["MarkDown"]}
+            oldValue={oldData["Sys"]} 
+            newValue={changedData["Sys"]}
             frame={testFrames}
-            type={"MarkDown"}
+            type={"Sys"}
             diffPatch={diff}/>
     </div>
 }

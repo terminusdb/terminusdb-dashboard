@@ -91,7 +91,7 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
     //uiFrame={uiFrame}
     args={args}
     hideFieldLabel={hideFieldLabel}
-    order_by={order_by}
+    order_by={order_by} 
     expanded={expanded}
     subDocumentData={subDocumentData} 
     setSubDocumentData={setSubDocumentData}
@@ -162,18 +162,20 @@ export function displayEnum (args, props, property, id, hideFieldLabel) {
 // rdf:language
 export function displayRDFLanguageWidget (args, props, property, id, hideFieldLabel){
 
-  let { documentFrame, mode, extractedDocumentation } = args 
+  let { documentFrame, mode, extractedDocumentation, uiFrame } = args 
     
   
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
   let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
+  let defaultClassName="tdb__doc__input"
+  let fieldUIFrame= util.getFieldUIFrame (uiFrame, property, defaultClassName, props.index)
 
   // add logic for required properties 
   return  <TDBRDFLanguage name={label}
     formData={props.formData}
     hideFieldLabel={hideFieldLabel}
     mode={mode}
-    className={"tdb__doc__input"}
+    className={fieldUIFrame}
     comment={documentation.comment ? documentation.comment : null} 
     id={id}
     onChange={props.onChange}

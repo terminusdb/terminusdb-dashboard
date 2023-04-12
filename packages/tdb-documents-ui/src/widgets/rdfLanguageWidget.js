@@ -27,7 +27,9 @@ export const TDBRDFLanguage = ({ name, formData, mode, comment, id, className, o
     if(onChange) onChange(tempRDFData)
   } 
 
-  return <Stack direction="horizontal" className="mb-3">
+  let borderClassName = typeof className === CONST.OBJECT_TYPE && className.hasOwnProperty(CONST.BORDER) ? className[CONST.BORDER] : ""
+
+  return <Stack direction="horizontal" className={`mb-3`}>
     <TDBLabel name={name} 
       required={required} 
       comment={comment} 
@@ -35,7 +37,7 @@ export const TDBRDFLanguage = ({ name, formData, mode, comment, id, className, o
       id={id} 
       hideFieldLabel={hideFieldLabel}/>
 
-    <Card bg="secondary" className="w-100">
+    <Card bg="secondary" className={`w-100 ${borderClassName}`}>
       <Card.Body>
         {/** language */}
         <TDBInput name={CONST.RDF_LANGUAGE} 
@@ -44,7 +46,7 @@ export const TDBRDFLanguage = ({ name, formData, mode, comment, id, className, o
           mode={mode} 
           id={`${CONST.RDF_LANGUAGE_LABEL}_${id}`}
           placeholder={XSD_STRING} 
-          className={className} 
+          className={typeof className === CONST.STRING_TYPE ? className : className.hasOwnProperty(CONST.RDF_LANGUAGE) ? className[CONST.RDF_LANGUAGE][CONST.CLASSNAME] : "tdb__doc__input"} 
           onChange={handleChange}/>
         {/** value */}
         <TDBInput name={CONST.RDF_VALUE} 
@@ -53,7 +55,7 @@ export const TDBRDFLanguage = ({ name, formData, mode, comment, id, className, o
           mode={mode} 
           id={`${CONST.RDF_VALUE_LABEL}_${id}`}
           placeholder={XSD_STRING} 
-          className={className} 
+          className={typeof className === CONST.STRING_TYPE ? className : className.hasOwnProperty(CONST.RDF_VALUE) ? className[CONST.RDF_VALUE][CONST.CLASSNAME] : "tdb__doc__input"} 
           onChange={handleChange}/>
       </Card.Body>
     </Card>

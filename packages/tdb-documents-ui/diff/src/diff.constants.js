@@ -1,6 +1,10 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
 	"Sys": {
+		"rdfProperty": {
+			"@lang":"ka",
+			"@value":"kan"
+		},
 		"jsonProp": [{
 			"name": "joel",
 			"age": 45,
@@ -126,7 +130,12 @@ export const oldData = {
  
 
 export const changedData = {
+	
 	"Sys": {
+		"rdfProperty": {
+			"@lang":"ka",
+			"@value":"kan"
+		},
 		"jsonProp": [{
 			"name": "joel new",
 			"age": 45,
