@@ -1,7 +1,7 @@
 
 packages/*/node_modules
 packages/*/dist
-packages/*/es6
+packages/*/es6*
 packages/*/env
 packages/*/auth_config
 packages/tdb-dashboard/.env
@@ -22,7 +22,6 @@ packages/tdb-documents-ui/src/pending.md
 node_modules/
 lerna-debug.log
 packages/tdb-dashboard/local_file
-*.DS_Store
 
 packages/tdb-dashboard/cypress.config_local.js
 packages/tdb-dashboard/cypress.config.js

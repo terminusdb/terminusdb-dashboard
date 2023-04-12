@@ -130,6 +130,14 @@ export const FEATURE="feature"
 export const B_BOX="bbox"
 export const COORDINATES="Coordinates"
 
+export const GEOMETRY_ARRAY=[
+  "GeometryCollection", 
+  "LineString",
+   "MultiPolygon",
+  "Point",
+  "Polygon"
+]
+
 // map icon component
 import L from "leaflet";
 

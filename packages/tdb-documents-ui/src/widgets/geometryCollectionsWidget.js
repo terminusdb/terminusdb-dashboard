@@ -7,19 +7,26 @@ import { SelectComponent, getDefaultValue  } from "../components/SelectComponent
 import { TDBLabel } from "../components/LabelComponent"
 import { TDBDocument } from "./documentWidget"
 import { extractPropertyDocumentation } from "../helpers/widgetHelper"
+import { displayPointEditDocument } from "../helpers/displayHelper"
+import { constructGeoJSONProps } from "../arrayHelpers/geoJsonProps"
+
+/*const Display = ({ props, args, selected, clickedUnlinked, collectionData, setCollectionData })  => {
+  let id = props.id 
+  let newProps = constructGeoJSONProps(props)
+  let argsHolder = {...args} 
+  argsHolder.documentFrame={ [CONST.POINT] : args.fullFrame[CONST.POINT] }
+  return displayPointEditDocument(newProps, argsHolder, CONST.POINT)
+}*/
 
 const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, choiceDocumentData, setChoiceDocumentData }) => {
   let { reference, mode, fullFrame, onSelect, onTraverse, documentFrame } = args
   
   if(!selected) return <div/>
 
-  function handleChoiceDocumentChange (data, fieldName) {
+  function handleChoiceDocumentChange (data, property, fieldID) {
     // make sure data has @type same as that of selected 
     // if not then we force at this point - logic for type is controlled in 
     // choice documents rather than in TDB Document widget
-    if(typeof data === CONST.OBJECT_TYPE) {
-     data[CONST.TYPE]=selected
-    }
     if(props.onChange) props.onChange(data)
   } 
 
@@ -30,7 +37,8 @@ const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, c
     required: props.required, 
     name: props.name,
     onChange: handleChoiceDocumentChange,
-    formData: extractDataBasedOnChoices(choiceDocumentData, selected)
+    formData: props.formData,
+    //formData: extractDataBasedOnChoices(choiceDocumentData, selected)
     //formData: selected===choiceDocumentData[CONST.TYPE] ? choiceDocumentData : {}
   } 
  
@@ -52,16 +60,12 @@ const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, c
   </Card.Body>
 }
 
-function getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocumentData) {
-  let choices = util.getChoices(documentFrame, property)
-  if(mode === CONST.EDIT && !unlinked && choiceDocumentData.hasOwnProperty(CONST.TYPE)) {
-    // show only linked type here
-    // if user wants to change this user will have to unlink the document 
-    //to get both the choices back
-    choices = choices.filter (arr => arr.value === choiceDocumentData[CONST.TYPE])
-  }
-  //else if(mode === CONST.EDIT && unlinked) choices = util.getChoices(documentFrame, property)
-  return choices
+function getGeomteryChoices(mode, documentFrame, property, unlinked, choiceDocumentData) {
+  let options = []
+  CONST.GEOMETRY_ARRAY.map ( docs => {
+    options.push({ value: docs, label: docs, color: "#adb5bd" })
+  })
+  return options
 }
 
 // function which provides data to TDBDocuments based on choices selected 
@@ -70,7 +74,7 @@ function extractDataBasedOnChoices(choiceDocumentData, selected) {
     return choiceDocumentData
   return {}
 }
-
+ 
 // extract selected type from filled data when its a string (@unfoldbale is false)
 function getTypeFromFilledData (formData) {
   let arr = formData.split("/")
@@ -89,17 +93,21 @@ function extractSelectedChoice (formData) {
   return false
 }
 
-export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentData, setChoiceDocumentData }) => { 
+export const TDBGeometryCollections = ({ args, props, property, id, collectionData, setCollectionData }) => { 
   
   const [selected, setSelected]=useState(extractSelectedChoice(props.formData))
   const [unlinked, clickedUnlinked]=useState(false)
   let { documentFrame, mode } = args
-  let displayChoices = getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocumentData)
+  let displayChoices = getGeomteryChoices(mode, documentFrame, property, unlinked, collectionData)
   const [choices, setChoices]= useState(displayChoices)
 
   useEffect(() => {
     if(unlinked) setChoices(util.getChoices(documentFrame, property))
   }, [unlinked])
+
+  useEffect(() => {
+    if(selected) setCollectionData({ [CONST.TYPE]: selected })
+  }, [selected])
 
 
   function handleChoiceSelect(chosen) {
@@ -122,13 +130,20 @@ export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentDa
         mode={args.mode}
         id={id}
         onChange={handleChoiceSelect}/> 
-      <DisplaySelectedDocument props={props} 
+      {/*<Display props={props}
         selected={selected} 
         clickedUnlinked={clickedUnlinked}
-        choiceDocumentData={choiceDocumentData} 
-        setChoiceDocumentData={setChoiceDocumentData}
+        collectionData={collectionData} 
+        setCollectionData={setCollectionData}
+        args={args} 
+        id={id}/>*/}
+      {<DisplaySelectedDocument props={props} 
+        selected={selected} 
+        clickedUnlinked={clickedUnlinked}
+        choiceDocumentData={collectionData} 
+        setChoiceDocumentData={setCollectionData}
         id={id}
-        args={args} />
+        args={args} />}
     </Card>
   </Stack>
 }

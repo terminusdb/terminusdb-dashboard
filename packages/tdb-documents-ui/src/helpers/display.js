@@ -70,13 +70,15 @@ export function display (config) {
         className={config.className} 
         onChange={config.onChange}/>
 
-    case TYPE.MARKDOWN: 
+    case TYPE.MARKDOWN:  
       return <TDBMarkdown name={config.name} 
         value={config.formData} 
         hideFieldLabel={config.hideFieldLabel}
         label={config.documentation.label}
         comment={config.documentation.comment}
         required={config.required}
+        index={config.index}
+        compareFormData={config.compareFormData}
         mode={config.mode} 
         id={config.id}
         className={config.className} 

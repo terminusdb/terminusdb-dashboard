@@ -43,4 +43,12 @@ export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
     // GEO JSON Types
     return CONST.ARRAY_TYPE
   } 
+  else if(util.isGeometryCollection(field)) {
+    // FEATURE COLLECTION
+    return CONST.OBJECT_TYPE
+  }
+  else if(util.isSysUnitDataType(field)) {
+    return CONST.ARRAY_TYPE
+  }
+  return CONST.OBJECT_TYPE
 }

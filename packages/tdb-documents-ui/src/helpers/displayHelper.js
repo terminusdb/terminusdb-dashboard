@@ -44,8 +44,10 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
     mode: mode,
     isKey: util.checkIfKey(property, documentFrame["@key"]),
     id: id, 
+    compareFormData: args.compareFormData,
     //key: key,
     placeholder: getPlaceholder(field), 
+    index: props.index,
     className: util.getUIClassNames(uiFrame, property, defaultClassName, props.index),
     onChange: onChange,
     documentation: documentation,
@@ -371,6 +373,13 @@ export function displayPolygonDocument (props, args, property, id) {
 
 
 // B_BOX 
+export function displayBBoxEditDocument(args, props, property) {
+  let argsHolder = {...args}
+  argsHolder.documentFrame={ [property]: args.documentFrame[property][CONST.CLASS] }
+  return geoTemplate.BBoxFieldTemplate(argsHolder, props, property)
+}
+
+
 export function displayBBoxDocument (props, args, property, id) {
 
 
@@ -391,3 +400,4 @@ export function displayBBoxDocument (props, args, property, id) {
 
   return <TDBBBoxDocuments config={config}/>
 }
+

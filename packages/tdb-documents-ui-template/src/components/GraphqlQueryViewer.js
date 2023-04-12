@@ -39,34 +39,6 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
         readOnly:true
     }
 
-
-
-   /* useEffect(() => {
-        // if the instance already exists we do not create it again
-        if(textInputEditor && variablesEditor) return
-        if(textInput && textInput.current && variables && variables.current ){
-            const tmpEditor = CodeMirror.fromTextArea(textInput.current, {
-                mode: 'graphql',
-                height: "auto",
-                readOnly:true,
-                theme:"shadowfox",
-                refresh:true,
-                autoRefresh: true,
-              }) 
-          
-            const tmpVariables = CodeMirror.fromTextArea(variables.current, {
-                mode: 'json',
-                height: "auto",
-                theme:"shadowfox",
-                autoRefresh: true,
-                refresh:true,
-                readOnly:true})
-            setTextInputEditor( tmpEditor )
-            setVariablesEditor( tmpVariables )       
-        }
-     },[variables.current]);*/
-
-
      const copyTest = (editor)=>{
         navigator.clipboard.writeText(editor.getValue());
     }
@@ -85,8 +57,4 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
             
          </React.Fragment>
 }
-
-//   <textarea readOnly key="textInput" id="textInput" ref={textInput} value={queryToDisplay}></textarea>   
-//   <textarea readOnly  key="variables" id="variables" ref={variables} value={JSON.stringify(variablesObj,null,4)}></textarea>
-                    
-         
+    

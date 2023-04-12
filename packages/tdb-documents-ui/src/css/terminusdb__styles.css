@@ -185,3 +185,19 @@ label.latlng-control-label {
 .modal-90w {
   min-width: 1000px;
 }
+
+/* mark down react diff */
+div.tdb__markdown_diff__original  > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(-n+3)  {
+  visibility: hidden;
+  width: 0;
+}
+
+div.tdb__markdown_diff__original  > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line  td.css-5g988g-gutter {
+  width: 0;
+}
+
+div.tdb__markdown_diff__changed  > table.css-1ri4lr5-diff-container > tbody > tr.css-1n7ec1i-line td:nth-last-child(n+3)  {
+  visibility: hidden;
+  width: 0;
+}
+

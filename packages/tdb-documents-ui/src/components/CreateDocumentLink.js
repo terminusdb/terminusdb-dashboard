@@ -31,7 +31,10 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
       //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
       tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
       setDocumentData(tempDocumentData)
-      if(onChange) onChange(tempDocumentData)
+      if(onChange) {
+        if(CONST.GEOMETRY_ARRAY.includes(fieldName)) onChange(tempDocumentData, fieldName)
+        else onChange(tempDocumentData)
+      }
     }
 
     // definitions will have definitions of linked_to frames

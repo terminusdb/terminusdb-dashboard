@@ -575,6 +575,19 @@ export function isBBoxType(field, property) {
 	return false
 }
 
+// function which checks if all array are equal
+function arrayEquals(a, b) {
+  return Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => val === b[index]);
+}
+
+// feature collection
+export function isGeometryCollection(field) {
+	if(arrayEquals(field, CONST.GEOMETRY_ARRAY)) return true
+	return false
+}
 
 /***
  * checks if frame is inherrited from geo json types
