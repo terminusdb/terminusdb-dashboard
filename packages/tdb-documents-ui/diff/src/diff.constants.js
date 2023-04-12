@@ -1,5 +1,21 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
+	"Sys": {
+		"jsonProp": [{
+			"name": "joel",
+			"age": 45,
+			"nickName": "joe"
+		},
+		{
+			"name": "K"
+		},
+	
+		{
+			"name": "RO",
+			"age": 4,
+			"nickName": "JJ"
+		}]
+	},
 	"MarkDown" : {
 		"text": [`
 			You will like those projects!
@@ -110,6 +126,21 @@ export const oldData = {
  
 
 export const changedData = {
+	"Sys": {
+		"jsonProp": [{
+			"name": "joel new",
+			"age": 45,
+			"nickName": "joe new"
+		},
+		{
+			"name": "K"
+		},
+		{
+			"name": "joel newAN",
+			"age": 45,
+			"nickName": "JJ"
+		}]
+	},
 	"Graduate": {
 		"grades": [{
 			"@type": "GradeReports",

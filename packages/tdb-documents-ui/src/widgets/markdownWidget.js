@@ -6,7 +6,7 @@ import Stack from 'react-bootstrap/Stack'
 import MDEditor, { commands }  from '@uiw/react-md-editor';
 import mermaid from "mermaid";
 import uuid from 'react-uuid'
-import ReactDiffViewer from 'react-diff-viewer' 
+import { CompareDiffViewerWidget } from "./compareDiffViewerWidget"
 
 /** get Markdown UI layout for create & edit mode */
 export function getMarkdownUI( formData, onChange, name ) {
@@ -83,50 +83,19 @@ export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, cla
   const [code, setCode]=useState(value)
 
   if(formData) {
-
-    if(className === "tdb__doc__input tdb__diff__original") {
-
-      let style = {
-        variables: {
-            dark: {
-                addedBackground: "#f8d7da"
-            }
-        }
-      }
-
-      return <div className="tdb__markdown_diff__original w-100 border border-secondary rounded">
-        <ReactDiffViewer 
-          oldValue={formData} 
-          newValue={compareFormData.hasOwnProperty(name) ? index ? compareFormData[name][index] : compareFormData[name] : "" } 
-          useDarkTheme={true} 
-          linesOffset={0}
-          showDiffOnly={true}
-          splitView={true}
-          styles={style}
-          disableWordDiff={true}/>
-      </div>
- 
-    }
-    else if(className === "tdb__doc__input tdb__diff__changed") {
-
-      let style = {
-        variables: {
-            dark: { 
-                addedBackground: "#00bc8c"
-            }
-        }
-      }
+    // diffs available at this point
+    if(className === "tdb__doc__input tdb__diff__original" || 
+    className === "tdb__doc__input tdb__diff__changed") {
       
-      return <div className="tdb__markdown_diff__changed w-100 border border-secondary rounded">
-        <ReactDiffViewer 
-            oldValue={compareFormData.hasOwnProperty(name) ? index ? compareFormData[name][index] : compareFormData[name] : ""} 
-            newValue={formData} 
-            useDarkTheme={true} 
-            linesOffset={0}
-            showDiffOnly={true}
-            styles={style}
-            disableWordDiff={true}/>
-      </div> 
+      return <CompareDiffViewerWidget
+        formData={formData} 
+        compareFormData={compareFormData.hasOwnProperty(name) ? index ? compareFormData[name][index] : compareFormData[name] : "" } 
+        name={name} 
+        classNameController={className === "tdb__doc__input tdb__diff__original" ? "tdb__markdown_diff__original" : "tdb__markdown_diff__changed"}
+        index={index}
+        className={className}
+      />
+ 
     }
     else {
       var css=""

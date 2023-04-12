@@ -51,6 +51,13 @@ export const Output = () => {
         "@schema": "terminusdb:///schema#",
         "@type": "Context"
       },
+      "Sys": {
+        "@type": "Class",
+        "jsonProp": {
+          "@class": "sys:JSON",
+          "@type": "Set"
+        }
+      },
       "MarkDown": {
         "@type": "Class",
         "@metadata": {

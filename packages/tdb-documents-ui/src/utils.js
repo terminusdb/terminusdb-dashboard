@@ -666,6 +666,34 @@ export function getValueHashMessage () {
 
 /**** ui frame functions */
 
+export function getJSONTypeUIClassNames (uiFrame, property, defaultClassName, index) {
+	if(uiFrame && uiFrame.hasOwnProperty(property)) {
+		if(Array.isArray(uiFrame[property])) {
+			// SET/ LIST/ ARRAY
+			// expecting index to be populated from Array templates 
+			let className=""
+			for(let props in uiFrame[property][index]) {
+				if(Object.keys(uiFrame[property][index][props])[0] === CONST.CLASSNAME) {
+					className=uiFrame[property][index][props][CONST.CLASSNAME]
+					break
+				}
+			}
+			return className
+		}
+		else { 
+			let className=""
+			for(let props in uiFrame[property]) {
+				if(Object.keys(uiFrame[property][props])[0] === CONST.CLASSNAME) {
+					className=uiFrame[property][props][CONST.CLASSNAME]
+					break
+				}
+			}
+			return className
+		}
+	}
+	return defaultClassName 
+}
+ 
 /**
  * 
  * @param {*} uiFrame ui json  

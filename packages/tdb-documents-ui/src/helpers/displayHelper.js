@@ -207,10 +207,14 @@ export function displayJSON(props, args, property, id, hideFieldLabel) {
 
   //let field = documentFrame[property]
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let defaultClassName=""
 
   return <TDBJSON name={props.name}
     value={props.formData}
     mode={mode}
+    index={props.index}
+    compareFormData={args.compareFormData}
+    className={util.getJSONTypeUIClassNames(args.uiFrame, property, defaultClassName, props.index)}
     hideFieldLabel={hideFieldLabel}
     comment={documentation.comment ? documentation.comment : null} 
     id={id}
