@@ -110,6 +110,8 @@ jobs:
       with:
         node-version: 18
         registry-url: 'https://registry.npmjs.org'
+    - name: change node options
+      run: export NODE_OPTIONS="--max_old_space_size=4096"
     - name: Build packages
       run:  npm i && npm run build --ws
     - name: Publish workspaces
