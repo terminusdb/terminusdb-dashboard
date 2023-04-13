@@ -53,6 +53,7 @@ export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) =>
         if(result){
             dbDetails.label = label
             dbDetails.comment = description
+            await reconnectToServer(startid)
             setShowModal(false)
         }
     }
