@@ -91,8 +91,6 @@ export const DataProductDocuments = () => {
 }
 // side bar document
 
-
-
 export const DocumentExplorerDocuments= () => {  
     const {
         saveSidebarState,
@@ -103,28 +101,21 @@ export const DocumentExplorerDocuments= () => {
 
     //console.log("documentClasses", documentClasses)
     const {
-        setShowFrames,
-        setJsonContent,
-        documentClasses
+        documentClasses,
+        loading,
+        getUpdatedDocumentClasses
     } = DocumentsUIHook(woqlClient)
-
-    const [loading, setLoading]=useState(false)
-
-    useEffect(() => {
-        if(documentClasses) {
-            setLoading(false)
-        }
-    }, [documentClasses])
 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
     //access control disable button if info reader role
     const [disabled, setDisabled]=useState(false)
-
+    
     useEffect(() => {
-        // disable document clicks if role - info reader
         if(!accessControlDashboard || ( !accessControlDashboard.instanceRead() && !accessControlDashboard.instanceWrite())) setDisabled(true)
-    }) 
+        getUpdatedDocumentClasses()   
+    }, [])
+
 
     const DocumentMenu = ({item}) => { 
 
@@ -151,7 +142,7 @@ export const DocumentExplorerDocuments= () => {
                     disabled={disabled}>
                         <span className="text-gray">{item["@id"]}</span>
                 </Button>
-                {actionControl.write && <Button 
+                {!disabled && <Button 
                     className="btn-create-document pro-item-content btn-sm bg-secondary" 
                     variant="dark" 
                     title={`Add a new ${item["@id"]}`}
