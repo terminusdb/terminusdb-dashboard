@@ -41,11 +41,13 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, compareFormDa
   const [message, setMessage]=useState(false)  
 	const [reference, setReference]=useState({})  
 
+
 	let current = `${type}`
 	let formDataTemp=formData
 
 
 	function clear() {
+			setDisplay(false)
 			setSchema(false)
 			setUISchema(false)
 			setReadOnly(false)
@@ -76,6 +78,8 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, compareFormDa
 				}
 				/*console.log("schema", JSON.stringify(schema, null, 2))
 				console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))*/
+				console.log("display", display)
+
 
 				console.log("schema", schema)
 				console.log("properties.uiSchema", properties.uiSchema)
@@ -147,12 +151,14 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, compareFormDa
 		return <Alert variant="danger">{error}</Alert>
 	}
 
+	
 
 	return <div className="tdb__frame__viewer ">
 		<Viewer display={display} 
 			message={message} 
 			mode={mode} 
 			type={type} 
+			language={language}
 			onSubmit={onSubmit} 
 			readOnly={readOnly} 
 			data={data} 

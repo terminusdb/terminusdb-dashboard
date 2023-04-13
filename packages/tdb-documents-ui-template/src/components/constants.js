@@ -9,3 +9,12 @@ export const TABLE_VIEW = "TABLE"
 export const GRAPH_VIEW = "GRAPH"
 export const JSON_VIEW = "JSON"
 export const FORM_VIEW="FORM"
+
+// DOCUMENT ID trim lengt
+export const ID_TRIM_LENGTH=50
+
+// language constants
+export const CONTEXT="@context"
+export const DOCUMENTATION="@documentation"
+export const LANGUAGE="@language"
+export const DEFAULT_LANGUAGE="en"

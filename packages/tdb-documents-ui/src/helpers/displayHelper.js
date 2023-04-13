@@ -24,9 +24,9 @@ import { display } from "./display"
 /** display widget is called for normal dattypes like xsd:string/ xsd:float etc */
 export function displayDataTypesWidget(props, args, property, dataType, id, onChange) {
  
-  let { documentFrame, extractedDocumentation, mode, uiFrame } = args
+  let { documentFrame, extractedDocumentation, mode, uiFrame } = args 
   let field = documentFrame[property]
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let config = {}, defaultClassName="tdb__doc__input"
   // checks for metaData => render_as markdown
   let metaDataType=util.fetchMetaData(documentFrame, property) 
@@ -61,7 +61,7 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
   const [subDocumentData, setSubDocumentData] = useState({})
   let { fullFrame, extractedDocumentation, mode, uiFrame, reference } = args
 
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
   // constants to control sub document data 
   util.checkForSysUnit (args, props, linked_to)
@@ -107,7 +107,7 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
 export function displayDocumentLink(props, args, extracted, property, linked_to, hideFieldLabel) { 
 
   let { fullFrame, onTraverse, mode, onSelect, uiFrame, reference } = args
-  let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
 
   // at this point linked_to in fullframe
@@ -145,7 +145,7 @@ export function displayEnum (args, props, property, id, hideFieldLabel) {
   let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
   if(documentation && documentation.hasOwnProperty(CONST.VALUES)) {
     options=documentation[CONST.VALUES]
-  }
+  } 
   // add logic for required properties 
   return  <TDBEnum name={props.name}
     options={options}
@@ -165,7 +165,7 @@ export function displayRDFLanguageWidget (args, props, property, id, hideFieldLa
   let { documentFrame, mode, extractedDocumentation, uiFrame } = args 
     
   
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
   let defaultClassName="tdb__doc__input"
   let fieldUIFrame= util.getFieldUIFrame (uiFrame, property, defaultClassName, props.index)
@@ -187,7 +187,7 @@ export function displaySysUnitWidget(args, props, property, id, hideFieldLabel) 
   let { uiFrame, mode, extractedDocumentation } = args 
     
   
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let label = documentation && documentation.hasOwnProperty(CONST.LABEL) ? documentation[CONST.LABEL] : props.name
   let defaultClassName = "tdb__doc__input"
 
@@ -208,7 +208,7 @@ export function displayJSON(props, args, property, id, hideFieldLabel) {
   let { mode, extractedDocumentation } = args 
 
   //let field = documentFrame[property]
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let defaultClassName=""
 
   return <TDBJSON name={props.name}
@@ -289,7 +289,7 @@ export function displayPointDocument (props, args, property, id) {
   let bounds= util.checkIfBoundsAvailable( documentFrame, formData)
 
   //let field = documentFrame[property]
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 
   let config = {
     name: props.name,
@@ -323,7 +323,7 @@ export function displayLineStringDocument(props, args, property, id) {
   let bounds= util.checkIfBoundsAvailable( documentFrame, formData)
 
   //let field = documentFrame[property]
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 
   let config = {
     name: props.name,
@@ -360,7 +360,7 @@ export function displayPolygonDocument (props, args, property, id) {
   let bounds= util.checkIfBoundsAvailable( documentFrame, formData)
 
   //let field = documentFrame[property]
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 
   let config = {
     name: props.name,
@@ -391,7 +391,7 @@ export function displayBBoxDocument (props, args, property, id) {
 
   let { mode, extractedDocumentation, documentFrame, formData } = args 
 
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 
   let config = {
     name: props.name,

@@ -21,15 +21,36 @@ export const XSD_POSITIVE_INTEGER="xsd:positiveInteger" // |    Integer numbers 
 export const XSD_NONNEGATIVEINTEGER = "xsd:nonNegativeInteger" // |    Integer numbers ≥0 |
 export const XSD_NEGATIVEINTEGER = "xsd:negativeInteger" // |    Integer numbers <0 |
 export const XSD_NONPOSITIVEINTEGER = "xsd:nonPositiveInteger" //Integer numbers ≤0
-
 export const XDD_URL="xdd:url"
 export const XSD_NORMALIZED_STRING="xsd:normalizedString"
 export const XSD_TOKEN="xsd:NMTOKEN"
 export const XSD_DECIMAL="xsd:decimal"
 export const XSD_DOUBLE = "xsd:double"
-export const XSD_FLOAT= "xsd:float "
-
+export const XSD_FLOAT= "xsd:float"
 export const XSD_INTEGER="xsd:integer"
+
+// set input type to pattern numberic if placeholder is included in number array
+export const NUMBER_ARRAY = [
+  XDD_HTML,
+  XSD_BYTE,
+  XSD_SHORT,
+  XSD_INT,
+  XSD_LONG,
+  XSD_UNSINGNEDBYTE,
+  XSD_UNSIGNEDSHORT,
+  XSD_UNSIGNEDINT,
+  XSD_UNSIGNEDLONG,
+  XSD_POSITIVE_INTEGER,
+  XSD_NONNEGATIVEINTEGER,
+  XSD_NEGATIVEINTEGER,
+  XSD_NONPOSITIVEINTEGER,
+  XSD_FLOAT,
+  XSD_DOUBLE,
+  XSD_DECIMAL,
+  XSD_INTEGER
+]
+
+
 export const XSD_DATE_TIME="xsd:dateTime"
 export const XSD_DATE_TIMESTAMP="xsd:dateTimeStamp"
 export const XSD_G_YEAR= "xsd:gYear"
@@ -52,3 +73,5 @@ export const SYS_JSON_TYPE="sys:JSON"
 export const SYS_UNIT_DATA_TYPE="sys:Unit"
 
 export const MARKDOWN="markdown"
+
+

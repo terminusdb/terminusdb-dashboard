@@ -9,6 +9,7 @@ import * as util from "../utils"
 import { DisplayDocumentation } from "../templates"
 import { AiOutlineUp, AiOutlineRight } from "react-icons/ai"
 import { displayInternalProperties } from "../helpers/documentHelpers"
+import { HiddenSubDcoumentWidgets } from "./hiddenWidgets"
 
 const CollapseMessage = ({ message, name, icon }) => {
   return <>
@@ -101,7 +102,22 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
 
 
   if(mode === CONST.VIEW && !props.formData) return <div className={`tdb__${props.name}__hidden`}/>
-  if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) return <div className={`tdb__${props.name}__hidden`}/>
+  if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) {
+    if(uiFrame && 
+      uiFrame.hasOwnProperty(props.name) && 
+      uiFrame[props.name].hasOwnProperty(CONST.CLASSNAME) && 
+      (uiFrame[props.name][CONST.CLASSNAME] === "tdb__doc__input tdb__diff__original__deleted" || 
+      uiFrame[props.name][CONST.CLASSNAME] === "tdb__doc__input tdb__diff__changed__deleted"))
+      // diff view removed 
+      return <HiddenSubDcoumentWidgets name={props.name} 
+        required={props.required}
+        comment={comment} 
+        className={uiFrame[props.name][CONST.CLASSNAME]}
+        id={id} 
+        hideFieldLabel={hideFieldLabel}
+      />
+    return <div className={`tdb__${props.name}__hidden`}/>
+  }
     
   return <Stack direction="horizontal">
     <TDBLabel name={props.name} 

@@ -19,6 +19,10 @@ export function customMapOptions (zoom, center, documents, type) {
 		else extractedCenter=documents[0]
 		mapOptions.center=extractedCenter
 	}
+	mapOptions["fullscreenControl"]=true
+	mapOptions["fullscreenControlOptions"]={
+    position: 'topleft'
+  }
 	return mapOptions
 }
 

@@ -1,4 +1,5 @@
 @import "https://bootswatch.com/5/darkly/bootstrap.css";
+@import "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css";
 
 :root {
 	--input-color: #adb5bd;
@@ -13,9 +14,12 @@
   /** diff colors */
   --danger-color: #842029;
   --danger-bg: #f8d7da;
+  --danger-diff-icons-color: var(--danger-bg);
+  --diff-icons-size: 20px;
   --danger-border-color: #f5c2c7;
   --success-color: #0f5132;
   --success-bg: #d1e7dd;
+  --success-diff-icons-color: var(--success-bg);
   --success-border-color: #badbcc;
 }
 
@@ -24,10 +28,10 @@
 .tdb__doc__input { 
   color: var(--input-color);
   background-color: transparent;
-  border: var(--input-border);
+  border: var(--input-border) !important;
   display: block;
   width: 100%;
-  padding: 0.375rem 0.75rem;
+  padding: 0.375rem 0.75rem !important;
   font-size: 1rem;
   font-weight: 400; 
   line-height: 1;
@@ -134,6 +138,11 @@ label.latlng-control-label {
   border: var(--danger-border-color);
 } 
 
+.tdb__diff__original__deleted {
+  color: var(--danger-diff-icons-color);
+  font-size: var(--diff-icons-size);
+}
+
 /** for documents with fields inside - like subdocuments/ choice subdocuments */
 .tdb__diff__original-border { 
   border: 1px solid var(--danger-border-color);
@@ -142,6 +151,11 @@ label.latlng-control-label {
 /** for document link properties */
 .tdb__diff__original-underline { 
   color: var(--danger-bg);
+}
+
+.tdb__diff__changed__deleted {
+  color: var(--success-diff-icons-color);
+  font-size: var(--diff-icons-size);
 }
 
 .tdb__diff__changed {
@@ -167,6 +181,10 @@ label.latlng-control-label {
 .tdb__enum__input,
 .tdb__array__input {
   margin-bottom: var(--field-margin-bottom);
+}
+
+.tdb-number {
+  line-height: 2;
 }
 
 /** margin bottom for array templates */

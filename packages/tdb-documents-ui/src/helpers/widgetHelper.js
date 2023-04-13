@@ -8,10 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 export function getUIDisplay (args, property, dataType) {
   let key = uuidv4()
   
-  function displayWidget (props) {
+  function displayWidget (props) { 
     // console.log("key", key)
     // we pass ID at this point since we have sepratae IDs for normal dataTypes & for Sets/ List
-    let id = props.idSchema["$id"]
+    let id = props.idSchema["$id"] 
     
     // normal data type input are being called here 
     // function expects input data and id of field into which user event occurs

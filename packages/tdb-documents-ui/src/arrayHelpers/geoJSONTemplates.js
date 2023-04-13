@@ -154,7 +154,7 @@ export function PointFieldTemplate(args, props, property) {
 
 	var variant="dark"
   let label=props.title  
-	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
 		<TDBLabel name={label} 
@@ -200,7 +200,7 @@ export function LineStringFieldTemplate(args, props, property) {
 	//console.log("props", props)
 	var variant="dark"
   let label=props.title  
-	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 
 
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
@@ -289,7 +289,7 @@ export function CoordinatesArrayFieldTemplate(args, props, property) {
 	var variant="dark"
   let label=props.title 
   let { extractedDocumentation } = args
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
 		<TDBLabel name={label} 
@@ -331,7 +331,7 @@ export function BBoxFieldTemplate(args, props, property) {
 	//console.log("props", props)
 	var variant="dark"
   let label=props.title  
-	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   
 	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
 		<TDBLabel name={label} 
