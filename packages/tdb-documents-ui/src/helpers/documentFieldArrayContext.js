@@ -82,6 +82,7 @@ export const ArrayFieldProvider = ({ children, args, field, fieldID, docConfig, 
     // display nothing if formdata not avaialble
     if(!docConfig) return filledItems
     if(!docConfig.formData.hasOwnProperty(property)) return filledItems
+    if(!Array.isArray(docConfig.formData[property])) return filledItems
   
     docConfig.formData[property].map( (eachFieldData, fieldDataIndex) => {
       let eachField = constructEachField(field, fieldDataIndex, eachFieldData)

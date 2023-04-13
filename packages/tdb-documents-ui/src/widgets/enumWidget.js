@@ -1,19 +1,40 @@
 import React, { useState } from "react"
 import Stack from "react-bootstrap/Stack"
-import { VIEW } from "../constants" 
+import { VIEW, LABEL } from "../constants" 
 import { SelectComponent, getDefaultValue  } from "../components/SelectComponent"
 import { TDBLabel } from "../components/LabelComponent"
 
 // construct options to be supported by react-select
-function constructOptions(options) {
+function constructOptionsFromArray(options) {
   let constructed = []
   options.map ( opts => {
     constructed.push(
-      // default color "#adb5bd"
-      {value: opts, label: opts, color: "#adb5bd"}
+      // default color "#adb5bd" 
+      { value: opts, label: opts, color: "#adb5bd" }
     )
-  } )
+  })
   return constructed
+}
+
+// construct options to be supported by react-select
+function constructOptionsFromDocumentation(options) {
+  let constructed = []
+  for(let opts in options){
+    constructed.push(
+      // default color "#adb5bd" 
+      { value: opts, label: options[opts][LABEL], color: "#adb5bd" }
+    )
+  }
+  return constructed
+}
+
+// construct options to be supported by react-select
+function constructOptionsBasedOnDocumentation(options) {
+  if(Array.isArray(options)) return constructOptionsFromArray(options) 
+  else {
+    // documentation might be defined in schema if not array 
+    return constructOptionsFromDocumentation(options)
+  }
 }
 
 
@@ -31,7 +52,7 @@ export const TDBEnum = ({ id, options, name, value, required, mode, enumDocument
     </div>
   </Stack>
 
-  let constructedOpts= constructOptions(options)
+  let constructedOpts= constructOptionsBasedOnDocumentation(options) 
 
   return <Stack direction="horizontal"  className="tdb__enum__input">
     <TDBLabel name={label ? label : name} required={required} hideFieldLabel={hideFieldLabel} id={id}/>

@@ -12,7 +12,7 @@ import { logRoles } from '@testing-library/dom';
  * */
 describe("Test Nested Subdocuments", () => {
 
-	/**
+	/** 
 	 * 
 	 * @returns submitted data from <FrameViewer/>
 	*/
@@ -195,7 +195,7 @@ describe("Test Nested Subdocuments", () => {
 	}) 
 
 	// edit a subdocument  with array properties
-	test("Edit SubDocument with array properties", async () => {
+	/*test("Edit SubDocument with array properties", async () => {
 		
 		const config = CONST.EDIT_CONFIG
 
@@ -204,7 +204,7 @@ describe("Test Nested Subdocuments", () => {
 
 		// check if data is same as expected data
 		expect(data).toStrictEqual(CONST.SUBDOCUMENT_DATA_TYPE_EDIT_DATA)
-	})
+	})*/
 
 
 

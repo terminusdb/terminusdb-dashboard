@@ -1,6 +1,7 @@
 import React from "react"
 import Button from "react-bootstrap/Button"
 import {FiCopy} from "react-icons/fi"
+import { copyToClipboard } from "../utils"
 
 /**
  * 

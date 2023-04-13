@@ -12,7 +12,7 @@ function getBorder(diffState)  {
 // SETS/ LIST/ ARRAY
 function processOperation(diff, diffState) {
   if(diff[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
-    return swapOperation (diffState, diff[diffState]) 
+    return swapOperation (diffState) 
   }
 }
 
@@ -39,12 +39,10 @@ function getEachArrayDiff(diffPatch, diffState) {
 }
 
 // @op = SwapValue
-function swapOperation (diffState, value) {
+function swapOperation (diffState) {
   if(diffState === DIFFCONST.BEFORE) {
-    if(!value) return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__original__deleted" }
     return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__original" }
   }
-  if(!value) return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__changed__deleted" }
   return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__changed" }
 }
 
@@ -54,7 +52,7 @@ function getDiffUi (diffPatch, diffState) {
   if(diffPatch.hasOwnProperty(DIFFCONST.OPERATION)) {
     if(diffPatch[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
       // SWAP VALUE OPERATION
-      uiFrame = swapOperation (diffState, diffPatch[diffState]) 
+      uiFrame = swapOperation (diffState) 
     }
     else if (diffPatch[DIFFCONST.OPERATION] === DIFFCONST.PATCH_LIST) { 
       // PATCH LIST OPERATION

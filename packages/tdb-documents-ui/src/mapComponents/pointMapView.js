@@ -7,6 +7,7 @@ import "leaflet-arrowheads"
 import L from "leaflet"
 import uuid from 'react-uuid'
 
+
 export const pointMapViewer = (args) => {
 	let { documents, zoom, onMarkerClick, center, bounds }=args
 	
@@ -20,7 +21,7 @@ export const pointMapViewer = (args) => {
 
 		// gather lat and lng
 		let coordinates = [ { lat: documents[0], lng: documents[1] } ]
-
+ 
 		let mapOptions = customMapOptions(zoom, center, coordinates)
     let markerOptions= customMarkerOptions(icon)
 	

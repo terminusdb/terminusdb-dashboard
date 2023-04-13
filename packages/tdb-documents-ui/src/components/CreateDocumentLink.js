@@ -152,7 +152,7 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
   //const [cardKey, setCardKey]=useState(uuidv4())
   const [cardKey, setCardKey]=useState(getID(linkId, depth)) 
 
-  let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name)
+  let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name,args.fullFrame[CONST.SELECTED_LANGUAGE])
   let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
 
 

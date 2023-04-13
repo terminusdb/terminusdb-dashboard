@@ -1,4 +1,5 @@
 @import "https://bootswatch.com/5/sandstone/bootstrap.css";
+@import "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css";
 
 :root {
 	--input-color: #000;
@@ -139,6 +140,10 @@ label.latlng-control-label {
 .tdb__enum__input,
 .tdb__array__input {
   margin-bottom: var(--field-margin-bottom);
+}
+
+.tdb-number {
+  line-height: 2;
 }
 
 /** margin bottom for array templates */

@@ -29,7 +29,7 @@ export const ArrayTemplates = (args, props, property, ui) => {
 	//console.log("props", props)
 	var variant="dark"
   let label=props.title  
-	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property)
+	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 	return  <div className={`${props.className} w-100 tdb__array__holder`}>
 		<TDBLabel name={label} 
       comment={documentation.comment} 
