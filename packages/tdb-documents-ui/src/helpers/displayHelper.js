@@ -20,7 +20,7 @@ import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 import { display } from "./display"
 
 
-
+ 
 /** display widget is called for normal dattypes like xsd:string/ xsd:float etc */
 export function displayDataTypesWidget(props, args, property, dataType, id, onChange) {
  
@@ -29,7 +29,9 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let config = {}, defaultClassName="tdb__doc__input"
   // checks for metaData => render_as markdown
-  let metaDataType=util.fetchMetaData(documentFrame, property) 
+  //let metaDataType=util.fetchMetaData(documentFrame, property)
+  let metaDataType = args.hasOwnProperty("linked_to") ? util.fetchMetaData(args.fullFrame[args["linked_to"]], property)  :
+    util.fetchMetaData(documentFrame, property)
   if(metaDataType) {
     // expecting a string metadata type
     dataType=metaDataType

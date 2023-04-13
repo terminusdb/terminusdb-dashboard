@@ -123,7 +123,7 @@ export function documentInternalProperties(docConfig, field) {
   //argsHolder.documentFrame = documentFrame
   argsHolder.documentFrame = { [field]: documentFrame.propertyFrame }
   argsHolder.extractedType = documentFrame[CONST.TYPE]
-  
+  argsHolder.linked_to=currentDocumentClass
 
   if(util.isArrayType(argsHolder.extractedType)) {
     // if array, we expect formData to be an object type
