@@ -1,176 +1,8 @@
 import React from "react"
-import * as CONST from "./constants"
-import {BiErrorCircle} from "react-icons/bi"
-import {FcKey} from "react-icons/fc"
-
- 
-/***  ------ util functions to check type of property ------ */
-
-// returns true for properties which are of data types xsd and xdd
-const dataTypePrefix = {
-	[CONST.XSD_DATA_TYPE_PREFIX]: CONST.DATA_TYPE,
-	[CONST.XDD_DATA_TYPE_PREFIX]: CONST.DATA_TYPE
-}
-
-/**
- * 
- * @param {*} field - field of a property
- * @returns true if type normal data type xsd/ xdd/ rdf
- */
-export const isDataType = (field) => {
-	if(typeof field === "object") return false
-	return dataTypePrefix[field.substring(0, 4)] || false
-}
-
-/**
- * 
- * @param {*} field - field of a property
- * @param {*} fullFrame - fullFrame
- * @returns true if type is subdocument & if linked document class has @oneOf 
- */
-export const isOneOfSubDocumentType = (fullFrame, field) => {
-	if(field.hasOwnProperty(CONST.SUBDOCUMENT)) {
-		let documentClassName=field["@class"]
-		if(fullFrame.hasOwnProperty(documentClassName) && 
-			fullFrame[documentClassName].hasOwnProperty(CONST.ONEOFVALUES)) {
-				return true
-		}
-		return false
-	}
-	return false
-}
-
-/**
- * 
- * @param {*} field - field of a property
- * @returns true if type is subdocument
- */
-export const isSubDocumentType = (field) => {
-	if(field.hasOwnProperty(CONST.SUBDOCUMENT)) return CONST.SUBDOCUMENT_TYPE
-	return false
-}
-
-/**
- * 
- * @param {*} field - field of a property
- * @returns true if choice sub documenst
- */
-export const isChoiceSubDocumentType = (field) => {
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(Array.isArray(field) && field.length > 0) {
-		let props=field[0]
-		if(props.hasOwnProperty("@class") && props.hasOwnProperty(CONST.SUBDOCUMENT))
-			return true
-		return false
-	}
-	return false
-}
-
-
-/**
- * 
- * @param {*} field - field of a property
- * @param {*} fullFrame - data product's entire frames
- * @returns true for properties linked to other document classes
- */
-export const isDocumentType = (field, fullFrame) => {
-	if(typeof field === CONST.OBJECT_TYPE) return false
-	if(!fullFrame) return false 
-	let document = `${field}`
-	if(fullFrame[document]) {
-		if(fullFrame[document]["@type"] === CONST.DOCUMENT && 
-			!fullFrame[document][CONST.SUBDOCUMENT]) return true
-	}
-	return false
-}
-
-/**
- * 
- * @param {*} field - field of a property
- * @returns true if type is sys:JSON
- */
-export const isSysJSONDataType = (field) => {
-	if(typeof field === CONST.OBJECT_TYPE) return false
-	if(field.substring(0, 8) === CONST.SYS_JSON_TYPE) return true 
-	return false
-}
-
-/**
- * 
- * @param {*} field - field of a property
- * @returns true if type is sys:Unit
- */
- export const isSysUnitDataType = (field) => {
-	if(typeof field === CONST.OBJECT_TYPE) return false
-	if(field.substring(0, 8) === CONST.SYS_UNIT_DATA_TYPE) return true 
-	return false
-}
-
-/**
- * 
- * @param {*} field - field of a property
- * @returns true for properties linked to an enum class
- */
-export const isEnumType = (field) => {
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(field["@type"] === CONST.ENUM) return true
-}
-
-
-
-/**
- * 
- * @param {*} field - field of a property
- * @returns true if choice documents
- */
-export const isChoiceDocumentType = (field) => {
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(Array.isArray(field) && field.length) {
-		// check if array has string in it 
-		if(typeof field[0] === CONST.STRING_TYPE) 
-			return true
-		return false
-	}
-	return false
-}
-
-// function to check if both arrays are identical
-function arrayEquals(a, b) {
-    return Array.isArray(a) &&
-        Array.isArray(b) &&
-        a.length === b.length &&
-        a.every((val, index) => val === b[index])
-}
-
-/**
- * 
- * @param {*} frame - frame 
- * @param {*} item - property name
- * @param {*} mode - mode create, edit or view
- * @returns true if property is a geometry collection matching values of CONST.GEOMETRY_ARRAY
- */
-export const checkIfGeoArray = (frame, item, mode) => {
-	if(Array.isArray(frame[item])) {
-		return arrayEquals(frame[item], CONST.GEOMETRY_ARRAY)
-	}
-	return false
-}
-
-// returns true if frame is a feature collection type 
-export const isFeatureCollection = (property, mode) => {
-	if(mode !== CONST.VIEW) return false
-	if(typeof property !== CONST.OBJECT_TYPE) return false 
-	if(property.hasOwnProperty("@class") && property["@class"] === "Feature") return true
-	return false
-}
-
-// returns true for properties which are of data types is rdf:langString
-export const isRdfLangString = (property) => {
-	if(typeof property === "object") return false
-	if(property === CONST.RDF_LANG_STRING) return true
-	return false
-}
-
+import * as CONST from "./constants" 
+import * as TYPE from "./dataType.constants"
+import { getLabelFromEnumDocumentation } from "./documentationTemplates"
+import { FcKey } from "react-icons/fc"
 
 /***  util functions to check Mandatory/ Optional/ Set/ List property */
 /**
@@ -180,160 +12,127 @@ export const isRdfLangString = (property) => {
  * @returns true if property is Mandaroty 
  */
 export const isMandatory = (frame, property) => { 
+	if(!frame) return false
 	let field=frame[property]
 	if(typeof field !== CONST.OBJECT_TYPE) return true 
-	if(typeof field === CONST.OBJECT_TYPE) {
-		// subdocument 
-		if(field.hasOwnProperty(CONST.SUBDOCUMENT)) return true 
-		// choice subdocument 
-		if(Array.isArray(field)) return true
-		// enums
-		if(field.hasOwnProperty("@type") && field["@type"] === CONST.ENUM) return true
-	} 
-	return false
-}
-
-/**
- * 
- * @param {*} frame - sub frame of properties
- * @param {*} property - property 
- * @returns true if property is Optional 
- */
- export const isOptional = (frame, property) => {
-	let field=frame[property]
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(field.hasOwnProperty("@type") && field["@type"] === CONST.OPTIONAL)  return true
-	return false
-}
-
-/**
- * 
- * @param {*} frame - sub frame of properties
- * @param {*} property - property 
- * @returns true if property is Set 
- */
- export const isSet = (frame, property) => {
-	let field=frame[property]
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(field.hasOwnProperty("@type") && field["@type"] === CONST.SET)  return true
-	return false
-}
-
-// returns true for properties which is an array type and has one dimension only
-// there is no support for 2D and 3D for properties other than geo properties
-export const isArrayType = (frame, item) => {
-	if(typeof frame[item] !== CONST.OBJECT_TYPE) return false
-	if(frame[item]["@type"] === CONST.ARRAY && frame[item].hasOwnProperty(CONST.DIMENSION)) return true
-	return false
-}
-
-/**
- * 
- * @param {*} frame - sub frame of properties
- * @param {*} property - property 
- * @returns true if property is List 
- */
- export const isList = (frame, property) => {
-	let field=frame[property]
-	if(typeof field !== CONST.OBJECT_TYPE) return false
-	if(field.hasOwnProperty("@type") && field["@type"] === CONST.LIST)  return true
-	return false
-}
-
-
-/***  util functions to extract frame from Optional/ Set/ List */
-export const extractFrames = (frame, item, language) => {
-	if(!frame.hasOwnProperty(item)) { 
-		throw new Error (`Extracted frame does not have ${item} defined ... `)
-	}
-	if(!frame[item].hasOwnProperty("@class")) { 
-		throw new Error (`Extracted frame does not have @class defined ... `)
-	}
-	let extracted = {[item]: frame[item]["@class"]}
-	// extract documentation to append to optional/set or list frmaes
-	let documentation=extractDocumentation(frame, item)
-	if(documentation){
-		extracted[CONST.DOCUMENTATION]=documentation
-	}
-    //if(getMetaData(frame[item])) {
-	let metadata=getMetaData(frame)
-	if(metadata) {
-        // extract metaData and append to optional/set or list frmaes
-        extracted[CONST.METADATA]=metadata
-    }
-    return extracted
-}
-
-
-/** ------ meta data functions ------ */
-
-/**
- * 
- * @param {*} frame frame of interest
- * @returns metadata json type
- */
- export function getMetaData (frame) { 
-    if(frame && frame.hasOwnProperty(CONST.METADATA)) {
-        return frame[CONST.METADATA]
-    }
-    return false
-}
-
-/**
- * 
- * @param {*} frame frame of interest
- * @param {*} property field name
- * @returns true if property has been defined in @metadata and is set to render as markdown
- */
-export function checkIfRenderedAsMarkdown(frame, property, diffPatch) {
-	if(frame.hasOwnProperty(CONST.METADATA) && 
-		frame[CONST.METADATA].hasOwnProperty(CONST.RENDER_AS) && 
-		frame[CONST.METADATA][CONST.RENDER_AS].hasOwnProperty(property) && 
-		frame[CONST.METADATA][CONST.RENDER_AS][property] === CONST.MARKDOWN && 
-		diffPatch.hasOwnProperty(property)) {
-			// check if any fields have been rendered as markdown 
-			// if rendered as markdown display diffViewer a bit differently 
-			return frame[CONST.METADATA][CONST.RENDER_AS][property]
-	}
-	return false
-}
-
-/**
- * 
- * @param {*} frame frames
- * @param {*} item property of interest 
- * @param {*} diffPatch diff path between old and new Value
- * @param {*} oldValue old value
- * @param {*} newValue new value
- * @returns a meta data config object which tells the ui to show Markdown view diffs
- */
-export function gatherMetaDataConfig (frame, item, diffPatch, oldValue, newValue) {
-	let metaDataDefined = checkIfRenderedAsMarkdown(frame, item, diffPatch)
-    let metaDataConfig = false
-	// if meta data defined
-	if(metaDataDefined) {
-		// make a confilg object to pass 
-		metaDataConfig = {
-			metaDataType: metaDataDefined,
-			item: item, 
-			oldValue: oldValue, 
-			newValue: newValue
+	if(field.hasOwnProperty(CONST.TYPE)) {
+		if(field[CONST.TYPE] === CONST.OPTIONAL) return false
+		if(field[CONST.TYPE] === CONST.SET) return false
+		if(field[CONST.TYPE] === CONST.LIST) return false
+		if(field[CONST.TYPE] === CONST.ARRAY) {
+			// return true if geo json else false
+			return isInherritedFromGeoJSONTypes(frame)
 		}
 	}
-	return metaDataConfig
+	return true
+}
+
+
+/**
+ * 
+ * @param {*} frame - sub frame of properties
+ * @param {*} property - property 
+ * @returns true if property is Mandaroty 
+ */
+ export const isOptional = (frame, property) => { 
+	if(!frame) return false
+	let field=frame[property]
+	if(typeof field !== CONST.OBJECT_TYPE) return false 
+	if(field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.OPTIONAL) return true
+	return false
 }
 
 /**
  * 
- * @param {*} frame frame of interest
- * @returns metadata json type
+ * @param {*} frame - sub frame of properties
+ * @param {*} property - property 
+ * @returns true if property is SET/ LIST/ ARRAY 
  */
- export function getOrderFromMetaData(frame) {
-	let metaDataFrame=getMetaData(frame) 
-	if(!metaDataFrame) return metaDataFrame
-	if(metaDataFrame.hasOwnProperty(CONST.ORDER_BY)) {
-		const orderArray = [CONST.DOCUMENTATION].concat(metaDataFrame[CONST.ORDER_BY]) 
-		return orderArray
+export const isArrayTypeFromFrames = (frame, property) => { 
+	if(!frame) return false
+	let field=frame[property]
+	if(typeof field !== CONST.OBJECT_TYPE) return false 
+	if(field.hasOwnProperty(CONST.TYPE)) {
+		// return true for SETs/ LIST
+		if(field[CONST.TYPE] === CONST.SET || field[CONST.TYPE] === CONST.LIST ) return true
+		if(field[CONST.TYPE] === CONST.ARRAY) {
+			// check if frame is inherrited from Geo JSON constants 
+			if(frame.hasOwnProperty(CONST.INHERITS)) {
+				// return false if not geoJSON types
+				if(isInherritedFromGeoJSONTypes(frame)) return false
+				else return true
+			}
+			return true 
+		}
+	}
+	return false
+}
+
+
+// just returns back the type
+export const isArrayType = (type) => {
+	if(type === CONST.SET || 
+    type === CONST.LIST || 
+    type === CONST.ARRAY) 
+			return true
+	return false
+}
+
+/***  ------ util functions to check type of property ------ */
+
+// returns true for properties which are of data types xsd and xdd
+const dataTypePrefix = {
+	[CONST.XSD_DATA_TYPE_PREFIX]: CONST.XSD_DATA_TYPE_PREFIX,
+	[CONST.XDD_DATA_TYPE_PREFIX]: CONST.XDD_DATA_TYPE_PREFIX
+} 
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if type normal data type xsd/ xdd/ rdf
+ */
+export const isDataType = (field) => {
+	if(!field) return false
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	return dataTypePrefix[field.substring(0, 4)] || false
+}
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if type is subdocument
+ */
+ export const isSubDocumentType = (field) => {
+	if(!field) return false
+	if(field.hasOwnProperty(CONST.SUBDOCUMENT)) return CONST.SUBDOCUMENT
+	return false
+}
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true for properties linked to an enum class
+ */
+ export const isEnumType = (field) => {
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(field["@type"] === CONST.ENUM) return true
+}
+
+/**
+ * 
+ * @param {*} field - field of a property
+ * @param {*} fullFrame - data product's entire frames
+ * @returns true for properties linked to other document classes
+ */
+ export const isDocumentType = (field, fullFrame) => {
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	if(!fullFrame) return false 
+	let document = `${field}`
+	if(fullFrame[document]) {
+		// make sure document is a class and not @subdocument class
+		if(fullFrame[document]["@type"] === CONST.DOCUMENT && 
+			!fullFrame[document][CONST.SUBDOCUMENT]) return true
 	}
 	return false
 }
@@ -343,149 +142,139 @@ export function gatherMetaDataConfig (frame, item, diffPatch, oldValue, newValue
  * @param {*} frame - property frame
  * @param {*} property - property name
  */
-export function isOneOfDataType (frame, property) {
+ export function isOneOfDataType (frame, property) {
 	if(property === CONST.ONEOFVALUES && Array.isArray(frame[property])) return true
 	return false
 }
 
-/** ------ ui util functions ------ */
 
-// widget to hide filed from ui in View mode
-export const hidden = (props) => {
-	//console.log("props", props); 
-	return <div className="tdb__hidden_from_view_mode"/>
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if type is sys:JSON
+ */
+ export const isSysJSONDataType = (field) => {
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	if(field && field.substring(0, 8) === TYPE.SYS_JSON_TYPE) return true 
+	return false
+}
+
+/**
+* 
+* @param {*} field - field of a property
+* @returns true if type is sys:Unit
+*/
+export const isSysUnitDataType = (field) => {
+ if(typeof field === CONST.OBJECT_TYPE) return false
+ if(field && field.substring(0, 8) === TYPE.SYS_UNIT_DATA_TYPE) return true 
+ return false
+}
+
+// returns true for properties which are of data types is rdf:langString
+export const isRdfLangString = (field) => {
+	if(typeof field === CONST.OBJECT_TYPE) return false
+	if(field === CONST.RDF_LANG_STRING) return true
+	return false
 }
 
 
+/**
+ * 
+ * @param {*} field - field of a property
+ * @returns true if choice sub documenst
+ */
+ export const isChoiceSubDocumentType = (field) => {
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(Array.isArray(field) && field.length) {
+		let props=field[0]
+		if(props.hasOwnProperty(CONST.CLASS) && props.hasOwnProperty(CONST.SUBDOCUMENT))
+			return true
+		return false
+	}
+	return false
+}
 
-/** checks weather to display layout title if form data dosent have item in view mode for array type frames*/
-export function generateTitle (item, formData, mode, documentation) {
-    if(mode === CONST.VIEW && formData && !formData.hasOwnProperty(item)) {
-        return ""
+/**
+ * 
+ * @param {*} field - field of a property
+ * @param {*} fullFrame - fullFrame of data product
+ * @returns true if choice documents
+ */
+ export const isChoiceDocumentType = (field, fullFrame) => {
+	if(typeof field !== CONST.OBJECT_TYPE) return false
+	if(Array.isArray(field) && field.length) {
+		// check if fields in array are document classes 
+		// just check for first class
+		if(fullFrame.hasOwnProperty(field[0]))
+			return true
+		return false
+	}
+	return false
+}
+
+
+/** choice documents/ sub documents/ oneOf utils */
+/**
+ * 
+ * @param {*} documentFrame document frame
+ * @param {*} property property
+ * @returns extracts choices from frame to be displayed in select component 
+ */ 
+export function getChoices(documentFrame, property) {
+  let options = []
+  // documentFrame[property] will have choices
+  documentFrame[property].map ( docs => {
+		// docs[CONST.CLASS] will be defined in the case of choice sub documents 
+    let documentChoice=docs.hasOwnProperty(CONST.CLASS) ? docs[CONST.CLASS] : docs
+    options.push({ value: documentChoice, label: documentChoice, color: "#adb5bd" })
+  })
+  return options
+}
+
+/**
+ * 
+ * @param {*} documentFrame document frame
+ * @param {*} property property
+ * @returns extracts choices from frame to be displayed in select component 
+ */
+export function getOneOfChoices (oneOfFrame) {
+  let options = []
+  // oneOfFrame will have choices
+	for(let choices in oneOfFrame) {
+		//let documentChoice=oneOfFrame[choices].hasOwnProperty(CONST.CLASS) ? oneOfFrame[choices][CONST.CLASS] : oneOfFrame[choices]
+		options.push({ value: choices, label: choices, color: "#adb5bd" })
+	}
+  return options
+}
+
+// this function checks if any properties in nested documents have sys:unit properties
+// if sys:Unit property available then we assign default value [] to formData
+export function checkForSysUnit (args, props, linked_to) {
+	for(let subProps in args.documentFrame) {
+    if(isSysUnitDataType(args.documentFrame[subProps])) {
+      // assigning default value 
+      props.formData[CONST.TYPE] = linked_to
+      props.formData["subProps"] = []
     }
-    return getLabelFromDocumentation(item, documentation)
+  }
+	return 
 }
+
+/***  extract metadata */
 
 /**
  * 
- * @param {*} uiFrame - uiFrame to alter look and feel of sub document 
- * @returns  custom subDocument_styles style defined in uiFrame
+ * @param {*} frame frame of interest
+ * @returns metadata json type
  */
- export function extractUIFrameSubDocumentTemplate (uiFrame) {
-	if(!uiFrame) return null
-	if(Object.keys(uiFrame).length===0) return null
-	if(uiFrame.hasOwnProperty(CONST.UI_FRAME_SUBDOCUMENT_STYLE)){
-		return uiFrame[CONST.UI_FRAME_SUBDOCUMENT_STYLE]
+ export function getMetaData (frame) { 
+	if(frame && frame.hasOwnProperty(CONST.METADATA)) {
+			return frame[CONST.METADATA]
 	}
-	return null
-}
-
-
-/**
- * 
- * @param {*} uiFrame - custom ui Frame to alter look and feel
- * @returns check's if custom uiFrame has select_style defined
- */
-export function extractUIFrameSelectTemplate (uiFrame) {
-	if(!uiFrame) return null
-	if(Object.keys(uiFrame).length===0) return null
-	if(uiFrame.hasOwnProperty(CONST.UI_FRAME_SELECT_STYLE)){
-		return uiFrame[CONST.UI_FRAME_SELECT_STYLE]
-	}
-	return null
-}
-
-/**
- * 
- * @param {*} generatedUILayout default property UI
- * @param {*} ui "classNames" key in uiFrames
- * @returns adds custom classNames from uiFrame to a property 
- */
-export function addCustomClassNames(generatedUILayout, ui) {
-	if(generatedUILayout.hasOwnProperty(CONST.CLASSNAME)) {
-		return generatedUILayout[CONST.CLASSNAME] + " " + ui[CONST.CLASSNAME]
-	}
-	return ui[CONST.CLASSNAME]
-}
-
-/**
- * 
- * @param {*} ui "placeholder" key in uiFrames
- * @returns adds custom placeholder from uiFrame to a property 
- */
-export function addPlaceholder(ui) {
-	return ui[CONST.PLACEHOLDER]
-}
-
-/**
- * 
- * @param {*} ui "title" key in uiFrames
- * @returns adds custom title from uiFrame to a property 
- */
-export function addTitle(ui) { 
-	if(typeof ui[CONST.TITLE] === CONST.STRING_TYPE) {
-		return ui[CONST.TITLE]
-	}
-	return <>{ui[CONST.TITLE]}</>
-}
-
-/**
- * 
- * @param {*} ui "description" key in uiFrames
- * @returns adds custom description from uiFrame to a property 
- */
- export function addDescription(ui) { 
-	if(typeof ui[CONST.DESCRIPTION] === CONST.DESCRIPTION) {
-		return ui[CONST.DESCRIPTION]
-	}
-	return <>{ui[CONST.DESCRIPTION]}</>
-}
-
-
-/**
- * 
- * @param {*} ui "description" key in uiFrames
- * @returns displays custom widget 
- */
-export function displayWidget(ui) {
-	return ui[CONST.WIDGET] 
-}
-
-
-
-/** ------ other util functions ------ */
-
-/**
- * 
- * @param {*} item - property
- * @param {*} formData - filled data to display in form
- * @returns - returns filled data
- */
-export function getDefaultValue(item, formData) {
-	if(!formData) return false
-	if(Object.keys(formData).length === 0) return false
-	if(formData.hasOwnProperty(item)) return formData[item]
 	return false
 }
 
- 
-/**
- * 
- * @param {*} formData filled data to display in form
- * @param {*} item property
- * @returns function checks if formData has a filled value for item 
- * used in View mode so as to hide widget from Ui incase data is empty
- */
-export function isFilled (item, formData){
-	if(!formData) return false
-	//if(Array.isArray(formData)) return true 
-	if(formData.hasOwnProperty(item) && Array.isArray(formData[item]) && formData[item].length) return true
-	if(formData.hasOwnProperty(item) && formData[item]) return true
-	if(formData.hasOwnProperty(item) && formData[item] === 0) return true
-	return false
-}
-
-
+/***  extract documentation */
 /**
  * 
  * @param {*} frame - full frame from a data product
@@ -524,95 +313,336 @@ export function isFilled (item, formData){
 	return documentation
 }
 
-
 /**
- * 
- * @param {*} documentation - documentation object which contains labels and comments
- * @param {*} item - property 
- * @returns - returns label in which item is to be displayed in UI 
+ * returns property's documentation from extractedDocumentation frame
  */
- export function getLabelFromDocumentation (item, documentation) { 
-	if(!documentation) return item
-	if(!Array.isArray(documentation)) return item
-	let label=item 
-	documentation.map(doc => {
-		if (doc.hasOwnProperty(CONST.SELECTED_LANGUAGE)) { // search documentation to display selected language from UI 
-			if(doc["@language"] === doc["@selectedLanguge"]) { // language match found
-				if(doc.hasOwnProperty("@properties") && 
-					doc["@properties"].hasOwnProperty(item)) {
-						if(doc["@properties"][item].hasOwnProperty("@label")){
-							label=doc["@properties"][item]["@label"]
-						}
-						else label=item
-						return
-				}
-			}
+export function checkIfPropertyHasDocumentation (extractedDocumentation, property) {
+	var label, comment
+	if(!extractedDocumentation) return { label, comment }
+	if(extractedDocumentation.hasOwnProperty("@properties") && 
+		extractedDocumentation["@properties"].hasOwnProperty(property))  {
+			// @label
+			label = extractedDocumentation["@properties"][property].hasOwnProperty(CONST.LABEL) ? 
+				extractedDocumentation["@properties"][property][CONST.LABEL] : null
+			// @comment
+			comment = extractedDocumentation["@properties"][property].hasOwnProperty(CONST.COMMENT) ?
+				extractedDocumentation["@properties"][property][CONST.COMMENT] : extractedDocumentation["@properties"][property]
 		}
-		else return label
-	})
-	return label
+	return { label, comment }
 }
 
-/**
- * 
- * @param {*} item - property
- * @param {*} description - description text for sub document
- * @returns a help text for sub documents 
+
+/***  util functions to extract frame from Optional/ Set/ List */
+export const extractFrames = (frame, item, language) => {
+	if(!frame.hasOwnProperty(item)) { 
+		throw new Error (`Extracted frame does not have ${item} defined ... `)
+	}
+	if(!frame[item].hasOwnProperty("@class")) { 
+		throw new Error (`Extracted frame does not have @class defined ... `)
+	}
+	let extracted = {[item]: frame[item]["@class"]}
+	// extract documentation to append to optional/set or list frmaes
+	let documentation=extractDocumentation(frame, item)
+	if(documentation){
+		extracted[CONST.DOCUMENTATION]=documentation
+	}
+    //if(getMetaData(frame[item])) {
+	let metadata=getMetaData(frame)
+	if(metadata) {
+        // extract metaData and append to optional/set or list frmaes
+        extracted[CONST.METADATA]=metadata
+    }
+    return extracted
+}
+
+/** checks if document type reference definition is available or not */
+export function availableInReference (references, documentType) {
+	if(!Object.keys(references).length) return false
+	if(references.hasOwnProperty(documentType)) return true
+	return false
+}
+
+
+// gets form data per property 
+// used to get config form data for subdocuments, documentlinks etc.
+export function getFormDataPerProperty (subDocumentData, fieldName) {
+  if(subDocumentData.hasOwnProperty(fieldName)) return subDocumentData[fieldName]
+  return ""
+}
+
+// @unfoldable  - checks if a document class is unfoldable
+export const isUnfoldable=(documentFrame) => {
+	if(documentFrame && documentFrame.hasOwnProperty(CONST.UNFOLDABLE)) return true
+	return false
+}
+
+
+/**** METADATA util functions */
+// RENDER_AS
+export function fetchMetaData(documentFrame, property) {
+	if(!documentFrame.hasOwnProperty(CONST.METADATA)) return false
+	if(documentFrame[CONST.METADATA].hasOwnProperty(CONST.RENDER_AS)) {
+		// render as info
+		if(documentFrame[CONST.METADATA][CONST.RENDER_AS].hasOwnProperty(property)) 
+			return documentFrame[CONST.METADATA][CONST.RENDER_AS][property]
+		return false
+	}
+	return false
+}
+
+// ORDER_BY
+// get order by for parent document type
+export function getDocumentOrderBy(documentFrame) {
+	if(!documentFrame || !documentFrame.hasOwnProperty(CONST.METADATA)) return false
+	if(documentFrame[CONST.METADATA].hasOwnProperty(CONST.ORDER_BY)) {
+		// order by info
+		return documentFrame[CONST.METADATA][CONST.ORDER_BY]
+	}
+	return false
+}
+
+// get order by for documents which are subdocuments/ choice sub documents or links pointing to document 
+export function getOrderBy(fullFrame, linked_to) {
+	if(!fullFrame.hasOwnProperty(linked_to)) {
+		throw new Error (`Expectd to find ${linked_to} in frames, but instead didnt find definition`)
+	}
+	if(!fullFrame[linked_to].hasOwnProperty(CONST.METADATA)) return false
+	if(fullFrame[linked_to][CONST.METADATA].hasOwnProperty(CONST.ORDER_BY)) {
+		// order by info
+		return fullFrame[linked_to][CONST.METADATA][CONST.ORDER_BY]
+	}
+	return false
+}
+
+// if subdocument should be expanded
+export function checkIfSubDocumentShouldBeExpanded(documentFrame, property) {
+	// check for SubDocument MetaData
+	let metaDataType=fetchMetaData(documentFrame, property), expanded = false
+	if(metaDataType) {
+		// expecting JSON at this point
+		expanded=metaDataType["expand"]
+	}
+	return expanded
+}
+
+
+// sort remaining properties not mentioned in order_by
+function addRemainingProperties (properties, sortedFieldNames, sorted) {
+	let remainingFields = {}
+	// all fields have been sorted correctly
+	if(Object.keys(properties).length === Object.keys(sorted).length) return sorted
+	// if length do not match then some fields are remaining
+
+	remainingFields = sorted
+
+	for(let props in properties) {
+		// check if fields are included in sortedFieldNames
+		if(!sortedFieldNames.includes(props)) {
+			remainingFields[props] = properties[props]
+		}
+	}
+	//console.log("remainingFields", remainingFields)
+	return remainingFields
+}
+
+export function sortProperties (properties, order_by) {
+	if(Array.isArray(order_by) && order_by.length) {
+		let sorted = {}, sortedFieldNames =[]
+		order_by.map( field => {
+			if(properties.hasOwnProperty(field)) {
+				//sorted.push(properties[field])
+
+				sorted[field] = properties[field]
+				sortedFieldNames.push(field)
+			}
+		})
+		return addRemainingProperties(properties, sortedFieldNames, sorted)
+		//return sorted
+	}
+	return properties
+}
+
+
+/** ENUM DOCUMENTATION */
+export const extractEnumComment = (fullFrame, enumDocumentClass, options, property) => {
+	if(!fullFrame.hasOwnProperty(enumDocumentClass)) {
+		throw new Error (`Expected full frames to have ${enumDocumentClass} defined ...`)
+	}
+	if(!fullFrame[enumDocumentClass].hasOwnProperty(CONST.DOCUMENTATION)) return false
+	let language=fullFrame[CONST.SELECTED_LANGUAGE]
+	// add chosen language to documentation array
+  let extractedDocumentation = extractDocumentation(fullFrame, enumDocumentClass, language)
+	return getLabelFromEnumDocumentation(property, extractedDocumentation, options)
+}	
+
+/** Geo JSON util functions */
+
+// get min items to display 
+export function getMinItems(documentFrame, property) {
+	let dimension = documentFrame[property][CONST.DIMENSIONS]
+	if(dimension === CONST.POINT_TYPE_DIMENSIONS) {
+		//@dimension = 1
+		if(property === CONST.B_BOX) return CONST.BBOX_MIN_ITEMS
+		return CONST.POINT_MIN_ITEMS
+	}
+}
+
+// setBounds converts geo json bound to bounds format supported in leaflet 
+export function setBounds(data) {
+	if(data.length<4) return []
+	//[west, south, east, north]
+	let westSouth=[data[0], data[1]]
+	let eastNorth=[data[2], data[3]]
+	let bounds=[westSouth, eastNorth]
+	return bounds
+}
+
+// get bbox label based on index 
+export function getBBoxLabel(index) {
+	if(index === 0) return "left"
+	else if (index === 1) return "bottom"
+	else if (index === 2) return "right"
+	else return "top"
+}
+
+// sets b_box from tdb to react leaflet b_box
+export function checkIfBoundsAvailable(frame, formData) {
+	if(frame.hasOwnProperty(CONST.B_BOX) && 
+		frame[CONST.B_BOX][CONST.DIMENSIONS] === 1 && 
+		formData.hasOwnProperty(CONST.B_BOX))  {
+			return setBounds(formData[CONST.B_BOX])
+		}
+	return []
+}
+
+// checks if field is point type
+export function isPointType (field) {
+	if(field && field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.ARRAY && 
+		field.hasOwnProperty(CONST.DIMENSIONS) && 
+		field[CONST.DIMENSIONS] === CONST.POINT_TYPE_DIMENSIONS) {
+			return true
+	}
+	return false
+}
+
+
+// checks if field is line string type
+export function isLineStringType (field) {
+	if(field && field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.ARRAY && 
+		field.hasOwnProperty(CONST.DIMENSIONS) && 
+		field[CONST.DIMENSIONS] === CONST.LINE_STRING_TYPE_DIMENSIONS) {
+			return true
+	}
+	return false
+}
+
+// checks if field is polygon/ multipolygon type & matches with dimension 3
+export function isPolygonType (field) {
+	if(field && field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.ARRAY && 
+		field.hasOwnProperty(CONST.DIMENSIONS) && 
+		field[CONST.DIMENSIONS] === CONST.POLYGON_TYPE_DIMENSIONS) {
+			return true
+	}
+	return false
+}
+
+// checks if polygon from type 
+export function isPolygon(frame) {
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@values") && 
+    frame["type"]["@values"][0] === CONST.POLYGON) 
+			return true
+	return false 
+}
+
+// checks if MultiPolygon from type 
+export function isMultiPolygon(frame) {
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@values") && 
+    frame["type"]["@values"][0] === CONST.MULTIPOLYGON) 
+			return true
+	return false 
+}
+
+// checks if field is binding box type
+export function isBBoxType(field, property) {
+	if(property === CONST.B_BOX) {
+		return isPointType (field)
+	}
+	return false
+}
+
+// function which checks if all array are equal
+function arrayEquals(a, b) {
+  return Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => val === b[index]);
+}
+
+// feature collection
+export function isGeometryCollection(field) {
+	if(arrayEquals(field, CONST.GEOMETRY_ARRAY)) return true
+	return false
+}
+
+/***
+ * checks if frame is inherrited from geo json types
  */
-export function getSubDocumentDescription(item, description) {
-	let descr=[]
-	if(description) descr.push(<small className="text-muted">{description}</small>)
-	else descr.push(
-		<small className="text-muted">
-			{`${item} is a sub document. If you wish to fill a property of ${item} make sure all mandatory fields are entered.`}
-		</small>
-	)
-	return descr
+export function isInherritedFromGeoJSONTypes(frame) {
+	if(!frame.hasOwnProperty(CONST.INHERITS)) return false
+	return frame[CONST.INHERITS].every(item => {
+		return CONST.GEOJSON_ARRAY_TYPES.includes(item);
+	});
 }
 
+/*** Key utility */
 /**  check if field is a key */
 /**
- * 
+ *  
  * @param {*} property - property 
  * @param {*} key - key field 
  * @returns  checks if property is a key of a document
  */
 export function checkIfKey(property, key) {
-    if(!key) return
+	if(!key) return 
 	if(!key["@fields"]) return 
-	var isKey=false
-	key["@fields"].map(item => {
-		if(item === property) {
-			isKey=true
-		}
-	})
-	return isKey
+	return key["@fields"].filter( arr => arr === property)
 }
 
 /**
  * 
- * @param {*} isKey true if property is lexical key
  * @param {*} label name of the property 
  * @returns a key symbol along with property label in UI - to tell user that this is a lexical field
  */
-export function displayIfKeyField(isKey, label) {
-	if(isKey) {
-		return <span key={label}  
-			className="mt-1"
-			id="tdb__property__key__icon"
-			title={`${label} is a key field. Once created, you will not be able to update this field.`}>
-			<FcKey className="mr-2 mb-2"/>
-		</span>
-	}
-	return <div/>
+ export function displayIfKeyField(isKey, label) {
+	if(!isKey.length) return <div/>
+	return <span key={label}  
+		className="mt-1"
+		id="tdb__property__key__icon"
+		title={`${label} is a key field. Once created, you will not be able to update this field.`}>
+		<FcKey className="mr-2"/>
+	</span>
 }
+
+// function to check if field is lexical key 
+// if mode === EDIT, and isKey = true, set input field to readOnly
+export function checkIfReadOnly(mode, value, isKey) {
+  if(mode === CONST.VIEW) return true
+  if(mode === CONST.EDIT && value && isKey && isKey.length) return true 
+  return false
+}
+
 
  /**
   * 
   * @param {*} frame - document frame
   * @returns true if document has ValueHash type key
-  */
- export function isValueHashDocument(frame) {
+*/
+export function isValueHashDocument(frame) {
 	if(!frame) return null
 	if(frame["@key"] && frame["@key"]["@type"] &&
 		frame["@key"]["@type"] ===  CONST.VALUE_HASH_KEY) {
@@ -620,168 +650,106 @@ export function displayIfKeyField(isKey, label) {
 	}
 	return false
 }
- 
+	 
 /**
  * 
  * @returns a help message on why value hah field cant be edited
  */
 export function getValueHashMessage () {
-	return <p className="text-warning">
-		<BiErrorCircle className="mr-2"/>
+	return <p className="text-warning fst-light small">
+		<FcKey className="mr-2"/>
 		Edit is disabled for a document with Value Hash key.
 		A Value Hash object will change its id and is generated from its properties. Best way would be to
 		delete this document and create a new one.
 	</p>
 }
 
-/**
- * 
- * @param {*} item - property 
- * @param {*} uiDisable - uiDisable will disable edit on a key field
- * @param {*} documentation - documentation
- * @returns title based on if Key field or not
- */
-export function getTitle(item, uiDisable, documentation) { 
-	let label=getLabelFromDocumentation(item, documentation)
-	//let label=getPropertyLabelFromDocumentation(item, documentation)
-	if(uiDisable) return <span key={label}  
-		title={`${label} is a key field. Once created, you will not be able to update this field.`}>
-			<FcKey className="mr-2"/>{label}
-		</span>
-    else return <span key={label} >{label}</span>
-}
+/**** ui frame functions */
 
-
-/**
- * 
- * @param {*} uiFrame - extracted frames
- * This function removes the * astericks symbol from title to let user know its optional
-*/
-export function removeRequired (item, documentation, uiFrame) {
-    let newUI={}
-    for(var uiItems in uiFrame){
-        if(uiItems === "ui:title") {
-            newUI[uiItems]=item//getSubDocumentLabel(item, documentation, false)
-        }
-        else newUI[uiItems]=uiFrame[uiItems]
-    }
-    return newUI
-}
-
-/**
- * 
- * @param {*} frame frame of interest
- * @param {*} item property of interest
- * @returns metadata render widget type
- */
-export function checkForMetaData (frame, item) {
-    if(frame.hasOwnProperty(CONST.METADATA) && 
-        frame[CONST.METADATA].hasOwnProperty(CONST.RENDER_AS) && 
-        frame[CONST.METADATA][CONST.RENDER_AS].hasOwnProperty(item) &&
-        frame[CONST.METADATA][CONST.RENDER_AS][item]) {
-            return frame[CONST.METADATA][CONST.RENDER_AS][item]
-    }
-    return false
-}
-
-/**
- * 
- * @param {*} frame frame of interest
- * @param {*} item property of interest
- * @returns document class linked to a property
- */
-export function getLinkedDocumentClassName (frame, item) {
-	return frame[item].hasOwnProperty("@class") ? frame[item]["@class"] : null
-}
-
-/**
- * 
- * @param {*} data - filled data of a string field
- * @returns row height to display in textareas for xsd:string datat type field 
- */
-export function getRowHeight(data) {
-	if(Array.isArray(data)) return 1
-	if(typeof data !== "string") return 1
-    return data.split(/\r\n|\r|\n/).length
-}
-
-/**
- * extracts choice type from ID - example extracts type 'Dance' from id, "Dance/312323"
- */
-export function extractChoiceTypeFromID (filledData) {
-	if (!filledData) return filledData
-	let filled=filledData
-	if (typeof filledData === CONST.OBJECT_TYPE) {
-		return filledData["@type"]
-	}
-	let choiceType=filled.split("/")
-	return choiceType[0]
-}
-
-/** --- Geo util functions --- */
-
-// setBounds converts geo json bound to bounds format supported in leaflet 
-export function setBounds(formData) {
-	if(!formData.hasOwnProperty(CONST.B_BOX)) return []
-	if(formData[CONST.B_BOX].length<4) return []
-	//[west, south, east, north]
-	let westSouth=[formData[CONST.B_BOX][0], formData[CONST.B_BOX][1]]
-	let eastNorth=[formData[CONST.B_BOX][2], formData[CONST.B_BOX][3]]
-	let bounds=[westSouth, eastNorth]
-	return bounds
-}
-
-// checks if key exists in a json object 
-export const keyExists = (obj, key) => {
-	if (!obj || (typeof obj !== "object" && !Array.isArray(obj))) {
-	  return false;
-	}
-	else if (obj.hasOwnProperty(key)) {
-	  return obj[key];
-	}
-	else if (Array.isArray(obj)) {
-	  for (let i = 0; i < obj.length; i++) {
-		const result = keyExists(obj[i], key);
-		if (result) {
-		  return result;
+export function getJSONTypeUIClassNames (uiFrame, property, defaultClassName, index) {
+	if(uiFrame && uiFrame.hasOwnProperty(property)) {
+		if(Array.isArray(uiFrame[property])) {
+			// SET/ LIST/ ARRAY
+			// expecting index to be populated from Array templates 
+			let className=""
+			for(let props in uiFrame[property][index]) {
+				if(Object.keys(uiFrame[property][index][props])[0] === CONST.CLASSNAME) {
+					className=uiFrame[property][index][props][CONST.CLASSNAME]
+					break
+				}
+			}
+			return className
 		}
-	  }
-	}
-	else {
-	  for (const k in obj) {
-		const result = keyExists(obj[k], key);
-		if (result) {
-		  return result;
+		else { 
+			let className=""
+			for(let props in uiFrame[property]) {
+				if(Object.keys(uiFrame[property][props])[0] === CONST.CLASSNAME) {
+					className=uiFrame[property][props][CONST.CLASSNAME]
+					break
+				}
+			}
+			return className
 		}
-	  }
 	}
-  
-	return false;
-  };
-
-// @unfoldable 
-export const isUnfoldable=(schema) => {
-	if(schema.hasOwnProperty(CONST.UNFOLDABLE)) return true
-	return false
+	return defaultClassName 
+}
+ 
+/**
+ * 
+ * @param {*} uiFrame ui json  
+ * @returns custom ui function
+ */
+export function getUIClassNames (uiFrame, property, defaultClassName, index) {
+	if(uiFrame && uiFrame.hasOwnProperty(property)) {
+		if(Array.isArray(uiFrame[property])) {
+			// SET/ LIST/ ARRAY
+			// expecting index to be populated from Array templates 
+			return index === undefined ?  `` : uiFrame[property][index] !== undefined ? `${uiFrame[property][index][CONST.CLASSNAME]}` : `tdb__doc__input`
+		}
+		else if(uiFrame[property].hasOwnProperty(CONST.CLASSNAME)) {
+			// SUBDOCUMENTS ( property will be fields of subdocuments)
+			// NORMAL DATA TYPES
+			return `${uiFrame[property][CONST.CLASSNAME]}`
+		}
+		else return defaultClassName 
+	}
+  return defaultClassName 
 }
 
-// retrieves formData to display in FrameViewer
-export function getFormData(formData) {
-    if(Object.keys(formData).length) return formData
-    return {}
+/**
+ * 
+ * @param {c} uiFrame ui frame 
+ * @param {*} subDocumentPropertyName subdocument property name 
+ * @param {*} defaultClassName default classname "tdb__doc__input"
+ * @returns  ui frame for subdocument property which would contain each field uiframes to display from diffviewer
+ */
+export function getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index) {
+  if(uiFrame && uiFrame.hasOwnProperty(subDocumentPropertyName)) {
+		if(index) return uiFrame[subDocumentPropertyName][index]
+		else return uiFrame[subDocumentPropertyName]
+	}
+  return defaultClassName
 }
 
-// chained data 
-/*export function addOnChainedData (formData, chainedData) {
-	if(!chainedData) return formData
-	if(typeof chainedData !== CONST.OBJECT_TYPE) return formData
-	if(typeof formData !== CONST.OBJECT_TYPE) return formData
-	if(!chainedData.hasOwnProperty("@link")) return formData
-	let propertyName=chainedData["@link"]
-	delete chainedData["@link"]
-	formData[propertyName]= chainedData
-	return formData
-}*/
-
-
-
+/**
+ * 
+ * @param {*} uiFrame ui frame 
+ * @param {*} subDocumentPropertyName subdocument property name 
+ * @param {*} index index for Arrays
+ * @returns 
+ */
+export function getBorder (uiFrame, subDocumentPropertyName, index) {
+  if(uiFrame && uiFrame.hasOwnProperty(subDocumentPropertyName)) {
+		if(index) {
+			if(uiFrame[subDocumentPropertyName][index].hasOwnProperty(CONST.BORDER)) {
+				return uiFrame[subDocumentPropertyName][index][CONST.BORDER]
+			}
+			else return "border border-dark"
+		}
+		else {
+			if(uiFrame[subDocumentPropertyName].hasOwnProperty(CONST.BORDER)) 
+				return uiFrame[subDocumentPropertyName][CONST.BORDER]
+		}
+	}
+	return "border border-dark"
+}

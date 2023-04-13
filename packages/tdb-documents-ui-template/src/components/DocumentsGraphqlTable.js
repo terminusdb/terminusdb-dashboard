@@ -2,7 +2,6 @@ import React,{useState,useEffect} from "react";
 import {AdvancedSearch, GraphqlTable, ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
 import {Tab,Tabs,Button,Alert,Container,ProgressBar} from 'react-bootstrap'
 import { GraphqlQueryView } from "./GraphqlQueryViewer";
-//import {gql} from "@apollo/client";
 import { format } from 'graphql-formatter'
 import Accordion from 'react-bootstrap/Accordion'
 import {RiDeleteBin7Line, RiEdit2Fill} from "react-icons/ri"
@@ -106,15 +105,61 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
     }
 
     const error = documentError  && typeof documentError === "object" ? JSON.stringify(documentError, null, 4) : documentError
-
+   
     return <div> 
-            {error && <Alert
-            className="text-break"
-            variant="danger">
-            GraphQL query error
-            {error}
-            </Alert>
-}         
+            {error && <Alert className="text-break" variant="danger"> GraphQL query error {error} </Alert>}  
+            {advSearchFields &&
+                 <Accordion className="mb-4">
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Advanced filter</Accordion.Header>
+                        <Accordion.Body>
+                            <AdvancedSearch fields={advSearchFields} setFilter={setAdvancedFilters} />
+                        </Accordion.Body>
+                    </Accordion.Item>   
+                </Accordion>} 
+                {loading && <Container className="loading-bar-align justify-content-center">
+                            <ProgressBar  message={`Loading ${type} ...`}/>
+                           </Container>}
+                           {!loading && 
+            <Tabs defaultActiveKey="table" className="mb-3" >
+                <Tab eventKey="table" title="Result Table">
+                {!loading && Array.isArray(extractedResults) && 
+                     <GraphqlTable
+                     // dowloadConfig={{filename:"test.csv",headers:["Author","Commit ID"]}}
+                      result={extractedResults}
+                      freewidth={true}
+                      config ={tableConfigObj}
+                      //hiddenColumnsArr = {hiddenColumnsArr}
+                      //view={(tableConfig ? tableConfig.json() : {})}
+                      limit={limit}
+                      start={start}
+                      orderBy={[]} 
+                      setFilters = {changeFilters}
+                      setLimits={changeLimits}
+                     // setOrder={changeOrder}
+                      loading={loading}
+                      totalRows={rowCount}
+                      onRefresh={function(){}}
+                />}
+            </Tab>
+           {showGraphqlTab && <Tab eventKey="graphql" title="Graphql Query">
+                <div>
+                {queryToDisplay && 
+                   <GraphqlQueryView 
+                     filterBy={queryFilters}
+                     orderBy={queryOrderBy}
+                     start={start}
+                     limit={limit}
+                     queryToDisplay={queryToDisplay} />}
+                </div>
+            </Tab>}
+         </Tabs>}
+         
+    </div>
+}
+
+/*<div> 
+            {error && <Alert className="text-break" variant="danger"> GraphQL query error {error} </Alert>}         
             {advSearchFields &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">
@@ -123,13 +168,13 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
                             <AdvancedSearch fields={advSearchFields} setFilter={setAdvancedFilters} />
                         </Accordion.Body>
                     </Accordion.Item>
-            </Accordion>}       
+</Accordion>}       
             {loading && <Container className="loading-bar-align justify-content-center">
                             <ProgressBar  message={`Loading ${type} ...`}/>
                         </Container>}
             {!loading && 
             <Tabs defaultActiveKey="table" className="mb-3" >
-                <Tab eventKey="table" title="Result Table">
+                <Tab eventKey="table" title="Result Table">hello 
                     {!loading && Array.isArray(extractedResults) && 
                      <GraphqlTable
                      // dowloadConfig={{filename:"test.csv",headers:["Author","Commit ID"]}}
@@ -140,27 +185,26 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
                    //   view={(tableConfig ? tableConfig.json() : {})}
                       limit={limit}
                       start={start}
-                      orderBy={orderBy} 
+                      orderBy={[]} 
                       setFilters = {changeFilters}
                       setLimits={changeLimits}
-                      setOrder={changeOrder}
+                     // setOrder={changeOrder}
                       loading={loading}
                       totalRows={rowCount}
                       onRefresh={function(){}}
-                  />}
+            />}
             </Tab>
            {showGraphqlTab && <Tab eventKey="graphql" title="Graphql Query">
                 <div>
                 {queryToDisplay && 
-                   <GraphqlQueryView 
+                   {<GraphqlQueryView 
                      filterBy={queryFilters}
                      orderBy={queryOrderBy}
                      start={start}
                      limit={limit}
-                     queryToDisplay={queryToDisplay} />
+                   queryToDisplay={queryToDisplay} />}
                 }
                 </div>
             </Tab>}
          </Tabs>}
-    </div>
-}
+    </div>*/

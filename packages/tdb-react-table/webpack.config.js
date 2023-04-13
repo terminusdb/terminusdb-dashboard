@@ -1,11 +1,11 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+//const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = (env, argv) => ({
     plugins: [new MiniCssExtractPlugin()],
     entry: './src/index.js',
-    module: {
+   /* module: {
         rules: [
             {
                 test: /\.js$/,
@@ -16,7 +16,7 @@ module.exports = (env, argv) => ({
                 exclude: /node_modules/,
             },
         ]
-    },
+    },*/
     devtool: argv.mode === 'production' ? false : '#inline-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -29,6 +29,7 @@ module.exports = (env, argv) => ({
         {
           test: /\.js$/,
           exclude: /node_modules/,
+          include: path.resolve(__dirname, "src"),
           use: {
             loader:"babel-loader",
             options:{

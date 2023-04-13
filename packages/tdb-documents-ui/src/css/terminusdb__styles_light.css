@@ -1,0 +1,164 @@
+@import "https://bootswatch.com/5/sandstone/bootstrap.css";
+
+:root {
+	--input-color: #000;
+  --input-border: 1px solid #000;
+  --required-color: #6c757d;
+  --tdb-label-width: 13rem;
+  --nested-control-label-color: #f8f8f8;
+  --nested-required-label-color: #ccc;
+  --tdb-latlng-label-width: 5rem; 
+  --rounded: 0.375rem;
+  --field-margin-bottom: 1rem;
+  --array-margin-bottom: 2rem;
+}
+
+/** tdb input */
+.tdb__doc__input {
+  color: var(--input-color) !important;
+  background-color: transparent!important;
+  border: var(--input-border) !important;
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  background-clip: padding-box;
+  margin-bottom: var(--fields-margin-botom) !important;
+}
+
+/** all property labels */
+label.control-label {
+  text-align:left; 
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  word-break: break-all;
+  min-width: var(--tdb-label-width);
+  width: var(--tdb-label-width);
+}
+
+/** enabling labels in subdocument to appear in light color when in light mode */
+.bg-secondary label.control-label {
+  color: var(--nested-control-label-color);
+}
+
+/** labels for latitude & longitude */
+label.latlng-control-label {
+  text-align:left; 
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  word-break: break-all;
+  min-width: var(--tdb-latlng-label-width);
+  width: var(--tdb-latlng-label-width);
+}
+
+/** required */
+.required {
+  font-size: 14px;
+  color: var(--required-color) !important;
+  display: flex;
+  width: var(--tdb-label-width);
+}
+
+/** margin bottom for enum fields  fields */
+.tdb__enum__input {
+  margin-bottom: var(--array-margin-botom);
+}
+
+/** margin bottom for Array fields */
+.field .field-array {
+  margin-bottom: var(--array-margin-botom) !important;
+}
+
+
+/** enabling labels in subdocument to appear in light color when in light mode */
+.bg-secondary .required {
+  color: var(--nested-required-label-color) !important;
+}
+
+.required::after {
+  content: "(required)";
+  font-style: italic;
+}
+
+/** tdb property labels */
+.tdb__label__width {
+  max-width: var(--tdb-label-width);
+  width: var(--tdb-label-width);
+}
+
+/** tdb add array button */
+.tdb__add__button {
+  margin-left: var(--tdb-label-width);
+}
+
+/** react calander */
+/*.react-calendar {
+  background-color: var(--input-calander-color);
+}*/
+
+.react-datetime-picker { 
+  width: 100%;
+}
+
+.react-datetime-picker__wrapper { 
+  border-radius: var(--rounded);
+}
+
+.react-datetime-picker__inputGroup__input:invalid { 
+  background: transparent;
+}
+
+/** react calander set color to dark on select or hover */
+/*.react-calendar__tile:hover,
+.react-calendar__tile--now,
+.react-calendar__navigation__label:hover,
+.react-calendar__navigation__label__labelText:hover,
+.react-calendar__navigation__arrow:hover { 
+  color: var(--input-calander-color);
+}*/
+
+.react-datetime-picker__wrapper { 
+  /*color: var(--input-color) !important;
+  background-color: transparent!important;
+  border: var(--input-border) !important;*/
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+}
+
+
+/** margin bottom for fields */
+.tdb__doc__input,
+.tdb__subdocument__input,
+.react-datetime-picker,
+.tdb__enum__input,
+.tdb__array__input {
+  margin-bottom: var(--field-margin-bottom);
+}
+
+/** margin bottom for array templates */
+.tdb__array__holder {
+  margin-bottom: var(--array-margin-bottom);
+}
+
+/** leaflet container */
+.leaflet-container {
+  height: 200px !important;
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* datepciker css when date has been chosen */
+/*.react-datetime-picker--closed { 
+  color: var(--input-color) !important;
+  background-color: transparent!important;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}*/

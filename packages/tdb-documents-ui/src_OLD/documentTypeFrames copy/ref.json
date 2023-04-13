@@ -1,0 +1,88 @@
+{
+  "type": "object",
+  "properties": {
+    "animal": {
+      "enum": [
+        "Create",
+        "Link"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "animal": {
+            "const": "Create"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "food": {
+            "type": "string",
+            "enum": [
+              "meat",
+              "grass",
+              "fish"
+            ]
+          }
+        },
+        "required": [
+          "food"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "animal": {
+            "const": "Link"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "food": {
+            "type": "string",
+            "enum": [
+              "insect",
+              "worms"
+            ]
+          },
+          "water": {
+            "type": "string",
+            "enum": [
+              "lake",
+              "sea"
+            ]
+          }
+        },
+        "required": [
+          "food",
+          "water"
+        ]
+      }
+    },
+    {
+      "required": [
+        "animal"
+      ]
+    }
+  ]
+}
+
+
+// ui 
+{
+  "animal": {
+      "ui:widget": "radio"
+  }
+}
+
+// form data 
+{
+  "animal": "Link",
+  "food": "insect",
+  "water": "sea"
+}

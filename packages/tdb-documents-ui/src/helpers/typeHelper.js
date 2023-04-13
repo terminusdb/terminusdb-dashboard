@@ -1,51 +1,54 @@
-import * as util from "../utils"
-import * as CONST from "../constants"
-import {getDataType} from "../dataTypeFrames/helpers" 
 
-/**
- * 
- * @param {*} frame - frame of document
- * @param {*} item - property of frame
- * @returns type of property 
- */
-export function getType(fullFrame, frame, item) {
-    /** return null if frmae doesnt have property in it */
-    if(!frame.hasOwnProperty(item)) return null
-     
-    if(util.isDataType(frame[item])) {
-        return getDataType(frame[item])
-    } 
-    else if(util.isOneOfSubDocumentType(fullFrame, frame[item])) {
-        return CONST.OBJECT_TYPE
-    }
-    else if(util.isSubDocumentType(frame[item])) {
-        return CONST.OBJECT_TYPE
-    }
-    else if(util.isChoiceSubDocumentType(frame[item])) {
-        return CONST.OBJECT_TYPE
-    }
-    else if(util.isChoiceDocumentType(frame[item])) {
-        //return CONST.OBJECT_TYPE
-        return CONST.STRING_TYPE
-    }
-    /*else if(util.isOneOfDataType(frame, item)) {
-        //return [CONST.STRING_TYPE, CONST.OBJECT_TYPE]
-        return  CONST.OBJECT_TYPE
-    }*/
-    else if (util.isDocumentType(frame[item], fullFrame)) {
-        //return CONST.STRING_TYPE
-        return CONST.OBJECT_TYPE
-    }
-    else if(util.isEnumType(frame[item])) {
-        return CONST.STRING_TYPE
-    }
-    else if(util.isSysJSONDataType(frame[item])) {
-        return CONST.OBJECT_TYPE
-    }
-    else if(util.isSysUnitDataType(frame[item])) {
-        return CONST.ARRAY_TYPE
-    }
-    else if(util.isRdfLangString(frame[item])) {
-        return CONST.OBJECT_TYPE
-    }
-} 
+
+import * as CONST from "../constants"
+import * as util from "../utils"
+import * as TYPE from "../dataType.constants"
+
+export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
+
+  let field = documentFrame[property]
+
+  if(util.isDataType(field)) {
+    // DATA TYPE
+    if(field === TYPE.XSD_BOOLEAN)
+      return CONST.BOOLEAN_TYPE
+    return CONST.STRING_TYPE
+  } 
+  else if(util.isSubDocumentType(field)){
+    // SUBDOCUMENT TYPE 
+    return CONST.OBJECT_TYPE
+  }
+  else if(util.isEnumType(field)){
+    // ENUM TYPE
+    return CONST.STRING_TYPE
+  }
+  else if(util.isDocumentType(field, fullFrame)){
+    // DOCUMENT LINKS 
+    // if isArray then we are only expecting Object Types
+    if(isArray) return [ CONST.STRING_TYPE, CONST.OBJECT_TYPE ]
+    // document links on create mode can expect 2 parameters
+    // to link to an existing document or to create a new document all together
+    // pass NULL type object as well when you unlink an existing link
+    return [ CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null" ] 
+  }
+  else if(util.isChoiceSubDocumentType(field)) {
+    return CONST.OBJECT_TYPE
+  }
+  else if(util.isRdfLangString(field)) {
+    return CONST.OBJECT_TYPE
+  }
+  else if (util.isPointType(field) || 
+    util.isLineStringType(field) ||
+    util.isPolygonType(field)) {
+    // GEO JSON Types
+    return CONST.ARRAY_TYPE
+  } 
+  else if(util.isGeometryCollection(field)) {
+    // FEATURE COLLECTION
+    return CONST.OBJECT_TYPE
+  }
+  else if(util.isSysUnitDataType(field)) {
+    return CONST.ARRAY_TYPE
+  }
+  return CONST.OBJECT_TYPE
+}

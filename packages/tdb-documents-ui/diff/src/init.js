@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 const TerminusDBClient = require("@terminusdb/terminusdb-client")
 export const InitContext = React.createContext()
 export const InitObj = () => useContext(InitContext)
-import {getFrames, getDocumentClasses} from "./utils"
+import {getFrames, getDocumentClasses} from "./functions"
 
 
 export const InitProvider = ({children, config}) => { 
