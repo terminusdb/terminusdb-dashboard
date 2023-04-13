@@ -18,10 +18,10 @@ export function ChangeRequest(){
         return client.connectionConfig.dbBase("changes")
     }
     
-    const createChangeRequest = async(name,message) =>{
+    const createChangeRequest = async(name,message,fromBranch) =>{
         try{
             setLoading(true)
-        const payload = {original_branch:"main",
+        const payload = {original_branch:fromBranch || "main",
                         name:name,
                         message:message,
                         author:woqlClient.user()}

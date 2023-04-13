@@ -165,7 +165,13 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
  */
 export const DiffView = ({diffs, CRObject}) => { 
     const {woqlClient} = WOQLClientObj()
-    const {frames,getUpdatedFrames} = DocumentsUIHook(woqlClient)
+
+    // I need to copy the woqlClient and set the original_branch 
+    // to get the right frame
+    const woqlClientCopy = woqlClient.copy()
+    woqlClientCopy.checkout(CRObject.original_branch)
+
+    const {frames,getUpdatedFrames} = DocumentsUIHook(woqlClientCopy)
     // pagination constants
     const [activePage, setActivePage]=useState(1)
     const [current, setCurrent]=useState(0)

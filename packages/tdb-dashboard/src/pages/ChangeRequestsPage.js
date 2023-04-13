@@ -176,7 +176,6 @@ export const ChangeRequestsPage = () => {
 							<Button className="bg-warning text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
 					  </React.Fragment>
 		}
-
 	}
  
 	
@@ -191,9 +190,13 @@ export const ChangeRequestsPage = () => {
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
 					{iconTypes[item.status]}
 					<div className="ms-2 me-auto">
-						{name && <div className="fw-bold text-gray">
+						{name && <div className="fw-bold text-success">
 							{name}
-						</div>}
+							<span class="text-dark ml-1 badge badge-info mr-1">{item.tracking_branch}</span>
+						 		from branch 
+							<span class="text-dark ml-1 badge badge-success">{item.original_branch}</span>
+						
+						</div>}						
 						<div className="text-gray font-italic">
 							{message}
 						</div>
