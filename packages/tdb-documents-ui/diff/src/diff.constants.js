@@ -130,13 +130,26 @@ export const oldData = {
 		"@id": "One/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "One",
 		"name": "John",
-		/*"lives": {
-			"@type": "Address",
-			"AddressLine1": "AddressLine1",
-			"City": "City",
-			"Country": "Country",
-			"postalCode": "postalCode"
-		}*/
+		"likes": {
+			"@type": "Animal", 
+			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+			"nickName": "Chooo",
+			"category": "Cats",
+			"owned_by": {
+				"@id": "owned_by/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+				"@type": "Person", 
+				"likes": { 
+					"@id": "likes/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+					"@type": "Animal", 
+					"nickName": "Ronny",
+					"category": "Dogs",
+					/*"owned_by": {
+						"@type": "Person", 
+						"name": "Marry Ann"
+					}*/
+				}
+			}
+		},
 	}
 }  
  
@@ -270,14 +283,27 @@ export const changedData = {
 	"One": {
 		"@id": "One/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "One",
-		"name": "Johnyyyy",
-		"lives": {
-			"@type": "Address",
-			"AddressLine1": "AddressLine1",
-			"City": "City",
-			"Country": "Country",
-			"postalCode": "postalCode"
-		}
+		"likes": {
+			"@type": "Animal", 
+			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+			"nickName": "Chooo",
+			"category": "Cats",
+			"owned_by": {
+				"@id": "owned_by/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+				"@type": "Person", 
+				"name": "Ron",
+				"likes": { 
+					"@id": "likes/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+					"@type": "Animal", 
+					"nickName": "Ronny",
+					"category": "Dogs",
+					/*"owned_by": {
+						"@type": "Person", 
+						"name": "Marry Ann"
+					}*/
+				}
+			}
+		},
 	}
 } 
 

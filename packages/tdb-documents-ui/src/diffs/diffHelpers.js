@@ -7,7 +7,7 @@ function getBorder(diffState)  {
     return "tdb__diff__original-border"
   }
   return "tdb__diff__changed-border"
-}
+} 
 
 // SETS/ LIST/ ARRAY
 function processOperation(diff, diffState) {
@@ -109,6 +109,25 @@ function getDiffUi (diffPatch, diffState) {
   return uiFrame
 }
 
+// @op = @insert
+function getInsertUi (diffPatch, diffState) {
+  let documentType = diffPatch[DIFFCONST.INSERT_OPERATION][CONST.TYPE]
+  if(diffState === DIFFCONST.AFTER) {
+    return { [documentType] : { [CONST.CLASSNAME]: "tdb__diff__inserted rounded p-3"} }
+  }
+  return { [documentType] : { [CONST.CLASSNAME]: "display-none"} }
+}
+
+
+// @op = @delete
+function getDeleteUi (diffPatch, diffState) {
+  let documentType = diffPatch[DIFFCONST.DELETE_OPERATION][CONST.TYPE]
+  if(diffState === DIFFCONST.BEFORE) {
+    return { [documentType] : { [CONST.CLASSNAME]: "tdb__diff__deleted rounded p-3"} }
+  }
+  return { [documentType] : { [CONST.CLASSNAME]: "display-none"} }
+}
+
 
 /**
  * 
@@ -118,10 +137,19 @@ function getDiffUi (diffPatch, diffState) {
  */ 
 export function generateDiffUIFrames(diffPatch, diffState) {
   
-  let uiFrame = {}
+  let uiFrame = {} 
 
   for (let property in diffPatch) {
     if(property === "@id") continue
+    else if(property === "@op") continue
+    else if(property === DIFFCONST.INSERT_OPERATION) {
+      // @insert operation
+      uiFrame = getInsertUi(diffPatch, diffState)
+    }
+    else if(property === DIFFCONST.DELETE_OPERATION) {
+      // @delete operation
+      uiFrame = getDeleteUi(diffPatch, diffState)
+    }
     else {
       let diffUi =getDiffUi (diffPatch[property], diffState)
       if(Object.keys(diffUi).length)

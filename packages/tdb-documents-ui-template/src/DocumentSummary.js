@@ -1,9 +1,8 @@
 
 import React from "react"
 import {Container, Card, Row, Col, Button} from "react-bootstrap"
-//import 'react-accessible-accordion/dist/fancy-example.css'
 
-export const DocumentSummary = ({Children,totalDocumentCount,perDocumentCount,documentClasses,onClick}) => {
+export const DocumentSummary = ({children,totalDocumentCount,perDocumentCount,documentClasses,onClick}) => {
 
     const DocumentStats = ({dataProvider}) => {
         const dataKey = Object.keys(dataProvider)
@@ -37,22 +36,21 @@ export const DocumentSummary = ({Children,totalDocumentCount,perDocumentCount,do
     }
 
     return  <main className="content  ml-5 w-100">
-        <Container>
-            <Row>
-                {perDocumentCount && typeof perDocumentCount === "object" 
-                    &&<DocumentStats dataProvider={perDocumentCount}/>
-                }
-                 {Array.isArray(documentClasses) &&  documentClasses.length===0  &&
-                    <Col xs={11} className="d-block ml-5 mr-3">
-                    <div className="card card-fil m-3">
-                        <div className="card-body w-100 text-center">
-                            <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>
-                            <Children/>
-                        </div>
+    <Container>
+        <Row>
+            {perDocumentCount && typeof perDocumentCount === "object" 
+                &&<DocumentStats dataProvider={perDocumentCount}/>
+            }
+             {Array.isArray(documentClasses) &&  documentClasses.length===0  &&
+                <Col xs={11} className="d-block ml-5 mr-3">
+                <div className="card card-fil m-3">
+                    <div className="card-body w-100 text-center">
+                        <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>
+                        {children}
                     </div>
-                </Col>}
-            </Row>
-        </Container>
-    </main>
-
+                </div>
+            </Col>}
+        </Row>
+    </Container>
+</main>
 }

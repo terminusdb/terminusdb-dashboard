@@ -10,7 +10,7 @@ import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
 import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
 
 export const DocumentEdit = () => { 
-    const {setChangeRequestBranch, branch,woqlClient} = WOQLClientObj()
+    const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest} = WOQLClientObj()
     if(!woqlClient) return ''
     const [showModal, setShowModal] = useState(false) 
     const {type, docid} = useParams()
@@ -37,7 +37,7 @@ export const DocumentEdit = () => {
    }
     // implement the chage method
     useEffect(() => {
-        if(branch === "main"){
+        if(!currentChangeRequest){
             setShowModal(true)
         }
         getUpdatedFrames()
@@ -53,7 +53,7 @@ export const DocumentEdit = () => {
     return <React.Fragment>
         {error && <ErrorMessageReport error={error} setError={setError}/>}
         {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
-        {branch !== "main" && 
+        {currentChangeRequest && 
             <EditDocumentComponent
                 SearchComponent={DocumentSearchComponent}
                 documentID={documentID} 

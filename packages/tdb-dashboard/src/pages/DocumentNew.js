@@ -10,7 +10,7 @@ import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
 
 export const DocumentNew = () => {  
     const {organization,dataProduct,type} = useParams()
-    const {setChangeRequestBranch, branch,woqlClient} = WOQLClientObj()
+    const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest} = WOQLClientObj()
     const [showModal, setShowModal] = useState(false)
 
     const {
@@ -28,7 +28,7 @@ export const DocumentNew = () => {
     //try to change/add documents in main branch
     // I'm moving this logic in change request
     useEffect(() => {
-        if(branch === "main"){
+        if(!currentChangeRequest){
             setShowModal(true)
         }
         getUpdatedFrames()
@@ -49,7 +49,7 @@ export const DocumentNew = () => {
     return  <React.Fragment>
             {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
             {error && <ErrorMessageReport error={error} setError={setError}/>}
-            {branch!== "main" &&  frames &&  
+            {currentChangeRequest &&  frames &&  
                 <NewDocumentComponent
                     SearchComponent={DocumentSearchComponent}
                     frames={frames}

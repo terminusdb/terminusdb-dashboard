@@ -37,6 +37,12 @@ export function constructFormParams (props, setDocumentation, reference, setRefe
   // order is set to place @documentation field at the start of the document
   properties.uiSchema["ui:order"] = util.getDocumentOrderBy(documentFrame)
 
+  if(uiFrame && 
+    uiFrame.hasOwnProperty(type) && 
+    uiFrame[type].hasOwnProperty(CONST.CLASSNAME)) 
+    properties.uiSchema["classNames"]= uiFrame[type][CONST.CLASSNAME]
+				
+
   let schemata = {
     schema: schema,
     uiSchema: properties.uiSchema
