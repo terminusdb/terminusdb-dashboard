@@ -40,10 +40,33 @@ export const DocumentExplorer = (props) => {
                     {documentLoading  && <Loading message={`Fetching documents ...`}/>}
                     {error && <ErrorMessageReport error={error} setError={setError}/>  }
                     {perDocumentCount &&
-                        <DocumentSummary perDocumentCount={perDocumentCount}
-                            totalDocumentCount={totalDocumentCount}
-                            documentClasses={documentClasses} onClick={handleCardClick}>
-                            <Nav.Item className="mb-4">
+                        <React.Fragment>
+                            <DocumentSummary perDocumentCount={perDocumentCount}
+                                totalDocumentCount={totalDocumentCount}
+                                documentClasses={documentClasses} onClick={handleCardClick}>
+
+                                <Nav.Item className="mb-4">
+                                <Nav.Link  as={RouterNavLink}
+                                    title={IconBarConfig.dataProductModal.title}
+                                    className="btn btn-lg btn-info p-2 d-inline text-white"
+                                    to={getUrl(IconBarConfig.dataProductModal.path)}
+                                    
+                                // onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
+                                    id={IconBarConfig.dataProductModal.key}>
+                                        <BiPlus className="mr-1"/>Create a document
+                                </Nav.Link>
+                            </Nav.Item> 
+
+                                </DocumentSummary>
+                        </React.Fragment>     
+                    }
+                </main>
+            </Layout>
+       
+}
+
+/*
+<Nav.Item className="mb-4">
                                 <Nav.Link  as={RouterNavLink}
                                     title={IconBarConfig.dataProductModal.title}
                                     className="btn btn-lg btn-info p-2 d-inline text-white"
@@ -53,10 +76,4 @@ export const DocumentExplorer = (props) => {
                                     id={IconBarConfig.dataProductModal.key}>
                                         <BiPlus className="mr-1"/>Create a document
                                 </Nav.Link>
-                            </Nav.Item>    
-                        </DocumentSummary>      
-                        }
-                </main>
-            </Layout>
-       
-}
+                            </Nav.Item> */

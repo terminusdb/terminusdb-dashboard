@@ -3,7 +3,6 @@ import {Col} from "react-bootstrap"
 import {BsBriefcase, BsBucket} from "react-icons/bs"
 import {BiGitCommit} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
-import {BranchControl} from "../hooks/BranchControl"
 
 export const DataProductSummary = ({dataProductDetails}) => {
 

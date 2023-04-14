@@ -215,6 +215,7 @@ export function BranchControl (updateTable)  {
     }
 
     return {
+        currentBranch:branch,
         getBranchList,
         branches,
         createReportAlert,

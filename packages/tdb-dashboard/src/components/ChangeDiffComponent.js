@@ -38,12 +38,12 @@ export const BranchCRMessage = ({css, title}) => {
     </React.Fragment>
 }
 
-const DisplayHeader = ({author, documentModifiedCount, tracking_branch}) => {
+const DisplayHeader = ({author, documentModifiedCount, tracking_branch,original_branch}) => {
     return <>
         <h6 className="mt-2">{`${author} wants to merge `}</h6>
         <DocumentModifiedCount documentModifiedCount={documentModifiedCount}/>
         <h6 className="mt-2">{` into `}</h6>
-        <BranchCRMessage title={"main"} css={"success"}/>
+        <BranchCRMessage title={original_branch} css={"success"}/>
         <h6 className="mt-2">{`from `}</h6>
         <BranchCRMessage title={tracking_branch} css={"primary"}/>
     </>
@@ -90,6 +90,7 @@ export const ChangeDiffComponent = () => {
                     <Stack direction="horizontal" gap={2} className="mt-1">
                         <DisplayHeader author={author} 
                             tracking_branch={currentCRObject.tracking_branch}
+                            original_branch ={currentCRObject.original_branch}
                             documentModifiedCount={documentModifiedCount}/>
                     </Stack>
                 </Card.Header> 

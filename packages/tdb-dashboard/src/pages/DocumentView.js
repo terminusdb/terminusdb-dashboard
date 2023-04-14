@@ -12,7 +12,7 @@ import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 export const DocumentView = () => {   
-    const { branch,setChangeRequestBranch,woqlClient} = WOQLClientObj()
+    const { branch,setChangeRequestBranch,woqlClient,currentChangeRequest} = WOQLClientObj()
     const {type, docid} = useParams()
     const [showCRModal, setShowCRModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
@@ -38,7 +38,7 @@ export const DocumentView = () => {
     function deleteDocumentHandler(e) {
         // I can not change main directly
         // I can change other branches creates with create branch interface
-        if(branch === "main"){
+        if(!currentChangeRequest){
             setShowCRModal(true)
         }else setShowDeleteModal(true)
     }

@@ -1,18 +1,25 @@
-import React, {useRef, useState} from "react"
+import React, {useRef,useEffect,useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {useNavigate} from "react-router-dom"
 import { FormLabel } from "react-bootstrap"
+import {BranchControl} from "../hooks/BranchControl"
 
 export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMode, type}) => { 
     const nameRef = useRef(null);
     const messageRef = useRef(null);
     const {loading,errorMessage,setError,createChangeRequest} =  ChangeRequest()
+    const {branches, getBranchList,currentBranch} = BranchControl()
+    const [selectedBranch, setBranchName] = useState(currentBranch)
     const navigate = useNavigate()
 
     const closeModal = () => {
         navigate(-1)
     }
+
+    useEffect(() => {
+        getBranchList()
+    },[])
 
     const runCreate = async () => {
         const name = nameRef.current.value
@@ -21,7 +28,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
             setError("Change request name is mandatory")
             return
         }else{
-            const {changeRequestId,branchName} = await createChangeRequest(name,message)         
+            const {changeRequestId,branchName} = await createChangeRequest(name,message,selectedBranch)         
             if(changeRequestId){
                 nameRef.current.value = ""
                 messageRef.current.value = ""
@@ -43,6 +50,17 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
              <Alert variant="danger"  onClose={() => setError(false)} dismissible>{errorMessage}</Alert>}
             <Form> 
                 <Form.Group className="mb-3 tdb__input">
+                    <Form.Label>Change request from branch</Form.Label>
+                    <Form.Select onChange={(evt)=>setBranchName(evt.target.value)}
+                            aria-label="Default select example" 
+                            value={selectedBranch}>
+                    {typeof branches === "object" && Object.keys(branches).map(branchName=>{
+                        return <option value={branchName}>{branchName}</option>
+                    }) 
+                    }
+                    </Form.Select>
+                </Form.Group>   
+                <Form.Group className="mb-3 tdb__input">
                     <Form.Control required  
                         ref={nameRef}
                         id="add_changerequest_name" 
@@ -54,7 +72,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
                         ref={messageRef}
                         id="add_message" 
                         type="text"
-                        placeholder={`Please type a message`} />
+                        placeholder={`Please type the change request description`} />
                 </Form.Group>
             </Form>
         </Modal.Body>
