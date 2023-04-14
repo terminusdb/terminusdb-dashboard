@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react"
-import Form from "@terminusdb/rjsf-core"
 import { getProperties } from "./FrameHelpers"
-//import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import * as CONST from "./constants"
 import { Alert } from "react-bootstrap"
 import * as util from "./utils"
-//import {transformData} from "./extract" 
-import { v4 as uuidv4 } from 'uuid';
-import { handleSubmit } from "./formActions"
-import { DisplayDocumentation } from "./templates"
 import { Viewer } from "./Viewer"
+import { HelperMessages } from "./HelperMessages"
+import { constructFormParams } from "./constructFormParams"
 
  
 /*
@@ -20,38 +16,46 @@ import { Viewer } from "./Viewer"
 **  submitButton - submit button configuration json object
 **  formData  - filled value of the document
 **  onSubmit  - a function with have custom logic to process data submitted
-**  hideSubmit - hides Submit button - this is helpfull when you want to display nested FrameViewers
-**  onChange   - a function with custom logic to process data when form data is changed
 **  onSelect   - a js function which gets back the selected value from selects
 **  onTraverse - a js function which gets back the ID of a document on click
-**  FieldTemplate - a js function which you can pass at root level of FrameViewer to alter look and feel of fields
+**  compareFormData - used for diff viewers to compare against original or changed data 
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 */
-export function FrameViewer({frame, uiFrame, type, mode, formData, compareFormData, onSubmit, onTraverse, onSelect, hideSubmit, onChange, language}){
-  
+export function FrameViewer(props){
+
+	let { frame, uiFrame, type, mode, formData, compareFormData, onSubmit, onTraverse, onSelect, language } = props
+
+	// schema constants
 	const [schema, setSchema]=useState(false)
+	// ui schema constants
 	const [uiSchema, setUISchema]=useState(false)
+	// display constants which holds schema & ui Schema to refresh Viewer
 	const [display, setDisplay]=useState(false)
+	// read only constants (used in VIEW mode)
 	const [readOnly, setReadOnly]=useState(false)
+	// language support constants
 	const [lang, setLanguage]=useState(false)
+	// error constants
 	const [error, setError]=useState(false)
+	// documentation constants
 	const [documentation, setDocumentation]=useState(false)
+	// form data constants 
 	const [data, setData]=useState(formData)
-
+	// message constants 
   const [message, setMessage]=useState(false)  
+	// look up constants which maintains a reference to all of the class definitions
 	const [reference, setReference]=useState({})  
-
-
-	let current = `${type}`
-	let formDataTemp=formData
-
-
+	// constants to update form props 
+	const [update, setUpdate] = useState(false)
+	
+ 
 	function clear() {
-			setDisplay(false)
-			setSchema(false)
-			setUISchema(false)
-			setReadOnly(false)
-			setLanguage(false)
+		// reset everything on change of form props
+		setDisplay(false)
+		setSchema(false)
+		setUISchema(false)
+		setReadOnly(false)
+		setLanguage(false)
 	}
 
 	
@@ -59,80 +63,9 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, compareFormDa
 	useEffect(() => {
 		//try{ 
 			if(frame && type && mode) { 
-				
 				clear()
-				//let extractedDocumentation= util.extractDocumentation(frame, current, language)
-				//store selected language here to get access to ENUM docs based on selected language
-				frame[CONST.SELECTED_LANGUAGE]= language ? language : CONST.DEFAULT_LANGUAGE
-				let extractedDocumentation= util.extractDocumentation(frame, type, language)
-				setDocumentation(extractedDocumentation)
-				let fullFrame=frame
-				let documentFrame=frame[current]
-				let properties=getProperties({ fullFrame, type, documentFrame, uiFrame, mode, formData, compareFormData, onTraverse, onSelect, extractedDocumentation, reference, setReference })
-					
-				let schema = {
-						type: CONST.OBJECT_TYPE,
-						properties: properties.properties,
-						required: properties.required,
-						dependencies: properties.dependencies,
-				}
-				/*console.log("schema", JSON.stringify(schema, null, 2))
-				console.log("uiSchema", JSON.stringify(properties.uiSchema, null, 2))*/
-				console.log("display", display)
-
-
-				console.log("schema", schema)
-				console.log("properties.uiSchema", properties.uiSchema)
-				//setUISchema(uiSchema)
-				//setSchema(schema)
-
-				// order is set to place @documentation field at the start of the document
-				properties.uiSchema["ui:order"] = util.getDocumentOrderBy(documentFrame)
-
-				let schemata = {
-					schema: schema,
-					uiSchema: properties.uiSchema
-				}
-
-				setDisplay(schemata)
-				
-				
-
-				//console.log("uiSchema", uiSchema)
-
-				if(mode === CONST.VIEW) {
-						setReadOnly(true)
-				}
-				else if(mode === CONST.EDIT && util.isValueHashDocument(frame[current])) {
-					setMessage(util.getValueHashMessage())
-					setReadOnly(true)
-				}
-				//else if(mode === CONST.CREATE) setInput(formData)
-				/*
-				else {
-						setReadOnly(false)
-				}
-				setSchema(schema)
-				const uiSchema = properties.uiSchema
-
-				// get form level ui schema 
-				if(uiFrame && uiFrame.hasOwnProperty("classNames")) uiSchema["classNames"]= uiFrame.classNames
-				if(uiFrame && uiFrame.hasOwnProperty("ui:order")) uiSchema["ui:order"]=uiFrame["ui:order"]
-				if(uiFrame && uiFrame.hasOwnProperty("ui:title")) uiSchema["ui:title"]= uiFrame["ui:title"]
-				if(uiFrame && uiFrame.hasOwnProperty("ui:description")) uiSchema["ui:description"]= uiFrame["ui:description"]
-				
-				// order is set to place @documentation field at the start of the document
-				if(frame) {
-					uiSchema["ui:order"] = util.getOrderFromMetaData(frame[type])
-				}
-				
-				setUISchema(uiSchema)
-
-				// process form data to check if one ofs are available
-				if(mode !== CONST.CREATE) {
-						setData(util.getFormData(formData))
-				}*/
-
+				// update form
+				setUpdate(Date.now())
 			}
 		//}
 		//catch(e) {
@@ -141,19 +74,20 @@ export function FrameViewer({frame, uiFrame, type, mode, formData, compareFormDa
 
 	}, [frame, uiFrame, type, mode, formData, language]) 
 
-	if(!frame) return <div>No schema provided!</div>
-	if(!mode) return  <div>Please include a mode - Create/ Edit/ View</div>
-	if(mode === CONST.VIEW && !formData) return <div>Mode is set to View, please provide filled form data</div>
-	if(!type) return  <div>Please include the type of document</div>
+	useEffect(() => {
+		// on update construct form params 
+		console.log("update", update)
+		if(update) constructFormParams(props, setDocumentation, reference, setReference, setReadOnly, setMessage, display, setDisplay)
+	}, [update])
+
 	
 
 	if(error) {
 		return <Alert variant="danger">{error}</Alert>
 	}
 
-	
-
 	return <div className="tdb__frame__viewer ">
+		<HelperMessages frame={frame} mode={mode} type={type} formData={formData}/>
 		<Viewer display={display} 
 			message={message} 
 			mode={mode} 

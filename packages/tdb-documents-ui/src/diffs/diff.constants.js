@@ -11,6 +11,8 @@ export const COPY_LIST="CopyList"
 export const SWAP_VALUE="SwapValue"
 export const KEEP_LIST="KeepList"
 export const SWAP_LIST="SwapList"
+export const INSERT_OPERATION="@insert"
+export const DELETE_OPERATION="@delete"
 
 export const SUBDOCUMENT_DOSENT_EXIST = "No SubDocument to display"
 

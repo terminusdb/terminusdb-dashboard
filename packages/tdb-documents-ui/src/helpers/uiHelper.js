@@ -73,10 +73,11 @@ export const uiHelper = (args, property) => {
     }
     else {
       // reference available 
+      //extracted documentation   will be available in ref
       extracted=reference[linked_to]
     }
-    // add extracted documentation 
-    extracted.extractedDocumentation=argsHolder.extractedDocumentation
+    // add extracted documentation  
+    //extracted.extractedDocumentation=argsHolder.extractedDocumentation
     let expanded=util.checkIfSubDocumentShouldBeExpanded(documentFrame, property) 
     
     return widget.getSubDocumentUIDisplay(argsHolder, extracted, property, expanded, linked_to)

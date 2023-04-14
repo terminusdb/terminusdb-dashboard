@@ -37,7 +37,7 @@ const LinkedDocument = ({ selected, onTraverse }) => {
 // Selected link component 
 const Selected = ({ selected, onTraverse, setShowSearch, setSelected, id, onChange }) => {
 
-  if(!selected) return <div/>
+  if(!selected) return <div/> 
 
   function handleDelete() {
     setSelected(false)

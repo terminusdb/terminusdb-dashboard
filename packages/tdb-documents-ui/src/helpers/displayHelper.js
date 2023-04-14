@@ -60,7 +60,7 @@ export function displayDataTypesWidget(props, args, property, dataType, id, onCh
 
 // SUBDOCUMENTs 
 export function displaySubDocument(props, args, extracted, property, expanded, id, hideFieldLabel, linked_to) { 
-  const [subDocumentData, setSubDocumentData] = useState({})
+  const [subDocumentData, setSubDocumentData] = useState(false)
   let { fullFrame, extractedDocumentation, mode, uiFrame, reference } = args
 
   let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])

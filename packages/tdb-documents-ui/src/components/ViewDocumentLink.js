@@ -14,7 +14,86 @@ import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { documentInternalProperties } from "../helpers/documentHelpers"
 
-const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+
+const DisplayLinks = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+  
+  let documentID = false
+
+  if(action === CONST.LINK_NEW_DOCUMENT) {
+    // @unfoldable true
+    documentID = formData["@id"]
+  }
+  else {
+    // @unfoldable false
+    documentID = formData
+  }
+  if(!documentID) return <div className={`tdb__${name}__hidden`}/>
+
+  
+
+  return <SearchExistingLink mode={mode} 
+      formData={documentID}
+      onChange={onChange}
+      onTraverse={onTraverse}
+      id={cardKey}
+      linked_to={linked_to}/>
+}
+
+
+
+function getAction (formData, unfoldable) {
+  if(unfoldable && 
+    typeof formData === CONST.OBJECT_TYPE) return CONST.LINK_NEW_DOCUMENT
+  return CONST.LINK_EXISTING_DOCUMENT
+}
+
+const ViewHelper = ({ linked_to }) => {
+  return <Stack direction="horizontal" gap={4}>
+    {getLinkedDescription (linked_to)}
+  </Stack> 
+}
+
+
+// VIEW MODE
+export const ViewDocument = ({ name, required, args, uiFrame, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse, propertyDocumentation }) => {
+
+  const [action, setAction] = useState(getAction(formData, unfoldable))
+  const [documentData, setDocumentData] = useState(formData)
+  const [cardKey, setCardKey]=useState(depth+1)
+
+  if(mode === CONST.VIEW && !formData) return <div className={`tdb__${name}__hidden`}/>
+
+  return <Stack direction="horizontal">
+    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>
+    <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
+      <Card.Header>
+        <ViewHelper linked_to={linked_to}/>
+      </Card.Header>
+      <Card.Body>
+        <DisplayLinks action={action} 
+          extracted={extracted}
+          required={required}
+          args={args}
+          mode={mode}
+          unfoldable={unfoldable}
+          onTraverse={onTraverse}
+          uiFrame={uiFrame}
+          onChange={onChange}
+          linked_to={linked_to}
+          propertyDocumentation={propertyDocumentation}
+          cardKey={cardKey}
+          reference={reference}
+          formData={formData}
+          documentLinkPropertyName={name}
+          documentData={documentData} 
+          setDocumentData={setDocumentData}/>
+      </Card.Body>
+    </Card>
+  </Stack>
+}
+
+// logic to display filled frame is @unfoldable is true
+/*const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
 
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
@@ -106,7 +185,7 @@ const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation
           documentation: "" // review util.checkIfPropertyHasDocumentation(propertyDocumentation, fieldName)  
         }
         fields.push(display(config)) */
-      }
+      /*}
     }
 
     return <div className="mt-4">
@@ -123,60 +202,4 @@ const DisplayFilledFrame = ({ documentData, args, uiFrame, propertyDocumentation
       linked_to={linked_to}/>
   }
   return <div/>
-}
-
-
-
-function getAction (formData, unfoldable) {
-  if(unfoldable && 
-    typeof formData === CONST.OBJECT_TYPE) return CONST.LINK_NEW_DOCUMENT
-  return CONST.LINK_EXISTING_DOCUMENT
-}
-
-const ViewHelper = ({ linked_to }) => {
-  return <Stack direction="horizontal" gap={4}>
-    {getLinkedDescription (linked_to)}
-  </Stack> 
-}
-
-
-// VIEW MODE
-export const ViewDocument = ({ name, required, args, uiFrame, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse, propertyDocumentation }) => {
-
-  const [action, setAction] = useState(getAction(formData, unfoldable))
-  const [documentData, setDocumentData] = useState(formData)
-  const [cardKey, setCardKey]=useState(depth+1)
-
-  if(mode === CONST.VIEW && !formData) return <div className={`tdb__${name}__hidden`}/>
-
-  return <Stack direction="horizontal">
-    <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>
-    <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
-      <Card.Header>
-        <ViewHelper linked_to={linked_to}/>
-      </Card.Header>
-      <Card.Body>
-        <DisplayFilledFrame action={action} 
-          extracted={extracted}
-          required={required}
-          args={args}
-          mode={mode}
-          unfoldable={unfoldable}
-          onTraverse={onTraverse}
-          uiFrame={uiFrame}
-          onChange={onChange}
-          linked_to={linked_to}
-          propertyDocumentation={propertyDocumentation}
-          cardKey={cardKey}
-          reference={reference}
-          formData={formData}
-          documentLinkPropertyName={name}
-          documentData={documentData} 
-          setDocumentData={setDocumentData}/>
-      </Card.Body>
-    </Card>
-  </Stack>
-
-  
-  
-}
+}*/

@@ -16,6 +16,7 @@ export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
   } 
   else if(util.isSubDocumentType(field)){
     // SUBDOCUMENT TYPE 
+    //return [ "null", CONST.OBJECT_TYPE ]
     return CONST.OBJECT_TYPE
   }
   else if(util.isEnumType(field)){

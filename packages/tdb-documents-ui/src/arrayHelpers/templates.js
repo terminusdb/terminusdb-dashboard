@@ -72,7 +72,7 @@ export function ArrayFieldTemplate(args, props, property) {
   let label=props.title  
 	let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
 	return  <div className={`${props.className} w-100 tdb__array__holder`}>
-		<TDBLabel name={documentation.hasOwnProperty("label") ? documentation["label"] : label}  
+		<TDBLabel name={documentation.hasOwnProperty("label") && documentation["label"] ? documentation["label"] : label}  
       comment={documentation.comment} 
       id={`root_Set_${label}`}/> 
 		 

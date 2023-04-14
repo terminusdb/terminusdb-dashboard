@@ -33,13 +33,14 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
   
   //const [fields, setFields] = useState([])
 
-  let { uiFrame, mode } = args
+  let { uiFrame, mode } = args 
  
   function handleChange(data, fieldName, selectedOneOf) { 
+  
     let tempSubDocumentData = subDocumentData
     if(fieldName === CONST.ONEOFVALUES) {
       if(selectedOneOf) {
-        let tmp={}
+        let tmp={} 
         // change data to add on selected choice from one of 
         tmp[CONST.TYPE] = tempSubDocumentData[CONST.TYPE]
         tmp[selectedOneOf] = data
@@ -141,7 +142,8 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
       <Collapse in={open}>
         <div id={`root_subdocument_${props.name}`}>
           {subDocumentData && linked_to === subDocumentData[CONST.TYPE] && <SubDocumentProperties properties={extracted.properties} 
-            required={extracted.required}
+            //required={extracted.required}
+            required={props.required}
             //formData={props.formData}
             id={id}
             index={index}
