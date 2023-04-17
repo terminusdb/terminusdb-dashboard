@@ -55,7 +55,7 @@ export const DocumentView = () => {
     if(!selectedDocument || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
     
     const getDocumentById=(docId)=>{
-        return woqlClient.getDocument({id:docId})
+        return woqlClient.getDocument({id:docId}) 
     }
 
     return <React.Fragment>

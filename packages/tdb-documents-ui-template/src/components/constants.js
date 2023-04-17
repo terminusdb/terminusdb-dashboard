@@ -18,3 +18,9 @@ export const CONTEXT="@context"
 export const DOCUMENTATION="@documentation"
 export const LANGUAGE="@language"
 export const DEFAULT_LANGUAGE="en"
+
+// TOOLBAR BUTTON STYLES 
+export const TOOLBAR_BUTTON_STYLES = {
+  borderRadius: "50%",
+  strokeWidth: "5"
+}

@@ -92,6 +92,7 @@ export const DataProductDocuments = () => {
 // side bar document
 
 export const DocumentExplorerDocuments= () => {  
+    const {dataProduct} = useParams()
     const {
         saveSidebarState,
         woqlClient,
@@ -114,7 +115,7 @@ export const DocumentExplorerDocuments= () => {
     useEffect(() => {
         if(!accessControlDashboard || ( !accessControlDashboard.instanceRead() && !accessControlDashboard.instanceWrite())) setDisabled(true)
         getUpdatedDocumentClasses()   
-    }, [])
+    }, [dataProduct])
 
 
     const DocumentMenu = ({item}) => { 

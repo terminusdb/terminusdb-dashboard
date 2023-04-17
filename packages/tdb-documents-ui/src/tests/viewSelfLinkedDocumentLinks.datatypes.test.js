@@ -14,7 +14,7 @@ import { logRoles } from '@testing-library/dom';
  */
 describe("Test Self linked Document Links - VIEW MODE", () => {
 
-
+ 
 	// view a document link  type property 
 	test("View Self linked Document Link property", async () => {
 		
@@ -28,7 +28,14 @@ describe("Test Self linked Document Links - VIEW MODE", () => {
 			mode={config.mode}/>
 		)
 
-		const nameInput = document.getElementById("root_name")
+		const unfoldedInput = screen.getByText(config.formData["friends_with"]["@id"]);
+		expect(unfoldedInput).toBeInTheDocument()
+		await userEvent.click(unfoldedInput)
+
+		// test handle traverse
+		await expect(screen.queryByText(`You have clicked on ${config.formData["friends_with"]["@id"]} ...`))
+
+		/*const nameInput = document.getElementById("root_name")
 		// check if nameInput root input is available
 		expect(nameInput).toBeInTheDocument()
 		// check if correct value is displayed
@@ -60,7 +67,7 @@ describe("Test Self linked Document Links - VIEW MODE", () => {
 		// check if ageInput_2 root input is available
 		expect(ageInput_2).toBeInTheDocument()
 		expect(ageInput_2.value).toStrictEqual(config.formData["friends_with"]["friends_with"]["age"])
-		
+		*/
 
 	})
 

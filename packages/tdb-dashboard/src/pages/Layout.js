@@ -31,7 +31,7 @@ function GetHelpText () {
 }
   
 export const Layout = (props) => { 
-    const {branch,exitChangeRequestBranch,currentChangeRequest,currentCRName} = WOQLClientObj()
+    const {branch,exitChangeRequestBranch,currentChangeRequest,currentCRName,currentCRStartBranch} = WOQLClientObj()
     const { organization, dataProduct } = useParams();
 
     const noChange = window.location.pathname.indexOf("change_requests")=== -1 ? true : false
@@ -46,12 +46,12 @@ export const Layout = (props) => {
     const mainClassName = props.mainClassName || "container-fluid"
     
     const updateParent = () =>{
-        exitChangeRequestBranch()
+        exitChangeRequestBranch(currentCRStartBranch)
         navigate(`/${organization}/${dataProduct}/change_requests?status=Submitted`)
     }
 
     const closeChangeRequest = () =>{
-        exitChangeRequestBranch()
+        exitChangeRequestBranch(currentCRStartBranch)
         navigate(`/${organization}/${dataProduct}`)
     }
 

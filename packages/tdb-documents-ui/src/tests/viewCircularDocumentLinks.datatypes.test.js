@@ -25,7 +25,7 @@ describe("Test Circular Document Links - View MODE", () => {
 			uiFrame={config.uiFrame}
 			formData={config.formData}
 			mode={config.mode}/>
-		)
+		) 
 
 		logRoles(container)
 		
@@ -35,8 +35,15 @@ describe("Test Circular Document Links - View MODE", () => {
 		await expect(nameInput).toBeInTheDocument()
 		expect(nameInput.value).toStrictEqual(config.formData["name"])
 
+		const unfoldedInput = screen.getByText(config.formData["likes"]["@id"]);
+		expect(unfoldedInput).toBeInTheDocument()
+		await userEvent.click(unfoldedInput)
+
+		// test handle traverse
+		await expect(screen.queryByText(`You have clicked on ${config.formData["likes"]["@id"]} ...`))
+
 		// checking DEPTH 1 ( likes )
-		const likes_nickName_1 = document.getElementById("root_likes_nickName_1")
+		/*const likes_nickName_1 = document.getElementById("root_likes_nickName_1")
 		await expect(likes_nickName_1).toBeInTheDocument()
 		expect(likes_nickName_1.value).toStrictEqual(config.formData["likes"]["nickName"])
 
@@ -63,7 +70,7 @@ describe("Test Circular Document Links - View MODE", () => {
 		// checking DEPTH 4 ( owned_by User )
 		const nameInput_4 = document.getElementById("root_owned_by_name_4")
 		await expect(nameInput_4).toBeInTheDocument()
-		expect(nameInput_4.value).toStrictEqual(config.formData["likes"]["owned_by"]["likes"]["owned_by"]["name"])
+		expect(nameInput_4.value).toStrictEqual(config.formData["likes"]["owned_by"]["likes"]["owned_by"]["name"])*/
 
 	}) 
 

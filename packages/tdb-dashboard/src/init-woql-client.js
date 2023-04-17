@@ -36,6 +36,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
     const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
     const [currentCRName,setCurrentCRName] = useState(false)
+    const [currentCRStartBranch,setCurrentCRStartBranch] = useState(false)
     
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -162,6 +163,7 @@ export const WOQLClientProvider = ({children, params}) => {
                         client.checkout(lastBranch)
                         setBranch(lastBranch)
                         setCurrentChangeRequest(lastChangeRequest)
+                        setCurrentCRStartBranch(changeObj.original_branch)
                         setCurrentCRName(changeObj.name || changeObj.messages[0].text)
                     }else{
                         localStorage.removeItem(TERMINUSCMS_CR)  
@@ -169,6 +171,7 @@ export const WOQLClientProvider = ({children, params}) => {
                         setBranch("main")
                         setCurrentChangeRequest(false)
                         setCurrentCRName(false)
+                        setCurrentCRStartBranch(false)
                     }
                 }else{
                     //if we are not change request
@@ -186,6 +189,8 @@ export const WOQLClientProvider = ({children, params}) => {
     }
 
     function setChangeRequestBranch(branchName,changeRequestId, CRName){
+        // save the branch from 
+        setCurrentCRStartBranch(woqlClient.checkout())
         woqlClient.checkout(branchName)
         setBranch(branchName)
         setRef(null)
@@ -199,13 +204,13 @@ export const WOQLClientProvider = ({children, params}) => {
         
     }
 
-    function exitChangeRequestBranch(){
-        woqlClient.checkout("main")
+    function exitChangeRequestBranch(branchName = "main"){
+        woqlClient.checkout(branchName)
         const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
         localStorage.removeItem([TERMINUSCMS_CR])
         localStorage.removeItem([TERMINUSCMS_CR_ID])
         // set the change_request brach and reset the commit 
-        setBranch("main")
+        setBranch(branchName)
         setRef(null)
         setChosenCommit({})
         setCurrentChangeRequest(false) 
@@ -297,6 +302,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 apolloClient,
                 setChangeRequestBranch,
                 currentChangeRequest,
+                currentCRStartBranch,
                 //setCurrentChangeRequest,
                 userHasMergeRole,
                 currentCRObject, 

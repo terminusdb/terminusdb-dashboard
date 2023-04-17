@@ -15,25 +15,30 @@ import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { documentInternalProperties } from "../helpers/documentHelpers"
 
 
-const DisplayLinks = ({ documentData, args, uiFrame, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
+const DisplayLinks = ({ documentData, args, uiFrame, index, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
   
-  let documentID = false
+  let documentID = formData ? typeof formData=== CONST.STRING_TYPE ? formData : formData["@id"] : false
 
-  if(action === CONST.LINK_NEW_DOCUMENT) {
+  /*if(action === CONST.LINK_NEW_DOCUMENT) {
     // @unfoldable true
     documentID = formData["@id"]
   }
   else {
     // @unfoldable false
     documentID = formData
-  }
-  if(!documentID) return <div className={`tdb__${name}__hidden`}/>
+  } */
 
-  
+  if(!documentID) return <div className={`tdb__${documentLinkPropertyName}__hidden`}/>
+
+  let defaultClassName="", className=""
+  let uiClassNames=util.getUIClassNames(uiFrame, documentLinkPropertyName, defaultClassName, index)
+  if(uiClassNames === "tdb__doc__input tdb__diff__original") className="tdb__diff__original-underline"
+  else if(uiClassNames === "tdb__doc__input tdb__diff__changed") className="tdb__diff__changed-underline"
 
   return <SearchExistingLink mode={mode} 
       formData={documentID}
       onChange={onChange}
+      className={className}
       onTraverse={onTraverse}
       id={cardKey}
       linked_to={linked_to}/>
@@ -52,10 +57,10 @@ const ViewHelper = ({ linked_to }) => {
     {getLinkedDescription (linked_to)}
   </Stack> 
 }
-
+ 
 
 // VIEW MODE
-export const ViewDocument = ({ name, required, args, uiFrame, reference, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse, propertyDocumentation }) => {
+export const ViewDocument = ({ name, required, args, uiFrame, reference, index, hideFieldLabel, depth, comment, formData, linked_to, extracted, mode, onChange, unfoldable, onTraverse, propertyDocumentation }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
   const [documentData, setDocumentData] = useState(formData)
@@ -74,6 +79,7 @@ export const ViewDocument = ({ name, required, args, uiFrame, reference, hideFie
           extracted={extracted}
           required={required}
           args={args}
+          index={index}
           mode={mode}
           unfoldable={unfoldable}
           onTraverse={onTraverse}

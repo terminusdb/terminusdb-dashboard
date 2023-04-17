@@ -43,6 +43,7 @@ export const ChangeRequestsPage = () => {
     const {
 		woqlClient,
         setCurrentCRObject,
+		currentCRObject,
 		setChangeRequestBranch,
 		exitChangeRequestBranch
 	} = WOQLClientObj()
@@ -124,7 +125,7 @@ export const ChangeRequestsPage = () => {
    }
 
    const updateParent = () =>{
-		exitChangeRequestBranch()
+		exitChangeRequestBranch(currentCRObject.original_branch)
 		getChangeRequestList()
 		setFilter(updateOperation)
 	}
@@ -185,18 +186,18 @@ export const ChangeRequestsPage = () => {
         let display=changeRequestList.slice(0).reverse().map((item,index)=>{
 			if(item.status === filter) {
 				statusCount+=1
-				const name  = item.name 
-				const message  = item.messages[0].text || item[tracking_branch]
+				const name  = item.name || ''
+				const message  = item.messages[0].text || '' //item[tracking_branch]
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
 					{iconTypes[item.status]}
 					<div className="ms-2 me-auto">
-						{name && <div className="fw-bold text-success">
+						<div className="fw-bold text-success">
 							{name}
 							<span class="text-dark ml-1 badge badge-info mr-1">{item.tracking_branch}</span>
 						 		from branch 
 							<span class="text-dark ml-1 badge badge-success">{item.original_branch}</span>
 						
-						</div>}						
+						</div>					
 						<div className="text-gray font-italic">
 							{message}
 						</div>

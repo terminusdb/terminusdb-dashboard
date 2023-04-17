@@ -8,7 +8,7 @@ import { generateDiffUIFrames } from "./diffHelpers"
 
 export const DiffViewer = (args) => {
 
-  let { frame, type, oldValue, newValue, diffPatch, oldValueHeader, newValueHeader }=args
+  let { frame, type, oldValue, newValue, diffPatch, oldValueHeader, newValueHeader, onTraverse }=args
 
   if(!frame) return <div>{"Include frames to view Diffs"}</div>
   if(!type) return <div>{"Include document type to view Diffs"}</div>
@@ -31,6 +31,7 @@ export const DiffViewer = (args) => {
             type={type}
             formData={oldValue}
             compareFormData={newValue}
+            onTraverse={onTraverse}
             mode={CONST.VIEW}
             hideSubmit={true}
           />
@@ -48,6 +49,7 @@ export const DiffViewer = (args) => {
             uiFrame={generateDiffUIFrames(diffPatch, DIFFCONST.AFTER)}
             type={type}
             formData={newValue}
+            onTraverse={onTraverse}
             compareFormData={oldValue}
             mode={CONST.VIEW}
             hideSubmit={true}

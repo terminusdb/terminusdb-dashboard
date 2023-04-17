@@ -14,6 +14,7 @@ const SelectedLanguage = ({ language }) => {
 	</Stack>
 }
 
+
 export const Viewer = ({ display, message, mode, type, onSubmit, readOnly, data, setData, documentation, language }) => {
 	
 	return <div className="tdb__frame__viewer ">

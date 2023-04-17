@@ -130,7 +130,7 @@ export const oldData = {
 		"@id": "One/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "One",
 		"name": "John",
-		"likes": {
+		"likes": ["likes/one/1", "likes/one/same", "likes/one/34"]/*{
 			"@type": "Animal", 
 			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"nickName": "Chooo",
@@ -147,9 +147,9 @@ export const oldData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-				}
+				/*}
 			}
-		},
+		},*/
 	}
 }  
  
@@ -283,7 +283,7 @@ export const changedData = {
 	"One": {
 		"@id": "One/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "One",
-		"likes": {
+		"likes":  ["likes/one/122", "likes/one/same", "likes/one/333"]/*{
 			"@type": "Animal", 
 			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"nickName": "Chooo",
@@ -301,9 +301,9 @@ export const changedData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-				}
+				/*}
 			}
-		},
+		},*/
 	}
 } 
 

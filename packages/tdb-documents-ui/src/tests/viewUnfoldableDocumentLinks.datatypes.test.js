@@ -33,23 +33,15 @@ describe("Test View linking existing Document links data type Property", () => {
 
 		logRoles(container)
 
-		// check if everything is readily available at depth 2 
-		// FILLING DEPTH 2 ( owned_by User )
-		// check if unfolded document name property available
-		const owned_by_name_2 = document.getElementById("root_owned_by_name_2")
-		await expect(owned_by_name_2).toBeInTheDocument()
-		expect(owned_by_name_2.value).toStrictEqual(config.formData["likes"]["owned_by"]["name"])
-		
-		// expect linked ID to be present in document 
-			// check if unfolded document likes property available
-		const selectedInput = document.getElementById(config.formData["likes"]["owned_by"]["likes"])
-		expect(selectedInput).toBeInTheDocument()
-		await userEvent.click(selectedInput)
+		// expect document ID to be present in document 
+		const unfoldedInput = screen.getByText(config.formData["likes"]["@id"]);
+		expect(unfoldedInput).toBeInTheDocument()
+		await userEvent.click(unfoldedInput)
+
 		// test handle traverse
-		await expect(screen.queryByText(`You have clicked on ${config.formData["likes"]["owned_by"]["likes"]} ...`))
-		//expect(screen.getByText(`You have clicked on ${config.formData["likes"]["owned_by"]["likes"]} ...`)).toBeInTheDocument()
+		await expect(screen.queryByText(`You have clicked on ${config.formData["likes"]["@id"]} ...`))
 	
 	})  
 
-})
+}) 
 

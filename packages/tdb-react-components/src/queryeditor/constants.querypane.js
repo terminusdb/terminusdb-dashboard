@@ -18,7 +18,11 @@ export const EDITOR_READ_OPTIONS = {
     noHScroll: false,
     readOnly: true,
     lineNumbers: true,
-    theme: "eclipse"
+    lineWrapping: true,
+    indentWithTabs: false,
+    tabSize: 2,
+    theme: "eclipse",
+    viewportMargin: Infinity,
 }
 
 export const EDITOR_WRITE_OPTIONS = {
@@ -26,7 +30,11 @@ export const EDITOR_WRITE_OPTIONS = {
     autoCursor:false,
     theme: "eclipse",
     lineNumbers: true,
-    minWidth: "900px"
+    minWidth: "900px",
+    lineWrapping: true,
+    indentWithTabs: false,
+    tabSize: 2,
+    viewportMargin: Infinity,
 }
 
 export const QUERY_PANEL_TITLE = "Query"
