@@ -46,8 +46,8 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
                 <LanguageSelectComponent frame={frames} setSelectedLanguage={setSelectedLanguage}/>
                 <ToggleJsonAndFormControl onClick={setView}/>
                 <div className="d-flex">
-                    <Button variant="light" style={CONST.TOOLBAR_BUTTON_STYLES} type="button"  title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
-                        <AiFillEdit/>{/*Edit*/}
+                    <Button variant="light" type="button"  title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
+                        {/*<AiFillEdit/>*/}{"Edit"}
                     </Button>
                     <Button variant="danger" style={CONST.TOOLBAR_BUTTON_STYLES} type="button" title="Delete Document" onClick={deleteDocument}className="btn-sm btn text-gray">
                         <RiDeleteBin7Line className=" mb-1"/>
@@ -75,7 +75,7 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
         <ViewDocumentFrames
             type={type}
             documentFrame={frames[type] || {}}
-            showInfo={showInfo}
+            showInfo={showInfo} 
             setShowInfo={setShowInfo}/>
     </div>
       
