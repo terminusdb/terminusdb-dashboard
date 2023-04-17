@@ -64,9 +64,10 @@ export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
     
     // onBlur 
     return <React.Fragment>
-        <CodeMirror
+        <CodeMirror 
             value={JSON.stringify(data, null, 2)}
             options={cmOptions}
+            className={"document__interface__main"}
             onBlur={(editor, data, value) => {
                 const editorValue =editor.doc.getValue()
                 onBlurHandler(editorValue)

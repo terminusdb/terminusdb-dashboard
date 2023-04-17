@@ -21,7 +21,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
 
     let fields = []
 
-    function handleChange(data, fieldName) {
+    function handleChange_OLD(data, fieldName) {
       //console.log("documentData", documentData)
       let tempDocumentData = documentData
       // if field name is undefined
@@ -34,6 +34,70 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
       if(onChange) {
         if(CONST.GEOMETRY_ARRAY.includes(fieldName)) onChange(tempDocumentData, fieldName)
         else onChange(tempDocumentData)
+      }
+    }
+
+    function handleChange(data, fieldName) {
+      //console.log("documentData", documentData)
+      let tempDocumentData = documentData
+      if((documentLinkPropertyName === "geometries") && documentData[CONST.TYPE]===CONST.POINT) {
+        if(!tempDocumentData.hasOwnProperty(CONST.COORDINATES_FIELD)) {
+          // first entry 
+          tempDocumentData[CONST.COORDINATES_FIELD] = []
+          if(fieldName === "latitude__0") 
+            tempDocumentData[CONST.COORDINATES_FIELD][0]=data[0] // lat
+          else if(fieldName === "longitude__1") tempDocumentData[CONST.COORDINATES_FIELD][1]=data[1] // lng
+        } 
+        else { 
+          tempDocumentData[CONST.COORDINATES_FIELD] = documentData[CONST.COORDINATES_FIELD]
+          if(fieldName === "latitude__0") 
+            tempDocumentData[CONST.COORDINATES_FIELD][0]=data[0] // lat
+          else if(fieldName === "longitude__1") tempDocumentData[CONST.COORDINATES_FIELD][1]=data[1] // lng
+        }
+        setDocumentData(tempDocumentData)
+        if(onChange) {
+          onChange(tempDocumentData)
+        }
+      }
+      else if((documentLinkPropertyName === "geometries") && documentData[CONST.TYPE]===CONST.LINE_STRING_TYPE) {
+        let str = fieldName
+        let tmp=str.split("__")
+        let index = tmp[1] // will contain the array index for linestring or polygon
+        if(!tempDocumentData.hasOwnProperty(CONST.COORDINATES_FIELD)) {
+          // first entry 
+          tempDocumentData[CONST.COORDINATES_FIELD] = []
+          tempDocumentData[CONST.COORDINATES_FIELD][index] = []
+          if(fieldName === `${CONST.LATITUDE}__${index}`){ //latitude__0
+
+            tempDocumentData[CONST.COORDINATES_FIELD][index][0]=data[0] // lat
+          }
+          else if(fieldName === `${CONST.LONGITUDE}__${index}`) tempDocumentData[CONST.COORDINATES_FIELD][index][1]=data[1] // lng
+        } 
+        else { 
+          if(!tempDocumentData[CONST.COORDINATES_FIELD][index]) tempDocumentData[CONST.COORDINATES_FIELD][index] = [  ]
+          tempDocumentData[CONST.COORDINATES_FIELD][index]=data[index]
+          //tempDocumentData[CONST.COORDINATES_FIELD] = documentData[CONST.COORDINATES_FIELD]
+          //if(fieldName === `${CONST.LATITUDE}__${index}`) 
+            //tempDocumentData[CONST.COORDINATES_FIELD][index][0]=data[0] // lat
+          //else if(fieldName === `${CONST.LONGITUDE}__${index}`) tempDocumentData[CONST.COORDINATES_FIELD][index][1]=data[1] // lng
+        }
+        setDocumentData(tempDocumentData)
+        if(onChange) {
+          onChange(tempDocumentData)
+        }
+      }
+      else {
+        // if field name is undefined
+        // at this point means that its the document link's data 
+        // so we pass linked_to as param
+        // nextCreateLink stores the next link 
+        //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
+        tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
+        setDocumentData(tempDocumentData)
+        if(onChange) {
+          if(CONST.GEOMETRY_ARRAY.includes(fieldName)) onChange(tempDocumentData, fieldName)
+          else onChange(tempDocumentData)
+        }
       }
     }
 
@@ -156,7 +220,7 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
   let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
 
   useEffect(() => {
-    if(linked_to) setDocumentData({ [CONST.TYPE]: linked_to })
+    if(linked_to) setDocumentData({ [CONST.TYPE]: linked_to } )
   }, [linked_to])
 
   return <>

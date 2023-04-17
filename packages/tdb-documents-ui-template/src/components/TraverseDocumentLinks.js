@@ -120,7 +120,7 @@ export const TraverseDocumentLinks = ({show, onHide, clicked,getDocumentById,fra
 				</Button>
 			</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{height: "500px"}} className="p-4">
+        <Modal.Body style={{minHeight: "500px", height: "auto"}} className="p-4">
 			{error && <Alert variant={"danger"} className="mr-3">{error}</Alert>}
 			{loading ||  (!frames && !type) && <ProgressBar message={`Fetching ${documentID} ...`}/>}
 			<ShowLinkRoute linkArray={linkArray} handleTraverse={handleTraverse}/>

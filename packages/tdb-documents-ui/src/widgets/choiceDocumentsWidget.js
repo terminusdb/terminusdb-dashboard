@@ -91,7 +91,7 @@ function extractSelectedChoice (formData) {
 
 export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentData, setChoiceDocumentData }) => { 
   
-  const [selected, setSelected]=useState(extractSelectedChoice(props.formData))
+  const [selected, setSelected]=useState(extractSelectedChoice(props.formData)) 
   const [unlinked, clickedUnlinked]=useState(false)
   let { documentFrame, mode } = args
   let displayChoices = getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocumentData)

@@ -8,7 +8,7 @@ export function constructGeoJSONProps(props) {
     let tmpFormData = props.formData ? props.formData : []
     if(name === "latitude__0") tmpFormData[0] = data 
     if(name === "longitude__1") tmpFormData[1] = data 
-    props.onChange(tmpFormData)
+    props.onChange(tmpFormData, name)
   }
 
   let geoJSONProps = {
@@ -93,7 +93,8 @@ export function constructLineStringProps (props){
     if(tmpDocumentFormData) tmpDocumentFormData[index] = coordinates[index]
     else tmpDocumentFormData = coordinates
     // add on to subdocument formdata based on index
-    props.onChange(tmpDocumentFormData) // subdoc change
+    //props.onChange(tmpDocumentFormData) // subdoc change
+    props.onChange(tmpDocumentFormData, name) // subdoc change
     // set update to so as to force change in props.formData in document level
     if(props.mode !== CREATE) setUpdate(Date.now())
   }

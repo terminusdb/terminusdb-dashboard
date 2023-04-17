@@ -16,6 +16,7 @@ export const EditDocumentComponent = ({type,updateDocument,selectedDocument,fram
     const [showFrames, setShowFrames] = useState(false)
     const [selectedLanguage, setSelectedLanguage] = useState(false) 
     const onSelect = SearchComponent ? {onSelect:<SearchComponent/>} :{}
+    const [showInfo, setShowInfo]=useState( { frames: false, history: false } )
 
     return  <div className="w-100 d-flex">      
             <Card className="mr-3 bg-dark flex-grow-1">
@@ -28,7 +29,7 @@ export const EditDocumentComponent = ({type,updateDocument,selectedDocument,fram
                     </strong>
                     <CopyButton text={documentID} title={`Copy Document ID`}/>
                 </div> 
-                <ViewFramesButton setShowFrames={setShowFrames}/>
+                <ViewFramesButton setShowInfo={setShowInfo}/>
                 <LanguageSelectComponent frame={frames} setSelectedLanguage={setSelectedLanguage}/>
                 <ToggleJsonAndFormControl onClick={setView}/>
                 <CloseButton type={type} onClick={closeButtonClick}/>
@@ -52,12 +53,12 @@ export const EditDocumentComponent = ({type,updateDocument,selectedDocument,fram
             }
             </Card.Body>
         </Card>
-        {showFrames && 
         <ViewDocumentFrames
             type={type}
             documentFrame={frames[type] || {}}
-            setShowFrames={setShowFrames}
-       />}
+            showInfo={showInfo} 
+            setShowInfo={setShowInfo}
+       />
     </div>
       
 }

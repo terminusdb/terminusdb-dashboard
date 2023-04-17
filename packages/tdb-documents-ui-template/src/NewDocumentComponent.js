@@ -8,12 +8,14 @@ import {JsonFrameViewer} from "./components/JsonFrameViewer"
 import {ToggleJsonAndFormControl} from "./components/ToggleJsonAndFormControl"
 import {ViewDocumentFrames} from "./components/ViewDocumentFrames"
 import { LanguageSelectComponent } from "./components/SelectLanguageComponent"
-
+ 
 //onSelect={<SearchComponent/>} 
 export const NewDocumentComponent = ({type,createDocument,jsonContent,frames,closeButtonClick,SearchComponent}) => {
     const [view, setView] = useState(CONST.FORM_VIEW)
     const [showFrames, setShowFrames] = useState(false)
     const [selectedLanguage, setSelectedLanguage] = useState(false) 
+    const [showInfo, setShowInfo]=useState( { frames: false, history: false } )
+
     
     const onSelect = SearchComponent ? {onSelect:<SearchComponent/>} :{}
     
@@ -25,7 +27,7 @@ export const NewDocumentComponent = ({type,createDocument,jsonContent,frames,clo
                     <span className="mr-1 h6 fst-italic">{CONST.CREATE_DOCUMENT}: </span>
                     <span className="fw-bolder h6">{type}</span>
                 </strong>
-                <ViewFramesButton setShowFrames={setShowFrames}/>
+                <ViewFramesButton setShowInfo={setShowInfo}/>
                 <LanguageSelectComponent frame={frames} setSelectedLanguage={setSelectedLanguage}/>
                 <ToggleJsonAndFormControl onClick={setView}/>
                 <CloseButton type={type} onClick={closeButtonClick}/>
@@ -48,12 +50,13 @@ export const NewDocumentComponent = ({type,createDocument,jsonContent,frames,clo
             }
             </Card.Body>
         </Card>
-        {showFrames && 
+       
         <ViewDocumentFrames
             type={type}
             documentFrame={frames[type] || {}}
-            setShowFrames={setShowFrames}
-       />}
+            showInfo={showInfo} 
+            setShowInfo={setShowInfo}
+       />
     </div>
       
 }
