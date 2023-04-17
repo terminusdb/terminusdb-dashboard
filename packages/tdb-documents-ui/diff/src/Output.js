@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["One"], changedData["One"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["Person"], changedData["Person"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -256,7 +256,7 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "favorite_subject": { 
+        /*"favorite_subject": { 
           "@class": [
             {
               "@class": "Zoology",
@@ -273,7 +273,7 @@ export const Output = () => {
         "name": {
           "@class": "xsd:string",
           "@type": "Optional"
-        },
+        },*/
         "manYAddress":  {
           "@class": {
             "@class": "Address",
@@ -284,7 +284,7 @@ export const Output = () => {
         /*"permanentAddress":  {
           "@class": "Address",
           "@subdocument": []
-        },*/
+        },
         "nickNames": {
           "@class": "xsd:string",
           "@type": "Set" 
@@ -292,7 +292,7 @@ export const Output = () => {
         "age": {
           "@class": "xsd:decimal",
           "@type": "Optional"
-        },
+        },*/
       },
       "GoodStudents": {
         "@key": {
@@ -354,19 +354,16 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "likes": {
-          "@class":"Animal",
-          "@type": "Set"
-        }
+        "likes": "Animal"
       }
     } 
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["One"]} 
-            newValue={changedData["One"]}
+            oldValue={oldData["Person"]} 
+            newValue={changedData["Person"]}
             frame={testFrames}
-            type={"One"}
+            type={"Person"}
             onTraverse={handleTraverse}
             diffPatch={diff}/>
     </div>
