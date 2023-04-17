@@ -177,7 +177,6 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
 </Accordion>
 }
 
-
 /**
  * 
  * @param {*} diffs diff list 

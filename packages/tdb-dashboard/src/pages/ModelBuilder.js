@@ -6,6 +6,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {Loading} from "../components/Loading" 
 import {PROGRESS_BAR_COMPONENT}  from "../components/constants"
 import {JSONModelBuilder} from "../components/JSONModelBuilder" 
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 export const ModelBuilder = (props) =>{
     const {woqlClient,branch,ref,accessControlDashboard, currentChangeRequest} = WOQLClientObj()
@@ -34,13 +35,15 @@ export const ModelBuilder = (props) =>{
 
 
     if(!dataProduct) return <div>error in loading graph</div>
-
-    return <React.Fragment>
-        {reportMessage && !callServerLoading && <Alert className ="mt-3" variant="danger" dismissible onClose={() => setReport(false)}>
+/*
+  {reportMessage && !callServerLoading && <Alert className ="mt-3" variant="danger" dismissible onClose={() => setReport(false)}>
                           <Alert.Heading>{reportMessage.message.title}</Alert.Heading>
 
                         <p>{reportMessage.message.text}</p>
-                    </Alert>}
+                    </Alert>}*/
+    return <React.Fragment>
+           {reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
+       
        {/* <SplitPane split="horizontal" >
         <div>*/}
          {dataProduct &&  

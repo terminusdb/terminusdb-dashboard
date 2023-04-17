@@ -13,8 +13,6 @@ import {TraverseDocumentLinks, onTraverse} from "./components/TraverseDocumentLi
 import { LanguageSelectComponent } from "./components/SelectLanguageComponent"
 import { trimID } from "./utils"
 import { AiFillEdit } from "react-icons/ai"
-import { ViewDocumentHistoryButton } from "./components/ViewDocumentHistoryButton"
-import { ViewDocumentHistory } from "./components/ViewDocumentHistory" 
 
 // we have to fix traversedocklinek
 export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,frames,closeButtonClick,documentID,deleteDocument,editDocument}) => {
@@ -46,7 +44,6 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
              </div> 
                 <ViewFramesButton setShowInfo={setShowInfo}/>
                 <LanguageSelectComponent frame={frames} setSelectedLanguage={setSelectedLanguage}/>
-                <ViewDocumentHistoryButton setShowInfo={setShowInfo}/>
                 <ToggleJsonAndFormControl onClick={setView}/>
                 <div className="d-flex">
                     <Button variant="light" style={CONST.TOOLBAR_BUTTON_STYLES} type="button"  title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
@@ -80,9 +77,6 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
             documentFrame={frames[type] || {}}
             showInfo={showInfo}
             setShowInfo={setShowInfo}/>
-        <ViewDocumentHistory setShowInfo={setShowInfo} 
-            documentID={documentID}
-            showInfo={showInfo}/>
     </div>
       
 }
