@@ -155,6 +155,9 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
   let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name,args.fullFrame[CONST.SELECTED_LANGUAGE])
   let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
 
+  useEffect(() => {
+    if(linked_to) setDocumentData({ [CONST.TYPE]: linked_to })
+  }, [linked_to])
 
   return <>
     <DisplayDocumentation documentation={propertyDocumentation}/>

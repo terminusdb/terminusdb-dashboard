@@ -42,6 +42,10 @@ export const getDisplay = (props, args, property) => {
     let id=props.id
     return display.displayJSON(props, args, property, id, hideFieldLabel)
   }
+  else if(util.isGeometryCollection(field)) {
+    let id = props.id
+    return display.displayChoiceDocument (props, args, property, id) 
+  }
   else if(util.isChoiceDocumentType(field, fullFrame)){
     // CHOICE DOCUMENTS 
     let id = props.id
