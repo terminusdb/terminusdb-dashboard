@@ -11,7 +11,33 @@ export const ErrorMessageReport = ({error,setError})=>{
      return <FormatErrorMessages error={error} setError={setError}/>
 }
 
+const checkType = (error) =>{
+    let className
+    let predicate
+    switch(error["@type"]){
+        case "instance_not_cardinality_one":
+            className = error['instance']
+            let classId
+            if(typeof className === "string"){
+            classId= className.substring(0, className.lastIndexOf("/")+1)
+            }
+            error.message = `you can not add a MANDATORY property, there are instances of the Document  ${classId}`
+            break;
+        case "invalid_predicate":
+            className = error['class']
+            predicate = error['predicate']
+            error.message =  `There are instances of the document ${className} `
+            break;
+        case "not_a_class_or_base_type":
+            className = error['class']
+            predicate = error['predicate']
+            error.message = `${className} is not a class or a base type`
+            break;
+  }
+}
+
 export const FormatErrorMessages = ({error, setError}) => {
+    if(typeof error !== "object") return error
     function getMessage(){
         if(!error.hasOwnProperty("api:message")) {
             if(error &&  typeof error === "object"){
@@ -37,6 +63,7 @@ export const FormatErrorMessages = ({error, setError}) => {
                     }
                     else {
                         if(err.hasOwnProperty("@type")) {
+                            checkType(err)
                             errorElements.push(
                                 <pre>{JSON.stringify(err, null, 2)}</pre>
                             )

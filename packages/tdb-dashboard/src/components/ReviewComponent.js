@@ -14,7 +14,7 @@ import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai"
 import {Alerts} from "./Alerts"
 
 const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
-    const { setCurrentCRObject, exitChangeRequestBranch }= WOQLClientObj()
+    const { setCurrentCRObject, exitChangeRequestBranch,currentCRObject }= WOQLClientObj()
     const { organization, dataProduct , changeid} = useParams()
     const  [loadingMessage,setLoadingMessage] = useState(`Approving Change Request ...`)
     const navigate = useNavigate() 
@@ -22,10 +22,11 @@ const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
     async function doAction(submitAction) {
         if(submitAction !== CONST.APPROVE ) setLoadingMessage(`Rejecting Change Request ...`)
         let status = submitAction === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
-        let res=await updateChangeRequestStatus(message, status, changeid) 
+        let res=await updateChangeRequestStatus(message, status, changeid)
+        const originalBranch = currentCRObject.original_branch
         if(res){
             setCurrentCRObject(false)
-            exitChangeRequestBranch()
+            exitChangeRequestBranch(originalBranch)
             navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
         }
     }

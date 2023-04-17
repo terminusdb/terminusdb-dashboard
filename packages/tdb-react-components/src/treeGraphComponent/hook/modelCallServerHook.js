@@ -32,9 +32,9 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 			return jsonSchema;
 		}catch(err){
 			//tobe review
-			const message = errorMessageFormatter(err,err.message)	
+			setReport(err.data || err.message) //errorMessageFormatter(err,err.message)	
 			//I have to reset the schema here not in finally 						
-			setReport({message:message, status: "error",err: err,time: Date.now() - ts,})
+			//setReport({message:message, status: "error",err: err,time: Date.now() - ts,})
 		}finally{				
 			setLoading(false)
 		}	
@@ -108,7 +108,7 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 				//setError(err.message)
                 const message = errorMessageFormatter(err,err.message)	
 				//I have to reset the schema here not in finally 						
-				setReport({message:message, status: "error",err: err,time: Date.now() - ts,})
+				setReport(err.data || err.message)//{message:message, status: "error",err: err,time: Date.now() - ts,})
 			}finally{
 				setLoading(false)
 			}

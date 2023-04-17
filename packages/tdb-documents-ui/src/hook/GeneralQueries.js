@@ -106,14 +106,14 @@ const checkIfPrefix =(id)=>{
 export const getCountOfDocumentClass = (documentClasses) => {
     let WOQL =  TerminusClient.WOQL
     let CountArray=[]
-    documentClasses.map(item => { // set type of document
+    documentClasses.map((item , index) => { // set type of document
         let scmType=checkIfPrefix(item["@id"])
         let variable="v:"+item["@id"]
         let split = item["@id"].split(':')
         if(split.length === 2){
             scmType=split[1]
         }
-        CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
+        CountArray.push(WOQL.count (variable, WOQL.triple(`v:Doc_${index}`, "rdf:type", scmType)))
     })
 
     let q = WOQL.and(...CountArray)
@@ -124,7 +124,7 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
     let WOQL =  TerminusClient.WOQL
     let CountArray=[]
     let variableList = []
-    documentClasses.map(item => { // set type of document
+    documentClasses.map((item, index) => { // set type of document
         let scmType= checkIfPrefix(item["@id"])
         let variable="v:"+item["@id"]
         let split = item["@id"].split(':')
@@ -132,7 +132,7 @@ export const getTotalNumberOfDocuments = (documentClasses) => {
             scmType=split[1]
         }
         variableList.push(variable)
-        CountArray.push(WOQL.count (variable, WOQL.triple("v:Doc", "rdf:type", scmType)))
+        CountArray.push(WOQL.count (variable, WOQL.triple(`v:Doc_${index}`, "rdf:type", scmType)))
     })
 
     let q = WOQL.and(...CountArray, WOQL.sum(variableList, "v:Count"))

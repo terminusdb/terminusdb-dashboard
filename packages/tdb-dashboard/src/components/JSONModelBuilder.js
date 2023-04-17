@@ -22,6 +22,7 @@ import Card from "react-bootstrap/Card"
 import {BsSave} from "react-icons/bs"
 import Stack from "react-bootstrap/Stack"
 import {modelCallServerHook} from "@terminusdb-live/tdb-react-components"
+import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 // we moved the save data at this level or we lost our change if there is an error
 export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
@@ -93,12 +94,8 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
     //console.log("editMode", editMode)
     return <>
         <label className="text-warning mt-4">{editMessage}</label>
-        {reportMessage && !loading &&
-                 <Alert className ="mt-3" variant="danger" dismissible onClose={() => setReport(false)}>
-                          <Alert.Heading>{reportMessage.message.title}</Alert.Heading>
-
-                        <p>{reportMessage.message.text}</p>
-        </Alert>}
+        {reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
+       
         <Card className={`border border-secondary mt-4`} {...editStyle}>
             {loading && <Loading message={"Updating schema"} type={PROGRESS_BAR_COMPONENT}/>}       
             <Card.Header>
