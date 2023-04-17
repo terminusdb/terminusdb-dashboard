@@ -76,7 +76,8 @@ export const GetFieldDisplay = ({ args, onChange, formData, id, property }) => {
 	function handleFieldChange(data, fieldName) {
 		//console.log("data", data, fieldName) 
 		//onChange(data, fieldName) 
-    if(args.type === CONST.POINT) onChange(data) 
+    //if(args.type === CONST.POINT) onChange(data) 
+    if(args.type === CONST.POINT) onChange(data, fieldName) 
     else {
       if(property === CONST.B_BOX) onChange(data)
       else onChange(data, fieldName) // pass field name s to match for LINESTRING and other types
@@ -149,7 +150,7 @@ function displayCoordinates(args, element, index, property) {
 
 // POINT 
 export function PointFieldTemplate(args, props, property) { 
-
+ 
 	let { extractedDocumentation } = args
 
 	var variant="dark"

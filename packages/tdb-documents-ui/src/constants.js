@@ -129,13 +129,14 @@ export const GEOMETRIES="geometries"
 export const FEATURE="feature"
 export const B_BOX="bbox"
 export const COORDINATES="Coordinates"
+export const COORDINATES_FIELD="coordinates"
 
 export const GEOMETRY_ARRAY=[
-  "GeometryCollection", 
-  "LineString",
-   "MultiPolygon",
-  "Point",
-  "Polygon"
+  GEOMETRY_COLLECTION, 
+  LINE_STRING_TYPE,
+  MULTIPOLYGON,
+  POINT,
+  POLYGON
 ]
 
 // map icon component

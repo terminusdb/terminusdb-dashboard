@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import Stack from "react-bootstrap/Stack"
 import { VIEW } from "../constants"
 import { checkIfReadOnly } from "../utils"
-import { XSD_ANY_URI, XSD_STRING, NUMBER_ARRAY  } from "../dataType.constants"
+import { XSD_ANY_URI, XSD_STRING, NUMBER_ARRAY, XSD_LANGUAGE  } from "../dataType.constants"
 import { TDBLabel } from "../components/LabelComponent"
 import { HiddenInputWidgets } from "./hiddenWidgets"
 
@@ -39,7 +39,7 @@ export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mod
     {placeholder === XSD_ANY_URI &&  <input type="url"
       id={id}   
       name={id}
-      className={`${className} tdb-number rounded w-100`}
+      className={`${className} tdb-number rounded w-100 text-white`}
       value={value}
       //key={inputKey}
       readOnly={checkIfReadOnly(mode, inputValue, isKey)}
@@ -59,7 +59,7 @@ export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mod
       required={required}
       onChange={ (event) => onChange(event.target.value, name) } />}
     {/** display textearea for XSD_STRING */}
-    {placeholder === XSD_STRING &&  <textarea type="text"
+    {!NUMBER_ARRAY.includes(placeholder) && placeholder !== XSD_ANY_URI && <textarea type="text"
       id={id}
       name={id}
       //key={inputKey}

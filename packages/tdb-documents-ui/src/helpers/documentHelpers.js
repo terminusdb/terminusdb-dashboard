@@ -71,7 +71,9 @@ function constructProps(fieldID, field, expanded, docConfig) {
     //onChange: (data) => docConfig.onChange(data, field), 
     formData: data,
     //onChange: (data, name) => docConfig.onChange(data, field, name), 
-    onChange: (data, name, selectedOneOf) => docConfig.onChange(data, field, selectedOneOf), 
+    onChange: (data, name, selectedOneOf) => field===CONST.COORDINATES_FIELD ? 
+      docConfig.onChange(data, name, selectedOneOf) 
+      : docConfig.onChange(data, field, selectedOneOf), 
     hideFieldLabel: false,
     mode: docConfig.mode
   }
