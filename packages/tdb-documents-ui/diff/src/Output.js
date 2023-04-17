@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["Person"], changedData["Person"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["One"], changedData["One"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -44,6 +44,9 @@ export const Output = () => {
         Object.keys(doc[CHANGED_VALUE]).length === 0) {
             return <>No data provided to show diffs ... </>
     }*/
+    function handleTraverse (clicked) {
+      alert(`You have clicked on ${clicked} ...`)
+    }
 
     let testFrames = {
       "@context": {
@@ -136,7 +139,7 @@ export const Output = () => {
               "category": "blah"
           }
         },
-        "@unfoldable": [],
+        //"@unfoldable": [],
         "owned_by":{
           "@class": "Person",
           "@type": "Optional"
@@ -351,16 +354,20 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "likes": "Animal"
+        "likes": {
+          "@class":"Animal",
+          "@type": "Set"
+        }
       }
     } 
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["Person"]} 
-            newValue={changedData["Person"]}
+            oldValue={oldData["One"]} 
+            newValue={changedData["One"]}
             frame={testFrames}
-            type={"Person"}
+            type={"One"}
+            onTraverse={handleTraverse}
             diffPatch={diff}/>
     </div>
 }

@@ -61,7 +61,7 @@ export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA_ORIGINAL = {
 	"@id": "Person/13123123",
 	"@type": "Person",
 	"likes": {
-		"@id": "Person/13123123/likes/Cats",
+		"@id": "Person/13123123/likes/Cats", 
 		"@type": "Animal", 
 		"nickName": "Chooo",
 		"category": "Cats",

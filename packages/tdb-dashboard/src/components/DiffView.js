@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from "react"
 import Accordion from 'react-bootstrap/Accordion'
-import {DiffViewer} from '@terminusdb/terminusdb-documents-ui'
+import {DiffViewer} from '@terminusdb/terminusdb-documents-ui' 
+import {TraverseDocumentLinks, onTraverse} from "@terminusdb/terminusdb-documents-ui-template"
 import Badge from 'react-bootstrap/Badge'
 import {TbExchange} from "react-icons/tb"
 import Stack from 'react-bootstrap/Stack'
@@ -108,16 +109,30 @@ function getTitle(diff) {
 }
 
 function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,frames,action,docType}){
+    const { woqlClient } = WOQLClientObj()
+
     const {getDocumentByBranches, 
         error,
         originalValue, 
-        changedValue} = DocumentHook()
+        changedValue} = DocumentHook() 
+
+    const [clicked, setClicked]=useState(false)
 
     function getDocumentStatesOnClick() {
         if(originalValue) return 
         getDocumentByBranches(CRObject.tracking_branch, documentID,action)
     }
     const eventKey = documentID
+
+    const getDocumentById=(docId)=>{
+        const clientCopy = woqlClient.copy()
+        clientCopy.checkout(CRObject.tracking_branch)
+        return clientCopy.getDocument({ id: docId }) 
+    }
+
+    function handleTraverse (documentID) {
+        onTraverse(documentID, setClicked)
+    }
 
    return <Accordion className="accordion__button padding-0 diff__accordian" id={eventKey} onSelect={getDocumentStatesOnClick}> 
         <Accordion.Item eventKey={eventKey} className="border-0">
@@ -141,6 +156,12 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
                {error}
            </Alert>}
            {!originalValue && !changedValue && <Loading message={`Loading Diffs ...`}/>} 
+           {clicked && <TraverseDocumentLinks 
+                getDocumentById={getDocumentById} 
+                clicked={clicked} 
+                frames={frames}
+                show={clicked!==false} 
+                onHide={() => setClicked(false)}/>} 
            {originalValue && changedValue && 
                <DiffViewer 
                    oldValue={originalValue} 
@@ -148,6 +169,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
                    oldValueHeader={<OriginHeader branch="main"/>}
                    newValueHeader={<TrackingHeader branch={CRObject.tracking_branch}/>}
                    frame={frames}
+                   onTraverse={handleTraverse}
                    type={docType}
                    diffPatch={diffObj}/>}
        </Accordion.Body>

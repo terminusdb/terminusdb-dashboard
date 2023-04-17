@@ -12,13 +12,16 @@ import {RiDeleteBin7Line} from "react-icons/ri"
 import {TraverseDocumentLinks, onTraverse} from "./components/TraverseDocumentLinks"
 import { LanguageSelectComponent } from "./components/SelectLanguageComponent"
 import { trimID } from "./utils"
+import { AiFillEdit } from "react-icons/ai"
+import { ViewDocumentHistoryButton } from "./components/ViewDocumentHistoryButton"
+import { ViewDocumentHistory } from "./components/ViewDocumentHistory" 
 
 // we have to fix traversedocklinek
 export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,frames,closeButtonClick,documentID,deleteDocument,editDocument}) => {
     const [view, setView] = useState(CONST.FORM_VIEW)
     const [clicked, setClicked]=useState(false)
-    const [showFrames, setShowFrames] = useState(false)
     const [selectedLanguage, setSelectedLanguage] = useState(false) 
+    const [showInfo, setShowInfo]=useState( { frames: false, history: false } )
 
     function handleTraverse (documentID) {
         onTraverse(documentID, setClicked)
@@ -40,15 +43,16 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
                     <span className="fw-bolder h6"> {trimID(documentID)} </span>
                 </strong>
                 <CopyButton text={`${documentID}`} title={`Copy Document ID`}/> 
-             </div>
-                <ViewFramesButton setShowFrames={setShowFrames}/>
+             </div> 
+                <ViewFramesButton setShowInfo={setShowInfo}/>
                 <LanguageSelectComponent frame={frames} setSelectedLanguage={setSelectedLanguage}/>
+                <ViewDocumentHistoryButton setShowInfo={setShowInfo}/>
                 <ToggleJsonAndFormControl onClick={setView}/>
                 <div className="d-flex">
-                    <Button variant="light"  type="button"  title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
-                        Edit
+                    <Button variant="light" style={CONST.TOOLBAR_BUTTON_STYLES} type="button"  title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
+                        <AiFillEdit/>{/*Edit*/}
                     </Button>
-                    <Button variant="danger" type="button" title="Delete Document" onClick={deleteDocument}className="btn-sm btn text-gray">
+                    <Button variant="danger" style={CONST.TOOLBAR_BUTTON_STYLES} type="button" title="Delete Document" onClick={deleteDocument}className="btn-sm btn text-gray">
                         <RiDeleteBin7Line className=" mb-1"/>
                     </Button>
                 </div>
@@ -71,12 +75,14 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
             }
             </Card.Body>
         </Card>
-        {showFrames && 
         <ViewDocumentFrames
             type={type}
             documentFrame={frames[type] || {}}
-            setShowFrames={setShowFrames}
-       />}
+            showInfo={showInfo}
+            setShowInfo={setShowInfo}/>
+        <ViewDocumentHistory setShowInfo={setShowInfo} 
+            documentID={documentID}
+            showInfo={showInfo}/>
     </div>
       
 }

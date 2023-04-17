@@ -58,6 +58,7 @@ export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA_ORIGINAL = {
 	"@id": "Person/13123123",
 	"@type": "Person",
 	"likes": {
+		"@id": "Person/13123123/likes/1212",
 		"@type": "Animal",
 		"owned_by": {
 			"name": "Mike",
@@ -79,6 +80,7 @@ export const DOCUMENT_LINK_DATA_TYPE_EDIT_DATA = {
 	"@type": "Person",
 	"@id": "Person/13123123",
 	"likes": {
+		"@id": "Person/13123123/likes/1212",
 		"@type": "Animal",
 		"owned_by": {
 			"name": "Mike",

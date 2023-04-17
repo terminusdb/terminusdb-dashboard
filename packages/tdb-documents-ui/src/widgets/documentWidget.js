@@ -54,6 +54,7 @@ export const TDBDocument = ({ args, extracted, reference, uiFrame, clickedUnlink
     mode={mode}
     uiFrame={uiFrame}
     args={args}
+    index={props.index}
     depth={depth}
     order_by={order_by}
     reference={reference}

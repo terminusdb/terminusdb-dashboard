@@ -76,7 +76,6 @@ export function FrameViewer(props){
 
 	useEffect(() => {
 		// on update construct form params 
-		console.log("update", update)
 		if(update) constructFormParams(props, setDocumentation, reference, setReference, setReadOnly, setMessage, display, setDisplay)
 	}, [update])
 

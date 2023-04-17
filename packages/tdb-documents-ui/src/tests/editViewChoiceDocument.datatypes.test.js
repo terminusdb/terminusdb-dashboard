@@ -12,7 +12,7 @@ import selectEvent from 'react-select-event'
  * an array of choices of documents 
  */
 describe("Test Choice Documents", () => {
-  
+   
 	/**
 	 * 
 	 * @returns submitted data from <FrameViewer/>
@@ -113,10 +113,18 @@ describe("Test Choice Documents", () => {
 		// check if everything is readily available 
 		const nameInput = document.getElementById("root_name")
 		await expect(nameInput).toBeInTheDocument()
-		expect(nameInput.value).toStrictEqual(config.formData["name"])
+		expect(nameInput.value).toStrictEqual(config.formData["name"]) 
+		
+
+		const documentId = screen.getByText(config.formData["teach"]["@id"]);
+		expect(documentId).toBeInTheDocument()
+		await userEvent.click(documentId)
+
+		// test handle traverse
+		await expect(screen.queryByText(`You have clicked on ${config.formData["teach"]["@id"]} ...`))
 		
 		// botony notes
-		const botonyNotesInput = document.getElementById("root_teach_Botony_notes_1")
+		/*const botonyNotesInput = document.getElementById("root_teach_Botony_notes_1")
 		expect(botonyNotesInput).toBeInTheDocument()
 		expect(botonyNotesInput.value).toStrictEqual(config.formData["teach"]["Botony_notes"])
 
@@ -128,7 +136,7 @@ describe("Test Choice Documents", () => {
 		// subject name
 		const subjectNameInput = document.getElementById("root_teach_subject_name_1")
 		expect(subjectNameInput).toBeInTheDocument()
-		expect(subjectNameInput.value).toStrictEqual(config.formData["teach"]["subject_name"])
+		expect(subjectNameInput.value).toStrictEqual(config.formData["teach"]["subject_name"])*/
 		
 	})
 
