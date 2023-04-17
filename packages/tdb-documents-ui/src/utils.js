@@ -210,7 +210,7 @@ export const isRdfLangString = (field) => {
 		return false
 	}
 	return false
-}
+} 
 
 
 /** choice documents/ sub documents/ oneOf utils */
@@ -316,7 +316,7 @@ export function checkForSysUnit (args, props, linked_to) {
 /**
  * returns property's documentation from extractedDocumentation frame
  */
-export function checkIfPropertyHasDocumentation (extractedDocumentation, property) {
+ /*export function checkIfPropertyHasDocumentation_OLD (extractedDocumentation, property) {
 	var label, comment
 	if(!extractedDocumentation) return { label, comment }
 	if(extractedDocumentation.hasOwnProperty("@properties") && 
@@ -329,6 +329,40 @@ export function checkIfPropertyHasDocumentation (extractedDocumentation, propert
 				extractedDocumentation["@properties"][property][CONST.COMMENT] : extractedDocumentation["@properties"][property]
 		}
 	return { label, comment }
+} */
+
+function fieldDocumentation (extractedDocumentation, property) {
+	var label, comment
+	if(extractedDocumentation.hasOwnProperty("@properties") && 
+		extractedDocumentation["@properties"].hasOwnProperty(property))  {
+			// @label
+			label = extractedDocumentation["@properties"][property].hasOwnProperty(CONST.LABEL) ? 
+				extractedDocumentation["@properties"][property][CONST.LABEL] : null
+			// @comment
+			comment = extractedDocumentation["@properties"][property].hasOwnProperty(CONST.COMMENT) ?
+				extractedDocumentation["@properties"][property][CONST.COMMENT] : extractedDocumentation["@properties"][property]
+		}
+	return { label, comment }
+}
+
+export function checkIfPropertyHasDocumentation (extractedDocumentation, property, selectedLanguage) {
+	//var label, comment
+	let extracted = {}
+	if(!extractedDocumentation) return extracted
+	if(Array.isArray(extractedDocumentation)) {
+		if(!selectedLanguage) selectedLanguage = CONST.DEFAULT_LANGUAGE
+		extractedDocumentation.map(doc => {
+			// if documentation is defined as array then we expect @language tag from database
+			if(doc["@language"] === selectedLanguage) {
+				extracted=fieldDocumentation (doc, property, selectedLanguage)
+			}
+		})
+	}
+	else {
+		extracted=fieldDocumentation (extractedDocumentation, property)
+	}
+	return extracted
+	//return { label, comment }
 }
 
 
@@ -463,7 +497,7 @@ export function sortProperties (properties, order_by) {
 }
 
 
-/** ENUM DOCUMENTATION */
+/** ENUM DOCUMENTATION */ 
 export const extractEnumComment = (fullFrame, enumDocumentClass, options, property) => {
 	if(!fullFrame.hasOwnProperty(enumDocumentClass)) {
 		throw new Error (`Expected full frames to have ${enumDocumentClass} defined ...`)

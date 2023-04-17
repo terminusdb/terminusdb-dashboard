@@ -7,12 +7,12 @@ import { displayIfKeyField } from "../utils"
 export const TDBLabel = ({ name, required, comment, className, id, isKey, hideFieldLabel }) =>{
 
   // hideFieldLabel is true for sets/lists
-  if(hideFieldLabel) return <label className="tdb__label__width invisible" htmlFor={id}>{name}</label>
+  if(hideFieldLabel) return <label className="tdb__label__width invisible" htmlFor={id} for={id}>{name}</label>
 
   if(required) {
     // required then add required identifier 
     return <Stack direction="veritcal" className={className}>
-      <label className="control-label" htmlFor={id}>{name}
+      <label className="control-label" htmlFor={id} for={id}>{name}
         {isKey && displayIfKeyField(isKey, name)}
         <DisplayPropertyNameAndComment comment={comment}/>
       </label> 
@@ -22,7 +22,7 @@ export const TDBLabel = ({ name, required, comment, className, id, isKey, hideFi
   
   // !required
   return <div className="d-flex">
-    <label className={`control-label ${className} rounded`} htmlFor={id}>{name}
+    <label className={`control-label ${className} rounded`} htmlFor={id} for={id}>{name}
       {isKey && displayIfKeyField(isKey, name)}
       <DisplayPropertyNameAndComment comment={comment}/>
     </label> 

@@ -114,7 +114,7 @@ export const TDBGeometryCollections = ({ args, props, property, id, collectionDa
     if(chosen) setSelected(chosen) 
   }
 
-  let documentation = util.checkIfPropertyHasDocumentation (args.extractedDocumentation, property) 
+  let documentation = util.checkIfPropertyHasDocumentation (args.extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE]) 
  
   
   return <Stack direction="horizontal"  className="mb-3">

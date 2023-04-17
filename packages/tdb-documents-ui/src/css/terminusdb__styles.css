@@ -1,9 +1,12 @@
 @import "https://bootswatch.com/5/darkly/bootstrap.css";
+@import "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css";
 
 :root {
-	--input-color: #adb5bd;
+	/*--input-color: #adb5bd;*/
+  --input-color: #fff;
   --input-border: 1px solid rgb(102, 102, 102);
   --required-color: #6c757d;
+  --label-color: #f9d891;
   --tdb-label-width: 11rem;
   --tdb-latlng-label-width: 5rem;
   --input-calander-color: #000;
@@ -13,9 +16,12 @@
   /** diff colors */
   --danger-color: #842029;
   --danger-bg: #f8d7da;
+  --danger-diff-icons-color: var(--danger-bg);
+  --diff-icons-size: 20px;
   --danger-border-color: #f5c2c7;
   --success-color: #0f5132;
   --success-bg: #d1e7dd;
+  --success-diff-icons-color: var(--success-bg);
   --success-border-color: #badbcc;
 }
 
@@ -24,10 +30,10 @@
 .tdb__doc__input { 
   color: var(--input-color);
   background-color: transparent;
-  border: var(--input-border);
+  border: var(--input-border) !important;
   display: block;
   width: 100%;
-  padding: 0.375rem 0.75rem;
+  padding: 0.375rem 0.75rem !important;
   font-size: 1rem;
   font-weight: 400; 
   line-height: 1;
@@ -37,6 +43,7 @@
 /** all property labels */
 label.control-label {
   text-align:left; 
+  color: var(--label-color);
   word-wrap: break-word !important;
   word-break: break-word !important;
   word-break: break-all;
@@ -72,6 +79,7 @@ label.latlng-control-label {
 .tdb__label__width {
   max-width: var(--tdb-label-width);
   width: var(--tdb-label-width);
+  padding-right: 20px;
 }
 
 /** tdb add array button */
@@ -94,6 +102,10 @@ label.latlng-control-label {
 
 .react-datetime-picker__inputGroup__input:invalid { 
   background: transparent;
+}
+
+.react-datetime-picker__inputGroup__input {
+  color: var(--input-color) !important;
 }
 
 /** react calander set color to dark on select or hover */
@@ -131,11 +143,17 @@ label.latlng-control-label {
 .tdb__diff__original {
   color: var(--danger-color);
   background-color: var(--danger-bg);
-  border: var(--danger-border-color);
+  border: 1px solid var(--danger-border-color);
 } 
 
+.tdb__diff__original__deleted {
+  color: var(--danger-diff-icons-color);
+  font-size: var(--diff-icons-size);
+}
+
 /** for documents with fields inside - like subdocuments/ choice subdocuments */
-.tdb__diff__original-border { 
+.tdb__diff__original-border,
+.tdb__diff__deleted { 
   border: 1px solid var(--danger-border-color);
 }
 
@@ -144,14 +162,20 @@ label.latlng-control-label {
   color: var(--danger-bg);
 }
 
+.tdb__diff__changed__deleted {
+  color: var(--success-diff-icons-color);
+  font-size: var(--diff-icons-size);
+}
+
 .tdb__diff__changed {
   color: var(--success-color);
   background-color: var(--success-bg);
-  border: var(--success-border-color);
+  border: 1px solid var(--success-border-color);
 } 
 
 /** for documents with fields inside - like subdocuments/ choice subdocuments */
-.tdb__diff__changed-border { 
+.tdb__diff__changed-border,
+.tdb__diff__inserted { 
   border: 1px solid var(--success-border-color);
 }
 
@@ -167,6 +191,10 @@ label.latlng-control-label {
 .tdb__enum__input,
 .tdb__array__input {
   margin-bottom: var(--field-margin-bottom);
+}
+
+.tdb-number {
+  line-height: 2;
 }
 
 /** margin bottom for array templates */

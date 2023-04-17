@@ -24,7 +24,7 @@ export function getEnumLabelDescription(item, documentation) {
  export function getLabelFromEnumDocumentation (item, documentation, values) {
 	let enumDocumentation={
 		"@label": item,
-		"@values": values 
+		"@values": values  
 	}
 	if(!documentation) return enumDocumentation
 	//if(typeof documentation === CONST.OBJECT_TYPE) return getEnumLabelDescription(item, documentation)
@@ -37,10 +37,10 @@ export function getEnumLabelDescription(item, documentation) {
 					enumDocumentation["@label"]=doc["@label"] // extract enum property label
 				}
 				if(doc.hasOwnProperty("@values")) {	// extract enum option labels
-					for(var val in doc["@values"]){
+					/*for(var val in doc["@values"]){
 						if(doc["@values"][val].hasOwnProperty("@label")) valueArray.push(doc["@values"][val]["@label"])
-					}
-					enumDocumentation["@values"]=valueArray
+					}*/
+					enumDocumentation["@values"]=doc["@values"]
 				}
 				else enumDocumentation["@values"]=values
 			}

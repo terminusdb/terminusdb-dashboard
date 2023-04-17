@@ -123,7 +123,7 @@ export function documentInternalProperties(docConfig, field) {
   //argsHolder.documentFrame = documentFrame
   argsHolder.documentFrame = { [field]: documentFrame.propertyFrame }
   argsHolder.extractedType = documentFrame[CONST.TYPE]
-  
+  argsHolder.linked_to=currentDocumentClass
 
   if(util.isArrayType(argsHolder.extractedType)) {
     // if array, we expect formData to be an object type
@@ -139,6 +139,14 @@ export function documentInternalProperties(docConfig, field) {
 
   return fields
 
+}
+
+function checkIfPropertyRequired(props, frame, field) {
+  if(frame.hasOwnProperty(field) && 
+    typeof frame[field] === CONST.OBJECT_TYPE && 
+    frame[field].hasOwnProperty(CONST.TYPE)) {
+      props.required=false
+  }
 }
 
 /**
@@ -177,17 +185,19 @@ export function displayInternalProperties (docConfig) {
     //argsHolder.documentFrame = documentFrame
     argsHolder.documentFrame = { [field]: documentFrame.propertyFrame }
     argsHolder.extractedType = documentFrame[CONST.TYPE]
-    
-
+    argsHolder.linked_to=currentDocumentClass
+ 
     if(util.isArrayType(argsHolder.extractedType)) {
       // if array, we expect formData to be an object type
       subDocumentFields.push(displayDocumentFieldArrayHelpers(fieldID, field, expanded, argsHolder, docConfig))
-    }
+    } 
     else {
       //normal data types we expect formData to be an string/ number type
       let props = constructProps(fieldID, field, expanded, docConfig)
+      //checkIfPropertyRequired(props, args.fullFrame[currentDocumentClass], field)
+      props.required = docConfig.required
       argsHolder.uiFrame = addUiFrameForEachField(docConfig, field)
-      let propertyUIDisplay = getDisplay (props, argsHolder, field)
+      let propertyUIDisplay = getDisplay (props, argsHolder, field) 
       subDocumentFields.push(propertyUIDisplay)  
     }
     

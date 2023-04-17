@@ -69,7 +69,7 @@ export const oldData = {
 			"Botony_grade": "A",
 			"subject_name": "Botony" 
 		}],
-		/*"likes": {
+		"likes": {
 			"@type": "Animal", 
 			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"nickName": "Chooo",
@@ -87,7 +87,7 @@ export const oldData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-			/*	}
+				}
 			}
 		},
 		"manYAddress": [
@@ -112,12 +112,12 @@ export const oldData = {
 				"Country": "Country ",
 				"postalCode": "postalCode "
 			}
-		], */
-		/*"nickNames": [
+		], 
+		"nickNames": [
 			"Nano N", "Parka N", "Li N"
-		],*/
-		/*"name": "Nina",
-		"age": 23,*/
+		],
+		"name": "Nina",
+		"age": 23,
 		/*"permanentAddress": {
 			"@type": "Address",
 			"AddressLine1": "AddressLine1",
@@ -125,6 +125,31 @@ export const oldData = {
 			"Country": "Country",
 			"postalCode": "postalCode"
 		}*/
+	},
+	"One": {
+		"@id": "One/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+		"@type": "One",
+		"name": "John",
+		"likes": ["likes/one/1", "likes/one/same", "likes/one/34"]/*{
+			"@type": "Animal", 
+			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+			"nickName": "Chooo",
+			"category": "Cats",
+			"owned_by": {
+				"@id": "owned_by/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+				"@type": "Person", 
+				"likes": { 
+					"@id": "likes/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+					"@type": "Animal", 
+					"nickName": "Ronny",
+					"category": "Dogs",
+					/*"owned_by": {
+						"@type": "Person", 
+						"name": "Marry Ann"
+					}*/
+				/*}
+			}
+		},*/
 	}
 }  
  
@@ -198,7 +223,7 @@ export const changedData = {
 			"Botony_grade": "A",
 			"subject_name": "Botony" 
 		}],
-		/*"likes": {
+		"likes": {
 			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 			"@type": "Animal", 
 			"nickName": "Chooo",
@@ -216,7 +241,7 @@ export const changedData = {
 						"@type": "Person", 
 						"name": "Marry Ann"
 					}*/
-				/*}
+				}
 			}
 		},
 		"manYAddress": [
@@ -241,19 +266,44 @@ export const changedData = {
 				"Country": "LATER ",
 				"postalCode": "LATER "
 			},
-		],*/
-		/*"nickNames": [
+		],
+		"nickNames": [
 			"Nano", "Parka N", "Li N"
-		],*/
-		/*"name": "Jose",
-		"age": 13,*/
-		/*"permanentAddress": {
+		],
+		"name": "Jose",
+		"age": 13,
+		"permanentAddress": {
 			"@type": "Address",
 			"AddressLine1": "AddressLine1 new",
 			"City": "City",
 			"Country": "Country new",
 			"postalCode": "postalCode new"
-		}*/
+		}
+	},
+	"One": {
+		"@id": "One/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+		"@type": "One",
+		"likes":  ["likes/one/122", "likes/one/same", "likes/one/333"]/*{
+			"@type": "Animal", 
+			"@id": "Animal/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+			"nickName": "Chooo",
+			"category": "Cats",
+			"owned_by": {
+				"@id": "owned_by/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+				"@type": "Person", 
+				"name": "Ron",
+				"likes": { 
+					"@id": "likes/Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
+					"@type": "Animal", 
+					"nickName": "Ronny",
+					"category": "Dogs",
+					/*"owned_by": {
+						"@type": "Person", 
+						"name": "Marry Ann"
+					}*/
+				/*}
+			}
+		},*/
 	}
 } 
 

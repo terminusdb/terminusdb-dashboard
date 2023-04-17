@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["Sys"], changedData["Sys"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["One"], changedData["One"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -44,6 +44,9 @@ export const Output = () => {
         Object.keys(doc[CHANGED_VALUE]).length === 0) {
             return <>No data provided to show diffs ... </>
     }*/
+    function handleTraverse (clicked) {
+      alert(`You have clicked on ${clicked} ...`)
+    }
 
     let testFrames = {
       "@context": {
@@ -136,7 +139,7 @@ export const Output = () => {
               "category": "blah"
           }
         },
-        "@unfoldable": [],
+        //"@unfoldable": [],
         "owned_by":{
           "@class": "Person",
           "@type": "Optional"
@@ -253,7 +256,7 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "favorite_subject": {
+        "favorite_subject": { 
           "@class": [
             {
               "@class": "Zoology",
@@ -265,8 +268,8 @@ export const Output = () => {
             }
           ],
           "@type": "Set"
-        }
-        /*"likes": "Animal",
+        },
+        "likes": "Animal",
         "name": {
           "@class": "xsd:string",
           "@type": "Optional"
@@ -277,19 +280,19 @@ export const Output = () => {
             "@subdocument": []
           },
           "@type": "Set"
-        }*/
+        },
         /*"permanentAddress":  {
           "@class": "Address",
           "@subdocument": []
-        },
-        /*"nickNames": {
+        },*/
+        "nickNames": {
           "@class": "xsd:string",
           "@type": "Set" 
         },
         "age": {
           "@class": "xsd:decimal",
           "@type": "Optional"
-        },*/
+        },
       },
       "GoodStudents": {
         "@key": {
@@ -345,15 +348,26 @@ export const Output = () => {
           },
           "@type": "Set"
         }
-      },
+      }, 
+      "One": {
+        "@key": {
+          "@type": "Random"
+        },
+        "@type": "Class",
+        "likes": {
+          "@class":"Animal",
+          "@type": "Set"
+        }
+      }
     } 
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["Sys"]} 
-            newValue={changedData["Sys"]}
+            oldValue={oldData["One"]} 
+            newValue={changedData["One"]}
             frame={testFrames}
-            type={"Sys"}
+            type={"One"}
+            onTraverse={handleTraverse}
             diffPatch={diff}/>
     </div>
 }

@@ -48,7 +48,7 @@ export const TraverseDocumentLinks = ({show, onHide, clicked,getDocumentById,fra
 	const [type, setType]=useState(false)
 	const [loading, setLoading]=useState(false)
 	const [error, setError]=useState(false)
-	const [result, setResult]=useState(false)
+	const [result, setResult]=useState(false) 
 
 
 	// document tarverse array

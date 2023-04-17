@@ -7,12 +7,12 @@ function getBorder(diffState)  {
     return "tdb__diff__original-border"
   }
   return "tdb__diff__changed-border"
-} 
+}
 
 // SETS/ LIST/ ARRAY
 function processOperation(diff, diffState) {
   if(diff[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
-    return swapOperation (diffState, diff[diffState]) 
+    return swapOperation (diffState) 
   }
 }
 
@@ -39,12 +39,10 @@ function getEachArrayDiff(diffPatch, diffState) {
 }
 
 // @op = SwapValue
-function swapOperation (diffState, value) {
+function swapOperation (diffState) {
   if(diffState === DIFFCONST.BEFORE) {
-    if(!value) return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__original__deleted" }
     return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__original" }
   }
-  if(!value) return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__changed__deleted" }
   return { [CONST.CLASSNAME]: "tdb__doc__input tdb__diff__changed" }
 }
 
@@ -54,7 +52,7 @@ function getDiffUi (diffPatch, diffState) {
   if(diffPatch.hasOwnProperty(DIFFCONST.OPERATION)) {
     if(diffPatch[DIFFCONST.OPERATION] === DIFFCONST.SWAP_VALUE) {
       // SWAP VALUE OPERATION
-      uiFrame = swapOperation (diffState, diffPatch[diffState]) 
+      uiFrame = swapOperation (diffState) 
     }
     else if (diffPatch[DIFFCONST.OPERATION] === DIFFCONST.PATCH_LIST) { 
       // PATCH LIST OPERATION
@@ -109,25 +107,6 @@ function getDiffUi (diffPatch, diffState) {
   return uiFrame
 }
 
-// @op = @insert
-function getInsertUi (diffPatch, diffState) {
-  let documentType = diffPatch[DIFFCONST.INSERT_OPERATION][CONST.TYPE]
-  if(diffState === DIFFCONST.AFTER) {
-    return { [documentType] : { [CONST.CLASSNAME]: "tdb__diff__inserted rounded p-3"} }
-  }
-  return { [documentType] : { [CONST.CLASSNAME]: "display-none"} }
-}
-
-
-// @op = @delete
-function getDeleteUi (diffPatch, diffState) {
-  let documentType = diffPatch[DIFFCONST.DELETE_OPERATION][CONST.TYPE]
-  if(diffState === DIFFCONST.BEFORE) {
-    return { [documentType] : { [CONST.CLASSNAME]: "tdb__diff__deleted rounded p-3"} }
-  }
-  return { [documentType] : { [CONST.CLASSNAME]: "display-none"} }
-}
-
 
 /**
  * 
@@ -137,19 +116,10 @@ function getDeleteUi (diffPatch, diffState) {
  */ 
 export function generateDiffUIFrames(diffPatch, diffState) {
   
-  let uiFrame = {} 
+  let uiFrame = {}
 
   for (let property in diffPatch) {
     if(property === "@id") continue
-    else if(property === "@op") continue
-    else if(property === DIFFCONST.INSERT_OPERATION) {
-      // @insert operation
-      uiFrame = getInsertUi(diffPatch, diffState)
-    }
-    else if(property === DIFFCONST.DELETE_OPERATION) {
-      // @delete operation
-      uiFrame = getDeleteUi(diffPatch, diffState)
-    }
     else {
       let diffUi =getDiffUi (diffPatch[property], diffState)
       if(Object.keys(diffUi).length)

@@ -11,7 +11,7 @@ function fetchSelected (formData) {
   return false
 }
 
-const LinkedDocument = ({ selected, onTraverse }) => {
+const LinkedDocument = ({ selected, onTraverse, className }) => {
   const [clicked, setClicked]=useState(false) 
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const LinkedDocument = ({ selected, onTraverse }) => {
 
   return <div className="d-flex">
     <AiOutlineCheck className="text-success mr-1 mt-1"/>
-    <div className="text-break text-decoration-underline" 
+    <div className={`text-break text-decoration-underline ${className} bg-transparent`}
       onClick={(e) => handleClick(e, selected.id)} 
       style={ {cursor: "pointer"} }
       id={selected.id}> 
@@ -37,7 +37,7 @@ const LinkedDocument = ({ selected, onTraverse }) => {
 // Selected link component 
 const Selected = ({ selected, onTraverse, setShowSearch, setSelected, id, onChange }) => {
 
-  if(!selected) return <div/>
+  if(!selected) return <div/> 
 
   function handleDelete() {
     setSelected(false)
@@ -58,7 +58,7 @@ const Selected = ({ selected, onTraverse, setShowSearch, setSelected, id, onChan
 }
 
 
-export const SearchExistingLink = ({ onSelect, onTraverse, linked_to, mode, onChange, formData, id }) => {
+export const SearchExistingLink = ({ onSelect, onTraverse, linked_to, mode, onChange, formData, id, className }) => {
   const [selected, setSelected] = useState(fetchSelected(formData))
   const [showSearch, setShowSearch]=useState(true)
 
@@ -72,6 +72,7 @@ export const SearchExistingLink = ({ onSelect, onTraverse, linked_to, mode, onCh
 
   if(mode === CONST.VIEW) {
     return <LinkedDocument selected={selected} 
+      className={className}
       onTraverse={onTraverse}/>
   }
 

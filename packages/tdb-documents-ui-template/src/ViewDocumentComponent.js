@@ -10,11 +10,18 @@ import {ViewDocumentFrames} from "./components/ViewDocumentFrames"
 import {CopyButton} from "./components/CopyButton"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import {TraverseDocumentLinks, onTraverse} from "./components/TraverseDocumentLinks"
+import { LanguageSelectComponent } from "./components/SelectLanguageComponent"
+import { trimID } from "./utils"
+import { AiFillEdit } from "react-icons/ai"
+import { ViewDocumentHistoryButton } from "./components/ViewDocumentHistoryButton"
+import { ViewDocumentHistory } from "./components/ViewDocumentHistory" 
+
 // we have to fix traversedocklinek
 export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,frames,closeButtonClick,documentID,deleteDocument,editDocument}) => {
     const [view, setView] = useState(CONST.FORM_VIEW)
     const [clicked, setClicked]=useState(false)
-    const [showFrames, setShowFrames] = useState(false)
+    const [selectedLanguage, setSelectedLanguage] = useState(false) 
+    const [showInfo, setShowInfo]=useState( { frames: false, history: false } )
 
     function handleTraverse (documentID) {
         onTraverse(documentID, setClicked)
@@ -29,21 +36,23 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
                     onHide={() => setClicked(false)}/>} 
             <Card className="mr-3 bg-dark flex-grow-1">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
-            <Stack direction="horizontal" gap={3} className="w-100">
+            <Stack direction="horizontal" gap={2} className="w-100">
             <div className="col-md-6"> 
                 <strong className="text-success">
                     <span className="mr-1 h6 fst-italic">{CONST.VIEW_DOCUMENT}:</span> 
-                    <span className="fw-bolder h6"> {documentID} </span>
+                    <span className="fw-bolder h6"> {trimID(documentID)} </span>
                 </strong>
-                <CopyButton text={`${documentID}`} title={`Copy Document ID`}/>
-             </div>
-                <ViewFramesButton setShowFrames={setShowFrames}/>
+                <CopyButton text={`${documentID}`} title={`Copy Document ID`}/> 
+             </div> 
+                <ViewFramesButton setShowInfo={setShowInfo}/>
+                <LanguageSelectComponent frame={frames} setSelectedLanguage={setSelectedLanguage}/>
+                <ViewDocumentHistoryButton setShowInfo={setShowInfo}/>
                 <ToggleJsonAndFormControl onClick={setView}/>
                 <div className="d-flex">
-                    <Button variant="light"  type="button"  title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
-                        Edit
+                    <Button variant="light" style={CONST.TOOLBAR_BUTTON_STYLES} type="button"  title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
+                        <AiFillEdit/>{/*Edit*/}
                     </Button>
-                    <Button variant="danger" type="button" title="Delete Document" onClick={deleteDocument}className="btn-sm btn text-gray">
+                    <Button variant="danger" style={CONST.TOOLBAR_BUTTON_STYLES} type="button" title="Delete Document" onClick={deleteDocument}className="btn-sm btn text-gray">
                         <RiDeleteBin7Line className=" mb-1"/>
                     </Button>
                 </div>
@@ -59,18 +68,21 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
                     type={type}
                     mode={CONST.VIEW_DOCUMENT}
                     formData={selectedDocument}
+                    language={selectedLanguage}
                     hideSubmit={true}
                     onTraverse={handleTraverse}
             />
             }
             </Card.Body>
         </Card>
-        {showFrames && 
         <ViewDocumentFrames
             type={type}
             documentFrame={frames[type] || {}}
-            setShowFrames={setShowFrames}
-       />}
+            showInfo={showInfo}
+            setShowInfo={setShowInfo}/>
+        <ViewDocumentHistory setShowInfo={setShowInfo} 
+            documentID={documentID}
+            showInfo={showInfo}/>
     </div>
       
 }

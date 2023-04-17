@@ -37,8 +37,8 @@ export function makeMandatoryFrames (args, property) {
     // assign default value if sys unit
     layout["default"]=[]
   }
-  
-   
+
+
   let uiLayout = uiHelper(args, property)
   
   return { layout, uiLayout }

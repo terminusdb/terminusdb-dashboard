@@ -10,7 +10,7 @@ export const SUBDOCUMENT_DATA_TYPE_FRAME = {
 	"Info": {
 		"@key": {
 			"@type": "Random"
-		},
+		}, 
 		"@type": "Class",
 		"@subdocument": [],
 		"level": "xsd:string",

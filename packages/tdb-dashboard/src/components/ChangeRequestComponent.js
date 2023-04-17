@@ -26,7 +26,7 @@ export const ChangeRequestComponent = ({title, setShowModal,closeChangeRequest,c
 
         <Dropdown.Menu>
             <Dropdown.ItemText className="d-flex w-100">
-                <small>Review</small>
+                <label className="small pr-2">Review</label>
                 <Button className="btn btn-warning btn-sm text-dark float-right ms-auto" 
                     title="Submit Change Request for Review"
                     onClick={()=>{setShowModal(true)}}>
@@ -36,7 +36,7 @@ export const ChangeRequestComponent = ({title, setShowModal,closeChangeRequest,c
             </Dropdown.ItemText>
             <Dropdown.Divider />
             <Dropdown.ItemText className="d-flex w-100">
-                <small>Exit Change Request</small>
+                <label className="small pr-2">Exit Change Request</label>
                 <Button className=" btn btn-light btn-sm ms-auto" 
                     title="Exit Change Request"
                     onClick={()=>{closeChangeRequest()}}>

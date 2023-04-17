@@ -7,8 +7,8 @@ import { VIEW } from "../constants"
 export function getDefaultValue(options, value) {
   let extractedOption=options.filter(opts => opts.value === value)
   return extractedOption
-}
-
+} 
+ 
 export const SelectComponent = ({ options, mode, onChange, value, id, placeholder, required }) => {
 
   /*const optionsExample = [

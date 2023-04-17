@@ -106,7 +106,7 @@ export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentDa
     if(chosen) setSelected(chosen) 
   }
 
-  let documentation = util.checkIfPropertyHasDocumentation (args.extractedDocumentation, property) 
+  let documentation = util.checkIfPropertyHasDocumentation (args.extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE]) 
  
   
   return <Stack direction="horizontal"  className="mb-3">
