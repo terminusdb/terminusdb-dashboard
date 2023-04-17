@@ -4,4 +4,5 @@ export {ViewDocumentComponent} from './ViewDocumentComponent'
 export {DocumentsGraphqlTable} from './components/DocumentsGraphqlTable'
 export {ListDocumentsComponent} from './ListDocumentsComponent'
 export {DocumentSummary} from './DocumentSummary'
-export { TraverseDocumentLinks, onTraverse } from "./components/TraverseDocumentLinks"
+export { TraverseDocumentLinks} from "./components/TraverseDocumentLinks"
+export { onTraverse } from "./components/TraverseDocumentLinks"
