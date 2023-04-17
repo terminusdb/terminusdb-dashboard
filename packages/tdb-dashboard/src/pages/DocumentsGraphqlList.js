@@ -76,6 +76,7 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
                 tablesConfig={documentTablesConfig}  
                 onViewButtonClick={onViewClick}
                 onEditButtonClick={onEditClick}
+                onRowClick={onViewClick}
                 onDeleteButtonClick={deleteDocumentHandler}
                 onCreateButtonClick={handleCreate}/>
             </React.Fragment> 
