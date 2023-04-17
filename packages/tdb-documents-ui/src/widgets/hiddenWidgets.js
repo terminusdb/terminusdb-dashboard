@@ -3,6 +3,7 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import Stack from "react-bootstrap/Stack"
 import Card from "react-bootstrap/Card"
 import { TDBLabel } from "../components/LabelComponent"
+import * as util from "../utils"
 
 const DeleteIcons = ({ className }) => {
   if(className !== "tdb__diff__original__deleted") return <React.Fragment/>
@@ -19,8 +20,25 @@ const AddedIcons = ({ className }) => {
     <AiOutlinePlusCircle className={className}/>
     <AiOutlinePlusCircle className={className}/>
     <AiOutlinePlusCircle className={className}/>
-  </Stack>
+  </Stack> 
 }
+
+export const HiddenWidgets = (config) => {
+  let field = config.args.documentFrame[config.name]
+  if(util.isDataType(field)) {   
+    return <HiddenInputWidgets name={config.name} 
+      className={config.className}
+      id={config.id} 
+      hideFieldLabel={config.hideFieldLabel}/>
+  }
+  else if(util.isSubDocumentType(field)) {   
+    return <HiddenSubDocumentWidgets name={config.name} 
+      className={config.className}
+      id={config.id} 
+      hideFieldLabel={config.hideFieldLabel}/>
+  }
+}
+
 
 // NORMAL DATA TYPES
 export const HiddenInputWidgets = (config) => {
@@ -43,14 +61,14 @@ export const HiddenInputWidgets = (config) => {
       className={`tdb__doc__input w-100 opacity-0`}/>
   </Stack>
 }
-
+ 
 // SUBDOCUMENTS 
-export const HiddenSubDcoumentWidgets = (config) => {
+export const HiddenSubDocumentWidgets = (config) => {
   let className =  config.className === "tdb__doc__input tdb__diff__original__deleted" ? 
     "tdb__diff__original__deleted":
     "tdb__diff__changed__deleted"
 
-  return <Stack direction="horizontal">
+  return <Stack direction="horizontal"> 
     <TDBLabel name={config.name} 
       comment={config.comment} 
       isKey={config.isKey}

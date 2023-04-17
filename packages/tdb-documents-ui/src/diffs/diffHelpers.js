@@ -38,6 +38,62 @@ function getEachArrayDiff(diffPatch, diffState) {
   return uiArray
 }
 
+// show added icons
+function getEachArrayAddDiff(diffPatch, state, diffState) {
+  let uiArray= []
+  // SETS/ LIST/ ARRAY  
+  diffPatch.map( diff => {
+    if(typeof diff === CONST.STRING_TYPE)
+      uiArray.push({  [CONST.CLASSNAME]: `tdb__doc__input tdb__diff__${state}` })
+    else { 
+      // subdocuments 
+      let ui={}
+      for(let property in diff) { 
+        ui[property]={[CONST.CLASSNAME] : `tdb__doc__input tdb__diff__${state}`}
+      }
+      ui[CONST.BORDER] = getBorder(diffState) 
+      uiArray.push(ui)
+    }
+  })
+  return uiArray
+}
+
+// show delete icons
+function getEachArrayDeleteDiff(diffPatch, state, diffState) {
+  let uiArray= []
+  // SETS/ LIST/ ARRAY  
+  diffPatch.map( diff => {
+    uiArray.push({  [CONST.CLASSNAME]: `tdb__doc__input tdb__diff__${state}__deleted` })
+  })
+  return uiArray
+}
+
+function  getSwapListDiff(diffPatch, diffState) {
+
+  if(!diffPatch.hasOwnProperty(DIFFCONST.BEFORE) || !diffPatch.hasOwnProperty(DIFFCONST.AFTER)) return null
+  if(!Array.isArray(diffPatch[DIFFCONST.BEFORE]) || !Array.isArray(diffPatch[DIFFCONST.AFTER])) return null
+
+  let uiFrame = {}
+
+  if(!diffPatch[DIFFCONST.AFTER].length && diffState===DIFFCONST.AFTER) {
+    // @after = [] 
+    // pass "`changed` to alter css"
+    uiFrame = getEachArrayDeleteDiff(diffPatch[DIFFCONST.BEFORE] , "changed", diffState)
+  }
+  else if(diffPatch[DIFFCONST.AFTER].length && diffState===DIFFCONST.AFTER) {
+    uiFrame = getEachArrayAddDiff(diffPatch[DIFFCONST.AFTER], "changed", diffState)
+  }
+  else if(!diffPatch[DIFFCONST.BEFORE].length && diffState===DIFFCONST.BEFORE) {
+    // @before = [] 
+    uiFrame = getEachArrayDeleteDiff(diffPatch[DIFFCONST.AFTER] , "original", diffState)
+  }
+  else if(diffPatch[DIFFCONST.BEFORE].length && diffState===DIFFCONST.BEFORE) {
+    uiFrame = getEachArrayAddDiff(diffPatch[DIFFCONST.BEFORE], "original", diffState)
+  }
+
+  return uiFrame
+}
+
 // @op = SwapValue
 function swapOperation (diffState, value) {
   if(diffState === DIFFCONST.BEFORE) {
@@ -85,13 +141,18 @@ function getDiffUi (diffPatch, diffState) {
       }
       // pass @rest object
       else {
-        let patchTESTList = getDiffUi (diffPatch[DIFFCONST.REST], diffState)
-        uiFrame=patchTESTList
+        let restUi = getDiffUi (diffPatch[DIFFCONST.REST], diffState)
+        uiFrame=restUi
       }
     }
     else if(diffPatch[DIFFCONST.OPERATION] === DIFFCONST.KEEP_LIST) {
       // send remaining default classname
       return [{ [CONST.CLASSNAME]: "tdb__doc__input" }]
+    }
+    else if (diffPatch[DIFFCONST.OPERATION] === DIFFCONST.SWAP_LIST) {
+      // SWAP LIST 
+      uiFrame = getSwapListDiff(diffPatch, diffState)
+      return uiFrame
     }
   }
   else { 

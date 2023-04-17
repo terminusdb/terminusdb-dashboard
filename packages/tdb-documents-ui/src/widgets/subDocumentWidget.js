@@ -9,7 +9,7 @@ import * as util from "../utils"
 import { DisplayDocumentation } from "../templates"
 import { AiOutlineUp, AiOutlineRight } from "react-icons/ai"
 import { displayInternalProperties } from "../helpers/documentHelpers"
-import { HiddenSubDcoumentWidgets } from "./hiddenWidgets"
+import { HiddenSubDocumentWidgets } from "./hiddenWidgets"
 
 const CollapseMessage = ({ message, name, icon }) => {
   return <>
@@ -110,7 +110,7 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
       (uiFrame[props.name][CONST.CLASSNAME] === "tdb__doc__input tdb__diff__original__deleted" || 
       uiFrame[props.name][CONST.CLASSNAME] === "tdb__doc__input tdb__diff__changed__deleted"))
       // diff view removed 
-      return <HiddenSubDcoumentWidgets name={props.name} 
+      return <HiddenSubDocumentWidgets name={props.name} 
         required={props.required}
         comment={comment} 
         className={uiFrame[props.name][CONST.CLASSNAME]}

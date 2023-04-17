@@ -10,6 +10,7 @@ import * as util from "../utils"
 import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "../helpers/fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
+import { HiddenWidgets } from "../widgets/hiddenWidgets"
 
 // custom display of elements based on schema 
 export const GetFieldDisplay = ({ args, props, element, id, property, setUpdate, update }) => {
@@ -40,7 +41,7 @@ export const GetFieldDisplay = ({ args, props, element, id, property, setUpdate,
 			hideFieldLabel: true,
 			index: element.index.toString() // convert index to String - this index controls diff set ups for Arrays 
 		}  
-
+ 
 		return getDisplay(newProps, args, property)
 
 	}
@@ -48,6 +49,27 @@ export const GetFieldDisplay = ({ args, props, element, id, property, setUpdate,
 	return <span> 
 		{fieldDisplay()}
 	</span>
+}
+
+const DisplayExtraElements = ({ args, props, property }) => {
+	if(args.uiFrame && args.uiFrame.hasOwnProperty(property)) {
+		// no extra elements available from DiffViewer at this point 
+		if(props.items.length === args.uiFrame[property].length) return <React.Fragment/>
+		let extraElementsCount = args.uiFrame[property].length - props.items.length, elements =[]
+		for(let count = 0; count< extraElementsCount; count++) {
+			let id = `root_hidden__${count}`
+			elements.push(
+				<HiddenWidgets args={args} 
+					name={props.title}
+					required={props.required}
+					className={args.uiFrame[property][count + props.items.length][CONST.CLASSNAME]}
+					id={id} 
+					hideFieldLabel={true}
+					/>
+			)
+		}	
+		return elements
+	}
 }
 
  
@@ -128,6 +150,8 @@ export function ArrayFieldTemplate(args, props, property) {
 					</Button>}
 				</Stack>
 			})} 
+
+		{mode === CONST.VIEW && <DisplayExtraElements args={args} property={props.title} props={props}/>}
 
 		{props.canAdd && (
 			<div>
