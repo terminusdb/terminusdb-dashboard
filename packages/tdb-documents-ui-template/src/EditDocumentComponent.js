@@ -19,7 +19,7 @@ export const EditDocumentComponent = ({type,updateDocument,selectedDocument,fram
     const [showInfo, setShowInfo]=useState( { frames: false, history: false } )
 
     return  <div className="w-100 d-flex">      
-            <Card className="mr-3 bg-dark flex-grow-1">
+            <Card className="bg-dark flex-grow-1">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
             <Stack direction="horizontal" gap={3} className="w-100">
                 <div className="col-md-7"> 

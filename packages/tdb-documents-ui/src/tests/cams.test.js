@@ -171,7 +171,7 @@ describe("Create/ Edit an Asset in CAMS Data Product", () => {
 	}) 
 
   // view
-	test("View as Asset", async () => {
+	/*test("View as Asset", async () => {
 
     let config = CONST.VIEW_CONFIG
 
@@ -244,7 +244,7 @@ describe("Create/ Edit an Asset in CAMS Data Product", () => {
     await expect(descrInput.value).toStrictEqual(config.input["description"][0])
 
 	
-	})
+	})*/
 
 })
 

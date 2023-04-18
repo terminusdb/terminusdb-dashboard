@@ -51,7 +51,7 @@ export const pointMapViewer = (args) => {
 			})
 			marker.addTo(map)
 		})  
-
+		
 		window.map = map
 	}
 

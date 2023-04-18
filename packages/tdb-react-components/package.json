@@ -60,6 +60,7 @@
     "react-dates": "^21.8.0",
     "react-icons": "^3.11.0",
     "react-json-view": "^1.21.3",
+    "react-leaflet-fullscreen": "^2.0.2",
     "react-motion": "^0.5.2",
     "react-numeric-input": "^2.2.3",
     "react-responsive-tabs": "^4.1.1",

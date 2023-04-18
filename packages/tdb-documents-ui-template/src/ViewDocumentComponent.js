@@ -32,7 +32,7 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
                     frames={frames}
                     show={clicked!==false} 
                     onHide={() => setClicked(false)}/>} 
-            <Card className="mr-3 bg-dark flex-grow-1">
+            <Card className="bg-dark flex-grow-1">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
             <Stack direction="horizontal" gap={2} className="w-100">
             <div className="col-md-6"> 

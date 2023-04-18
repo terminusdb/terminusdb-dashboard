@@ -62,6 +62,12 @@ function constructProps(fieldID, field, expanded, docConfig) {
   }
   else data = docConfig.formData[field]
 
+  function handlePropsOnChange(data, name, currentField, field, docConfig) {
+    if(field === CONST.COORDINATES_FIELD || name === CONST.COORDINATES_FIELD) docConfig.onChange(data, name, currentField) 
+    else if(name === CONST.B_BOX) docConfig.onChange(data, name, currentField) 
+    else docConfig.onChange(data, field, currentField) // @oneOfs where currentField displays the selected oneOf option
+  }
+
   let props = {
     id: fieldID, 
     name: field,  
@@ -71,9 +77,10 @@ function constructProps(fieldID, field, expanded, docConfig) {
     //onChange: (data) => docConfig.onChange(data, field), 
     formData: data,
     //onChange: (data, name) => docConfig.onChange(data, field, name), 
-    onChange: (data, name, selectedOneOf) => field===CONST.COORDINATES_FIELD ? 
+    /*onChange: (data, name, selectedOneOf) => field===CONST.COORDINATES_FIELD ? 
       docConfig.onChange(data, name, selectedOneOf) 
-      : docConfig.onChange(data, field, selectedOneOf), 
+      : docConfig.onChange(data, field, selectedOneOf), */
+    onChange: (data, name, currentField) => handlePropsOnChange(data, name, currentField, field, docConfig),
     hideFieldLabel: false,
     mode: docConfig.mode
   }

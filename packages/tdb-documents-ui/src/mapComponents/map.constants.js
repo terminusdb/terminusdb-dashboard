@@ -24,3 +24,6 @@ export const ARROW_OPTION = {
 	fill: 2,
 	offsets: { end: "15px" }
 }
+
+// line color for maps 
+export const LINE_COLOR = "#ff7800"
