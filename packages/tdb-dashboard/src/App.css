@@ -457,6 +457,11 @@ input {
   color: hsl(0,0%,50%) !important;
 }
 
+input[type="radio"] {
+  border-radius: 50% !important;
+  margin-top: 5px !important;
+}
+
 .search-input {
   font-size: 13px !important;
 }
@@ -775,7 +780,7 @@ pre.CodeMirror-line  > span > span.cm-string {
 /** Setting heigt of code mirror in doc interface */
 .document__interface__main .CodeMirror,
 .tdb__frame__display .CodeMirror {
-  min-height: 400px !important;
+  min-height: 400px !important; 
   height: auto !important;
 }
 

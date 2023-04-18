@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
-import { VIEW } from "../constants"
+import { VIEW, STRING_TYPE } from "../constants"
 import { TDBLabel } from "../components/LabelComponent"
 const parse = require('html-react-parser')
 import Stack from 'react-bootstrap/Stack'
@@ -19,7 +19,7 @@ export function getMarkdownUI( formData, onChange, name ) {
   }
 
   const getCode = (arr = []) => arr.map((dt) => {
-      if (typeof dt === CONST.STRING_TYPE) {
+      if (typeof dt === STRING_TYPE) {
         return dt;
       }
       if (dt.props && dt.props.children) {

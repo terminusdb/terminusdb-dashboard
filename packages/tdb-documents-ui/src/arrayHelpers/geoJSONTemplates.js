@@ -71,16 +71,43 @@ const AddButton = ({ props, label }) => {
 }
 
 // custom display of elements based on schema
-export const GetFieldDisplay = ({ args, onChange, formData, id, property }) => {
+export const GetFieldDisplay = ({ args, onChange, formData, id, property, props }) => {
 
-	function handleFieldChange(data, fieldName) {
+	function handleFieldChange_WORKING(data, fieldName) {
 		//console.log("data", data, fieldName) 
-		//onChange(data, fieldName) 
+		//onChange(data, fieldName)  
     //if(args.type === CONST.POINT) onChange(data) 
-    if(args.type === CONST.POINT) onChange(data, fieldName) 
+    if(args.type === CONST.POINT) {
+      if(props && props.hasOwnProperty("child") && props["child"]) onChange(data, fieldName) 
+      else onChange(data)
+      //onChange(data, fieldName) 
+    }
     else {
-      if(property === CONST.B_BOX) onChange(data)
+      if(property === CONST.B_BOX) {
+        if(props && props.hasOwnProperty("child") && props["child"]) onChange(data, fieldName)
+        else onChange(data)
+      }
       else onChange(data, fieldName) // pass field name s to match for LINESTRING and other types
+    }
+	}
+
+  function handleFieldChange(data, fieldName) {
+		//console.log("data", data, fieldName) 
+		//onChange(data, fieldName)  
+    //if(args.type === CONST.POINT) onChange(data) 
+    if(args.type === CONST.POINT) {
+      if(props && props.hasOwnProperty("child") && props["child"]) onChange(data, fieldName) 
+      else onChange(data)
+      //onChange(data, fieldName) 
+    }
+    else {
+      if(property === CONST.B_BOX) {
+        if(props && props.hasOwnProperty("child") && props["child"]) onChange(data, fieldName)
+        else onChange(data)
+      }
+      else {
+        onChange(data, fieldName) // pass field name s to match for LINESTRING and other types
+      }
     }
 	}
 
@@ -176,6 +203,7 @@ export function PointFieldTemplate(args, props, property) {
               {<div className="w-100"> 
                 {/** display custom elements  */}
                 <GetFieldDisplay args={args} 
+                  props={props}
                   onChange={element.children.props.onChange} 
                   formData={element.children.props.formData}
                   id={id} 
@@ -355,6 +383,7 @@ export function BBoxFieldTemplate(args, props, property) {
                 {/** display custom elements  */}
                 {<GetFieldDisplay args={args} 
                   id={id} 
+                  props={props}
                   onChange={element.children.props.onChange} 
                   formData={element.children.props.formData}
                   property={property}/>}

@@ -3,6 +3,7 @@ import React, { useEffect } from "react"
 import "leaflet-arrowheads"
 import L from "leaflet"
 import uuid from 'react-uuid'
+import { LINE_COLOR } from "./map.constants"
 
 export const bboxMapViewer = (args) => {
 	let { documents }=args
@@ -24,7 +25,7 @@ export const bboxMapViewer = (args) => {
 		tileLayer.addTo(map)
 
 		// create an orange rectangle
-		L.rectangle(documents, {color: "#ff7800", weight: 1}).addTo(map);
+		L.rectangle(documents, {color: LINE_COLOR, weight: 1}).addTo(map);
 
 		// zoom the map to the rectangle bounds
 		map.fitBounds(documents);

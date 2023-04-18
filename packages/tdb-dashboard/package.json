@@ -90,6 +90,7 @@
     "react-icons": "^4.2.0",
     "react-json-editor-ajrm": "^2.5.13",
     "react-json-view": "^1.21.3",
+    "react-leaflet-fullscreen": "^2.0.2",
     "react-pro-sidebar": "^0.6.0",
     "react-router-dom": "^6.3.0",
     "react-scrollable-anchor": "^0.6.1",

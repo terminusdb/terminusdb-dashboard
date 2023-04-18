@@ -90,13 +90,15 @@ describe("Edit a location with Line String", () => {
   };
 
 	// edit 
-	test("Edit Line String", async () => {
+	test("Edit Line String", async () => { 
 		
 		const config = CONST.EDIT_SUBDOCUMENT_LINE_STRING_CONFIG
 
 		// setup FrameViewer 
 		let data=await setup(config)
 		// check if data is same as expected data
+		//console.log("config.input", JSON.stringify(config.input))
+		//console.log("data", JSON.stringify(data))
 		expect(data).toStrictEqual(config.input)
 	}) 
 

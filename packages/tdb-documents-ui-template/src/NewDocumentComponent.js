@@ -20,7 +20,7 @@ export const NewDocumentComponent = ({type,createDocument,jsonContent,frames,clo
     const onSelect = SearchComponent ? {onSelect:<SearchComponent/>} :{}
     
     return  <div className="w-100 d-flex">      
-            <Card className="mr-3 bg-dark flex-grow-1">
+            <Card className="bg-dark flex-grow-1">
             <Card.Header className="justify-content-between d-flex w-100 text-break">
             <Stack direction="horizontal" gap={2} className="w-100">
                 <strong className="text-success">
