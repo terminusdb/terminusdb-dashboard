@@ -36,7 +36,7 @@ export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, con
             pageSize : startPageSize,
             pageIndex : pageNumber || 0,
             hiddenColumns: hiddenColumns,
-            //sortBy : orderBy,
+            sortBy : orderBy,
         }
     }
 
