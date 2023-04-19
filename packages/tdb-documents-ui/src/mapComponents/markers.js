@@ -13,7 +13,7 @@ export function getCenterFromData (data) {
 	else if(firstEntry[CONST.TYPE] === CONST.MULTIPOLYGON) return firstEntry[CONST.COORDINATES_FIELD][0][0][0]
 	else return MAP_OPTION.center
 }
-
+ 
 // custom changes to map options
 export function customMapOptions (zoom, center, documents, type) {
 	let mapOptions = MAP_OPTION
@@ -31,10 +31,6 @@ export function customMapOptions (zoom, center, documents, type) {
 		else extractedCenter=documents[0]
 		mapOptions.center=extractedCenter
 	}
-	mapOptions["fullscreenControl"]=true
-	mapOptions["fullscreenControlOptions"]={
-    position: 'topleft'
-  }
 	return mapOptions
 }
 

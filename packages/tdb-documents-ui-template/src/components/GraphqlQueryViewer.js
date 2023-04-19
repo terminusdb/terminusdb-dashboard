@@ -11,13 +11,12 @@ import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror/addon/display/autorefresh.js'
 import {UnControlled as CodeMirror} from 'react-codemirror2';
+import {copyToClipboard} from "../utils"
 // i have to fix this anbd update to codemiro 6
 export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) => {
 
     const variablesObj = {"offset":start,"limit":limit,"orderBy":orderBy || {} ,"filter":filterBy || {}}
-    const textInput = useRef(null);
-    const variables = useRef(null);
-
+   
     const [textInputEditor,setTextInputEditor] = useState(null) 
     const [variablesEditor,setVariablesEditor] = useState(null) 
 
@@ -39,19 +38,19 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
         readOnly:true
     }
 
-     const copyTest = (editor)=>{
-        navigator.clipboard.writeText(editor.getValue());
+     const copyTest = (text)=>{
+        copyToClipboard(text);
     }
 
    return <React.Fragment>
             <div className="d-flex justify-content-end mr-2">
-                <Button title = "copy grapl query" onClick={()=>{copyTest(textInputEditor)}}><FiCopy/></Button>
+                <Button title = "copy grapl query" onClick={()=>{copyTest(queryToDisplay)}}><FiCopy/></Button>
             </div> 
             <CodeMirror value={queryToDisplay}    options={QLEDITOR_READ_OPTIONS}  className="readOnly"/>
             
             <hr></hr>
             <div className="d-flex justify-content-end mr-2">
-                <Button title ="copy variables"  onClick={()=>{copyTest(variablesEditor)}}><FiCopy/></Button>
+                <Button title ="copy variables"  onClick={()=>{copyTest(variablesObj)}}><FiCopy/></Button>
             </div>  
             <CodeMirror value={JSON.stringify(variablesObj,null,4)}  options={QLVAR_READ_OPTIONS}  className="readOnly"/>
             

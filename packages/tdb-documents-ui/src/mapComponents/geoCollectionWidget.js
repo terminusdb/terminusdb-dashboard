@@ -93,8 +93,7 @@ export const TDBGeoCollectionDocuments = ({ config }) => {
 			url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
 			{mapVectors}
-      <FullscreenControl position="bottomleft"
-        forceSeparateButton={true}/>
+      <FullscreenControl forceSeparateButton={true}/>
 	  </MapContainer>
   </Stack>
 }

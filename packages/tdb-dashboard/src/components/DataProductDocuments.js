@@ -129,8 +129,6 @@ export const DocumentExplorerDocuments= () => {
 
         // on click of View document lists
         function handleDocumentClick(docType) {
-            setShowFrames(false) 
-            setJsonContent(false) 
             navigate(`${docType}`)
         }
 
