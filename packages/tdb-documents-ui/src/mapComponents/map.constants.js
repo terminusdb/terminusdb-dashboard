@@ -7,7 +7,11 @@ export const MAP_OPTION = {
 	zoom: 11,
 	zoomDelta: 0.5,
 	zoomSnap: 0,
-	wheelPxPerZoomLevel: 100
+	wheelPxPerZoomLevel: 100,
+	fullscreenControl: true,
+	fullscreenControlOptions: {
+		position: 'topleft'
+	}
 }
 
 // options for the marker
@@ -24,3 +28,6 @@ export const ARROW_OPTION = {
 	fill: 2,
 	offsets: { end: "15px" }
 }
+
+// line color for maps 
+export const LINE_COLOR = "#ff7800"

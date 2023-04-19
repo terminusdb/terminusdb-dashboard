@@ -47,7 +47,8 @@
     "@terminusdb/terminusdb-client": "^10.0.28",
     "classnames": "^2.2.5",
     "react-bootstrap": "^2.7.0",
-    "react-icons": "^4.3.1"
+    "react-icons": "^4.3.1",
+    "react-leaflet-fullscreen": "^2.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",

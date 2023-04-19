@@ -11,6 +11,6 @@ export const ViewFramesButton = ({ setShowInfo }) => {
 	}
 	return <Button variant="light"  	 className="text-dark ms-auto btn btn-sm" title={`View Document Frames`}
 		onClick={handleViewFrames}>
-	<HiMagnifyingGlass/> {/*"Frames"*/} 
+	<HiMagnifyingGlass/> {"Frames"} 
 	</Button>
 }

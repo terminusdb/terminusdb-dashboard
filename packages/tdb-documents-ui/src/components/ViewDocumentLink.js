@@ -17,7 +17,7 @@ import { documentInternalProperties } from "../helpers/documentHelpers"
 
 const DisplayLinks = ({ documentData, args, uiFrame, index, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
   
-  let documentID = formData ? typeof formData=== CONST.STRING_TYPE ? formData : formData["@id"] : false
+  let documentID = formData ? typeof formData=== CONST.STRING_TYPE ? formData : formData["@id"] : false 
 
   /*if(action === CONST.LINK_NEW_DOCUMENT) {
     // @unfoldable true

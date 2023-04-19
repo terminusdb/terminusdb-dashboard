@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react"
-import { CREATE, B_BOX } from "../constants"
-
+import { CREATE, B_BOX, GEOMETRY_COLLECTION } from "../constants"
+ 
 // POINT
-export function constructGeoJSONProps(props) {
+export function constructGeoJSONProps(props, type) {
   // change in lat & lng
   function handleChange(data, name, props) {
     let tmpFormData = props.formData ? props.formData : []
     if(name === "latitude__0") tmpFormData[0] = data 
     if(name === "longitude__1") tmpFormData[1] = data 
-    props.onChange(tmpFormData)
+   // props.onChange(tmpFormData, name)
+   if(type === GEOMETRY_COLLECTION) props.onChange(tmpFormData, name) // pass field name lat_0 & lng_0 
+   else props.onChange(tmpFormData, props.name)
   }
 
   let geoJSONProps = {
@@ -19,7 +21,8 @@ export function constructGeoJSONProps(props) {
     required: props.required,
     title: props.name,
     name: props.name,
-    hideFieldLabel: false
+    hideFieldLabel: false,
+    child: true
   }
   geoJSONProps["items"] = []
   for(let count = 0; count < 2; count++) {
@@ -45,7 +48,7 @@ export function constructGeoJSONProps(props) {
 }
 
 // LINE_STRING & POLYGON uses the same props
-export function constructLineStringProps (props){
+export function constructLineStringProps (props, type){
   const [update, setUpdate] = useState(Date.now())
   const [items, setItems] = useState(gatherItems(props, update))
   let coordinates = props.formData ? props.formData : []
@@ -93,7 +96,10 @@ export function constructLineStringProps (props){
     if(tmpDocumentFormData) tmpDocumentFormData[index] = coordinates[index]
     else tmpDocumentFormData = coordinates
     // add on to subdocument formdata based on index
-    props.onChange(tmpDocumentFormData) // subdoc change
+    //props.onChange(tmpDocumentFormData) // subdoc change
+    //props.onChange(tmpDocumentFormData, name) // subdoc change
+    if(type === GEOMETRY_COLLECTION) props.onChange(tmpDocumentFormData, name) // subdoc change
+    else props.onChange(tmpDocumentFormData, props.name) // subdoc change
     // set update to so as to force change in props.formData in document level
     if(props.mode !== CREATE) setUpdate(Date.now())
   }
@@ -176,11 +182,11 @@ export function constructBBoxProps (props) {
   // change in lat & lng
   function handleChange(data, name, props) {
     let tmpFormData = props.formData ? props.formData : []
-    if(name === "left__0") tmpFormData[0] = data 
-    if(name === "bottom__1") tmpFormData[1] = data 
-    if(name === "right__2") tmpFormData[2] = data 
-    if(name === "top__3") tmpFormData[3] = data 
-    props.onChange(tmpFormData, B_BOX )
+    if(name === "west__0") tmpFormData[0] = data 
+    if(name === "south__1") tmpFormData[1] = data 
+    if(name === "east__2") tmpFormData[2] = data 
+    if(name === "north__3") tmpFormData[3] = data 
+    props.onChange(tmpFormData, B_BOX, name )  // pass field name as well 
   }
 
   let geoJSONProps = {
@@ -191,13 +197,14 @@ export function constructBBoxProps (props) {
     required: props.required,
     title: props.name,
     name: props.name,
-    hideFieldLabel: false
+    hideFieldLabel: false,
+    child: true
   }
 
   geoJSONProps["items"] = []
   for(let count = 0; count < 4; count++) {
     let item = {
-      children: {
+      children: { 
         props: {
           formData:  props.formData ? props.formData[count] : undefined,
           idSchema: {"$id": `root_bbox_${count}`},
@@ -210,7 +217,7 @@ export function constructBBoxProps (props) {
       hasMoveDown: false,
       hasRemove: false,
       hasMoveUp: false,
-      index: count,
+      index: count
     }
     geoJSONProps["items"].push(item)
   }

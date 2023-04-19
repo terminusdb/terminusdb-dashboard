@@ -76,21 +76,21 @@ export const getDisplay = (props, args, property) => {
   else if (util.isPointType(field)) {
     // POINT TYPE
     let id = props.id 
-    let newProps = geo.constructGeoJSONProps(props)
+    let newProps = geo.constructGeoJSONProps(props, args.type)
     if(mode === CONST.VIEW) return display.displayPointDocument(newProps, args, property, id)
     else return display.displayPointEditDocument(newProps, args, property, id)
   } 
   else if (util.isLineStringType(field)) {
     // LINE STRING 
-    let id = props.id 
-    let newProps = geo.constructLineStringProps(props)
+    let id = props.id  
+    let newProps = geo.constructLineStringProps(props, args.type)
     if(mode === CONST.VIEW) return display.displayLineStringDocument(newProps, args, property, id)
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }
   else if (util.isPolygonType(field)) {
     // POLYGON TYPE
     let id = props.id 
-    let newProps = geo.constructLineStringProps(props)
+    let newProps = geo.constructLineStringProps(props, args.type)
     if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id)
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }
@@ -99,7 +99,7 @@ export const getDisplay = (props, args, property) => {
     props.currentDocumentClass===CONST.MULTIPOLYGON) {
     // MULTIPOLYGON 
     let id = props.id 
-    let newProps = geo.constructLineStringProps (props)
+    let newProps = geo.constructLineStringProps (props, args.type)
     if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id)
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }

@@ -25,7 +25,12 @@ export const polygonMapViewer = (args) => {
 		let mapOptions = customMapOptions(zoom, center, coordinates)
     let markerOptions= customMarkerOptions(icon)
 	
-		const map = L.map(`map-leaflet-id-${mapID}`) 
+		const map = L.map(`map-leaflet-id-${mapID}`,  {
+			fullscreenControl: true,
+			fullscreenControlOptions: {
+				position: 'topleft'
+			}
+		}) 
 
     // set bounds if available
 		if(bounds && Array.isArray(bounds) && bounds.length > 0){
@@ -44,7 +49,7 @@ export const polygonMapViewer = (args) => {
 		map.fitBounds(polygonMap.getBounds())
 
 		window.map = map
-	}
+	} 
 
 	return <div id={`map-leaflet-id-${mapID}`} className="rounded"></div>
 }

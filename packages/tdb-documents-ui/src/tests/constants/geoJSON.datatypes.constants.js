@@ -1,7 +1,7 @@
 
 
 // GeoJSON frames
-export const GEO_JSON_FRAME = {
+export const GEO_JSON_FRAME = { 
 	"@context": {
 		"@base": "terminusdb:///data/",
 		"@schema": "terminusdb:///schema#",

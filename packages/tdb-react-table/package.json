@@ -56,6 +56,7 @@
     "react-bootstrap": "^2.7.0",
     "react-csv": "^2.2.2",
     "react-icons": "^4.3.1",
+    "react-leaflet-fullscreen": "^2.0.2",
     "react-table": "^7.8.0",
     "reactstrap": "^9.1.6"
   },

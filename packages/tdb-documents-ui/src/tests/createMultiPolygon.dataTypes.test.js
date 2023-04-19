@@ -40,22 +40,22 @@ describe("Test Create a multipolygon data type Property", () => {
 		//console.log(" --- test////////////////// ", config.input["coordinates"][0][1][0])
 
 		// enter lat & lng
-		const leftInput = screen.getByRole("spinbutton", { name: "left__0" })
+		const leftInput = screen.getByRole("spinbutton", { name: "west__0" })
 		expect(leftInput).toBeInTheDocument()
 		fireEvent.change(leftInput, {target: {value: config.input["bbox"][0] }})
 
 		// bottom 
-		const bottomInput = screen.getByRole("spinbutton", { name: "bottom__1" })
+		const bottomInput = screen.getByRole("spinbutton", { name: "south__1" })
 		expect(bottomInput).toBeInTheDocument()
 		fireEvent.change(bottomInput, {target: {value: config.input["bbox"][1] }})
 
 		// right
-		const rightInput = screen.getByRole("spinbutton", { name: "right__2" })
+		const rightInput = screen.getByRole("spinbutton", { name: "east__2" })
 		expect(rightInput).toBeInTheDocument()
 		fireEvent.change(rightInput, {target: {value: config.input["bbox"][2] }})
 
 		// top
-		const topInput = screen.getByRole("spinbutton", { name: "top__3" })
+		const topInput = screen.getByRole("spinbutton", { name: "north__3" })
 		expect(topInput).toBeInTheDocument()
 		fireEvent.change(topInput, {target: {value: config.input["bbox"][3] }})
 

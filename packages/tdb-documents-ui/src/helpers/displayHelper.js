@@ -11,6 +11,7 @@ import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
 import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
 import { TDBLineStringDocuments } from "../widgets/lineStringGeoJSONWidget"
+import { TDBGeoCollectionDocuments } from "../mapComponents/geoCollectionWidget"
 import { TDBPolygonDocuments } from "../widgets/polygonGeoJSONWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
@@ -272,6 +273,31 @@ export function displayChoiceDocument(props, args, property, id) {
     setChoiceDocumentData={setChoiceDocumentData}
     id={id}
     props={props}/>
+}
+
+// COLLECTIONS 
+export function displayCollectionDocument (args, property, id) {
+  let { mode, extractedDocumentation, documentFrame, formData } = args 
+
+  
+  let bounds= util.checkIfBoundsAvailable(documentFrame, formData)
+
+  //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
+
+  let config = {
+    name: property,
+    formData: formData, 
+    mode: mode,
+    label: documentation.label,
+    comment: documentation.comment ? documentation.comment : null,
+    id: id,
+    className: "tdb__doc__input",
+    //required: props.required,
+    bounds: bounds
+  }
+
+  return <TDBGeoCollectionDocuments config={config}/>
 }
  
 // POINT DOCUMENTS 

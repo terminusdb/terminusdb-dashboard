@@ -6,6 +6,7 @@ import { uiHelper } from "./helpers/uiHelper"
 import { typeHelper } from "./helpers/typeHelper"
 import * as template from "./arrayHelpers/templates"
 import { getPlaceholder } from "./helpers/placeholderHelper"
+import { displayCollectionDocument } from "./helpers/displayHelper"
 
 /**
  * 
@@ -75,6 +76,7 @@ export function makeArrayFrames(args, property, arrayType)  {
 	let arrayFrame = { [property]: documentFrame[property].hasOwnProperty(CONST.CLASS) ?  
 		documentFrame[property][CONST.CLASS] : documentFrame[property] },
 		isArray=true
+
 	let layout = { 
 		"type": CONST.ARRAY_TYPE,  
 		"title": property, 
@@ -85,6 +87,19 @@ export function makeArrayFrames(args, property, arrayType)  {
  
 
 	let argsHolder = makeACopy(args, property)
+
+	if(mode === CONST.VIEW && 
+		documentFrame[property].hasOwnProperty(CONST.CLASS) && 
+		util.isGeometryCollection(documentFrame[property][CONST.CLASS])) {
+		// GEOMETRY COLLECTION VIEW MODE
+		function displayGeoCollection(props) {
+			return displayCollectionDocument (args, property, props.id) 
+		}
+		let uiLayout={
+			"ui:field": displayGeoCollection
+		}
+		return { layout, uiLayout }
+	}
  
 	function showEachField(props) {
 		return template.ArrayFieldTemplate(argsHolder, props, property)

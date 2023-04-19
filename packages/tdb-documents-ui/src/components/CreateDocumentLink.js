@@ -21,7 +21,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
 
     let fields = []
 
-    function handleChange(data, fieldName) {
+    function handleChange_OLD(data, fieldName) {
       //console.log("documentData", documentData)
       let tempDocumentData = documentData
       // if field name is undefined
@@ -34,6 +34,89 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
       if(onChange) {
         if(CONST.GEOMETRY_ARRAY.includes(fieldName)) onChange(tempDocumentData, fieldName)
         else onChange(tempDocumentData)
+      }
+    }
+
+    function handleChange(data, fieldName, b_boxField) { 
+      //console.log("documentData", documentData)
+      let tempDocumentData = documentData
+
+      if(fieldName === CONST.B_BOX) {
+        // (data, name, currentField)
+        //"west"/ "south"/ "east"/ "north"
+        if(!tempDocumentData.hasOwnProperty(CONST.B_BOX)) {
+          tempDocumentData[CONST.B_BOX] = []
+        }
+   
+        if(b_boxField === "west__0")  tempDocumentData[CONST.B_BOX][0] = data[0]
+        else if(b_boxField === "south__1") tempDocumentData[CONST.B_BOX][1] = data[1]
+        else if(b_boxField === "east__2") tempDocumentData[CONST.B_BOX][2] = data[2]
+        else tempDocumentData[CONST.B_BOX][3] = data[3]
+        
+        setDocumentData(tempDocumentData)
+        if(onChange) {
+          onChange(tempDocumentData)
+        }
+      }
+      else if(fieldName === "type") {
+        tempDocumentData[fieldName]=data
+        setDocumentData(tempDocumentData)
+      }
+      else if((documentLinkPropertyName === CONST.GEOMETRIES) && documentData[CONST.TYPE]===CONST.POINT) {
+        if(!tempDocumentData.hasOwnProperty(CONST.COORDINATES_FIELD)) {
+          // first entry 
+          tempDocumentData[CONST.COORDINATES_FIELD] = []
+          if(fieldName === "latitude__0") 
+            tempDocumentData[CONST.COORDINATES_FIELD][0]=data[0] // lat
+          else if(fieldName === "longitude__1") tempDocumentData[CONST.COORDINATES_FIELD][1]=data[1] // lng
+        } 
+        else { 
+          tempDocumentData[CONST.COORDINATES_FIELD] = documentData[CONST.COORDINATES_FIELD]
+          if(fieldName === "latitude__0") 
+            tempDocumentData[CONST.COORDINATES_FIELD][0]=data[0] // lat
+          else if(fieldName === "longitude__1") tempDocumentData[CONST.COORDINATES_FIELD][1]=data[1] // lng
+        }
+        setDocumentData(tempDocumentData)
+        if(onChange) {
+          onChange(tempDocumentData)
+        }
+      }
+      else if((documentLinkPropertyName === CONST.GEOMETRIES) && 
+        (documentData[CONST.TYPE]===CONST.LINE_STRING_TYPE || documentData[CONST.TYPE]===CONST.POLYGON)) {
+        let str = fieldName
+        let tmp=str.split("__")
+        let index = tmp[1] // will contain the array index for linestring or polygon
+        if(!tempDocumentData.hasOwnProperty(CONST.COORDINATES_FIELD)) {
+          // first entry 
+          tempDocumentData[CONST.COORDINATES_FIELD] = []
+          tempDocumentData[CONST.COORDINATES_FIELD][index] = []
+          if(fieldName === `${CONST.LATITUDE}__${index}`){ //latitude__0
+
+            tempDocumentData[CONST.COORDINATES_FIELD][index][0]=data[0] // lat
+          }
+          else if(fieldName === `${CONST.LONGITUDE}__${index}`) tempDocumentData[CONST.COORDINATES_FIELD][index][1]=data[1] // lng
+        } 
+        else { 
+          if(!tempDocumentData[CONST.COORDINATES_FIELD][index]) tempDocumentData[CONST.COORDINATES_FIELD][index] = [  ]
+          tempDocumentData[CONST.COORDINATES_FIELD][index]=data[index]
+        }
+        setDocumentData(tempDocumentData)
+        if(onChange) {
+          onChange(tempDocumentData)
+        }
+      }
+      else {
+        // if field name is undefined
+        // at this point means that its the document link's data 
+        // so we pass linked_to as param
+        // nextCreateLink stores the next link 
+        //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
+        tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
+        setDocumentData(tempDocumentData)
+        if(onChange) {
+          if(CONST.GEOMETRY_ARRAY.includes(fieldName)) onChange(tempDocumentData, fieldName)
+          else onChange(tempDocumentData)
+        }
       }
     }
 
@@ -155,6 +238,9 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
   let linkPropertyDocumentation = util.checkIfPropertyHasDocumentation(propertyDocumentation, name,args.fullFrame[CONST.SELECTED_LANGUAGE])
   let comment = linkPropertyDocumentation.hasOwnProperty("comment") ? linkPropertyDocumentation["comment"] : ""
 
+  useEffect(() => {
+    if(linked_to) setDocumentData({ [CONST.TYPE]: linked_to } )
+  }, [linked_to])
 
   return <>
     <DisplayDocumentation documentation={propertyDocumentation}/>

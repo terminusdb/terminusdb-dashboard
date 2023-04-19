@@ -23,6 +23,10 @@ export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
     // ENUM TYPE
     return CONST.STRING_TYPE
   }
+  else if(util.isGeometryCollection(field)) {
+    // GEOMETRY COLLECTION 
+    return [ CONST.STRING_TYPE, CONST.OBJECT_TYPE, "null" ] 
+  }
   else if(util.isDocumentType(field, fullFrame)){
     // DOCUMENT LINKS 
     // if isArray then we are only expecting Object Types
@@ -44,10 +48,6 @@ export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
     // GEO JSON Types
     return CONST.ARRAY_TYPE
   } 
-  else if(util.isGeometryCollection(field)) {
-    // FEATURE COLLECTION
-    return CONST.OBJECT_TYPE
-  }
   else if(util.isSysUnitDataType(field)) {
     return CONST.ARRAY_TYPE
   }

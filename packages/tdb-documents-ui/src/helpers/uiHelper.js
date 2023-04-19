@@ -37,8 +37,6 @@ function constructSubDocumentConfig(args, property, field) {
 }
 
 
-
-
 export const uiHelper = (args, property) => {
 
   let { fullFrame, reference, documentFrame } =  args
@@ -126,6 +124,39 @@ export const uiHelper = (args, property) => {
   else if(util.isSysJSONDataType(field)) {
     return widget.getJSONUIDisplay(args, property)
   }
+  else if(util.isGeometryCollection(field)) {
+    field.map(choices => {
+      let argsHolder={...args}
+      let linked_to=choices
+      let extracted={}
+      // if linked_to definition is not available in references
+      if(!util.availableInReference(reference, linked_to)){
+        //let config=constructSubDocumentConfig(argsHolder, property, subDocs)
+        let config=constructDocumentConfig(argsHolder, property, linked_to) 
+        addToReference(config, {}, linked_to)
+        extracted=getProperties(config)
+        // add extracted documentation 
+        extracted.extractedDocumentation=argsHolder.extractedDocumentation
+
+        // check for SubDocument MetaData
+        let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+        if(metaDataType) {
+          // expecting JSON at this point
+          expanded=metaDataType
+        } 
+        // add extracted to references
+        addToReference(args, extracted, linked_to)
+      }
+      else {
+        // reference available 
+        extracted=reference[linked_to]
+      }
+    })
+
+    return widget.getChoiceDocumentUIDisplay(args, property)
+    
+    return widget.getChoiceSubDocumentUIDisplay(args, property)
+  }
   else if(util.isChoiceSubDocumentType(field)) {
     
     
@@ -156,7 +187,7 @@ export const uiHelper = (args, property) => {
     })
     
     return widget.getChoiceSubDocumentUIDisplay(args, property)
-  }
+  }  
   else if(util.isOneOfDataType(documentFrame, property)) {
 
     //field.map(subDocs => {

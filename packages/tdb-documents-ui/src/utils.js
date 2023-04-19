@@ -523,6 +523,7 @@ export function getMinItems(documentFrame, property) {
 
 // setBounds converts geo json bound to bounds format supported in leaflet 
 export function setBounds(data) {
+	if(!data.length) return []
 	if(data.length<4) return []
 	//[west, south, east, north]
 	let westSouth=[data[0], data[1]]
@@ -533,10 +534,10 @@ export function setBounds(data) {
 
 // get bbox label based on index 
 export function getBBoxLabel(index) {
-	if(index === 0) return "left"
-	else if (index === 1) return "bottom"
-	else if (index === 2) return "right"
-	else return "top"
+	if(index === 0) return "west"
+	else if (index === 1) return "south"
+	else if (index === 2) return "east"
+	else return "north"
 }
 
 // sets b_box from tdb to react leaflet b_box
