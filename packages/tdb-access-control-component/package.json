@@ -45,6 +45,7 @@
   "author": "terminusdb group",
   "dependencies": {
     "@terminusdb/terminusdb-client": "^10.0.28",
+    "@uiw/react-textarea-code-editor": "^2.1.1",
     "classnames": "^2.2.5",
     "react-bootstrap": "^2.7.0",
     "react-icons": "^4.3.1",

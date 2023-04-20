@@ -11,6 +11,7 @@ import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "../helpers/fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBInput } from "../widgets/inputWidgets"
+import { Polygon } from "react-leaflet"
 
 // Move down button
 const MoveDownButton = ({ element, variant }) => {
@@ -313,45 +314,6 @@ export function MultiPolygonArrayFieldTemplate(props) {
   </div>
 }
 
-// DISPLAY ADD COORDINATES ARRAY TEMPLATE 
-export function CoordinatesArrayFieldTemplate(args, props, property) { 
-	var variant="dark"
-  let label=props.title 
-  let { extractedDocumentation } = args
-  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
-
-	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
-		<TDBLabel name={label} 
-      hideFieldLabel={props.hideFieldLabel}
-      required={props.required}
-      comment={documentation.comment} 
-      id={`root_Set_${label}`}/>
-
-    <Card bg="secondary" className="w-100">
-      <Card.Body>
-        {props.items &&
-          props.items.map((element, index) => {
-            let id = index === 0 ? `latitude__${element.index}` : `longitude__${element.index}`
-            return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
-
-              {<div className="w-100"> 
-              { displayCoordinates(args, element, index, property) }
-             
-              </div> }
-
-              <MoveDownButton element={element} variant={variant}/>
-              <MoveUpButton element={element} variant={variant}/>
-              <RemoveButton element={element} variant={variant}/>
-            </Stack>
-          })} 
-
-          <AddButton props={props} label={CONST.COORDINATES}/>
-      </Card.Body>
-    </Card>
-  </div>
-}
-
-
 // BINDING BOX 
 export function BBoxFieldTemplate(args, props, property) { 
 
@@ -399,3 +361,301 @@ export function BBoxFieldTemplate(args, props, property) {
     </Card>
   </div>
 }
+
+ 
+// DISPLAY ADD COORDINATES ARRAY TEMPLATE 
+export function CoordinatesArrayFieldTemplate(args, props, property) { 
+	var variant="dark"
+  let label=props.title 
+  let { extractedDocumentation } = args
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
+
+	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
+		<TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
+      required={props.required}
+      comment={documentation.comment} 
+      id={`root_Set_${label}`}/>
+
+    <Card bg="secondary" className="w-100">
+      <Card.Body>
+        {props.items &&
+          props.items.map((element, index) => {
+            let id = index === 0 ? `latitude__${element.index}` : `longitude__${element.index}`
+            return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
+
+              {<div className="w-100"> 
+              { displayCoordinates(args, element, index, property) }
+             
+              </div> }
+
+              <MoveDownButton element={element} variant={variant}/>
+              <MoveUpButton element={element} variant={variant}/>
+              <RemoveButton element={element} variant={variant}/>
+            </Stack>
+          })} 
+
+          <AddButton props={props} label={CONST.COORDINATES}/>
+      </Card.Body>
+    </Card>
+  </div>
+}
+
+// DISPLAY ADD COORDINATES MULTIPOLYGON
+export function MultiPolygonCoordinatesArrayFieldTemplate(args, props, property) { 
+	var variant="dark" 
+  let label=props.title 
+  let { extractedDocumentation } = args
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
+
+	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
+		<TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
+      required={props.required}
+      comment={documentation.comment} 
+      id={`root_Set_${label}`}/>
+
+    <Card bg="secondary" className="w-100">
+      <Card.Body>
+        {props.items &&
+          props.items.map((element, index) => {
+            let id = index === 0 ? `latitude__${element.index}` : `longitude__${element.index}`
+            return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
+
+              {<div className="w-100"> 
+              { displayCoordinates(args, element, index, property) }
+             
+              </div> }
+
+              <MoveDownButton element={element} variant={variant}/>
+              <MoveUpButton element={element} variant={variant}/>
+              <RemoveButton element={element} variant={variant}/>
+            </Stack>
+          })} 
+
+          <AddButton props={props} label={CONST.COORDINATES}/>
+      </Card.Body>
+    </Card>
+  </div>
+}
+
+function multiPolygonCoordinates_OLD(polygonIndex, label, args, property) {
+  const [coordinates, setCoordinates] = useState([])
+  let elements = [], variant="dark" 
+
+  /*function addCoordinatesPerPolygon(polygonIndex) {
+    // add items based on items.length
+    let index = coordinates.length
+    let itemProps = {
+      children: {
+        props: {
+          formData: [undefined, undefined],
+          idSchema: {"$id": `root_coordinates_${index}`},
+          index: index,
+          //onChange: (data, name, index) => handleChange(data, name, index),
+          required: true,
+          child: true // set to true for displayCoordinates onChange factor
+        }
+      },
+      className: "array-item",
+      hasMoveDown: false,
+      hasMoveUp: false,
+      hasRemove: false,
+      index: index,
+      key: `root_coordinates_${index}`,
+      polygonIndex: polygonIndex
+    }
+    setCoordinates(arr => [...arr, itemProps]);
+  }
+  
+  let coordinateProps = {
+    canAdd: true,
+    title: label,
+    onAddClick: (e) => addCoordinatesPerPolygon(polygonIndex),
+    items: coordinates
+  }*/
+
+  //for(let count = 0; count < polygonIndex; count ++ ) {
+    
+    elements.push(<Card bg="secondary" className="w-100" key={`polygon__${polygonIndex}`} id={polygonIndex}>
+      <Card.Body>
+        {coordinateProps.items &&
+          coordinateProps.items.map((element, index) => {
+            let id = index === 0 ? `latitude__${element.index}` : `longitude__${element.index}`
+            return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
+
+              {<div className="w-100"> 
+              { displayCoordinates(args, element, index, property) }
+            
+              </div> }
+
+              <MoveDownButton element={element} variant={variant}/>
+              <MoveUpButton element={element} variant={variant}/>
+              <RemoveButton element={element} variant={variant}/>
+            </Stack>
+          })} 
+
+          <AddButton props={coordinateProps} label={label}/>
+      </Card.Body>
+    </Card>)
+  //}
+  return elements
+}
+
+export function NestedMultiPolygonArrayFieldTemplate_OLD(args, props, property) { 
+
+  const [polygonIndex, setPolygonIndex] = useState(1)
+
+	
+  let label=props.name 
+  let { extractedDocumentation } = args
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
+
+  function addNewPolygon(polygonIndex) {
+    setPolygonIndex(polygonIndex + 1)
+  }
+
+  let polygonProps = {
+    canAdd: true,
+    title: CONST.POLYGON,
+    onAddClick: (e) => addNewPolygon(polygonIndex)
+  }
+
+	return  <div className={`${props.className} w-100 mb-3 d-flex`}>
+		<TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
+      required={props.required}
+      comment={documentation.comment} 
+      id={`root_Set_${label}`}/>
+
+    <Stack gap={2}>
+
+      {polygonIndex && multiPolygonCoordinates_OLD(polygonIndex, label, args, property)}
+      
+      <small className="fst-italic text-muted">Click here to add another Polygon</small>
+      
+      <AddButton props={polygonProps} label={CONST.POLYGON}/>
+    </Stack>
+  </div>
+}
+
+
+const CoordinatesPerPolygon = ({ args, property, coordinates }) => {
+  let variant="dark"
+
+  if(!coordinates) return <div/>
+
+  return <>
+    {coordinates &&
+      coordinates.map((element, index) => {
+        let id = index === 0 ? `latitude__${element.index}` : `longitude__${element.index}`
+        return <Stack direction="horizontal" key={element.key} className={`${element.className} align-items-baseline w-100`}>
+
+          {<div className="w-100"> 
+          { displayCoordinates(args, element, index, property) }
+        
+          </div> }
+
+          <MoveDownButton element={element} variant={variant}/>
+          <MoveUpButton element={element} variant={variant}/>
+          <RemoveButton element={element} variant={variant}/>
+        </Stack>
+      })} 
+  </>
+}
+
+function polygonCoordinates(polygonIndex, label, args, property, coordinates, setCoordinates) {
+  
+  let elements=[]
+
+  function addCoordinatesPerPolygon(polygonIndex) {
+    // add items based on items.length
+    let index = coordinates.length
+    let itemProps = {
+      children: {
+        props: {
+          formData: [undefined, undefined],
+          idSchema: {"$id": `root_coordinates_${index}`},
+          index: index,
+          //onChange: (data, name, index) => handleChange(data, name, index),
+          required: true,
+          child: true // set to true for displayCoordinates onChange factor
+        }
+      },
+      className: "array-item",
+      hasMoveDown: false,
+      hasMoveUp: false,
+      hasRemove: false,
+      index: index,
+      key: `root_coordinates_${index}`,
+      polygonIndex: polygonIndex
+    }
+    setCoordinates(arr => [...arr, itemProps]);
+    
+  }
+  
+  let coordinateProps = {
+    canAdd: true,
+    title: label,
+    id: polygonIndex,
+    onAddClick: (e) => addCoordinatesPerPolygon(polygonIndex),
+    items: coordinates
+  }
+
+  console.log("coordinates", coordinates)
+
+  elements.push(<Card bg="secondary" className="w-100" key={`polygon__${polygonIndex}`} id={polygonIndex}>
+    <Card.Body>
+        <CoordinatesPerPolygon polygonIndex={polygonIndex} args={args} property={property} coordinates={coordinates}/>
+        <AddButton props={coordinateProps} label={label}/> {` `}
+        <small className="fst-italic text-muted">{`Polygon number - ${polygonIndex}`}</small>
+    </Card.Body>
+  </Card>)
+
+  return <>{elements}</>
+}
+
+
+export const NestedMultiPolygonArrayFieldTemplate = (args, props, property) => {
+
+  let label=props.name
+  let { extractedDocumentation } = args
+
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
+  const [polygon, setPolygon] = useState([])
+  const [polygonIndex, setPolygonIndex] = useState(1)
+  const [coordinates, setCoordinates] = useState([])
+  const [coordinateIndex, setCoordinateIndex] = useState(1)
+
+  function addNewPolygon () {
+    setPolygon(arr => [...arr, polygonCoordinates(polygonIndex, label, args, property, coordinates, setCoordinates)]);
+    setPolygonIndex(polygonIndex + 1)
+  }
+
+  let polygonProps = {
+    canAdd: true,
+    title: CONST.POLYGON,
+    onAddClick: (e) => addNewPolygon()
+  }
+
+  return  <div className={`${props.className} w-100 mb-3 d-flex`}>
+		<TDBLabel name={label} 
+      hideFieldLabel={props.hideFieldLabel}
+      required={props.required}
+      comment={documentation.comment} 
+      id={`root_Set_${label}`}/>
+
+    <Stack gap={2}>
+      
+      <small className="fst-italic text-muted">Click here to add another Polygon</small>
+
+      { polygon.map (pol => {
+        return pol
+      })}
+      
+      <AddButton props={polygonProps} label={CONST.POLYGON}/>
+    </Stack>
+  </div>
+}
+
+

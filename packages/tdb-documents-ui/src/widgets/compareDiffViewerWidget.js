@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react"
 import ReactDiffViewer from 'react-diff-viewer' 
 
-export const CompareDiffViewerWidget = ({ formData, compareFormData, name, index, className, classNameController }) => {
+export const CompareDiffViewerWidget = ({ formData, diffState, compareFormData, name, index, className, classNameController }) => {
   let style = {
     variables: {
         dark: {
@@ -10,10 +10,13 @@ export const CompareDiffViewerWidget = ({ formData, compareFormData, name, index
     }
   }
 
+  let oldValue = diffState === "@before" ? formData : compareFormData
+  let newValue = diffState === "@before" ? compareFormData : formData
+
   return <div className={`${classNameController} ${className} w-100 border border-secondary rounded`}>
     <ReactDiffViewer 
-      oldValue={formData} 
-      newValue={compareFormData} 
+      oldValue={oldValue} 
+      newValue={newValue} 
       useDarkTheme={true} 
       linesOffset={0}
       showDiffOnly={true}

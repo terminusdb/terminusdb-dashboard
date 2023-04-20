@@ -203,6 +203,7 @@ export function generateDiffUIFrames(diffPatch, diffState) {
   for (let property in diffPatch) {
     if(property === "@id") continue
     else if(property === "@op") continue
+    else if(property === "@type") continue
     else if(property === DIFFCONST.INSERT_OPERATION) {
       // @insert operation
       uiFrame = getInsertUi(diffPatch, diffState)

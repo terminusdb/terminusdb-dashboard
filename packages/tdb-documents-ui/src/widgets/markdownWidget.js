@@ -3,10 +3,16 @@ import { VIEW, STRING_TYPE } from "../constants"
 import { TDBLabel } from "../components/LabelComponent"
 const parse = require('html-react-parser')
 import Stack from 'react-bootstrap/Stack'
-import MDEditor, { commands }  from '@uiw/react-md-editor';
+import MDEditor, {
+  commands,
+  ICommand,
+  EditorContext
+}  from '@uiw/react-md-editor';
+//import CodeEditor from "@uiw/react-textarea-code-editor";
 import mermaid from "mermaid";
 import uuid from 'react-uuid'
 import { CompareDiffViewerWidget } from "./compareDiffViewerWidget"
+
 
 /** get Markdown UI layout for create & edit mode */
 export function getMarkdownUI( formData, onChange, name ) {
@@ -60,20 +66,88 @@ export function getMarkdownUI( formData, onChange, name ) {
 
   /** set data color mode to dark data-color-mode="dark" */
   return <div className="d-block w-100 mb-3">
-      <div className="w-100" data-color-mode="dark">
-          <MDEditor
-              value={code}
-              onChange={onInputChange}
-              textareaProps={{
-                  placeholder: "Please enter Markdown text ... "
-                }}
-              previewOptions={{
-                  components: {
-                    code: Code
-                  }
-              }}
-          />
-      </div>
+    <div className="w-100" data-color-mode="dark">
+      <MDEditor
+        value={code}
+        onChange={onInputChange}
+        textareaProps={{
+            placeholder: "Please enter Markdown text ... "
+          }}
+        previewOptions={{
+            components: {
+              code: Code
+            }
+        }}
+      />
+    </div>
+  </div>
+} 
+
+export function getMarkdownUI_REF( formData, onChange, name ) {
+  let value = formData ? formData : ``
+  const [code, setCode]=useState(value)
+
+  function onInputChange(data) {
+      onChange(data)
+      setCode(data)
+  }
+
+  const getCode = (arr = []) => arr.map((dt) => {
+      if (typeof dt === STRING_TYPE) {
+        return dt;
+      }
+      if (dt.props && dt.props.children) {
+        return getCode(dt.props.children);
+      }
+      return false;
+  }).filter(Boolean).join("")
+
+  const Code = ({ inline, children = [], className, ...props }) => {
+      const demoid = useRef(`dome${uuid()}`);
+      const code = getCode(children);
+      const demo = useRef(null);
+      useEffect(() => {
+        if (demo.current) {
+          try {
+            const str = mermaid.render(demoid.current, code, () => null, demo.current);
+            // @ts-ignore
+            demo.current.innerHTML = str;
+          } catch (error) {
+            // @ts-ignore
+            demo.current.innerHTML = error;
+          }
+        }
+      }, [code, demo]);
+    
+      if (
+        typeof code === "string" && typeof className === "string" &&
+        /^language-mermaid/.test(className.toLocaleLowerCase())
+      ) {
+        return (
+          <code ref={demo}> 
+            <code id={demoid.current} style={{ display: "none" }} />
+          </code>
+        );
+      }
+      return <code className={String(className)}>{children}</code>;
+  };
+
+  /** set data color mode to dark data-color-mode="dark" */
+  return <div className="d-block w-100 mb-3">
+    <div className="w-100" data-color-mode="dark">
+      <MDEditor
+        value={code}
+        onChange={onInputChange}
+        textareaProps={{
+            placeholder: "Please enter Markdown text ... "
+          }}
+        previewOptions={{
+            components: {
+              code: Code
+            }
+        }}
+      />
+    </div>
   </div>
 } 
 
@@ -86,6 +160,8 @@ export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, cla
     // diffs available at this point
     if(className === "tdb__doc__input tdb__diff__original" || 
     className === "tdb__doc__input tdb__diff__changed") {
+
+      let diffState = className === "tdb__doc__input tdb__diff__original" ? "@before" : "@after"
       
       return <CompareDiffViewerWidget
         formData={formData} 
@@ -93,6 +169,7 @@ export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, cla
         name={name} 
         classNameController={className === "tdb__doc__input tdb__diff__original" ? "tdb__markdown_diff__original" : "tdb__markdown_diff__changed"}
         index={index}
+        diffState={diffState}
         className={className}
       />
  

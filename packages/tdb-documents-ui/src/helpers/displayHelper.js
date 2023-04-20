@@ -12,6 +12,7 @@ import * as CONST from "../constants"
 import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
 import { TDBLineStringDocuments } from "../widgets/lineStringGeoJSONWidget"
 import { TDBGeoCollectionDocuments } from "../mapComponents/geoCollectionWidget"
+import { TDBFeatureCollectionDocuments } from "../mapComponents/featureCollectionWidget"
 import { TDBPolygonDocuments } from "../widgets/polygonGeoJSONWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
@@ -299,6 +300,31 @@ export function displayCollectionDocument (args, property, id) {
 
   return <TDBGeoCollectionDocuments config={config}/>
 }
+
+export function displayFeatureCollectionDocument (args, property, id, featureData) {
+  let { mode, extractedDocumentation, documentFrame, formData } = args  
+
+  
+  let bounds= util.checkIfBoundsAvailable(documentFrame, args.formData)
+
+  //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
+
+  let config = {
+    name: property,
+    formData: formData, 
+    mode: mode,
+    label: documentation.label,
+    comment: documentation.comment ? documentation.comment : null,
+    id: id,
+    className: "tdb__doc__input",
+    //required: props.required,
+    bounds: bounds,
+    featureData: featureData
+  }
+
+  return <TDBFeatureCollectionDocuments config={config}/>
+}
  
 // POINT DOCUMENTS 
 export function displayPointEditDocument (props, args, property) {
@@ -374,8 +400,13 @@ export function displayPolygonEditDocument (props, args, property) {
 }
 
 // MULTIPOLYGON
-export function displayMultiPolygonEditDocument(props, args, property) {
-  return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+export function displayMultiPolygonEditDocument(args, props, property, id) {
+  return geoTemplate.MultiPolygonCoordinatesArrayFieldTemplate(args, props, property, id)
+  //return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
+} 
+
+export function displayNestedMultiPolygonEditDocument (args, props, property, id) {
+  return geoTemplate.NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
 }
 
 

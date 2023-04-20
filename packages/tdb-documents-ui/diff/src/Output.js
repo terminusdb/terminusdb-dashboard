@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["Person"], changedData["Person"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["MarkDown"], changedData["MarkDown"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -360,10 +360,10 @@ export const Output = () => {
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["Person"]} 
-            newValue={changedData["Person"]}
+            oldValue={oldData["MarkDown"]} 
+            newValue={changedData["MarkDown"]}
             frame={testFrames}
-            type={"Person"}
+            type={"MarkDown"}
             onTraverse={handleTraverse}
             diffPatch={diff}/>
     </div>
