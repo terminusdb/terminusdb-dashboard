@@ -31,7 +31,7 @@ export function populateSubDocumentData(mode, linked_to, formData, frame) {
  
 export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by, index, id, reference, subDocumentData, setSubDocumentData, properties, required, onChange, args, propertyDocumentation }) => {
   
-  //const [fields, setFields] = useState([])
+  const [update, setUpdate] = useState(Date.now())
 
   let { uiFrame, mode } = args 
  
@@ -50,6 +50,7 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
     else tempSubDocumentData[fieldName]=data
     setSubDocumentData(tempSubDocumentData)
     if(onChange) onChange(tempSubDocumentData)
+    setUpdate(Date.now())
   } 
                                   
   //console.log("subDocumentData SubDocumentProperties", subDocumentData)
@@ -93,7 +94,7 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
   return <Card.Body className="border-top border-dark">
     {/** DisplayDocumentation for @comment of linked document class */}
     <DisplayDocumentation documentation={propertyDocumentation}/>
-    {getSubDocumentFields(subDocumentData)}
+    {update && getSubDocumentFields(subDocumentData)}
   </Card.Body>
 } 
   
