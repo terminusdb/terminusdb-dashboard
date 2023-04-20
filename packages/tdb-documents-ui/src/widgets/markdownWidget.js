@@ -8,7 +8,7 @@ import MDEditor, {
   ICommand,
   EditorContext
 }  from '@uiw/react-md-editor';
-import CodeEditor from "@uiw/react-textarea-code-editor";
+//import CodeEditor from "@uiw/react-textarea-code-editor";
 import mermaid from "mermaid";
 import uuid from 'react-uuid'
 import { CompareDiffViewerWidget } from "./compareDiffViewerWidget"
