@@ -4,6 +4,7 @@ import {MenuItem, SubMenu} from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
 import {BsFillExclamationTriangleFill, BsBriefcase} from "react-icons/bs"
 import {printts} from "./utils"
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER } from "../routing/constants"
 
 /* returns current data product to which your connected and status */
 export const ConnectedDataProduct = (props) => {
@@ -12,13 +13,16 @@ export const ConnectedDataProduct = (props) => {
         woqlClient,
         saveSidebarState,
         sidebarStateObj,
-        branch, chosenCommit
+        branch, 
+        getLocation,
+        chosenCommit
     } = WOQLClientObj()
     
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
     const [status, setStatus] = useState("text-success")
     const [currentCommit, setCurrentCommit] = useState("latest")
+    const { page } = getLocation()
 
     useEffect(() => {
             if (chosenCommit && chosenCommit.time) {
@@ -32,14 +36,14 @@ export const ConnectedDataProduct = (props) => {
             }
        
     }, [chosenCommit])
-
+ 
     function title (dataProduct) {
         return <span className="pro-item-content">Connected to <strong className="text-success">{dataProduct}</strong></span>
     }
 
     return <SubMenu title={title(dataProduct)}
         className="menu-title"
-        defaultOpen={sidebarStateObj.sidebarDataProductConnectedState}
+        defaultOpen={(page==DOCUMENT_EXPLORER || page==PRODUCT_EXPLORER) ? false : sidebarStateObj.sidebarDataProductConnectedState}
         onOpenChange={(e) => saveSidebarState("sidebarDataProductConnectedState",e)}
         >
         {(status == "text-warning") && <MenuItem >
