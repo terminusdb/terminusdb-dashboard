@@ -61,8 +61,12 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
       else if(fieldName === "type") {
         tempDocumentData[fieldName]=data
         setDocumentData(tempDocumentData)
+        if(onChange) {
+          onChange(tempDocumentData)
+        }
       }
-      else if((documentLinkPropertyName === CONST.GEOMETRIES) && documentData[CONST.TYPE]===CONST.POINT) {
+      else if((documentLinkPropertyName === CONST.GEOMETRIES || documentLinkPropertyName === CONST.GEOMETRY_FIELD) 
+        && documentData[CONST.TYPE]===CONST.POINT) {
         if(!tempDocumentData.hasOwnProperty(CONST.COORDINATES_FIELD)) {
           // first entry 
           tempDocumentData[CONST.COORDINATES_FIELD] = []
@@ -81,7 +85,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
           onChange(tempDocumentData)
         }
       }
-      else if((documentLinkPropertyName === CONST.GEOMETRIES) && 
+      else if((documentLinkPropertyName === CONST.GEOMETRIES || documentLinkPropertyName === CONST.GEOMETRY_FIELD) && 
         (documentData[CONST.TYPE]===CONST.LINE_STRING_TYPE || documentData[CONST.TYPE]===CONST.POLYGON)) {
         let str = fieldName
         let tmp=str.split("__")

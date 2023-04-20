@@ -16,7 +16,12 @@ export const bboxMapViewer = (args) => {
 
 	const map = () => {
 
-		const map = L.map(`map-leaflet-id-${mapID}`) 
+		const map = L.map(`map-leaflet-id-${mapID}`, {
+			fullscreenControl: true,
+			fullscreenControlOptions: {
+				position: 'topleft'
+			}
+		}) 
 
 		const tileLayer =  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -34,4 +39,4 @@ export const bboxMapViewer = (args) => {
 	}
 
 	return <div id={`map-leaflet-id-${mapID}`} className="rounded"></div>
-}
+} 

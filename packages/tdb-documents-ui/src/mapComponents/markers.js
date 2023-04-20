@@ -5,12 +5,13 @@ import * as CONST from "../constants"
 export function getCenterFromData (data) {
 	if(!data.length) return MAP_OPTION.center
 	
-	if(!data[0].hasOwnProperty(CONST.COORDINATES_FIELD)) return MAP_OPTION.center
+	//if(!data[0].hasOwnProperty(CONST.COORDINATES_FIELD)) return MAP_OPTION.center
 	let firstEntry = data[0]
 	if(firstEntry[CONST.TYPE] === CONST.POINT) return firstEntry[CONST.COORDINATES_FIELD]
 	else if(firstEntry[CONST.TYPE] === CONST.LINE_STRING_TYPE) return firstEntry[CONST.COORDINATES_FIELD][0]
 	else if(firstEntry[CONST.TYPE] === CONST.POLYGON) return firstEntry[CONST.COORDINATES_FIELD][0]
 	else if(firstEntry[CONST.TYPE] === CONST.MULTIPOLYGON) return firstEntry[CONST.COORDINATES_FIELD][0][0][0]
+	//else if(data.filter(arr => arr.type === CONST.FEATURE)) return data[0][CONST.GEOMETRY_FIELD][CONST.COORDINATES_FIELD][0][0][0]
 	else return MAP_OPTION.center
 }
  
@@ -31,6 +32,7 @@ export function customMapOptions (zoom, center, documents, type) {
 		else extractedCenter=documents[0]
 		mapOptions.center=extractedCenter
 	}
+	//mapOptions.center = MAP_OPTION.center
 	return mapOptions
 }
 

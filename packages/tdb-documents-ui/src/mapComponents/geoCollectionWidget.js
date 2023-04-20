@@ -75,7 +75,7 @@ export const TDBGeoCollectionDocuments = ({ config }) => {
 
   // when nothing is filled return blank div
   if(!config.formData.hasOwnProperty(config.name)) return <React.Fragment/>
-  
+   
   
   let center=getCenterFromData(config.formData[config.name]) 
   let zoom=MAP_OPTION.zoom

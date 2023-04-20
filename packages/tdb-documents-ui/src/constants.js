@@ -126,10 +126,11 @@ export const POLYLINE="Polyline"
 export const GEOMETRY_COLLECTION="GeometryCollection"
 export const FEATURE_COLLECTION="FeatureCollection"
 export const GEOMETRIES="geometries"
-export const FEATURE="feature"
+export const FEATURE="Feature"
 export const B_BOX="bbox"
 export const COORDINATES="Coordinates"
 export const COORDINATES_FIELD="coordinates"
+export const GEOMETRY_FIELD="geometry"
 
 export const GEOMETRY_ARRAY=[
   GEOMETRY_COLLECTION, 

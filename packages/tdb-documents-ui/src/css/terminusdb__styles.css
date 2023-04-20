@@ -229,3 +229,13 @@ div.tdb__markdown_diff__changed  > table.css-1ri4lr5-diff-container > tbody > tr
   border-radius: 4px;
 }
 
+/** react leaflet map */
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+  margin: 0 auto;
+}
+.leaflet-popup-content {
+  color: #000;
+}
+

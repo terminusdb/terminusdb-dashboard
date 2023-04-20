@@ -231,8 +231,8 @@ export function getMultiPolygonUIDisplay (args, property) {
     return { "ui:field": displayMultiPolygonUI }
   }
  
-  function coordinatesArrayTemplate(props) {
-    return display.displayMultiPolygonEditDocument(args, props, property)
+  function coordinatesArrayTemplate(props) { 
+    return display.displayMultiPolygonEditDocument(args, props, property) 
   }
   
   return { 

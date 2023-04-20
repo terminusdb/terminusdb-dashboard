@@ -11,14 +11,14 @@ export const TDBBBoxDocuments = ({ config }) => {
   let mapConfig = { 
     type: CONST.B_BOX,
     documents: util.setBounds(config.formData)
-  }
+  } 
 
   return <Stack direction="horizontal"  className="mb-3">
     <TDBLabel name={config.label ? config.label : config.name} 
-      required={config.required} 
+      //required={config.required} 
       id={config.id}/>
     <MapViewer mapConfig={mapConfig}/>
-  </Stack>
+  </Stack> 
 }
 
 //onChange={ (event) => onChange(event.target.value, name) } />

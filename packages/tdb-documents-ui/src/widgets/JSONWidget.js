@@ -54,6 +54,7 @@ export const TDBJSON = ({ id, name, value, required, mode, hideFieldLabel, onCha
       width       = {CONST.JSON_EDITOR_WIDTH}
       viewOnly    = {readOnly}
       placeholder = {displayJSON}
+      style       = {{ container: { borderRadius: "4px" }}}
       onBlur      = {handleInput}/>
   </Stack>
 }

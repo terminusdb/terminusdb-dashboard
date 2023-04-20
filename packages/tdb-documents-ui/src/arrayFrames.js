@@ -6,7 +6,7 @@ import { uiHelper } from "./helpers/uiHelper"
 import { typeHelper } from "./helpers/typeHelper"
 import * as template from "./arrayHelpers/templates"
 import { getPlaceholder } from "./helpers/placeholderHelper"
-import { displayCollectionDocument } from "./helpers/displayHelper"
+import { displayCollectionDocument, displayFeatureCollectionDocument } from "./helpers/displayHelper"
 
 /**
  * 
@@ -97,6 +97,20 @@ export function makeArrayFrames(args, property, arrayType)  {
 		}
 		let uiLayout={
 			"ui:field": displayGeoCollection
+		}
+		return { layout, uiLayout }
+	}
+	if(mode === CONST.VIEW && 
+		documentFrame[property].hasOwnProperty(CONST.CLASS) && 
+		documentFrame[property][CONST.CLASS] === CONST.FEATURE && 
+		documentFrame.hasOwnProperty("type") && 
+		documentFrame["type"][CONST.VALUES][0] === CONST.FEATURE_COLLECTION) {
+		// FEATURE COLLECTION VIEW MODE
+		function displayFeatureCollection(props) {
+			return displayFeatureCollectionDocument (args, property, props.id, props.formData) 
+		}
+		let uiLayout={
+			"ui:field": displayFeatureCollection
 		}
 		return { layout, uiLayout }
 	}
