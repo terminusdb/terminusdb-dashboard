@@ -76,7 +76,7 @@ export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType
         setStart(currentpage)
         setLimit(currentlimit)
         console.log("changeLimits" ,queryFilters)
-        callFetchMore(currentlimit,currentpage,orderBy,queryFilters) 
+        callFetchMore(currentlimit,currentpage,queryOrderBy,queryFilters) 
     }
 
     /*
