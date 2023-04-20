@@ -16,6 +16,7 @@ import { documentInternalProperties } from "../helpers/documentHelpers"
 
 const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTraverse, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, clickedUnlinked }) => {
 
+  const [update, setUpdate] = useState(Date.now())
 
   if(action === CONST.LINK_NEW_DOCUMENT) {
 
@@ -30,7 +31,8 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
       //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
       tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
       setDocumentData(tempDocumentData)
-      if(onChange) onChange(tempDocumentData)
+      if(onChange) onChange(tempDocumentData) 
+      setUpdate(Date.now())
     }
 
     // definitions will have definitions of linked_to frames
@@ -127,7 +129,7 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
     }
 
     return <div className="mt-4">
-      {fields}
+      {update && fields}
     </div>
 
   }

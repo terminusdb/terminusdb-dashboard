@@ -44,7 +44,7 @@ export const DataProductDocuments = () => {
         addQueryPane(q)
     } 
 
-    const DocumentMenu = ({item, handleClassClick}) => {
+    const DocumentMenu = ({item, handleClassClick}) => { 
         const docName = item["@id"]
         const docCount = dataProvider[docName] ? dataProvider[docName]["@value"] : 0
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
@@ -59,7 +59,7 @@ export const DataProductDocuments = () => {
         </MenuItem>
     }
 
-    return <SubMenu title={"Document Types"} 
+    return <SubMenu title={"Document Types"}  
                 className="menu-title"
                 defaultOpen={sidebarStateObj.sidebarSampleQueriesState}
                 onOpenChange={(e) => saveSidebarState("sidebarSampleQueriesState", e)}>
