@@ -4,7 +4,7 @@ import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {BiPlus} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
-import 'react-accessible-accordion/dist/fancy-example.css'
+//import 'react-accessible-accordion/dist/fancy-example.css'
 import {IconBarConfig} from "../components/constants"
 import {Nav} from "react-bootstrap"
 import {NavLink as RouterNavLink , useParams, useNavigate} from "react-router-dom"

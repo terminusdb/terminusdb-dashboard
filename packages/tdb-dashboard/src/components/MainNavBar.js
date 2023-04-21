@@ -5,7 +5,6 @@ import {NewDataProduct} from "./NewDataProduct"
 import {TimeTravelWidget} from "./TimeTravelWidget"
 import {WOQLClientObj} from '../init-woql-client'
 import {DATA_PRODUCTS} from "../routing/constants"
-import history from "../routing/history"
 import { UserMenu } from "./UserMenu";
 import { sortAlphabetically } from "./utils";
 import {useNavigate,useParams,useLocation} from "react-router-dom"
