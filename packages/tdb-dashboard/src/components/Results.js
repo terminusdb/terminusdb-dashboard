@@ -13,7 +13,7 @@ import 'codemirror/theme/ayu-dark.css'
 require('codemirror/mode/css/css')
 require('codemirror/mode/javascript/javascript')
 import {DOCUMENT_EXPLORER} from "../routing/constants"
-import history from '../routing/history'
+//import history from '../routing/history'
 import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
 import {Loading} from "./Loading"
 //import {ViewPane} from "./ViewPane"
@@ -47,7 +47,7 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
                 message: false,
                 update:false
             })
-            history.push(DOCUMENT_EXPLORER)
+           // history.push(DOCUMENT_EXPLORER)
        }
     }
 

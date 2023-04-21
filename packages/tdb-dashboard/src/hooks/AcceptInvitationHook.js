@@ -2,7 +2,6 @@ import { useState } from "react"
 import   axios  from "axios"
 import {WOQLClientObj} from '../init-woql-client'
 import {getOptions,getBaseUrl} from "./hookUtils"
-//import history from "../routing/history"
 //use access control 
 export const AcceptInvitationHook=()=> {
 	const axiosHub=axios.create();
