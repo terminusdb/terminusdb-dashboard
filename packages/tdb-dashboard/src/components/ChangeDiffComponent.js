@@ -90,7 +90,7 @@ export const ChangeDiffComponent = () => {
                 <Card.Header>
                     <Stack direction="horizontal" gap={2} className="mt-1">
                         <DisplayHeader author={author} 
-                            tracking_branch={currentCRObject.tracking_branch}
+                            tracking_branch={currentCRObject.name || currentCRObject.tracking_branch}
                             original_branch ={currentCRObject.original_branch}
                             documentModifiedCount={documentModifiedCount}/>
                     </Stack>

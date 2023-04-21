@@ -164,7 +164,7 @@ export const ChangeRequestsPage = () => {
 								Ready for Review
 						</Button>
 						<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>
-							View Open Diff</Button>
+							View Diff</Button>
 						
 					</React.Fragment> 
 			case SUBMITTED: 
