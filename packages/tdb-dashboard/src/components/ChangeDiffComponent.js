@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom'
 import {
     DIFFS, 
     MERGED, 
+    SUBMITTED,
     MESSAGES, 
     TRACKING_BRANCH
 } from "../components/constants"
@@ -89,13 +90,13 @@ export const ChangeDiffComponent = () => {
                 <Card.Header>
                     <Stack direction="horizontal" gap={2} className="mt-1">
                         <DisplayHeader author={author} 
-                            tracking_branch={currentCRObject.tracking_branch}
+                            tracking_branch={currentCRObject.name || currentCRObject.tracking_branch}
                             original_branch ={currentCRObject.original_branch}
                             documentModifiedCount={documentModifiedCount}/>
                     </Stack>
                 </Card.Header> 
                 <Card.Body>                 
-                    {currentCRObject.status !== MERGED &&
+                    {currentCRObject.status === SUBMITTED && 
                     <ReviewComponent/> }
                     <DiffView diffs={result} CRObject={currentCRObject}/> 
                 </Card.Body> 

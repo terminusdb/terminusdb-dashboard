@@ -163,6 +163,9 @@ export const ChangeRequestsPage = () => {
 							<AiOutlineCheck className="mr-1"/><small className="fw-bold"></small>
 								Ready for Review
 						</Button>
+						<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>
+							View Diff</Button>
+						
 					</React.Fragment> 
 			case SUBMITTED: 
 				return <Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>

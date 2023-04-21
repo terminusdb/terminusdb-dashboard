@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {MenuItem, SubMenu} from 'react-pro-sidebar'
+import { Badge } from "react-bootstrap"
 import 'react-pro-sidebar/dist/css/styles.css'
 import {BsFillExclamationTriangleFill, BsBriefcase} from "react-icons/bs"
+import {BiGitBranch} from "react-icons/bi"
 import {printts} from "./utils"
 import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER } from "../routing/constants"
 
@@ -21,17 +22,16 @@ export const ConnectedDataProduct = (props) => {
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
     const [status, setStatus] = useState("text-success")
-    const [currentCommit, setCurrentCommit] = useState("latest")
-    const { page } = getLocation()
+    const [currentCommit, setCurrentCommit] = useState("on lastest version")
 
     useEffect(() => {
             if (chosenCommit && chosenCommit.time) {
-                if(setCurrentCommit) setCurrentCommit(printts(chosenCommit.time))
+                if(setCurrentCommit) setCurrentCommit("")//printts(chosenCommit.time))
                 //if(setIconColor) setIconColor("#f39c12")
                 if(setStatus) setStatus("text-warning")
             }
             else {
-                if(setCurrentCommit) setCurrentCommit("latest")
+                if(setCurrentCommit) setCurrentCommit("on lastest version")
                 if(setStatus)setStatus("tdb__status_latest__version") 
             }
        
@@ -41,31 +41,24 @@ export const ConnectedDataProduct = (props) => {
         return <span className="pro-item-content">Connected to <strong className="text-success">{dataProduct}</strong></span>
     }
 
-    return <SubMenu title={title(dataProduct)}
-        className="menu-title"
-        defaultOpen={(page==DOCUMENT_EXPLORER || page==PRODUCT_EXPLORER) ? false : sidebarStateObj.sidebarDataProductConnectedState}
-        onOpenChange={(e) => saveSidebarState("sidebarDataProductConnectedState",e)}
-        >
-        {(status == "text-warning") && <MenuItem >
-            <span className="pro-item-content font-italic text-warning ml-3" > 
+    return <React.Fragment>{(status == "text-warning") &&
+            <span className="pro-item-content font-italic text-warning mr-3" > 
                 <BsFillExclamationTriangleFill className="me-2 mr-3"/>
-                This is not latest version   
+                This is not the latest version   
             </span>
-            </MenuItem>
+            
         }
-        <MenuItem className="sub-menu-title">
+        
             <span className="pro-item-content"> 
-                <strong className={`mr-1 ${status}`}> ● </strong>  {`on ${currentCommit} version`} 
+                <strong className={`mr-1 ${status}`}> ● </strong>  {currentCommit} 
             </span>
-        </MenuItem>
-        <MenuItem className="sub-menu-title">
-            <span className="pro-item-content"> 
-                <span className="badge bg-primary">
-                    <h6 className="ml-1 mr-1 mt-1">
-                        <BsBriefcase className="mr-1"/> {branch} 
-                    </h6>
-                </span>
-            </span>
-        </MenuItem>
-    </SubMenu>
+          
+            <Badge bg="success" className="ml-2 fw-bold mr-2 text-dark">
+                <BiGitBranch className="mr-1"/>
+                {branch} 
+            </Badge>  
+                   
+             
+    </React.Fragment>
 }
+

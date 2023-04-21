@@ -219,13 +219,12 @@ export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, cla
           }
           return <code className={String(className)}>{children}</code>;
       };
-
+//whiteSpace: 'pre-wrap' not add this
       return <div className={`d-block ${css} w-100 mb-3`}>
           {/*<div className="mb-3">{name} </div>*/}
-          <div className="w-100">
+          <div className="w-100 " data-color-mode="dark">
               <MDEditor
                   value={code}
-                  style={{ whiteSpace: 'pre-wrap', padding: 15}}
                   commands={[
                       commands.codePreview
                   ]}
