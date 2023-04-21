@@ -225,7 +225,6 @@ export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, cla
           <div className="w-100 " data-color-mode="dark">
               <MDEditor
                   value={code}
-                  style={{padding: 15}}
                   commands={[
                       commands.codePreview
                   ]}
