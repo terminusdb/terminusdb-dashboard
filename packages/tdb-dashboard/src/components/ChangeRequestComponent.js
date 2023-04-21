@@ -11,7 +11,7 @@ import {FaInfo} from "react-icons/fa"
 import Dropdown from 'react-bootstrap/Dropdown';
 
 
-export const ChangeRequestComponent = ({title, setShowModal,closeChangeRequest,currentChangeRequest})  => {
+export const ChangeRequestComponent = ({currentCRIdentifier, setShowModal,closeChangeRequest,currentChangeRequest, currentCRStartBranch})  => {
     if(!currentChangeRequest) return <div/> 
     
     return <Dropdown>
@@ -20,8 +20,13 @@ export const ChangeRequestComponent = ({title, setShowModal,closeChangeRequest,c
             <small className="fw-bold mr-2">Change Request</small>
             <Badge className="fw-bold mr-2 bg-primary text-dark">
                 <BiGitBranch className="mr-1"/>
-                {title}
+                {currentCRIdentifier} 
             </Badge> 
+            from 
+            <Badge bg="success" className="ml-2 fw-bold mr-2 text-dark">
+                <BiGitBranch className="mr-1"/>
+                {currentCRStartBranch} 
+            </Badge>  
         </Dropdown.Toggle>
 
         <Dropdown.Menu>

@@ -14,7 +14,8 @@ import {SubmitChangeRequestModal} from '../components/SubmitChangeRequestModal'
 import {BiGitBranch} from 'react-icons/bi'
 import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
 import * as path from "../routing/constants"
-
+import {ConnectedDataProduct} from "../components/CurrentDataProductState"
+ 
 // returns a help text depending on which page you are while in a Change Request Mode
 function GetHelpText () {
     let { getLocation } = WOQLClientObj()
@@ -61,8 +62,15 @@ export const Layout = (props) => {
         if(organization) setDefaultSize(340)
     }, [organization])*/
 
-    const changeRequestHolder = dataProduct && noChange ? <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} title={currentCRName || branch} setShowModal={setShowModal}/> : null
-                  
+    const changeRequestHolder = () =>{
+        if(dataProduct && currentChangeRequest){
+            return <ChangeRequestComponent currentCRStartBranch={currentCRStartBranch} currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} currentCRIdentifier={currentCRName || branch} setShowModal={setShowModal}/>
+        
+        }
+        return <ConnectedDataProduct/>
+    }   
+    
+    const headerElement = changeRequestHolder()
     
     //defaultSize={340} 
     return <Container fluid className="p-0 flex-row">
@@ -76,7 +84,7 @@ export const Layout = (props) => {
                 </div>
             </div>              
             <div className="ml-1 main-content h-100">                      
-                <MainNavBar setShowTimeTravel={setShowTimeTravel} changeRequestHolder={changeRequestHolder}/>
+                <MainNavBar setShowTimeTravel={setShowTimeTravel} changeRequestHolder={headerElement}/>
                 <div className={`${mainClassName} mt-4`} >
                     {currentChangeRequest && <GetHelpText/>}
                     {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
