@@ -6,6 +6,7 @@ import {SearchBox} from "./SearchBox"
 import {useNavigate} from "react-router-dom"
 import {sortAlphabetically} from "./utils"
 import {NewDataProduct} from "./NewDataProduct"
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER } from "../routing/constants"
  
 /* returns a list of data products */
 export const DataProductItems = (props) => {
@@ -25,6 +26,7 @@ export const DataProductItems = (props) => {
     const [searchDataProduct, setSearchDataProduct]=useState(false)
 
     let navigate = useNavigate();
+    const { page } = getLocation()
     function handleClick(dp) {
         const {page,organization} = getLocation() 
         const currentPage = page ? `/${page}` : "" 
@@ -41,13 +43,14 @@ export const DataProductItems = (props) => {
         </MenuItem>
     }
 
+
     return <React.Fragment>
             {accessControlDashboard && accessControlDashboard.createDB() && 
                 <NewDataProduct css={"btn-sm mb-3 col-md-10 ml-4"}/>
-            }
+            } 
             <SubMenu title="Data Products" 
                 className="menu-title "
-                defaultOpen={sidebarStateObj.sidebarDataProductListState}
+                defaultOpen={(page==DOCUMENT_EXPLORER || page==PRODUCT_EXPLORER) ? false : sidebarStateObj.sidebarDataProductListState}
                 onOpenChange={(e) => saveSidebarState("sidebarDataProductListState",e)}>
             <SearchBox placeholder={"Search for a Data Product"} onChange={setSearchDataProduct}/>
             {list.map(item => {

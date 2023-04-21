@@ -20,7 +20,7 @@ export const DiffViewer = (args) => {
 
   return <Row> 
     <Col md={6}>
-      <Card>  
+      <Card className="border border-secondary">  
         <Card.Header>
           <OldValueHeader oldValueHeader={oldValueHeader}/>
         </Card.Header>
@@ -39,7 +39,7 @@ export const DiffViewer = (args) => {
       </Card>
     </Col>
     <Col md={6}>
-      <Card>
+      <Card className="border border-secondary">
         <Card.Header>
           <NewValueHeader newValueHeader={newValueHeader}/>
         </Card.Header>

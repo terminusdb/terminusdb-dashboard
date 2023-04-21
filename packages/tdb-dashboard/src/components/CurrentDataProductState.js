@@ -5,6 +5,7 @@ import 'react-pro-sidebar/dist/css/styles.css'
 import {BsFillExclamationTriangleFill, BsBriefcase} from "react-icons/bs"
 import {BiGitBranch} from "react-icons/bi"
 import {printts} from "./utils"
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER } from "../routing/constants"
 
 /* returns current data product to which your connected and status */
 export const ConnectedDataProduct = (props) => {
@@ -13,7 +14,9 @@ export const ConnectedDataProduct = (props) => {
         woqlClient,
         saveSidebarState,
         sidebarStateObj,
-        branch, chosenCommit
+        branch, 
+        getLocation,
+        chosenCommit
     } = WOQLClientObj()
     
     if(!woqlClient) return ""
@@ -33,7 +36,7 @@ export const ConnectedDataProduct = (props) => {
             }
        
     }, [chosenCommit])
-
+ 
     function title (dataProduct) {
         return <span className="pro-item-content">Connected to <strong className="text-success">{dataProduct}</strong></span>
     }
