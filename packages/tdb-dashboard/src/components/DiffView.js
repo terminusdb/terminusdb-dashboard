@@ -134,7 +134,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
         onTraverse(documentID, setClicked)
     }
 
-   return <Accordion className="accordion__button padding-0 diff__accordian" id={eventKey} onSelect={getDocumentStatesOnClick}> 
+   return <Accordion className="accordion__button padding-0 diff__accordian mb-3" id={eventKey} onSelect={getDocumentStatesOnClick}> 
         <Accordion.Item eventKey={eventKey} className="border-0">
             <Accordion.Header className="w-100 bg-secondary rounded">
             <Stack direction="horizontal" gap={1} className="w-100">
@@ -199,21 +199,16 @@ export const DiffView = ({diffs, CRObject}) => {
 
     let elements=[], paginationItems=[]
 
-    let divide = Math.round(diffs.length/DIFFS_PER_PAGE_LIMIT)
+    let divide = Math.ceil(diffs.length/DIFFS_PER_PAGE_LIMIT)
 
     useEffect(() => {
         getUpdatedFrames()
 	},[])
     // function to handle on click of page
     function handlePagination(number) {
-        if(number > activePage) {
-            let newCurrent=current+DIFFS_PER_PAGE_LIMIT+1
-            setCurrent(newCurrent)
-        }
-        else {
-            let newCurrent=current-DIFFS_PER_PAGE_LIMIT-1
-            setCurrent(newCurrent)
-        }
+        let position=DIFFS_PER_PAGE_LIMIT * (number-1)
+        
+        setCurrent(position)
         setActivePage(number) 
         
     }
@@ -232,7 +227,7 @@ export const DiffView = ({diffs, CRObject}) => {
 
     
     // looping through diff lists
-    for(let start=current; start<=(current + DIFFS_PER_PAGE_LIMIT); start++) {
+    for(let start=current; start<(current + DIFFS_PER_PAGE_LIMIT); start++) {
        
         if(start >= diffs.length) continue
       
