@@ -1,0 +1,14 @@
+
+@import "./terminusdb__styles.css";
+
+ 
+:root {
+  --input-color: #fff;
+  --input-border: 1px solid rgb(102, 102, 102);
+  --required-color: #6c757d;
+  --label-color: #f9d891;
+  --input-dark-color: #000;
+  --rounded: 0.375rem;
+  --field-margin-bottom: 1rem;
+  --array-margin-bottom: 2rem;
+}

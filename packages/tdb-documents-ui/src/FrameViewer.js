@@ -6,7 +6,7 @@ import * as util from "./utils"
 import { Viewer } from "./Viewer"
 import { HelperMessages } from "./HelperMessages"
 import { constructFormParams } from "./constructFormParams"
-
+import { loadTheme } from "./formActions"
  
 /*
 **  frame     - full json schema of a document
@@ -23,7 +23,7 @@ import { constructFormParams } from "./constructFormParams"
 */
 export function FrameViewer(props){
 
-	let { frame, uiFrame, type, mode, formData, compareFormData, onSubmit, onTraverse, onSelect, language } = props
+	let { frame, uiFrame, type, mode, formData, compareFormData, onSubmit, onTraverse, onSelect, language, theme } = props
 
 	// schema constants
 	const [schema, setSchema]=useState(false)
@@ -58,7 +58,12 @@ export function FrameViewer(props){
 		setLanguage(false)
 	}
 
-	
+	useEffect(() => {
+		if(theme) {
+			loadTheme(theme)
+		}
+	}, [theme])
+
 
 	useEffect(() => {
 		//try{ 

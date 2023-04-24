@@ -56,3 +56,12 @@ export const handleSubmit = (data, onSubmit, setData, type, mode) => {
     return extracted
   }
 }
+
+export function loadTheme(theme) {
+  // dynamically add bootstrap library
+  var link = document.createElement('link');
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.href = `https://bootswatch.com/5/${theme}/bootstrap.css`;
+  document.head.appendChild(link);
+}
