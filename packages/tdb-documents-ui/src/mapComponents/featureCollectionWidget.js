@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import Stack from "react-bootstrap/Stack"
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import "react-leaflet-fullscreen/dist/styles.css";
@@ -13,7 +13,8 @@ import { customMapOptions, customMarkerOptions, getCenterFromData }  from "./mar
 import * as util from "../utils"
 
 export const TDBFeatureCollectionDocuments = ({ config }) => {
-
+  const mapRef = useRef(null);
+  
   let mapID=uuid()
   
   const map = () => { 
@@ -39,23 +40,24 @@ export const TDBFeatureCollectionDocuments = ({ config }) => {
     }).bindPopup(function (layer) {
       return layer.feature.properties.description;
     }).addTo(map)
-
-
-
-    map.fitBounds(geoJSON.getBounds());
+    
     window.map = map
 
-  }
+    map.fitBounds(geoJSON.getBounds());
+    setTimeout(() => map.invalidateSize(true), 2000);
+  } 
 
   useEffect(() => {
-    map()
-  }, [])
+    if(mapRef) {
+      map()
+    }
+  }, [mapRef])
 
 
   return <Stack direction="horizontal"  className="mb-3">
     <TDBLabel name={config.label ? config.label : config.name} 
       required={config.required} 
       id={config.id}/>
-    <div id={`tdb__map__geojson__leaflet_${mapID}`} className="rounded" data-testid={`map-leaflet-id`}></div>
+    <div ref={mapRef} id={`tdb__map__geojson__leaflet_${mapID}`} className="rounded" data-testid={`map-leaflet-id`}></div>
   </Stack>
 }

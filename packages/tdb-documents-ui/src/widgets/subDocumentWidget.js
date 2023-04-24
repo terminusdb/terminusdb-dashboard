@@ -105,6 +105,7 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
   
 export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, index, hideFieldLabel, linked_to, propertyDocumentation, id, reference, subDocumentData, setSubDocumentData, args }) => {
   const [open, setOpen] = useState(expanded);
+  //const [open, setOpen] = useState(true);
   let uiFrame = args.uiFrame, mode = args.mode 
 
 

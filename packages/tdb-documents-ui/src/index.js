@@ -1,6 +1,4 @@
-//require("./css/terminusdb__styles.css")
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 export { FrameViewer } from './FrameViewer'
-//export {MapViewer} from './maps/mapViewer'
 export { DiffViewer } from './diffs/diffViewer'
 export { DocumentsUIHook } from './hook/DocumentsUIHook'
