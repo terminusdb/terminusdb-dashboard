@@ -17,11 +17,10 @@ export const TDBFeatureCollectionDocuments = ({ config }) => {
   let mapID=uuid()
   
   const map = () => { 
-    let center=['53.43158399610475', '-6.708967005020142'] //getCenterFromData(config.formData[config.name], CONST.FEATURE_COLLECTION) 
     let zoom=MAP_OPTION.zoom
-    let bounds=util.setBounds(config.formData.hasOwnProperty(CONST.B_BOX) ? config.formData[CONST.B_BOX] : [])
+    //let bounds=util.setBounds(config.documents.hasOwnProperty(CONST.B_BOX) ? config.documents[CONST.B_BOX] : [])
 
-    let mapOptions = customMapOptions(zoom, center)
+    let mapOptions = customMapOptions(zoom, null)
     let markerOptions= customMarkerOptions(icon)
 
     const map = L.map(`tdb__map__geojson__leaflet_${mapID}`, mapOptions) //mapOptions
@@ -29,26 +28,28 @@ export const TDBFeatureCollectionDocuments = ({ config }) => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     })
 
-    if(bounds && Array.isArray(bounds) && bounds.length > 0){
-      map.setView([40.866667, 34.566667], 5) // center of maps 
-      map.fitBounds(bounds)
-      map.flyToBounds(bounds)
-    }
 
     tileLayer.addTo(map)
-      L.geoJSON(config.featureData, {
-        pointToLayer: function (feature, latlng) {
-          return L.marker(latlng, markerOptions)
-        }
-      }).addTo(map)
+
+
+    let geoJSON = L.geoJSON(config.formData, { 
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, markerOptions) 
+      },
+    }).bindPopup(function (layer) {
+      return layer.feature.properties.description;
+    }).addTo(map)
+
+
+
+    map.fitBounds(geoJSON.getBounds());
     window.map = map
+
   }
 
   useEffect(() => {
     map()
   }, [])
-
-  //return <div id={`map-leaflet-id-${mapID}`} className="rounded" data-testid={`map-leaflet-id`}/>
 
 
   return <Stack direction="horizontal"  className="mb-3">

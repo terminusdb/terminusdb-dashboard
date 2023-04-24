@@ -13,7 +13,7 @@ export const DisplayField = () => {
     items,
     handleAdd,
     handleDelete,
-    handleReorderClick,
+    handleReorderClick, 
     refresh
   } = ArrayFieldObj()
 

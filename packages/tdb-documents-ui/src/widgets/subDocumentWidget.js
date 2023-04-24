@@ -20,13 +20,18 @@ const CollapseMessage = ({ message, name, icon }) => {
 
 // populate SubDocument data based on modes
 export function populateSubDocumentData(mode, linked_to, formData, frame) {
-  if(mode === CONST.CREATE) return { [CONST.TYPE]: linked_to }
+  if(mode === CONST.CREATE) {
+    if(formData && linked_to === formData[CONST.TYPE]) return formData 
+    else return  { [CONST.TYPE]: linked_to } 
+  }
   else if(mode === CONST.EDIT) {
     if(formData && linked_to === formData[CONST.TYPE]) return formData 
     else return  { [CONST.TYPE]: linked_to } 
   }
   return formData
 } 
+
+
 
  
 export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by, index, id, reference, subDocumentData, setSubDocumentData, properties, required, onChange, args, propertyDocumentation }) => {
@@ -75,10 +80,10 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
       propertyDocumentation: propertyDocumentation
     }
 
-    if(props.hasOwnProperty(CONST.ONEOF_SELECTED)) {
+    /*if(props.hasOwnProperty(CONST.ONEOF_SELECTED)) {
       // some choice might have been selected in @oneOfs
       subDocConfig[CONST.ONEOF_SELECTED] = props[CONST.ONEOF_SELECTED]
-    }
+    }*/
     //return displayInternalProperties(subDocConfig)
 
     // review fix order_by

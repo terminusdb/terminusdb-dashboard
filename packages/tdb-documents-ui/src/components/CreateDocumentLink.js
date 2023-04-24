@@ -21,22 +21,6 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
 
     let fields = []
 
-    function handleChange_OLD(data, fieldName) {
-      //console.log("documentData", documentData)
-      let tempDocumentData = documentData
-      // if field name is undefined
-      // at this point means that its the document link's data 
-      // so we pass linked_to as param
-      // nextCreateLink stores the next link 
-      //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
-      tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
-      setDocumentData(tempDocumentData)
-      if(onChange) {
-        if(CONST.GEOMETRY_ARRAY.includes(fieldName)) onChange(tempDocumentData, fieldName)
-        else onChange(tempDocumentData)
-      }
-    }
-
     function handleChange(data, fieldName, b_boxField) { 
       //console.log("documentData", documentData)
       let tempDocumentData = documentData
@@ -57,7 +41,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
         if(onChange) {
           onChange(tempDocumentData)
         }
-      }
+      } 
       else if(fieldName === "type") {
         tempDocumentData[fieldName]=data
         setDocumentData(tempDocumentData)
@@ -235,7 +219,7 @@ function getID (linkId, depth) {
 export const CreateDocument = ({ args, name, required, onSelect, reference, order_by, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
 
   const [action, setAction] = useState(false)
-  const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to })
+  const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to }) 
   //const [cardKey, setCardKey]=useState(uuidv4())
   const [cardKey, setCardKey]=useState(getID(linkId, depth)) 
 

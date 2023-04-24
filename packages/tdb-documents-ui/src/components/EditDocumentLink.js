@@ -192,7 +192,7 @@ export const EditDocument = ({ name, args, reference, onTraverse, clickedUnlinke
   const [linkNewAction, setLinkNewAction]=useState(false)
   const [linkNewDocumentData, setLinkNewDocumentData]=useState({ [CONST.TYPE]: linked_to}) 
 
-  useEffect(() => {
+  useEffect(() => { 
     if(linked_to) setLinkNewDocumentData({ [CONST.TYPE]: linked_to})
   }, [linked_to])
 

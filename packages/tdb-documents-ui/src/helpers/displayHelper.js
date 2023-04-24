@@ -20,6 +20,7 @@ import { TDBRDFLanguage } from "../widgets/rdfLanguageWidget"
 import { TDBSysUnit } from "../widgets/sysUnitWidget"
 import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 import { display } from "./display"
+import { displayGeoJSONViewUI } from "./widgetHelper"
 
 
  
@@ -248,7 +249,7 @@ export function displayChoiceSubDocument (props, args, property, id) {
 
 // ONE OF 
 export function displayOneOfProperty(props, args, property, id) {
-  const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : {})
+  const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : [])
 
   useEffect(() => {
     // formdata on change
@@ -296,8 +297,8 @@ export function displayCollectionDocument (args, property, id) {
     className: "tdb__doc__input",
     //required: props.required,
     bounds: bounds
-  }
-
+  } 
+  return <TDBFeatureCollectionDocuments config={config}/>
   return <TDBGeoCollectionDocuments config={config}/>
 }
 
@@ -357,7 +358,14 @@ export function displayPointDocument (props, args, property, id) {
     bounds: bounds
   }
 
-  return <TDBPointDocuments config={config}/>
+  let argsHolder = {...args}
+  argsHolder.formData = {
+    "type": CONST.POINT,
+    [CONST.COORDINATES_FIELD] : [props.formData[1], props.formData[0]]
+  }
+
+  return displayGeoJSONViewUI(config, argsHolder, property, id)
+  //return <TDBPointDocuments config={config}/>
 }
 
 // LINE STRING 
@@ -391,7 +399,15 @@ export function displayLineStringDocument(props, args, property, id) {
     bounds: bounds
   }
 
-  return <TDBLineStringDocuments config={config}/>
+  let argsHolder = {...args}
+  argsHolder.formData = {
+    "type": CONST.LINE_STRING_TYPE,
+    [CONST.COORDINATES_FIELD] : props.formData
+  }
+
+  return displayGeoJSONViewUI(config, argsHolder, property, id)
+
+  //return <TDBLineStringDocuments config={config}/>
 }
 
 // POLYGON
@@ -410,7 +426,7 @@ export function displayNestedMultiPolygonEditDocument (args, props, property, id
 }
 
 
-export function displayPolygonDocument (props, args, property, id) {
+export function displayPolygonDocument (props, args, property, id, type) {
 
 
   let { mode, extractedDocumentation, documentFrame, formData } = args 
@@ -433,7 +449,14 @@ export function displayPolygonDocument (props, args, property, id) {
     bounds: bounds
   }
 
-  return <TDBPolygonDocuments config={config}/>
+  let argsHolder = {...args}
+  argsHolder.formData = {
+    "type": type,
+    [CONST.COORDINATES_FIELD] : props.formData
+  }
+
+  return displayGeoJSONViewUI(config, argsHolder, property, id)
+  //return <TDBPolygonDocuments config={config}/>
 }
 
 

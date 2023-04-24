@@ -7,6 +7,7 @@ import { pointMapViewer } from "./pointMapView"
 import { lineStringMapViewer } from "./lineStringMapView"
 import { bboxMapViewer } from "./bboxMapView"
 import { polygonMapViewer } from "./polygonMapView"
+import { TDBFeatureCollectionDocuments } from "./featureCollectionWidget"
 
 
 
@@ -21,7 +22,8 @@ export const MapViewer = ({ mapConfig }) => {
 		case CONST.LINE_STRING_TYPE:
 			return lineStringMapViewer(mapConfig)
 		case CONST.POLYGON: 
-			return polygonMapViewer(mapConfig)
+			return <TDBFeatureCollectionDocuments config={mapConfig}/>
+			//return polygonMapViewer(mapConfig)
 		/*case CONST.FEATURE_COLLECTION: 
 			return geoJSONMapViewer(args) */
 	}

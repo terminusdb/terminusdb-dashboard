@@ -26,7 +26,7 @@ export const ArrayFieldTemplate = ({ args, props, property, items, handleAdd, ha
 	 */
 	const [update, setUpdate] = useState({})
 	const [refresh, setRefresh] = useState(Date.now())
-
+ 
 	//console.log("props", props)
 
 	let { extractedDocumentation, mode } = args
@@ -55,7 +55,7 @@ export const ArrayFieldTemplate = ({ args, props, property, items, handleAdd, ha
 						{update && <GetFieldDisplay args={args} 
 							props={props} 
 							element={element} 
-							id={id} 
+							id={id}  
 							update={update} 
 							setUpdate={setUpdate}
 							property={property}/>}

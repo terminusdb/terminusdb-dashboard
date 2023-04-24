@@ -96,25 +96,8 @@ export function documentInternalProperties(docConfig, field) {
   // gather field info 
   let fieldName =  docConfig.properties[field].title 
   let fieldID=docConfig.id //: `root_${docConfig.propertyName}_${fieldName}`
-  /*if(docConfig.id) {
-    // id will be filled if Sets/List
-    fieldID=`${docConfig.id}_${fieldName}`
-  }*/
-
-  // subdocument formdata will have type assosciated with it other wise its some other data types
-  //let currentDocumentClass= docConfig.formData && docConfig.formData[CONST.TYPE] ? 
-    //docConfig.formData[CONST.TYPE] : docConfig.properties[field][CONST.PLACEHOLDER]
-
-    //currentDocumentClass = "Person"
+  
   let currentDocumentClass= docConfig.currentDocumentClass
-
-  /**
-   * let currentDocumentClass= docConfig.formData && docConfig.formData[CONST.TYPE] ? 
-    docConfig.formData[CONST.TYPE] : 
-    docConfig.properties[field][CONST.PLACEHOLDER].hasOwnProperty(CONST.CLASS) ?
-    docConfig.properties[field][CONST.PLACEHOLDER][CONST.CLASS] : 
-    docConfig.properties[field][CONST.PLACEHOLDER]
-   */
 
   // construct document frame to get UI 
   let documentFrame = extractDocumentFrame(currentDocumentClass, docConfig.args.fullFrame, field)
