@@ -199,7 +199,7 @@ export const DiffView = ({diffs, CRObject}) => {
 
     let elements=[], paginationItems=[]
 
-    let divide = diffs.length/DIFFS_PER_PAGE_LIMIT
+    let divide = Math.round(diffs.length/DIFFS_PER_PAGE_LIMIT)
 
     useEffect(() => {
         getUpdatedFrames()
@@ -235,7 +235,7 @@ export const DiffView = ({diffs, CRObject}) => {
     for(let start=current; start<=(current + DIFFS_PER_PAGE_LIMIT); start++) {
        
         if(start >= diffs.length) continue
-
+      
         const propertyModifiedCount = getPropertyModifiedCount(diffs[start])
         const diffObj = diffs[start]
         const action = diffObj["@op"] || "Change"

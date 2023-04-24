@@ -100,7 +100,7 @@ export function makeArrayFrames(args, property, arrayType)  {
 		}
 		return { layout, uiLayout }
 	}
-	if(mode === CONST.VIEW && 
+	if(mode === CONST.VIEW &&  
 		documentFrame[property].hasOwnProperty(CONST.CLASS) && 
 		documentFrame[property][CONST.CLASS] === CONST.FEATURE && 
 		documentFrame.hasOwnProperty("type") && 
@@ -114,6 +114,7 @@ export function makeArrayFrames(args, property, arrayType)  {
 		}
 		return { layout, uiLayout }
 	}
+	
  
 	function showEachField(props) {
 		return template.ArrayFieldTemplate(argsHolder, props, property)

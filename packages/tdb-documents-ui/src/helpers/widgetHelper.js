@@ -1,8 +1,10 @@
 import React from "react"
 import * as CONST from "../constants"
+import * as util from "../utils"
 import * as display from "./displayHelper"
 import * as geoTemplate from "../arrayHelpers/geoJSONTemplates"
 import { v4 as uuidv4 } from 'uuid';
+import { TDBFeatureCollectionDocuments } from "../mapComponents/featureCollectionWidget"
 
 // NORMAL DATA TYPES
 export function getUIDisplay (args, property, dataType) {
@@ -140,13 +142,10 @@ export function getPointUIDisplay (args, property) {
   let { mode } = args
 
   if(mode === CONST.VIEW) {
-    function displayPointUI(props) {
-      let id = props.idSchema["$id"]
-      if(props.formData && props.formData.includes(undefined)) 
-        return <div className={`tdb__${props.name}__hidden`}/>
-      else return display.displayPointDocument(props, args, property, id)
+    function displayGeoJSONView(props) {
+      return displayGeoJSONViewUI(props, args, property)
     }
-    return { "ui:field": displayPointUI }
+    return { "ui:field": displayGeoJSONView } 
   }
 
 
@@ -168,13 +167,11 @@ export function getlineStringUIDisplay (args, property) {
   let { mode } = args
 
   if(mode === CONST.VIEW) {
-    function displayLineStringUI(props) {
-      let id = props.idSchema["$id"]
-      if(props.formData && props.formData.includes(undefined)) 
-        return <div className={`tdb__${props.name}__hidden`}/>
-      else return display.displayLineStringDocument(props, args, property, id)
+ 
+    function displayGeoJSONView(props) {
+      return displayGeoJSONViewUI(props, args, property)
     }
-    return { "ui:field": displayLineStringUI }
+    return { "ui:field": displayGeoJSONView } 
   }
 
   function showLineStringUI(props) {
@@ -188,18 +185,37 @@ export function getlineStringUIDisplay (args, property) {
   }
 }
 
+export function displayGeoJSONViewUI(props, args, property, id) {
+  let bounds= util.checkIfBoundsAvailable(args.documentFrame, args.formData)
+
+  //let field = documentFrame[property]
+  let documentation = util.checkIfPropertyHasDocumentation(args.extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
+
+  let config = {
+    name: property,
+    formData: args.formData, 
+    mode: args.mode,
+    label: documentation.label,
+    comment: documentation.comment ? documentation.comment : null,
+    id: id? id : props.idSchema["$id"],
+    className: "tdb__doc__input",
+    //required: props.required,
+    bounds: bounds,
+    //featureData: featureData
+  }
+
+  return <TDBFeatureCollectionDocuments config={config}/>
+}
+
 // POLYGON 
 export function getPolygonUIDisplay (args, property) {
   let { mode } = args
 
   if(mode === CONST.VIEW) {
-    function displayPolygonUI(props) {
-      let id = props.idSchema["$id"]
-      if(props.formData && props.formData.includes(undefined)) 
-        return <div className={`tdb__${props.name}__hidden`}/>
-      else return display.displayPolygonDocument(props, args, property, id)
+    function displayGeoJSONView(props) {
+      return displayGeoJSONViewUI(props, args, property)
     }
-    return { "ui:field": displayPolygonUI }
+    return { "ui:field": displayGeoJSONView } 
   }
 
   function coordinatesArrayTemplate(props) {
@@ -222,13 +238,10 @@ export function getMultiPolygonUIDisplay (args, property) {
   let { mode } = args
 
   if(mode === CONST.VIEW) {
-    function displayMultiPolygonUI(props) {
-      let id = props.idSchema["$id"]
-      if(props.formData && props.formData.includes(undefined)) 
-        return <div className={`tdb__${props.name}__hidden`}/>
-      else return display.displayPolygonDocument(props, args, property, id) // pass to polygon map viewer
-    }
-    return { "ui:field": displayMultiPolygonUI }
+    function displayGeoJSONView(props) {
+      return displayGeoJSONViewUI(props, args, property)
+    } 
+    return { "ui:field": displayGeoJSONView } 
   }
  
   function coordinatesArrayTemplate(props) { 

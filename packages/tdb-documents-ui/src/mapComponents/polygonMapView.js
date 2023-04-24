@@ -30,7 +30,7 @@ export const polygonMapViewer = (args) => {
 			fullscreenControlOptions: {
 				position: 'topleft'
 			}
-		}) 
+		})  
 
     // set bounds if available
 		if(bounds && Array.isArray(bounds) && bounds.length > 0){

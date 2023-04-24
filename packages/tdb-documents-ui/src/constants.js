@@ -159,6 +159,7 @@ export const POINT_MIN_ITEMS=2
 export const POINT_TYPE_DIMENSIONS=1
 export const LINE_STRING_TYPE_DIMENSIONS=2 
 export const POLYGON_TYPE_DIMENSIONS=3
+export const MULTI_POLYGON_TYPE_DIMENSIONS=4
 
 // ui frame 
 export const CLASSNAME="className"
