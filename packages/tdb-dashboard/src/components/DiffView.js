@@ -15,6 +15,8 @@ import {BiMinusCircle} from "react-icons/bi"
 import {Loading} from "./Loading"
 import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
 import {WOQLClientObj} from '../init-woql-client'
+
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 /**
  * 
  * @param {*} diff diff list 
@@ -197,6 +199,8 @@ export const DiffView = ({diffs, CRObject}) => {
     const [activePage, setActivePage]=useState(1)
     const [current, setCurrent]=useState(0)
 
+    const [page, setPage] = useState(1)
+
     let elements=[], paginationItems=[]
 
     let divide = Math.ceil(diffs.length/DIFFS_PER_PAGE_LIMIT)
@@ -255,9 +259,20 @@ export const DiffView = ({diffs, CRObject}) => {
     return <React.Fragment>
         {elements}
         <Row className="w-100">
-            <Col/>
+            <Col/> 
             <Col>
-                <Pagination className="justify-content-center ">{paginationItems}</Pagination>
+                {/*<Pagination className="justify-content-center ">{paginationItems}</Pagination>*/}
+                <PaginationControl
+                    page={page}
+                    between={3}
+                    total={diffs.length}
+                    limit={5}
+                    changePage={(page) => {
+                        setPage(page)
+                        handlePagination(page)
+                    }}
+                    ellipsis={1}
+                />
             </Col>
             <Col/>
         </Row>
