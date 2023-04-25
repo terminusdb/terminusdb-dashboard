@@ -401,6 +401,7 @@ export function availableInReference (references, documentType) {
 // used to get config form data for subdocuments, documentlinks etc.
 export function getFormDataPerProperty (subDocumentData, fieldName) {
   if(subDocumentData.hasOwnProperty(fieldName)) return subDocumentData[fieldName]
+	//if(subDocumentData.hasOwnProperty(fieldName)) return {[fieldName] : subDocumentData[fieldName]}
   return ""
 }
 

@@ -13,6 +13,7 @@ import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { UnlinkButton } from "./UnlinkButton"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { documentInternalProperties } from "../helpers/documentHelpers"
+import { extractFormData } from "./CreateDocumentLink"
 
 const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTraverse, onSelect, reference, setDocumentData, unfoldable, cardKey, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, clickedUnlinked }) => {
 
@@ -48,6 +49,7 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
           fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
           mode={mode}
+          formData={formData &&  formData.hasOwnProperty(field) && formData[field] ? formData[field] : false}
           args={args}
           propertyDocumentation={propertyDocumentation}
           depth={cardKey}
@@ -72,7 +74,8 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
             args={args}
             onTraverse={onTraverse}
             unfoldable={unfoldable}
-            formData={formData[field]}
+            formData={formData &&  formData.hasOwnProperty(field) && formData[field] ? formData[field] : false}
+            //formData={formData[field]}
             extracted={definitions}
             //comment={comment}  // review
             required={required} />)
@@ -96,7 +99,7 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
           required: definitions.required.includes(fieldName),
           mode: mode,
           args: args,
-          //fieldUIFrame: fieldUIFrame, // review diff ui
+          //fieldUIFrame: fieldUIFrame, // review diff ui 
           onChange: handleChange,
           currentDocumentClass: documentData[CONST.TYPE],
           defaultClassName: defaultClassName,
@@ -177,13 +180,13 @@ const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {
       label={"Unlink"}
       id={cardKey} />
   </Stack>
-}
+} 
  
 // EDIT MODE
 export const EditDocument = ({ name, args, reference, onTraverse, clickedUnlinked, index, order_by, propertyDocumentation, hideFieldLabel, onSelect, required, comment, formData, linked_to, extracted, mode, onChange, unfoldable, depth }) => {
 
   const [action, setAction] = useState(getAction(formData, unfoldable))
-  const [documentData, setDocumentData] = useState(formData)
+  const [documentData, setDocumentData] = useState(formData ? extractFormData(formData, linked_to) : { [CONST.TYPE]: linked_to })
   const [deleteLink, setDeleteLink] = useState(false)
   const [cardKey, setCardKey]=useState(depth+1)
   //const [cardKey, setCardKey]=useState(uuidv4())
@@ -216,11 +219,11 @@ export const EditDocument = ({ name, args, reference, onTraverse, clickedUnlinke
           clickedUnlinked={clickedUnlinked}
           cardKey={cardKey}
           unfoldable={unfoldable}
+          formData={formData}
           reference={reference}
           onChange={onChange}
           linked_to={linked_to}
           onSelect={onSelect}
-          formData={formData}
           documentLinkPropertyName={name}
           documentData={documentData} 
           setDocumentData={setDocumentData}/>}
@@ -235,6 +238,7 @@ export const EditDocument = ({ name, args, reference, onTraverse, clickedUnlinke
             args={args}
             onSelect={onSelect}
             reference={reference}
+            formData={formData &&  formData.hasOwnProperty(name) && formData[name] ? formData[name] : false}
             linked_to={linked_to} 
             extracted={extracted} 
             mode= {mode} 

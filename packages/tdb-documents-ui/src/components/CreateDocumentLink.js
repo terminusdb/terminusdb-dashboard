@@ -13,7 +13,7 @@ import { DisplayDocumentation } from "../templates"
 import { documentInternalProperties } from "../helpers/documentHelpers"
 
 // display based on action  
-const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
+const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
   let nextCreateLink =  false
 
@@ -126,6 +126,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
           //hideFieldLabel={hideFieldLabel}
           linkId={linkId}
           onSelect={onSelect}
+          formData={formData &&  formData.hasOwnProperty(field) && formData[field] ? formData[field] : false}
           args={args}
           depth={cardKey}
           reference={reference}
@@ -147,7 +148,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
           propertyName: documentLinkPropertyName,
           id: fieldID,
           key: `${linked_to}__${uuidv4()}`,
-          formData: util.getFormDataPerProperty(documentData, fieldName),
+          formData: formData && formData.hasOwnProperty(fieldName) && formData[fieldName]? {[fieldName]: formData[fieldName]} :util.getFormDataPerProperty(documentData, fieldName),
           required: definitions.required.includes(fieldName),
           mode: mode,
           args: args,
@@ -172,7 +173,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
 
     return <SearchExistingLink onSelect={onSelect}
       mode={mode} 
-      formData={null}
+      formData={formData}
       onChange={onChange}
       id={cardKey}
       linked_to={linked_to}/>
@@ -182,7 +183,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, order_by, onSe
 }
  
 
-export const CreateDisplay = ({ args, name, linkPropertyComment, order_by, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
+export const CreateDisplay = ({ args, name, formData,linkPropertyComment, order_by, reference, required, onSelect, propertyDocumentation, cardKey, linked_to, extracted, mode, onChange, action, setAction, documentData, setDocumentData, linkId }) => {
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
@@ -200,6 +201,7 @@ export const CreateDisplay = ({ args, name, linkPropertyComment, order_by, refer
       onChange={onChange}
       onSelect={onSelect}
       order_by={order_by}
+      formData={formData}
       linked_to={linked_to}
       documentLinkPropertyName={name}
       documentData={documentData} 
@@ -214,12 +216,18 @@ function getID (linkId, depth) {
   }
   return depth+1
 }
+
+export function extractFormData(formData, linked_to) {
+  if(typeof formData === CONST.STRING_TYPE) return formData
+  if(Object.keys(formData).length) return formData
+  return { [CONST.TYPE]: linked_to }
+}
  
 // CREATE MODE
-export const CreateDocument = ({ args, name, required, onSelect, reference, order_by, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
+export const CreateDocument = ({ args, name, required, formData, onSelect, reference, order_by, hideFieldLabel, linked_to, extracted, mode, onChange, depth, propertyDocumentation, linkId }) => {
 
-  const [action, setAction] = useState(false)
-  const [documentData, setDocumentData] = useState({ [CONST.TYPE]: linked_to }) 
+  const [action, setAction] = useState(formData ? typeof formData===CONST.STRING_TYPE ? CONST.LINK_EXISTING_DOCUMENT : CONST.LINK_NEW_DOCUMENT :false) 
+  const [documentData, setDocumentData] = useState(formData ? extractFormData(formData, linked_to) : { [CONST.TYPE]: linked_to }) 
   //const [cardKey, setCardKey]=useState(uuidv4())
   const [cardKey, setCardKey]=useState(getID(linkId, depth)) 
 
@@ -229,6 +237,7 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
   useEffect(() => {
     if(linked_to) setDocumentData({ [CONST.TYPE]: linked_to } )
   }, [linked_to])
+
 
   return <>
     <DisplayDocumentation documentation={propertyDocumentation}/>
@@ -244,6 +253,7 @@ export const CreateDocument = ({ args, name, required, onSelect, reference, orde
             extracted={extracted} 
             mode= {mode} 
             linkId={linkId}
+            formData={formData}
             args={args}
             order_by={order_by}
             propertyDocumentation={propertyDocumentation}

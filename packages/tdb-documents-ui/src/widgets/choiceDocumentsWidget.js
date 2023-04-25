@@ -41,6 +41,7 @@ const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, c
       mode={mode}
       hideFieldLabel={true}
       args={args}
+      formData={props && props.formData ?  props.formData : false}
       onSelect={onSelect}
       clickedUnlinked={clickedUnlinked}
       reference={reference}
