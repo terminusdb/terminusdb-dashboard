@@ -90,7 +90,7 @@ label.latlng-control-label {
 
 /** react calander */
 .react-calendar {
-  background-color: var(--input-calander-color);
+  background-color: var(--input-calander-color) !important;
 }
 
 .react-datetime-picker { 
