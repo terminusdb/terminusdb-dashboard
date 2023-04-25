@@ -1,20 +1,20 @@
 import React from 'react'
-import { NavBar } from './Nav';
-import { Container, Row, Stack } from 'react-bootstrap';
+import { Container, Row, Col, Stack } from 'react-bootstrap';
 import { View } from "./View"
 import { ModeBar } from "./ModeBar"
 import { DocumentTypes } from "./DocumentTypes"
+import { Editor } from './Editors';
 
  
 const App= (props) =>{ 
 
 	return <Container>
-		<NavBar/>
+		<DocumentTypes/>
 		<ModeBar/>
-		<Stack direction='horizontal' gap={3}>
-			<DocumentTypes/>
-			<View/>
-		</Stack>
+		<Row>
+			<Col md={5}><Editor/></Col>
+			<Col md={7}><View/></Col>
+		</Row>
 	</Container>
 	
 }

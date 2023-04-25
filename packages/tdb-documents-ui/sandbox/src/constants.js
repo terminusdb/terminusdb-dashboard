@@ -1,6 +1,5 @@
 // DATA PRODUCTS
 export const LEGO = "Lego"
-export const STARWARS = "StarWars"
 
 //modes 
 export const CREATE="Create"

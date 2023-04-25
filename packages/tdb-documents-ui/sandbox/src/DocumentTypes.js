@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import { FrameObj } from "./frameInit"
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Nav from 'react-bootstrap/Nav';
 
 export const DocumentTypes = () => {
+  const [activeKey, setActiveKey] = useState("Theme")
   const {
 		frames,
     setType
@@ -12,17 +12,28 @@ export const DocumentTypes = () => {
   if(!frames) return <div/>
   let docTypes = []
 
+  function handleNavClick(selectedKey) {
+    setActiveKey(selectedKey)
+    setType(selectedKey)
+  }
+
   for(let docs in frames) {
     // display on classes 
     if(frames[docs].hasOwnProperty("@type") && 
       frames[docs]["@type"] === "Class" && 
       !frames[docs].hasOwnProperty("@subdocument")) {
-        docTypes.push(<Button variant="secondary" key={docs} onClick={(e) => setType(docs)}>{docs}</Button>)
+        docTypes.push(<Nav.Item>
+          <Nav.Link eventKey={docs}>{docs}</Nav.Link>
+        </Nav.Item>)
       }
   }
 
-  return <ButtonGroup aria-label="Basic example" vertical>
+  return <Nav
+    activeKey={activeKey}
+    className="mt-5 mb-3"
+    onSelect={(selectedKey) => handleNavClick(selectedKey)}
+  >
     {docTypes}
-  </ButtonGroup>
+  </Nav>
 
 }

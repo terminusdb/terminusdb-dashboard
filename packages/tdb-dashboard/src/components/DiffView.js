@@ -258,7 +258,7 @@ export const DiffView = ({diffs, CRObject}) => {
             <Col/>
             <Col>
                 <Pagination className="justify-content-center ">{paginationItems}</Pagination>
-            </Col>
+                </Col>
             <Col/>
         </Row>
     </React.Fragment>

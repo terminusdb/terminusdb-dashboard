@@ -81,7 +81,9 @@ export function FrameViewer(props){
 
 	useEffect(() => {
 		// on update construct form params 
-		if(update) constructFormParams(props, setDocumentation, reference, setReference, setReadOnly, setMessage, display, setDisplay)
+		if(update) {
+			constructFormParams(props, setDocumentation, reference, setReference, setReadOnly, setMessage, display, setDisplay)
+		}
 	}, [update])
 
 	
@@ -99,7 +101,7 @@ export function FrameViewer(props){
 			language={language}
 			onSubmit={onSubmit} 
 			readOnly={readOnly} 
-			data={data} 
+			data={formData} 
 			setData={setData} 
 			documentation={documentation}/>
 	</div>
