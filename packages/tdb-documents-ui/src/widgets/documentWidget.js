@@ -21,6 +21,7 @@ export const TDBDocument = ({ args, extracted, reference, uiFrame, clickedUnlink
     linkId={linkId}
     order_by={order_by}
     args={args}
+    formData={props && props.formData ? props.formData : false}
     onSelect={onSelect}
     mode={mode}
     hideFieldLabel={hideFieldLabel}
