@@ -4,12 +4,14 @@ import { View } from "./View"
 import { ModeBar } from "./ModeBar"
 import { DocumentTypes } from "./DocumentTypes"
 import { Editor } from './Editors';
-
+import { MoreInfo } from "./MoreInfoCanvas"
  
 const App= (props) =>{ 
 
+
 	return <Container>
 		<DocumentTypes/>
+		<MoreInfo/>
 		<ModeBar/>
 		<Row>
 			<Col md={5}><Editor/></Col>

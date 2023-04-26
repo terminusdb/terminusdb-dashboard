@@ -3,6 +3,8 @@ import Card from "react-bootstrap/Card"
 import { FrameObj } from "./frameInit"
 import { FrameViewer } from '@terminusdb/terminusdb-documents-ui'
 import { getFormData, handleTraverse } from "./controller"
+import Button from "react-bootstrap/Button"
+import { Stack } from "react-bootstrap"
 
 export const View = () => { 
 
@@ -10,7 +12,8 @@ export const View = () => {
     frames,
     type,
     mode,
-    setData 
+    setData,
+    setShowCode 
   } = FrameObj()
 
   function handleSubmit(data) {
@@ -18,14 +21,17 @@ export const View = () => {
   }
 
   return <Card className="w-100">
-    <Card.Header className="d-flex">
-      <div> {`Document Type - `}</div>
-      <div className="text-warning fw-bolder">{type}</div>
+    <Card.Header className="w-100">
+      <Stack direction="horizontal">
+        <div> {`Document Type - `}</div>
+        <div className="text-warning fw-bolder">{type}</div>
+        <Button className="ms-auto btn btn-sm" onClick={(e) => setShowCode(Date.now())}>View Code</Button>
+      </Stack>
     </Card.Header>
     <Card.Body>
       <FrameViewer frame={frames}
         mode={mode}
-        formData={getFormData(mode, type)}
+        formData={getFormData(mode, type, setData)}
         onTraverse={handleTraverse}
         //onSelect={handleSelect}
         theme="darkly"

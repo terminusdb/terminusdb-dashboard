@@ -3,6 +3,7 @@ export const FrameContext = React.createContext()
 export const FrameObj = () => useContext(FrameContext)
 import { CREATE, LEGO } from "./constants"
 import { LEGO_FRAMES } from "./lego.constants"
+import { generateFrameViewerCode } from "./generateCode"
 
 export const FrameProvider = ({ children, config }) => {
 
@@ -16,6 +17,16 @@ export const FrameProvider = ({ children, config }) => {
 	const [type, setType] = useState("Theme")
 	// constants to store data
 	const [data, setData] = useState({})
+	// consttant to store display of code 
+	const [showCode, setShowCode] = useState(false)
+	// consttant to store code 
+	const [code, setCode] = useState(false)
+
+	useEffect(() => {
+		if(showCode) {
+			setCode(generateFrameViewerCode(data, mode, type))
+		}
+	}, [showCode])
 
     
 	return (
@@ -30,7 +41,11 @@ export const FrameProvider = ({ children, config }) => {
 				formData, 
 				setFormData,
 				data, 
-				setData
+				setData,
+				showCode, 
+				setShowCode,
+				code, 
+				setCode
 			}}
 		>
 				{children}

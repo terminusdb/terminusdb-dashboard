@@ -6,7 +6,7 @@ import * as util from "./utils"
 import { Viewer } from "./Viewer"
 import { HelperMessages } from "./HelperMessages"
 import { constructFormParams } from "./constructFormParams"
-import { BootswatchSelect } from 'react-bootswatch-select';
+import { loadTheme } from "./formActions"
  
 /*
 **  frame     - full json schema of a document
@@ -58,11 +58,11 @@ export function FrameViewer(props){
 		setLanguage(false)
 	}
 
-	/*useEffect(() => {
+	useEffect(() => {
 		if(theme) {
 			loadTheme(theme)
 		}
-	}, [theme])*/
+	}, [theme])
 
 
 	useEffect(() => {
@@ -91,10 +91,9 @@ export function FrameViewer(props){
 	if(error) {
 		return <Alert variant="danger">{error}</Alert>
 	}
-	
+
 	return <div className="tdb__frame__viewer ">
-		<BootswatchSelect version={'4.4.1'} selectedThemeName={theme} selectorHidden />
-		<HelperMessages frame={frame} mode={mode} type={type} formData={formData} />
+		<HelperMessages frame={frame} mode={mode} type={type} formData={formData}/>
 		<Viewer display={display} 
 			message={message} 
 			mode={mode} 
@@ -106,6 +105,7 @@ export function FrameViewer(props){
 			setData={setData} 
 			documentation={documentation}/>
 	</div>
+    
 }
 
 
