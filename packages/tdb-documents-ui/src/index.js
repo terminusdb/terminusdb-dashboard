@@ -3,5 +3,4 @@ import './css/terminusdb__styles.css';
 
 export { FrameViewer } from './FrameViewer'
 export { DiffViewer } from './diffs/diffViewer'
-export { DocumentsUIHook } from './hook/DocumentsUIHook'
- 
+export { useTDBDocuments } from './hook/useTDBDocuments'
