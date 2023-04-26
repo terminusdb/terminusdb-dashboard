@@ -21,7 +21,7 @@ export const FrameEditor = () => {
 		locale={ locale }
 		placeholder={frames}
 		height= {"550px"}
-		width= {"500px"}
+		width= {"380px"}
 		onBlur={handleInput}
 	/>
 

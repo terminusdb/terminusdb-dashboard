@@ -13,14 +13,14 @@ export const Editor = () => {
 
 	return <Accordion  onSelect={handleSelect}>
 		<Accordion.Item eventKey={"Frames"}>
-			<Accordion.Header>{"Frames"}</Accordion.Header>
-			<Accordion.Body>
+			<Accordion.Header className='bg-secondary'>{"Frames"}</Accordion.Header>
+			<Accordion.Body className='bg-secondary'>
 				<FrameEditor/>
 			</Accordion.Body>
 		</Accordion.Item>
 		<Accordion.Item eventKey={"Submitted Data"}>
-			<Accordion.Header>{"Submitted Data"}</Accordion.Header>
-			<Accordion.Body>
+			<Accordion.Header className='bg-secondary'>{"Submitted Data"}</Accordion.Header>
+			<Accordion.Body className='bg-secondary'>
 				<SubmittedData/>
 			</Accordion.Body>
 		</Accordion.Item>

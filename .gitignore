@@ -15,8 +15,11 @@ packages/tdb-documents-ui/src/oneOfTypeFrames copy3
 
 packages/tdb-documents-ui/mockTest
 packages/tdb-documents-ui/playground/.env
+packages/tdb-documents-ui/test
 packages/tdb-documents-ui/test/.env
+packages/tdb-documents-ui/diff
 packages/tdb-documents-ui/diff/.env
+packages/tdb-documents-ui/src_OLD
 packages/tdb-documents-ui/src/pending.md
 
 *.DS_Store

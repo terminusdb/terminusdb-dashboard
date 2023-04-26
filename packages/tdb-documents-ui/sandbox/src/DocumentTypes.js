@@ -30,7 +30,8 @@ export const DocumentTypes = () => {
 
   return <Nav
     activeKey={activeKey}
-    className="mt-5 mb-3"
+    variant="pills"
+    className="mb-4"
     onSelect={(selectedKey) => handleNavClick(selectedKey)}
   >
     {docTypes}

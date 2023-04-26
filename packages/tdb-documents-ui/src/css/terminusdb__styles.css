@@ -190,7 +190,7 @@ label.latlng-control-label {
 .react-datetime-picker,
 .tdb__enum__input,
 .tdb__array__input {
-  margin-bottom: var(--field-margin-bottom);
+  margin-bottom: var(--field-margin-bottom) !important;
 }
 
 .tdb-number {

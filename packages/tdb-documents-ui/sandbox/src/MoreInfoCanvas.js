@@ -1,17 +1,25 @@
 import React, { useState } from 'react'
 import Stack from 'react-bootstrap/Stack'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import {DisplayCode} from "./DisplayCode"
-/*import {Button} from "react-bootstrap"
-import {BsClipboard} from "react-icons/bs"
-import {copyToClipboard} from "./utils"*/
+import { DisplayCode } from "./DisplayCode"
+import { Button } from "react-bootstrap"
 import { FrameObj } from "./frameInit"
+
+/**
+ * 
+ * @param {*} code - function is called to copy example code to clipboard 
+ */
+function copyToClipboard (code) {
+	navigator.clipboard.writeText(code).then(() => {
+			console.log("copied code", code)
+	},(err) => {
+	/* Rejected - clipboard failed */
+			console.log("err", err)
+	})
+}
 
 export const MoreInfo = () => {
 	const {
-		frames,
-		type,
-		mode,
 		code,
 		setShowCode,
 		showCode
@@ -25,16 +33,16 @@ export const MoreInfo = () => {
 		<Offcanvas.Header closeButton className="bg-light text-dark">
 			<Offcanvas.Title>Code</Offcanvas.Title>
 		</Offcanvas.Header>
-		<Offcanvas.Body>
+		<Offcanvas.Body className='bg-secondary'>
 			<Stack direction="horizontal" gap={3} className="mt-4 mb-4">
 				{/*<h6>Click <a href={link}> here </a> to check out documentation</h6>*/}
-				{/*<Button variant="primary" 
+				<Button variant="primary" 
 					title="Copy to clipboard" 
 					className="btn btn-sm ms-auto"
 					style={{float: "right"}} 
-					onClick={(e) => copyToClipboard(exampleCode)}>
-						<BsClipboard className="mr-2"/> <label>Copy Code</label>
-				</Button>*/}
+					onClick={(e) => copyToClipboard(code)}>
+						<label>Copy Code</label>
+				</Button>
 			</Stack>
 			<DisplayCode codeString={code}/>
 		</Offcanvas.Body>

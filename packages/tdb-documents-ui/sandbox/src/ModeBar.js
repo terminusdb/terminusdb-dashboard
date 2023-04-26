@@ -2,6 +2,7 @@ import React, {useState} from "react"
 import Stack from 'react-bootstrap/Stack'
 import { CREATE, EDIT, VIEW, MODE_HELP_TEXT } from "./constants"
 import { FrameObj } from "./frameInit"
+import { Card } from "react-bootstrap"
 
 const RadioButtons = ({ mode, handleChange, checked }) => {
 	return <div>
@@ -32,16 +33,21 @@ export const ModeBar = () => {
 		setMode(event.target.value)
 	}
 
-	return <div className="mb-3">
-		<Stack direction="horizontal" gap={3} className="p-3">
-			<RadioButtons mode={CREATE} handleChange={handleChange} checked={checked} />
-			<RadioButtons mode={EDIT} handleChange={handleChange} checked={checked}/>
-			<RadioButtons mode={VIEW} handleChange={handleChange} checked={checked}/>
-		</Stack>
-		<Stack direction="horizontal" gap={1} >
-			<div className="text-muted small">{`${MODE_HELP_TEXT}. `} </div>
-			<div className="text-warning small">{`${mode}`}</div>
-			<div className="text-muted small">{` mode selected.`} </div>
-		</Stack>
-	</div>
+	return <Card className="mb-3">
+		<Card.Header>
+			<div>{`${MODE_HELP_TEXT}. `} </div>
+		</Card.Header>
+		<Card.Body>
+			<Stack direction="horizontal" gap={1} className="mb-2" >
+				<div className="text-warning">{`${mode}`}</div>
+				<div className="text-muted">{` mode selected.`} </div>
+			</Stack>
+			<Stack direction="horizontal" gap={3}>
+				<RadioButtons mode={CREATE} handleChange={handleChange} checked={checked} />
+				<RadioButtons mode={EDIT} handleChange={handleChange} checked={checked}/>
+				<RadioButtons mode={VIEW} handleChange={handleChange} checked={checked}/>
+			</Stack>
+			
+		</Card.Body>
+	</Card>
 }

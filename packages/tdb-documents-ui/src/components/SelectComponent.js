@@ -47,7 +47,7 @@ export const SelectComponent = ({ options, mode, onChange, value, id, placeholde
         ':hover': {
           ...styles[':hover'],
           backgroundColor: "black",
-          color: "text-light"
+          color: "text-muted"
         },
       };
     }, 

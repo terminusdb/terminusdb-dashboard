@@ -31,7 +31,6 @@ export const Form = ({ frames, type, data, mode }) => {
         type={"${type}"}                            // type of document to display in form 
         formData={fData}                            // instance data 
         mode={"${mode}"}                            // mode in which to display the form
-        hideSubmit={mode==="View" ? true : false}   // hide Submit button when in VIEW mode
         onSubmit={handleSubmit}                     // Callback submit function
     />
 }

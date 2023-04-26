@@ -7,6 +7,8 @@ import { Viewer } from "./Viewer"
 import { HelperMessages } from "./HelperMessages"
 import { constructFormParams } from "./constructFormParams"
 import { BootswatchSelect } from 'react-bootswatch-select';
+import { Row } from "react-bootstrap"
+//import { loadTheme } from "./formActions"
  
 /*
 **  frame     - full json schema of a document
@@ -20,10 +22,11 @@ import { BootswatchSelect } from 'react-bootswatch-select';
 **  onTraverse - a js function which gets back the ID of a document on click
 **  compareFormData - used for diff viewers to compare against original or changed data 
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
+**  showThemeSelector - a Select to select differnet themes when using Themes on an application level 
 */
 export function FrameViewer(props){
 
-	let { frame, uiFrame, type, mode, formData, compareFormData, onSubmit, onTraverse, onSelect, language, theme } = props
+	let { frame, uiFrame, type, mode, formData, onSubmit,  showThemeSelector, language, theme } = props
 
 	// schema constants
 	const [schema, setSchema]=useState(false)
@@ -93,7 +96,11 @@ export function FrameViewer(props){
 	}
 	
 	return <div className="tdb__frame__viewer ">
-		<BootswatchSelect version={'4.4.1'} selectedThemeName={theme} selectorHidden />
+		<BootswatchSelect version={'4.4.1'} selectedThemeName={theme} selectorHidden/>
+		{showThemeSelector && <div className="mb-3 d-flex">
+			<small className="text-muted">{`Theme Selector: `}</small>
+			<BootswatchSelect version={'4.4.1'} selectedThemeName={theme ? theme : "darkly"} />
+		</div>}
 		<HelperMessages frame={frame} mode={mode} type={type} formData={formData} />
 		<Viewer display={display} 
 			message={message} 

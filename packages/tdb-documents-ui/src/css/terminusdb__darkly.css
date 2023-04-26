@@ -1,5 +1,7 @@
-
+@import "https://bootswatch.com/5/darkly/bootstrap.css";
 @import "./terminusdb__styles.css";
+@import "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css";
+
 
  
 :root {

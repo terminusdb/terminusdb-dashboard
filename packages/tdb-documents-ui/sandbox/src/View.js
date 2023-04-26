@@ -5,6 +5,11 @@ import { FrameViewer } from '@terminusdb/terminusdb-documents-ui'
 import { getFormData, handleTraverse } from "./controller"
 import Button from "react-bootstrap/Button"
 import { Stack } from "react-bootstrap"
+import { Search } from "./SearchComponent"
+
+//import "../../src/css/terminusdb__light"
+//import "../../src/css/terminusdb__darkly"
+
 
 export const View = () => { 
 
@@ -33,8 +38,9 @@ export const View = () => {
         mode={mode}
         formData={getFormData(mode, type, setData)}
         onTraverse={handleTraverse}
-        //onSelect={handleSelect}
-        theme="darkly"
+        onSelect={<Search/>}
+        //theme="darkly"
+        showThemeSelector={true}
         onSubmit={handleSubmit}
         type={type}
       />
