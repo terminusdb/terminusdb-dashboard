@@ -6,7 +6,7 @@ import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constan
 import {TDBCollapse} from './layout/TDBCollapse'
 import {TDBReactResizable} from './layout/TDBReactResizable'
 import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
-import {WOQLClientObj} from '../init-woql-client'
+//import {WOQLClientObj} from '../init-woql-client'
 import {UnControlled as CodeMirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/ayu-dark.css'
@@ -27,13 +27,8 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
     const bindings = (result && result.bindings) ? result.bindings : []
   //const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))
 
-    const {
-        setSelectedDocument,
-        selectedDocument
-    } = WOQLClientObj()
 
-
-    function onRowClick (row) {
+    /*function onRowClick (row) {
        if(row.original["Subject"]) {
             setSelectedDocument({
                 action: VIEW_DOCUMENT,
@@ -49,9 +44,9 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
             })
            // history.push(DOCUMENT_EXPLORER)
        }
-    }
+    }*/
 
-    const [tableConfig, setTableConfig]=useState(tableViewConfig(onRowClick))
+    const [tableConfig, setTableConfig]=useState(tableViewConfig(null))
     const [currentView, setCurrentView]=useState(queryResult.currentView)
     const [isExpanded, setPanelExpanded] = useState(queryObj.resultPanelIsOpen)
 

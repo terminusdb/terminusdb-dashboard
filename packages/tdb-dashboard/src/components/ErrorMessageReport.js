@@ -81,6 +81,14 @@ export const FormatErrorMessages = ({error, setError}) => {
                         }
                     }
                 })   
+            }else{
+                const errorObj = error["api:error"]
+                if(errorObj.hasOwnProperty("@type")) {
+                    checkType(errorObj)
+                    errorElements.push(
+                        <pre>{JSON.stringify(errorObj, null, 2)}</pre>
+                    )
+                }
             }
         }
         return <ErrorDisplay errorData={errorElements} message={message} css={CONST.ERROR_MORE_INFO_CLASSNAME}/>

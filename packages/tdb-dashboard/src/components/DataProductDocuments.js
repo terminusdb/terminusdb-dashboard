@@ -7,7 +7,7 @@ import {getPropertyRelation} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
 import {useParams, useNavigate} from "react-router-dom"
@@ -25,8 +25,8 @@ export const DataProductDocuments = () => {
 
     //maybe I have to update the count when enter here well see
     const {addQueryPane} = QueryPaneObj()
-    const  {getDocNumber,perDocumentCount:dataProvider, documentClasses,frames,getUpdatedFrames} = 
-    DocumentsUIHook(woqlClient)
+    const  {getDocumentNumbers,perDocumentCount:dataProvider, documentClasses,frames,getDocumentFrames} = 
+    useTDBDocuments(woqlClient)
  
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
@@ -34,12 +34,13 @@ export const DataProductDocuments = () => {
 
     // I call ones
     useEffect(() => {
-        getDocNumber()
-        getUpdatedFrames()
+        getDocumentNumbers()
+        getDocumentFrames()
     },[dataProduct])
 
-    function handlePropertyClick (property) {
-        let q = getPropertyRelation(property, dataProduct, woqlClient)
+    function handlePropertyClick (property,docName) {
+    
+        let q = getPropertyRelation(property, docName, woqlClient)
         //queryObj.editorObj.text = q
         addQueryPane(q)
     } 
@@ -72,9 +73,9 @@ export const DataProductDocuments = () => {
                             <div className="ml-3">
                                 {Object.keys(frames[item["@id"]]).map(props => {
                                     if(props === "@type") props = "rdf:type"
-                                    if(props !== "@key"){
+                                    if(props.indexOf("@") === -1){
                                         return <Button key={props} className="btn btn-sm m-1 text-light" 
-                                        onClick={(e) => handlePropertyClick(props)}
+                                        onClick={(e) => handlePropertyClick(props,item["@id"])}
                                         variant="outline-secondary">{props}</Button>
                                     }
                                 })}
@@ -104,8 +105,8 @@ export const DocumentExplorerDocuments= () => {
     const {
         documentClasses,
         loading,
-        getUpdatedDocumentClasses
-    } = DocumentsUIHook(woqlClient)
+        getDocumentClasses
+    } = useTDBDocuments(woqlClient)
 
     // search docs constant
     const [searchDocument, setSearchDocument]=useState(false)
@@ -114,7 +115,7 @@ export const DocumentExplorerDocuments= () => {
     
     useEffect(() => {
         if(!accessControlDashboard || ( !accessControlDashboard.instanceRead() && !accessControlDashboard.instanceWrite())) setDisabled(true)
-        getUpdatedDocumentClasses()   
+        getDocumentClasses()   
     }, [dataProduct])
 
 

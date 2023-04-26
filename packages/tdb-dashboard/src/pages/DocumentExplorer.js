@@ -1,7 +1,7 @@
 
 import React from "react"
 import {DocumentSummary} from "@terminusdb/terminusdb-documents-ui-template"
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {IconBarConfig} from "../components/constants"
 import { Layout } from "./Layout"
@@ -16,14 +16,14 @@ export const DocumentExplorer = (props) => {
     const {perDocumentCount,
         totalDocumentCount, 
         documentClasses,
-        getDocNumber,
+        getDocumentNumbers,
         setError,
         loading:documentLoading,
-        error}=DocumentsUIHook(woqlClient)
+        error}=useTDBDocuments(woqlClient)
 
 //
     useEffect(() => {
-        getDocNumber()
+        getDocumentNumbers()
     },[dataProduct])
 
     const getUrl = (pageName)=> {

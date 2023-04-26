@@ -13,7 +13,7 @@ import Alert from 'react-bootstrap/Alert'
 import {BsPlus} from "react-icons/bs"
 import {BiMinusCircle} from "react-icons/bi"
 import {Loading} from "./Loading"
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {WOQLClientObj} from '../init-woql-client'
 
 import { PaginationControl } from 'react-bootstrap-pagination-control';
@@ -194,7 +194,7 @@ export const DiffView = ({diffs, CRObject}) => {
     const woqlClientCopy = woqlClient.copy()
     woqlClientCopy.checkout(CRObject.original_branch)
 
-    const {frames,getUpdatedFrames} = DocumentsUIHook(woqlClientCopy)
+    const {frames,getDocumentFrames} = useTDBDocuments(woqlClientCopy)
     // pagination constants
     const [activePage, setActivePage]=useState(1)
     const [current, setCurrent]=useState(0)
@@ -206,7 +206,7 @@ export const DiffView = ({diffs, CRObject}) => {
     let divide = Math.ceil(diffs.length/DIFFS_PER_PAGE_LIMIT)
 
     useEffect(() => {
-        getUpdatedFrames()
+        getDocumentFrames()
 	},[])
     // function to handle on click of page
     function handlePagination(number) {

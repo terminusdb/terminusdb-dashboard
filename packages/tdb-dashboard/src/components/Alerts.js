@@ -3,7 +3,6 @@ import React from "react"
 import { Alert, Button } from 'react-bootstrap';
 import {TERMINUS_WARNING, TERMINUS_SUCCESS, TERMINUS_DANGER, TERMINUS_MESSAGE} from "./constants"
 import {AiOutlineCheckCircle, AiOutlineWarning} from "react-icons/ai"
-import {BiErrorCircle} from "react-icons/bi"
 import {BsInfoCircle} from "react-icons/bs"
 import {queryTimeDisplay} from "./utils"
 import { FaTimes, FaExclamationTriangle } from "react-icons/fa"
@@ -48,7 +47,8 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div className="d-flex justify-content-between">
             <div>
                 <AiOutlineWarning className="me-1" />
-                <strong>Warning: </strong> {message}
+                <strong>Warning: </strong>
+                <div className="text-wrap">{message}</div>
             </div>
             <Button variant="close" size="xs" onClick={() => onClose("warning")} />
             </div>
@@ -65,7 +65,8 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div className="d-flex justify-content-between">
                 <div className="w-100">
                     <FaExclamationTriangle className="me-1 mb-1" />
-                    {<strong>ERROR: </strong>} {message}
+                    <strong>ERROR: </strong>
+                    <div className="text-wrap">{message}</div>
                 </div> 
                 <AlertCloseButton className={"alert_btn_close alert_danger_text"} onClick={() => onClose("danger")}/>
             </div>
@@ -81,7 +82,8 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div className="d-flex justify-content-between">
             <div>
                 <AiOutlineCheckCircle className="me-1" />
-                <strong>Success: </strong> {message}
+                <strong>Success: </strong> 
+                <div className="text-wrap">{message}</div>
                 {time && ` ${queryTimeDisplay(updateTime)}`}
             </div>
             <Button variant="close" size="xs" onClick={() => onClose("success")} />
@@ -98,7 +100,8 @@ export const Alerts = ({message, type, onCancel, time}) => {
         <div className="d-flex justify-content-between">
         <div>
             <BsInfoCircle className="me-1" />
-            <strong>Info: </strong> {message}
+            <strong>Info: </strong> 
+            <div className="text-wrap">{message}</div>
         </div>
         <Button variant="close" size="xs" onClick={() => onClose("light")} />
         </div>

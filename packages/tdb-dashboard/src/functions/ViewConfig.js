@@ -5,7 +5,7 @@ export const tableViewConfig= (onRowClick) => {
     const tabConfig= TerminusClient.View.table();
     tabConfig.pager("remote")
     tabConfig.pagesize(10)
-    tabConfig.row().click(onRowClick)
+    if(onRowClick)tabConfig.row().click(onRowClick)
     return tabConfig
 }
 

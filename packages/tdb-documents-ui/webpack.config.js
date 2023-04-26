@@ -1,5 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebPackPlugin= require("copy-webpack-plugin");
 
 module.exports = {
     mode: 'production',
@@ -18,7 +19,11 @@ module.exports = {
     plugins: [
       new MiniCssExtractPlugin({
         filename: 'terminusdb-documents-ui-main.css',
-      })
+      }),
+      new CopyWebPackPlugin({
+        patterns: [
+          { from: path.resolve(__dirname, "./src/css/"), to: "css/", force:true }          
+        ]})
     ],
     module: {
         rules: [

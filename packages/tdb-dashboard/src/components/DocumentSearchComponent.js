@@ -1,7 +1,7 @@
 import React, {useEffect} from "react"
 import {DocumentsGraphqlTable} from "@terminusdb/terminusdb-documents-ui-template"
 import {gql} from "@apollo/client"
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {WOQLClientObj} from '../init-woql-client'
 /**
  * 
@@ -12,13 +12,13 @@ import {WOQLClientObj} from '../init-woql-client'
 export const DocumentSearchComponent = ({setSelected, doctype}) => {
     const {apolloClient,woqlClient} = WOQLClientObj()
     if(!apolloClient) return <div/>
-    const {documentTablesConfig,getGraphqlTableConfig} = DocumentsUIHook(woqlClient)
+    const {documentTablesConfig,getGraphqlTablesConfig} = useTDBDocuments(woqlClient)
 
-    getGraphqlTableConfig
+    
     
     useEffect(() => {
         if(doctype){       
-            getGraphqlTableConfig()         
+            getGraphqlTablesConfig()         
         }
      },[doctype]);
     const querystr  = documentTablesConfig && documentTablesConfig.objQuery ? documentTablesConfig.objQuery[doctype].query : null

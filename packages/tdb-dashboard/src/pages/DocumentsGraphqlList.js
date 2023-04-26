@@ -6,14 +6,14 @@ import { ListDocumentsComponent } from "@terminusdb/terminusdb-documents-ui-temp
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 // I pass this so I'm sure it exists before loading the component
 export const DocumentsGraphqlList = ({documentTablesConfig}) => {    
     const {type} = useParams()
     const {apolloClient,branch,setChangeRequestBranch,woqlClient} = WOQLClientObj()
-    const {deleteDocument,loading,error,setError} = DocumentsUIHook(woqlClient)
+    const {deleteDocument,loading,error,setError} = useTDBDocuments(woqlClient)
     const [showCRModal, setShowCRModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
     const [tobeDeleted, setTobeDeleted] = useState(false)
