@@ -10,6 +10,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
+import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
 export const DocumentView = () => {   
     const { branch,setChangeRequestBranch,woqlClient,currentChangeRequest} = WOQLClientObj()

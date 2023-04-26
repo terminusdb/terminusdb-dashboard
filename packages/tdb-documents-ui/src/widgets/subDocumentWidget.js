@@ -14,7 +14,7 @@ import { HiddenSubDocumentWidgets } from "./hiddenWidgets"
 const CollapseMessage = ({ message, name, icon }) => {
   return <>
     {icon}
-    <small className="fst-italic text-light">{`${message} ${name}`}</small>
+    <small className="fst-italic text-muted">{`${message} ${name}`}</small>
   </>
 }
 
@@ -143,8 +143,8 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
         aria-expanded={open} 
       >
         {/*<TDBLabel name={props.name} required={props.required} comment={comment}/>*/}
-        {!open && <CollapseMessage message={`Click here to expand SubDocument`} name={props.name} icon={<AiOutlineRight className="text-light"/>}/>}
-        {open && <CollapseMessage message={`Click here to collapse SubDocument`} name={props.name} icon={<AiOutlineUp className="text-light"/>}/>}
+        {!open && <CollapseMessage message={`Click here to expand SubDocument`} name={props.name} icon={<AiOutlineRight className="text-muted"/>}/>}
+        {open && <CollapseMessage message={`Click here to collapse SubDocument`} name={props.name} icon={<AiOutlineUp className="text-muted"/>}/>}
       </Button>
       <Collapse in={open}>
         <div id={`root_subdocument_${props.name}`}>

@@ -1,6 +1,7 @@
 import React, {useState}  from "react";
 import {Stack,Card,Button} from "react-bootstrap"
 import {FrameViewer} from "@terminusdb/terminusdb-documents-ui"
+//import "terminusdb__darkly.css"
 import * as CONST from "./components/constants"
 import {ViewFramesButton} from "./components/ViewFramesButton"
 import {CloseButton} from "./components/CloseButton"

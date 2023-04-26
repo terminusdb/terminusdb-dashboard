@@ -1,11 +1,12 @@
-@import "https://bootswatch.com/5/sandstone/bootstrap.css";
+@import "./terminusdb__styles.css";
+@import "https://bootswatch.com/5/lumen/bootstrap.css";
 @import "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css";
 
 :root {
 	--input-color: #000;
   --input-border: 1px solid #000;
   --required-color: #6c757d;
-  --tdb-label-width: 13rem;
+  --tdb-label-width: 13rem; 
   --nested-control-label-color: #f8f8f8;
   --nested-required-label-color: #ccc;
   --tdb-latlng-label-width: 5rem; 
@@ -139,7 +140,7 @@ label.latlng-control-label {
 .react-datetime-picker,
 .tdb__enum__input,
 .tdb__array__input {
-  margin-bottom: var(--field-margin-bottom);
+  margin-bottom: var(--field-margin-bottom) !important;
 }
 
 .tdb-number {

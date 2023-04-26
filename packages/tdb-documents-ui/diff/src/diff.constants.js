@@ -58,6 +58,10 @@ export const oldData = {
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
+		"likes": [
+			"A",
+			"B"
+		]
 		/*"favorite_subject": [{
 			"@type": "Zoology",
 			"Zoology_notes": "some notes 1",
@@ -89,7 +93,7 @@ export const oldData = {
 					}*/
 				/*}
 			}
-		},*/
+		},
 		"manYAddress": [
 			{
 				"@type": "Address",
@@ -226,6 +230,12 @@ export const changedData = {
 	"Person": {
 		"@id": "Person/6230f55d381076aa7f94b6b01a7a7ae1692ef40c44e233a52c1c280b5d339839",
 		"@type": "Person",
+		"likes": [
+			"A",
+			"B",
+			"C",
+			"D"
+		]
 		/*"favorite_subject": [{
 			"@type": "Zoology",
 			"Zoology_notes": "some notes",
@@ -257,7 +267,7 @@ export const changedData = {
 					}*/
 				/*}
 			}
-		},*/
+		},
 		"manYAddress": [
 			{
 				"@type": "Address",

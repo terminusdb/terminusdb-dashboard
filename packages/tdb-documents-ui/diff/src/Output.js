@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["MarkDown"], changedData["MarkDown"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["Person"], changedData["Person"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -256,6 +256,10 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
+        "likes": {
+          "@class": "Animal",
+          "@type": "List"
+        },
         /*"favorite_subject": { 
           "@class": [
             {
@@ -269,7 +273,6 @@ export const Output = () => {
           ],
           "@type": "Set"
         },
-        "likes": "Animal",
         "name": {
           "@class": "xsd:string",
           "@type": "Optional"
@@ -360,10 +363,10 @@ export const Output = () => {
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["MarkDown"]} 
-            newValue={changedData["MarkDown"]}
+            oldValue={oldData["Person"]} 
+            newValue={changedData["Person"]}
             frame={testFrames}
-            type={"MarkDown"}
+            type={"Person"}
             onTraverse={handleTraverse}
             diffPatch={diff}/>
     </div>

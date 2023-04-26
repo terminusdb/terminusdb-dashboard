@@ -7,7 +7,7 @@ import { AiOutlineLink } from "react-icons/ai"
 export function getLinkedDescription (linked) {
   return  <Stack direction="horizontal" gap={2} className="fw-bold">
     <AiOutlineLink className="text-warning h6 mt-1"/>
-    <small className="fst-italic text-light">
+    <small className="fst-italic text-muted">
       {`Linked to document: `}
       <span className="text-warning fw-bold">{linked}</span>
     </small>

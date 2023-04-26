@@ -35,7 +35,7 @@ export const TDBBoolean = ({ id, name, value, isKey, required, mode, onChange, c
           disabled={checkIfReadOnly(mode, checked, isKey)}
           name={name} 
           onChange={handleClick}/>}
-        <span className="text-light">{name}</span>
+        <span className="text-muted">{name}</span>
     </Stack>
   </InputGroup>
 }
