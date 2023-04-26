@@ -41,7 +41,7 @@ export const BaseElement = (props)=>{
     },[nodeJsonData])
 
     return(
-   	    <div className="tdb__panel__box">
+   	    <div className="tdb__panel__box tdb__panel__box--edit">
             <RemoveElementComponent 
                 hasConstraints={props.hasConstraints} 
                 elementId={nodeJsonData.name}

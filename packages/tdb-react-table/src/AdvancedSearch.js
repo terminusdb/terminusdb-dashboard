@@ -196,7 +196,7 @@ export const AdvancedSearch = (props) =>{
               }
 
               //"element/part/name
-              if(field.indexOf("/")>-1){
+              if(field && field.indexOf("/")>-1){
                 const fieldArr = field.split("/");
                 let fieldObj = {}
                 let i = (fieldArr.length-2)

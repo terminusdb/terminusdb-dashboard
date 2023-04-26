@@ -6,7 +6,9 @@ import * as util from "./utils"
 import { Viewer } from "./Viewer"
 import { HelperMessages } from "./HelperMessages"
 import { constructFormParams } from "./constructFormParams"
-
+import { BootswatchSelect } from 'react-bootswatch-select';
+import { Row } from "react-bootstrap"
+//import { loadTheme } from "./formActions"
  
 /*
 **  frame     - full json schema of a document
@@ -20,10 +22,11 @@ import { constructFormParams } from "./constructFormParams"
 **  onTraverse - a js function which gets back the ID of a document on click
 **  compareFormData - used for diff viewers to compare against original or changed data 
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
+**  showThemeSelector - a Select to select differnet themes when using Themes on an application level 
 */
 export function FrameViewer(props){
 
-	let { frame, uiFrame, type, mode, formData, compareFormData, onSubmit, onTraverse, onSelect, language } = props
+	let { frame, uiFrame, type, mode, formData, onSubmit,  showThemeSelector, language, theme } = props
 
 	// schema constants
 	const [schema, setSchema]=useState(false)
@@ -58,7 +61,12 @@ export function FrameViewer(props){
 		setLanguage(false)
 	}
 
-	
+	/*useEffect(() => {
+		if(theme) {
+			loadTheme(theme)
+		}
+	}, [theme])*/
+
 
 	useEffect(() => {
 		//try{ 
@@ -76,7 +84,9 @@ export function FrameViewer(props){
 
 	useEffect(() => {
 		// on update construct form params 
-		if(update) constructFormParams(props, setDocumentation, reference, setReference, setReadOnly, setMessage, display, setDisplay)
+		if(update) {
+			constructFormParams(props, setDocumentation, reference, setReference, setReadOnly, setMessage, display, setDisplay)
+		}
 	}, [update])
 
 	
@@ -84,9 +94,14 @@ export function FrameViewer(props){
 	if(error) {
 		return <Alert variant="danger">{error}</Alert>
 	}
-
+	
 	return <div className="tdb__frame__viewer ">
-		<HelperMessages frame={frame} mode={mode} type={type} formData={formData}/>
+		<BootswatchSelect version={'4.4.1'} selectedThemeName={theme} selectorHidden/>
+		{showThemeSelector && <div className="mb-3 d-flex">
+			<small className="text-muted">{`Theme Selector: `}</small>
+			<BootswatchSelect version={'4.4.1'} selectedThemeName={theme ? theme : "darkly"} />
+		</div>}
+		<HelperMessages frame={frame} mode={mode} type={type} formData={formData} />
 		<Viewer display={display} 
 			message={message} 
 			mode={mode} 
@@ -94,11 +109,10 @@ export function FrameViewer(props){
 			language={language}
 			onSubmit={onSubmit} 
 			readOnly={readOnly} 
-			data={data} 
+			data={formData} 
 			setData={setData} 
 			documentation={documentation}/>
 	</div>
-    
 }
 
 

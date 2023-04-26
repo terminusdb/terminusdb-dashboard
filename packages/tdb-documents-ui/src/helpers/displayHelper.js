@@ -117,7 +117,7 @@ export function displayDocumentLink(props, args, extracted, property, linked_to,
 
   // at this point linked_to in fullframe
   let order_by = false
-  if(fullFrame.hasOwnProperty(linked_to)) {
+  if(fullFrame.hasOwnProperty(linked_to)) { 
     order_by=util.getOrderBy(fullFrame, linked_to)
   }
 

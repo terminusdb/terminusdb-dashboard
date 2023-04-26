@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {extractDocuments} from './hookUtility'
 
-export function ControlledGraphqlQuery (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter,tableConfigObj,hiddenColumnsStart) {
+export function useGraphqlTDBTable (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter,tableConfigObj,hiddenColumnsStart) {
     const [limit, setLimit] = useState(queryLimit || 10)
     const [start, setStart] = useState(queryStart || 0)
     const [error, setError] = useState(false)

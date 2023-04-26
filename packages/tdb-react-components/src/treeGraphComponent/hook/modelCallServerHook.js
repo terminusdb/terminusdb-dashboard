@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from "react";
 import MainGraphObject from "../MainGraphObject"
-import {errorMessageFormatter} from "../../errorMonitoring/ResponseMessageDecoder"
+//import {errorMessageFormatter} from "../../errorMonitoring/ResponseMessageDecoder"
 
 export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 
@@ -9,7 +9,6 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 	const [reloadGraph, setReloadGraph] = useState(null);
 	const [callServerLoading, setLoading] = useState(false);
 	const [reportMessage, setReport] = useState(false);
-
 
 	/*
 	* create the mainGraphObject and format the data
@@ -106,7 +105,7 @@ export const modelCallServerHook = (woqlClient,branch,ref,dbId) => {
 			}catch(err){
 				//console.log("err", err.message)
 				//setError(err.message)
-                const message = errorMessageFormatter(err,err.message)	
+                //const message = errorMessageFormatter(err,err.message)	
 				//I have to reset the schema here not in finally 						
 				setReport(err.data || err.message)//{message:message, status: "error",err: err,time: Date.now() - ts,})
 			}finally{

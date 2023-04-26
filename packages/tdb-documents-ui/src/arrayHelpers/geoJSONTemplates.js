@@ -24,7 +24,7 @@ const MoveDownButton = ({ element, variant }) => {
             element.index,
             element.index + 1
         )}>
-        <FaArrowDown className="text-light" style={{fontSize: "20px"}}/>
+        <FaArrowDown className="text-muted" style={{fontSize: "20px"}}/>
       </Button>
     }
   </>
@@ -40,7 +40,7 @@ const MoveUpButton = ({ element, variant }) => {
         element.index,
         element.index - 1
       )}>
-    <FaArrowUp className="text-light" style={{fontSize: "20px"}}/>
+    <FaArrowUp className="text-muted" style={{fontSize: "20px"}}/>
   </Button>
   }
 </>
@@ -309,7 +309,7 @@ export function MultiPolygonArrayFieldTemplate(props) {
           <RemoveButton element={element} variant={variant}/>
         </div> 
     ))} 
-    <small className="text-light fst-italics">{`Click here to add another Polygon`}</small>
+    <small className="text-muted fst-italics">{`Click here to add another Polygon`}</small>
     <AddButton props={props} label={CONST.POLYGON}/>
   </div>
 }

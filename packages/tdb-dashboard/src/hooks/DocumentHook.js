@@ -50,12 +50,12 @@ export function DocumentHook(){
        }finally{setLoading(false)}
     }
 
-    async function getDiffList(changeRequestID) {
+    async function getDiffList(changeRequestID,start=0,count=5) {
         try{
             const client = woqlClient.copy()
             client.connectionConfig.api_extension = 'api/'
             const baseUrl = client.connectionConfig.dbBase("changes")
-            const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff`)
+            const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff?count=${count}&start=${start}`)
             setResult(result)
         }
         catch(err){
