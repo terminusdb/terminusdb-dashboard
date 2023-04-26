@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import Stack from "react-bootstrap/Stack"
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import "react-leaflet-fullscreen/dist/styles.css";
@@ -13,15 +13,15 @@ import { customMapOptions, customMarkerOptions, getCenterFromData }  from "./mar
 import * as util from "../utils"
 
 export const TDBFeatureCollectionDocuments = ({ config }) => {
-
+  const mapRef = useRef(null);
+  
   let mapID=uuid()
   
   const map = () => { 
-    let center=['53.43158399610475', '-6.708967005020142'] //getCenterFromData(config.formData[config.name], CONST.FEATURE_COLLECTION) 
     let zoom=MAP_OPTION.zoom
-    let bounds=util.setBounds(config.formData.hasOwnProperty(CONST.B_BOX) ? config.formData[CONST.B_BOX] : [])
+    //let bounds=util.setBounds(config.documents.hasOwnProperty(CONST.B_BOX) ? config.documents[CONST.B_BOX] : [])
 
-    let mapOptions = customMapOptions(zoom, center)
+    let mapOptions = customMapOptions(zoom, null)
     let markerOptions= customMarkerOptions(icon)
 
     const map = L.map(`tdb__map__geojson__leaflet_${mapID}`, mapOptions) //mapOptions
@@ -29,32 +29,35 @@ export const TDBFeatureCollectionDocuments = ({ config }) => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     })
 
-    if(bounds && Array.isArray(bounds) && bounds.length > 0){
-      map.setView([40.866667, 34.566667], 5) // center of maps 
-      map.fitBounds(bounds)
-      map.flyToBounds(bounds)
-    }
 
     tileLayer.addTo(map)
-      L.geoJSON(config.featureData, {
-        pointToLayer: function (feature, latlng) {
-          return L.marker(latlng, markerOptions)
-        }
-      }).addTo(map)
+
+
+    let geoJSON = L.geoJSON(config.formData, { 
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, markerOptions) 
+      },
+    }).bindPopup(function (layer) {
+      return layer.feature.properties.description;
+    }).addTo(map)
+    
     window.map = map
-  }
+
+    map.fitBounds(geoJSON.getBounds());
+    setTimeout(() => map.invalidateSize(true), 2000);
+  } 
 
   useEffect(() => {
-    map()
-  }, [])
-
-  //return <div id={`map-leaflet-id-${mapID}`} className="rounded" data-testid={`map-leaflet-id`}/>
+    if(mapRef) {
+      map()
+    }
+  }, [mapRef])
 
 
   return <Stack direction="horizontal"  className="mb-3">
     <TDBLabel name={config.label ? config.label : config.name} 
       required={config.required} 
       id={config.id}/>
-    <div id={`tdb__map__geojson__leaflet_${mapID}`} className="rounded" data-testid={`map-leaflet-id`}></div>
+    <div ref={mapRef} id={`tdb__map__geojson__leaflet_${mapID}`} className="rounded" data-testid={`map-leaflet-id`}></div>
   </Stack>
 }

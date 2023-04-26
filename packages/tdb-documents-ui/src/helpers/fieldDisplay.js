@@ -76,7 +76,7 @@ export const getDisplay = (props, args, property) => {
   else if (util.isPointType(field)) {
     // POINT TYPE
     let id = props.id 
-    let newProps = geo.constructGeoJSONProps(props, args.type)
+    let newProps = geo.constructGeoJSONProps(props, args.type) 
     if(mode === CONST.VIEW) return display.displayPointDocument(newProps, args, property, id)
     else return display.displayPointEditDocument(newProps, args, property, id)
   } 
@@ -84,21 +84,21 @@ export const getDisplay = (props, args, property) => {
     // LINE STRING 
     let id = props.id  
     let newProps = geo.constructLineStringProps(props, args.type)
-    if(mode === CONST.VIEW) return display.displayLineStringDocument(newProps, args, property, id)
+    if(mode === CONST.VIEW) return display.displayLineStringDocument(newProps, args, property, id) 
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }
   else if (util.isPolygonType(field) && args.linked_to === CONST.POLYGON) {
     // POLYGON TYPE
     let id = props.id 
     let newProps = geo.constructLineStringProps(props, args.type)
-    if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id)
+    if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id, CONST.POLYGON)
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }
   else if(util.isPolygonType(field) && args.linked_to === CONST.MULTIPOLYGON) {
     // MULTIPOLYGON 
-    let id = props.id 
+    let id = props.id  
     let newProps = geo.constructMultiPolygonProps (props, args.type)
-    if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id) 
+    if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id, CONST.MULTIPOLYGON) 
     else return display.displayNestedMultiPolygonEditDocument(args, newProps, property, id)  
   }
 } 

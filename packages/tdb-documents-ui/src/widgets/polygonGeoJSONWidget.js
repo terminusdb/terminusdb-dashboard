@@ -12,7 +12,7 @@ export const TDBPolygonDocuments = ({ config }) => {
     type: CONST.POLYGON,
     documents: config.formData,
     bounds: config.bounds
-  }
+  } 
 
   return <Stack direction="horizontal"  className="mb-3">
     <TDBLabel name={config.label ? config.label : config.name} 

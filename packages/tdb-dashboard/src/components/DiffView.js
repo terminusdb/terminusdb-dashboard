@@ -15,6 +15,8 @@ import {BiMinusCircle} from "react-icons/bi"
 import {Loading} from "./Loading"
 import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {WOQLClientObj} from '../init-woql-client'
+
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 /**
  * 
  * @param {*} diff diff list 
@@ -134,7 +136,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
         onTraverse(documentID, setClicked)
     }
 
-   return <Accordion className="accordion__button padding-0 diff__accordian" id={eventKey} onSelect={getDocumentStatesOnClick}> 
+   return <Accordion className="accordion__button padding-0 diff__accordian mb-3" id={eventKey} onSelect={getDocumentStatesOnClick}> 
         <Accordion.Item eventKey={eventKey} className="border-0">
             <Accordion.Header className="w-100 bg-secondary rounded">
             <Stack direction="horizontal" gap={1} className="w-100">
@@ -197,23 +199,20 @@ export const DiffView = ({diffs, CRObject}) => {
     const [activePage, setActivePage]=useState(1)
     const [current, setCurrent]=useState(0)
 
+    const [page, setPage] = useState(1)
+
     let elements=[], paginationItems=[]
 
-    let divide = diffs.length/DIFFS_PER_PAGE_LIMIT
+    let divide = Math.ceil(diffs.length/DIFFS_PER_PAGE_LIMIT)
 
     useEffect(() => {
         getDocumentFrames()
 	},[])
     // function to handle on click of page
     function handlePagination(number) {
-        if(number > activePage) {
-            let newCurrent=current+DIFFS_PER_PAGE_LIMIT+1
-            setCurrent(newCurrent)
-        }
-        else {
-            let newCurrent=current-DIFFS_PER_PAGE_LIMIT-1
-            setCurrent(newCurrent)
-        }
+        let position=DIFFS_PER_PAGE_LIMIT * (number-1)
+        
+        setCurrent(position)
         setActivePage(number) 
         
     }
@@ -232,10 +231,10 @@ export const DiffView = ({diffs, CRObject}) => {
 
     
     // looping through diff lists
-    for(let start=current; start<=(current + DIFFS_PER_PAGE_LIMIT); start++) {
+    for(let start=current; start<(current + DIFFS_PER_PAGE_LIMIT); start++) {
        
         if(start >= diffs.length) continue
-
+      
         const propertyModifiedCount = getPropertyModifiedCount(diffs[start])
         const diffObj = diffs[start]
         const action = diffObj["@op"] || "Change"
@@ -260,9 +259,20 @@ export const DiffView = ({diffs, CRObject}) => {
     return <React.Fragment>
         {elements}
         <Row className="w-100">
-            <Col/>
+            <Col/> 
             <Col>
-                <Pagination className="justify-content-center ">{paginationItems}</Pagination>
+                {/*<Pagination className="justify-content-center ">{paginationItems}</Pagination>*/}
+                <PaginationControl
+                    page={page}
+                    between={3}
+                    total={diffs.length}
+                    limit={5}
+                    changePage={(page) => {
+                        setPage(page)
+                        handlePagination(page)
+                    }}
+                    ellipsis={1}
+                />
             </Col>
             <Col/>
         </Row>

@@ -14,3 +14,15 @@ export function displayDocumentFieldArrayHelpers (fieldID, field, expanded, args
   </ArrayFieldProvider>
 }
 
+export function displayOneOfDocumentArrayHelpers (fieldID, field, expanded, args, docConfig) {
+
+  return <ArrayFieldProvider args={args} 
+    fieldID={fieldID}
+    docConfig={docConfig}
+    expanded={expanded}
+    field={field}> 
+    <DisplayField/>
+  </ArrayFieldProvider>
+}
+
+

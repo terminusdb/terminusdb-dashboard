@@ -270,7 +270,7 @@ export const GEO_JSON_FRAME = {
 		},
 		"coordinates": {
 			"@class": "xsd:decimal",
-			"@dimensions": 3,
+			"@dimensions": 4,
 			"@type": "Array"
 		},
 		"type": {

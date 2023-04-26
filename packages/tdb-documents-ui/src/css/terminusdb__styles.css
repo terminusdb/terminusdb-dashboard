@@ -1,5 +1,6 @@
 @import "https://bootswatch.com/5/darkly/bootstrap.css";
 @import "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css";
+ 
 
 :root {
 	/*--input-color: #adb5bd;*/
@@ -89,7 +90,7 @@ label.latlng-control-label {
 
 /** react calander */
 .react-calendar {
-  background-color: var(--input-calander-color);
+  background-color: var(--input-calander-color) !important;
 }
 
 .react-datetime-picker { 

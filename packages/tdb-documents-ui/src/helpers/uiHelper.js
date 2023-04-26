@@ -260,18 +260,18 @@ export const uiHelper = (args, property) => {
     return widget.getBBoxUIDisplay(args, property)
   }
   else if (util.isPointType(field)) {
-    return widget.getPointUIDisplay(args, property) 
+    return widget.getPointUIDisplay(args, property)  
   } 
   else if (util.isLineStringType(field)) {
     return widget.getlineStringUIDisplay(args, property)
   } 
-  else if(util.isPolygonType(field) && util.isPolygon(documentFrame)) {
-    return widget.getPolygonUIDisplay(args, property)
-  }
-  else if(util.isPolygonType(field) && util.isMultiPolygon(documentFrame)) {
+  else if(util.isPolygonType(field) && args.type === CONST.POLYGON) {
+    return widget.getPolygonUIDisplay(args, property)  
+  } 
+  else if(util.isMultiPolygonType(field) && args.type === CONST.MULTIPOLYGON) {
     return widget.getMultiPolygonUIDisplay(args, property)
   }
-  else if(util.isRdfLangString(field)) {
+  else if(util.isRdfLangString(field)) { 
     return widget.getRDFLangUIDisplay(args, property)
   }
   else if (util.isSysUnitDataType(field)) {

@@ -237,7 +237,7 @@ export function getChoices(documentFrame, property) {
  * @param {*} property property
  * @returns extracts choices from frame to be displayed in select component 
  */
-export function getOneOfChoices (oneOfFrame) {
+export function getOneOfChoices (oneOfFrame) { 
   let options = []
   // oneOfFrame will have choices
 	for(let choices in oneOfFrame) {
@@ -401,6 +401,7 @@ export function availableInReference (references, documentType) {
 // used to get config form data for subdocuments, documentlinks etc.
 export function getFormDataPerProperty (subDocumentData, fieldName) {
   if(subDocumentData.hasOwnProperty(fieldName)) return subDocumentData[fieldName]
+	//if(subDocumentData.hasOwnProperty(fieldName)) return {[fieldName] : subDocumentData[fieldName]}
   return ""
 }
 
@@ -593,8 +594,26 @@ export function isPolygon(frame) {
 	return false 
 }
 
-// checks if MultiPolygon from type 
+// checks if multiPolygon from type 
 export function isMultiPolygon(frame) {
+	if(frame.hasOwnProperty("type") && 
+		frame["type"].hasOwnProperty("@values") && 
+    frame["type"]["@values"][0] === CONST.MULTIPOLYGON) 
+			return true
+	return false 
+}
+
+// checks if MultiPolygon from type 
+export function isMultiPolygonType(field) {
+	if(field && field.hasOwnProperty(CONST.TYPE) && 
+		field[CONST.TYPE] === CONST.ARRAY && 
+		field.hasOwnProperty(CONST.DIMENSIONS) && 
+		field[CONST.DIMENSIONS] === CONST.MULTI_POLYGON_TYPE_DIMENSIONS) {
+			return true
+	}
+	return false
+}
+export function isMultiPolygon_OLD(frame) {
 	if(frame.hasOwnProperty("type") && 
 		frame["type"].hasOwnProperty("@values") && 
     frame["type"]["@values"][0] === CONST.MULTIPOLYGON) 

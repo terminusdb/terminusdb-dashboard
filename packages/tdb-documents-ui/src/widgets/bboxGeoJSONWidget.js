@@ -13,6 +13,8 @@ export const TDBBBoxDocuments = ({ config }) => {
     documents: util.setBounds(config.formData)
   } 
 
+  if(config.formData && Array.isArray(config.formData) && config.formData.includes(undefined)) return <div/>
+
   return <Stack direction="horizontal"  className="mb-3">
     <TDBLabel name={config.label ? config.label : config.name} 
       //required={config.required} 
