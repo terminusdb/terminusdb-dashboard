@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const AcceptInvitationHook=(clientAccessControl)=> {
+export const useAcceptInvitation=(clientAccessControl)=> {
     const [loading,setLoading]=useState(null)
     const [errorMessage,setError] =useState('')
    

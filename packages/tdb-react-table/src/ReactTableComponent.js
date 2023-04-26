@@ -11,7 +11,7 @@ import { DefaultColumnFilter } from './ColumnFilters';
  * sort - no, local, remote
  */ 
 
-export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes, onRefresh,hiddenColumns})=>{
+export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes,hiddenColumns})=>{
 
    // console.log("COLUMS", JSON.stringify(columns,null,4))
 

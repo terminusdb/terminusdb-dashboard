@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from "react"
 import {Form} from "react-bootstrap"
 import {BiError} from "react-icons/bi"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import { GET_ALL_USERS } from "../utils/default"
 import { RoleListModal } from "./RoleList"
 
@@ -10,7 +10,7 @@ export const ManageUserCapabilityModal = ({showModal, setShowModal, team, parent
     if(!accessControlDashboard) return ""
     const {successMessage,createUserRole,updateUserRole,
           loading,
-          errorMessage} =  AccessControlHook(accessControlDashboard,options)
+          errorMessage} =  useAccessControl(accessControlDashboard,options)
 
     const roles = accessControlDashboard.getRolesList()
 

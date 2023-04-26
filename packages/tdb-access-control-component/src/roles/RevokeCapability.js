@@ -1,10 +1,10 @@
 import React from "react"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import { DeleteElementModal } from "./DeleteElementModal"
 
 export const RevokeCapability = ({accessControlDashboard,showModal, labels, setShowModal, revokeCapabilityObj, updateTable }) => {
    
-    const {manageCapability,loading,errorMessage,setError} =  AccessControlHook(accessControlDashboard,{})
+    const {manageCapability,loading,errorMessage,setError} =  useAccessControl(accessControlDashboard,{})
     if(!revokeCapabilityObj) return ""
 
     const deleteElement = () =>{

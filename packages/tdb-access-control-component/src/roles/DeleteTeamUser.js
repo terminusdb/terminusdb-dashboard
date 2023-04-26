@@ -1,10 +1,10 @@
 import React from "react"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import { DeleteElementModal } from "./DeleteElementModal"
 
 export const DeleteTeamUser = ({accessControlDashboard,showModal, setShowModal, userSelected, team, updateTable }) => {
    
-    const {loading,errorMessage,setError,deleteUserFromOrganization} =  AccessControlHook(accessControlDashboard,{})
+    const {loading,errorMessage,setError,deleteUserFromOrganization} =  useAccessControl(accessControlDashboard,{})
 
     const deleteElement = (name) =>{
         const userid= userSelected.userid

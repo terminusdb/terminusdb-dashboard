@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import {AdvancedSearch, GraphqlTable, useGraphqlTDBTable} from '@terminusdb/terminusdb-react-table'
+import {AdvancedSearch, GraphqlTable, useTDBGraphqlQuery} from '@terminusdb/terminusdb-react-table'
 import {Tab,Tabs,Button,Alert,Container,ProgressBar} from 'react-bootstrap'
 import { GraphqlQueryView } from "./GraphqlQueryViewer";
 import { format } from 'graphql-formatter'
@@ -16,28 +16,32 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
    
     if (!query) return ""
     const tablesColumnsConfig = tableConfig.tablesColumnsConfig[type] || []
-    const { documentError,
-        callFetchMore,
-        rowCount,
-        changeOrder,
+    const {  setError,
+        callGraphqlServer,
+        error,
+        changeOrders,
         changeLimits,
         changeFilters,
         setAdvancedFilters,
-        limit,
-        queryFilters,
-        queryOrderBy,
-        start,
         orderBy,
         filterBy,
+        queryFilters,
+        queryOrders,
+        limit,
+        start,
         loading,
+        rowCount,
+        documentResults:data,
+        extractedData,
        // hiddenColumnsArr,
-       extractedData } = useGraphqlTDBTable(apolloClient,query, type, 10, 0, {}, false);
+       // setHiddenColumns
+    } = useTDBGraphqlQuery(apolloClient,query, type, 10, 0, {}, false);
     
     let extractedResults = extractedData || []
 
     useEffect(() => {
        if(type){       
-            callFetchMore(10,0,{},false) 
+            callGraphqlServer(10,0,{},false) 
             const queryStr = query.loc.source.body
             setQueryTodisplay(format(queryStr))
             setAdvFields(tableConfig.advancedSearchObj[type])         
@@ -104,10 +108,10 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
         tableConfigObj.rowClick = onRowClickCall
     }
 
-    const error = documentError  && typeof documentError === "object" ? JSON.stringify(documentError, null, 4) : documentError
+    const errorMessage = error  && typeof error === "object" ? JSON.stringify(error, null, 4) : error
    
     return <div> 
-            {error && <Alert className="text-break" variant="danger"> GraphQL query error {error} </Alert>}  
+            {error && <Alert onClose={() => setError(false)}  dismissible className="text-break" variant="danger"> GraphQL query error <pre>{errorMessage}</pre> </Alert>}  
             {advSearchFields &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">
@@ -130,16 +134,14 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
                       freewidth={true}
                       config ={tableConfigObj}
                       //hiddenColumnsArr = {hiddenColumnsArr}
-                      //view={(tableConfig ? tableConfig.json() : {})}
                       limit={limit}
                       start={start}
                       orderBy={orderBy} 
                       setFilters = {changeFilters}
                       setLimits={changeLimits}
-                      setOrder={changeOrder}
+                      setOrder={changeOrders}
                       loading={loading}
                       totalRows={rowCount}
-                      onRefresh={function(){}}
                 />}
             </Tab>
            {showGraphqlTab && <Tab eventKey="graphql" title="Graphql Query">
@@ -147,7 +149,7 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
                 {queryToDisplay && 
                    <GraphqlQueryView 
                      filterBy={queryFilters}
-                     orderBy={queryOrderBy}
+                     orderBy={queryOrders}
                      start={start}
                      limit={limit}
                      queryToDisplay={queryToDisplay} />}

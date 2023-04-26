@@ -2,7 +2,7 @@ import React , { useState } from "react"
 import {UTILS} from "@terminusdb/terminusdb-client"
 import {filterCapability} from "../utils/searchResult"
 
-export const AccessControlHook=(accessControlDashboard,options)=> {
+export const useAccessControl=(accessControlDashboard,options)=> {
     //to load the items list
     const [loading,setLoading]=useState(null)
     const [errorMessage,setError] =useState(false)

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import {Button, Modal} from "react-bootstrap"
 import {SWITCH_TO_BRANCH} from "./constants"
 import {BranchActions} from "./BranchActions"
-import {CommitLogs, CommitView} from "./CommitLogs"
+import {CommitLogs} from "./CommitLogs"
 import {WOQLClientObj} from '../init-woql-client' 
  
 export const BranchInfoModal = ({showDefault, handleClose, handleSwitch, setSelectedCommit, selectedCommit,showDefaultForm, updateTable}) => {
@@ -15,8 +15,7 @@ export const BranchInfoModal = ({showDefault, handleClose, handleSwitch, setSele
     } 
 
     const CommitInfo = () => {
-        if(selectedCommit) return <CommitView woqlClient={woqlClient} selectedCommit={selectedCommit} onClose={setSelectedCommit}/>
-        else return <CommitLogs woqlClient={woqlClient} branch={branch} refresh={refresh} setSelectedCommit={setSelectedCommit}/>
+        return <CommitLogs woqlClient={woqlClient} branch={branch} refresh={refresh} setSelectedCommit={setSelectedCommit}/>
     } 
 
     return <Modal size="xl" as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>

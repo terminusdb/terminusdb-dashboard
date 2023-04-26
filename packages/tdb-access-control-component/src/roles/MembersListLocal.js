@@ -4,7 +4,7 @@ import {RiDeleteBin7Line} from "react-icons/ri"
 import {AiOutlineDatabase} from "react-icons/ai"
 import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {getUsersListConfigLocal} from "../ViewConfig"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {UserDatabasesListLocal} from "./UserDatabasesListLocal"
 import {RevokeCapability } from "./RevokeCapability"
 import {AddUserCapabilityModal } from "./AddUserCapabilityModal"
@@ -28,7 +28,7 @@ export const MembersListLocal = ({organizationInfo,currentUser,accessControlDash
 
     const {getOrgUsersLocal,orgUsers,loading,
           errorMessage,
-          successMessage} =  AccessControlHook(accessControlDashboard)
+          successMessage} =  useAccessControl(accessControlDashboard)
     
     //to be review the roles list doesn't change
     useEffect(() => {

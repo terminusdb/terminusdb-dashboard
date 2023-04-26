@@ -1,6 +1,5 @@
 import React from "react"
-import {BrowserRouter,useNavigate,Routes,Route} from "react-router-dom"
-import TestApp from "./TestApp"
+import {BrowserRouter,useNavigate} from "react-router-dom"
 import { App } from "./App"
 import {WOQLClientProvider} from './init-woql-client'
 import {localSettings} from "../localSettings"
