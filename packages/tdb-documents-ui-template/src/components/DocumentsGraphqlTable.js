@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import {AdvancedSearch, GraphqlTable, ControlledGraphqlQuery} from '@terminusdb/terminusdb-react-table'
+import {AdvancedSearch, GraphqlTable, useGraphqlTDBTable} from '@terminusdb/terminusdb-react-table'
 import {Tab,Tabs,Button,Alert,Container,ProgressBar} from 'react-bootstrap'
 import { GraphqlQueryView } from "./GraphqlQueryViewer";
 import { format } from 'graphql-formatter'
@@ -31,7 +31,7 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
         filterBy,
         loading,
        // hiddenColumnsArr,
-       extractedData } = ControlledGraphqlQuery(apolloClient,query, type, 10, 0, {}, false);
+       extractedData } = useGraphqlTDBTable(apolloClient,query, type, 10, 0, {}, false);
     
     let extractedResults = extractedData || []
 

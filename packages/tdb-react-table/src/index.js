@@ -6,4 +6,4 @@
  export {ControlledQueryHook} from './hook/ControlledQuery';
  export {ControlledGetDocumentQuery} from "./hook/ControlledGetDocumentQuery"
  export {ControlledDocuments} from "./hook/ControlledDocuments"
- export {ControlledGraphqlQuery} from "./hook/ControlledGraphqlQuery"
+ export {useGraphqlTDBTable} from "./hook/useGraphqlTDBTable"
