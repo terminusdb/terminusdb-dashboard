@@ -71,7 +71,7 @@ export const ArrayFieldTemplate = ({ args, props, property, items, handleAdd, ha
 										element.index,
 										element.index + 1
 								)}}>
-							<FaArrowDown className="text-light" style={{fontSize: "20px"}}/>
+							<FaArrowDown className="text-muted" style={{fontSize: "20px"}}/>
 						</Button>
 					)}
 
@@ -84,7 +84,7 @@ export const ArrayFieldTemplate = ({ args, props, property, items, handleAdd, ha
 									element.index,
 									element.index - 1
 								)}}>
-						<FaArrowUp className="text-light" style={{fontSize: "20px"}}/>
+						<FaArrowUp className="text-muted" style={{fontSize: "20px"}}/>
 					</Button>
 					)}
  

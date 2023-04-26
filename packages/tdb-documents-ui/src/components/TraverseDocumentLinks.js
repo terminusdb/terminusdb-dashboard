@@ -230,7 +230,7 @@ export const TraverseDocumentLinks = ({ onHide, clicked, linkProps }) => {
 						<small className="text-muted">{`id: `}</small>
 						{documentID}
 					</div>
-					<Button className=" ms-auto btn btn-sm bg-transparent text-light border-0" 
+					<Button className=" ms-auto btn btn-sm bg-transparent text-muted border-0" 
 						title="Close"
 						onClick={handleClose}>
 						<AiOutlineClose/>

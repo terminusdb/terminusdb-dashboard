@@ -58,7 +58,7 @@ export const ArrayTemplates = (args, props, property, ui) => {
 									element.index,
 									element.index + 1
 							)}>
-							<FaArrowDown className="text-light" style={{fontSize: "20px"}}/>
+							<FaArrowDown className="text-muted" style={{fontSize: "20px"}}/>
 						</Button>
 					)}
 
@@ -70,7 +70,7 @@ export const ArrayTemplates = (args, props, property, ui) => {
 								element.index,
 								element.index - 1
 							)}>
-						<FaArrowUp className="text-light" style={{fontSize: "20px"}}/>
+						<FaArrowUp className="text-muted" style={{fontSize: "20px"}}/>
 					</Button>
 					)}
 
