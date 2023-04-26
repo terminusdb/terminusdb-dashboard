@@ -17,7 +17,7 @@ export const ObjectClassModelViewMode = (props) => {
 	const  currentNodeJson = selectedNodeObject || {};
 	const label = currentNodeJson.id;
 
-	return(<div className="col-12 bg-dark h-100 pt-4">
+	return(<div className="col-12 bg-dark h-100 pt-4 overflow-auto">
 			<div>
 				<div className="d-flex mb-3">
 					<BiNetworkChart className="schema-summary-icons"/>
@@ -57,5 +57,6 @@ export const ObjectClassModelViewMode = (props) => {
 		</div>
 		</div>
 		</div>
+		
 	)
 }

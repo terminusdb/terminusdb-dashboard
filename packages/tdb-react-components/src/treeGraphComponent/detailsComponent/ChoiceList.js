@@ -58,7 +58,7 @@ export const ChoiceList =(props)=> {
 	const choiceTitle='Add a value'
 	
 	return(<>
-		<div className="tdb__panel__box"> 
+		<div className="tdb__panel__box tdb__panel__box--edit"> 
 		  <span className="tdb__panel__subtitle">{title}</span>	  
 		  <ListComponent dataProvider={choicesList} removeItem={removeChoice} />		 
 		</div>

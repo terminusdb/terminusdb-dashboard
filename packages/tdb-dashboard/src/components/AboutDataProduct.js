@@ -12,7 +12,7 @@ import {CopyButton} from "./utils"
 import { ManageDatabase } from "../hooks/ManageDatabase"
 import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 
 import { UTILS } from "@terminusdb/terminusdb-client"
 
@@ -21,7 +21,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     const [showHealth, setShowHealth]=useState(false)
     const [branchCount, setBranchCount]= useState(0)
     const {woqlClient, accessControlDashboard} = WOQLClientObj()
-    const {documentClasses,getUpdatedDocumentClasses} = DocumentsUIHook(woqlClient)
+    const {documentClasses,getDocumentClasses} = useTDBDocuments(woqlClient)
     
 
     const {cloneDatabase, loading:loadingClone, error:errorClone , setError:setCloneError} =  ManageDatabase()
@@ -44,7 +44,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     }, [healthColor])
 
     useEffect(() => {
-        getUpdatedDocumentClasses()
+        getDocumentClasses()
         if(cloneDBName && cloneDBName.current){
             cloneDBName.current.value = dataProduct
         }

@@ -7,7 +7,7 @@ import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {decodeUrl} from "../components/utils"
 import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 
 export const DocumentEdit = () => { 
     const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest} = WOQLClientObj()
@@ -20,11 +20,11 @@ export const DocumentEdit = () => {
         updateDocument,
         getDocument,
         selectedDocument,
-        getUpdatedFrames,
+        getDocumentFrames,
         frames,
         error,
         setError
-    } = DocumentsUIHook(woqlClient)
+    } = useTDBDocuments(woqlClient)
 
     let documentID=decodeUrl(docid)
 
@@ -40,7 +40,7 @@ export const DocumentEdit = () => {
         if(!currentChangeRequest){
             setShowModal(true)
         }
-        getUpdatedFrames()
+        getDocumentFrames()
         getDocument(documentID)
 	},[branch])
 

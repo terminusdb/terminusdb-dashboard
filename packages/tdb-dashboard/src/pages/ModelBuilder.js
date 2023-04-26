@@ -32,8 +32,7 @@ export const ModelBuilder = (props) =>{
         callServerLoading,
     } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
 
-
-
+   
     if(!dataProduct) return <div>error in loading graph</div>
 /*
   {reportMessage && !callServerLoading && <Alert className ="mt-3" variant="danger" dismissible onClose={() => setReport(false)}>

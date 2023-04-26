@@ -8,7 +8,7 @@ import {EDIT_DOC} from "../routing/constants"
 import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
-import {DocumentsUIHook} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 export const DocumentView = () => {   
@@ -25,13 +25,13 @@ export const DocumentView = () => {
         loading,
         deleteDocument,
         getDocument,
-        getUpdatedFrames
-    } = DocumentsUIHook(woqlClient)
+        getDocumentFrames
+    } = useTDBDocuments(woqlClient)
 
     let documentID=decodeUrl(docid)
  
     useEffect(() => {
-        getUpdatedFrames()
+        getDocumentFrames()
         getDocument(documentID)
 	},[])
 

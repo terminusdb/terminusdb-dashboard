@@ -1,29 +1,34 @@
 import React, {useState} from 'react'
 import {sortAlphabetically} from "./utils"
-import {getTotalNumberOfDocuments} from "./GeneralQueries"
+import {getTotalNumberOfDocuments} from "./generalQueries"
 
-export const DocumentsUIHook = (woqlClient) => {
+export const useTDBDocuments = (woqlClient) => {
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    // bool|Array
     const [documentClasses, setDocumentClasses] = useState(false)
+
+    // bool|Object
     const [perDocumentCount, setPerDocument]=useState(false)
+    // bool|Number 
     const [totalDocumentCount, setTotalDocumentCount]=useState(false)
-    // null nothing is done
-    // object - complete
-    // false - failed
-    const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
-    const [selectedDocument, setSelectedDocument] = useState(null)
-    const [frames, setFrames]=useState(null)
+    
+    // bool|Object
+    const [documentTablesConfig,setDocumentTablesConfig]=useState(false)
+    
+    // bool|Object
+    const [selectedDocument, setSelectedDocument] = useState(false)
+    // bool|Object
+    const [frames, setFrames]=useState(false)
 
     //get all the Document Classes (no abstract or subdocument)
     // I can need to call this again
     // improve performance with check last commit
-    async function getUpdatedDocumentClasses() {
+    async function getDocumentClasses() {
         try{
         // to be review I'm adding get table config here
             if(woqlClient){
-                setDocumentClasses(false)
                 setLoading(true)
                 setError(false)
                 const dataProduct = woqlClient.db()
@@ -33,7 +38,7 @@ export const DocumentsUIHook = (woqlClient) => {
                 setDocumentClasses(classDocumentOrder)
             } 
         }catch(err){
-            setError(err.data || err.message)
+            setError(err.data || {message:err.message})
             console.log("Error in init woql while getting classes of data product", err.message)
         }finally{setLoading(false)}
     }
@@ -41,11 +46,8 @@ export const DocumentsUIHook = (woqlClient) => {
     // count the number of document I need this in 
     // docHome and query builder
     // I need to reload the class too
-    async function getDocNumber(){
+    async function getDocumentNumbers(){
         try{
-            setDocumentClasses(false)
-            setTotalDocumentCount(false)
-            setPerDocument(false)
             setLoading(true)
             setError(false)
             const dataProduct = woqlClient.db()
@@ -67,58 +69,12 @@ export const DocumentsUIHook = (woqlClient) => {
             setDocumentClasses(classes)
             
         }catch(err){
-            setError(err.data || err.message)
+            setError(err.data || {message:err.message})
             console.log("Error in init woql while getting classes of data product", err.message)
         }finally{setLoading(false)}
     }
 
-    // next step good cache policy
-    // I needd a way to cache this so I can
-    // not call frame for a specific dataP if not changes
-    // classes and frames we need only one but count can change
-    // we reset all the object
-   /* useEffect(() => {
-        resetAll()
-        // reset frames and table....
-    },[dataProduct])
-
-
-    function resetAll(){
-        setDocumentClasses(false)
-        setTotalDocumentCount(false)
-        setPerDocument(false)
-        setFrames(null)
-        setSelectedDocument(null)
-        setDocumentTablesConfig(null)
-    }*/
-
- /*  useEffect(() => {
-        //remove the error from the preview page
-        if(error!== false)setError(false)
-    },[window.location.pathname])*/
-
-    // this work in edit and view 
-    // not works for new document, I have to add it inside new document too
-    // I prefer do the call in the single page maybe ??
-    // to review
-    // we need frame in the diff page too for this we are listening changeid status
-   /* useEffect(() => {
-        // only if I'm in change request mode 
-        // I do not need to reload because the schema can not change
-        //if(!currentChangeRequest || documentTablesConfig === null) 
-        // we need in edit/insert
-        if(id || changeid) {              
-            getUpdatedFrames()  
-            if(id){
-                getGraphqlTableConfig()
-                let documentID=decodeUrl(id)
-                getDocument(documentID)
-            }
-        }
-    },[id,changeid])*/
-
-
-    function getGraphqlTableConfig ( ){
+    function getGraphqlTablesConfig ( ){
         if(woqlClient){
             setLoading(true)
             // create a  new client instance copying all the settings
@@ -133,14 +89,14 @@ export const DocumentsUIHook = (woqlClient) => {
             clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
                 setDocumentTablesConfig(result)  
             }).catch(err=>{
-                setError(err.data || err.message)
+                setError(err.data || {message:err.message})
                 console.log(err)
                 setDocumentTablesConfig(false)
             }).finally(setLoading(false))
         }
     }
 
-    function getUpdatedFrames() {
+    function getDocumentFrames() {
        // setFrames(null)
         if(woqlClient){
             setLoading(true)
@@ -148,8 +104,7 @@ export const DocumentsUIHook = (woqlClient) => {
                 setFrames(res)
             })
             .catch((err) =>  {
-                setFrames(false)
-                setError(err.data || err.message)
+                setError(err.data || {message:err.message})
             }).finally(setLoading(false))
         }
     }
@@ -161,7 +116,7 @@ export const DocumentsUIHook = (woqlClient) => {
             const res = await woqlClient.addDocument(jsonDocument)
             return res
         }catch(err){ 
-            setError(err.data || err.message)
+            setError(err.data || {message:err.message})
         }finally{
             setLoading(false)
         }
@@ -176,7 +131,7 @@ export const DocumentsUIHook = (woqlClient) => {
             const res = await woqlClient.getDocument(params)
             setSelectedDocument(res)
         }catch(err){
-            setError(err.data || err.message)
+            setError(err.data || {message:err.message})
         }finally{
             setLoading(false)
         }
@@ -194,13 +149,11 @@ export const DocumentsUIHook = (woqlClient) => {
             const res = await woqlClient.deleteDocument(params, null, commitMsg)
             return true
         }catch(err){
-            setError(err.data || err.message)
+            setError(err.data || {message:err.message})
        }finally{setLoading(false)}
     }
 
 
-
-    
     async function updateDocument(jsonDoc) {
         try{
             setLoading(true)
@@ -213,28 +166,28 @@ export const DocumentsUIHook = (woqlClient) => {
         }
         catch(err){
             //display conflict
-            setError(err.data || err.message)
+            setError(err.data || {message:err.message})
        }finally{setLoading(false)}
     }
 
     return {
-                setError,
-                selectedDocument,
-                getDocument,
-                deleteDocument,
-                createDocument,
-                updateDocument,
-                getDocNumber,
-                getUpdatedFrames,
-                loading,
-                getUpdatedDocumentClasses,
-                error,
-                perDocumentCount,
-                totalDocumentCount,
-                documentClasses,
-                getGraphqlTableConfig,
-                documentTablesConfig,
-                frames,
+            setError,
+            selectedDocument,
+            getDocument,
+            deleteDocument,
+            createDocument,
+            updateDocument,
+            getDocumentNumbers,
+            getDocumentFrames,
+            loading,
+            getDocumentClasses,
+            error,
+            perDocumentCount,
+            totalDocumentCount,
+            documentClasses,
+            getGraphqlTablesConfig,
+            documentTablesConfig,
+            frames,
     }
 }
 

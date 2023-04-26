@@ -54,13 +54,16 @@ export const getPropertiesOfClass = (id, dataProduct, woqlClient) => {
     )
 }
 
-export const getPropertyRelation = (id, dataProduct, woqlClient) => {
-    if(!id  && !dataProduct && !woqlClient) return
+export const getPropertyRelation = (property, documentName, woqlClient) => {
+    if(!property  && !documentName && !woqlClient) return
     let WOQL=TerminusClient.WOQL
-    let user=woqlClient.user()
-    let dp = `${user.id}/${dataProduct}`
-
-    return WOQL.limit(100).triple("v:Subject", id, "v:Predicate")
+    //let user=woqlClient.user()
+    //let dp = `${user.id}/${dataProduct}`
+    const baseQuery = WOQL.limit(100).triple("v:Subject", "rdf:type", `@schema:${documentName}`)
+    if(property === "rdf:type"){
+        return baseQuery
+    }
+    return baseQuery.triple("v:Subject", property, "v:Predicate")
 }
 
 // query to store query object in query library database
