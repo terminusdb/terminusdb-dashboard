@@ -25,6 +25,8 @@ jobs:
         npm run build
     - name: Build
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' }}
+      env:
+        NODE_OPTIONS: --max_old_space_size=4096
       run: |
         cd packages/tdb-dashboard
         echo '
@@ -39,6 +41,8 @@ jobs:
         npm run build-terminusx
     - name: Build prod
       if: startsWith(github.ref, 'refs/tags/v')
+      env:
+        NODE_OPTIONS: --max_old_space_size=4096
       run: |
         cd packages/tdb-dashboard
         echo '
