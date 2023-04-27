@@ -17,6 +17,7 @@ import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {WOQLClientObj} from '../init-woql-client'
 
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { MdAlternateEmail } from "react-icons/md"
 /**
  * 
  * @param {*} diff diff list 
@@ -186,7 +187,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
  * @param {*} originBranchDocumentList document list of origin branch
  * @returns 
  */
-export const DiffView = ({diffs, CRObject}) => { 
+export const DiffView_OLD = ({diffs, CRObject, start, setStart }) => {  
     const {woqlClient} = WOQLClientObj()
 
     // I need to copy the woqlClient and set the original_branch 
@@ -199,7 +200,7 @@ export const DiffView = ({diffs, CRObject}) => {
     const [activePage, setActivePage]=useState(1)
     const [current, setCurrent]=useState(0)
 
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(start)
 
     let elements=[], paginationItems=[]
 
@@ -210,21 +211,22 @@ export const DiffView = ({diffs, CRObject}) => {
 	},[])
     // function to handle on click of page
     function handlePagination(number) {
-        let position=DIFFS_PER_PAGE_LIMIT * (number-1)
+        alert(number)
+        /*let position=DIFFS_PER_PAGE_LIMIT * (number-1)
         
         setCurrent(position)
-        setActivePage(number) 
+        setActivePage(number) */
         
     }
 
     // populate pagination Item
-    for (let number = 1; number <= divide; number++) {
+    /*for (let number = 1; number <= divide; number++) {
         paginationItems.push(
             <Pagination.Item key={number} active={number === activePage} onClick={(e) => handlePagination(number)}>
                 {number}
             </Pagination.Item>
         )
-    }
+    }*/
     
     if(!frames) return <Loading message={`Loading Frames ...`}/>
     if(!diffs) return <Loading message={`Loading Diffs ...`}/>
@@ -261,18 +263,88 @@ export const DiffView = ({diffs, CRObject}) => {
         <Row className="w-100">
             <Col/> 
             <Col>
-                {/*<Pagination className="justify-content-center ">{paginationItems}</Pagination>*/}
-                <PaginationControl
-                    page={page}
-                    between={3}
-                    total={diffs.length}
-                    limit={5}
-                    changePage={(page) => {
-                        setPage(page)
-                        handlePagination(page)
-                    }}
-                    ellipsis={1}
-                />
+                <Pagination className="justify-content-center ">
+                    <Pagination.Prev onClick={(e) => handlePagination(e)}/>
+                    <Pagination.Next onClick={(e) => handlePagination(e)}/>
+                </Pagination>
+            </Col>
+            <Col/>
+        </Row>
+    </React.Fragment>
+}
+
+/**
+ * 
+ * @param {*} diffs diff list 
+ * @param {*} trackingBranchDocumentList document list of tracking branch
+ * @param {*} originBranchDocumentList document list of origin branch
+ * @returns 
+ */
+export const DiffView = ({diffs, CRObject, start, setStart }) => {  
+    const {woqlClient} = WOQLClientObj()
+
+    // I need to copy the woqlClient and set the original_branch 
+    // to get the right frame
+    const woqlClientCopy = woqlClient.copy()
+    woqlClientCopy.checkout(CRObject.original_branch)
+
+    const {frames,getDocumentFrames} = useTDBDocuments(woqlClientCopy)
+
+    let elements=[]
+
+
+    useEffect(() => {
+        getDocumentFrames()
+	},[])
+
+    // function to handle on click of page
+    function handlePagination(action) {
+        if(action === "next") {
+            setStart(start+DIFFS_PER_PAGE_LIMIT+1)
+        }
+        else {
+            // previous
+            if(start) setStart(start-DIFFS_PER_PAGE_LIMIT-1)
+        }
+        
+    }
+
+    if(!frames) return <Loading message={`Loading Frames ...`}/>
+    if(!diffs) return <Loading message={`Loading Diffs ...`}/>
+
+
+    diffs.map((diffItems, index) => {
+        const propertyModifiedCount = getPropertyModifiedCount(diffItems)
+        const diffObj = diffItems
+        const action = diffObj["@op"] || "Change"
+        const actionKey = `@${action.toLowerCase()}`
+        const eventKey= diffObj[actionKey] && diffObj[actionKey]["@id"] ? diffObj[actionKey]["@id"] : diffObj["@id"]
+        const docType = diffObj[actionKey] && diffObj[actionKey]["@type"] ? diffObj[actionKey]["@type"] : diffObj["@type"]
+        
+        // this are the diff panel for document
+        elements.push(
+            <React.Fragment key={`item__${index}`}>
+               <DiffViewDocument frames={frames} key={actionKey}
+                    action={action}
+                    docType={docType}
+                    propertyModifiedCount={propertyModifiedCount} 
+                    documentID={eventKey} 
+                    diffObj={diffObj} 
+                    CRObject={CRObject}/>
+            </React.Fragment>
+        )
+    })
+       
+
+    return <React.Fragment>
+        {elements}
+        <Row className="w-100">
+            <Col/> 
+            <Col>
+                <Pagination className="justify-content-center ">
+                    <Pagination.Prev key={"previous"} onClick={(e) => handlePagination("previous")}/>
+                    <Pagination.Next key={"next"} onClick={(e) => handlePagination("next")}/>
+                </Pagination>
             </Col>
             <Col/>
         </Row>

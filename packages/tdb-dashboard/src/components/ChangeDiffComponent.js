@@ -58,13 +58,14 @@ export const ChangeDiffComponent = () => {
         currentCRObject
     } = WOQLClientObj() 
 
-    const {getDiffList,error:errorMsg,loading,result} = DocumentHook()
+    const {getDiffList,error:errorMsg,loading,result} = DocumentHook() 
     
     const [key, setKey] = useState(DIFFS)
+    const [start, setStart] = useState(0)
    
     useEffect(() => {
-        getDiffList(changeid)
-    }, [])
+        getDiffList(changeid, start)
+    }, [start])
     
 
     if(!client) return <div/>
@@ -98,7 +99,7 @@ export const ChangeDiffComponent = () => {
                 <Card.Body>                 
                     {currentCRObject.status === SUBMITTED && 
                     <ReviewComponent/> }
-                    <DiffView diffs={result} CRObject={currentCRObject}/> 
+                    <DiffView diffs={result} CRObject={currentCRObject} start={start} setStart={setStart}/> 
                 </Card.Body> 
             </Card>
         </Tab>
