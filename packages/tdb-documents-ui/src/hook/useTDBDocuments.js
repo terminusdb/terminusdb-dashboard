@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {sortAlphabetically} from "./utils"
-import {getTotalNumberOfDocuments} from "./generalQueries"
+import {getTotalNumberOfDocuments} from "./queryTemplates"
 
 export const useTDBDocuments = (woqlClient) => {
     const [error, setError] = useState(false)
