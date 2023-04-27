@@ -44,10 +44,13 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
   
     let tempSubDocumentData = subDocumentData
     if(fieldName === CONST.ONEOFVALUES) {
+     
       if(selectedOneOf) {
-        let tmp={} 
+        console.log("index", index)
+        let tmp=tempSubDocumentData
         // change data to add on selected choice from one of 
         tmp[CONST.TYPE] = tempSubDocumentData[CONST.TYPE]
+        //tmp=data
         tmp[selectedOneOf] = data
         tempSubDocumentData=tmp
       }

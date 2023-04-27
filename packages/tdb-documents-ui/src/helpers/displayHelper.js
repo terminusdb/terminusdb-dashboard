@@ -249,7 +249,7 @@ export function displayChoiceSubDocument (props, args, property, id) {
 
 // ONE OF 
 export function displayOneOfProperty(props, args, property, id) {
-  const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : [])
+  const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : {})
 
   useEffect(() => {
     // formdata on change

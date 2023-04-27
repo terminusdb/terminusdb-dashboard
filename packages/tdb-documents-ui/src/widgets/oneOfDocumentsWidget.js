@@ -10,7 +10,7 @@ import { extractPropertyDocumentation } from "../helpers/widgetHelper"
 import { getDisplay } from "../helpers/fieldDisplay"
 import { SYS_UNIT_DATA_TYPE } from "../dataType.constants"
 
-const DisplaySelectedChoices = ({ props, selected, args, id, oneOfDocumentData, setOneOfDocumentData }) => {
+const DisplaySelectedChoices = ({ props, selected, args, id, selectedIndex,  onChange, oneOfData, setOneOfData }) => {
   let { reference, mode, fullFrame } = args
   
   if(!selected) return <div/>
@@ -25,7 +25,7 @@ const DisplaySelectedChoices = ({ props, selected, args, id, oneOfDocumentData, 
     order_by=util.getOrderBy(fullFrame, selected)
   }
 
-  let selectedFrame = args.documentFrame[CONST.ONEOFVALUES][0][selected]
+  let selectedFrame = args.documentFrame[CONST.ONEOFVALUES][selectedIndex][selected]
 
   // construct args
   let argsHolder = {...args}
@@ -33,16 +33,19 @@ const DisplaySelectedChoices = ({ props, selected, args, id, oneOfDocumentData, 
 
   function handleOneOfChange (data, name) {
     //console.log(data, name) 
-    if(props.onChange) props.onChange(data, name, selected)
+    //setOneOfData(data);
+    //if(props.onChange) props.onChange(data, name, selected)
+    if(onChange) onChange(data, name, selectedIndex)
   }
 
   // construct props
   let oneOfProps = {}
-  oneOfProps.documentFrame={ [selected]:  args.documentFrame[CONST.ONEOFVALUES][0][selected] }
+  oneOfProps.documentFrame={ [selected]:  args.documentFrame[CONST.ONEOFVALUES][selectedIndex][selected] }
   oneOfProps.expand = true
   oneOfProps.name = selected
   oneOfProps.required = true
-  oneOfProps.formData = oneOfDocumentData
+  //oneOfProps.formData = oneOfDocumentData
+  oneOfProps.formData = oneOfData
   oneOfProps.onChange = handleOneOfChange
   oneOfProps[CONST.ONEOF_SELECTED] = selected
 
@@ -52,65 +55,124 @@ const DisplaySelectedChoices = ({ props, selected, args, id, oneOfDocumentData, 
 }
 
 /** populate one of data when selected has changed  */
-function setOneOfFormData (args, selected, data) {
+function setOneOfFormData (args, selected, selectedOneOfIndex) {
   // subdocuments
-  if(args.documentFrame[CONST.ONEOFVALUES][0][selected].hasOwnProperty(CONST.CLASS))
+  if(args.documentFrame[CONST.ONEOFVALUES][selectedOneOfIndex][selected].hasOwnProperty(CONST.CLASS))
     return { [CONST.TYPE]: selected }
-  else if(args.documentFrame[CONST.ONEOFVALUES][0][selected] === SYS_UNIT_DATA_TYPE) 
+  else if(args.documentFrame[CONST.ONEOFVALUES][selectedOneOfIndex][selected] === SYS_UNIT_DATA_TYPE) 
     return []
   else return ""
 }
 
- 
-export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentData, oneOfDocumentData }) => { 
-  
-  const [selected, setSelected]=useState(props[CONST.ONEOF_SELECTED] ? props[CONST.ONEOF_SELECTED] : false)
+
+
+const OneOfChoice = ({ oneOfKey, args, props, oneOf, oneOfIndex, setOneOfDocumentData, oneOfDocumentData, selectedChoice }) => {
+  const [selected, setSelected]= useState(oneOfDocumentData ? selectedChoice : false)  
+  const [currentOneOf, setCurrentOneOf]=useState(oneOfIndex)
+  const [oneOfData, setOneOfData]=useState(oneOfDocumentData ? oneOfDocumentData[selectedChoice] : "")
+
+  //console.log("oneOfData", oneOfData) 
+
   let { documentFrame, mode } = args
+
+  let choices = util.getOneOfChoices(oneOf)
 
   useEffect(() => {
     if(selected) {
       if(mode === CONST.EDIT) {
         if(props.formData && props.formData.hasOwnProperty(CONST.TYPE) && 
-          selected === props[CONST.ONEOF_SELECTED]) {
+          selected === selectedChoice) {
             setOneOfDocumentData(props.formData)
         }
         else {
-          if(util.isDataType(args.documentFrame[CONST.ONEOFVALUES][0][selected]))
-            setOneOfDocumentData("")
-          else setOneOfDocumentData({ [CONST.TYPE]: selected }) // when props.formData not populated
+          let newData = null
+          if(util.isDataType(args.documentFrame[CONST.ONEOFVALUES][currentOneOf][selected]))
+            newData = ""
+          else newData = { [CONST.TYPE]: selected }// when props.formData not populated
+          setOneOfDocumentData(newData)
+          if(props.onChange) props.onChange(newData, CONST.ONEOFVALUES, selected)
         }
       }
-      else if (mode === CONST.CREATE) {
-        setOneOfDocumentData(setOneOfFormData(args, selected))
-      }
-      if(args.documentFrame[CONST.ONEOFVALUES][0][selected] === SYS_UNIT_DATA_TYPE) {
+      if(args.documentFrame[CONST.ONEOFVALUES][currentOneOf][selected] === SYS_UNIT_DATA_TYPE) {
         // SET DEFAULT VALUE [] if selected is sys:Unit type
         if(props.onChange) props.onChange([], CONST.ONEOFVALUES, selected)
       }
     }
   }, [selected]) 
 
-  function handleChoiceSelect(chosen) {
-    if(chosen) setSelected(chosen) 
+  function handleChoiceSelect(chosen, selectedOneOfIndex) {
+    if(chosen) {
+      setSelected(chosen) 
+      setCurrentOneOf(selectedOneOfIndex)
+    }
   }
 
-  let choices = util.getOneOfChoices(documentFrame["@oneOf"][0])
+  function handleEachOneOfChange(data, name, selectedIndex) {
+    let temp = data
+    //temp[selectedIndex] = data 
+    //let temp = oneOfDocumentData
+    //temp[selected] = data
+    setOneOfDocumentData(temp)
+    setOneOfData(temp)
+    if(props.onChange) props.onChange(temp, name, selected)
+  }
+ 
+
+  return <div className="mb-3" key={oneOfKey}>
+    <SelectComponent options={choices} 
+      mode = {mode}
+      placeholder={`Select choices ...`}
+      value={getDefaultValue(choices, selected)}  
+      id={oneOfKey}
+      required={true}
+      onChange={(chosen) => handleChoiceSelect(chosen, currentOneOf)}/>
+    <DisplaySelectedChoices props={props} 
+      selected={selected} 
+      selectedIndex={currentOneOf}
+      onChange={handleEachOneOfChange}
+      oneOfData={oneOfData} 
+      setOneOfData={setOneOfData}
+      //oneOfDocumentData={oneOfDocumentData} 
+      //setOneOfData={setOneOfData}
+      id={oneOfKey}
+      args={args} />
+  </div> 
+} 
+
+
+
+export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentData, oneOfDocumentData }) => { 
+ 
+  let { documentFrame, mode } = args
+
+  let tempData = {}
+  for(let keys in oneOfDocumentData) {
+    if(keys === "@id") continue
+    else if(keys === "@type") continue
+    else { 
+      tempData[keys] = oneOfDocumentData[keys]
+    }
+  }
 
   return <Stack direction="horizontal"  className="mb-3">
-    <Card bg="secondary" className="w-100 " key={id}>
-      <SelectComponent options={choices} 
-        mode = {mode}
-        placeholder={`Select choices ...`}
-        value={getDefaultValue(choices, selected)} 
-        id={id}
-        required={true}
-        onChange={handleChoiceSelect}/>
-      <DisplaySelectedChoices props={props} 
-        selected={selected} 
-        oneOfDocumentData={oneOfDocumentData} 
-        setOneOfDocumentData={setOneOfDocumentData}
-        id={id}
-        args={args} />
+    <Card bg="secondary" className="w-100 p-3" key={id}>
+      {
+        documentFrame["@oneOf"].map((oneOf, index) => {
+          let choices = util.getOneOfChoices(oneOf)
+          let oneOfKey = `${id}__${index}`
+          return <div className="mb-3" key={oneOfKey}>
+            <OneOfChoice oneOfKey={oneOfKey} 
+              args={args} 
+              props={props} 
+              selectedChoice={mode !== CONST.CREATE ? Object.keys(tempData)[index] : false}
+              oneOf={oneOf} 
+              setOneOfDocumentData={setOneOfDocumentData} 
+              oneOfDocumentData={oneOfDocumentData}
+              oneOfIndex={index}/>
+          </div>
+        })
+      }
     </Card>
   </Stack>
+
 }
