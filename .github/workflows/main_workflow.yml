@@ -19,9 +19,9 @@ jobs:
       with:
         node-version: 18
     - run: npm i --legacy-peer-deps
-    - name : Build Document-UI
+    - name : Build Documents-UI
       run : |
-        cd packages/tdb-document-ui
+        cd packages/tdb-documents-ui
         npm run build
     - name: Build
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' }}
@@ -82,9 +82,9 @@ jobs:
       with:
         node-version: 18
     - run: npm i --legacy-peer-deps
-    - name : Build Document-UI
+    - name : Build Documents-UI
       run : |
-        cd packages/tdb-document-ui
+        cd packages/tdb-documents-ui
         npm run build
     - name: Build local dashboard
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' || startsWith(github.ref, 'refs/tags/v') }}
