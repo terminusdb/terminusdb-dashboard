@@ -489,7 +489,7 @@ export function displayBBoxDocument (props, args, property, id) {
 
   return <TDBBBoxDocuments config={config}/>
 }
-
+ 
 
 // ARRAY 
 export function displayArrayWidgets (props, args, extracted, property, expand, id, hideFieldLabel, linked_to) {
@@ -508,6 +508,7 @@ export function displayArrayWidgets (props, args, extracted, property, expand, i
       required: true,
       mode: args.mode,
       args: args,
+      hideFieldLabel: hideFieldLabel,
       //fieldUIFrame: fieldUIFrame,
       onChange: (data, selectedField) => handleArrayOnChange(data, selectedField),
       //defaultClassName: defaultClassName,

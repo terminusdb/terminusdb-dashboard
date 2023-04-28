@@ -22,7 +22,7 @@ export const getDisplay = (props, args, property) => {
     let id = props.id, linked_to=props.linked_to
     let extracted=args.reference[linked_to]
     let expand=props.isArray ? true : props.expand
-    return display.displayArrayWidgets(props, args, extracted, property, expand, id, hideFieldLabel, linked_to)
+    return display.displayArrayWidgets(props, args, extracted, property, expand, id, true, linked_to)
   }
   else if(util.isSubDocumentType(field)){ 
     // SUBDOCUMENT TYPE

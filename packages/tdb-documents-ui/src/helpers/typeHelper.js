@@ -14,6 +14,10 @@ export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
       return CONST.BOOLEAN_TYPE
     return CONST.STRING_TYPE
   } 
+  else if(util.isOneOfDataType(documentFrame, property)) {
+    // ONE OF TYPE
+    return [ CONST.STRING_TYPE, CONST.OBJECT_TYPE ] 
+  }
   else if(util.isSubDocumentType(field)){
     // SUBDOCUMENT TYPE 
     //return [ "null", CONST.OBJECT_TYPE ]
