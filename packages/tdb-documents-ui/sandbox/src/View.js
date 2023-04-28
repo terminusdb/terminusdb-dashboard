@@ -10,7 +10,7 @@ import { Search } from "./SearchComponent"
 
 //import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 //import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__light.css'
-//import '../../src/css/terminusdb__darkly.css'
+import '../../src/css/terminusdb__darkly.css'
 //import '../../src/css/terminusdb__light.css'
 
 export const View = () => { 
@@ -42,7 +42,7 @@ export const View = () => {
         onTraverse={handleTraverse}
         onSelect={<Search/>}
         theme="darkly"
-        //showThemeSelector={true}
+        showThemeSelector={true}
         onSubmit={handleSubmit}
         type={type}
       />

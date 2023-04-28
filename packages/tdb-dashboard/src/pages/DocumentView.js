@@ -12,6 +12,8 @@ import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
+//import '../../../tdb-documents-ui/src/css/terminusdb__light.css'
+
 export const DocumentView = () => {   
     const { branch,setChangeRequestBranch,woqlClient,currentChangeRequest} = WOQLClientObj()
     const {type, docid} = useParams()
