@@ -35,7 +35,7 @@ const DisplaySelectedChoices = ({ props, selected, args, id, selectedIndex,  onC
     //console.log(data, name) 
     //setOneOfData(data);
     //if(props.onChange) props.onChange(data, name, selected)
-    if(onChange) onChange(data, name, selectedIndex)
+    if(onChange) onChange(data, name, selectedIndex.toString())
   }
 
   // construct props
@@ -44,10 +44,14 @@ const DisplaySelectedChoices = ({ props, selected, args, id, selectedIndex,  onC
   oneOfProps.expand = true
   oneOfProps.name = selected
   oneOfProps.required = true
+  oneOfProps.hideFieldLabel=true
   //oneOfProps.formData = oneOfDocumentData
   oneOfProps.formData = oneOfData
   oneOfProps.onChange = handleOneOfChange
   oneOfProps[CONST.ONEOF_SELECTED] = selected
+
+  if(selectedFrame.hasOwnProperty(CONST.CLASS))
+  oneOfProps.linked_to=selectedFrame[CONST.CLASS]
 
   return <Card.Body> 
     { getDisplay (oneOfProps, argsHolder, selected)  }
@@ -114,7 +118,10 @@ const OneOfChoice = ({ oneOfKey, args, props, oneOf, oneOfIndex, setOneOfDocumen
     //temp[selected] = data
     setOneOfDocumentData(temp)
     setOneOfData(temp)
-    if(props.onChange) props.onChange(temp, name, selected)
+    if(props.onChange) {
+      if(selectedIndex) props.onChange(temp)
+      else props.onChange(temp, name, selected)
+    }
   }
  
 
@@ -139,11 +146,19 @@ const OneOfChoice = ({ oneOfKey, args, props, oneOf, oneOfIndex, setOneOfDocumen
   </div> 
 } 
 
-
+function getSelected(oneOfDocumentData, oneOf) {
+  for(let choice in oneOf){
+   if(oneOfDocumentData.hasOwnProperty(choice)) return choice
+  }
+  return false
+}
 
 export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentData, oneOfDocumentData }) => { 
  
   let { documentFrame, mode } = args
+
+  if(args.mode === CONST.VIEW && !oneOfDocumentData) return  <div className={`tdb__${props.name}__hidden`}/>
+  if(args.mode === CONST.VIEW && !Object.keys(oneOfDocumentData).length) return  <div className={`tdb__${props.name}__hidden`}/>
 
   let tempData = {}
   for(let keys in oneOfDocumentData) {
@@ -164,7 +179,8 @@ export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentD
             <OneOfChoice oneOfKey={oneOfKey} 
               args={args} 
               props={props} 
-              selectedChoice={mode !== CONST.CREATE ? Object.keys(tempData)[index] : false}
+              //selectedChoice={mode !== CONST.CREATE ? Object.keys(tempData)[index] : false}
+              selectedChoice={mode !== CONST.CREATE ? getSelected(oneOfDocumentData, oneOf) : false}
               oneOf={oneOf} 
               setOneOfDocumentData={setOneOfDocumentData} 
               oneOfDocumentData={oneOfDocumentData}

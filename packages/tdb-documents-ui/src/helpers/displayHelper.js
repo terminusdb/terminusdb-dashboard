@@ -19,6 +19,7 @@ import { extractPropertyDocumentation } from "./widgetHelper"
 import { TDBRDFLanguage } from "../widgets/rdfLanguageWidget"
 import { TDBSysUnit } from "../widgets/sysUnitWidget"
 import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
+import { displayDocumentFieldArrayHelpers } from "./documentFieldArrayHelpers"
 import { display } from "./display"
 import { displayGeoJSONViewUI } from "./widgetHelper"
 
@@ -487,5 +488,33 @@ export function displayBBoxDocument (props, args, property, id) {
   }
 
   return <TDBBBoxDocuments config={config}/>
+}
+
+
+// ARRAY 
+export function displayArrayWidgets (props, args, extracted, property, expand, id, hideFieldLabel, linked_to) {
+  
+  function handleArrayOnChange(data, selectedField) {
+    props.onChange(data, selectedField)
+  }
+
+  let fieldID = `root_${property}`
+  let docConfig = {
+      properties: args.reference[linked_to],
+      propertyName: property,
+      id: fieldID,
+      key: fieldID,
+      formData: {},
+      required: true,
+      mode: args.mode,
+      args: args,
+      //fieldUIFrame: fieldUIFrame,
+      onChange: (data, selectedField) => handleArrayOnChange(data, selectedField),
+      //defaultClassName: defaultClassName,
+      ///propertyDocumentation: propertyDocumentation
+  }
+  let argsHolder = {...args}
+  argsHolder.documentFrame={ [property] : linked_to }
+  return displayDocumentFieldArrayHelpers(fieldID, property, null, argsHolder, docConfig)
 }
 
