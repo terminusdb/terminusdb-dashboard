@@ -25,26 +25,6 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
     const totalRows = queryResult.totalRows
 
     const bindings = (result && result.bindings) ? result.bindings : []
-  //const [graphConfig, setGraphConf]=useState(queryResult.graph || graphViewConfig(bindings))
-
-
-    /*function onRowClick (row) {
-       if(row.original["Subject"]) {
-            setSelectedDocument({
-                action: VIEW_DOCUMENT,
-                //type: row.original["@type"],
-                view: FORM_VIEW,
-                submit: false,
-                currentDocument: row.original["Subject"],
-                frames: {},
-                filledFrame: {},
-                loading: <Loading message={`Fetching document ${row.original["@id"]} ...`} type={PROGRESS_BAR_COMPONENT}/>,
-                message: false,
-                update:false
-            })
-           // history.push(DOCUMENT_EXPLORER)
-       }
-    }*/
 
     const [tableConfig, setTableConfig]=useState(tableViewConfig(null))
     const [currentView, setCurrentView]=useState(queryResult.currentView)

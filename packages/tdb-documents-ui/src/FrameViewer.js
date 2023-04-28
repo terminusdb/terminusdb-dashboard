@@ -6,7 +6,7 @@ import * as util from "./utils"
 import { Viewer } from "./Viewer"
 import { HelperMessages } from "./HelperMessages"
 import { constructFormParams } from "./constructFormParams"
-import { BootswatchSelect } from 'react-bootswatch-select';
+//import { BootswatchSelect } from 'react-bootswatch-select';
 import { Row } from "react-bootstrap"
 //import { loadTheme } from "./formActions"
  
@@ -96,11 +96,11 @@ export function FrameViewer(props){
 	}
 	
 	return <div className="tdb__frame__viewer ">
-		<BootswatchSelect version={'4.4.1'} selectedThemeName={theme} selectorHidden/>
+			{/*
 		{showThemeSelector && <div className="mb-3 d-flex">
 			<small className="text-muted">{`Theme Selector: `}</small>
 			<BootswatchSelect version={'4.4.1'} selectedThemeName={theme ? theme : "darkly"} />
-		</div>}
+		</div>*/}
 		<HelperMessages frame={frame} mode={mode} type={type} formData={formData} />
 		<Viewer display={display} 
 			message={message} 

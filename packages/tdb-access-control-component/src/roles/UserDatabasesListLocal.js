@@ -4,7 +4,7 @@ import {Row, Card, Col,Button} from "react-bootstrap"
 import {GrUserAdmin} from "react-icons/gr"
 import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {getUsersDatabaseLocalListConfig} from "../ViewConfig"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {AddUserCapabilityModal} from "./AddUserCapabilityModal"
 import {RiDeleteBin7Line} from "react-icons/ri"
 import {RevokeCapability } from "./RevokeCapability"
@@ -21,7 +21,7 @@ export const UserDatabasesListLocal = ({team,selectedUser,accessControlDashboard
            userDatabaseList,
            loading,
            errorMessage,
-           successMessage} =  AccessControlHook(accessControlDashboard)
+           successMessage} =  useAccessControl(accessControlDashboard)
     
     //to be review the roles list doesn't change
     const resultFormatter=(result)=>{

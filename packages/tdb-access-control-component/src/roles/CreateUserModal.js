@@ -1,13 +1,13 @@
 import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {AiOutlineDelete} from "react-icons/ai"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {CREATE_USER} from "../utils/default"
 
 export const CreateUserModal = ({accessControlDashboard,showModal, setShowModal, updateTable }) => { 
     const nameRef = useRef(null);
     const passwordRef = useRef(null);
-    const {loading,errorMessage,setError,createElementByName} =  AccessControlHook(accessControlDashboard,{})
+    const {loading,errorMessage,setError,createElementByName} =  useAccessControl(accessControlDashboard,{})
     
     const closeModal = () => setShowModal(false)
 

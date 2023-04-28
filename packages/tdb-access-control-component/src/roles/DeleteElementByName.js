@@ -1,9 +1,9 @@
 import React from "react"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import { DeleteElementModal } from "./DeleteElementModal"
 export const DeleteElementByName = ({accessControlDashboard,showModal, setShowModal, elementType, elementName, methodName,updateTable }) => {
    
-    const {deleteElementByName,loading,errorMessage,setError} =  AccessControlHook(accessControlDashboard,{})
+    const {deleteElementByName,loading,errorMessage,setError} =  useAccessControl(accessControlDashboard,{})
 
     const deleteElement = (name) =>{
         deleteElementByName(methodName,name).then(done=>{

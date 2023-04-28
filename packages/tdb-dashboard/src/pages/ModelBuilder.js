@@ -77,16 +77,4 @@ export const ModelBuilder = (props) =>{
       </SplitPane>*/}
 
     </React.Fragment>
-
 }
-
-//maybe we don't need this
-
-/*
- {(schemaView == SCHEMA_CLASSES_VIEW) &&  <Row>
-                    <ClassesTab woqlClient={woqlClient} dataProduct={dataProduct}/>
-                </Row>
-            }
-            {(schemaView == SCHEMA_PROPERTIES_VIEW) && <Row>
-                <PropertiesTab woqlClient={woqlClient} graph={"schema"}/>
-            </Row>}*/

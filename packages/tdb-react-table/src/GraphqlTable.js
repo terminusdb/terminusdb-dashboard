@@ -20,7 +20,21 @@ minWidth,
 maxWidth}]*/
 
 //this only render the logic of do the query is in an external hook
-export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config, freewidth, start, filtersBy ,limit, orderBy, totalRows, setLimits, setOrder, setFilters,onRefresh,dowloadConfig})=>{
+export const GraphqlTable = ({hiddenColumnsArr, 
+                              setHiddenColumns,
+                              result, 
+                              config, 
+                              freewidth, 
+                              start, 
+                              filtersBy ,
+                              limit, 
+                              orderBy, 
+                              totalRows, 
+                              setLimits, 
+                              setOrder, 
+                              setFilters,
+                              onRefresh,
+                              dowloadConfig})=>{
    // let wt = TerminusClient.View.table()
    // if(view)  wt.loadJSON(view.table, view.rules)
     
@@ -152,7 +166,6 @@ export const GraphqlTable = ({hiddenColumnsArr, setHiddenColumns,result, config,
                 rowCount={totalRows}
                 setLimits={setLimits}
                 setOrder={setOrder}
-                onRefresh={onRefresh}
                 hiddenColumns={hiddenColumns}
                 
             />

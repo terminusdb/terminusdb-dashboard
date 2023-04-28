@@ -53,6 +53,7 @@ export function DocumentHook(){
 
     async function getDiffList(changeRequestID, start=0, count=DIFFS_PER_PAGE_LIMIT) {
         try{
+            setLoading(true)
             const client = woqlClient.copy() 
             client.connectionConfig.api_extension = 'api/'
             const baseUrl = client.connectionConfig.dbBase("changes")

@@ -1,5 +1,5 @@
 import React, {useState, useRef} from "react"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {Modal, Button, Form,Row,Col,Alert} from "react-bootstrap"
 import {BsFillPeopleFill} from "react-icons/bs"
 //import {PROGRESS_BAR_COMPONENT, TERMINUS_DANGER,TERMINUS_SUCCESS} from "./constants"
@@ -7,7 +7,7 @@ import {UTILS} from "@terminusdb/terminusdb-client"
 
 export const CreateRoleModal= ({show, setShow, accessControlDashboard,options,updateRolesList}) => {
     if(!accessControlDashboard) return ""
-    const {createRole,errorMessage,loading,setError} =  AccessControlHook(accessControlDashboard,options)     
+    const {createRole,errorMessage,loading,setError} =  useAccessControl(accessControlDashboard,options)     
     const [actionsSelected, setActions] = useState({})
 
     const roleName = useRef(null);
