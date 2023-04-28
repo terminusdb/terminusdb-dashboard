@@ -18,7 +18,7 @@ function addUiFrameForEachField(docConfig, property) {
 function extractDocumentFrame(currentDocumentClass, fullFrame, property) {
   let documentFrame = fullFrame[currentDocumentClass]
  
-  if(util.isArrayTypeFromFrames(documentFrame, property)) {
+  if(util.isArrayTypeFromFrames(documentFrame, property)) { 
     // ARRAY TYPE
     return { [CONST.TYPE]: documentFrame[property][CONST.TYPE] , propertyFrame: documentFrame[property][CONST.CLASS] }
   }

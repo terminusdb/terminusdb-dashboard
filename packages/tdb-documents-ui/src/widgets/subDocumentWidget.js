@@ -68,7 +68,7 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
   const getSubDocumentFields = (subDocumentData) => {
     //let subDocumentFields = []
 
-    let subDocConfig = {
+    let subDocConfig = { 
       properties: properties,
       propertyName: subDocumentPropertyName,
       id: id,
