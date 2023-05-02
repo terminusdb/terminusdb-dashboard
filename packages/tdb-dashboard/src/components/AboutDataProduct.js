@@ -96,6 +96,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
         <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
             <Card.Body>
                 <h4 className="text-light mb-3 fw-bold">About</h4>
+                
                 {dataProductDetails.comment!== 'false' && <span className="text-light mb-4 ">
                     {dataProductDetails.comment}
                 </span>}
@@ -145,10 +146,10 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                 </span>
                 {accessControlDashboard && accessControlDashboard.createDB() && <Fragment>
                     <div className="w-100 d-block align-items-center gx-0">
-                        <Button variant="secondary" 
+                        <Button variant="light" 
                             id="update_database"
                             title={`Update Data Product ${dataProduct} info`} 
-                            className=" btn btn-lg h2 fw-bold w-100 mt-4"
+                            className=" btn btn-md h4 w-100 mt-4 text-dark"
                             onClick={showUpdateHandler}>
                              Update Dataproduct details 
                         </Button>

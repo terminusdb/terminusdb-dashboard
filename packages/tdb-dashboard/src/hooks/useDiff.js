@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from "react";
 import { WOQLClientObj } from "../init-woql-client";
+import { DIFFS_PER_PAGE_LIMIT } from "../components/constants"
 
 export function useDiff(){
     const {woqlClient,currentChangeRequest} = WOQLClientObj()
@@ -51,7 +52,7 @@ export function useDiff(){
        }finally{setLoading(false)}
     }
 
-    async function getDiffList(changeRequestID,start=0,count=5) {
+    async function getDiffList(changeRequestID, start=0, count=DIFFS_PER_PAGE_LIMIT) {
         try{
             setStart(start)
             if(totalResult[`start__${start}`]){

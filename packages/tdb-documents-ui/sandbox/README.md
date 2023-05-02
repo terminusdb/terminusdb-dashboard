@@ -182,7 +182,7 @@ If you dont want to use themes at an application level then import CSS to make t
 #### Light mode
 ```
 import { FrameViewer } from  '@terminusdb/terminusdb-documents-ui'
-import "terminusdb__light.css"
+import "@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__light.css"
 return <FrameViewer
 	frame={frame} 								// frames
 	mode={"View"} 							    // mode in which to display the form
@@ -194,7 +194,7 @@ return <FrameViewer
 #### Dark mode
 ```
 import { FrameViewer } from  '@terminusdb/terminusdb-documents-ui'
-import  "terminusdb__darkly.css"
+import  "@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css"
 return <FrameViewer
 	frame={frame} 								// frames
 	mode={"View"} 							    // mode in which to display the form

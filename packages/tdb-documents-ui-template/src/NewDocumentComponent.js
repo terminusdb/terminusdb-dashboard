@@ -10,7 +10,7 @@ import {ViewDocumentFrames} from "./components/ViewDocumentFrames"
 import { LanguageSelectComponent } from "./components/SelectLanguageComponent"
  
 //onSelect={<SearchComponent/>} 
-export const NewDocumentComponent = ({type,createDocument,frames,closeButtonClick,SearchComponent}) => {
+export const NewDocumentComponent = ({type,createDocument,documentJson,frames,closeButtonClick,SearchComponent}) => {
     const [view, setView] = useState(CONST.FORM_VIEW)
     const [showFrames, setShowFrames] = useState(false)
     const [selectedLanguage, setSelectedLanguage] = useState(false) 
@@ -40,6 +40,7 @@ export const NewDocumentComponent = ({type,createDocument,frames,closeButtonClic
             {view === CONST.FORM_VIEW && 
             <FrameViewer frame={frames}
                     type={type}
+                    formData={documentJson}
                     mode={CONST.CREATE_DOCUMENT}
                     language={selectedLanguage}
                     onSubmit={createDocument} 

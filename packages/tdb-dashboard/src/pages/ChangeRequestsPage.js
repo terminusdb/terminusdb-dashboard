@@ -196,9 +196,9 @@ export const ChangeRequestsPage = () => {
 					<div className="ms-2 me-auto">
 						<div className="fw-bold text-success">
 							{name}
-							<span class="text-dark ml-1 badge badge-info mr-1">{item.tracking_branch}</span>
+							<span class="text-dark ml-1 badge bg-light mr-1">{item.tracking_branch}</span>
 						 		from branch 
-							<span class="text-dark ml-1 badge badge-success">{item.original_branch}</span>
+							<span class="text-dark ml-1 badge bg-success">{item.original_branch}</span>
 						
 						</div>					
 						<div className="text-gray font-italic">

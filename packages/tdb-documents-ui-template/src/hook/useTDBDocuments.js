@@ -22,6 +22,8 @@ export const useTDBDocuments = (woqlClient) => {
     // bool|Object
     const [frames, setFrames]=useState(false)
 
+    
+
     //get all the Document Classes (no abstract or subdocument)
     //improve performance with check last commit
     async function getDocumentClasses() {

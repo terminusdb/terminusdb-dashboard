@@ -110,7 +110,7 @@ export const ChangeDiffComponent = () => {
                 <Card.Body>                 
                     {currentCRObject.status === SUBMITTED && 
                     <ReviewComponent/> }
-                    <DiffView frames={frames} diffs={result} start={start} changePage={changePage} CRObject={currentCRObject}/> 
+                    {!loading && <DiffView diffs={result} CRObject={currentCRObject} start={start} setStart={setStart}/>} 
                 </Card.Body> 
             </Card>
         </Tab>

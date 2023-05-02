@@ -50,7 +50,7 @@ export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
                 Syntax Error: {error} </Alert>}
             
         <CodeMirror 
-            value={JSON.stringify(data || {}, null, 2)}
+            value={JSON.stringify(!data ? {} : data, null, 2)}
             options={cmOptions}
             className={"document__interface__main"}
             onBlur={(editor, data, value) => {

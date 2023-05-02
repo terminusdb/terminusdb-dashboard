@@ -53,6 +53,7 @@ export const DocumentNew = () => {
                 <NewDocumentComponent
                     SearchComponent={DocumentSearchComponent}
                     frames={frames}
+                    formData={{}}
                     createDocument={callCreateDocument}
                     type={type}
                     closeButtonClick={closeButtonClick}

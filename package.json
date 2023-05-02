@@ -12,7 +12,8 @@
   "dependencies": {
     "bootswatch": "^5.2.3",
     "esbuild-jest": "^0.5.0",
-    "jsonlint-mod": "^1.7.6"
+    "jsonlint-mod": "^1.7.6",
+    "react-pro-sidebar": "^0.6.0"
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0"
