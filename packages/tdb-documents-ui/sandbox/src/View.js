@@ -41,7 +41,7 @@ export const View = () => {
         formData={getFormData(mode, type, setData)}
         onTraverse={handleTraverse}
         onSelect={<Search/>}
-        theme="minty"
+        theme="darkly"
         showThemeSelector={true}
         onSubmit={handleSubmit}
         type={type}

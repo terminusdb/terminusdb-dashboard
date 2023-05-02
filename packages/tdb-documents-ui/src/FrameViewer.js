@@ -11,7 +11,7 @@ import { Row } from "react-bootstrap"
 //import { loadTheme } from "./formActions"
  
 /*
-**  frame     - full json schema of a document
+**  frame     - The database Class Frame, or object of all class frames
 **  uiFrame   - ui json of a document
 **  type      - document type of interest
 **  mode      - create/ edit/ view
@@ -23,6 +23,7 @@ import { Row } from "react-bootstrap"
 **  compareFormData - used for diff viewers to compare against original or changed data 
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 **  showThemeSelector - a Select to select differnet themes when using Themes on an application level 
+**  theme - a default theme in which Form will be displayed
 */
 export function FrameViewer(props){
 
