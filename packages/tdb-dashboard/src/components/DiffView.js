@@ -229,13 +229,14 @@ export const DiffView = ({diffs, CRObject, changePage, start,frames}) => {
     let page = Math.ceil(start/5)
     return <React.Fragment>
         {elements}
+        {Array.isArray(diffs) && diffs.length> 0 &&
         <div className="w-100 d-flex justify-content-center">
             <Pagination size={"ls"}>
                 <Pagination.Prev {...prevActive} />
                 <Pagination.Item active>{`Page ${page+1} -- Diff from ${start+1} to ${lastDiff}`}</Pagination.Item>
                 <Pagination.Next {...nextActive} />
             </Pagination>
-        </div>
+        </div>}
     </React.Fragment>
 }
    
