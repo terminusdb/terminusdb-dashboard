@@ -10,10 +10,10 @@ function removeEmptyObject(data) {
 
   return Object.keys(data).reduce(function(accumulator, key) {
     //const isObject = typeof data[key] === 'object';
-    const isObject = !Array.isArray(data[key]) && typeof data[key] === 'object' ? true : false
+    const isObject = !Array.isArray(data[key]) && data[key]!==null && typeof data[key] === 'object' ? true : false
     const value = isObject ? removeEmptyObject(data[key]) : data[key];
     const isEmptyObject = isObject && !Object.keys(value).length;
-    if (value === undefined || isEmptyObject) {
+    if (value ===null && value === undefined || isEmptyObject) {
       return accumulator;
     }
 
