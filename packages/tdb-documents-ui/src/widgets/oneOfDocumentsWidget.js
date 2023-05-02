@@ -83,7 +83,8 @@ const OneOfChoice = ({ oneOfKey, args, props, oneOf, oneOfIndex, setOneOfDocumen
 
   useEffect(() => {
     if(selected) {
-      if(mode === CONST.EDIT) {
+      /*if(mode === CONST.EDIT) {
+        // old logic 
         if(props.formData && props.formData.hasOwnProperty(CONST.TYPE) && 
           selected === selectedChoice) {
             setOneOfDocumentData(props.formData)
@@ -96,10 +97,15 @@ const OneOfChoice = ({ oneOfKey, args, props, oneOf, oneOfIndex, setOneOfDocumen
           setOneOfDocumentData(newData)
           if(props.onChange) props.onChange(newData, CONST.ONEOFVALUES, selected)
         }
-      }
+      }*/
       if(args.documentFrame[CONST.ONEOFVALUES][currentOneOf][selected] === SYS_UNIT_DATA_TYPE) {
         // SET DEFAULT VALUE [] if selected is sys:Unit type
-        if(props.onChange) props.onChange([], CONST.ONEOFVALUES, selected)
+        //if(props.onChange) props.onChange([], CONST.ONEOFVALUES, selected)
+        let temp_selected = oneOfDocumentData
+        temp_selected[selected] = []
+        setOneOfDocumentData(temp_selected)
+        //setOneOfData(data)
+        props.onChange(temp_selected)
       }
     }
   }, [selected]) 
@@ -112,15 +118,25 @@ const OneOfChoice = ({ oneOfKey, args, props, oneOf, oneOfIndex, setOneOfDocumen
   }
 
   function handleEachOneOfChange(data, name, selectedIndex) {
-    let temp = data
+    
     //temp[selectedIndex] = data 
     //let temp = oneOfDocumentData
     //temp[selected] = data
-    setOneOfDocumentData(temp)
-    setOneOfData(temp)
+    
     if(props.onChange) {
-      if(selectedIndex) props.onChange(temp)
-      else props.onChange(temp, name, selected)
+      if(selectedIndex) {
+        let temp_selected = oneOfDocumentData
+        temp_selected[selected] = data
+        setOneOfDocumentData(temp_selected)
+        setOneOfData(data)
+        props.onChange(temp_selected)
+      } 
+      else {
+        let temp = data
+        setOneOfDocumentData(temp)
+        setOneOfData(temp)
+        props.onChange(temp, name, selected)
+      }
     }
   }
  
@@ -148,7 +164,7 @@ const OneOfChoice = ({ oneOfKey, args, props, oneOf, oneOfIndex, setOneOfDocumen
 
 function getSelected(oneOfDocumentData, oneOf) {
   for(let choice in oneOf){
-   if(oneOfDocumentData.hasOwnProperty(choice)) return choice
+    if(oneOfDocumentData.hasOwnProperty(choice)) return choice
   }
   return false
 }
@@ -175,6 +191,7 @@ export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentD
         documentFrame["@oneOf"].map((oneOf, index) => {
           let choices = util.getOneOfChoices(oneOf)
           let oneOfKey = `${id}__${index}`
+
           return <div className="mb-3" key={oneOfKey}>
             <OneOfChoice oneOfKey={oneOfKey} 
               args={args} 

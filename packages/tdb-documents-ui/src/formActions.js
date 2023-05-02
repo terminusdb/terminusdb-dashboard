@@ -1,4 +1,4 @@
-import { EDIT, OBJECT_TYPE } from "./constants"
+import { EDIT, ONEOFVALUES } from "./constants"
 
 // function to remove all empty json object 
 // this is to remove all optional subdocument data other wise database will 
@@ -21,6 +21,17 @@ function removeEmptyObject(data) {
   }, {});
 }
 
+function removeOneOfPropertyFromDocumentLevel(data) {
+  if(!data.hasOwnProperty(ONEOFVALUES)) return data
+  let newData = data 
+  let oneOfData = data[ONEOFVALUES] 
+  delete newData[ONEOFVALUES] 
+  for(let choice in oneOfData) {
+    newData[choice] = oneOfData[choice]
+  }
+  return newData
+}
+
 
 
 /**
@@ -34,7 +45,8 @@ function removeEmptyObject(data) {
 */
 export const handleSubmit = (data, onSubmit, setData, type, mode) => { 
   if(onSubmit) { 
-    let formData=removeEmptyObject(data.formData)
+    let alteredFormData=removeEmptyObject(data.formData)
+    let formData=removeOneOfPropertyFromDocumentLevel(alteredFormData)
     console.log("Before submit: ", formData)
     setData(formData)
     let extracted = formData

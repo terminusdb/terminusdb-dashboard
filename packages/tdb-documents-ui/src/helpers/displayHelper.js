@@ -248,14 +248,46 @@ export function displayChoiceSubDocument (props, args, property, id) {
     props={props}/>
 } 
 
+function getOneOfFormData (props, args) {
+  if(props.formData) return props.formData
+  else if(!props.formData && args.formData) {
+    // check args.formData if one of available at document level
+    let choices = args.documentFrame[CONST.ONEOFVALUES], populatedFormData = {}
+    choices.map(choice => {
+      for(let val in choice){
+        if(args.formData.hasOwnProperty(val)) {
+          // filled form data available
+          populatedFormData[val] = args.formData[val]
+        }
+      }
+    })
+    return populatedFormData
+  }
+}
+
 // ONE OF 
 export function displayOneOfProperty(props, args, property, id) {
-  const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : {})
-
-  useEffect(() => {
-    // formdata on change
+  //const [oneOfDocumentData, setOneOfDocumentData] = useState(props.formData ? props.formData : {})
+  const [oneOfDocumentData, setOneOfDocumentData] = useState(getOneOfFormData(props, args))
+ 
+ 
+  /*useEffect(() => {
+    
     if(props.formData) setOneOfDocumentData(props.formData)
-  }, [props.formData])
+    else if(!props.formData && args.formData) {
+      // check args.formData if one of available at document level
+      let choices = args.documentFrame[CONST.ONEOFVALUES], populatedFormData = {}
+      choices.map(choice => {
+        for(let val in choice){
+          if(args.formData.hasOwnProperty(val)) {
+            // filled form data available
+            populatedFormData[val] = args.formData[val]
+          }
+        }
+      })
+      setOneOfDocumentData(populatedFormData)
+    }
+  }, [props.formData])*/
  
   return  <TDBOneOfDocuments args={args}
     property={property}
@@ -491,7 +523,7 @@ export function displayBBoxDocument (props, args, property, id) {
 }
  
 
-// ARRAY 
+// ARRAY  
 export function displayArrayWidgets (props, args, extracted, property, expand, id, hideFieldLabel, linked_to) {
   
   function handleArrayOnChange(data, selectedField) {
@@ -504,7 +536,8 @@ export function displayArrayWidgets (props, args, extracted, property, expand, i
       propertyName: property,
       id: fieldID,
       key: fieldID,
-      formData: {},
+      //formData: {},
+      formData: !props.formData ? {} : { [property]: props.formData },
       required: true,
       mode: args.mode,
       args: args,

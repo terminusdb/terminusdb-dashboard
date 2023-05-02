@@ -16,7 +16,7 @@ export const getDisplay = (props, args, property) => {
     //(props, args, property, dataType, id, onChange) 
     return display.displayDataTypesWidget(props, args, property, field, props.id, props.onChange) // review
   } 
-  else if(util.isArrayTypeFromFrames(documentFrame, property)) {
+  else if(util.isArrayTypeFromFrames(documentFrame, property) && property !== CONST.COORDINATES_FIELD) {
     // ARRAY TYPES 
     if(props.mode === CONST.VIEW && props.formData === "") return <div/>
     let id = props.id, linked_to=props.linked_to
