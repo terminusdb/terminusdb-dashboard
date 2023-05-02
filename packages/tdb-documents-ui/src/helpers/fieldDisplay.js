@@ -16,6 +16,14 @@ export const getDisplay = (props, args, property) => {
     //(props, args, property, dataType, id, onChange) 
     return display.displayDataTypesWidget(props, args, property, field, props.id, props.onChange) // review
   } 
+  else if(util.isArrayTypeFromFrames(documentFrame, property) && property !== CONST.COORDINATES_FIELD) {
+    // ARRAY TYPES 
+    if(props.mode === CONST.VIEW && props.formData === "") return <div/>
+    let id = props.id, linked_to=props.linked_to
+    let extracted=args.reference[linked_to]
+    let expand=props.isArray ? true : props.expand
+    return display.displayArrayWidgets(props, args, extracted, property, expand, id, true, linked_to)
+  }
   else if(util.isSubDocumentType(field)){ 
     // SUBDOCUMENT TYPE
     if(props.mode === CONST.VIEW && props.formData === "") return <div/>

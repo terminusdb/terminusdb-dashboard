@@ -500,7 +500,7 @@ export const MULTI_POLYGON_DATA_TYPE_EDIT_DATA = {
 			["51.52", "-0.12"]
 		]
 	],
-	"type": "MultiPolygon"
+	"type": "MultiPolygon" 
 }
 
 export const SUBDOCUMENT_LINE_STRING_CREATE_DATA = {

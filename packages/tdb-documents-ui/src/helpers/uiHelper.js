@@ -191,35 +191,36 @@ export const uiHelper = (args, property) => {
   else if(util.isOneOfDataType(documentFrame, property)) {
 
     //field.map(subDocs => {
-    let oneOfField = documentFrame[property][0]
-    for(let choices in oneOfField) {
-      let argsHolder={...args}
-      if(oneOfField[choices].hasOwnProperty(CONST.CLASS)) {
-        let linked_to=oneOfField[choices][CONST.CLASS]
-        let extracted={}
-        // if linked_to definition is not available in references
-        if(!util.availableInReference(reference, linked_to)){
-          let config=constructSubDocumentConfig(argsHolder, property, oneOfField[choices])
-          extracted=getProperties(config)
-          // add extracted documentation 
-          extracted.extractedDocumentation=argsHolder.extractedDocumentation
-
-          // check for SubDocument MetaData
-          let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
-          if(metaDataType) {
-            // expecting JSON at this point
-            expanded=metaDataType
-          } 
-          // add extracted to references
-          addToReference(args, extracted, linked_to)
-        }
-        else {
-          // reference available 
-          extracted=reference[linked_to]
+    let oneOfField = documentFrame[property]
+    oneOfField.map(oneOf => {
+      for(let choices in oneOf) {
+        let argsHolder={...args}
+        if(oneOf[choices].hasOwnProperty(CONST.CLASS)) {
+          let linked_to=oneOf[choices][CONST.CLASS]
+          let extracted={}
+          // if linked_to definition is not available in references
+          if(!util.availableInReference(reference, linked_to)){
+            let config=constructSubDocumentConfig(argsHolder, property, oneOf[choices])
+            extracted=getProperties(config)
+            // add extracted documentation 
+            extracted.extractedDocumentation=argsHolder.extractedDocumentation
+  
+            // check for SubDocument MetaData
+            let metaDataType=util.fetchMetaData(documentFrame, property), expanded = false
+            if(metaDataType) {
+              // expecting JSON at this point
+              expanded=metaDataType
+            } 
+            // add extracted to references
+            addToReference(args, extracted, linked_to)
+          }
+          else {
+            // reference available 
+            extracted=reference[linked_to]
+          }
         }
       }
-    }
-
+    })
     return widget.getOneOfUIDisplay(args, property)
   }
   else if(util.isChoiceDocumentType(field, fullFrame)){

@@ -6,7 +6,7 @@ import '@testing-library/jest-dom'
 import { logRoles } from '@testing-library/dom';
 import selectEvent from 'react-select-event'
 import { extractPropertyDocumentation } from '../helpers/widgetHelper';
-
+ 
 describe("Create a location with Line String", () => {
 
 	/**
