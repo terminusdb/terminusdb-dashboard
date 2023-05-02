@@ -43,7 +43,7 @@ export const EditDocumentComponent = ({type,updateDocument,documentJson,frames,c
             <FrameViewer frame={frames}
                 type={type}
                 mode={CONST.EDIT_DOCUMENT}
-                onSubmit={updateDocument}
+                onSubmit={updateDocument} 
                 //onChange={handleChange}
                 language={selectedLanguage}
                 {...onSelect}  

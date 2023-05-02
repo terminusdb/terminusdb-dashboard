@@ -22,7 +22,8 @@ export const useTDBDocuments = (woqlClient) => {
     // bool|Object
     const [frames, setFrames]=useState(false)
 
-    
+    // store the state of formData  entered by the user
+    const [formData, setFormData]= useState()
 
     //get all the Document Classes (no abstract or subdocument)
     //improve performance with check last commit
@@ -116,6 +117,7 @@ export const useTDBDocuments = (woqlClient) => {
             //return the new document id
             return res
         }catch(err){ 
+            setFormData(jsonDocument)
             setError(err.data || {message:err.message})
         }finally{
             setLoading(false)
@@ -177,12 +179,14 @@ export const useTDBDocuments = (woqlClient) => {
             return true
         }catch(err){
             //display conflict
+            setSelectedDocument(jsonDoc)
             setError(err.data || {message:err.message})
        }finally{setLoading(false)}
     }
 
     return {
             setError,
+            formData, 
             selectedDocument,
             getSelectedDocument,
             getDocumentById,

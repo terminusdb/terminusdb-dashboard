@@ -18,7 +18,7 @@ function addUiFrameForEachField(docConfig, property) {
 function extractDocumentFrame(currentDocumentClass, fullFrame, property) {
   let documentFrame = fullFrame[currentDocumentClass]
  
-  if(util.isArrayTypeFromFrames(documentFrame, property)) {
+  if(util.isArrayTypeFromFrames(documentFrame, property)) { 
     // ARRAY TYPE
     return { [CONST.TYPE]: documentFrame[property][CONST.TYPE] , propertyFrame: documentFrame[property][CONST.CLASS] }
   }
@@ -56,9 +56,10 @@ function constructProps(fieldID, field, expanded, docConfig) {
 
   let data = null, selectedForOneOf = null
   if(field === CONST.ONEOFVALUES) {
-    let extractedData = getPropertyName(docConfig)
+    /*let extractedData = getPropertyName(docConfig)
     data = extractedData.data
-    selectedForOneOf=extractedData[CONST.ONEOF_SELECTED]
+    selectedForOneOf=extractedData[CONST.ONEOF_SELECTED] */
+    data = docConfig.formData
   }
   else data = docConfig.formData[field]
 
@@ -84,9 +85,9 @@ function constructProps(fieldID, field, expanded, docConfig) {
     hideFieldLabel: false,
     mode: docConfig.mode
   }
-  if(field === CONST.ONEOFVALUES) {
+  /*if(field === CONST.ONEOFVALUES) {
     props[CONST.ONEOF_SELECTED] = selectedForOneOf
-  }
+  }*/
   return props
 }  
  

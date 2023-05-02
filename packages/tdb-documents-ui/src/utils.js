@@ -237,7 +237,7 @@ export function getChoices(documentFrame, property) {
  * @param {*} property property
  * @returns extracts choices from frame to be displayed in select component 
  */
-export function getOneOfChoices (oneOfFrame) { 
+export function getOneOfChoices (oneOfFrame) {  
   let options = []
   // oneOfFrame will have choices
 	for(let choices in oneOfFrame) {

@@ -8,6 +8,7 @@ import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
+
 export const DocumentNew = () => {  
     const {organization,dataProduct,type} = useParams()
     const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest} = WOQLClientObj()
@@ -18,7 +19,8 @@ export const DocumentNew = () => {
         error,
         setError,
         getDocumentFrames,
-        createDocument
+        createDocument, 
+        formData
     } = useTDBDocuments(woqlClient)
     const navigate = useNavigate()
   
@@ -50,10 +52,10 @@ export const DocumentNew = () => {
             {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
             {error && <ErrorMessageReport error={error} setError={setError}/>}
             {currentChangeRequest &&  frames &&  
-                <NewDocumentComponent
+                <NewDocumentComponent 
                     SearchComponent={DocumentSearchComponent}
                     frames={frames}
-                    formData={{}}
+                    documentJson={formData}
                     createDocument={callCreateDocument}
                     type={type}
                     closeButtonClick={closeButtonClick}

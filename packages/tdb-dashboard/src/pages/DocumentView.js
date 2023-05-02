@@ -10,6 +10,7 @@ import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
+
 export const DocumentView = () => {   
     const { branch,setChangeRequestBranch,woqlClient,currentChangeRequest} = WOQLClientObj()
     const {type, docid} = useParams()
@@ -67,7 +68,7 @@ export const DocumentView = () => {
         <ViewDocumentComponent 
           type={type}
           getDocumentById={getDocumentById}
-          selectedDocument={selectedDocument}
+          documentJson={selectedDocument}
           frames={frames}
           closeButtonClick={()=>navigate(-1)}
           documentID={documentID}

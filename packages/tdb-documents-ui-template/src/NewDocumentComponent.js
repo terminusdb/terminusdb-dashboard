@@ -38,7 +38,7 @@ export const NewDocumentComponent = ({type,createDocument,documentJson,frames,cl
                 <JsonFrameViewer jsonData={{}} mode={CONST.CREATE_DOCUMENT} setExtracted={createDocument}/>
             }
             {view === CONST.FORM_VIEW && 
-            <FrameViewer frame={frames}
+            <FrameViewer frame={frames} 
                     type={type}
                     formData={documentJson}
                     mode={CONST.CREATE_DOCUMENT}

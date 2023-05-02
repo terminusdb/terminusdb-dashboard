@@ -15,7 +15,7 @@ export const DocumentEdit = () => {
     const [showModal, setShowModal] = useState(false) 
     const {type, docid} = useParams()
     const navigate = useNavigate()
-    
+     
     const {
         updateDocument,
         getSelectedDocument,
@@ -61,7 +61,7 @@ export const DocumentEdit = () => {
                 type={type}
                 frames={frames}
                 closeButtonClick={closeButtonClick}
-                selectedDocument={selectedDocument}
+                documentJson={selectedDocument}
             />
         }
         </React.Fragment>
