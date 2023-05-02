@@ -1,9 +1,8 @@
 import React, {useState,useEffect}  from "react";
 import {WOQLClientObj} from '../init-woql-client'
-import {NewDocumentComponent} from "@terminusdb/terminusdb-documents-ui-template"
+import {NewDocumentComponent, useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import { useNavigate, useParams } from "react-router-dom";
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {DocumentSearchComponent} from "../components/DocumentSearchComponent"

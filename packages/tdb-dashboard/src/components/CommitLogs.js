@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import {getCommitsTabConfig} from "./ViewConfig"
-import {WOQLTable,useTDBWOQLQuery} from '@terminusdb/terminusdb-react-table'
+import {WOQLTable} from '@terminusdb/terminusdb-react-table'
+import {useTDBWOQLQuery} from '@terminusdb/terminusdb-documents-ui-template'
 import {Button} from "react-bootstrap"
 import {printts, copyToClipboard} from "./utils"
 import {BsClipboard} from "react-icons/bs"

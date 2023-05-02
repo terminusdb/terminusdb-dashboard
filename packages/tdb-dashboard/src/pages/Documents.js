@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {DocumentSummary} from "@terminusdb/terminusdb-documents-ui-template"
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
+import {DocumentClassesSummary, useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {BiPlus} from "react-icons/bi"
 import {WOQLClientObj} from '../init-woql-client'
@@ -9,6 +8,7 @@ import {IconBarConfig} from "../components/constants"
 import {Nav} from "react-bootstrap"
 import {NavLink as RouterNavLink , useParams, useNavigate} from "react-router-dom"
 import {Loading} from "../components/Loading"
+import {Col} from "react-bootstrap"
 
 export const Documents = () => {   
     const {woqlClient} = WOQLClientObj()
@@ -39,19 +39,26 @@ export const Documents = () => {
 
     return <div className="w-100">
             {error && <ErrorMessageReport error={error} setError={setError}/>}
-            <DocumentSummary totalDocumentCount={totalDocumentCount}
+            {perDocumentCount && typeof perDocumentCount === "object" && <DocumentClassesSummary totalDocumentCount={totalDocumentCount}
                 perDocumentCount={perDocumentCount} documentClasses ={documentClasses}
-                onClick={handleCardClick}>
-                <Nav.Item className="mb-4">
-                    <Nav.Link  as={RouterNavLink}
-                        title={IconBarConfig.dataProductModal.title}
-                        className="btn btn-lg btn-info p-2 d-inline text-white"
-                        to={getUrl(IconBarConfig.dataProductModal.path)}                
-                        // onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
-                        id={IconBarConfig.dataProductModal.key}>
-                        <BiPlus className="mr-1"/>Create a document
-                    </Nav.Link>
-                </Nav.Item>
-            </DocumentSummary>
+                onDocumentClick={handleCardClick}/>}
+            {Array.isArray(documentClasses) &&  documentClasses.length===0  &&
+                <Col xs={11} className="d-block ml-5 mr-3">
+                <div className="card card-fil m-3">
+                    <div className="card-body w-100 text-center">
+                        <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>
+                        <Nav.Item className="mb-4">
+                        <Nav.Link  as={RouterNavLink}
+                            title={IconBarConfig.dataProductModal.title}
+                            className="btn btn-lg btn-info p-2 d-inline text-white"
+                            to={getUrl(IconBarConfig.dataProductModal.path)}                
+                            // onClick={(e) => setRoute(IconBarConfig.dataProductModal.path)}
+                            id={IconBarConfig.dataProductModal.key}>
+                            <BiPlus className="mr-1"/>Create a document
+                        </Nav.Link>
+                    </Nav.Item>
+                    </div>
+                </div>
+            </Col>}   
         </div>
 }

@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react"
 import {Card, Row, Col, Button} from "react-bootstrap"
-import {WOQLTable,useTDBDocumentQuery} from '@terminusdb/terminusdb-react-table'
+import {WOQLTable} from '@terminusdb/terminusdb-react-table'
+import {useTDBDocumentQuery} from '@terminusdb/terminusdb-documents-ui-template'
 import {getDocumentOfTypeTabConfig} from "./ViewConfig" 
 import {WOQLClientObj} from '../init-woql-client'
 import {getDocumentTools, getDeleteTool, getCopyIDTool} from "./DocumentActions"
 import {getColumnsFromResults, displayIDOfLinkedDocuments, isArray} from "./utils"
 import {Loading} from "./Loading"
 import { useParams,useNavigate } from "react-router-dom"
-import {UTILS} from '@terminusdb/terminusdb-client'
 
 export const DocumentWoqlTable = () => {
     const {

@@ -1,33 +1,11 @@
 import React, {useState, useEffect} from "react"
 import * as CONST from "./constants"
-import Button from "react-bootstrap/Button"
+import {Button,Alert} from "react-bootstrap"
 import { UnControlled as CodeMirror } from "react-codemirror2";
-//import 'codemirror/lib/codemirror.css';
-//import 'codemirror/theme/material-darker.css'
-// we have to add for folding json
-/*import 'codemirror/addon/lint/lint.css';
-import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/mode/javascript/javascript.js';
-import 'codemirror/addon/lint/javascript-lint';
-import 'codemirror/addon/lint/lint.js';
-import 'codemirror/addon/hint/javascript-hint';
-import 'codemirror/addon/hint/show-hint';
-import 'codemirror/addon/hint/show-hint.css'; // without this css hints won't show
-import 'codemirror/addon/search/match-highlighter';
-import 'codemirror/addon/search/matchesonscrollbar';
-import 'codemirror/addon/search/searchcursor';
-import 'codemirror/addon/fold/foldcode';
-import 'codemirror/addon/fold/foldgutter';
-import 'codemirror/addon/fold/brace-fold';
-import 'codemirror/addon/fold/xml-fold';
-import 'codemirror/addon/fold/indent-fold';
-import 'codemirror/addon/fold/markdown-fold';
-import 'codemirror/addon/fold/comment-fold';
-import 'codemirror/addon/fold/foldgutter.css';
-import 'codemirror/addon/display/placeholder.js'*/
 
 export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
     const [data, setData]=useState(false) 
+    const [error,setError] = useState(false)
 
     useEffect(() => {
         if(jsonData) setData(jsonData)
@@ -58,28 +36,29 @@ export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
     }
 
     const onBlurHandler = (value) =>{
-        //setValue(value)
-        setData(JSON.parse(value))
+        try{
+            const parsedData = JSON.parse(value)
+            setData(parsedData)
+        }catch(err){
+            setError(err.message)
+        }
     }
     
     // onBlur 
     return <React.Fragment>
+        {error && <Alert variant="light" onClose={() => setError(false)} dismissible>
+                Syntax Error: {error} </Alert>}
+            
         <CodeMirror 
-            value={JSON.stringify(data, null, 2)}
+            value={JSON.stringify(data || {}, null, 2)}
             options={cmOptions}
             className={"document__interface__main"}
             onBlur={(editor, data, value) => {
                 const editorValue =editor.doc.getValue()
                 onBlurHandler(editorValue)
             }}
-            /*onChange={(editor, data, value) => {
-                console.log("value", value, typeof value)
-                setData(JSON.parse(value))
-                // setting constant to maintain value between form & json view
-                if(mode !== CONST.VIEW_DOCUMENT && setJsonContent) setJsonContent(JSON.parse(value))
-            }}*/
         />
-        {mode!==CONST.VIEW_DOCUMENT && 
+        {mode!==CONST.VIEW_DOCUMENT &&
             <Button className="btn mt-2 float-left" variant="info" onClick={(e) => handleSubmit(data)}>
                 {"Submit"}
             </Button>

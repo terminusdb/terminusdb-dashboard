@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+/*import React, {useState, useEffect} from 'react'
 import { ControlledQueryHook } from "./hook/useTDBWOQLTable"
 import { WOQLTable } from './WOQLTable';
 
@@ -66,4 +66,4 @@ export const ControlledWOQLTable = ({client, query, results, order, rows, freewi
             }
         </div>
     )
-}
+}*/

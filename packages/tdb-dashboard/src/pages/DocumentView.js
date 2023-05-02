@@ -1,14 +1,12 @@
 import React, {useState,useEffect}  from "react";
-import {ViewDocumentComponent} from "@terminusdb/terminusdb-documents-ui-template"
+import {ViewDocumentComponent, useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import {useParams,useNavigate } from "react-router-dom";
-import Alert from 'react-bootstrap/Alert'
 import {Loading} from "../components/Loading"
 import {decodeUrl} from "../components/utils"
 import {EDIT_DOC} from "../routing/constants"
 import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
@@ -25,15 +23,16 @@ export const DocumentView = () => {
         setError,
         loading,
         deleteDocument,
-        getDocument,
-        getDocumentFrames
+        getSelectedDocument,
+        getDocumentFrames,
+        getDocumentById
     } = useTDBDocuments(woqlClient)
 
     let documentID=decodeUrl(docid)
  
     useEffect(() => {
         getDocumentFrames()
-        getDocument(documentID)
+        getSelectedDocument(documentID)
 	},[])
 
     function deleteDocumentHandler(e) {
@@ -54,10 +53,6 @@ export const DocumentView = () => {
     }
 
     if(!selectedDocument || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
-    
-    const getDocumentById=(docId)=>{
-        return woqlClient.getDocument({id:docId}) 
-    }
 
     return <React.Fragment>
         {showCRModal && <CreateChangeRequestModal showModal={showCRModal} type={type}  setShowModal={setShowCRModal} updateViewMode={setChangeRequestBranch}/>}

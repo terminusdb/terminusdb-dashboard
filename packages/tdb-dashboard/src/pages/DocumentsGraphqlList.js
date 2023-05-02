@@ -2,11 +2,10 @@ import React, {useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import {NEW_DOC,EDIT_DOC} from "../routing/constants"
 import {gql} from "@apollo/client";
-import { ListDocumentsComponent } from "@terminusdb/terminusdb-documents-ui-template";
+import { ListDocumentsComponent, useTDBDocuments } from "@terminusdb/terminusdb-documents-ui-template";
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 // I pass this so I'm sure it exists before loading the component

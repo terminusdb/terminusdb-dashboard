@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Card} from "react-bootstrap"
-import {DocumentHook} from "../hooks/DocumentHook"
+import {useDiff} from "../hooks/useDiff"
 import {WOQLClientObj} from "../init-woql-client"
 import {DiffView} from "../components/DiffView"
 import Badge from 'react-bootstrap/Badge'
@@ -11,6 +11,7 @@ import Stack from 'react-bootstrap/Stack'
 import {Loading} from "../components/Loading"
 import Alert from 'react-bootstrap/Alert'
 import { useParams } from 'react-router-dom'
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import {
     DIFFS, 
     MERGED, 
@@ -58,11 +59,18 @@ export const ChangeDiffComponent = () => {
         currentCRObject
     } = WOQLClientObj() 
 
-    const {getDiffList,error:errorMsg,loading,result} = DocumentHook()
+    const {getDiffList,error:errorMsg,loading,result,start} = useDiff()
     
     const [key, setKey] = useState(DIFFS)
+
+    const woqlClientCopy = client.copy()
+    woqlClientCopy.checkout(currentCRObject.original_branch)
+
+    const {frames,getDocumentFrames} = useTDBDocuments(woqlClientCopy)
+   
    
     useEffect(() => {
+        getDocumentFrames()
         getDiffList(changeid)
     }, [])
     
@@ -72,6 +80,10 @@ export const ChangeDiffComponent = () => {
     let documentModifiedCount = result ? result.length : 0
     // email address 
     let author= currentCRObject && currentCRObject.hasOwnProperty("creator_email") ?  currentCRObject["creator_email"] : "creator"
+
+    const changePage=(page)=>{
+        getDiffList(changeid,page)
+    }
 
     return  <Tabs
         id="change_request_tabs"
@@ -98,7 +110,7 @@ export const ChangeDiffComponent = () => {
                 <Card.Body>                 
                     {currentCRObject.status === SUBMITTED && 
                     <ReviewComponent/> }
-                    <DiffView diffs={result} CRObject={currentCRObject}/> 
+                    <DiffView frames={frames} diffs={result} start={start} changePage={changePage} CRObject={currentCRObject}/> 
                 </Card.Body> 
             </Card>
         </Tab>

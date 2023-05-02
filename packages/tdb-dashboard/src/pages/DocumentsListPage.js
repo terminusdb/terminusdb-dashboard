@@ -3,7 +3,7 @@ import { DocumentsGraphqlList } from "./DocumentsGraphqlList";
 import { DocumentWoqlTable } from "../components/DocumentsWoqlTable";
 import {WOQLClientObj} from '../init-woql-client'
 import { useParams } from "react-router-dom"
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import {Loading} from "../components/Loading"
 
 export const DocumentsPageList = () => {

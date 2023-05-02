@@ -10,7 +10,7 @@ import {ViewDocumentFrames} from "./components/ViewDocumentFrames"
 import { LanguageSelectComponent } from "./components/SelectLanguageComponent"
  
 //onSelect={<SearchComponent/>} 
-export const NewDocumentComponent = ({type,createDocument,jsonContent,frames,closeButtonClick,SearchComponent}) => {
+export const NewDocumentComponent = ({type,createDocument,frames,closeButtonClick,SearchComponent}) => {
     const [view, setView] = useState(CONST.FORM_VIEW)
     const [showFrames, setShowFrames] = useState(false)
     const [selectedLanguage, setSelectedLanguage] = useState(false) 
@@ -35,7 +35,7 @@ export const NewDocumentComponent = ({type,createDocument,jsonContent,frames,clo
             </Card.Header>
             <Card.Body className="text-break">
             {view === CONST.JSON_VIEW && 
-                <JsonFrameViewer jsonData={jsonContent} mode={CONST.CREATE_DOCUMENT} setExtracted={createDocument}/>
+                <JsonFrameViewer jsonData={{}} mode={CONST.CREATE_DOCUMENT} setExtracted={createDocument}/>
             }
             {view === CONST.FORM_VIEW && 
             <FrameViewer frame={frames}
@@ -44,7 +44,6 @@ export const NewDocumentComponent = ({type,createDocument,jsonContent,frames,clo
                     language={selectedLanguage}
                     onSubmit={createDocument} 
                     {...onSelect}  
-                    formData={!jsonContent ? {} : jsonContent}
                     hideSubmit={false}
                 />
             }
