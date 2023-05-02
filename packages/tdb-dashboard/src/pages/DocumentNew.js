@@ -19,7 +19,8 @@ export const DocumentNew = () => {
         error,
         setError,
         getDocumentFrames,
-        createDocument
+        createDocument, 
+        formData
     } = useTDBDocuments(woqlClient)
     const navigate = useNavigate()
   
@@ -51,11 +52,12 @@ export const DocumentNew = () => {
             {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
             {error && <ErrorMessageReport error={error} setError={setError}/>}
             {currentChangeRequest &&  frames &&  
-                <NewDocumentComponent
+                <NewDocumentComponent 
                     SearchComponent={DocumentSearchComponent}
                     frames={frames}
                     createDocument={callCreateDocument}
                     type={type}
+                    jsonContent={formData}
                     closeButtonClick={closeButtonClick}
                 />     
             }

@@ -15,13 +15,11 @@ import { documentInternalProperties } from "../helpers/documentHelpers"
 // display based on action  
 const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
-  let nextCreateLink =  false
-
   if(action === CONST.LINK_NEW_DOCUMENT) {
 
     let fields = []
 
-    function handleChange(data, fieldName, b_boxField) { 
+    function handleChange(data, fieldName, b_boxField, fieldLink) { 
       //console.log("documentData", documentData)
       let tempDocumentData = documentData
 
@@ -97,9 +95,9 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, orde
         // if field name is undefined
         // at this point means that its the document link's data 
         // so we pass linked_to as param
-        // nextCreateLink stores the next link 
+        // fieldLink stores the next link 
         //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
-        tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
+        tempDocumentData[fieldName ? fieldName : fieldLink]=data
         setDocumentData(tempDocumentData)
         if(onChange) {
           if(CONST.GEOMETRY_ARRAY.includes(fieldName)) onChange(tempDocumentData, fieldName)
@@ -116,8 +114,6 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, orde
       linked_to = definitions.properties[field][CONST.PLACEHOLDER]
       // if field is a document link then @placeholder will point to linked document at this point
       if(util.availableInReference(reference, linked_to))  {
-        // store the field name here to connect to correct changed data on create
-        nextCreateLink =  field  
         // another document link 
         fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
@@ -131,9 +127,9 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, orde
           depth={cardKey}
           reference={reference}
           extracted={definitions}
-          onChange={handleChange}
+          onChange={(data, fieldName, b_boxField) => handleChange(data, fieldName, b_boxField, field) }
           linkPropertyComment={linkPropertyComment}
-          required={required} />)
+          required={definitions.required.includes(field)} />)
       }
       else { 
         // internal properties

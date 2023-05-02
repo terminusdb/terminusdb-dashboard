@@ -16,7 +16,7 @@ export const DocumentEdit = () => {
     const [showModal, setShowModal] = useState(false) 
     const {type, docid} = useParams()
     const navigate = useNavigate()
-    
+     
     const {
         updateDocument,
         getDocument,

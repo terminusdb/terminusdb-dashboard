@@ -22,15 +22,14 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
   if(action === CONST.LINK_NEW_DOCUMENT) {
 
     let fields = []
-    let nextCreateLink =  false
 
-    function handleChange(data, fieldName) {
+    function handleChange(data, fieldName, field) {
       let tempDocumentData = documentData
       // if field name is undefined
       // at this point means that its the document link's data 
       // so we pass linked_to as param
       //tempDocumentData[fieldName ? fieldName : documentLinkPropertyName]=data
-      tempDocumentData[fieldName ? fieldName : nextCreateLink]=data
+      tempDocumentData[fieldName ? fieldName : field]=data
       setDocumentData(tempDocumentData)
       if(onChange) onChange(tempDocumentData) 
       setUpdate(Date.now())
@@ -45,7 +44,6 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
       linked_to = definitions.properties[field][CONST.PLACEHOLDER]
       if(util.availableInReference(reference, linked_to)) {
         if(!formData.hasOwnProperty(field)) {
-          nextCreateLink =  field  
           fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
           mode={mode}
@@ -56,14 +54,13 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
           onSelect={onSelect}
           reference={reference}
           extracted={extracted}
-          onChange={handleChange}
+          onChange={(data, fieldName) => handleChange(data, fieldName, field)}
           //comment={comment}  // review
           required={required} />) 
         }
         else {
-          nextCreateLink =  field  
           fields.push(<EditDocument name={field} 
-            onChange={handleChange}
+            onChange={(data, fieldName) => handleChange(data, fieldName, field)}
             linked_to={linked_to}
             mode={mode}
             clickedUnlinked={clickedUnlinked}
