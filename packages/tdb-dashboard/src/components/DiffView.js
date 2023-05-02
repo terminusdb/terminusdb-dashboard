@@ -17,6 +17,7 @@ import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {WOQLClientObj} from '../init-woql-client'
 
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { MdAlternateEmail } from "react-icons/md"
 /**
  * 
  * @param {*} diff diff list 
@@ -179,6 +180,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
 </Accordion>
 }
 
+
 /**
  * 
  * @param {*} diffs diff list 
@@ -186,7 +188,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
  * @param {*} originBranchDocumentList document list of origin branch
  * @returns 
  */
-export const DiffView = ({diffs, CRObject}) => { 
+export const DiffView = ({diffs, CRObject, start, setStart }) => {  
     const {woqlClient} = WOQLClientObj()
 
     // I need to copy the woqlClient and set the original_branch 
@@ -195,48 +197,33 @@ export const DiffView = ({diffs, CRObject}) => {
     woqlClientCopy.checkout(CRObject.original_branch)
 
     const {frames,getDocumentFrames} = useTDBDocuments(woqlClientCopy)
-    // pagination constants
-    const [activePage, setActivePage]=useState(1)
-    const [current, setCurrent]=useState(0)
 
-    const [page, setPage] = useState(1)
+    let elements=[]
 
-    let elements=[], paginationItems=[]
-
-    let divide = Math.ceil(diffs.length/DIFFS_PER_PAGE_LIMIT)
-
+ 
     useEffect(() => {
         getDocumentFrames()
 	},[])
+
     // function to handle on click of page
-    function handlePagination(number) {
-        let position=DIFFS_PER_PAGE_LIMIT * (number-1)
-        
-        setCurrent(position)
-        setActivePage(number) 
+    function handlePagination(action) {
+        if(action === "next") {
+            setStart(start+DIFFS_PER_PAGE_LIMIT+1)
+        }
+        else {
+            // previous
+            if(start) setStart(start-DIFFS_PER_PAGE_LIMIT-1)
+        }
         
     }
 
-    // populate pagination Item
-    for (let number = 1; number <= divide; number++) {
-        paginationItems.push(
-            <Pagination.Item key={number} active={number === activePage} onClick={(e) => handlePagination(number)}>
-                {number}
-            </Pagination.Item>
-        )
-    }
-    
     if(!frames) return <Loading message={`Loading Frames ...`}/>
     if(!diffs) return <Loading message={`Loading Diffs ...`}/>
 
-    
-    // looping through diff lists
-    for(let start=current; start<(current + DIFFS_PER_PAGE_LIMIT); start++) {
-       
-        if(start >= diffs.length) continue
-      
-        const propertyModifiedCount = getPropertyModifiedCount(diffs[start])
-        const diffObj = diffs[start]
+
+    diffs.map((diffItems, index) => {
+        const propertyModifiedCount = getPropertyModifiedCount(diffItems)
+        const diffObj = diffItems
         const action = diffObj["@op"] || "Change"
         const actionKey = `@${action.toLowerCase()}`
         const eventKey= diffObj[actionKey] && diffObj[actionKey]["@id"] ? diffObj[actionKey]["@id"] : diffObj["@id"]
@@ -244,7 +231,7 @@ export const DiffView = ({diffs, CRObject}) => {
         
         // this are the diff panel for document
         elements.push(
-            <React.Fragment key={`item__${start}`}>
+            <React.Fragment key={`item__${index}`}>
                <DiffViewDocument frames={frames} key={actionKey}
                     action={action}
                     docType={docType}
@@ -254,25 +241,18 @@ export const DiffView = ({diffs, CRObject}) => {
                     CRObject={CRObject}/>
             </React.Fragment>
         )
-    }
+    })
+       
 
     return <React.Fragment>
         {elements}
         <Row className="w-100">
             <Col/> 
             <Col>
-                {/*<Pagination className="justify-content-center ">{paginationItems}</Pagination>*/}
-                <PaginationControl
-                    page={page}
-                    between={3}
-                    total={diffs.length}
-                    limit={5}
-                    changePage={(page) => {
-                        setPage(page)
-                        handlePagination(page)
-                    }}
-                    ellipsis={1}
-                />
+                <Pagination className="justify-content-center ">
+                    <Pagination.Prev key={"previous"} onClick={(e) => handlePagination("previous")}/>
+                    <Pagination.Next key={"next"} onClick={(e) => handlePagination("next")}/>
+                </Pagination>
             </Col>
             <Col/>
         </Row>

@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from "react";
 import { WOQLClientObj } from "../init-woql-client";
+import { DIFFS_PER_PAGE_LIMIT } from "../components/constants"
 
 export function DocumentHook(){
     const {woqlClient,currentChangeRequest} = WOQLClientObj()
@@ -50,9 +51,9 @@ export function DocumentHook(){
        }finally{setLoading(false)}
     }
 
-    async function getDiffList(changeRequestID,start=0,count=5) {
+    async function getDiffList(changeRequestID, start=0, count=DIFFS_PER_PAGE_LIMIT) {
         try{
-            const client = woqlClient.copy()
+            const client = woqlClient.copy() 
             client.connectionConfig.api_extension = 'api/'
             const baseUrl = client.connectionConfig.dbBase("changes")
             const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff?count=${count}&start=${start}`)
