@@ -14,7 +14,30 @@ To import css is light or dark mode
 
 ```import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'```   or
 ```import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__light.css'```
-  
+
+## Props
+| props 					|description  |
+|--								|--|
+|frame						|The database Class Frame, or object of all class frames|
+|type							| document type of interest to be displayed in form|
+|mode							| create/ edit/ view mode of form|
+|formData					| formData is the data to be filled in form during Edit or View mode |
+|onSubmit					| A function which acts as a callback with some custom logic to process data submitted via form|
+|onSelect					| A function which acts as a callback which provides a UI within the <FrameViwere/> from which user can select another document link. This can be a react component which can be used as search component|
+|onTraverse				| A function which acts as a callback which gets back the ID of a document on click |
+|language					| language code parameters to support a wide variety of languages in UI as defined in schema
+|showThemeSelector|  a Selector to select different themes when using Themes on an application level 
+|theme						|  a default theme in which Form will be displayed - if not mentioned ``darkly`` Bootswatch theme will be used by default 
+
+
+## Mandatory Props
+| props 					|Mandatory  |
+|--								|--|
+|frame						|true |
+|type							|true |
+|mode							|true |
+|formData					|formData has to be mandatory in Edit or View mode. If nothing to display then pass empty json {}|
+
 ## Run sandbox
 
 Run sandbox to get a demo on how to use ``<FrameViewer/>`` component.
