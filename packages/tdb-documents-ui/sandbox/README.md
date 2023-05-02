@@ -5,10 +5,15 @@ SDK to build UI from terminusdb documents. This package includes a ``<FrameViewe
 ## Installation
 Install the dependancy from npm
 ```npm install @terminusdb/terminusdb-documents-ui```
-
+ 
 ## Usage
 Then import dependancy as shown below
 ```import {FrameViewer} from '@terminusdb/terminusdb-documents-ui'```
+
+To import css is light or dark mode 
+
+```import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'```   or
+```import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__light.css'```
   
 ## Run sandbox
 
@@ -152,15 +157,28 @@ return <FrameViewer
 	type={"Theme"}/> 							// type of document to display in form
 ```
 ### Theme Selector
-FrameViewer is based on [Bootswatch](https://bootswatch.com/cosmo/) Themes. Use props ``theme`` in ``<FrameViewer/>`` component to change themes at an application level.
+FrameViewer is based on [Bootswatch](https://bootswatch.com/cosmo/) Themes. Use props ``theme`` in ``<FrameViewer/>`` component to change themes at an application level. Note that if using ``theme`` parameter in FrameViewers the css will change at an application level. If the preference is to just alter the look & feel of the FrameViwer in a project then the ``<FrameViewer/>`` component is shipped with a dark mode and a light mode. 
+
+
 ```
 import { FrameViewer } from  '@terminusdb/terminusdb-documents-ui'
 return <FrameViewer
 	frame={frame} 								// frames
-	mode={"View"} 							    // mode in which to display the form
-	onTraverse={handleTraverse} 				// Callback traverse links function
+	mode={"View"} 							  // mode in which to display the form
+	onTraverse={handleTraverse} 	// Callback traverse links function
 	formData={data} 							// instance data 
 	theme="darkly"								// pass a bootswatch theme - like darkly/ pulse
+	type={"Theme"}/> 							// type of document to display in form
+```
+
+```
+import { FrameViewer } from  '@terminusdb/terminusdb-documents-ui'
+return <FrameViewer
+	frame={frame} 								// frames
+	mode={"View"} 							  // mode in which to display the form
+	onTraverse={handleTraverse} 	// Callback traverse links function
+	formData={data} 							// instance data 
+	theme="minty"								// pass a bootswatch theme - like darkly/ pulse
 	type={"Theme"}/> 							// type of document to display in form
 ```
 
