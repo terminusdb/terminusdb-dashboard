@@ -4,7 +4,8 @@ import {DiffViewer} from '@terminusdb/terminusdb-documents-ui'
 import {OLD_VALUE, CHANGED_VALUE} from "./constants"
 import {getSelectedTypeData} from "./functions"
 import {oldData, changedData} from "./diff.constants"
-import "../../src/css/terminusdb__styles"
+import '../../src/css/terminusdb__darkly.css'
+
 
 export const Output = () => {
     const {
@@ -27,7 +28,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["Person"], changedData["Person"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["Definition"], changedData["Definition"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -256,10 +257,14 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "likes": {
+        "likes":  {
+          "@class": "xsd:string",
+          "@type": "List"
+        }
+        /*"likes": {
           "@class": "Animal",
           "@type": "List"
-        },
+        },*/
         /*"favorite_subject": { 
           "@class": [
             {
@@ -277,7 +282,7 @@ export const Output = () => {
           "@class": "xsd:string",
           "@type": "Optional"
         },*/
-        "manYAddress":  {
+        /*"manYAddress":  {
           "@class": {
             "@class": "Address",
             "@subdocument": []
@@ -358,15 +363,234 @@ export const Output = () => {
         },
         "@type": "Class",
         "likes": "Animal"
+      },
+      "Test": {
+        "@key": {
+          "@type": "Random"
+        },
+        "@type": "Class",
+        "new": {
+          "@class": "xsd:string",
+          "@type": "List"
+        },
+       
       }
     } 
+
+    const CODE_FRAMES = {
+      "@context": {
+        "@base": "terminusdb:///documentation/data/",
+        "@schema": "terminusdb:///documentation/schema#",
+        "@type": "Context"
+      },
+      "Application": {
+        "@inherits": [
+          "Documented",
+          "Named",
+          "Summarized"
+        ],
+        "@type": "Class",
+        "language": {
+          "@id": "Language",
+          "@type": "Enum",
+          "@values": [
+            "Python",
+            "Javascript"
+          ]
+        },
+        "license": "xsd:string",
+        "modules": {
+          "@class": "Module",
+          "@type": "Set"
+        },
+        "name": "xsd:string",
+        "summary": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "version": "xsd:string"
+      },
+      "Class": {
+        "@inherits": [
+          "Documented",
+          "Named",
+          "Summarized"
+        ],
+        "@type": "Class",
+        "memberFunction": "Definition",
+        "memberVariable": "Parameter",
+        "name": "xsd:string",
+        "summary": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+      },
+      "Definition": {
+        "@inherits": [
+          "Documented",
+          "Named",
+          "Summarized"
+        ],
+        "@oneOf": [
+          {
+            "parameters": {
+              "@class": "Parameter",
+              "@dimensions": 1,
+              "@type": "Array"
+            },
+            "receives": {
+              "@class": "Parameter",
+              "@dimensions": 1,
+              "@type": "Array"
+            }
+          },
+          {
+            "returns": "Returns",
+            "returns_multiple": {
+              "@class": "Returns",
+              "@dimensions": 1,
+              "@type": "Array"
+            },
+            "void": "sys:Unit",
+            "yields": "Returns"
+          }
+        ],
+        "@type": "Class",
+        "name": "xsd:string",
+        "summary": { 
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+        /*"examples": {
+          "@class": "xsd:string",
+          "@dimensions": 1,
+          "@type": "Array"
+        },
+        "extendedSummary": "xsd:string",
+        "index": {
+          "@class": "xsd:integer",
+          "@type": "Optional"
+        },
+        "notes": "xsd:string",
+        "raises": {
+          "@class": "Exception",
+          "@type": "Set"
+        },
+        "references": "xsd:string",
+        "section": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "seeAlso": {
+          "@class": "Definition",
+          "@type": "Set"
+        },
+        "signature": "xsd:string",
+        }*/
+      },
+      "Documented": {
+        "@abstract": [],
+        "@inherits": [
+          "Named",
+          "Summarized"
+        ],
+        "@type": "Class",
+        "name": "xsd:string",
+        "summary": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+      },
+      "Exception": {
+        "@inherits": [
+          "Documented",
+          "Named",
+          "Summarized"
+        ],
+        "@type": "Class",
+        "name": "xsd:string",
+        "paramters": {
+          "@class": "xsd:string",
+          "@dimensions": 1,
+          "@type": "Array"
+        },
+        "summary": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+      },
+      "Language": {
+        "@type": "Enum",
+        "@values": [
+          "Python",
+          "Javascript"
+        ]
+      },
+      "Module": {
+        "@inherits": [
+          "Documented",
+          "Named",
+          "Summarized"
+        ],
+        "@type": "Class",
+        "classes": {
+          "@class": "Class",
+          "@type": "Set"
+        },
+        "definitions": {
+          "@class": "Definition",
+          "@type": "Set"
+        },
+        "name": "xsd:string",
+        "summary": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+      },
+      "Named": {
+        "@abstract": [],
+        "@type": "Class",
+        "name": "xsd:string"
+      },
+      "Parameter": {
+        "@inherits": [
+          "Documented",
+          "Named",
+          "Summarized"
+        ],
+        "@type": "Class",
+        "default": "xsd:string",
+        "name": "xsd:string",
+        "summary": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "type": "xsd:string"
+      },
+      "Returns": {
+        "@type": "Class",
+        "name": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        },
+        "type": "xsd:string"
+      },
+      "Summarized": {
+        "@abstract": [],
+        "@type": "Class",
+        "summary": {
+          "@class": "xsd:string",
+          "@type": "Optional"
+        }
+      }
+    }
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["Person"]} 
-            newValue={changedData["Person"]}
-            frame={testFrames}
-            type={"Person"}
+            oldValue={oldData["Definition"]} 
+            newValue={changedData["Definition"]}
+            frame={CODE_FRAMES}
+            type={"Definition"}
             onTraverse={handleTraverse}
             diffPatch={diff}/>
     </div>
