@@ -48,7 +48,7 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div>
                 <AiOutlineWarning className="me-1" />
                 <strong>Warning: </strong>
-                <div className="text-wrap">{message}</div>
+                <pre className="pre--error">{message}</pre>
             </div>
             <Button variant="close" size="xs" onClick={() => onClose("warning")} />
             </div>
@@ -66,7 +66,7 @@ export const Alerts = ({message, type, onCancel, time}) => {
                 <div className="w-100">
                     <FaExclamationTriangle className="me-1 mb-1" />
                     <strong>ERROR: </strong>
-                    <div className="text-wrap">{message}</div>
+                    <pre className="pre--error">{message}</pre>
                 </div> 
                 <AlertCloseButton className={"alert_btn_close alert_danger_text"} onClick={() => onClose("danger")}/>
             </div>
@@ -83,7 +83,7 @@ export const Alerts = ({message, type, onCancel, time}) => {
             <div>
                 <AiOutlineCheckCircle className="me-1" />
                 <strong>Success: </strong> 
-                <div className="text-wrap">{message}</div>
+                <pre className="pre--error">{message}</pre>
                 {time && ` ${queryTimeDisplay(updateTime)}`}
             </div>
             <Button variant="close" size="xs" onClick={() => onClose("success")} />
@@ -93,7 +93,6 @@ export const Alerts = ({message, type, onCancel, time}) => {
     if(type == TERMINUS_MESSAGE)
         return  <Alert
             variant="light"
-            className="text-break"
             show={shouldShowAlert("light")}
             onClose={() => onClose("light")}>
 
@@ -101,7 +100,7 @@ export const Alerts = ({message, type, onCancel, time}) => {
         <div>
             <BsInfoCircle className="me-1" />
             <strong>Info: </strong> 
-            <div className="text-wrap">{message}</div>
+            <pre className="pre--error">{message}</pre>
         </div>
         <Button variant="close" size="xs" onClick={() => onClose("light")} />
         </div>

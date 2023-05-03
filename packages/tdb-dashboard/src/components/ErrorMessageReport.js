@@ -49,7 +49,7 @@ export const FormatErrorMessages = ({error, setError}) => {
         let errorElements = []
         if(error["api:error"]) {
             if(Array.isArray(error["api:error"]["api:witnesses"])) {
-                error["api:error"]["api:witnesses"].map(err => {
+                error["api:error"]["api:witnesses"].map((err,index) => {
 
                     if(err.hasOwnProperty("constraint_name")) {
                         // CONSTRAINT ERRORS
@@ -58,14 +58,14 @@ export const FormatErrorMessages = ({error, setError}) => {
                         let message = err.message
 
                         errorElements.push(
-                            <DisplayErrorPerProperty propertyName={propertyName} message={message} errorType={errorType}/>
+                            <DisplayErrorPerProperty key={`error__${index}`} propertyName={propertyName} message={message} errorType={errorType}/>
                         )
                     }
                     else {
                         if(err.hasOwnProperty("@type")) {
                             checkType(err)
                             errorElements.push(
-                                <pre>{JSON.stringify(err, null, 2)}</pre>
+                                JSON.stringify(err, null, 2)
                             )
                         }
                         else {
@@ -75,7 +75,7 @@ export const FormatErrorMessages = ({error, setError}) => {
                                 let errorType = err[propertyName].hasOwnProperty("@type") ? `${err[propertyName]["@type"]} on ` : `Error occured on`
                                 let message = JSON.stringify(err[propertyName], null, 2)
                                 errorElements.push(
-                                    <DisplayErrorPerProperty propertyName={propertyName} message={message} errorType={errorType}/>
+                                    <DisplayErrorPerProperty key={`error__${index}`} propertyName={propertyName} message={message} errorType={errorType}/>
                                 )
                             }
                         }
@@ -86,7 +86,7 @@ export const FormatErrorMessages = ({error, setError}) => {
                 if(errorObj.hasOwnProperty("@type")) {
                     checkType(errorObj)
                     errorElements.push(
-                        <pre>{JSON.stringify(errorObj, null, 2)}</pre>
+                        JSON.stringify(errorObj, null, 2)
                     )
                 }
             }

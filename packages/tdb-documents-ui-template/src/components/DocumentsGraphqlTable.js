@@ -116,7 +116,7 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
    
     return <div> 
             {error && <Alert onClose={() => setError(false)}  dismissible className="text-break" variant="danger">
-                 GraphQL query error <div className="text-wrap">{errorMessage}</div> </Alert>}  
+                 GraphQL query error <pre className="pre--error">{errorMessage}</pre> </Alert>}  
             {advSearchFields &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">

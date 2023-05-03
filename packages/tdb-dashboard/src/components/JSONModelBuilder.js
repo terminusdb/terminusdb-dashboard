@@ -13,7 +13,6 @@ import {Alert} from "react-bootstrap"
 import {MODEL_BUILDER_EDITOR_OPTIONS} from "./constants"
 import { BiUndo } from "react-icons/bi"
 import {FaRegEdit} from 'react-icons/fa'
-//import {Alerts} from "./Alerts"
 import {TERMINUS_DANGER,DOCUMENT_PREFIX} from "./constants"
 import {GRAPH_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
