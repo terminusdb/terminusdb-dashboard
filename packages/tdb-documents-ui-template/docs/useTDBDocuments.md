@@ -17,7 +17,7 @@
  - `state.frame:Object|Bool`
 	 - this is the current documents frames object, the starting value is false, you need to call the `getDocumentFrames`function to fill this property status
  - `state.documentTablesConfig:Object|Bool`
-	 - this is the current document tables template, this property status store the graphQL query for every documents and the configuration for the tables and the advanced search components, the starting value is false, you need to call the `getGraphqlTablesConfig`function to fill this property status
+	 - this is the current document tables template, this property status store the graphQL query for every documents and the configuration for the tables and the advanced search components, the starting value is null, you need to call the `getGraphqlTablesConfig`function to fill this property status, after the call the status will be the table config Object or false if the call failed
  - `setError: Function(value:Object|Bool)` 
 	 - this function set the error property status.
 - `getDocumentClasses: Function()`
