@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
-import { Query, Builder, Utils as QbUtils } from '@react-awesome-query-builder/ui';
-import {BootstrapConfig} from '@react-awesome-query-builder/bootstrap'
-import "bootstrap/dist/css/bootstrap.css";
-import '@react-awesome-query-builder/bootstrap/css/styles.css';
+import { BasicConfig,Query, Builder, Utils as QbUtils } from '@react-awesome-query-builder/ui';
+//import {BootstrapConfig} from '@react-awesome-query-builder/bootstrap'
+import '@react-awesome-query-builder/ui/css/styles.css';
+//import "bootstrap/dist/css/bootstrap.css";
+//import '@react-awesome-query-builder/bootstrap/css/styles.css';
 //import '@react-awesome-query-builder/ui/css/styles.css';
 //import {Query, Builder, BasicConfig, Utils as QbUtils} from 'react-awesome-query-builder';
 import {Button} from 'react-bootstrap'
+import './style.css';
+
 
 // Choose your skin (ant/material/vanilla):
-const InitialConfig = BootstrapConfig // AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
+const InitialConfig = BasicConfig //BootstrapConfig // AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
 
 const regex = {
   label: "Regex",
@@ -175,42 +178,45 @@ export const AdvancedSearch = (props) =>{
               }
             }else{
               let field = element.properties.field
-              const operator = mapField[element.properties.operator] || element.properties.operator
-              let value = element.properties.value[0]
+              // field can be null 
+              if(field){
+                const operator = mapField[element.properties.operator] || element.properties.operator
+                let value = element.properties.value[0]
 
-              if(element.properties.operator === "like"){
-                value = `(?i)${value}`
-              }
-              
-              let valueObj = {}
-
-              if(groupName){
-                field = field.replace(`${groupName}.`,'')              
-                //addToObj[fieldOnly]={[operator]:value}
-                const groupObj = props.fields[groupName]
-                // if type is an ARRAY/LIST
-                valueObj = checkValueFormat(groupObj.subfields[field],value,operator)
-              }else{
-                // if type is a ARRAY/LIST
-                valueObj = checkValueFormat(props.fields[field],value,operator)
-              }
-
-              //"element/part/name
-              if(field && field.indexOf("/")>-1){
-                const fieldArr = field.split("/");
-                let fieldObj = {}
-                let i = (fieldArr.length-2)
-                
-                fieldObj[fieldArr[fieldArr.length-1]]=valueObj
-
-                while(i>=0){
-                   fieldObj={[fieldArr[i]]:fieldObj} 
-                   i = i-1
+                if(element.properties.operator === "like"){
+                  value = `(?i)${value}`
                 }
-                childrenArrtmp.push(fieldObj)
+                
+                let valueObj = {}
 
-              }else {
-                childrenArrtmp.push({[field]:valueObj})
+                if(groupName){
+                  field = field.replace(`${groupName}.`,'')              
+                  //addToObj[fieldOnly]={[operator]:value}
+                  const groupObj = props.fields[groupName]
+                  // if type is an ARRAY/LIST
+                  valueObj = checkValueFormat(groupObj.subfields[field],value,operator)
+                }else{
+                  // if type is a ARRAY/LIST
+                  valueObj = checkValueFormat(props.fields[field],value,operator)
+                }
+
+                //"element/part/name
+                if(field && field.indexOf("/")>-1){
+                  const fieldArr = field.split("/");
+                  let fieldObj = {}
+                  let i = (fieldArr.length-2)
+                  
+                  fieldObj[fieldArr[fieldArr.length-1]]=valueObj
+
+                  while(i>=0){
+                    fieldObj={[fieldArr[i]]:fieldObj} 
+                    i = i-1
+                  }
+                  childrenArrtmp.push(fieldObj)
+
+                }else {
+                  childrenArrtmp.push({[field]:valueObj})
+                }
               }
             }  
         });
@@ -230,13 +236,9 @@ export const AdvancedSearch = (props) =>{
     }
 
     const onClick= ()=>{
-        
         const jsonTree = QbUtils.getTree(tree);
         const filter = jsonStringToGraphQlFilter(jsonTree)
-
         if(props.setFilter) props.setFilter(filter)
-
-
     }
     
     const onChange = (immutableTree, config) => {
@@ -245,14 +247,17 @@ export const AdvancedSearch = (props) =>{
     }
 
     return <div>
-    <Query
+     <form>
+      <Query
         {...config} 
         value={tree}
         onChange={onChange}
         renderBuilder={renderBuilder}
       />
       <Button onClick={()=>{onClick()}}>Filter Data</Button>
+      </form>
     </div>
+   
 
     
 }

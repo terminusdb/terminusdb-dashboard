@@ -109,10 +109,11 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
         tableConfigObj.rowClick = onRowClickCall
     }
 
-    const errorMessage = error  && typeof error === "object" ? JSON.stringify(error, null, 4) : error
+    const errorMessage = error  && typeof error === "object" ? JSON.stringify(error, null, 2) : error
    
     return <div> 
-            {error && <Alert onClose={() => setError(false)}  dismissible className="text-break" variant="danger"> GraphQL query error <pre>{errorMessage}</pre> </Alert>}  
+            {error && <Alert onClose={() => setError(false)}  dismissible className="text-break" variant="danger">
+                 GraphQL query error <div className="text-wrap">{errorMessage}</div> </Alert>}  
             {advSearchFields &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">

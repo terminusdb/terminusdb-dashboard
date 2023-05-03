@@ -13,6 +13,7 @@ Install the dependancy from npm
 | props |description  |
 |--|--|
 |type|the document type
+|documentJson| the document object, it start empty ({}) for new
 |createDocument|A function which acts as a callback when the `submit` button is clicked
 |frames|The database Class Frame, or object of all class frames 
 |closeButtonClick|A function which acts as a callback when the panel exit `x` button is clicked

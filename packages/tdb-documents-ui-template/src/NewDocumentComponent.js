@@ -9,7 +9,6 @@ import {ToggleJsonAndFormControl} from "./components/ToggleJsonAndFormControl"
 import {ViewDocumentFrames} from "./components/ViewDocumentFrames"
 import { LanguageSelectComponent } from "./components/SelectLanguageComponent"
  
-//onSelect={<SearchComponent/>} 
 export const NewDocumentComponent = ({type,createDocument,documentJson,frames,closeButtonClick,SearchComponent}) => {
     const [view, setView] = useState(CONST.FORM_VIEW)
     const [showFrames, setShowFrames] = useState(false)
