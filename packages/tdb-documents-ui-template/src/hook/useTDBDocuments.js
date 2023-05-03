@@ -182,7 +182,7 @@ export const useTDBDocuments = (woqlClient) => {
             return true
         }catch(err){
             //display conflict
-            setSelectedDocument(jsonDoc)
+            setSelectedDocument(jsonDocument)
             setError(err.data || {message:err.message})
        }finally{setLoading(false)}
     }
