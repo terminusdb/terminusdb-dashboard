@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from "react"
 import {Row, Badge, Col, Card,Button} from "react-bootstrap"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {getListConfigBase} from "../ViewConfig"
 import {RiDeleteBin7Line} from "react-icons/ri"
@@ -18,7 +18,7 @@ export const AllUserList = ({accessControlDashboard,options}) => {
 
     const [rowSelected, setRowSelected] = useState(false)
 
-    const {loading,resultTable, getResultTable} =  AccessControlHook(accessControlDashboard,options)
+    const {loading,resultTable, getResultTable} =  useAccessControl(accessControlDashboard,options)
     
     const tableListArr = Array.isArray(resultTable) ? resultTable : []
 

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 const WOQL = TerminusClient.WOQL
 
-function ControlledQueryHook(woqlClient, query, results, queryLimit, queryStart, order,total) {
+export function useTDBWOQLQuery(woqlClient, query, results, queryLimit, queryStart, order,total) {
     const [limit, setLimit] = useState(queryLimit || 0)
     const [start, setStart] = useState(queryStart || 0)
     const [orderBy, setOrderBy] = useState(order||false)
@@ -147,5 +147,3 @@ function ControlledQueryHook(woqlClient, query, results, queryLimit, queryStart,
         onRefresh
     }
 }
-
-export {ControlledQueryHook}

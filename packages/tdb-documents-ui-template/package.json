@@ -9,7 +9,8 @@
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js'",
     "build": "npm run build-es6 && webpack --mode production",
     "lint": "eslint src",
-    "autofix": "eslint src --fix"
+    "autofix": "eslint src --fix",
+    "sandbox": "webpack serve --mode development  --open --progress --port 3037 --host localhost --config sandbox/webpack.config.js"
   },
   "keywords": [
     "terminusdb-documents",

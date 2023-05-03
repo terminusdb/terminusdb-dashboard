@@ -14,6 +14,6 @@ export const SubmittedData = () => {
 		placeholder={data}
 		viewOnly={true}
 		height= {"550px"}
-		width= {"500px"}
+		width= {"380px"}
 	/>
 }

@@ -12,7 +12,7 @@ import {CopyButton} from "./utils"
 import { ManageDatabase } from "../hooks/ManageDatabase"
 import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 
 import { UTILS } from "@terminusdb/terminusdb-client"
 

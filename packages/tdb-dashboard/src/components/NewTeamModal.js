@@ -5,12 +5,12 @@ import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT, TERMINUS_DANGER,TERMINUS_SUCCESS} from "./constants"
 import {Alerts} from "./Alerts"
 import { UTILS } from "@terminusdb/terminusdb-client"
-import {AccessControlHook} from "@terminusdb/terminusdb-access-control-component"
+import {useAccessControl} from "@terminusdb/terminusdb-access-control-component"
 import {WOQLClientObj} from '../init-woql-client'
 
 export const NewTeamModal = ({show, setShow}) => {
     const {clientUser, accessControlDashboard} = WOQLClientObj()
-    const {createOrganizationAndCapability, createOrganizationRemote,setError,errorMessage,loading} = AccessControlHook(accessControlDashboard)
+    const {createOrganizationAndCapability, createOrganizationRemote,setError,errorMessage,loading} = useAccessControl(accessControlDashboard)
     const [teamName, setTeamName]=useState(false)
     const [teamCreated, setTeamCreated] = useState(false)
 

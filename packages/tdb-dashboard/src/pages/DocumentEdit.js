@@ -1,13 +1,12 @@
 import React, {useEffect, useState}  from "react";
 import {WOQLClientObj} from '../init-woql-client'
-import {EditDocumentComponent} from "@terminusdb/terminusdb-documents-ui-template"
+import {EditDocumentComponent, useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import {useNavigate, useParams } from "react-router-dom";
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {decodeUrl} from "../components/utils"
 import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
 export const DocumentEdit = () => { 
@@ -16,10 +15,10 @@ export const DocumentEdit = () => {
     const [showModal, setShowModal] = useState(false) 
     const {type, docid} = useParams()
     const navigate = useNavigate()
-    
+     
     const {
         updateDocument,
-        getDocument,
+        getSelectedDocument,
         selectedDocument,
         getDocumentFrames,
         frames,
@@ -32,7 +31,7 @@ export const DocumentEdit = () => {
      const  updateDocumentHandler = async (jsonDoc) =>{
         const docUp = await updateDocument(jsonDoc)
         if(docUp){
-            getDocument(documentID)
+            getSelectedDocument(documentID)
             navigate(-1)
         }
    }
@@ -42,7 +41,7 @@ export const DocumentEdit = () => {
             setShowModal(true)
         }
         getDocumentFrames()
-        getDocument(documentID)
+        getSelectedDocument(documentID)
 	},[branch])
 
     const closeButtonClick = () =>{
@@ -62,7 +61,7 @@ export const DocumentEdit = () => {
                 type={type}
                 frames={frames}
                 closeButtonClick={closeButtonClick}
-                selectedDocument={selectedDocument}
+                documentJson={selectedDocument}
             />
         }
         </React.Fragment>

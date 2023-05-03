@@ -22,7 +22,7 @@ export const Form = ({ frames, type, data, mode }) => {
     }
 
     /* filled data */
-    let fData= '${JSON.stringify(data, null, 4)}'
+    let fData= ${JSON.stringify(data, null, 4)}
 
     if(!frames) return <>LOADING ... <>
 

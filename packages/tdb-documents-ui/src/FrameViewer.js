@@ -11,7 +11,7 @@ import { Row } from "react-bootstrap"
 //import { loadTheme } from "./formActions"
  
 /*
-**  frame     - full json schema of a document
+**  frame     - The database Class Frame, or object of all class frames
 **  uiFrame   - ui json of a document
 **  type      - document type of interest
 **  mode      - create/ edit/ view
@@ -23,6 +23,7 @@ import { Row } from "react-bootstrap"
 **  compareFormData - used for diff viewers to compare against original or changed data 
 **  language - language code parameters to support a wide variety of languages in Ui as defined in schema
 **  showThemeSelector - a Select to select differnet themes when using Themes on an application level 
+**  theme - a default theme in which Form will be displayed
 */
 export function FrameViewer(props){
 
@@ -69,16 +70,16 @@ export function FrameViewer(props){
 
 
 	useEffect(() => {
-		//try{ 
+		try{ 
 			if(frame && type && mode) { 
 				clear()
 				// update form
 				setUpdate(Date.now())
 			}
-		//}
-		//catch(e) {
-			//setError(`An error has occured in generating frames. Err - ${e}`)
-		//}
+		}
+		catch(e) {
+			setError(`An error has occured in generating frames. Err - ${e}`)
+		}
 
 	}, [frame, uiFrame, type, mode, formData, language]) 
 
@@ -96,6 +97,7 @@ export function FrameViewer(props){
 	}
 	
 	return <div className="tdb__frame__viewer ">
+			
 		<BootswatchSelect version={'4.4.1'} selectedThemeName={theme} selectorHidden/>
 		{showThemeSelector && <div className="mb-3 d-flex">
 			<small className="text-muted">{`Theme Selector: `}</small>

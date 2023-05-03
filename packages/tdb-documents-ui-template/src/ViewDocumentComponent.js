@@ -16,7 +16,7 @@ import { trimID } from "./utils"
 import { AiFillEdit } from "react-icons/ai"
 
 // we have to fix traversedocklinek
-export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,frames,closeButtonClick,documentID,deleteDocument,editDocument}) => {
+export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,closeButtonClick,documentID,deleteDocument,editDocument}) => {
     const [view, setView] = useState(CONST.FORM_VIEW)
     const [clicked, setClicked]=useState(false)
     const [selectedLanguage, setSelectedLanguage] = useState(false) 
@@ -59,13 +59,13 @@ export const ViewDocumentComponent = ({type,getDocumentById,selectedDocument,fra
             </Card.Header>
             <Card.Body className="text-break">
             {view === CONST.JSON_VIEW && 
-                 <JsonFrameViewer jsonData={selectedDocument} mode={CONST.VIEW_DOCUMENT}/>
+                 <JsonFrameViewer jsonData={documentJson} mode={CONST.VIEW_DOCUMENT}/>
             }
             {view === CONST.FORM_VIEW && 
             <FrameViewer frame={frames}
                     type={type}
                     mode={CONST.VIEW_DOCUMENT}
-                    formData={selectedDocument}
+                    formData={documentJson}
                     language={selectedLanguage}
                     hideSubmit={true}
                     onTraverse={handleTraverse}

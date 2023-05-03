@@ -6,7 +6,7 @@ import {AiOutlineDatabase} from "react-icons/ai"
 import {GrUserAdmin} from "react-icons/gr"
 import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {getUsersListConfig,getUsersDatabaseListConfig} from "../ViewConfig"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {ManageUserCapabilityModal} from "./ManageUserCapabilityModal"
 import {formatCell} from "./formatData"
 import {UserDatabasesList} from "./UserDatabasesList"
@@ -29,7 +29,7 @@ export const MembersList = ({team,currentUser,accessControlDashboard,options}) =
  
     const {getOrgUsers,orgUsers,
           loading,
-          errorMessage} =  AccessControlHook(accessControlDashboard)
+          errorMessage} =  useAccessControl(accessControlDashboard)
     
     //to be review the roles list doesn't change
     useEffect(() => {

@@ -2,18 +2,19 @@ import React, {useState,useEffect} from "react";
 import { WOQLClientObj } from "../init-woql-client";
 import { DIFFS_PER_PAGE_LIMIT } from "../components/constants"
 
-export function DocumentHook(){
+export function useDiff(){
     const {woqlClient,currentChangeRequest} = WOQLClientObj()
 
     const [result, setResult] = useState(false)
+    const [totalResult, setTotalResult] = useState({})
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const [originalValue, setOriginalValue] =  useState(false)
     const [changedValue, setChangedValue] =  useState(false)
-    
+    const [start,setStart] = useState(0)
+
     /**
-     * 
      * @param {*} branch branch to get document from
      * @param {*} documentID documentID clicked from diff accordians
      * @returns An array of documents from tracking branch
@@ -53,11 +54,18 @@ export function DocumentHook(){
 
     async function getDiffList(changeRequestID, start=0, count=DIFFS_PER_PAGE_LIMIT) {
         try{
-            const client = woqlClient.copy() 
-            client.connectionConfig.api_extension = 'api/'
-            const baseUrl = client.connectionConfig.dbBase("changes")
-            const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff?count=${count}&start=${start}`)
-            setResult(result)
+            setStart(start)
+            if(totalResult[`start__${start}`]){
+                setResult(totalResult[`start__${start}`])
+            }else{
+                const limit = count+1
+                const client = woqlClient.copy()
+                client.connectionConfig.api_extension = 'api/'
+                const baseUrl = client.connectionConfig.dbBase("changes")
+                const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff?count=${limit}&start=${start}`)
+                totalResult[`start__${start}`] = result
+                setResult(result)
+            }
         }
         catch(err){
             setError(err.message)
@@ -91,6 +99,7 @@ export function DocumentHook(){
     }
 
     return {result, 
+            start,
             checkStatus,
             getDocumentByBranches,
             getDiffList,

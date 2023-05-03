@@ -7,17 +7,12 @@ import {TbExchange} from "react-icons/tb"
 import Stack from 'react-bootstrap/Stack'
 import Pagination from 'react-bootstrap/Pagination'
 import {DIFFS_PER_PAGE_LIMIT} from "./constants"
-import {Row, Col} from "react-bootstrap"
-import {DocumentHook} from "../hooks/DocumentHook"
+import {useDiff} from "../hooks/useDiff"
 import Alert from 'react-bootstrap/Alert'
 import {BsPlus} from "react-icons/bs"
 import {BiMinusCircle} from "react-icons/bi"
 import {Loading} from "./Loading"
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
 import {WOQLClientObj} from '../init-woql-client'
-
-import { PaginationControl } from 'react-bootstrap-pagination-control';
-import { MdAlternateEmail } from "react-icons/md"
 /**
  * 
  * @param {*} diff diff list 
@@ -117,7 +112,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
     const {getDocumentByBranches, 
         error,
         originalValue, 
-        changedValue} = DocumentHook() 
+        changedValue} = useDiff() 
 
     const [clicked, setClicked]=useState(false)
 
@@ -180,7 +175,6 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
 </Accordion>
 }
 
-
 /**
  * 
  * @param {*} diffs diff list 
@@ -188,42 +182,17 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
  * @param {*} originBranchDocumentList document list of origin branch
  * @returns 
  */
-export const DiffView = ({diffs, CRObject, start, setStart }) => {  
-    const {woqlClient} = WOQLClientObj()
-
-    // I need to copy the woqlClient and set the original_branch 
-    // to get the right frame
-    const woqlClientCopy = woqlClient.copy()
-    woqlClientCopy.checkout(CRObject.original_branch)
-
-    const {frames,getDocumentFrames} = useTDBDocuments(woqlClientCopy)
-
-    let elements=[]
-
- 
-    useEffect(() => {
-        getDocumentFrames()
-	},[])
-
-    // function to handle on click of page
-    function handlePagination(action) {
-        if(action === "next") {
-            setStart(start+DIFFS_PER_PAGE_LIMIT+1)
-        }
-        else {
-            // previous
-            if(start) setStart(start-DIFFS_PER_PAGE_LIMIT-1)
-        }
-        
-    }
+export const DiffView = ({diffs, CRObject, changePage, start,frames}) => { 
+    let elements=[], paginationItems=[]
 
     if(!frames) return <Loading message={`Loading Frames ...`}/>
     if(!diffs) return <Loading message={`Loading Diffs ...`}/>
 
-
-    diffs.map((diffItems, index) => {
-        const propertyModifiedCount = getPropertyModifiedCount(diffItems)
-        const diffObj = diffItems
+    for (let start=0;  start<5; start++) {
+        if(start >= diffs.length) continue
+      
+        const propertyModifiedCount = getPropertyModifiedCount(diffs[start])
+        const diffObj = diffs[start]
         const action = diffObj["@op"] || "Change"
         const actionKey = `@${action.toLowerCase()}`
         const eventKey= diffObj[actionKey] && diffObj[actionKey]["@id"] ? diffObj[actionKey]["@id"] : diffObj["@id"]
@@ -231,7 +200,7 @@ export const DiffView = ({diffs, CRObject, start, setStart }) => {
         
         // this are the diff panel for document
         elements.push(
-            <React.Fragment key={`item__${index}`}>
+            <React.Fragment key={`item__${start}`}>
                <DiffViewDocument frames={frames} key={actionKey}
                     action={action}
                     docType={docType}
@@ -241,21 +210,34 @@ export const DiffView = ({diffs, CRObject, start, setStart }) => {
                     CRObject={CRObject}/>
             </React.Fragment>
         )
-    })
-       
+    }
 
+    const changePageCallNext =()=>{
+        changePage(start+5)
+    }
+
+
+    const changePageCallPreview =()=>{
+        changePage(start-5)
+    }
+
+    const prevActive = start>1 ? {onClick:changePageCallPreview} : {active:false}
+    const nextActive = diffs.length> 5  ? {onClick:changePageCallNext} : {active:false}
+
+    const lastDiff = start + Math.min(diffs.length,5)
+
+    let page = Math.ceil(start/5)
     return <React.Fragment>
         {elements}
-        <Row className="w-100">
-            <Col/> 
-            <Col>
-                <Pagination className="justify-content-center ">
-                    <Pagination.Prev key={"previous"} onClick={(e) => handlePagination("previous")}/>
-                    <Pagination.Next key={"next"} onClick={(e) => handlePagination("next")}/>
-                </Pagination>
-            </Col>
-            <Col/>
-        </Row>
+        {Array.isArray(diffs) && diffs.length> 0 &&
+        <div className="w-100 d-flex justify-content-center">
+            <Pagination size={"ls"}>
+                <Pagination.Prev {...prevActive} />
+                <Pagination.Item active>{`Page ${page+1} -- Diff from ${start+1} to ${lastDiff}`}</Pagination.Item>
+                <Pagination.Next {...nextActive} />
+            </Pagination>
+        </div>}
     </React.Fragment>
 }
+   
 

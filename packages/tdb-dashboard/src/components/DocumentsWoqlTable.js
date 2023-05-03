@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from "react"
 import {Card, Row, Col, Button} from "react-bootstrap"
-import {WOQLTable,ControlledGetDocumentQuery} from '@terminusdb/terminusdb-react-table'
-//import {ControlledGetDocumentQuery} from '@terminusdb-live/tdb-react-components'
+import {WOQLTable} from '@terminusdb/terminusdb-react-table'
+import {useTDBDocumentQuery} from '@terminusdb/terminusdb-documents-ui-template'
 import {getDocumentOfTypeTabConfig} from "./ViewConfig" 
 import {WOQLClientObj} from '../init-woql-client'
 import {getDocumentTools, getDeleteTool, getCopyIDTool} from "./DocumentActions"
 import {getColumnsFromResults, displayIDOfLinkedDocuments, isArray} from "./utils"
 import {Loading} from "./Loading"
 import { useParams,useNavigate } from "react-router-dom"
-import {UTILS} from '@terminusdb/terminusdb-client'
 
 export const DocumentWoqlTable = () => {
     const {
@@ -23,7 +22,7 @@ export const DocumentWoqlTable = () => {
     const [extractedResults, setExtractedResults]=useState([])
     const [tableConfig, setTableConfig] = useState(false)
     const [barloading, setBarLoading]=useState(true)
-    
+    // we are using WOQLTable with the document inteface
     const {
         updateQuery,
         changeOrder,
@@ -39,7 +38,7 @@ export const DocumentWoqlTable = () => {
         setDocumentResults,
         setControlledRefresh,
         controlledRefresh
-    } = ControlledGetDocumentQuery(woqlClient, type, 10)
+    } = useTDBDocumentQuery(woqlClient, type, 10)
 
     /*useEffect(() => { // get documents on click of document types
         setBarLoading(true)

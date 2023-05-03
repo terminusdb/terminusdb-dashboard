@@ -1,12 +1,12 @@
 import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {AiOutlineDelete} from "react-icons/ai"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {CREATE_ORGANIZATION} from "../utils/default"
 import {UTILS} from "@terminusdb/terminusdb-client"
 export const CreateOrganizationModal = ({accessControlDashboard,showModal, setShowModal, updateTable }) => { 
     const nameRef = useRef(null);
-    const {loading,errorMessage,setError,createElementByName} =  AccessControlHook(accessControlDashboard,{})
+    const {loading,errorMessage,setError,createElementByName} =  useAccessControl(accessControlDashboard,{})
     
     const runCreate = async () => {
         const name = nameRef.current.value

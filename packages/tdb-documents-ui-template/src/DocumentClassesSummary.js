@@ -2,15 +2,18 @@
 import React from "react"
 import {Container, Card, Row, Col, Button} from "react-bootstrap"
 
-export const DocumentSummary = ({children,totalDocumentCount,perDocumentCount,documentClasses,onClick}) => {
-
+export const DocumentClassesSummary = ({totalDocumentCount,perDocumentCount,onDocumentClick}) => {
+    
+    const clickDocument = (type) =>{
+        if(onDocumentClick)onDocumentClick(type)
+    }
     const DocumentStats = ({dataProvider}) => {
         const dataKey = Object.keys(dataProvider)
         return dataKey.map((type)=>{
             const val = dataProvider[type]["@value"]
 
             return <Col key = {type +"___doc_status"} md={4} className="py-2 doc-summary-card">
-                    <Button id={type} className="bg-transparent border-0 p-0 w-100" onClick={(e) => onClick(type)}>
+                    <Button id={type} className="bg-transparent border-0 p-0 w-100" onClick={(e) => clickDocument(type)}>
                         <Card bg="dark" style={{maxHeight: "220px", cursor: "pointer"}} >
                             <Card.Header className="bg-transparent border-0 d-flex text-wrap">
                                 <div>
@@ -35,22 +38,8 @@ export const DocumentSummary = ({children,totalDocumentCount,perDocumentCount,do
         })
     }
 
-    return  <main className="content  ml-5 w-100">
-    <Container>
-        <Row>
-            {perDocumentCount && typeof perDocumentCount === "object" 
-                &&<DocumentStats dataProvider={perDocumentCount}/>
-            }
-             {Array.isArray(documentClasses) &&  documentClasses.length===0  &&
-                <Col xs={11} className="d-block ml-5 mr-3">
-                <div className="card card-fil m-3">
-                    <div className="card-body w-100 text-center">
-                        <h4 className="text-muted mt-3 mb-5">{`No document classes created yet...`}</h4>
-                        {children}
-                    </div>
-                </div>
-            </Col>}
-        </Row>
-    </Container>
-</main>
+    if(!perDocumentCount || typeof perDocumentCount !== "object") return <div/>
+    return  <Container>
+                <Row><DocumentStats dataProvider={perDocumentCount}/></Row>
+            </Container>
 }

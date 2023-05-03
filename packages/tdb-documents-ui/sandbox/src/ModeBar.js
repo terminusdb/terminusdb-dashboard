@@ -26,11 +26,14 @@ export const ModeBar = () => {
 	const {
 		mode,
 		setMode,
+		setData
 	} = FrameObj()
 
 	function handleChange (event) {
-		setChecked(event.target.value)
-		setMode(event.target.value)
+		let mode = event.target.value
+		setChecked(mode)
+		setMode(mode)
+		if(mode === CREATE) setData({})
 	}
 
 	return <Card className="mb-3">

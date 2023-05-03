@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+/*import React, {useState, useEffect} from 'react'
 import TerminusClient from '@terminusdb/terminusdb-client'
 const WOQL = TerminusClient.WOQL
 
@@ -82,9 +82,7 @@ function ControlledDocuments (woqlClient, type, documents, queryLimit, queryStar
         })
     }
 
-    /*
-     * I have to review the error in interceptor
-     */
+  
     function processErrorResult(e, stime) {
         let response = {}
         response.status=e.status
@@ -132,3 +130,4 @@ function ControlledDocuments (woqlClient, type, documents, queryLimit, queryStar
 }
 
 export {ControlledDocuments}
+*/

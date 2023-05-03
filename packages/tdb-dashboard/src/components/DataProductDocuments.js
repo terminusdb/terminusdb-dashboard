@@ -7,7 +7,7 @@ import {getPropertyRelation} from '../queries/GeneralQueries'
 import {Button, Badge, ButtonGroup} from "react-bootstrap"
 import {BiPlus} from "react-icons/bi"
 import {SearchBox} from "./SearchBox"
-import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui"
+import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
 import {useParams, useNavigate} from "react-router-dom"

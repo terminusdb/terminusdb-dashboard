@@ -1,41 +1,52 @@
 import React, {useState, useEffect} from 'react'
 import {extractDocuments} from './hookUtility'
 
-export function useGraphqlTDBTable (apolloClient, graphqlQuery, documentType, queryLimit, queryStart, order, filter,tableConfigObj,hiddenColumnsStart) {
-    const [limit, setLimit] = useState(queryLimit || 10)
-    const [start, setStart] = useState(queryStart || 0)
+// maybe we can add a start filter and a start orderby
+/*
+* @typedef {Object} options  
+* @property {number} [limit] 
+* @property {number} [start] 
+* @property {object} [tableConfigObj]
+* @property {array} [hiddenColumns]
+*/
+export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, options={}){
+    const [limit, setLimit] = useState(options && options.limit || 10)
+    const [start, setStart] = useState(options && options.start || 0)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [rowCount, setRowCount] = useState(0)
-  //  const [hasNextPage, setHasNextPage] = useState(true)
-    const [controlledRefresh, setControlledRefresh] = useState(0)
     const [data, setData] = useState(null)
     const [extractedData, setExtractedData] = useState(null)
     
-    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(['_id'])
+    const startHiddenColumns = options && options.hiddenColumns || hiddenColumnsStart()
+    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(startHiddenColumns)
 
     //filter is the filter formatted for the query
     let filterTable  = []
     
     // the original orderBy from the table and the object for the query
     const [orderBy, setOrderBy] = useState([])
-    const [queryOrderBy, setQueryOrderBy] = useState(false)
+    const [queryOrders, setQueryOrderBy] = useState(false)
 
     const [filterBy, setFilters] = useState(filterTable)
     const [queryFilters, setQueryFilters] = useState(false)
 
    
-    function formatFilterForTable(){
-      if (filter){
-      const keys = Object.keys(filter)
-      keys.forEach(propN =>{
-        
-         const operator = Object.keys(filter[propN])[0]
-
-         filterTable.push({id:propN, value:{value:filter[propN][operator],operator:operator}})
-      })
-        setFilters(filterTable)
+    function hiddenColumnsStart(){
+      const startHiddenColumns = []
+      if(options && Array.isArray(options.tableConfigObj)){
+        if(options.tableConfigObj.length > 1){
+          startHiddenColumns.push("_id")
+        }
+        if(options.tableConfigObj.length > 4){
+          options.tableConfigObj.forEach((item,i) =>{
+            if(i>4){
+              startHiddenColumns.push(item.id)
+            }
+          })
+        }
       }
+      return startHiddenColumns
     }
 
     const callFetchMore = async (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
@@ -49,7 +60,7 @@ export function useGraphqlTDBTable (apolloClient, graphqlQuery, documentType, qu
         if(result.errors) {
             setRowCount(0)
             setData([])
-            setError("Graphql Error")
+            setError(result.errors)
         }else{
             const data = result.data 
             if(!Array.isArray(data[documentType]))return []
@@ -72,21 +83,21 @@ export function useGraphqlTDBTable (apolloClient, graphqlQuery, documentType, qu
     }
 
 
-    const changeLimits =(currentlimit,currentpage,fetchMore=false)=>{
+    const changeLimits =(currentlimit,currentpage)=>{
         setStart(currentpage)
         setLimit(currentlimit)
         console.log("changeLimits" ,queryFilters)
-        callFetchMore(currentlimit,currentpage,queryOrderBy,queryFilters) 
+        callFetchMore(currentlimit,currentpage,queryOrders,queryFilters) 
     }
 
     /*
     * the advanced filter is already formatted for the query
     */
-    const setAdvancedFilters = (advfilter,fetchMore=false)=>{
+    const setAdvancedFilters = (advfilter)=>{
         setFilters([])
         setQueryFilters(advfilter)
         console.log("setAdvancedFilters" ,advfilter, queryFilters)
-        callFetchMore(limit,start,queryOrderBy,advfilter) 
+        callFetchMore(limit,start,queryOrders,advfilter) 
      }
     
     /*
@@ -132,10 +143,10 @@ export function useGraphqlTDBTable (apolloClient, graphqlQuery, documentType, qu
         setQueryFilters(filtersTmp)
 
         console.log("changeFilters" ,filtersArr, filtersTmp)
-        callFetchMore(limit,0,queryOrderBy,filtersTmp)      
+        callFetchMore(limit,0,queryOrders,filtersTmp)      
       }
 
-     const changeOrder = (orderByArr) =>{
+     const changeOrders = (orderByArr) =>{
         const orderByObj = {}
         if(Array.isArray(orderByArr)){        
           orderByArr.forEach(item=>{
@@ -148,19 +159,16 @@ export function useGraphqlTDBTable (apolloClient, graphqlQuery, documentType, qu
         callFetchMore(limit,0,orderByObj,queryFilters)  
       }
 
-    const onRefresh = () => {
-        setRefresh(controlledRefresh+1)
-    }
 
     const setHiddenColumns =(id, checked)=>{
       const indexof = hiddenColumnsArr.indexOf(id)
       if(id==="__ALL__"){
           if(checked){
-              setHiddenColumnsArr([])
+              hiddenColumnsArr.splice(0,0)
           }else{
               //columns name
-              if(Array.isArray(tableConfigObj)){
-                tableConfigObj.forEach(item =>{
+              if(options && Array.isArray(options.tableConfigObj)){
+                options.tableConfigObj.forEach(item =>{
                   if(hiddenColumnsArr.indexOf(item.id) === -1)
                       hiddenColumnsArr.push(item.id)
                 })
@@ -178,30 +186,24 @@ export function useGraphqlTDBTable (apolloClient, graphqlQuery, documentType, qu
   }
     
     return {
-        callFetchMore,
-        documentError:error,
-       // updateDocument,
-        changeOrder,
+        setError,
+        callGraphqlServer:callFetchMore,
+        error,
+        changeOrders,
         changeLimits,
         changeFilters,
         setAdvancedFilters,
         orderBy,
         filterBy,
         queryFilters,
-        queryOrderBy,
-       // controlledDocument,
+        queryOrders,
         limit,
         start,
         loading,
         rowCount,
-        onRefresh,
         documentResults:data,
         extractedData,
         hiddenColumnsArr,
         setHiddenColumns,
-        // maybe we need to set from outside
-       // setDocumentResults,
-       // setControlledRefresh,
-        controlledRefresh
-    }
+  }
 }

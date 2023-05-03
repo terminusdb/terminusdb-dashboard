@@ -4,7 +4,7 @@ import {Row, Card, Col,Button} from "react-bootstrap"
 import {GrUserAdmin} from "react-icons/gr"
 import {WOQLTable} from '@terminusdb/terminusdb-react-table'
 import {getUsersDatabaseListConfig} from "../ViewConfig"
-import {AccessControlHook} from "../hooks/AccessControlHook"
+import {useAccessControl} from "../hooks/useAccessControl"
 import {ManageUserCapabilityModal} from "./ManageUserCapabilityModal"
 import {formatCell} from "./formatData"
 import {Loading} from "../Loading"
@@ -17,7 +17,7 @@ export const UserDatabasesList = ({team,selectedUser,accessControlDashboard,opti
     const {getUserDatabasesRoles,
           userDatabaseList,
           loading,
-          errorMessage} =  AccessControlHook(accessControlDashboard)
+          errorMessage} =  useAccessControl(accessControlDashboard)
     
     //to be review the roles list doesn't change
     useEffect(() => {

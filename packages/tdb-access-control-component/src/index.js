@@ -1,3 +1,3 @@
 export {TeamMembers} from './TeamMembers';
 export {AccessControlDashboard} from './accessControlDashboard';
-export {AccessControlHook} from './hooks/AccessControlHook';
+export {useAccessControl} from './hooks/useAccessControl';

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {sortAlphabetically} from "./utils"
-import {getTotalNumberOfDocuments} from "./generalQueries"
+import {getTotalNumberOfDocuments} from "./queryTemplates"
 
 export const useTDBDocuments = (woqlClient) => {
     const [error, setError] = useState(false)
@@ -15,16 +15,21 @@ export const useTDBDocuments = (woqlClient) => {
     const [totalDocumentCount, setTotalDocumentCount]=useState(false)
     
     // bool|Object
-    const [documentTablesConfig,setDocumentTablesConfig]=useState(false)
+    //the  default value is null and false if it will be failed
+    //start status null 
+    //after the call can be an object or false
+    const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
     
     // bool|Object
     const [selectedDocument, setSelectedDocument] = useState(false)
     // bool|Object
     const [frames, setFrames]=useState(false)
 
+    // store the state of formData  entered by the user
+    const [formData, setFormData]= useState()
+
     //get all the Document Classes (no abstract or subdocument)
-    // I can need to call this again
-    // improve performance with check last commit
+    //improve performance with check last commit
     async function getDocumentClasses() {
         try{
         // to be review I'm adding get table config here
@@ -97,7 +102,6 @@ export const useTDBDocuments = (woqlClient) => {
     }
 
     function getDocumentFrames() {
-       // setFrames(null)
         if(woqlClient){
             setLoading(true)
             woqlClient.getSchemaFrame().then((res) => {
@@ -109,13 +113,14 @@ export const useTDBDocuments = (woqlClient) => {
         }
     }
 
-  async function createDocument(jsonDocument) {
+  async function createDocument(jsonDocument){
         try{
             setLoading(true)
-            //await checkStatus()
             const res = await woqlClient.addDocument(jsonDocument)
+            //return the new document id
             return res
         }catch(err){ 
+            setFormData(jsonDocument)
             setError(err.data || {message:err.message})
         }finally{
             setLoading(false)
@@ -123,7 +128,7 @@ export const useTDBDocuments = (woqlClient) => {
     }
 
  
-    async function getDocument(documentId){
+    async function getSelectedDocument(documentId){
         try{
             setLoading(true)
             setError(false)
@@ -137,13 +142,26 @@ export const useTDBDocuments = (woqlClient) => {
         }
     }
 
+    async function getDocumentById(documentId){
+        try{
+            setLoading(true)
+            setError(false)
+            const params={id:documentId}
+            const res = await woqlClient.getDocument(params)
+            return res
+        }catch(err){
+            setError(err.data || {message:err.message})
+        }finally{
+            setLoading(false)
+        }
+    }
+
 
     // delete documents
     async function deleteDocument(documentId) {
         try{
             setLoading(true)
             setError(false)
-           // await checkStatus ()
             const params={id:documentId}
             let commitMsg=`Deleting document ${documentId}` 
             const res = await woqlClient.deleteDocument(params, null, commitMsg)
@@ -154,26 +172,27 @@ export const useTDBDocuments = (woqlClient) => {
     }
 
 
-    async function updateDocument(jsonDoc) {
+    async function updateDocument(jsonDocument) {
         try{
             setLoading(true)
             setError(false)
-           // await checkStatus ()
-            let commitMsg=`Updating document ${jsonDoc["@id"]}`
+            let commitMsg=`Updating document ${jsonDocument["@id"]}`
             // pass create:true 
-            const res = await woqlClient.updateDocument(jsonDoc, {}, null, commitMsg, false, false, false, true)
-            return res
-        }
-        catch(err){
+            await woqlClient.updateDocument(jsonDocument, {}, null, commitMsg, false, false, false, true)
+            return true
+        }catch(err){
             //display conflict
+            setSelectedDocument(jsonDoc)
             setError(err.data || {message:err.message})
        }finally{setLoading(false)}
     }
 
     return {
             setError,
+            formData, 
             selectedDocument,
-            getDocument,
+            getSelectedDocument,
+            getDocumentById,
             deleteDocument,
             createDocument,
             updateDocument,
