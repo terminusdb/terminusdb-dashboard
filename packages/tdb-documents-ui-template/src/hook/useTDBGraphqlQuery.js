@@ -18,8 +18,7 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
     const [data, setData] = useState(null)
     const [extractedData, setExtractedData] = useState(null)
     
-    const startHiddenColumns = options && options.hiddenColumns || hiddenColumnsStart()
-    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(startHiddenColumns)
+    const [hiddenColumnsArr,setHiddenColumnsArr] = useState(["_id"])
 
     //filter is the filter formatted for the query
     let filterTable  = []
@@ -31,7 +30,12 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
     const [filterBy, setFilters] = useState(filterTable)
     const [queryFilters, setQueryFilters] = useState(false)
 
-   
+    useEffect(() => {
+      if(documentType){       
+          setHiddenColumnsArr(options.hiddenColumns || hiddenColumnsStart())    
+      }
+   },[documentType]);
+
     function hiddenColumnsStart(){
       const startHiddenColumns = []
       if(options && Array.isArray(options.tableConfigObj)){
@@ -47,6 +51,17 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
         }
       }
       return startHiddenColumns
+    }
+
+    const callGraphqlServer = (currentlimit,currentpage,queryOrders,queryFilters)=>{
+      setStart(currentpage)
+      setLimit(currentlimit)
+      setQueryOrderBy(queryOrders)
+      setQueryFilters(queryFilters)
+      setFilters([])
+      setOrderBy([])
+
+      callFetchMore(currentlimit,currentpage,queryOrders,queryFilters) 
     }
 
     const callFetchMore = async (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
@@ -187,7 +202,7 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
     
     return {
         setError,
-        callGraphqlServer:callFetchMore,
+        callGraphqlServer,
         error,
         changeOrders,
         changeLimits,

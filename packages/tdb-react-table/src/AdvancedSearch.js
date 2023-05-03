@@ -99,7 +99,7 @@ export const AdvancedSearch = (props) =>{
       operators,fields:props.fields || {}} 
    
     const renderBuilder = (props) => (
-      <div className="query-builder-container" style={{padding: '10px'}}>
+      <div className="query-builder-container">
         <div className="query-builder qb-lite">
             <Builder {...props} />
         </div>
@@ -254,7 +254,7 @@ export const AdvancedSearch = (props) =>{
         onChange={onChange}
         renderBuilder={renderBuilder}
       />
-      <Button onClick={()=>{onClick()}}>Filter Data</Button>
+      <Button onClick={()=>{onClick()}} className='ml-3 mb-3'>Filter Data</Button>
       </form>
     </div>
    
