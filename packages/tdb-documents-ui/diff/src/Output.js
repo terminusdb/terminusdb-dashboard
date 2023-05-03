@@ -4,7 +4,7 @@ import {DiffViewer} from '@terminusdb/terminusdb-documents-ui'
 import {OLD_VALUE, CHANGED_VALUE} from "./constants"
 import {getSelectedTypeData} from "./functions"
 import {oldData, changedData} from "./diff.constants"
-import "../../src/css/terminusdb__styles"
+import '../../src/css/terminusdb__darkly.css'
 
 export const Output = () => {
     const {
@@ -27,7 +27,7 @@ export const Output = () => {
     useEffect(() => { 
         async function getDiffs(tdbClient) {
             //console.log("doc", doc)
-            let result_patch = await tdbClient.getJSONDiff(oldData["Person"], changedData["Person"])
+            let result_patch = await tdbClient.getJSONDiff(oldData["Test"], changedData["Test"])
             setDiff(result_patch)
         }
         if(tdbClient) {
@@ -256,10 +256,14 @@ export const Output = () => {
           "@type": "Random"
         },
         "@type": "Class",
-        "likes": {
+        "likes":  {
+          "@class": "xsd:string",
+          "@type": "List"
+        }
+        /*"likes": {
           "@class": "Animal",
           "@type": "List"
-        },
+        },*/
         /*"favorite_subject": { 
           "@class": [
             {
@@ -277,7 +281,7 @@ export const Output = () => {
           "@class": "xsd:string",
           "@type": "Optional"
         },*/
-        "manYAddress":  {
+        /*"manYAddress":  {
           "@class": {
             "@class": "Address",
             "@subdocument": []
@@ -358,15 +362,26 @@ export const Output = () => {
         },
         "@type": "Class",
         "likes": "Animal"
+      },
+      "Test": {
+        "@key": {
+          "@type": "Random"
+        },
+        "@type": "Class",
+        "new": {
+          "@class": "xsd:string",
+          "@type": "List"
+        },
+       
       }
     } 
     
     return <div className="w-100">
         <DiffViewer 
-            oldValue={oldData["Person"]} 
-            newValue={changedData["Person"]}
+            oldValue={oldData["Test"]} 
+            newValue={changedData["Test"]}
             frame={testFrames}
-            type={"Person"}
+            type={"Test"}
             onTraverse={handleTraverse}
             diffPatch={diff}/>
     </div>

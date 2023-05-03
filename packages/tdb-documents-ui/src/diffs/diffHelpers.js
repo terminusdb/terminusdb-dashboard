@@ -141,8 +141,20 @@ function getDiffUi (diffPatch, diffState) {
       }
       // pass @rest object
       else {
+        let uiArray= []
+        if(diffPatch.hasOwnProperty(DIFFCONST.TO)) {
+          // keep list till number in @to
+          // now add @to 
+          for(let count = 0; count < diffPatch[DIFFCONST.TO]; count ++) {
+            // set default class name
+            uiArray.push({ [CONST.CLASSNAME]: "tdb__doc__input" })
+          }
+        }
+        
         let restUi = getDiffUi (diffPatch[DIFFCONST.REST], diffState)
-        uiFrame=restUi
+        // merge patchlist & rest list
+        let merged = [...uiArray, ...restUi];
+        uiFrame = merged
       }
     }
     else if(diffPatch[DIFFCONST.OPERATION] === DIFFCONST.KEEP_LIST) {

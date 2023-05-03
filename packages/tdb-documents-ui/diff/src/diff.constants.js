@@ -1,5 +1,6 @@
 /** Review DependencyRelation - boolean field  | Geometry */
 export const oldData = {
+	"Test": {new: ["X", "Y", "Z", "A", "B"]},
 	"Sys": {
 		"rdfProperty": {
 			"@lang":"ka",
@@ -173,7 +174,7 @@ export const oldData = {
  
 
 export const changedData = {
-	
+	"Test": {new: ["X", "Y", "Z"]},
 	"Sys": {
 		"rdfProperty": {
 			"@lang":"ka",
