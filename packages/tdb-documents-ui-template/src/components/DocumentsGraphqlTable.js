@@ -56,21 +56,24 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
         }
     }
 
-    const deleteAction =(row)=>{
+    const deleteAction =(evt,row)=>{
+        evt.stopPropagation()
         if (onDeleteButtonClick) {
             const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
             onDeleteButtonClick(rowTmp)
         }
     }
 
-    const viewAction =(row)=>{
+    const viewAction =(evt,row)=>{
+         evt.stopPropagation()
          if (onViewButtonClick) {
             const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
             onViewButtonClick(rowTmp)
         }
     }
 
-    const editAction =(row)=>{
+    const editAction =(evt,row)=>{
+        evt.stopPropagation()
         if (onEditButtonClick) {
             const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
             onEditButtonClick(rowTmp)
@@ -83,13 +86,13 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
         //const name = cell.row.original['name']
         return <React.Fragment>
                 <span className="d-flex justify-content-end mr-4">  
-                    {onViewButtonClick && <Button variant="success" size="sm" className="ml-3" title={`view document`} onClick={() => viewAction(invFullId)}>
+                    {onViewButtonClick && <Button variant="success" size="sm" className="ml-3" title={`view document`} onClick={(evt) => viewAction(evt,invFullId)}>
                         <HiOutlineDocument/> 
                     </Button>}        
-                    {onEditButtonClick && <Button variant="success" size="sm" className="ml-3" title={`edit document`} onClick={() => editAction(invFullId)}>
+                    {onEditButtonClick && <Button variant="success" size="sm" className="ml-3" title={`edit document`} onClick={(evt) => editAction(evt,invFullId)}>
                         <RiEdit2Fill/> 
                     </Button>}  
-                    {onDeleteButtonClick && <Button variant="danger" size="sm" className="ml-3" title={`delete document`} onClick={() => deleteAction(invFullId)}>
+                    {onDeleteButtonClick && <Button variant="danger" size="sm" className="ml-3" title={`delete document`} onClick={(evt) => deleteAction(evt,invFullId)}>
                         <RiDeleteBin7Line/> 
                     </Button>}
                 </span>
