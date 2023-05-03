@@ -15,7 +15,10 @@ export const useTDBDocuments = (woqlClient) => {
     const [totalDocumentCount, setTotalDocumentCount]=useState(false)
     
     // bool|Object
-    const [documentTablesConfig,setDocumentTablesConfig]=useState(false)
+    //the  default value is null and false if it will be failed
+    //start status null 
+    //after the call can be an object or false
+    const [documentTablesConfig,setDocumentTablesConfig]=useState(null)
     
     // bool|Object
     const [selectedDocument, setSelectedDocument] = useState(false)

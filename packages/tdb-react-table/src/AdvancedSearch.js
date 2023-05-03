@@ -7,7 +7,7 @@ import '@react-awesome-query-builder/ui/css/styles.css';
 //import '@react-awesome-query-builder/ui/css/styles.css';
 //import {Query, Builder, BasicConfig, Utils as QbUtils} from 'react-awesome-query-builder';
 import {Button} from 'react-bootstrap'
-import './style.css';
+//import './style.css';
 
 
 // Choose your skin (ant/material/vanilla):

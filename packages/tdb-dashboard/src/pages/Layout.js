@@ -70,7 +70,7 @@ export const Layout = (props) => {
         return <ConnectedDataProduct/>
     }   
     
-    const headerElement = changeRequestHolder()
+    const headerElement = dataProduct ? changeRequestHolder() : ""
     
     //defaultSize={340} 
     return <Container fluid className="p-0 flex-row">

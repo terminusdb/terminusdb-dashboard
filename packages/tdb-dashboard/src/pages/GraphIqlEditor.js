@@ -26,7 +26,7 @@ export function GraphIqlEditor({}) {
     <Layout mainClassName={layoutClass} showLeftSideBar={false}>
         <GraphiQL 
           editorTheme="shadowfox"
-          defaultQuery={'{}'}
+          defaultQuery={'query{}'}
           fetcher={fetcher}
         
         />
