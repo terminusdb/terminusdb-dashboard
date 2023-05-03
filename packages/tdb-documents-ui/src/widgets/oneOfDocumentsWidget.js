@@ -168,7 +168,7 @@ function getSelected(oneOfDocumentData, oneOf) {
   }
   return false
 }
-
+ 
 export const TDBOneOfDocuments = ({ args, props, property, id, setOneOfDocumentData, oneOfDocumentData }) => { 
  
   let { documentFrame, mode } = args
