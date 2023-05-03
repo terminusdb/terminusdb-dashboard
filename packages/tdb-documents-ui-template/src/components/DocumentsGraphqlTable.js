@@ -60,7 +60,7 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
         evt.stopPropagation()
         if (onDeleteButtonClick) {
             const rowTmp = row && row.original ? {label:row.original.name, id:row.original.fullID}: {}
-            onDeleteButtonClick(rowTmp)
+            onDeleteButtonClick(rowTmp) 
         }
     }
 

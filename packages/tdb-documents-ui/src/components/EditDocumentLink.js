@@ -151,14 +151,13 @@ const assignDepth = (data, depth = 0 , propertyLink) => {
     depth += 1
     return assignDepth(data[propertyLink], depth, propertyLink)
   }
-  return depth
+  return depth 
 };
 
 function getAction (formData, unfoldable) {
   if(!formData) return false
-  if(unfoldable && 
-    typeof formData === CONST.OBJECT_TYPE) return CONST.LINK_NEW_DOCUMENT
-  return CONST.LINK_EXISTING_DOCUMENT
+  if(typeof formData === CONST.STRING_TYPE) return CONST.LINK_EXISTING_DOCUMENT
+  return CONST.LINK_NEW_DOCUMENT
 }
 
 const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {

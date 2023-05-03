@@ -69,7 +69,7 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
                 handleClose={()=>setShowDeleteModal(false)}
              /> }
              {error && <ErrorMessageReport error={error} setError={setError}/>}
-            <ListDocumentsComponent type={type}
+           {!showDeleteModal && <ListDocumentsComponent type={type}
                 gqlQuery={query} 
                 apolloClient={apolloClient} 
                 tablesConfig={documentTablesConfig}  
@@ -77,6 +77,6 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
                 onEditButtonClick={onEditClick}
                 onRowClick={onViewClick}
                 onDeleteButtonClick={deleteDocumentHandler}
-                onCreateButtonClick={handleCreate}/>
+                onCreateButtonClick={handleCreate}/>}
             </React.Fragment> 
 }
