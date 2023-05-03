@@ -31,6 +31,12 @@ export const HiddenWidgets = (config) => {
       id={config.id} 
       hideFieldLabel={config.hideFieldLabel}/>
   }
+  else if (util.isDocumentType(field, config.args.fullFrame)) {
+    return <HiddenInputWidgets name={config.name} 
+    className={config.className}
+    id={config.id} 
+    hideFieldLabel={config.hideFieldLabel}/>
+  }
   else if(util.isSubDocumentType(field)) {   
     return <HiddenSubDocumentWidgets name={config.name} 
       className={config.className}

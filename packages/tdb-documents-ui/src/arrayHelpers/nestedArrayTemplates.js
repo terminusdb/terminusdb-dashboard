@@ -10,8 +10,7 @@ import * as util from "../utils"
 import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "../helpers/fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
-import { GetFieldDisplay } from "./templates"
-
+import { GetFieldDisplay, DisplayExtraElements } from "./templates"
 
 
  
@@ -100,7 +99,7 @@ export const ArrayFieldTemplate = ({ args, props, property, items, handleAdd, ha
 					</Button>}
 				</Stack>
 			})} 
-
+		{mode === CONST.VIEW && <DisplayExtraElements args={args} property={props.title} props={props}/>}
 		{props.canAdd && (
 			<div>
 					<Button data-cy={`add_${label}`} 

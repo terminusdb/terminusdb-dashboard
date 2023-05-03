@@ -110,7 +110,7 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
   const [open, setOpen] = useState(expanded);
   //const [open, setOpen] = useState(true);
   let uiFrame = args.uiFrame, mode = args.mode 
-
+ 
 
   if(mode === CONST.VIEW && !props.formData) return <div className={`tdb__${props.name}__hidden`}/>
   if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) {

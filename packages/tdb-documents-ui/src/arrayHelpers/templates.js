@@ -49,9 +49,9 @@ export const GetFieldDisplay = ({ args, props, element, id, property, setUpdate,
 	return <span> 
 		{fieldDisplay()}
 	</span>
-}
+} 
 
-const DisplayExtraElements = ({ args, props, property }) => {
+export const DisplayExtraElements = ({ args, props, property }) => {
 	if(args.uiFrame && args.uiFrame.hasOwnProperty(property)) {
 		// no extra elements available from DiffViewer at this point 
 		if(props.items.length === args.uiFrame[property].length) return <React.Fragment/>
