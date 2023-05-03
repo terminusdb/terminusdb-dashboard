@@ -49,7 +49,7 @@
     "@react-awesome-query-builder/antd": "^6.1.2",
     "@react-awesome-query-builder/bootstrap": "^6.1.2",
     "@react-awesome-query-builder/ui": "^6.1.2",
-    "@terminusdb/terminusdb-client": "^10.0.28",
+    "@terminusdb/terminusdb-client": "^10.0.29",
     "@uiw/react-textarea-code-editor": "^2.1.1",
     "classnames": "^2.2.5",
     "codemirror": "^6.0.1",
