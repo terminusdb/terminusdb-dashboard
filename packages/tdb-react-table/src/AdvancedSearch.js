@@ -1,14 +1,7 @@
 import React, {useState} from 'react';
 import { BasicConfig,Query, Builder, Utils as QbUtils } from '@react-awesome-query-builder/ui';
-//import {BootstrapConfig} from '@react-awesome-query-builder/bootstrap'
 import '@react-awesome-query-builder/ui/css/styles.css';
-//import "bootstrap/dist/css/bootstrap.css";
-//import '@react-awesome-query-builder/bootstrap/css/styles.css';
-//import '@react-awesome-query-builder/ui/css/styles.css';
-//import {Query, Builder, BasicConfig, Utils as QbUtils} from 'react-awesome-query-builder';
 import {Button} from 'react-bootstrap'
-//import './style.css';
-
 
 // Choose your skin (ant/material/vanilla):
 const InitialConfig = BasicConfig //BootstrapConfig // AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
@@ -131,12 +124,13 @@ export const AdvancedSearch = (props) =>{
     const checkValueFormat = (fieldOptions, value, operator )=>{
         if(!fieldOptions) return {[operator]:value}
         let tmpValue = value 
-        switch(fieldOptions.typevalue){
-            case "Datetime" :
+        const typeValue = typeof fieldOptions.typevalue === "string" ? fieldOptions.typevalue.toUpperCase() : fieldOptions.typevalue
+        switch(typeValue){
+            case "DATETIME" :
               tmpValue = `${value.replace(' ','T')}Z`
               break
-            case "Int":
-            case "BigInt":
+            case "INT":
+            case "BIGINT":
               tmpValue = `${value}`
               break;
         }

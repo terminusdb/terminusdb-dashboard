@@ -43,12 +43,13 @@ export const DisplayErrorPerProperty = ({ propertyName, errorType, message }) =>
                       expandComponent={<MdKeyboardArrowRight/>} 
                       hideComponent={<MdKeyboardArrowDown/>}/>
                   {errorType}
-                  <pre className="alert_danger_border ml-1 p-1 rounded">{propertyName}</pre>
+                
+                  <pre className="alert_danger_border ml-1 p-1 rounded text-break">{propertyName}</pre>
               </div>
           </div>
       </Accordion.Item>
       <Accordion.Collapse eventKey={propertyName} className={"bg-transparent"}>
-          <div style={{ whiteSpace: "pre-wrap" }}>{message}</div>
+            <pre className="pre--error">{message}</pre>
       </Accordion.Collapse>
     </Accordion>
 }
@@ -59,13 +60,14 @@ export const ErrorDisplay = ({ errorData, message, css }) => {
     return <Accordion className="bg-transparent border-0 w-100">
         <Card className="bg-transparent border-0">
             <Card.Header className="bg-transparent">
-                <span className="text-uppercase">{message} </span>
+                <span>{message} </span>
                 <ToggleErrorDisplay eventKey="0" expandComponent={"More Info" } hideComponent={"Hide"} css={css}/>
             </Card.Header>
             <Accordion.Collapse eventKey="0">
                 <Card.Body>
+                
                     {/*<pre>{JSON.stringify(errorData, null, 2)}</pre>*/}
-                    {errorData}               
+                   <pre className="pre--error">{errorData}</pre>              
                 </Card.Body>
             </Accordion.Collapse>
         </Card>

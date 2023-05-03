@@ -67,9 +67,10 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
     const callFetchMore = async (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
         setLoading(true)
         setError(false)
+        let result
         try{
-        const result = await apolloClient.query({query:graphqlQuery,
-            variables:{"offset":currentpage , "limit":currentlimit+1, 
+        result = await apolloClient.query({query:graphqlQuery,
+            variables:{"offset":currentpage , "limit":currentlimit+1,
             "orderBy":currentOrderBy || {}, "filter":currentFilter || {}}})
         
         if(result.errors) {
@@ -91,7 +92,13 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
                 setExtractedData(extractedData)
         }
         }catch(err){
-            console.log("ERRORRRRR",err)
+          //console.log("ERRORCALL",err.graphQLErrors,err.networkError.result.errors)
+          const errorMessage = err.networkError && err.networkError.result ? err.networkError.result.errors : ""
+          setRowCount(0)
+          setData([])
+          setExtractedData([])
+          setError(errorMessage)
+          
         }finally{
             setLoading(false)
         }
