@@ -185,12 +185,12 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
 export const DiffView = ({diffs, CRObject, changePage, start,frames}) => { 
     let elements=[], paginationItems=[]
 
-    if(!frames) return <Loading message={`Loading Frames ...`}/>
-    if(!diffs) return <Loading message={`Loading Diffs ...`}/>
+     // maybe we review this and add extra control
+     if(!frames) return <Loading message={`Loading Frames ...`}/>
+     if(!diffs) return <Loading message={`Loading Diffs ...`}/>
 
     for (let start=0;  start<5; start++) {
-        if(start >= diffs.length) continue
-      
+        if(start >= diffs.length) continue  
         const propertyModifiedCount = getPropertyModifiedCount(diffs[start])
         const diffObj = diffs[start]
         const action = diffObj["@op"] || "Change"
