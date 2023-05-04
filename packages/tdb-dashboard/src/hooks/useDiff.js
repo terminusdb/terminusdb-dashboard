@@ -54,6 +54,7 @@ export function useDiff(){
 
     async function getDiffList(changeRequestID, start=0, count=DIFFS_PER_PAGE_LIMIT) {
         try{
+            setLoading(true)
             setStart(start)
             if(totalResult[`start__${start}`]){
                 setResult(totalResult[`start__${start}`])
