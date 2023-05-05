@@ -1,10 +1,21 @@
 import React, { useState } from "react"
 import Stack from "react-bootstrap/Stack"
-import { VIEW } from "../constants"
+import { VIEW, CREATE } from "../constants"
 import { checkIfReadOnly } from "../utils"
 import { XSD_ANY_URI, XSD_STRING, NUMBER_ARRAY, XSD_LANGUAGE  } from "../dataType.constants"
 import { TDBLabel } from "../components/LabelComponent"
 import { HiddenInputWidgets } from "./hiddenWidgets"
+
+
+/**
+ * 
+ * @param {*} data - filled data of a string field
+ * @returns row height to display in textareas for xsd:string data type field 
+ */
+export function getRowHeight(data) {
+  let rows = data.split(/\r\n|\r|\n/).length, maxRows=10
+  return rows > maxRows ? maxRows : rows
+}
 
 // widget displays input boxes 
 export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mode, placeholder, className, onChange, comment, label }) => {
@@ -64,9 +75,10 @@ export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mod
       name={id}
       //key={inputKey}
       className={`${className} rounded w-100`}
-      value={value}
+      value={value} 
       placeholder={placeholder}
       required={required}
+      rows={mode !== CREATE ? getRowHeight(value) : 2}
       readOnly={checkIfReadOnly(mode, inputValue, isKey)}
       onChange={ (event) => onChange(event.target.value, name) } />}
   </Stack>
