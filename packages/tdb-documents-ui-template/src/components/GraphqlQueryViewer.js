@@ -1,12 +1,8 @@
 import React,{useState,useEffect,useRef} from "react";
 import {FiCopy} from "react-icons/fi"
 import {Button} from 'react-bootstrap'
-//import 'codemirror/theme/ayu-dark.css'
-//import CodeMirror from 'codemirror';
-//import CodeMirror from 'codemirror/lib/codemirror.js';
-//import 'codemirror/addon/hint/show-hint';
-//import 'codemirror/addon/lint/lint';
-//import 'codemirror-graphql/hint';
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/shadowfox.css');
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 import 'codemirror/addon/display/autorefresh.js'

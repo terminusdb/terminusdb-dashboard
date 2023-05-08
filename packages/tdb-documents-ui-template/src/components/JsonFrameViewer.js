@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react"
 import * as CONST from "./constants"
 import {Button,Alert} from "react-bootstrap"
 import { UnControlled as CodeMirror } from "react-codemirror2";
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/material-darker.css');
 
 export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
     const [data, setData]=useState(false) 
