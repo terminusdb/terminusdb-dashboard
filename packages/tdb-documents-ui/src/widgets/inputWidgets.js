@@ -13,8 +13,10 @@ import { HiddenInputWidgets } from "./hiddenWidgets"
  * @returns row height to display in textareas for xsd:string data type field 
  */
 export function getRowHeight(data) {
+  let minRows=2
+  if(!data) return minRows
   let rows = data.split(/\r\n|\r|\n/).length, maxRows=10
-  return rows > maxRows ? maxRows : rows
+  return rows > maxRows ? maxRows : rows < minRows ? minRows : rows
 }
 
 // widget displays input boxes 

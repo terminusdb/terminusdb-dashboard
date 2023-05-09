@@ -228,7 +228,7 @@ export const DiffView = ({diffs, CRObject, changePage, start,frames}) => {
 
     let page = Math.ceil(start/5)
     return <React.Fragment>
-        {elements}
+        {elements} 
         {Array.isArray(diffs) && diffs.length> 0 &&
         <div className="w-100 d-flex justify-content-center">
             <Pagination size={"ls"}>

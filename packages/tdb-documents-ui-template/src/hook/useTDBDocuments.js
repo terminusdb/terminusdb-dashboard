@@ -28,6 +28,13 @@ export const useTDBDocuments = (woqlClient) => {
     // store the state of formData  entered by the user
     const [formData, setFormData]= useState()
 
+    // store history of document 
+    const [history, setHistory]=useState()
+    const [startHistory, setStartHistory] = useState(0)
+    const [diffCommitObject, setDiffCommitObject]=useState(false)
+    const [diffObject, setDiffObject]=useState(false)
+   
+
     //get all the Document Classes (no abstract or subdocument)
     //improve performance with check last commit
     async function getDocumentClasses() {
@@ -187,6 +194,51 @@ export const useTDBDocuments = (woqlClient) => {
        }finally{setLoading(false)}
     }
 
+    // get document history
+    async function getDocumentHistory(documentID, start=0, count=5) {
+        try{
+            setLoading(true) 
+            setError(false)
+            setStartHistory(start)
+            await woqlClient.getDocumentHistory(documentID, { start: start, count:count }).then(result=>{
+                setHistory(result)
+            })
+            return true
+        }catch(err){
+            setError(err.data || {message:err.message})
+       }finally{setLoading(false)}
+    }
+
+    // get document history diffs
+    async function getDocumenVersionDiff(beforeVersion, afterVersion, documentID, options) {
+        try{
+            setLoading(true)
+            setError(false)
+            // get original from beforeVersion
+            const client_before = woqlClient.copy()
+            await client_before.ref(beforeVersion)
+            let originalValueResult = await client_before.getDocument({ id: documentID })
+            // get changed from afterVersion
+            const client_after = woqlClient.copy()
+            await client_after.ref(afterVersion)
+            let changedValueResult = await client_after.getDocument({ id: documentID })
+          
+            //await woqlClient.getVersionDiff(documentID, { start:0, count:5 }).then(result=>{
+            //await clientCopy.clientCopy.checkout(branch) 
+            await woqlClient.getVersionDiff(beforeVersion, afterVersion, documentID, { start:0, count:5 }).then(result=>{
+                let diffObjectResult = {
+                    originalValue: originalValueResult,
+                    changedValue: changedValueResult,
+                    diff: result
+                }
+                setDiffObject(diffObjectResult)
+            })
+            return true
+        }catch(err){
+            setError(err.data || {message:err.message})
+       }finally{setLoading(false)}
+    }
+
     return {
             setError,
             formData, 
@@ -207,6 +259,25 @@ export const useTDBDocuments = (woqlClient) => {
             getGraphqlTablesConfig,
             documentTablesConfig,
             frames,
+            getDocumentHistory,
+            history,
+            getDocumenVersionDiff,
+            diffCommitObject,
+            setDiffCommitObject,
+            diffObject,
+            startHistory
     }
 }
+
+/* //this will return the last 5 commits for the Person/Anna document
+* client.checkout("mybranch")
+* client.docHistory("Person/Anna",{start:0,count:5}).then(result=>{
+*    console.log(result)
+* })
+* //this will return the last and the first commit for the Person/Anna document
+* client.docHistory("Person/Anna",{updated:true,created:true}).then(result=>{
+*    console.log(result)
+* })
+*/
+
 
