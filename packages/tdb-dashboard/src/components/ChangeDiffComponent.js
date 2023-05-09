@@ -107,7 +107,7 @@ export const ChangeDiffComponent = () => {
                             documentModifiedCount={documentModifiedCount}/>
                     </Stack>
                 </Card.Header> 
-                <Card.Body>                 
+                <Card.Body>                  
                     {currentCRObject.status === SUBMITTED && 
                     <ReviewComponent/> }
                     {!loading && <DiffView diffs={result} frames={frames} CRObject={currentCRObject} start={start} changePage={changePage}/>} 

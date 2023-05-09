@@ -1141,6 +1141,8 @@ button.graphiql-tab-add>svg
 }
 
 /** pagination */
+
+
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
@@ -1152,6 +1154,10 @@ button.graphiql-tab-add>svg
 .page-link { 
   background-color: #f8f9fa!important;
   color: #343a40!important;
+}
+
+.history__page__item > .page-link {
+  background-color: #adb5bd !important;
 }
 
 /*.MuiButton-contained {

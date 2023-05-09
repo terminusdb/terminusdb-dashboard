@@ -10,7 +10,7 @@ import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
-
+ 
 export const DocumentView = () => {   
     const { branch,setChangeRequestBranch,woqlClient,currentChangeRequest} = WOQLClientObj()
     const {type, docid} = useParams()
@@ -26,15 +26,35 @@ export const DocumentView = () => {
         deleteDocument,
         getSelectedDocument,
         getDocumentFrames,
-        getDocumentById
+        getDocumentById,
+        getDocumentHistory,
+        history,
+        startHistory,
+        diffCommitObject,
+        getDocumenVersionDiff,
+        setDiffCommitObject,
+        diffObject
     } = useTDBDocuments(woqlClient)
 
     let documentID=decodeUrl(docid)
  
     useEffect(() => {
         getDocumentFrames()
+        getDocumentHistory(documentID)
         getSelectedDocument(documentID)
-	},[])
+	},[]) 
+
+    const changeHistoryPage = (page) => {
+        getDocumentHistory(documentID, page)
+    }
+
+
+
+    useEffect(() => {
+        if(diffCommitObject.beforeVersion && diffCommitObject.afterVersion) {
+            getDocumenVersionDiff(diffCommitObject.beforeVersion, diffCommitObject.afterVersion, documentID, {})
+        }
+    }, [diffCommitObject])
 
     function deleteDocumentHandler(e) {
         // I can not change main directly
@@ -72,6 +92,11 @@ export const DocumentView = () => {
           frames={frames}
           closeButtonClick={()=>navigate(-1)}
           documentID={documentID}
+          history={history}
+          startHistory={startHistory}
+          changeHistoryPage={changeHistoryPage}
+          diffObject={diffObject}
+          setDiffCommitObject={setDiffCommitObject}
           deleteDocument={deleteDocumentHandler}
           editDocument = {()=>navigate(`${EDIT_DOC}`)}
         />

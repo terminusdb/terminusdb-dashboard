@@ -7,7 +7,7 @@ export const CompareDiffViewerWidget = ({ formData, diffState, compareFormData, 
         dark: {
             addedBackground: className === "tdb__doc__input tdb__diff__original" ? "#f8d7da" : "#00bc8c"
         }
-    }
+    } 
   }
 
   let oldValue = diffState === "@before" ? formData : compareFormData
