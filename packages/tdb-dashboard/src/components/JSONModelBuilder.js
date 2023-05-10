@@ -3,6 +3,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import CodeMirror from "@uiw/react-codemirror"
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { json } from '@codemirror/lang-json';
+import { EditorView } from "@codemirror/view";
 
 import {PROGRESS_BAR_COMPONENT, TERMINUS_SUCCESS} from "./constants"
 import {Loading} from "./Loading"
@@ -131,7 +132,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
                     onChange={onChangeHandler}
                     readOnly={!editMode}
                     value={value || ""}
-                    extensions={[json()]} 
+                    extensions={[json(),EditorView.lineWrapping]} 
                     theme={vscodeDark} 
                     className="model-builder-code-mirror"
                 />

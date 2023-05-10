@@ -35,7 +35,7 @@ export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
         <CodeMirror 
             value={JSON.stringify(!data ? {} : data, null, 2)}
             theme={vscodeDark}
-            extensions={[json()]}
+            extensions={[json(),EditorView.lineWrapping]}
             className={"document__interface__main"}
             onChange={onChangeHandler}
         />

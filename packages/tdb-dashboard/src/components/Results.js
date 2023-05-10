@@ -9,7 +9,7 @@ import {TDBReactResizable} from './layout/TDBReactResizable'
 import CodeMirror from "@uiw/react-codemirror"
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { json } from '@codemirror/lang-json';
-
+import { EditorView } from "@codemirror/view";
 
 import {DOCUMENT_EXPLORER} from "../routing/constants"
 //import history from '../routing/history'
@@ -125,7 +125,7 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
                         value={JSON.stringify(bindings, null, 2)}
                         readOnly= {true}
                         theme={vscodeDark}
-                        extensions={[json()]} 
+                        extensions={[json(),EditorView.lineWrapping]} 
                     />
                 }
             </TDBCollapse>
