@@ -82,7 +82,7 @@ const ConflictActions = () => {
                 </Stack>
                 <Stack direction="horizontal" gap={1} className="mb-3">
                     <div>{`Reopen CR and keep editing in`}</div>
-                    <div><OriginHeader branch={currentCRObject.original_branch}/></div>
+                    <div><TrackingHeader branch={currentCRObject.tracking_branch}/></div>
                     <div>{`to continue with changes `}</div>
                     <RiArrowGoBackFill className="text-light ms-auto"/>
                     <Button className='btn-light btn btn-sm text-dark'  
