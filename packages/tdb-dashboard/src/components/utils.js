@@ -344,7 +344,7 @@ export const getCRConflictError = (errorData, currentCRObject, setCurrentCRObjec
             </Button>
         </div>
         <div>{message}</div>
-		<pre>{JSON.stringify(errorData, null, 2)}</pre>
+		<pre style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(errorData, null, 2)}</pre>
 	</div>
 }
 
