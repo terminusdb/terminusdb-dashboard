@@ -118,7 +118,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
 
     function getDocumentStatesOnClick() {
         if(originalValue) return 
-        getDocumentByBranches(CRObject.tracking_branch, documentID,action)
+        getDocumentByBranches(CRObject, documentID,action)
     }
     const eventKey = documentID
 
