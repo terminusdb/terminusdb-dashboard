@@ -154,3 +154,20 @@ export function getFormattedTime(timestamp) {
 	return dateFormat(now, "dS mmmm yyyy, h:MM:ss TT")
  
 }
+
+
+/** checks if side bar with info of frames or history is open */
+export function ifInfoOpen(showInfo) {
+	// if side bar not opened then return expanded header
+	if(!showInfo.frames && !showInfo.history) return false
+	return true
+}
+
+/** checks if side bar with info of frames or history is open
+ * if open alter's the width of document display
+ */
+export function getCardWidth(showInfo) { 
+	// alters card width when info bar is open
+	if(ifInfoOpen(showInfo)) return { width: "750px" }
+	return { width: "auto" } 
+}

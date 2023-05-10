@@ -134,8 +134,13 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
     changeHistoryPage(startHistory-5)
   }
 
+  console.log("startHistory", startHistory)
+
+  console.log("history length", history.length)
+
   const prevActive = startHistory > 1 ? { onClick: changePageCallPrevious } : { active: false }
-  const nextActive = history.length > maxHistoryPerCall-1  ? { onClick: changePageCallNext } : { active: false }
+  //const nextActive = history.length > maxHistoryPerCall-1  ? { onClick: changePageCallNext } : { active: false }
+  const nextActive = history.length > 5 ? { onClick: changePageCallNext } : { onClick: () => {} }
   const lastHistory = startHistory + Math.min(history.length, maxHistoryPerCall)
   let page = Math.ceil(startHistory/maxHistoryPerCall)
   
@@ -186,8 +191,10 @@ export const ViewDocumentHistory = ({ setShowInfo, showInfo, documentID, history
  
   return <Card className="tdb__frame__display ml-3" style={{width: "50%"}}>
     <Card.Header>
-      <DisplayHistoryDocumentID documentID={trimID(documentID)} title={"History"}/>
-      <CloseInfoButton setShowInfo={setShowInfo}/>
+      <Stack direction="horizontal">
+        <DisplayHistoryDocumentID documentID={trimID(documentID)} title={"History"}/>
+        <CloseInfoButton setShowInfo={setShowInfo}/>
+      </Stack>
     </Card.Header>
     <Card.Body>
       <Card.Text className="text-light text-center">{`Click on dates to compare between different versions ...`}</Card.Text>

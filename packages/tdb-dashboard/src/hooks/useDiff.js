@@ -2,7 +2,7 @@ import React, {useState,useEffect} from "react";
 import { WOQLClientObj } from "../init-woql-client";
 import { DIFFS_PER_PAGE_LIMIT } from "../components/constants"
 
-export function useDiff(){
+export function useDiff(){ 
     const {woqlClient,currentChangeRequest} = WOQLClientObj()
 
     const [result, setResult] = useState(false)
@@ -27,7 +27,7 @@ export function useDiff(){
             let changedValueResult  ={}
             let originalValueResult = {}
             const clientCopy = woqlClient.copy()
-            switch(action){
+            switch(action){ 
                 case "Insert":
                     clientCopy.checkout(branch) 
                     changedValueResult = await clientCopy.getDocument({id: documentID})

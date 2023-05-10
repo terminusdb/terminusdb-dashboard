@@ -198,9 +198,9 @@ export const useTDBDocuments = (woqlClient) => {
     async function getDocumentHistory(documentID, start=0, count=5) {
         try{
             setLoading(true) 
-            setError(false)
+            setError(false) 
             setStartHistory(start)
-            await woqlClient.getDocumentHistory(documentID, { start: start, count:count }).then(result=>{
+            await woqlClient.getDocumentHistory(documentID, { start: start, count:6 }).then(result=>{
                 setHistory(result)
             })
             return true

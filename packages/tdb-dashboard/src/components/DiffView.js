@@ -33,7 +33,7 @@ function getPropertyModifiedCount(diff) {
  * @param {*} branch origin branch
  * @returns React Element with branch badge
  */
-const OriginHeader = ({branch}) => {
+export const OriginHeader = ({branch}) => {
     return <Badge bg="success" className="float-right fw-bold text-dark">{branch}</Badge>
 }
 
@@ -42,7 +42,7 @@ const OriginHeader = ({branch}) => {
  * @param {*} branch tracking branch
  * @returns React Element with branch badge
  */
-const TrackingHeader = ({branch}) => {
+export const TrackingHeader = ({branch}) => {
     return <Badge className="float-right fw-bold text-dark bg-primary">{branch}</Badge>
 }
 
@@ -111,7 +111,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
 
     const {getDocumentByBranches, 
         error,
-        originalValue, 
+        originalValue,  
         changedValue} = useDiff() 
 
     const [clicked, setClicked]=useState(false)
@@ -181,7 +181,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
  * @param {*} trackingBranchDocumentList document list of tracking branch
  * @param {*} originBranchDocumentList document list of origin branch
  * @returns 
- */
+ */ 
 export const DiffView = ({diffs, CRObject, changePage, start,frames}) => { 
     let elements=[], paginationItems=[]
 
