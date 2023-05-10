@@ -1,26 +1,10 @@
 import React,{useState,useEffect, Fragment} from 'react';
 import CodeMirror from "@uiw/react-codemirror"
-//import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { json } from '@codemirror/lang-json';
 
 import {AiOutlineCloseCircle, AiOutlineEdit, AiOutlineSave} from "react-icons/ai"
 import {FaRegEdit} from 'react-icons/fa'
-
-/*export const EDITOR_OPTIONS = {
-    theme: "ayu-dark",
-    height: "auto",
-    viewportMargin: Infinity,
-    mode: {
-      name: "javascript",
-      json: true,
-      statementIndent: 2
-    },
-    lineNumbers: true,
-    lineWrapping: true,
-    indentWithTabs: false,
-    tabSize: 2,
-    readOnly:true
-}*/
 
 import {GraphContextObj} from '../hook/graphObjectContext'
 
@@ -64,9 +48,9 @@ export const JsonMode = (props)=>{
 			</div>
         </div>
         <CodeMirror extensions={[json()]} 
-        //theme={vscodeDark} 
-        value={JSON.stringify(jsonSchema, null, 2)}     
-                    readOnly={!editMode}
-                    onChange={onChangeHandler}/>
+                theme={vscodeDark} 
+                value={JSON.stringify(jsonSchema, null, 2)}     
+                readOnly={!editMode}
+                onChange={onChangeHandler}/>
     </React.Fragment>
 }

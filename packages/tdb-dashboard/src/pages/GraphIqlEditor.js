@@ -4,7 +4,8 @@ import { GraphiQL } from "graphiql";
 //import {Container} from "react-bootstrap"
 import { Layout } from "./Layout";
 import {WOQLClientObj} from '../init-woql-client'
-//import "./style.css"
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/shadowfox.css');
 
 export function GraphIqlEditor({}) {
   const {woqlClient,currentChangeRequest} = WOQLClientObj() 

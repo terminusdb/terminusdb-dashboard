@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import CodeMirror from "@uiw/react-codemirror"
-//import { vscodeDark } from '@uiw/codemirror-theme-vscode';
-import { javascript } from '@codemirror/lang-javascript';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { json } from '@codemirror/lang-json';
 
 import {PROGRESS_BAR_COMPONENT, TERMINUS_SUCCESS} from "./constants"
 import {Loading} from "./Loading"
@@ -43,9 +43,11 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
         callServerLoading:loading,
     } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
     
-    const onBlurHandler = (value) =>{
-        setValue(value)
-    }
+
+    const onChangeHandler = React.useCallback((value, viewUpdate) => {
+        setValue(value);
+      }, []);
+
 
     async function loadSchema () {
         setEditMode(false); 
@@ -64,7 +66,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
 
     
 
-    MODEL_BUILDER_EDITOR_OPTIONS.readOnly=!editMode
+    //MODEL_BUILDER_EDITOR_OPTIONS.readOnly=!editMode
 
     function handleCommitMessage (e) {
         setCommitMessage(e.target.value)
@@ -126,7 +128,11 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
             </Card.Header>
             <div className="h-100">
                 <CodeMirror  
+                    onChange={onChangeHandler}
+                    readOnly={!editMode}
                     value={value || ""}
+                    extensions={[json()]} 
+                    theme={vscodeDark} 
                     className="model-builder-code-mirror"
                 />
             </div>
