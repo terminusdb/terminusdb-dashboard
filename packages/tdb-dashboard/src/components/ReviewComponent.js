@@ -24,19 +24,6 @@ const ConflictActions = () => {
     const navigate = useNavigate() 
 
     const { updateChangeRequestStatus, loading } = ChangeRequest()
-    
-
-    async function doAction_OLD(submitAction) {
-        if(submitAction !== CONST.APPROVE ) setLoadingMessage(`Rejecting Change Request ...`)
-        let status = submitAction === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
-        let res=await updateChangeRequestStatus(message, status, changeid)
-        const originalBranch = currentCRObject.original_branch
-        if(res){
-            setCurrentCRObject(false)
-            exitChangeRequestBranch(originalBranch)
-            navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
-        }
-    }
 
     async function doAction(submitAction) {
         let status = CONST.MERGED, message = `Merging Conflicts ...`
@@ -47,14 +34,13 @@ const ConflictActions = () => {
         else if(submitAction === "reopen") {
             status = CONST.OPEN
             message = `Reopening CR ...`
-        } 
+        }  
         setLoadingMessage(message)
         let res=await updateChangeRequestStatus(message, status, changeid)
         const originalBranch = currentCRObject.original_branch
         if(res && submitAction === "reopen"){
             // reopen
             setCurrentCRObject(res) 
-            //exitChangeRequestBranch(originalBranch)
             navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
         }
         else {

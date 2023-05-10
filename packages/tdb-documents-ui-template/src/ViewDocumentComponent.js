@@ -50,7 +50,7 @@ export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,
 			frames={frames}
 			show={clicked!==false} 
 			onHide={() => setClicked(false)}/>} 
-		<Card className="bg-dark flex-grow-1"  style={getCardWidth(showInfo)}>
+		<Card className={`bg-dark flex-grow-1 ${getCardWidth(showInfo)}`} >
 			<Card.Header className="justify-content-between d-flex w-100 text-break">
 				{!ifInfoOpen(showInfo) && <Stack direction="horizontal" gap={2} className="w-100">
 						<DisplayDocumentID documentID={documentID} size={6}/>

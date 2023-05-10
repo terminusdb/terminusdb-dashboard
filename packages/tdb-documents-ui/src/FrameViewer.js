@@ -102,7 +102,7 @@ export function FrameViewer(props){
 		{showThemeSelector && <div className="mb-3 d-flex">
 			<small className="text-muted">{`Theme Selector: `}</small>
 			<BootswatchSelect version={'4.4.1'} selectedThemeName={theme ? theme : "darkly"} />
-		</div>}
+		</div>} 
 		<HelperMessages frame={frame} mode={mode} type={type} formData={formData} />
 		<Viewer display={display} 
 			message={message} 

@@ -333,16 +333,17 @@ export const getCRConflictError = (errorData, currentCRObject, setCurrentCRObjec
        }
     }
 
-	let message = `It looks like there are conflicts, fix these conflicts and then update or exit the Change Request.` 
+    let messageTitle = `It looks like there are conflicts.`
+	let message = `Fix these conflicts and then update or exit the Change Request.` 
 	return <div className="w-100">
-        <Stack direction="horizontal" gap={3} className="w-100">
-            <div>{message}</div>
+        <div>{messageTitle}</div>
+        <div className='d-block mb-3 mt-2'>
             <div>{`Click here to resolve conflit`}</div>
             <Button className='btn-secondary' onClick={handleConflict}>
                 Resolve Conflict
             </Button>
-        </Stack>
-        
+        </div>
+        <div>{message}</div>
 		<pre>{JSON.stringify(errorData, null, 2)}</pre>
 	</div>
 }

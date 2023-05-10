@@ -7,6 +7,7 @@ import {TbExchange} from "react-icons/tb"
 import Stack from 'react-bootstrap/Stack'
 import Pagination from 'react-bootstrap/Pagination'
 import {DIFFS_PER_PAGE_LIMIT} from "./constants"
+import { AiOutlineAlert } from "react-icons/ai"
 import {useDiff} from "../hooks/useDiff"
 import Alert from 'react-bootstrap/Alert'
 import {BsPlus} from "react-icons/bs"
@@ -188,6 +189,14 @@ export const DiffView = ({diffs, CRObject, changePage, start,frames}) => {
      // maybe we review this and add extra control
      if(!frames) return <Loading message={`Loading Frames ...`}/>
      if(!diffs) return <Loading message={`Loading Diffs ...`}/>
+
+     if(Array.isArray(diffs) && !diffs.length) {
+        return <Alert  variant={"secondary"} className="text-light m-3">
+            <Stack direction="horizontal" gap={2}>
+                <AiOutlineAlert className="mb-2"/>
+                <h6>{`No diffs available to display - You can either Approve or Reject this Change Request`}</h6>
+            </Stack>
+        </Alert>}
 
     for (let start=0;  start<5; start++) {
         if(start >= diffs.length) continue  

@@ -174,7 +174,7 @@ export const ChangeRequestsPage = () => {
 				</React.Fragment>
 			case REJECTED: 
 				return <React.Fragment>
-					   		<Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>
+					   		{/*<Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>*/}
 					   		<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
 					   </React.Fragment>
 			case MERGED : 

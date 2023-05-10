@@ -168,6 +168,7 @@ export function ifInfoOpen(showInfo) {
  */
 export function getCardWidth(showInfo) { 
 	// alters card width when info bar is open
-	if(ifInfoOpen(showInfo)) return { width: "750px" }
-	return { width: "auto" } 
+	if(ifInfoOpen(showInfo)) return "col-md-8"
+	return ""
 }
+

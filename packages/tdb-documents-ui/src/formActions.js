@@ -67,7 +67,7 @@ export const handleSubmit = (data, onSubmit, setData, type, mode) => {
     return extracted
   }
 }
-
+ 
 export function loadTheme(theme) {
   // dynamically add bootstrap library
   var link = document.createElement('link');
