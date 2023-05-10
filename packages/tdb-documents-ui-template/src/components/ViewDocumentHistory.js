@@ -1,4 +1,4 @@
-import React, { useState }  from "react";
+import React, { useState, useEffect }  from "react";
 import { Button, Card, Stack } from "react-bootstrap"
 import { DocumentDiffView } from "./DocumentDiffView"
 import { trimID, getFormattedTime } from "../utils"
@@ -7,15 +7,17 @@ import Modal from 'react-bootstrap/Modal';
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Pagination from 'react-bootstrap/Pagination'
-import { BiGitCommit, BiMessageDetail, BiTime, BiUser } from "react-icons/bi"
+import { BiGitCommit, BiMessageDetail, BiUser } from "react-icons/bi"
 import { RadioButtonControllers } from "./RadioButtonControllers"
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 
 const DisplayHistoryDocumentID = ({ documentID, title }) => {
 	return <div> 
 		<strong className="text-light">
-			<span className="mr-1 h6 fst-italic">{title}:</span> 
-			<span className="fw-bolder h6 text-success"> {documentID} </span>
+			<span className="mr-1 h6 fst-italic">{title}: </span> 
+			{documentID && <span className="fw-bolder h6 text-success"> {documentID} </span>}
 		</strong>
 	</div> 
 }
@@ -39,11 +41,11 @@ const DiffViewModal = ({ showDiff, setShowDiff, compareChecked,  diffObject, fra
 }
 
 const DiffHeaderMessage = ({ compareChecked }) => {
-  return <Stack direction="horizontal" className="mb-3 w-100" gap={3}>
+  return <Stack direction="vertical" className="mb-3 w-100 text-center" gap={1}>
     <label>{`Diff between`}</label>
-    <label className="control-label w-100">{compareChecked.curr.identifier}</label>
-    <label>{`|`}</label>
-    <label className="control-label w-100">{compareChecked.prev.identifier}</label>
+    <label className="control-label w-100 text-center">{compareChecked.curr.identifier}</label>
+    <div className="">{"&"}</div>
+    <label className="control-label w-100 text-center">{compareChecked.prev.identifier}</label>
   </Stack>
 }
 
@@ -101,6 +103,13 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
   const [compareChecked, setCompareChecked] = useState({ curr: false, prev: false })
   const [prevChecked, setPrevChecked] = useState(false)
   const [refresh, setRefresh] = useState(Date.now())
+  const [historyBuffer, setHistoryBuffer] = useState(history)
+
+  useEffect(() => {
+    if(Array.isArray(history) && history.length) {
+      setHistoryBuffer(history)
+    }
+  }, [history])
 
   let elements = [], maxHistoryPerCall = 5, curr ="curr", prev ="prev"
 
@@ -127,6 +136,7 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
   }
 
   const changePageCallNext = () => {
+    setHistoryBuffer([]) // reset this so as to disable nextActive button on every click to help pagination
     changeHistoryPage(startHistory+5)
   }
 
@@ -134,13 +144,17 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
     changeHistoryPage(startHistory-5)
   }
 
+  //console.log("startHistory", startHistory)
+  //console.log("history length", history.length)
+
   const prevActive = startHistory > 1 ? { onClick: changePageCallPrevious } : { active: false }
-  const nextActive = history.length > maxHistoryPerCall-1  ? { onClick: changePageCallNext } : { active: false }
-  const lastHistory = startHistory + Math.min(history.length, maxHistoryPerCall)
+  //const nextActive = history.length > maxHistoryPerCall-1  ? { onClick: changePageCallNext } : { active: false }
+  const nextActive = historyBuffer.length > 5 ? { onClick: changePageCallNext } : { onClick: () => {} }
+  const lastHistory = startHistory + Math.min(historyBuffer.length, maxHistoryPerCall)
   let page = Math.ceil(startHistory/maxHistoryPerCall)
   
 
-  history.map((historyItem, index) => {
+  historyBuffer.map((historyItem, index) => {
     let commitID = historyItem.identifier
     elements.push(<Card key={commitID} className="mb-4">
       <Card.Body>
@@ -153,7 +167,18 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
           setCompareChecked={setCompareChecked}/>}
         <Stack gap={1} className="text-light">
           <Stack direction="horizontal" gap={3}> <BiGitCommit/>{commitID}</Stack>
-          <Stack direction="horizontal" gap={3}> <BiMessageDetail/> {historyItem.message}</Stack>
+          <Stack direction="horizontal" gap={3}> <BiUser/>{historyItem.author}</Stack>
+          <OverlayTrigger
+            key={"left"}
+            placement={"left"}
+            overlay={
+              <Tooltip id={`tooltip-${"left"}`}>
+                {historyItem.message}
+              </Tooltip>
+            }
+          >
+            <Button variant="secondary" className="btn btn-sm fst-italic text-light">Hover to view commit message</Button>
+          </OverlayTrigger>
         </Stack>
       </Card.Body>
     </Card>)
@@ -186,8 +211,10 @@ export const ViewDocumentHistory = ({ setShowInfo, showInfo, documentID, history
  
   return <Card className="tdb__frame__display ml-3" style={{width: "50%"}}>
     <Card.Header>
-      <DisplayHistoryDocumentID documentID={trimID(documentID)} title={"History"}/>
-      <CloseInfoButton setShowInfo={setShowInfo}/>
+      <Stack direction="horizontal">
+        <DisplayHistoryDocumentID title={"History"}/>
+        <CloseInfoButton setShowInfo={setShowInfo}/>
+      </Stack>
     </Card.Header>
     <Card.Body>
       <Card.Text className="text-light text-center">{`Click on dates to compare between different versions ...`}</Card.Text>

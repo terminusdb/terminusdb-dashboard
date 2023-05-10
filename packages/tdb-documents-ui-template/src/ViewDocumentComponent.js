@@ -18,12 +18,8 @@ import { ViewDocumentHistory } from "./components/ViewDocumentHistory";
 import { AiOutlineMenu } from "react-icons/ai"
 import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { ifInfoOpen, getCardWidth } from "./utils"
 
-function ifInfoOpen(showInfo) {
-	// if side bar not opened then return expanded header
-	if(!showInfo.frames && !showInfo.history) return true
-	return false
-}
 
 const DisplayDocumentID = ({ documentID, size }) => {
 	return <div className={`col-md-${size}`}> 
@@ -37,7 +33,7 @@ const DisplayDocumentID = ({ documentID, size }) => {
 
 // we have to fix traversedocklinek
 export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,closeButtonClick,documentID,deleteDocument,editDocument, history, diffObject, setDiffCommitObject, changeHistoryPage, startHistory}) => {
-	const [expandWidth, setExpandWidth] = useState("100%")
+
 	const [view, setView] = useState(CONST.FORM_VIEW)
 	const [clicked, setClicked]=useState(false)
 	const [selectedLanguage, setSelectedLanguage] = useState(false) 
@@ -54,9 +50,9 @@ export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,
 			frames={frames}
 			show={clicked!==false} 
 			onHide={() => setClicked(false)}/>} 
-		<Card className="bg-dark flex-grow-1">
+		<Card className={`bg-dark flex-grow-1 ${getCardWidth(showInfo)}`} >
 			<Card.Header className="justify-content-between d-flex w-100 text-break">
-				{ifInfoOpen(showInfo) && <Stack direction="horizontal" gap={2} className="w-100">
+				{!ifInfoOpen(showInfo) && <Stack direction="horizontal" gap={2} className="w-100">
 						<DisplayDocumentID documentID={documentID} size={6}/>
 						<ViewFramesButton setShowInfo={setShowInfo}/>
 						<ViewDocumentHistoryButton setShowInfo={setShowInfo}/>
@@ -73,7 +69,7 @@ export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,
 						<CloseButton type={type} onClick={closeButtonClick}/>
 					</Stack>
 				}
-				{!ifInfoOpen(showInfo) && <>
+				{ifInfoOpen(showInfo) && <>
 					<DisplayDocumentID documentID={documentID} size={10}/>
 					<Dropdown>
 						<Dropdown.Toggle variant="transparent" id="dropdown-basic" className="border border-dark">

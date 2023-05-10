@@ -43,7 +43,7 @@ export const DocumentView = () => {
         getDocumentHistory(documentID)
         getSelectedDocument(documentID)
 	},[]) 
-
+ 
     const changeHistoryPage = (page) => {
         getDocumentHistory(documentID, page)
     }

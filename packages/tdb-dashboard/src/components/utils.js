@@ -323,14 +323,27 @@ export function sortAlphabetically (list, byID) {
 }
 
 // function which displays CR Conflict errors 
-export const getCRConflictError = (errorData) => {
+export const getCRConflictError = (errorData, currentCRObject, setCurrentCRObject) => {
 
-	let message = "It looks like there are conflicts, fix these conflicts and then update or exit the Change Request" 
+    function handleConflict (e) {
+       if(setCurrentCRObject) {
+           let currentCRObjectTmp = {...currentCRObject}
+           currentCRObjectTmp["manageConflict"] = true
+           setCurrentCRObject(currentCRObjectTmp)
+       }
+    }
+
+    let messageTitle = `It looks like there are conflicts.`
+	let message = `Fix these conflicts and then update or exit the Change Request.` 
 	return <div className="w-100">
-        <Stack direction="horizontal" gap={3} className="w-100">
-            <div>{message}</div>
-        </Stack>
-        
+        <div>{messageTitle}</div>
+        <div className='d-block mb-3 mt-2'>
+            <div>{`Click here to resolve conflit`}</div>
+            <Button className='btn-secondary' onClick={handleConflict}>
+                Resolve Conflict
+            </Button>
+        </div>
+        <div>{message}</div>
 		<pre>{JSON.stringify(errorData, null, 2)}</pre>
 	</div>
 }

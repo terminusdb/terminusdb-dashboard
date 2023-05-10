@@ -24,7 +24,8 @@ const CRAction = ({}) => {
         rebaseChangeRequestBranch,
         loading,
         errorMessage,
-        setError
+        setError,
+        manageConflict
     } = ChangeRequest()
 
     const rebaseHandler = async ()=>{ 
@@ -37,10 +38,12 @@ const CRAction = ({}) => {
     // loading while waiting for currentCRObject 
     if(!currentCRObject.hasOwnProperty(CONST.NEED_REBASE)) return <Loading message={`Loading Change Request ...`}/>
 
-
+ 
     //{currentCRObject.needRebase && currentCRObject.status !== "Merged" && <div>
     if (currentCRObject.needRebase === false || currentCRObject.status === CONST.MERGED) 
         return <ChangeDiffComponent/>
+
+    if(currentCRObject.hasOwnProperty("manageConflict") && currentCRObject.manageConflict) return <ChangeDiffComponent/>
 
     // if needRebase  
     const title = currentCRObject && currentCRObject.name ? currentCRObject.name : currentCRObject.messages[0].text

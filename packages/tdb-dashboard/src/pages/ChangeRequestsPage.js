@@ -168,16 +168,19 @@ export const ChangeRequestsPage = () => {
 						
 					</React.Fragment> 
 			case SUBMITTED: 
-				return <Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
+				return <React.Fragment>
+					<Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
+					<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
+				</React.Fragment>
 			case REJECTED: 
 				return <React.Fragment>
-					   		<Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>
-					   		<Button className="bg-warning text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
+					   		{/*<Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>*/}
+					   		<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
 					   </React.Fragment>
 			case MERGED : 
 				return <React.Fragment>
 							<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>View Approved Diff</Button>
-							<Button className="bg-warning text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
+							<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
 					  </React.Fragment>
 		}
 	}
@@ -223,7 +226,7 @@ export const ChangeRequestsPage = () => {
     }
 
 	return <Layout>  
-		<div className="content mr-3 ml-5"> 
+		<div className="content mr-3 ml-5">  
 		{updateChangeRequestID && <SubmitChangeRequestModal operation={updateOperation} updateChangeRequestID={updateChangeRequestID} showModal={updateChangeRequestID!==false} setShowModal={setShowUpdateChangeRequestID} updateParent={updateParent}/>}            
 			<div className="mt-5 mb-5 mr-5">
 				<Card>

@@ -9,7 +9,7 @@ import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
 
-export const DocumentNew = () => {  
+export const DocumentNew = () => {   
     const {organization,dataProduct,type} = useParams()
     const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest} = WOQLClientObj()
     const [showModal, setShowModal] = useState(false)

@@ -1,15 +1,18 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 //import { ClientObj } from "../cms-init-client"
 //import {errorMessageFormatter} from "../utils/errorMessage"
-
+import { getCRConflictError } from "../components/utils"
 import {WOQLClientObj} from '../init-woql-client'
 import { formatErrorMessage } from './hookUtils'
-
+ 
 export function ChangeRequest(){  
-    const {woqlClient} = WOQLClientObj()
+    const { woqlClient, currentCRObject, setCurrentCRObject } = WOQLClientObj()
     const [loading, setLoading] = useState(false)
     const [errorMessage, setError] = useState(false)
     const [changeRequestList, setChangeRequestList]  = useState([])
+    const [manageConflict, setManageConflict]=useState(false)
+
+    useEffect
 
     //I'm using the client to get my custom url
     function getUrl(){
@@ -76,8 +79,15 @@ export function ChangeRequest(){
             const result = await woqlClient.sendCustomRequest("PUT", `${getUrl()}/${id}/rebase`,{})
             return result
         }catch(err){
-            const errMessage = formatErrorMessage(err)
-            setError(errMessage)
+            if (err.data && err.data["api:status"]==="api:conflict") { 
+                // manage Conflict  
+                const errMessage = getCRConflictError(err.data["api:witnesses"], currentCRObject, setCurrentCRObject)
+                setError(errMessage)
+            }
+            else {
+                const errMessage = formatErrorMessage(err)
+                setError(errMessage)
+            }
         }finally{
             setLoading(false)
         }     
@@ -100,6 +110,8 @@ export function ChangeRequest(){
         }     
     } 
 
+    console.log("manageConflict", manageConflict)
+
 
     return {
         loading,
@@ -110,7 +122,9 @@ export function ChangeRequest(){
         getChangeRequestList,
         updateChangeRequestStatus,
         getChangeRequestByID,
-        rebaseChangeRequestBranch
+        rebaseChangeRequestBranch,
+        manageConflict,
+        setManageConflict
     }
 
 }

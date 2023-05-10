@@ -42,7 +42,7 @@ export const BranchCRMessage = ({css, title}) => {
 
 const DisplayHeader = ({author, documentModifiedCount, tracking_branch,original_branch}) => {
     return <>
-        <h6 className="mt-2">{`${author} wants to merge `}</h6>
+        <h6 className="mt-2">{`${author} wants to merge `}</h6> 
         <DocumentModifiedCount documentModifiedCount={documentModifiedCount}/>
         <h6 className="mt-2">{` into `}</h6>
         <BranchCRMessage title={original_branch} css={"success"}/>
@@ -109,7 +109,7 @@ export const ChangeDiffComponent = () => {
                 </Card.Header> 
                 <Card.Body>                  
                     {currentCRObject.status === SUBMITTED && 
-                    <ReviewComponent/> }
+                    <ReviewComponent/> } 
                     {!loading && <DiffView diffs={result} frames={frames} CRObject={currentCRObject} start={start} changePage={changePage}/>} 
                 </Card.Body> 
             </Card>
