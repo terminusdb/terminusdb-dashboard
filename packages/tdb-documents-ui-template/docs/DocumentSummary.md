@@ -6,7 +6,9 @@ This element allow you to visualize the document classes using iteractive cards.
 
 Install the dependancy from npm
 
-```npm install @terminusdb/terminusdb-documents-ui-templates```
+```
+npm install @terminusdb/terminusdb-documents-ui-templates
+```
 //totalDocumentCount,perDocumentCount,onDocumentClick
 ## Props
 | props |description  |
@@ -52,7 +54,7 @@ export const Documents = ({tdbClient}) => {
 ```
 
 you can see this code integrated inside a dashboard here
-[DocumentSearchComponent example]()
+[DocumentSearchComponent code]()
 [Sandbox]
 
 

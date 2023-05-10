@@ -2,13 +2,13 @@
 import React, { useEffect } from "react"
 import "leaflet-arrowheads"
 import L from "leaflet"
-import uuid from 'react-uuid'
+import { v4 as uuidv4 } from 'uuid';
 import { LINE_COLOR } from "./map.constants"
 
 export const bboxMapViewer = (args) => {
 	let { documents }=args
 	
-	let mapID=uuid()
+	let mapID=uuidv4()
 
 	useEffect(() => {
 		map()

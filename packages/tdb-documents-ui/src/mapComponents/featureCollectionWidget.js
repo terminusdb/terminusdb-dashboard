@@ -3,7 +3,7 @@ import Stack from "react-bootstrap/Stack"
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import "react-leaflet-fullscreen/dist/styles.css";
 import { TDBLabel } from "../components/LabelComponent"
-import uuid from 'react-uuid'
+import { v4 as uuidv4 } from 'uuid';
 import "leaflet-arrowheads"
 import L from "leaflet"
 import icon from "../constants"
@@ -15,7 +15,7 @@ import * as util from "../utils"
 export const TDBFeatureCollectionDocuments = ({ config }) => {
   const mapRef = useRef(null);
   
-  let mapID=uuid()
+  let mapID=uuidv4()
   
   const map = () => { 
     let zoom=MAP_OPTION.zoom

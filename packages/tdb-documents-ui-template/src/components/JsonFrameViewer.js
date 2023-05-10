@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react"
 import * as CONST from "./constants"
 import {Button,Alert} from "react-bootstrap"
-import { UnControlled as CodeMirror } from "react-codemirror2";
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/material-darker.css');
+import CodeMirror from "@uiw/react-codemirror"
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { json } from '@codemirror/lang-json';
 
 export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
     const [data, setData]=useState(false) 
@@ -53,7 +53,8 @@ export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
             
         <CodeMirror 
             value={JSON.stringify(!data ? {} : data, null, 2)}
-            options={cmOptions}
+            theme={vscodeDark}
+            extensions={[json()]}
             className={"document__interface__main"}
             onBlur={(editor, data, value) => {
                 const editorValue =editor.doc.getValue()

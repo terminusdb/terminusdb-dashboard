@@ -1,13 +1,11 @@
 import React,{useState,useEffect,useRef} from "react";
 import {FiCopy} from "react-icons/fi"
 import {Button} from 'react-bootstrap'
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/shadowfox.css');
-import 'codemirror-graphql/lint';
-import 'codemirror-graphql/mode';
-import 'codemirror/addon/display/autorefresh.js'
-import {UnControlled as CodeMirror} from 'react-codemirror2';
+import CodeMirror from "@uiw/react-codemirror"
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import {copyToClipboard} from "../utils"
+import { javascript } from '@codemirror/lang-javascript';
+import { json } from '@codemirror/lang-json';
 // i have to fix this anbd update to codemiro 6
 export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) => {
 
@@ -42,13 +40,13 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
             <div className="d-flex justify-content-end mr-2">
                 <Button title = "copy grapl query" onClick={()=>{copyTest(queryToDisplay)}}><FiCopy/></Button>
             </div> 
-            <CodeMirror value={queryToDisplay}    options={QLEDITOR_READ_OPTIONS}  className="readOnly"/>
+            <CodeMirror extensions={[javascript()]} theme={vscodeDark} value={queryToDisplay}      className="readOnly"/>
             
             <hr></hr>
             <div className="d-flex justify-content-end mr-2">
                 <Button title ="copy variables"  onClick={()=>{copyTest(variablesObj)}}><FiCopy/></Button>
             </div>  
-            <CodeMirror value={JSON.stringify(variablesObj,null,4)}  options={QLVAR_READ_OPTIONS}  className="readOnly"/>
+            <CodeMirror extensions={[json()]}  theme={vscodeDark} value={JSON.stringify(variablesObj,null,4)}   className="readOnly"/>
             
          </React.Fragment>
 }

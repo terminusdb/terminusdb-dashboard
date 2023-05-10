@@ -5,13 +5,13 @@ import { customMapOptions, customMarkerOptions}  from "./markers"
 import icon from "../constants"
 import "leaflet-arrowheads"
 import L from "leaflet"
-import uuid from 'react-uuid'
+import { v4 as uuidv4 } from 'uuid';
 import { MARKER_OPTION } from "./map.constants"
 
 export const lineStringMapViewer = (args) => {
 	let { documents, zoom, onMarkerClick, center, bounds }=args
 	
-	let mapID=uuid()
+	let mapID=uuidv4()
 
 	useEffect(() => {
 		map()

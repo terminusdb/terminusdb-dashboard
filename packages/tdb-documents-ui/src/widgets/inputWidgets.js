@@ -6,15 +6,16 @@ import { XSD_ANY_URI, XSD_STRING, NUMBER_ARRAY, XSD_LANGUAGE  } from "../dataTyp
 import { TDBLabel } from "../components/LabelComponent"
 import { HiddenInputWidgets } from "./hiddenWidgets"
 
-
-/**
+/*
  * 
  * @param {*} data - filled data of a string field
  * @returns row height to display in textareas for xsd:string data type field 
  */
 export function getRowHeight(data) {
+  let minRows=2
+  if(!data) return minRows
   let rows = data.split(/\r\n|\r|\n/).length, maxRows=10
-  return rows > maxRows ? maxRows : rows
+  return rows > maxRows ? maxRows : rows < minRows ? minRows : rows
 }
 
 // widget displays input boxes 
