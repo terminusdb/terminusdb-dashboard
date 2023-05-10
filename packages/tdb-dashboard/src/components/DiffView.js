@@ -166,7 +166,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
                    oldValue={originalValue} 
                    newValue={changedValue}
                    oldValueHeader={<OriginHeader branch="main"/>}
-                   newValueHeader={<TrackingHeader branch={CRObject.tracking_branch}/>}
+                   newValueHeader={<TrackingHeader branch={CRObject.name}/>}
                    frame={frames}
                    onTraverse={handleTraverse}
                    type={docType}
