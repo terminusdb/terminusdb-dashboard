@@ -21,7 +21,7 @@ export function useDiff(){
      */
 
    //insert - delete - change
-    async function getDocumentByBranches(branch, documentID, action) {
+    async function getDocumentByBranches(CRObject, documentID, action) {
         try{
             setLoading(true)
             let changedValueResult  ={}
@@ -29,17 +29,25 @@ export function useDiff(){
             const clientCopy = woqlClient.copy()
             switch(action){ 
                 case "Insert":
-                    clientCopy.checkout(branch) 
+                    clientCopy.checkout(CRObject.tracking_branch) 
                     changedValueResult = await clientCopy.getDocument({id: documentID})
                     break
                 case "Delete":
-                    clientCopy.checkout("main") 
+                    if(CRObject.status === "Merged"){
+                        clientCopy.ref(CRObject.merge_commit_id) 
+                    }else {
+                        clientCopy.checkout(CRObject.original_branch) 
+                    }
                     originalValueResult = await clientCopy.getDocument({id: documentID})
                     break
                 default :
-                    clientCopy.checkout(branch) 
+                    clientCopy.checkout(CRObject.tracking_branch) 
                     changedValueResult = await clientCopy.getDocument({id: documentID})
-                    clientCopy.checkout("main") 
+                    if(CRObject.status === "Merged"){
+                        clientCopy.ref(CRObject.merge_commit_id) 
+                    }else {
+                        clientCopy.checkout(CRObject.original_branch) 
+                    } 
                     originalValueResult = await clientCopy.getDocument({id: documentID})
             }            
             setOriginalValue(originalValueResult)    
