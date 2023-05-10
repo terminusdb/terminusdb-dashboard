@@ -1,10 +1,10 @@
 import React from "react";
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/eclipse.css');
-require('codemirror/theme/shadowfox.css');
-require('codemirror/mode/javascript/javascript.js');
-require('codemirror/mode/python/python.js'); 
-import {UnControlled as CodeMirror} from 'react-codemirror2';
+
+
+import CodeMirror from "@uiw/react-codemirror"
+//import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { javascript } from '@codemirror/lang-javascript';
+
 import {EDITOR_READ_OPTIONS, EDITOR_WRITE_OPTIONS} from "./constants.querypane"
 
 export const CodeViewer = ({text, language, theme}) => {
@@ -16,8 +16,14 @@ export const CodeViewer = ({text, language, theme}) => {
         cmoptions['json'] = true
         cmoptions['jsonld'] = true
     }
-
-    return (<CodeMirror value={ text } options={ cmoptions } className="readOnly" />)
+    return  <CodeMirror className="readOnly" 
+                        extensions={[javascript()]} 
+                        //theme={vscodeDark} 
+                        value={ text }    
+                onBlur={(editor, data) => {
+                    setValue(editor.doc.getValue())
+            }}/>
+    //return (<CodeMirror value={ text } options={ cmoptions } className="readOnly" />)
 }
 
 export const CodeEditor = ({text, language, onChange, onBlur, theme}) => {
@@ -36,16 +42,29 @@ export const CodeEditor = ({text, language, onChange, onBlur, theme}) => {
     
 
     return (
-        <CodeMirror value={ text } options={ cmoptions } className="qp-CodeMirror"
+        <CodeMirror className="qp-CodeMirror"
+                        extensions={[javascript()]} 
+                       // theme={vscodeDark} 
+                        value={ text }    
+                        onChange={(editor, data, value) => {
+                            if(onChange) onChange(value);
+                        }}
+                        onBlur={(editor, data) => {
+                            if(onBlur) onBlur(editor.doc.getValue());
+                        }}/>
+       
+    )
+}
+
+/*
+ <CodeMirror value={ text } options={ cmoptions } className="qp-CodeMirror"
             onChange={(editor, data, value) => {
                 if(onChange) onChange(value);
             }}
             onBlur={(editor, data) => {
                 if(onBlur) onBlur(editor.doc.getValue());
             }}
-        />
-    )
-}
+        />*/
 
 function getCMLanguage(language){
     if(language == "python") return language

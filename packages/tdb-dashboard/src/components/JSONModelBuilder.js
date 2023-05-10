@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/ayu-dark.css'
-require('codemirror/mode/css/css')
-require('codemirror/mode/javascript/javascript')
-import 'codemirror/theme/material-darker.css'
-//import 'codemirror/addon/display/autorefresh.js'
+import CodeMirror from "@uiw/react-codemirror"
+//import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { javascript } from '@codemirror/lang-javascript';
+
 import {PROGRESS_BAR_COMPONENT, TERMINUS_SUCCESS} from "./constants"
 import {Loading} from "./Loading"
 import {Alert} from "react-bootstrap"
@@ -129,15 +126,9 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
             </Card.Header>
             <div className="h-100">
                 <CodeMirror  
-                    onBlur={(editor, data) => {
-                        const editorValue =editor.doc.getValue()
-                        onBlurHandler(editorValue)
-                    }}
-                    value={value}
-                    options={MODEL_BUILDER_EDITOR_OPTIONS}
+                    value={value || ""}
                     className="model-builder-code-mirror"
                 />
-                {/*<div><pre>{schema}</pre></div>*/}
             </div>
         </Card>
     </>

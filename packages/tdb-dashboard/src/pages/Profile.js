@@ -4,11 +4,10 @@ import {LeftSideBar} from "../components/LeftSideBar"
 import {Button, Form, Card, Row, Col, Tab, Nav, Tabs} from "react-bootstrap"
 import {TokenCard} from "./TokenCard"
 import { BsClipboard } from "react-icons/bs"
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/ayu-dark.css'
-require('codemirror/mode/css/css')
-require('codemirror/mode/javascript/javascript')
+import CodeMirror from "@uiw/react-codemirror"
+//import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { javascript } from '@codemirror/lang-javascript';
+
 import {BsFillPeopleFill} from "react-icons/bs"
 import {EDITOR_READ_OPTIONS,EDITOR_READ} from "../components/constants"
 import {NewTeamModal} from "../components/NewTeamModal"

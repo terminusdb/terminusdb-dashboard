@@ -6,12 +6,11 @@ import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constan
 import {TDBCollapse} from './layout/TDBCollapse'
 import {TDBReactResizable} from './layout/TDBReactResizable'
 import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
-//import {WOQLClientObj} from '../init-woql-client'
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/ayu-dark.css'
-require('codemirror/mode/css/css')
-require('codemirror/mode/javascript/javascript')
+import CodeMirror from "@uiw/react-codemirror"
+//import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { javascript } from '@codemirror/lang-javascript';
+
+
 import {DOCUMENT_EXPLORER} from "../routing/constants"
 //import history from '../routing/history'
 import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
