@@ -1,11 +1,11 @@
 
 
 import React, {useState} from "react"
-import 'react-dates/initialize'
-import 'react-dates/lib/css/_datepicker.css'
-import {DateRangePicker, isInclusivelyBeforeDay, SingleDatePicker} from "react-dates"
-import {TimeTravelControl} from "../hooks/TimeTravelControl"
-import moment from 'moment'
+//import 'react-dates/initialize'
+//import 'react-dates/lib/css/_datepicker.css'
+//import {DateRangePicker, isInclusivelyBeforeDay, SingleDatePicker} from "react-dates"
+//import {TimeTravelControl} from "../hooks/TimeTravelControl"
+import Calendar from 'react-calendar';
 
 export const DatePicker = ({currentDay, setStartTime}) => {
 
@@ -14,10 +14,11 @@ export const DatePicker = ({currentDay, setStartTime}) => {
     //     setStartTime
     // } = TimeTravelControl() 
 
-    const [selectedDay, onDateChange] = useState(currentDay)
-    const [focused,onFocusChange] = useState(false)
+    const [value, onChange] = useState(new Date());
+  //  const [selectedDay, onDateChange] = useState(currentDay)
+ //   const [focused,onFocusChange] = useState(false)
 
-    return <SingleDatePicker
+    return <Calendar onChange={onChange} value={value} /> /*<SingleDatePicker
         dark
         showDefaultInputIcon
         date={selectedDay}
@@ -32,5 +33,5 @@ export const DatePicker = ({currentDay, setStartTime}) => {
         displayFormat='DD-MM-YYYY'
         placeholder='dd-mm-yyyy'
         isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
-     />
+     />*/
 }
