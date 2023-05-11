@@ -154,7 +154,7 @@ label.latlng-control-label {
 /** for documents with fields inside - like subdocuments/ choice subdocuments */
 .tdb__diff__original-border,
 .tdb__diff__deleted { 
-  border: 1px solid var(--danger-border-color);
+  border: 1px solid var(--danger-border-color) !important;
 }
 
 /** for document link properties */
@@ -176,7 +176,7 @@ label.latlng-control-label {
 /** for documents with fields inside - like subdocuments/ choice subdocuments */
 .tdb__diff__changed-border,
 .tdb__diff__inserted { 
-  border: 1px solid var(--success-border-color);
+  border: 1px solid var(--success-border-color) !important;
 }
 
 /** for document link properties */

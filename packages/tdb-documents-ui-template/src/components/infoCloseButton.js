@@ -15,7 +15,7 @@ import { Button } from "react-bootstrap"
   }
   // on close button display document list table
   return <Button variant="light" 
-    className="btn-sm btn text-dark float-right" 
+    className="btn-sm btn text-dark float-right ms-auto" 
     tilte={`Close`}
     onClick={handleClose}>
     <FaTimes/>

@@ -97,8 +97,6 @@ export function FrameViewer(props){
 	}
 	
 	return <div className="tdb__frame__viewer ">
-			
-		
 		<HelperMessages frame={frame} mode={mode} type={type} formData={formData} />
 		<Viewer display={display} 
 			message={message} 

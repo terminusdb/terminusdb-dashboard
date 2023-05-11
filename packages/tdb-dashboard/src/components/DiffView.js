@@ -7,6 +7,7 @@ import {TbExchange} from "react-icons/tb"
 import Stack from 'react-bootstrap/Stack'
 import Pagination from 'react-bootstrap/Pagination'
 import {DIFFS_PER_PAGE_LIMIT} from "./constants"
+import { AiOutlineAlert } from "react-icons/ai"
 import {useDiff} from "../hooks/useDiff"
 import Alert from 'react-bootstrap/Alert'
 import {BsPlus} from "react-icons/bs"
@@ -33,7 +34,7 @@ function getPropertyModifiedCount(diff) {
  * @param {*} branch origin branch
  * @returns React Element with branch badge
  */
-const OriginHeader = ({branch}) => {
+export const OriginHeader = ({branch}) => {
     return <Badge bg="success" className="float-right fw-bold text-dark">{branch}</Badge>
 }
 
@@ -42,7 +43,7 @@ const OriginHeader = ({branch}) => {
  * @param {*} branch tracking branch
  * @returns React Element with branch badge
  */
-const TrackingHeader = ({branch}) => {
+export const TrackingHeader = ({branch}) => {
     return <Badge className="float-right fw-bold text-dark bg-primary">{branch}</Badge>
 }
 
@@ -111,14 +112,14 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
 
     const {getDocumentByBranches, 
         error,
-        originalValue, 
+        originalValue,  
         changedValue} = useDiff() 
 
     const [clicked, setClicked]=useState(false)
 
     function getDocumentStatesOnClick() {
         if(originalValue) return 
-        getDocumentByBranches(CRObject.tracking_branch, documentID,action)
+        getDocumentByBranches(CRObject, documentID,action)
     }
     const eventKey = documentID
 
@@ -165,7 +166,7 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
                    oldValue={originalValue} 
                    newValue={changedValue}
                    oldValueHeader={<OriginHeader branch="main"/>}
-                   newValueHeader={<TrackingHeader branch={CRObject.tracking_branch}/>}
+                   newValueHeader={<TrackingHeader branch={CRObject.name}/>}
                    frame={frames}
                    onTraverse={handleTraverse}
                    type={docType}
@@ -181,13 +182,21 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
  * @param {*} trackingBranchDocumentList document list of tracking branch
  * @param {*} originBranchDocumentList document list of origin branch
  * @returns 
- */
+ */ 
 export const DiffView = ({diffs, CRObject, changePage, start,frames}) => { 
     let elements=[], paginationItems=[]
 
      // maybe we review this and add extra control
      if(!frames) return <Loading message={`Loading Frames ...`}/>
      if(!diffs) return <Loading message={`Loading Diffs ...`}/>
+
+     if(Array.isArray(diffs) && !diffs.length) {
+        return <Alert  variant={"secondary"} className="text-light m-3">
+            <Stack direction="horizontal" gap={2}>
+                <AiOutlineAlert className="mb-2"/>
+                <h6>{`No diffs available to display - You can either Approve or Reject this Change Request`}</h6>
+            </Stack>
+        </Alert>}
 
     for (let start=0;  start<5; start++) {
         if(start >= diffs.length) continue  
@@ -228,7 +237,7 @@ export const DiffView = ({diffs, CRObject, changePage, start,frames}) => {
 
     let page = Math.ceil(start/5)
     return <React.Fragment>
-        {elements}
+        {elements} 
         {Array.isArray(diffs) && diffs.length> 0 &&
         <div className="w-100 d-flex justify-content-center">
             <Pagination size={"ls"}>

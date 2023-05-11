@@ -7,7 +7,7 @@ import { CloseInfoButton } from "./infoCloseButton"
 
 export const ViewDocumentFrames = ({type,documentFrame, setShowInfo, showInfo}) => {
     if(!showInfo.frames) return <div/>
-    return <Card className="tdb__frame__display" style={{width: "50%"}}>
+    return <Card className="tdb__frame__display ml-3" style={{width: "50%"}}>
         <Card.Header>
             {`Frames of `}
             <span className="fw-bold">{type}</span>

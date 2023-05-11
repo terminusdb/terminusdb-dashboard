@@ -1,7 +1,7 @@
 import React, {useRef,useEffect,useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
-import {useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom" 
 import { FormLabel } from "react-bootstrap"
 import {BranchControl} from "../hooks/BranchControl"
 

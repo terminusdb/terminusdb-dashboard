@@ -162,7 +162,7 @@ export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, cla
     className === "tdb__doc__input tdb__diff__changed") {
 
       let diffState = className === "tdb__doc__input tdb__diff__original" ? "@before" : "@after"
-      
+       
       return <CompareDiffViewerWidget
         formData={formData} 
         compareFormData={compareFormData.hasOwnProperty(name) ? index ? compareFormData[name][index] : compareFormData[name] : "" } 
