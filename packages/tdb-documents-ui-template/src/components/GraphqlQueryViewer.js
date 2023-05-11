@@ -22,6 +22,9 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
         indentWithTabs: false}
     }
 
+    //console.log("JAVASCRIPT TYPE", typeof javascript)
+    //console.log("EditorView.lineWrapping TYPE", typeof EditorView.lineWrapping)
+
    //EditorView.lineWrapping()
    return <React.Fragment>
             <div className="d-flex justify-content-end mr-2">
@@ -31,7 +34,7 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
                 basicSetup={basicSetup}
                 readOnly={true}
                 theme={vscodeDark}
-                extensions={[javascript(),EditorView.lineWrapping]} 
+                //extensions={[javascript(),EditorView.lineWrapping]} 
                 value={queryToDisplay}      
                 className="readOnly"/>
             
@@ -44,7 +47,7 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
                 indentWithTab={false}
                 readOnly={true}
                 theme={vscodeDark}
-                extensions={[json(),EditorView.lineWrapping]}  
+                //extensions={[json(),EditorView.lineWrapping]}  
                 value={JSON.stringify(variablesObj,null,4)}   
                 className="readOnly"/>
             
