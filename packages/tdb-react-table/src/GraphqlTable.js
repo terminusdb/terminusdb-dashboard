@@ -26,7 +26,7 @@ export const GraphqlTable = ({hiddenColumnsArr,
                               config, 
                               freewidth, 
                               start, 
-                              filtersBy ,
+                              filterBy ,
                               limit, 
                               orderBy, 
                               totalRows, 
@@ -159,7 +159,7 @@ export const GraphqlTable = ({hiddenColumnsArr,
                 freewidth={freewidth}
                 config={config}
                 orderBy={orderBy}
-                filtersBy={filtersBy}
+                filtersBy={filterBy}
                 pages={pages}
                 limit={limit}
                 pageNumber={pagenum}

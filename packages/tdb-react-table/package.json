@@ -9,6 +9,7 @@
     "./*/index.js"
   ],
   "files": [
+    "dist",
     "*.md",
     "src",
     "es6"
