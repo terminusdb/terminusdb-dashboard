@@ -9,7 +9,7 @@ import { ToggleComponent } from "./ToggleDocumentLink"
 import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./DescriptionComponent"
 import { v4 as uuidv4 } from 'uuid';
 import { BsTrashFill } from "react-icons/bs" 
-import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
+import { CreateDocument, CreateDisplay, checkifArray } from "./CreateDocumentLink"
 import { UnlinkButton } from "./UnlinkButton"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { documentInternalProperties } from "../helpers/documentHelpers"
@@ -42,7 +42,7 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
     for(let field in definitions.properties) { 
 
       linked_to = definitions.properties[field][CONST.PLACEHOLDER]
-      if(util.availableInReference(reference, linked_to)) {
+      if(util.availableInReference(reference, linked_to)&& !checkifArray(args, documentData, field)) {
         if(!formData.hasOwnProperty(field)) {
           fields.push(<CreateDocument name={field} 
           linked_to={linked_to}

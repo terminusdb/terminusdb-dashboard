@@ -647,6 +647,12 @@ export function isGeometryCollection(field) {
  * checks if frame is inherrited from geo json types
  */
 export function isInherritedFromGeoJSONTypes(frame) {
+	if(frame.hasOwnProperty("geometry")) {
+		return true
+		return frame["geometry"].every(item => {
+			return CONST.GEOJSON_ARRAY_TYPES.includes(item);
+		});
+	}
 	if(!frame.hasOwnProperty(CONST.INHERITS)) return false
 	return frame[CONST.INHERITS].every(item => {
 		return CONST.GEOJSON_ARRAY_TYPES.includes(item);

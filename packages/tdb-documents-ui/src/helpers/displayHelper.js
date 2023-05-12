@@ -90,6 +90,7 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
   if(fullFrame.hasOwnProperty(linked_to)) {
     order_by=util.getOrderBy(fullFrame, linked_to) 
   }
+  let extractedDoc= extracted && extracted.hasOwnProperty("extractedDocumentation") ? extracted.extractedDocumentation : {}
 
   // add logic for required properties  
   return  <TDBSubDocument extracted={extracted} 
@@ -102,9 +103,10 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
     subDocumentData={subDocumentData} 
     setSubDocumentData={setSubDocumentData}
     comment={documentation.comment ? documentation.comment : null} 
+    label={documentation.label ? documentation.label : props.name}
     //mode={mode}
-    index={props.index}
-    propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
+    index={props.index} 
+    propertyDocumentation={extractPropertyDocumentation(extractedDoc, selectedLanguage)}
     linked_to={linked_to}
     props={props}/>
 }
