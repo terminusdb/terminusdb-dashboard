@@ -111,10 +111,10 @@ export const SubDocumentProperties = ({ subDocumentPropertyName, props, order_by
 // we do this as a temporary fix so that maps in geo locations are loaded correctly
 function getExpanded(expanded, linked_to, frame) {
   if(frame.hasOwnProperty(linked_to) && frame[linked_to].hasOwnProperty("geometry_location")) return true
-  return expanded 
+  return expanded  
 }
   
-export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, index, hideFieldLabel, linked_to, propertyDocumentation, id, reference, subDocumentData, setSubDocumentData, args }) => {
+export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, index, hideFieldLabel, linked_to, propertyDocumentation, id, label, reference, subDocumentData, setSubDocumentData, args }) => {
   const [open, setOpen] = useState(args.mode === CONST.VIEW ? getExpanded(expanded, linked_to, args.fullFrame) : expanded);
   //const [open, setOpen] = useState(true);
   let uiFrame = args.uiFrame, mode = args.mode 
@@ -139,7 +139,7 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
   }
     
   return <Stack direction="horizontal">
-    <TDBLabel name={props.name} 
+    <TDBLabel name={label ? label : props.name} 
       required={props.required} 
       comment={comment} 
       className="tdb__label__width" 

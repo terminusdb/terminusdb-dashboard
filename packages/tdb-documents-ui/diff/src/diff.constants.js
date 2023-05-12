@@ -175,9 +175,8 @@ export const oldData = {
 		"@type": "Definition",
 		"name": "ok",
 		"parameters": [ 
-			"P/13",
-			"P/23",
-			"P/3"
+			"Vehicle/14",
+			"Vehicle/30"
 		],
 		"returns": "Returns/NEW6091821362531aed8af24944c8dffe5a9ceeea1e572e2fb27c84029a49b6e732",
 		"summary": "NEW Check whether the TerminusDB server is still OK.\n   Status is not OK when this function returns false\n   or throws an exception (mostly ConnectTimeout)"
@@ -347,8 +346,9 @@ export const changedData = {
 		"@type": "Definition",
 		"name": "ok",
 		"parameters": [
-			"P/1",
-			"P/2"
+			"Vehicle/14",
+			"Vehicle/24",
+			"Vehicle/30"
 		],
 		"returns": "Returns/6091821362531aed8af24944c8dffe5a9ceeea1e572e2fb27c84029a49b6e732",
 		"summary": "Check whether the TerminusDB server is still OK.\n   Status is not OK when this function returns false\n   or throws an exception (mostly ConnectTimeout)"
