@@ -19,12 +19,12 @@ width,
 minWidth,
 maxWidth}]*/
 
+
 //this only render the logic of do the query is in an external hook
-export const GraphqlTable = ({hiddenColumnsArr, 
+export const TDBReactTable = ({hiddenColumnsArr, 
                               setHiddenColumns,
                               result, 
                               config, 
-                              freewidth, 
                               start, 
                               filterBy ,
                               limit, 
@@ -33,17 +33,9 @@ export const GraphqlTable = ({hiddenColumnsArr,
                               setLimits, 
                               setOrder, 
                               setFilters,
-                              onRefresh,
-                              dowloadConfig})=>{
-   // let wt = TerminusClient.View.table()
-   // if(view)  wt.loadJSON(view.table, view.rules)
-    
-    //we have to review the limit must stay only in one place or we get confused
-    //the table read the limit from here
-    //set the limit in the view conf
-   // if(limit) wt.pagesize(limit)
-   // let woqt = new TerminusClient.WOQLTable(false, wt)
-    //the current page (like 1st page , 2nd page...)
+                              downloadConfig})=>{
+ 
+                                //the current page (like 1st page , 2nd page...)
     let pagenum = (limit ? parseInt((start) / limit) : 1)
     //total number of Pages    
     let pages = (limit && totalRows ? parseInt(((totalRows-1)/limit)+1) : 1)
@@ -112,7 +104,7 @@ export const GraphqlTable = ({hiddenColumnsArr,
                     col.options = filter.options
                 }
             }       
-            if(freewidth) return col
+            return col
         })
         let colstruct ={columns:listOfColumns}
        // if(woqt.config.header()) colstruct.Header = woqt.config.header()
@@ -125,9 +117,9 @@ export const GraphqlTable = ({hiddenColumnsArr,
     let headers=[] 
     let csvData=[]
     let headersLabel = []
-    if(dowloadConfig){
-        headersLabel=  dowloadConfig.headersLabel || dowloadConfig.headers
-        headers = dowloadConfig.headers || Object.keys(data[0])
+    if(downloadConfig){
+        headersLabel=  downloadConfig.headersLabel || downloadConfig.headers
+        headers = downloadConfig.headers || Object.keys(data[0])
         csvData = React.useMemo(() => {  
             return data.map((item) => {
                 //array of values 
@@ -143,11 +135,13 @@ export const GraphqlTable = ({hiddenColumnsArr,
         }, []);
     } 
 
+    
+
     return(<React.Fragment>
-            {dowloadConfig && <Row>
+            {downloadConfig && <Row>
                 <Col className={"d-flex justify-content-end  pr-5"}>
-                    <CSVLink data={csvData} filename={dowloadConfig.filename || "download.csv"} 
-                    className={dowloadConfig.className || "btn btn-primary"} headers={headersLabel} >
+                    <CSVLink data={csvData} filename={downloadConfig.filename || "download.csv"} 
+                    className={downloadConfig.className || "btn btn-primary"} headers={headersLabel} >
                     <FaFileCsv size={30}/></CSVLink>
                 </Col>
             </Row>}
@@ -156,7 +150,6 @@ export const GraphqlTable = ({hiddenColumnsArr,
                 setFilters={setFilters}
                 data={data}
                 columns={[{columns:columns,Header:" "}]}
-                freewidth={freewidth}
                 config={config}
                 orderBy={orderBy}
                 filtersBy={filterBy}

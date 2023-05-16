@@ -7,7 +7,11 @@ This element allow you to edit a existing document using the FrameViewer compone
 
 Install the dependancy from npm
 
-```npm install @terminusdb/terminusdb-documents-ui-templates```
+```
+ npm install @terminusdb/terminusdb-documents-ui
+ npm install @terminusdb/terminusdb-react-table
+ npm install @terminusdb/terminusdb-documents-ui-templates
+```
 
 ## Props
 | props |description  |

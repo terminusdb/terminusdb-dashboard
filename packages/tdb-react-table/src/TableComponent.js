@@ -1,8 +1,12 @@
-import React,{useEffect, useMemo} from 'react';
+import React,{useEffect} from 'react';
 import { useTable, usePagination,  useSortBy, useFilters } from 'react-table'
 import {BiRefresh} from "react-icons/bi"
 import {MdOutlineResetTv} from "react-icons/md"
-import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink,Button} from "react-bootstrap" //replace;
+import Button from "react-bootstrap/Button" 
+import Table from "react-bootstrap/Table"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+
 import {CheckboxDropdown} from "./ColumsVisibilityComponent"
 import { DefaultColumnFilter } from './ColumnFilters';
 /**

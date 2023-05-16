@@ -25,7 +25,7 @@
     "terminusdb"
   ],
   "scripts": {
-    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js'",
+    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
     "build": "npm run build-es6 && webpack --mode production",
     "start": "webpack serve --mode development  --open --progress --port 3001 --host localhost --config demo/webpack.config.js",
     "startold": "webpack-dev-server --progress --port 3000 --host localhost --content-base demo --inline --config demo/webpack.config.js",
@@ -45,15 +45,15 @@
   "author": "terminusdb group",
   "dependencies": {
     "@react-awesome-query-builder/ui": "^6.1.2",
+    "bootstrap": "^5.2.3",
     "classnames": "^2.2.5",
     "date-fns": "^2.28.0",
-    "react-bootstrap": "^2.7.0",
+    "react-bootstrap": "^2.7.4",
     "react-csv": "^2.2.2",
     "react-icons": "^4.3.1",
     "react-table": "^7.8.0"
   },
   "devDependencies": {
-    "@terminusdb/terminusdb-client": "^10.0.29",
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -66,6 +66,7 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
     "@babel/runtime": "^7.6.3",
+    "@terminusdb/terminusdb-client": "^10.0.29",
     "babel-loader": "^8.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",

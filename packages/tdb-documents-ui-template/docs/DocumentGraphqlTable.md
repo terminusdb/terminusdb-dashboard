@@ -1,4 +1,4 @@
-## DocumentGraphqlTable
+## DocumentsGraphqlTable
 The component DocumentClassesSummary can help you to compose your dashboard very fast 
 This element allow you to visualize the document classes using iteractive cards.
 
@@ -27,42 +27,41 @@ npm install @terminusdb/terminusdb-documents-ui-templates
 
 ## Example
 ```js
-import React, {useEffect} from "react"
-import {DocumentClassesSummary,useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
-
-export const Documents = ({tdbClient}) => {   
-    const {perDocumentCount,
-        totalDocumentCount, 
-        getDocumentNumbers,
-        setError,
-        loading,
-        error}=useTDBDocuments(tdbClient)
-
+import React,{useEffect} from "react"
+import {DocumentsGraphqlTable,useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
+import {gql} from "@apollo/client"
+/**
+ * 
+ * @param {*} setSelected function to get selected document link by user 
+ * @param {*} doctype document type selected
+ * @returns 
+ */
+export const DocumentSearchComponent = ({setSelected, doctype,apolloClient,tdbClient}) => {
+    const {documentTablesConfig,getGraphqlTablesConfig} = useTDBDocuments(tdbClient)
 
     useEffect(() => {
-       if(tdbClient)getDocumentNumbers()
-    }, [tdbClient])
+        if(doctype){       
+            getGraphqlTablesConfig()         
+        }
+     },[doctype]);
 
-    function handleCardClick (doc) {
-        // do something after click the card, 
-        // maybe navigate in the document list page
-    }
+    const querystr  = documentTablesConfig && documentTablesConfig.objQuery ? documentTablesConfig.objQuery[doctype].query : null
+    const gqlQuery = querystr ? gql`${querystr}` : null
+    if(!gqlQuery) return <div/>
 
-    if(!frames) return  <div>{`Fetching frames for document type ${type} ...`}</div>
-    const errorMessage = typeof error === "object" ? JSON.stringify(error,null,4) : error
-   
-    return <div className="w-100">
-            {error && {error && <div>Server Error: {errorMessage} </div>}
-            <DocumentClassesSummary 
-                    totalDocumentCount={totalDocumentCount}
-                    perDocumentCount={perDocumentCount} 
-                    onDocumentClick={handleCardClick}/>
-        </div>
+    return  <DocumentsGraphqlTable tableConfig={documentTablesConfig} 
+                type={doctype} 
+                gqlQuery={gqlQuery}
+                apolloClient={apolloClient}
+                onRowClick={setSelected} 
+                showGraphqlTab={false} />
+
 }
 ```
 
 you can see this code integrated inside a dashboard here
-[DocumentSearchComponent code]()
-[Sandbox]
+[DocumentSearchComponent full example code]()
+[DocumentsGraphqlTable code]()
+[View the complete example in Sandbox]()
 
 

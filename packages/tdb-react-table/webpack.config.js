@@ -3,20 +3,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 //const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = (env, argv) => ({
-    plugins: [new MiniCssExtractPlugin()],
+    plugins: [new MiniCssExtractPlugin({
+      filename: 'terminusdb-react-table-main.css',
+    }),],
     entry: './src/index.js',
-   /* module: {
-        rules: [
-            {
-                test: /\.js$/,
-                use:{
-                    loader: "babel-loader",
-                },
-                include: path.resolve(__dirname, "src"),
-                exclude: /node_modules/,
-            },
-        ]
-    },*/
     devtool: argv.mode === 'production' ? false : '#inline-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -41,11 +31,12 @@ module.exports = (env, argv) => ({
           },
         },
         {
-          test: /\.(css)$/,
+          test: /\.css$/i,
           use: [
             MiniCssExtractPlugin.loader,
             'css-loader',
           ],
+          sideEffects: true
         },
         {
           test: /\.(less)$/,
@@ -53,6 +44,7 @@ module.exports = (env, argv) => ({
             MiniCssExtractPlugin.loader,
             'less-loader',
           ],
+          sideEffects: true
         },
         {
           test: /\.(svg|jpg|gif|png)$/,

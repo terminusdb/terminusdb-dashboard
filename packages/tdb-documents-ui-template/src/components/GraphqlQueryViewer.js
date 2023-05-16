@@ -8,9 +8,9 @@ import { EditorView } from "@codemirror/view";
 import {copyToClipboard} from "../utils"
 import { json } from '@codemirror/lang-json';
 // i have to fix this anbd update to codemiro 6
-export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) => {
+export const GraphqlQueryView = ({queryToDisplay,start,limit,queryFilters,queryOrders}) => {
 
-    const variablesObj = {"offset":start,"limit":limit,"orderBy":orderBy || {} ,"filter":filterBy || {}}
+    const variablesObj = {"offset":start,"limit":limit,"orderBy":queryOrders || {} ,"filter":queryFilters || {}}
 
      const copyTest = (text)=>{
         copyToClipboard(text);
