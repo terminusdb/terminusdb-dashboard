@@ -181,22 +181,26 @@ const advancedSearchMatchType = {
   String: {
     label: 'replaceLabel',
     type: 'text',
-    valueSources: ['value']
+    valueSources: ['value'],
+    "typevalue":"String"
   },
   Int: {
     label: 'replaceLabel',
     type: 'number',
-    valueSources: ['value']
+    valueSources: ['value'],
+    "typevalue":"Int"
   },
   BigInt: {
     label: 'replaceLabel',
     type: 'number',
-    valueSources: ['value']
+    valueSources: ['value'],
+     "typevalue":"BigInt"
   },
   Float: {
     label: 'replaceLabel',
     type: 'number',
-    valueSources: ['value']
+    valueSources: ['value'],
+    
   },
   Boolean: {
     label: 'replaceLabel',

@@ -105,7 +105,7 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
 
         // to be review
         const tableConfigObj = {}
-        tableConfigObj.columns = tablesColumnsConfig
+        tableConfigObj.columns = JSON.parse(JSON.stringify(tablesColumnsConfig))
         if(onDeleteButtonClick || onEditButtonClick || onViewButtonClick) {
             tableConfigObj.columns.push(actionsButttons)
         }
@@ -114,7 +114,7 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
         }
         return tableConfigObj
     }
-    const tableConfigObj = useMemo(() => makeConfig(), [tablesColumnsConfig,type]);
+    const tableConfigObj = useMemo(() => makeConfig(), [tablesColumnsConfig]);
 
 
     const errorMessage = error  && typeof error === "object" ? JSON.stringify(error, null, 2) : error
