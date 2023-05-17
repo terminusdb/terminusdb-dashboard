@@ -161,7 +161,13 @@ The following options are supported on any files object you can pass to field, t
 |`label:String` | - Required - is the field label
 |`type:string`|  - Required - is the field widget match type for graphql 
 |`valueSources:Array`| - Required - for the default widget this is always ["value"]
-|`typeValue`| -Required - the graphql value type (String,BigInt )
+|`typeValue:String`| - Required - the graphql value type (String,BigInt )
+|`operators:Array`| - Optional - an Array of available operator
+|`defaultOperator:String`| - Optional - the default operator for the type
+|`fieldSettings`| - Optional - an Array of options for the type select valuetype ENUM
+|`subfields`| - Optional - a list of subfield for the type `!group` valuetype Object
+
+
 
 ```json
  {"myfield":{
@@ -174,67 +180,19 @@ The following options are supported on any files object you can pass to field, t
     }
 }
 ```
-
-
+[advancedSearchMatchType code](....)
+## you can use our utility Function to format the advancedSearch fields
 ``` javascript
-const advancedSearchMatchType = {
-  String: {
-    label: 'replaceLabel',
-    type: 'text',
-    valueSources: ['value'],
-    "typevalue":"String"
-  },
-  Int: {
-    label: 'replaceLabel',
-    type: 'number',
-    valueSources: ['value'],
-    "typevalue":"Int"
-  },
-  BigInt: {
-    label: 'replaceLabel',
-    type: 'number',
-    valueSources: ['value'],
-     "typevalue":"BigInt"
-  },
-  Float: {
-    label: 'replaceLabel',
-    type: 'number',
-    valueSources: ['value'],
-    
-  },
-  Boolean: {
-    label: 'replaceLabel',
-    type: 'boolean',
-    defaultValue: true,
-    fieldSettings: {
-      labelYes: 'true',
-      labelNo: 'false'
-    }
-  },
-  ENUM: {
-    label: 'replaceLabel',
-    valueSources: ['value'],
-    operators: ['select_equals', 'select_not_equals'],
-    defaultOperator: 'select_equals',
-    type: 'select',
-    fieldSettings: {
-      listValues: []
-    }
-  },
-  OBJECT: {
-    label: 'replaceLabel',
-    type: '!group',
-    subfields: {
-    }
-  },
-  DateTime: {
-    label: 'replaceLabel',
-    type: 'datetime',
-    valueSources: ['value']
-  },
-  Date: {
-    label: 'replaceLabel',
-    type: 'date',
-    valueSources: ['value']
-  }
+import {advancedSearchMatchType} from "@terminusdb/terminusdb-react-table/advancedSearchUtils"
+
+const stringFormat = advancedSearchMatchType("String")
+
+stringFormat.label= "myPropertyName"
+
+const fields = {"myPropertyName" : stringFormat}
+
 ```
+
+
+[AdvancedSearch Code]()
+[AdvancedCodesandbox]
