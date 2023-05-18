@@ -154,8 +154,6 @@ export const uiHelper = (args, property) => {
     })
 
     return widget.getChoiceDocumentUIDisplay(args, property)
-    
-    return widget.getChoiceSubDocumentUIDisplay(args, property)
   }
   else if(util.isChoiceSubDocumentType(field)) {
     

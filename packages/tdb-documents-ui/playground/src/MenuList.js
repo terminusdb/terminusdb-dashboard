@@ -1,16 +1,18 @@
 import React, { useState } from "react"
 import { FrameObj } from "./frameInit"
 import * as menu from "./menu.constants"
-import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/Container'; 
+import Stack from 'react-bootstrap/Stack'; 
 import { getType } from "./controller"
+import { Link } from "react-router-dom";
 
 // Menu list 
-const MENU_LIST = [
+export const MENU_LIST = [
   menu.MANDATORY,
   menu.OPTIONAL,
   menu.SET,
-  menu.LIST,
-  menu.ARRAY,
+  menu.LIST, 
+  menu.ARRAY, 
   menu.MULTI_LANGUAGE,
   menu.CHOICE_CLASSES_SUBDOCUMENT_DOCUMENT,
   menu.CHOICE_CLASSES_DOCUMENT,
@@ -19,6 +21,11 @@ const MENU_LIST = [
   menu.RENDER_AS,
   menu.ORDER_BY
 ]
+
+function getActiveClass (selectedMenu, menu) {
+  if(selectedMenu === menu) return "bg-success"
+  return ""
+}
 
 // Nav bar 
 export const MenuList = () => {
@@ -41,19 +48,20 @@ export const MenuList = () => {
     setType(getType(selectedKey)) 
   }
 
-  MENU_LIST.map(menu => {
-    menuArray.push(<Nav.Item>
-      <Nav.Link eventKey={menu}>{menu}</Nav.Link>
-    </Nav.Item>)
-  })
+  MENU_LIST.map((menu) => (
+    menuArray.push(<Link to={menu} 
+      className={`text-decoration-none text-white bg-primary rounded px-3 ${getActiveClass(menuItem, menu)} `}
+      onClick={(key) => handleNavClick(menu)}>
+      {menu}
+    </Link>) 
+  ))
 
-  return <Nav
-    activeKey={activeKey}
-    variant="pills"
-    className="mb-4"
-    onSelect={(selectedKey) => handleNavClick(selectedKey)}
-  >
-    {menuArray}
-  </Nav>
+  
+
+  return <>
+    <Stack direction="horizontal" gap={2} className="mt-5 d-flex flex-wrap">
+      {menuArray}
+    </Stack>
+  </>
 
 }

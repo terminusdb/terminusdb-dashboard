@@ -11,7 +11,7 @@ import { extractPropertyDocumentation } from "../helpers/widgetHelper"
 const DisplaySelectedDocument = ({ props, selected, args, id, clickedUnlinked, choiceDocumentData, setChoiceDocumentData }) => {
   let { reference, mode, fullFrame, onSelect, onTraverse, documentFrame } = args
   
-  if(!selected) return <div/>
+  if(!selected) return <div/> 
 
   function handleChoiceDocumentChange (data, fieldName) {
     // make sure data has @type same as that of selected 
@@ -78,6 +78,7 @@ function getTypeFromFilledData (formData) {
   return arr[0] // arr[0] will have the type chosen to be displayed in select component 
 }
 
+
 // extract selected choice to display in select component
 function extractSelectedChoice (formData) {
   if(formData) {
@@ -85,7 +86,10 @@ function extractSelectedChoice (formData) {
       //@unfolded is false in this case
       return getTypeFromFilledData (formData)
     }
-    return formData["@type"] // @unfolded is true
+    else {
+      let type = util.checkIfGeometryCollectionType(formData)
+      return type ? type : formData["@type"] // @unfolded is true
+    }
   }
   return false
 }
@@ -94,9 +98,12 @@ export const TDBChoiceDocuments = ({ args, props, property, id, choiceDocumentDa
   
   const [selected, setSelected]=useState(extractSelectedChoice(props.formData)) 
   const [unlinked, clickedUnlinked]=useState(false)
-  let { documentFrame, mode } = args
+  let { documentFrame, mode } = args 
   let displayChoices = getChoicesToDisplay(mode, documentFrame, property, unlinked, choiceDocumentData)
   const [choices, setChoices]= useState(displayChoices)
+
+  if(mode === CONST.VIEW && props.formData && !Object.keys(props.formData).length) 
+    return <div className={`tdb__${props.name}__hidden`}/>
 
   useEffect(() => {
     if(unlinked) setChoices(util.getChoices(documentFrame, property))

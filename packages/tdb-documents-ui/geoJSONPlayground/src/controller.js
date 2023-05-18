@@ -11,6 +11,7 @@ export function getType(selectedMenu) {
   else if(selectedMenu === menu.GEO_LINE_STRING_DOCUMENT) return "LineString"
   else if(selectedMenu === menu.GEO_POLYGON_DOCUMENT) return "Polygon"
   else if(selectedMenu === menu.GEO_MULTIPOLYGON_DOCUMENT) return "MultiPolygon"
+  else if(selectedMenu === menu.ADDRESS) return "Address"
   else return "Point"
 }
 
@@ -23,6 +24,7 @@ export function getFormData(selectedMenu) {
   else if(selectedMenu === menu.GEO_LINE_STRING_DOCUMENT) return data.GEO_LINE_STRING_DOCUMENT
   else if(selectedMenu === menu.GEO_POLYGON_DOCUMENT) return data.GEO_POLYGON_DOCUMENT
   else if(selectedMenu === menu.GEO_MULTIPOLYGON_DOCUMENT) return data.GEO_MULTIPOLYGON_DOCUMENT
+  else if(selectedMenu === menu.ADDRESS) return data.ADDRESS_DOCUMENT
   return {}
 }
 

@@ -195,54 +195,6 @@ export function constructLineStringProps (props, type){
   return geoJSONProps
 }
 
-// ADD POLYGON LEVEL 
-/*let props_before = {
-  canAdd: true,
-  className: "field field-array field-array-of-string",
-  formData: [],
-  idSchema: {"$id": 'root_coordinates_0' },
-  items: [],
-  onAddClick: (e) => {},
-  required: props.required,
-  title: props.name,
-  name: props.name,
-  hideFieldLabel: false
-}
-
-//on click of add coordinates 
-let props_after_add_coordinates = {
-  canAdd: true,
-  className: "field field-array field-array-of-string",
-  formData: [ [undefined, undefined] ],
-  idSchema: {"$id": 'root_coordinates_0' },
-  items: [
-    {
-      children: {
-        props: {
-          formData: [undefined, undefined],
-          idSchema: {"$id": `root_coordinates_0_0`},
-          index: index,
-          onChange: (data, name, index) => handleChange(data, name, index),
-          required: true,
-          child: true
-        }
-      },
-      className: "array-item",
-      hasMoveDown: false,
-      hasMoveUp: false,
-      hasRemove: true,
-      index: 0,
-      key: `root_coordinates_${0}_0`
-    }
-  ],
-  onAddClick: (e) => {},
-  required: props.required,
-  title: props.name,
-  name: props.name,
-  hideFieldLabel: false
-}*/
-
-
 export function constructMultiPolygonProps(props) {
 
   const [polygonIndex, setPolygonIndex] = useState(0)
@@ -268,6 +220,9 @@ export function constructMultiPolygonProps(props) {
 
   return geoJSONProps
 }
+
+
+
 
 
 

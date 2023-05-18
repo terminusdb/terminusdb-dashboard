@@ -5,12 +5,13 @@ import { CREATE, LEGO } from "./constants"
 import { GEO_JSON_FRAMES } from "./frames"
 import { generateFrameViewerCode } from "./generateCode"
 import { GEO_FEATURE } from './menu.constants'
-import { getFormData } from "./controller"
+import { getFormData, getType } from "./controller"
 
 export const FrameProvider = ({ children, config }) => {
-
+	const pathName= window.location.pathname.substring(1,window.location.pathname.length)
+	
 	// constants to store selected menu option 
-	const [menuItem, setMenuItem] = useState(GEO_FEATURE)
+	const [menuItem, setMenuItem] = useState(pathName ? decodeURI(pathName) : GEO_FEATURE) 
 	// constants to store frames
 	const [frames, setFrames] = useState(GEO_JSON_FRAMES)
 	// constants to store mode - CREATE/ EDIT or VIEW
@@ -18,7 +19,7 @@ export const FrameProvider = ({ children, config }) => {
 	// constants to store form data
 	const [formData, setFormData] = useState(false)
 	// constants to store document type
-	const [type, setType] = useState(GEO_FEATURE)
+	const [type, setType] = useState(pathName ? getType(decodeURI(pathName)): "Feature")
 	// constants to store data
 	const [data, setData] = useState({})
 	// consttant to store display of code 

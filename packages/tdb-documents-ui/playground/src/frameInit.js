@@ -2,15 +2,16 @@ import React, { useState, useEffect, useContext } from 'react'
 export const FrameContext = React.createContext()
 export const FrameObj = () => useContext(FrameContext)
 import { CREATE, LEGO } from "./constants"
+import { MANDATORY } from './menu.constants'
 import { EXAMPLE_FRAMES } from "./frames"
 import { generateFrameViewerCode } from "./generateCode"
-import { MANDATORY } from './menu.constants'
-import { getFormData } from "./controller"
+import { getFormData, getType } from "./controller"
 
 export const FrameProvider = ({ children, config }) => {
-
+	const pathName= window.location.pathname.substring(1,window.location.pathname.length)
+	
 	// constants to store selected menu option 
-	const [menuItem, setMenuItem] = useState(MANDATORY)
+	const [menuItem, setMenuItem] = useState(pathName ? decodeURI(pathName) : MANDATORY) 
 	// constants to store frames
 	const [frames, setFrames] = useState(EXAMPLE_FRAMES)
 	// constants to store mode - CREATE/ EDIT or VIEW
@@ -18,7 +19,7 @@ export const FrameProvider = ({ children, config }) => {
 	// constants to store form data
 	const [formData, setFormData] = useState(false)
 	// constants to store document type
-	const [type, setType] = useState("Person")
+	const [type, setType] = useState(pathName ? getType(decodeURI(pathName)) : "Person")
 	// constants to store data
 	const [data, setData] = useState({})
 	// consttant to store display of code 

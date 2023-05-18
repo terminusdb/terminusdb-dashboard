@@ -32,7 +32,7 @@ export function addGeoJSONLayout (layout, documentFrame, property) {
       }
     }
   } 
-  else if (util.isPolygonType(field) && util.isMultiPolygon(documentFrame)) {
+  else if (util.isMultiPolygonType(field) && util.isMultiPolygon(documentFrame)) {
     layout["items"]= {
       "type": CONST.ARRAY_TYPE,
       "items": {

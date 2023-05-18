@@ -1,8 +1,44 @@
-export const GEO_JSON_FRAMES = {
+export const GEO_JSON_FRAMES = { 
   "@context": {
     "@base": "terminusdb:///data/",
     "@schema": "terminusdb:///schema#",
     "@type": "Context"
+  },
+  "Address": {
+    "@key": {
+      "@fields": [
+        "asset_identifier"
+      ],
+      "@type": "Lexical"
+    },
+    "@type": "Class",
+    "location": {
+      "@class": "Location",
+      "@subdocument": []
+    }
+  },
+  "Location": {
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "@type": "Class",
+    "city": "xsd:string",
+    "geometry_location": {
+      "@class": [
+        {
+          "@class": "Point",
+          "@subdocument": []
+        }
+      ],
+      "@type": "Optional"
+    },
+    "postal_code": {
+      "@class": "xsd:string",
+      "@type": "Optional"
+    },
+    "state": "xsd:string",
+    "street": "xsd:string"  
   },
   "Feature": {
     "@inherits": [

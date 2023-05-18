@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import App from "./src/Layout"
 import { FrameProvider } from './src/frameInit'
+import { BrowserRouter as Router } from "react-router-dom";
 //import "@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__styles.css"
 
 function InitComponent () {
@@ -22,6 +23,8 @@ function InitComponent () {
 }
 
 ReactDOM.render(
-	<InitComponent/>,
+	<Router>
+		<InitComponent/>
+	</Router>,
 	document.getElementById("root")
 )

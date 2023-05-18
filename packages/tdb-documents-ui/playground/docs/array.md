@@ -101,7 +101,7 @@ Below Frame consists of an ArrayExamplePerson document
 ```
 
 
-#### Create
+#### Create 
 
 ```
 import { FrameViewer } from '@terminusdb/terminusdb-documents-ui'

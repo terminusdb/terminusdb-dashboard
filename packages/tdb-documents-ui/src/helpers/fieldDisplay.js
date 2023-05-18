@@ -102,11 +102,11 @@ export const getDisplay = (props, args, property) => {
     if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id, CONST.POLYGON)
     else return display.displayLineStringEditDocument(newProps, args, property, id)
   }
-  else if(util.isPolygonType(field) && args.linked_to === CONST.MULTIPOLYGON) {
-    // MULTIPOLYGON 
+  else if(util.isMultiPolygonType(field) && args.linked_to === CONST.MULTIPOLYGON) {
+    // MULTIPOLYGON  
     let id = props.id  
     let newProps = geo.constructMultiPolygonProps (props, args.type)
     if(mode === CONST.VIEW) return display.displayPolygonDocument(newProps, args, property, id, CONST.MULTIPOLYGON) 
-    else return display.displayNestedMultiPolygonEditDocument(args, newProps, property, id)  
+    else return display.displayNestedMultiPolygonEditDocument(args, props, property, id)  
   }
 } 

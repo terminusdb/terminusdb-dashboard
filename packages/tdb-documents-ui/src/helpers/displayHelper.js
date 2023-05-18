@@ -22,7 +22,7 @@ import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 import { displayDocumentFieldArrayHelpers } from "./documentFieldArrayHelpers"
 import { display } from "./display"
 import { displayGeoJSONViewUI } from "./widgetHelper"
-
+import {  NestedMultiPolygonArrayFieldTemplate } from "../arrayHelpers/NestedMultiPolygonTemplate"
 
  
 /** display widget is called for normal dattypes like xsd:string/ xsd:float etc */
@@ -457,8 +457,9 @@ export function displayMultiPolygonEditDocument(args, props, property, id) {
   //return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
 } 
 
-export function displayNestedMultiPolygonEditDocument (args, props, property, id) {
-  return geoTemplate.NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
+export function displayNestedMultiPolygonEditDocument (args, props, property, id) { 
+  //return geoTemplate.NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
+  return NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
 }
 
 

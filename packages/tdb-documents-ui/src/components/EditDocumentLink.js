@@ -85,20 +85,20 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         let defaultClassName="tdb__doc__input"
         //let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
-
+        let type = util.checkIfGeometryCollectionType(documentData)
 
         let config = {
           properties: definitions.properties,
           propertyName: documentLinkPropertyName,
           id: fieldID,
           key: `${linked_to}__${uuidv4()}`,
-          formData: { [fieldName] : util.getFormDataPerProperty(documentData, fieldName) },
+          formData: { [fieldName] : util.getFormDataPerProperty(documentData, fieldName, type) },
           required: definitions.required.includes(fieldName),
           mode: mode,
           args: args,
           //fieldUIFrame: fieldUIFrame, // review diff ui 
           onChange: handleChange,
-          currentDocumentClass: documentData[CONST.TYPE],
+          currentDocumentClass: type ? type : documentData[CONST.TYPE],
           defaultClassName: defaultClassName,
           propertyDocumentation: propertyDocumentation
         }
