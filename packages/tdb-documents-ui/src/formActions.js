@@ -60,13 +60,13 @@ export const handleSubmit = (data, onSubmit, setData, type, mode) => {
       formData.hasOwnProperty("@id")) {
         extracted["@id"] = formData["@id"]
     }
-
+ 
     onSubmit(extracted)
     console.log("Data submitted: ",  extracted)
     console.log("Data submitted: STRINGIFY",  JSON.stringify(extracted, null, 2))
     return extracted
   }
-}
+} 
  
 export function loadTheme(theme) {
   // dynamically add bootstrap library

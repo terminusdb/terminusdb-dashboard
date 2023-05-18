@@ -1,38 +1,54 @@
 import React from "react"
-import {Controllers} from "./Controllers"
-import {ModeBar} from "./ModeBar"
-import Container from 'react-bootstrap/Container'
-import {Output} from "./Output"
-import {Row, Col} from "react-bootstrap"
-import {MoreInfo} from "./MoreInfoCanvas"
-import {InfoMessage} from "./InfoMessage"
-import {DIFF_VIEWER} from "./menu.constants"
-import {InitObj} from "./init"
+import Card from "react-bootstrap/Card"
+import { FrameObj } from "./frameInit"
+import { FrameViewer } from '@terminusdb/terminusdb-documents-ui'
+import { getFormData, handleTraverse } from "./controller"
+import Button from "react-bootstrap/Button"
+import { Stack } from "react-bootstrap"
+import { Search } from "./SearchComponent"
+import { MULTI_LANGUAGE } from "./menu.constants"
 
-export const View = () => {
+//import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
+//import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__light.css'
+//import '../../src/css/terminusdb__darkly.css'
+//import '../../src/css/terminusdb__light.css'
 
-    const {
-        menuItem
-	} = InitObj()
+export const View = () => { 
 
-    return <React.Fragment>
-        <br/><br/>
-        <Container className="mt-5 mb-5">
-            <ModeBar/>
-            <InfoMessage/>
-            <Row className="w-100">
-                {menuItem !== DIFF_VIEWER && <React.Fragment>
-                        <Col md={6}>
-                            <Controllers/>
-                        </Col>
-                        <Col lg={true} md={6}>
-                            <Output/>
-                        </Col>
-                    </React.Fragment>
-                }
-                {menuItem === DIFF_VIEWER && <Output/>}
-            </Row>
-            <MoreInfo/>
-        </Container> 
-    </React.Fragment>
+  const {
+    frames,
+    type,
+    mode,
+    setData,
+    setShowCode,
+    data,
+    menuItem
+  } = FrameObj()
+
+  function handleSubmit(data) {
+    setData(data)
+  }
+
+  return <Card className="w-100">
+    <Card.Header className="w-100">
+      <Stack direction="horizontal">
+        <div> {`Document Type - `}</div>
+        <div className="text-warning fw-bolder">{type}</div>
+        <Button className="ms-auto btn btn-sm" onClick={(e) => setShowCode(Date.now())}>View Code</Button>
+      </Stack>
+    </Card.Header>
+    <Card.Body>
+      <FrameViewer frame={frames}
+        mode={mode}
+        formData={data}
+        onTraverse={handleTraverse}
+        language={menuItem === MULTI_LANGUAGE ? "ka" : "en"} 
+        onSelect={<Search/>}
+        theme="darkly"
+        //showThemeSelector={true}
+        onSubmit={handleSubmit}
+        type={type}
+      />
+    </Card.Body>
+  </Card>
 }

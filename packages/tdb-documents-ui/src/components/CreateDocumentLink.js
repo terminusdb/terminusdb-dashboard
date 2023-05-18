@@ -12,6 +12,17 @@ import { SearchExistingLink } from "./SearchExistingLink"
 import { DisplayDocumentation } from "../templates"
 import { documentInternalProperties } from "../helpers/documentHelpers"
 
+/** function checks weather internal properties of document has arrays in it  */
+export function checkifArray(args, documentData, field) {
+  let currentDocument = documentData.hasOwnProperty(CONST.TYPE) ? documentData[CONST.TYPE] : false
+  if(!currentDocument) return false
+  if(!args.fullFrame.hasOwnProperty(currentDocument)) return false
+  if(!args.fullFrame[currentDocument].hasOwnProperty(field)) return false
+  //if(!args.fullFrame[currentDocument][field].hasOwnProperty(CONST.TYPE)) return false
+  // check type if array type
+  return util.isArrayTypeFromFrames({ [field]: args.fullFrame[currentDocument][field] }, field)
+}
+
 // display based on action  
 const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, order_by, onSelect, propertyDocumentation, documentData, cardKey, setDocumentData, action, onChange, documentLinkPropertyName, extracted, required, mode, linked_to, linkId }) => {
 
@@ -113,7 +124,8 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, orde
     for(let field in definitions.properties) { 
       linked_to = definitions.properties[field][CONST.PLACEHOLDER]
       // if field is a document link then @placeholder will point to linked document at this point
-      if(util.availableInReference(reference, linked_to))  {
+      //if(util.availableInReference(reference, linked_to))  {
+      if(util.availableInReference(reference, linked_to) && !checkifArray(args, documentData, field))  {
         // another document link 
         fields.push(<CreateDocument name={field} 
           linked_to={linked_to}

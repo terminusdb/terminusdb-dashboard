@@ -32,10 +32,15 @@ export const HiddenWidgets = (config) => {
       hideFieldLabel={config.hideFieldLabel}/>
   }
   else if (util.isDocumentType(field, config.args.fullFrame)) {
-    return <HiddenInputWidgets name={config.name} 
-    className={config.className}
-    id={config.id} 
-    hideFieldLabel={config.hideFieldLabel}/>
+    return <Card bg="transparent" className="border border-0">
+      <Card.Header className="border border-0 invisible">Hidden Widget</Card.Header>
+      <Card.Body>
+        <HiddenInputWidgets name={config.name} 
+          className={config.className}
+          id={config.id} 
+          hideFieldLabel={config.hideFieldLabel}/>
+      </Card.Body>
+    </Card>
   }
   else if(util.isSubDocumentType(field)) {   
     return <HiddenSubDocumentWidgets name={config.name} 

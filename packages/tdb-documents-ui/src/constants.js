@@ -139,7 +139,7 @@ export const GEOMETRY_ARRAY=[
   POINT,
   POLYGON
 ]
-
+//FEATURE
 // map icon component
 import L from "leaflet";
 

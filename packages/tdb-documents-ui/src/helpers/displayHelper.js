@@ -22,7 +22,7 @@ import { TDBChoiceDocuments } from "../widgets/choiceDocumentsWidget"
 import { displayDocumentFieldArrayHelpers } from "./documentFieldArrayHelpers"
 import { display } from "./display"
 import { displayGeoJSONViewUI } from "./widgetHelper"
-
+import {  NestedMultiPolygonArrayFieldTemplate } from "../arrayHelpers/NestedMultiPolygonTemplate"
 
  
 /** display widget is called for normal dattypes like xsd:string/ xsd:float etc */
@@ -90,6 +90,7 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
   if(fullFrame.hasOwnProperty(linked_to)) {
     order_by=util.getOrderBy(fullFrame, linked_to) 
   }
+  let extractedDoc= extracted && extracted.hasOwnProperty("extractedDocumentation") ? extracted.extractedDocumentation : {}
 
   // add logic for required properties  
   return  <TDBSubDocument extracted={extracted} 
@@ -102,9 +103,10 @@ export function displaySubDocument(props, args, extracted, property, expanded, i
     subDocumentData={subDocumentData} 
     setSubDocumentData={setSubDocumentData}
     comment={documentation.comment ? documentation.comment : null} 
+    label={documentation.label ? documentation.label : props.name}
     //mode={mode}
-    index={props.index}
-    propertyDocumentation={extractPropertyDocumentation(extracted.extractedDocumentation, selectedLanguage)}
+    index={props.index} 
+    propertyDocumentation={extractPropertyDocumentation(extractedDoc, selectedLanguage)}
     linked_to={linked_to}
     props={props}/>
 }
@@ -455,8 +457,9 @@ export function displayMultiPolygonEditDocument(args, props, property, id) {
   //return geoTemplate.CoordinatesArrayFieldTemplate(args, props, property)
 } 
 
-export function displayNestedMultiPolygonEditDocument (args, props, property, id) {
-  return geoTemplate.NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
+export function displayNestedMultiPolygonEditDocument (args, props, property, id) { 
+  //return geoTemplate.NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
+  return NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
 }
 
 

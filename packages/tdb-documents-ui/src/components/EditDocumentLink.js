@@ -9,7 +9,7 @@ import { ToggleComponent } from "./ToggleDocumentLink"
 import { getLinkedDescription, getDocumentLinkChoiceDescription } from "./DescriptionComponent"
 import { v4 as uuidv4 } from 'uuid';
 import { BsTrashFill } from "react-icons/bs" 
-import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
+import { CreateDocument, CreateDisplay, checkifArray } from "./CreateDocumentLink"
 import { UnlinkButton } from "./UnlinkButton"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { documentInternalProperties } from "../helpers/documentHelpers"
@@ -42,7 +42,7 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
     for(let field in definitions.properties) { 
 
       linked_to = definitions.properties[field][CONST.PLACEHOLDER]
-      if(util.availableInReference(reference, linked_to)) {
+      if(util.availableInReference(reference, linked_to)&& !checkifArray(args, documentData, field)) {
         if(!formData.hasOwnProperty(field)) {
           fields.push(<CreateDocument name={field} 
           linked_to={linked_to}
@@ -85,20 +85,20 @@ const DisplayFilledFrame = ({ args, documentData, propertyDocumentation, onTrave
         let fieldID=`root_${documentLinkPropertyName}_${fieldName}_${cardKey}`
         let defaultClassName="tdb__doc__input"
         //let fieldUIFrame= util.getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassName, index)
-
+        let type = util.checkIfGeometryCollectionType(documentData)
 
         let config = {
           properties: definitions.properties,
           propertyName: documentLinkPropertyName,
           id: fieldID,
           key: `${linked_to}__${uuidv4()}`,
-          formData: { [fieldName] : util.getFormDataPerProperty(documentData, fieldName) },
+          formData: { [fieldName] : util.getFormDataPerProperty(documentData, fieldName, type) },
           required: definitions.required.includes(fieldName),
           mode: mode,
           args: args,
           //fieldUIFrame: fieldUIFrame, // review diff ui 
           onChange: handleChange,
-          currentDocumentClass: documentData[CONST.TYPE],
+          currentDocumentClass: type ? type : documentData[CONST.TYPE],
           defaultClassName: defaultClassName,
           propertyDocumentation: propertyDocumentation
         }

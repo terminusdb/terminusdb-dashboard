@@ -20,6 +20,7 @@
     "mockTest": "webpack serve --mode development  --open --progress --port 3035 --host localhost --config mockTest/webpack.config.js",
     "sandbox": "webpack serve --mode development  --open --progress --port 3036 --host localhost --config sandbox/webpack.config.js",
     "diff": "webpack serve --mode development  --open --progress --port 3034 --host localhost --config diff/webpack.config.js",
+    "geoJSONPlayground": "webpack serve --mode development  --open --progress --port 3038 --host localhost --config geoJSONPlayground/webpack.config.js",
     "lint": "eslint src",
     "autofix": "eslint src --fix",
     "cypress": "npx cypress open",

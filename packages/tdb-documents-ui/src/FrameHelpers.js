@@ -37,10 +37,6 @@ export function getProperties (args) {
     
 	for(let property in documentFrame) {
 
-		if(property === "bbox") {
-			console.log("bb")
-		}
-
 		if(property === "@id") continue
 		else if(property === "@key") continue
 		else if(property === "@type") continue 

@@ -48,7 +48,8 @@ export const typeHelper = (documentFrame, property, fullFrame, isArray) => {
   }
   else if (util.isPointType(field) || 
     util.isLineStringType(field) ||
-    util.isPolygonType(field)) {
+    util.isPolygonType(field)|| 
+    util.isMultiPolygonType(field)) { 
     // GEO JSON Types
     return CONST.ARRAY_TYPE
   } 
