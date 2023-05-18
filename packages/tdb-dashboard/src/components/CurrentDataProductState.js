@@ -22,7 +22,7 @@ export const ConnectedDataProduct = (props) => {
     if(!woqlClient) return ""
     const dataProduct = woqlClient.db()
     const [status, setStatus] = useState("text-success")
-    const [currentCommit, setCurrentCommit] = useState("on lastest version")
+    const [currentCommit, setCurrentCommit] = useState("on latest version")
 
     useEffect(() => {
             if (chosenCommit && chosenCommit.time) {
@@ -31,7 +31,7 @@ export const ConnectedDataProduct = (props) => {
                 if(setStatus) setStatus("text-warning")
             }
             else {
-                if(setCurrentCommit) setCurrentCommit("on lastest version")
+                if(setCurrentCommit) setCurrentCommit("on latest version")
                 if(setStatus)setStatus("tdb__status_latest__version") 
             }
        
