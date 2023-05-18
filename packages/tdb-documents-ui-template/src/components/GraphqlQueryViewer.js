@@ -15,8 +15,8 @@ import {copyToClipboard} from "../utils"
 // i have to fix this anbd update to codemiro 6
 export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) => {
 
-    const variablesObj = {"offset":start,"limit":limit,"orderBy":orderBy || {} ,"filter":filterBy || {}}
-   
+     const variablesObj = JSON.stringify({"offset":start,"limit":limit,"orderBy":queryOrders || {} ,"filter":queryFilters || {}},null,4)
+
     const [textInputEditor,setTextInputEditor] = useState(null) 
     const [variablesEditor,setVariablesEditor] = useState(null) 
 
@@ -52,7 +52,7 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
             <div className="d-flex justify-content-end mr-2">
                 <Button title ="copy variables"  onClick={()=>{copyTest(variablesObj)}}><FiCopy/></Button>
             </div>  
-            <CodeMirror value={JSON.stringify(variablesObj,null,4)}  options={QLVAR_READ_OPTIONS}  className="readOnly"/>
+            <CodeMirror value={variablesObj}  options={QLVAR_READ_OPTIONS}  className="readOnly"/>
             
          </React.Fragment>
 }
