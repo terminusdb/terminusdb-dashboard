@@ -129,6 +129,8 @@ export const AdvancedSearch = (props) =>{
             case "DATETIME" :
               tmpValue = `${value.replace(' ','T')}Z`
               break
+            case "BIGFLOAT":
+            case "FLOAT":
             case "INT":
             case "BIGINT":
               tmpValue = `${value}`
