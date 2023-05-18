@@ -51,6 +51,7 @@ const numberFilter =  {"eq": "eq", //Equality
                       "ge": "ge" // Greater than or equal
                 }
 
+
 const booleanFilter ={"eq": "eq", //Equality
                 "ne": "ne" //Disequality
               }
@@ -130,6 +131,8 @@ export const AdvancedSearch = (props) =>{
               tmpValue = `${value.replace(' ','T')}Z`
               break
             case "INT":
+            case "BIGFLOAT":
+            case "FLOAT":
             case "BIGINT":
               tmpValue = `${value}`
               break;

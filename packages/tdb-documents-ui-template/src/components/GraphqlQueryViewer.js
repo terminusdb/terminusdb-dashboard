@@ -10,7 +10,7 @@ import { json } from '@codemirror/lang-json';
 // i have to fix this anbd update to codemiro 6
 export const GraphqlQueryView = ({queryToDisplay,start,limit,queryFilters,queryOrders}) => {
 
-    const variablesObj = {"offset":start,"limit":limit,"orderBy":queryOrders || {} ,"filter":queryFilters || {}}
+    const variablesObj = JSON.stringify({"offset":start,"limit":limit,"orderBy":queryOrders || {} ,"filter":queryFilters || {}},null,4)
 
      const copyTest = (text)=>{
         copyToClipboard(text);
@@ -25,7 +25,6 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,queryFilters,queryO
     //console.log("JAVASCRIPT TYPE", typeof javascript)
     //console.log("EditorView.lineWrapping TYPE", typeof EditorView.lineWrapping)
 
-   //EditorView.lineWrapping()
    return <React.Fragment>
             <div className="d-flex justify-content-end mr-2">
                 <Button title = "copy grapl query" onClick={()=>{copyTest(queryToDisplay)}}><FiCopy/></Button>
@@ -48,7 +47,7 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,queryFilters,queryO
                 readOnly={true}
                 theme={vscodeDark}
                 //extensions={[json(),EditorView.lineWrapping]}  
-                value={JSON.stringify(variablesObj,null,4)}   
+                value={variablesObj}   
                 className="readOnly"/>
             
          </React.Fragment>

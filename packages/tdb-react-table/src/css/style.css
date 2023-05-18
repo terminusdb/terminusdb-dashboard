@@ -235,10 +235,10 @@ transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-
 .widget--widget> input[type='radio']:checked + label {
   background: #375a7f;
 }
-.widget--widget> input:checked{
+.widget--widget> input[type='radio']:checked{
   display: none;
 }
-.widget--widget> input{
+.widget--widget> input[type='radio']{
   display: none;
 }
 

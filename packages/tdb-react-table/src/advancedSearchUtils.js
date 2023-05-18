@@ -18,6 +18,11 @@ export const advancedSearchMatchType= (fieldType)=> {
       valueSources: ['value'],
        "typevalue":"BigInt"
     },
+    BigFloat: {
+      label: 'replaceLabel',
+      type: 'number',
+      valueSources: ['value']
+    },
     Float: {
       label: 'replaceLabel',
       type: 'number',
