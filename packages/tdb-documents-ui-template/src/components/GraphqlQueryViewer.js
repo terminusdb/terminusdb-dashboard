@@ -15,7 +15,7 @@ import {copyToClipboard} from "../utils"
 // i have to fix this anbd update to codemiro 6
 export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) => {
 
-     const variablesObj = JSON.stringify({"offset":start,"limit":limit,"orderBy":queryOrders || {} ,"filter":queryFilters || {}},null,4)
+    const variablesObj = JSON.stringify({"offset":start,"limit":limit,"orderBy":orderBy || {} ,"filter":filterBy || {}},null,4)
 
     const [textInputEditor,setTextInputEditor] = useState(null) 
     const [variablesEditor,setVariablesEditor] = useState(null) 
