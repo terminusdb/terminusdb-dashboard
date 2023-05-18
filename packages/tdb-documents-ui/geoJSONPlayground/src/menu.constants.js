@@ -6,6 +6,7 @@ export const GEO_POINT_DOCUMENT="Point"
 export const GEO_LINE_STRING_DOCUMENT="LineString"
 export const GEO_POLYGON_DOCUMENT="Polygon"
 export const GEO_MULTIPOLYGON_DOCUMENT="MultiPolygon"
+export const ADDRESS="Address"
 
 
 

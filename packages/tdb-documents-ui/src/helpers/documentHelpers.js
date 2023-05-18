@@ -102,7 +102,7 @@ export function documentInternalProperties(docConfig, field) {
 
   // construct document frame to get UI 
   let documentFrame = extractDocumentFrame(currentDocumentClass, docConfig.args.fullFrame, field)
-  if(documentFrame.propertyFrame.hasOwnProperty(CONST.TYPE) && 
+  if(documentFrame.propertyFrame && documentFrame.propertyFrame.hasOwnProperty(CONST.TYPE) && 
     documentFrame.propertyFrame[CONST.TYPE] === CONST.ENUM) {
     if(!documentFrame.propertyFrame.hasOwnProperty("@id")) {
       // enum definition

@@ -113,17 +113,31 @@ export const GEO_MULTIPOLYGON_DOCUMENT = {
     "@id": "MultiPolygon/7f9b83c6de0a4618830d85b5fcdebc55aeb60486d6d6091a1a12e7ebe5d306b5",
     "@type": "MultiPolygon",
     "coordinates": [
+      [
         [
-			[51.51, -0.12],
-			[51.51, -0.13],
-			[51.53, -0.13],
-		  ],
+          ["-0.12", "51.51"],
+          ["-0.13", "51.51"],
+          ["-0.13", "51.53"],
+        ],
+        [
+          ["-0.05", "51.51"],
+          ["-0.07", "51.51"],
+          ["-0.07", "51.53"]
+        ]
+      ]
+    ]
+    /*"coordinates": [
+        [
+          [51.51, -0.12],
+          [51.51, -0.13],
+          [51.53, -0.13],
+		    ],
 		  [
-			[51.51, -0.05],
-			[51.51, -0.07],
-			[51.53, -0.07],
+        [51.51, -0.05],
+        [51.51, -0.07],
+        [51.53, -0.07],
 		  ],
-    ],
+    ]*/,
     "type": "MultiPolygon"
 }
 
@@ -232,7 +246,7 @@ export const GEO_FEATURE_DOCUMENT = {
   },
   "type": "Feature"
 }
-
+ 
 export const GEO_FEATURE_COLLECTION_DOCUMENT = {
 	"@id": "FeatureCollection/001a653d2a311f6fc86ddfe853eca86dad175b45cf63985a7b13b31479adbae5",
 	"type": "FeatureCollection",
@@ -269,4 +283,36 @@ export const GEO_FEATURE_COLLECTION_DOCUMENT = {
 	]
 }
 
-export const GEO_GEOMETRY_COLLECTION_DOCUMENT = {}
+export const GEO_GEOMETRY_COLLECTION_DOCUMENT = { 
+  "type": "GeometryCollection",
+  "geometries": [
+    { "type": "Point",
+      "coordinates": [100.0, 0.0]
+      },
+    { "type": "LineString",
+      "coordinates": [ [101.0, 0.0], [102.0, 1.0] ]
+      }
+  ]
+}
+
+export const ADDRESS_DOCUMENT = {
+  "@id": "Address/NEW%20ADDRESS",
+  "@type": "Address",
+  "location": {
+    "@id": "Address/NEW%20ADDRESS/location/Location/9f6b6a77f7e4141b882579e67e7580ecca568b7586c197f1c4fa802b61492fd3",
+    "@type": "Location",
+    "city": "NEW CITY",
+    "geometry_location": {
+      "@id": "Address/NEW%20ADDRESS/location/Address/NEW%20ADDRESS/location/Location/9f6b6a77f7e4141b882579e67e7580ecca568b7586c197f1c4fa802b61492fd3/geometry_location/Point/9c1d3265000fad31cad24db9b1e4ae1233509b15469e0ff394c1a25ee23eaa75",
+      "@type": "Point",
+      "coordinates": [
+        "53.24302757956819",
+        "-6.131942167551961"
+      ],
+      "type": "Point"
+    },
+    "postal_code": "12213 PO",
+    "state": "NEW STATE",
+    "street": "NEW STREET"
+  }
+}

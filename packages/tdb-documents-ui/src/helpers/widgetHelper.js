@@ -246,7 +246,7 @@ export function getMultiPolygonUIDisplay (args, property) {
  
   function coordinatesArrayTemplate(props) { 
     return display.displayMultiPolygonEditDocument(args, props, property) 
-  }
+  } 
   
   return { 
     "ui:ArrayFieldTemplate": geoTemplate.MultiPolygonArrayFieldTemplate,

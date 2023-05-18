@@ -18,11 +18,12 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   devServer: {
     static: path.resolve(__dirname, 'build'),
     compress: true,
-    historyApiFallback: false,
+    historyApiFallback: true,
     port: 3032
   },
   plugins: [

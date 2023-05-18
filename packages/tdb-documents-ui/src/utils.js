@@ -399,9 +399,13 @@ export function availableInReference (references, documentType) {
 
 // gets form data per property 
 // used to get config form data for subdocuments, documentlinks etc.
-export function getFormDataPerProperty (subDocumentData, fieldName) {
-  if(subDocumentData.hasOwnProperty(fieldName)) return subDocumentData[fieldName]
-	//if(subDocumentData.hasOwnProperty(fieldName)) return {[fieldName] : subDocumentData[fieldName]}
+export function getFormDataPerProperty (subDocumentData, fieldName, type) {
+  if(subDocumentData && subDocumentData.hasOwnProperty(fieldName)) {
+		if(type && fieldName === CONST.COORDINATES_FIELD && type === CONST.POLYGON) {
+			return subDocumentData[fieldName][0]
+		}
+		return subDocumentData[fieldName]
+	}
   return ""
 }
 
@@ -643,15 +647,20 @@ export function isGeometryCollection(field) {
 	return false
 }
 
+// function checks if form data is geometry collection type
+export function checkIfGeometryCollectionType(formData) { 
+  if(formData && 
+    formData.hasOwnProperty("type") && 
+    CONST.GEOMETRY_ARRAY.includes(formData["type"])) return formData["type"]
+  return false
+}
+
 /***
  * checks if frame is inherrited from geo json types
  */
 export function isInherritedFromGeoJSONTypes(frame) {
-	if(frame.hasOwnProperty("geometry")) {
+	if(frame.hasOwnProperty("geometry")) { 
 		return true
-		return frame["geometry"].every(item => {
-			return CONST.GEOJSON_ARRAY_TYPES.includes(item);
-		});
 	}
 	if(!frame.hasOwnProperty(CONST.INHERITS)) return false
 	return frame[CONST.INHERITS].every(item => {
