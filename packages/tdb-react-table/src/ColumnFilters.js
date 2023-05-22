@@ -32,6 +32,7 @@ export function DefaultColumnFilter({
     
     return (
       <input
+        style={{maxWidth:"99%"}}
         value={value || ''}
         onKeyPress={(ev) => {
           if (ev.key === 'Enter') {
@@ -78,8 +79,8 @@ export function SelectColumnFilter({
     const value = filterValue ? filterValue.value : ""
     const mode = options && options.mode ? options.mode  : undefined
     return (
-      <select
-        style={{maxWidth:"200px"}}
+      <select 
+        style={{maxWidth:"99%"}}
         value={value}
         onChange={e => {
           const vv = e.target.value
@@ -114,6 +115,7 @@ export function SelectColumnFilter({
     return (
       <>
         <input
+          style={{maxWidth:"99%"}}
           type="range"
           min={min}
           max={max}

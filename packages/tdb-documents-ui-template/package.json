@@ -1,11 +1,12 @@
 {
   "name": "@terminusdb/terminusdb-documents-ui-template",
-  "version": "6.2.2-alpha.1",
+  "version": "6.2.3-alpha.0",
   "description": "SDK to build Application from terminusdb documents",
   "main": "src/index.js",
-  "module": "es6/index",
-  "jsnext:main": "es6/index",
+  "module": "es6/index.js",
   "scripts": {
+    "build:commonjs": "rimraf es6 && cross-env BABEL_ENV=commonjs babel ./src --out-dir es6",
+    "build:es": "rimraf esm &&  babel ./src --extensions '.js' --out-dir esm",
     "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js'",
     "build": "npm run build-es6 && webpack --mode production",
     "lint": "eslint src",
@@ -49,6 +50,7 @@
     "dotenv-webpack": "^8.0.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "img-loader": "^4.0.0",
     "less-loader": "^11.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "sass": "^1.57.1",
@@ -56,16 +58,16 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.11.0",
-    "img-loader": "^4.0.0",
-    "@babel/runtime": "^7.20.1"
+    "webpack-dev-server": "^4.11.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.20.1",
+    "@uiw/codemirror-theme-okaidia": "^4.20.2",
+    "@uiw/codemirror-theme-vscode": "^4.20.0",
+    "@uiw/react-codemirror": "^4.20.0",
     "bootstrap": "^5.1.3",
-    "react-bootstrap": "^2.7.0",
-    "@uiw/codemirror-theme-vscode":"^4.19.16",
-    "@uiw/react-codemirror": "^4.12.4",
     "graphql-formatter": "^1.0.3",
+    "react-bootstrap": "^2.7.0",
     "react-icons": "^4.3.1",
     "react-select": "^5.2.2"
   }

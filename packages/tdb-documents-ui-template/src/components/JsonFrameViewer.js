@@ -4,6 +4,7 @@ import {Button,Alert} from "react-bootstrap"
 import CodeMirror from "@uiw/react-codemirror"
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { json } from '@codemirror/lang-json';
+import { EditorView } from "@codemirror/view";
 
 export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
     const [data, setData]=useState(false) 
@@ -33,6 +34,7 @@ export const JsonFrameViewer = ({type, jsonData, mode, setExtracted}) => {
                 Syntax Error: {error} </Alert>}
             
         <CodeMirror 
+            minHeight="200px"
             value={JSON.stringify(!data ? {} : data, null, 2)}
             theme={vscodeDark}
             extensions={[json(),EditorView.lineWrapping]}

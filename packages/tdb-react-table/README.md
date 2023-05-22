@@ -11,7 +11,6 @@ The best way to use @terminusdb/terminusdb-react-table is via the npm package wh
 the library contents two main components [`TDBReactTable`](#tdbreacttable) and [`AdvancedSearch`](#advancedsearch)
 
 ## TDBReactTable
-
 ### Props
 | props |description |
 |--|--|
@@ -120,8 +119,8 @@ return  <Container  className='my-5'>
 
 export  default  App;
 ```
-[Code]()
-[Codesandbox]
+[TdbReactTable Code](https://github.com/terminusdb/terminusdb-dashboard/tree/main/packages/tdb-react-table/src)
+[Codesandbox](https://codesandbox.io/s/github/terminusdb/dashboard-examples-sandbox/tree/main/terminusdb-react-table-examples/table-basic-conf)
 
 ## AdvancedSearch
 
@@ -167,5 +166,5 @@ stringFormat.label= "myPropertyName"
 const  fields = {"myPropertyName" :  stringFormat}
 ```
 
-[AdvancedSearch Code]()
-[Codesandbox]()
+[AdvancedSearch Code](https://github.com/terminusdb/terminusdb-dashboard/tree/main/packages/tdb-react-table/src)
+[Codesandbox](https://codesandbox.io/s/github/terminusdb/dashboard-examples-sandbox/tree/main/terminusdb-react-table-examples/advanced-search)

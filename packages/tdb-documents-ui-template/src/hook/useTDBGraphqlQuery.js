@@ -81,7 +81,7 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
             const data = result.data 
             if(!Array.isArray(data[documentType]))return []
                 //current page is the startoffset
-                const rowCountTmp  = currentpage+data[documentType].length
+                const rowCountTmp  = currentstart+data[documentType].length
                 if(data[documentType].length === (currentlimit+1)){
                 //setHasNextPage(false)
                 data[documentType].pop()
