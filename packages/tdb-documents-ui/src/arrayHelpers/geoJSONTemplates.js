@@ -291,7 +291,7 @@ export function PolygonArrayFieldTemplate(props) {
 }
 
 // DISPLAY ADD POLYGON ARRAY TEMPLATE (MULTIPOLYGON)
-/*export function MultiPolygonArrayFieldTemplate(props) {
+export function MultiPolygonArrayFieldTemplate(props) {
   let variant="secondary"
   let label=props.title 
 
@@ -312,7 +312,7 @@ export function PolygonArrayFieldTemplate(props) {
     <small className="text-muted fst-italics">{`Click here to add another Polygon`}</small>
     <AddButton props={props} label={CONST.POLYGON}/>
   </div>
-}*/
+}
 
 // BINDING BOX 
 export function BBoxFieldTemplate(args, props, property) { 
@@ -646,7 +646,7 @@ export const NestedMultiPolygonArrayFieldTemplate = (args, props, property) => {
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
 
-    <Stack gap={2} className="test">
+    <Stack gap={2}>
       
       <small className="fst-italic text-muted">Click here to add another Polygon</small>
 

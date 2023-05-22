@@ -28,7 +28,7 @@
 
 /** tdb input */
 .tdb__doc__input { 
-  color: var(--input-color);
+  color: var(--input-color) !important;
   background-color: transparent;
   border: var(--input-border) !important;
   display: block;
@@ -38,6 +38,19 @@
   font-weight: 400; 
   line-height: 1;
   background-clip: padding-box;
+}
+
+/** remove spinners from input of number type*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /** all property labels */

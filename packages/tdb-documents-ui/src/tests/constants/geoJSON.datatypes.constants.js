@@ -467,13 +467,13 @@ export const LINE_STRING_EDIT_CONFIG = {
 export const MULTI_POLYGON_DATA_TYPE_CREATE_DATA = {
 	"@type": "MultiPolygon",
 	"bbox": ["49.505", "-2.09", "53.505", "2.09"],
-	"coordinates": [
+	"coordinates": [[
 		[
 			["51.515", "-0.09"],
 			["51.52", "-0.1"],
 			["51.52", "-0.12"]
 		] 
-	],
+	]],
 	"type": "MultiPolygon"
 }
 
@@ -530,18 +530,9 @@ export const SUBDOCUMENT_LINE_STRING_EDIT_DATA ={
     "geometry_location": {
       "@type": "LineString_NOBBBOX",
       "coordinates": [
-        [
-          "1111",
-          "1111"
-        ],
-				[
-          "22",
-          "22"
-        ],
-				[
-          "33",
-          "33"
-        ]
+        ["1111", "1111"], 
+				[ "22", "22" ],
+				[ "33", "33" ]
       ],
       "type": "LineString"
     }

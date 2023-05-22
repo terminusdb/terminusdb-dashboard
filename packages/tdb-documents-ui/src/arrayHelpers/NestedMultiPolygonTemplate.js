@@ -35,7 +35,8 @@ const DisplayCoordinatesLatLng = ({ coordinatesPerPolygon, polygonID, polygonInd
     }
     //temp[polygonIndex][coordinateIndex]=coord
     temp[polygonIndex][coordinateIndex]=coord
-    if(onChangeHandler) onChangeHandler([data], CONST.COORDINATES_FIELD)
+    //if(onChangeHandler) onChangeHandler([data], CONST.COORDINATES_FIELD)
+    if(onChangeHandler) onChangeHandler([data])
     setData(data)
   }
 
