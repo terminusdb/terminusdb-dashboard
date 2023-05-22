@@ -459,7 +459,7 @@ export function displayMultiPolygonEditDocument(args, props, property, id) {
 
 export function displayNestedMultiPolygonEditDocument (args, props, property, id) { 
   //return geoTemplate.NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
-  return NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
+  return NestedMultiPolygonArrayFieldTemplate(args, props, property, id) 
 }
 
 

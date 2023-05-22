@@ -17,7 +17,7 @@ export const GEO_JSON_FRAMES = {
       "@subdocument": []
     }
   },
-  "Location": {
+  "Location": { 
     "@key": {
       "@type": "Random"
     },

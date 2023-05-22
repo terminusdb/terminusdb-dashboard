@@ -244,11 +244,15 @@ export function getMultiPolygonUIDisplay (args, property) {
     return { "ui:field": displayGeoJSONView } 
   }
  
-  function coordinatesArrayTemplate(props) { 
-    return display.displayMultiPolygonEditDocument(args, props, property) 
+  function displayMultiPolygonEdit(props) {  
+    //return display.displayMultiPolygonEditDocument(args, props, property) 
+    let id = props.idSchema["$id"]
+    return display.displayNestedMultiPolygonEditDocument(args, props, property, id)
   } 
+
+  return { "ui:field": displayMultiPolygonEdit } 
   
-  return { 
+  /*return { 
     "ui:ArrayFieldTemplate": geoTemplate.MultiPolygonArrayFieldTemplate,
     "items": {
       "ui:ArrayFieldTemplate": coordinatesArrayTemplate,
@@ -256,7 +260,7 @@ export function getMultiPolygonUIDisplay (args, property) {
         "ui:options": CONST.UI_HIDDEN_ARRAY_OPTIONS
       }
     }
-  }
+  }*/
 
 }
 
