@@ -35,7 +35,8 @@ const DisplayCoordinatesLatLng = ({ coordinatesPerPolygon, polygonID, polygonInd
     }
     //temp[polygonIndex][coordinateIndex]=coord
     temp[polygonIndex][coordinateIndex]=coord
-    if(onChangeHandler) onChangeHandler([data], CONST.COORDINATES_FIELD)
+    //if(onChangeHandler) onChangeHandler([data], CONST.COORDINATES_FIELD)
+    if(onChangeHandler) onChangeHandler([data])
     setData(data)
   }
 
@@ -113,7 +114,7 @@ const AddCoordinatesPerPolygon = ({ polygonCount, setPolygon, polygon, data, set
       for(let count = 0; count < polygonCount; count ++) {
         let countID = `Polygon__${count}`
         polygonArray.push(
-          <Card className="bg-secondary" key={`Polygon__${count}`}>
+          <Card className="bg-secondary w-100 mb-3" key={`Polygon__${count}`}>
             <Card.Body>
               <Card.Text className="text-muted fst-italic">{`Polygon number - ${count+1}`}</Card.Text>
               {coordinatesPerPolygon.hasOwnProperty(countID) && <DisplayCoordinatesLatLng 
@@ -160,24 +161,25 @@ export const NestedMultiPolygonArrayFieldTemplate = (args, props, property, id) 
     setData(arr => [...arr, []])
   }
 
-  console.log("data", data)
 
-  return <Stack gap={3} className="mb-3">
-    <Stack>
+  return <Stack gap={3} direction="horizontal" className="mb-3">
+    <Stack className="col-md-2">
       <TDBLabel name={props.name} 
         required={props.required} 
         className="tdb__label__width"
         id={id}/>
       <small className="text-muted fst-italic">Click here to add a new Polygon</small>
     </Stack>
-    <AddCoordinatesPerPolygon polygonCount={polygonCount} 
-      onChangeHandler={props.onChange}
-      data={data}
-      setData={setData}
-      setPolygon={setPolygon} 
-      polygon={polygon}/>
-    <Button className="btn btn-sm bg-light text-dark" onClick={addPolygon}>
-      <BiPlus className="mr-1"/>Add Polygon
-    </Button>
+    <Stack className="p-3">
+      <AddCoordinatesPerPolygon polygonCount={polygonCount} 
+          onChangeHandler={props.onChange}
+        data={data}
+        setData={setData}
+        setPolygon={setPolygon} 
+        polygon={polygon}/>
+      <Button className="btn btn-sm bg-light text-dark" onClick={addPolygon}>
+        <BiPlus className="mr-1"/>Add Polygon
+      </Button>
+    </Stack>
   </Stack>
 }

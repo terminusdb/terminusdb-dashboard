@@ -31,6 +31,7 @@ export function makeMandatoryFrames (args, property) {
   } 
 
   if(util.isInherritedFromGeoJSONTypes(documentFrame)) {
+      // for multi polyfon logic works differently 
     addGeoJSONLayout(layout, documentFrame, property)
   }
   if(util.isSysUnitDataType(documentFrame[property])) {

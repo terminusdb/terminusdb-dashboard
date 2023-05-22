@@ -9,11 +9,8 @@ import { TDBSubDocument, populateSubDocumentData } from "../widgets/subDocumentW
 import { TDBDocument } from "../widgets/documentWidget"
 import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
-import { TDBPointDocuments } from "../widgets/pointGeoJSONWidget"
-import { TDBLineStringDocuments } from "../widgets/lineStringGeoJSONWidget"
 import { TDBGeoCollectionDocuments } from "../mapComponents/geoCollectionWidget"
 import { TDBFeatureCollectionDocuments } from "../mapComponents/featureCollectionWidget"
-import { TDBPolygonDocuments } from "../widgets/polygonGeoJSONWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
 import { TDBRDFLanguage } from "../widgets/rdfLanguageWidget"
@@ -459,7 +456,7 @@ export function displayMultiPolygonEditDocument(args, props, property, id) {
 
 export function displayNestedMultiPolygonEditDocument (args, props, property, id) { 
   //return geoTemplate.NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
-  return NestedMultiPolygonArrayFieldTemplate(args, props, property, id)
+  return NestedMultiPolygonArrayFieldTemplate(args, props, property, id) 
 }
 
 

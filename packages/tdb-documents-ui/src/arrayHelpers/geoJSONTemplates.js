@@ -642,6 +642,7 @@ export const NestedMultiPolygonArrayFieldTemplate = (args, props, property) => {
 		<TDBLabel name={label} 
       hideFieldLabel={props.hideFieldLabel}
       required={props.required}
+      className="tdb__label__width"
       comment={documentation.comment} 
       id={`root_Set_${label}`}/>
 
