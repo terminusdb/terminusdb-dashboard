@@ -154,7 +154,7 @@ label.latlng-control-label {
 
 /** diff classNames */
 .tdb__diff__original {
-  color: var(--danger-color);
+  color: var(--danger-color) !important;
   background-color: var(--danger-bg);
   border: 1px solid var(--danger-border-color);
 } 
@@ -181,7 +181,7 @@ label.latlng-control-label {
 }
 
 .tdb__diff__changed {
-  color: var(--success-color);
+  color: var(--success-color) !important;
   background-color: var(--success-bg);
   border: 1px solid var(--success-border-color);
 } 
