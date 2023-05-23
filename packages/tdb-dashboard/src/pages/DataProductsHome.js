@@ -7,7 +7,6 @@ import {ManageProducts} from "../components/ManageProducts"
 import {BsBriefcase, BsDashSquare} from "react-icons/bs"
 import {MANAGE_COLLECTIONS} from "../components/constants"
 import {BranchControl} from "../hooks/BranchControl"
-//import moment from 'moment'
 import {AboutDataProduct} from "../components/AboutDataProduct"
 import {DATA_PRODUCT_HEALTHY} from "./constants"
 import {Layout} from "./Layout"

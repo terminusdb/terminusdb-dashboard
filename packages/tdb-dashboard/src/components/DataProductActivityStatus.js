@@ -40,7 +40,8 @@ const DataProductActivityGraph = ({dataProvider}) => {
         setCommits([])
         setGraphData([])
         dataProvider.slice(0).reverse().map(item => {
-            let date = item.label.substring(9, item.label.length).replace(/\s/g, '')
+            let date =item.label.substring(0, "00/00/0000".length).replace(/\//g, '-') 
+            //item.label.substring(9, item.label.length).replace(/\s/g, '')
             setCommits(arr => [...arr, {[date]: item.commit}])
         })
 

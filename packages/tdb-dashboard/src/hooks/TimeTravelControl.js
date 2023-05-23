@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import {WOQLClientObj} from '../init-woql-client'
-import moment from 'moment'
 import {WOQL} from '@terminusdb/terminusdb-client'
 import {printtsTimeRegualar} from "../components/utils"
 import {commitsQueryByBranch, previousCommits,commitsQueryByBranchFilteredByTime} from '../queries/TimeTravelQueries'
@@ -12,15 +11,15 @@ const QUERY_TYPE_PREVIOUS = 'QUERY_TYPE_PREVIOUS';
 const QUERY_TYPE_NEXT = 'QUERY_TYPE_NEXT';
 
 export const TimeTravelControl = (limit=5) => {
-    const {woqlClient, branch, chosenCommit} = WOQLClientObj()
+    const {woqlClient, branch, chosenCommit,setHead} = WOQLClientObj()
     if(!woqlClient) return ""
      const dataProduct = woqlClient.db()
 
     const [report, setError] = useState(false)
     // type Date 
-    const currentDay = chosenCommit && chosenCommit.time ? (new Date()).setTime(chosenCommit.time*1000) : new Date()
-    //chosenCommit && chosenCommit.time ? moment.unix(chosenCommit.time) : moment()
-    //Unix timestamp (in seconds)
+    const currentDay =  new Date()
+    if(chosenCommit && chosenCommit.time)currentDay.setTime(chosenCommit.time*1000) 
+   //Unix timestamp (in seconds)
     const currentStartTime = Math.floor(+currentDay/1000) //currentDay.unix();
     const [olderCommit,setOlderCommit] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
@@ -166,9 +165,12 @@ export const TimeTravelControl = (limit=5) => {
                //if is the first commit or the last 
                //const isFirstCommit=branchId===branch || parent==='' ? true : false;
 
-               const item={ datetime:time * 1000,
+               const date = new Date()
+               date.setTime(time*1000)
+
+                const item={ datetime:time * 1000,
                             time: time,
-                            label:moment.unix(time).format(DATETIME_FULL),
+                            label:date.toLocaleString(),
                             message:getValue(entry['Message']),
                             commit:commitValue,
                             author:getValue(entry['Author']),
@@ -218,7 +220,10 @@ export const TimeTravelControl = (limit=5) => {
         //setCurrentCommit(null)
         const unixTime = (Math.floor(+date/1000)+86400) //time.add(1,'day').unix();
         if(unixTime !==startTime) setDataProviderValues({dataProvider:[],selectedValue:0});
-
+        if(chosenCommit && chosenCommit.time){
+            //reset the commit
+            setHead(branch, {})
+        }
         setUpdateStartTime(unixTime)
     }
    
