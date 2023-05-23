@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { BasicConfig,Query, Builder, Utils as QbUtils } from '@react-awesome-query-builder/ui';
 import '@react-awesome-query-builder/ui/css/styles.css';
 import {Button} from 'react-bootstrap'
-
+import './css/style.css'
 // Choose your skin (ant/material/vanilla):
 const InitialConfig = BasicConfig //BootstrapConfig // AntdConfig; // or MaterialConfig or MuiConfig or BootstrapConfig or BasicConfig
 
@@ -51,6 +51,7 @@ const numberFilter =  {"eq": "eq", //Equality
                       "ge": "ge" // Greater than or equal
                 }
 
+
 const booleanFilter ={"eq": "eq", //Equality
                 "ne": "ne" //Disequality
               }
@@ -81,7 +82,7 @@ If you use float / double etc. it will get a number from graphql
 */
 
 export const AdvancedSearch = (props) =>{
-    const queryValue = props.queryValue || {"id": QbUtils.uuid(), "type": "group"};
+    const queryValue =  {"id": QbUtils.uuid(), "type": "group"};
     const [tree,setTree] = useState(QbUtils.loadTree(queryValue))
 
     //console.log("AdvancedSearch",props.fields)
@@ -132,6 +133,8 @@ export const AdvancedSearch = (props) =>{
             case "BIGFLOAT":
             case "FLOAT":
             case "INT":
+            case "BIGFLOAT":
+            case "FLOAT":
             case "BIGINT":
               tmpValue = `${value}`
               break;

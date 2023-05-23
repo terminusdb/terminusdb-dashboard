@@ -53,24 +53,24 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
       return startHiddenColumns
     }
 
-    const callGraphqlServer = (currentlimit,currentpage,queryOrders,queryFilters)=>{
-      setStart(currentpage)
+    const callGraphqlServer = (currentlimit,currentstart,queryOrders,queryFilters)=>{
+      setStart(currentstart)
       setLimit(currentlimit)
       setQueryOrderBy(queryOrders)
       setQueryFilters(queryFilters)
       setFilters([])
       setOrderBy([])
 
-      callFetchMore(currentlimit,currentpage,queryOrders,queryFilters) 
+      callFetchMore(currentlimit,currentstart,queryOrders,queryFilters) 
     }
 
-    const callFetchMore = async (currentlimit,currentpage,currentOrderBy,currentFilter) =>{
+    const callFetchMore = async (currentlimit,currentstart,currentOrderBy,currentFilter) =>{
         setLoading(true)
         setError(false)
         let result
         try{
         result = await apolloClient.query({query:graphqlQuery,
-            variables:{"offset":currentpage , "limit":currentlimit+1,
+            variables:{"offset":currentstart , "limit":currentlimit+1,
             "orderBy":currentOrderBy || {}, "filter":currentFilter || {}}})
         
         if(result.errors) {
@@ -81,15 +81,15 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
             const data = result.data 
             if(!Array.isArray(data[documentType]))return []
                 //current page is the startoffset
-                const rowCountTmp  = currentpage+data[documentType].length
+                const rowCountTmp  = currentstart+data[documentType].length
                 if(data[documentType].length === (currentlimit+1)){
                 //setHasNextPage(false)
                 data[documentType].pop()
                 }
                 setRowCount(rowCountTmp)
-                const extractedData = extractDocuments(data[documentType])
+                const extractedDataTmp = extractDocuments(data[documentType])
                 setData(data)
-                setExtractedData(extractedData)
+                setExtractedData(extractedDataTmp)
         }
         }catch(err){
           //console.log("ERRORCALL",err.graphQLErrors,err.networkError.result.errors)
@@ -105,11 +105,11 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
     }
 
 
-    const changeLimits =(currentlimit,currentpage)=>{
-        setStart(currentpage)
+    const changeLimits =(currentlimit,currentstart)=>{
+        setStart(currentstart)
         setLimit(currentlimit)
         console.log("changeLimits" ,queryFilters)
-        callFetchMore(currentlimit,currentpage,queryOrders,queryFilters) 
+        callFetchMore(currentlimit,currentstart,queryOrders,queryFilters) 
     }
 
     /*
@@ -164,7 +164,7 @@ export function useTDBGraphqlQuery (apolloClient, graphqlQuery, documentType, op
         setStart(0)
         setQueryFilters(filtersTmp)
 
-        console.log("changeFilters" ,filtersArr, filtersTmp)
+       // console.log("changeFilters" ,filtersArr, filtersTmp)
         callFetchMore(limit,0,queryOrders,filtersTmp)      
       }
 

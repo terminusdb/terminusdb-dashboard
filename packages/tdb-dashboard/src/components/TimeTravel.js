@@ -13,8 +13,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {FaPlus} from "react-icons/fa"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
-import {BranchSelector} from "./BranchSelector"
-import {DatePicker} from "./DatePicker"
+import {DatePickerComponent} from "./DatePicker"
 import {FaInfoCircle} from "react-icons/fa"
 
 
@@ -155,7 +154,7 @@ export const TimeTravel = ({show}) => {
               <FaInfoCircle className="mr-2" />
               Time Travel to a selected Date
             </h6>
-            <DatePicker currentDay={currentDay} setStartTime={setStartTime} />
+            <DatePickerComponent currentDay={currentDay} setStartTime={setStartTime} />
           </Col>
           <Col md={6}>
             {/* I remove for all the case for now 

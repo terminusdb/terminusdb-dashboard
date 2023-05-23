@@ -5,6 +5,7 @@ const CopyWebPackPlugin= require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 
+
 module.exports = (env, argv) => ({
   entry: [
     path.join(__dirname, './src/index.js'),
@@ -45,6 +46,7 @@ module.exports = (env, argv) => ({
   ],
   resolve: {
     alias: {
+      "@codemirror/state": path.resolve('../../node_modules/@codemirror/state/dist/index.cjs')        
     },
     fallback: { "https": false },
     extensions: ['.js', '.jsx', '.json'],

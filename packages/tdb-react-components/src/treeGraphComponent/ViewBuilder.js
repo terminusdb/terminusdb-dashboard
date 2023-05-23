@@ -10,13 +10,7 @@ import {ModelMainHeaderComponent} from './detailsComponent/ModelMainHeaderCompon
 import {InfoBoxComponent} from './detailsComponent/InfoBoxComponent'
 import {InfoObjectComponent} from './detailsComponent/InfoObjectComponent'
 import {RightBarHeaderTools} from './detailsComponent/RightBarHeaderTools';
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/ayu-dark.css'
-require('codemirror/mode/css/css')
-require('codemirror/mode/javascript/javascript')
-//import {EDITOR_OPTIONS} from './detailsComponent/JsonMode'
 import {ObjectClassModelViewMode} from './detailsComponent/viewMode/ObjectClassModelViewMode'
-
 
 export const ViewBuilder = (props)=>{
 

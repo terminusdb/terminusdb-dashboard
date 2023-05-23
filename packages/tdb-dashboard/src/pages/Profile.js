@@ -4,11 +4,11 @@ import {LeftSideBar} from "../components/LeftSideBar"
 import {Button, Form, Card, Row, Col, Tab, Nav, Tabs} from "react-bootstrap"
 import {TokenCard} from "./TokenCard"
 import { BsClipboard } from "react-icons/bs"
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/ayu-dark.css'
-require('codemirror/mode/css/css')
-require('codemirror/mode/javascript/javascript')
+import CodeMirror from "@uiw/react-codemirror"
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
+
 import {BsFillPeopleFill} from "react-icons/bs"
 import {EDITOR_READ_OPTIONS,EDITOR_READ} from "../components/constants"
 import {NewTeamModal} from "../components/NewTeamModal"
@@ -79,7 +79,10 @@ export const Profile = () => {
                                 </span>
                                 <CodeMirror
                                     value={pyCode}
-                                    options={EDITOR_READ}
+                                    theme={vscodeDark}
+                                    
+                                    readOnly={true}
+                                    extensions={[python()]} 
 
                                 />
 
@@ -90,7 +93,9 @@ export const Profile = () => {
                                 </span>
                                 {key === JS_TAB && <CodeMirror
                                     value={jsCode}
-                                    options={EDITOR_READ}
+                                    theme={vscodeDark}
+                                    readOnly={true}
+                                    extensions={[javascript()]} 
 
                                 />}
                             </Tab>
@@ -99,8 +104,11 @@ export const Profile = () => {
                                     <h6 className="description fw-bold text-muted w-100 float-left">curl example to connect to the cloud</h6>
                                 </span>
                                 {key === CURL_TAB && <CodeMirror
+                                    height="200px"
                                     value={curlCode}
-                                    options={EDITOR_READ_OPTIONS}
+                                    theme={vscodeDark}
+                                    readOnly={true}
+                                    extensions={[javascript()]} 
                                 />}
                             </Tab>
                         </Tabs>

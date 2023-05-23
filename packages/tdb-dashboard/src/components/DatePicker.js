@@ -1,36 +1,20 @@
-
-
 import React, {useState} from "react"
-import 'react-dates/initialize'
-import 'react-dates/lib/css/_datepicker.css'
-import {DateRangePicker, isInclusivelyBeforeDay, SingleDatePicker} from "react-dates"
-import {TimeTravelControl} from "../hooks/TimeTravelControl"
-import moment from 'moment'
+import DatePicker from 'react-datetime-picker';
 
-export const DatePicker = ({currentDay, setStartTime}) => {
+export const DatePickerComponent = ({currentDay, setStartTime}) => {
 
-    // const {
-    //     currentDay,
-    //     setStartTime
-    // } = TimeTravelControl() 
+    const [selected, onDateChange] = useState(currentDay || new Date())
 
-    const [selectedDay, onDateChange] = useState(currentDay)
-    const [focused,onFocusChange] = useState(false)
-
-    return <SingleDatePicker
-        dark
-        showDefaultInputIcon
-        date={selectedDay}
-        onDateChange={(selectedDay)=>{
-            onDateChange(selectedDay)
-            setStartTime(selectedDay.clone())}}
-        focused={focused}
-        onFocusChange={({focused})=>{
-            onFocusChange(focused)
-        }}
-        numberOfMonths={1}
-        displayFormat='DD-MM-YYYY'
-        placeholder='dd-mm-yyyy'
-        isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
-     />
+    function handleOnChange(data) { 
+        onDateChange(data)
+        // 2023-05-10T10:39:09.865Z
+        // convert to ISO timeStamp 
+      console.log(data.toISOString())
+      if(setStartTime)setStartTime(data)
+      }
+ 
+    return <DatePicker onChange={handleOnChange} 
+            value={selected} 
+            clearIcon={null}
+            format="dd/MM/yyyy"/>
 }

@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb/terminusdb-react-table",
-  "version": "6.1.8",
+  "version": "6.1.9-alpha.7",
   "description": "Table for terminusdb",
   "main": "src/index",
   "module": "es6/index",
@@ -9,6 +9,7 @@
     "./*/index.js"
   ],
   "files": [
+    "dist",
     "*.md",
     "src",
     "es6"
@@ -24,7 +25,7 @@
     "terminusdb"
   ],
   "scripts": {
-    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js'",
+    "build-es6": "rimraf es6 && cross-env NODE_ENV=es6 babel ./src -d es6 --extensions '.js' && babel ./src/css --out-dir es6/css/ --copy-files",
     "build": "npm run build-es6 && webpack --mode production",
     "start": "webpack serve --mode development  --open --progress --port 3001 --host localhost --config demo/webpack.config.js",
     "startold": "webpack-dev-server --progress --port 3000 --host localhost --content-base demo --inline --config demo/webpack.config.js",
@@ -43,23 +44,15 @@
   "repository": {},
   "author": "terminusdb group",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.3.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@react-awesome-query-builder/antd": "^6.1.2",
-    "@react-awesome-query-builder/bootstrap": "^6.1.2",
-    "@react-awesome-query-builder/ui": "^6.1.2",
     "@terminusdb/terminusdb-client": "^10.0.29",
-    "@uiw/react-textarea-code-editor": "^2.1.1",
+    "@react-awesome-query-builder/ui": "^6.1.2",
+    "bootstrap": "^5.2.3",
     "classnames": "^2.2.5",
-    "codemirror": "^6.0.1",
     "date-fns": "^2.28.0",
-    "react-bootstrap": "^2.7.0",
+    "react-bootstrap": "^2.7.4",
     "react-csv": "^2.2.2",
     "react-icons": "^4.3.1",
-    "react-leaflet-fullscreen": "^2.0.2",
-    "react-table": "^7.8.0",
-    "reactstrap": "^9.1.6"
+    "react-table": "^7.8.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",

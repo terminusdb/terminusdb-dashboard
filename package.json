@@ -10,14 +10,14 @@
     "./packages/tdb-dashboard"
   ],
   "dependencies": {
-    "@uiw/codemirror-theme-vscode": "^4.19.16",
-    "bootswatch": "^5.2.3",
-    "codemirror": "^6.0.1",
+    "@uiw/codemirror-theme-dracula": "^4.20.2",
     "esbuild-jest": "^0.5.0",
-    "jsonlint-mod": "^1.7.6",
-    "react-pro-sidebar": "^0.6.0"
+    "jsonlint-mod": "^1.7.6"
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0"
+  },
+  "overrides": {
+    "@codemirror/state": "^6.2.0"
   }
 }

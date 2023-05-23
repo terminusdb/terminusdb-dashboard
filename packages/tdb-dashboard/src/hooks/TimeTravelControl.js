@@ -17,8 +17,11 @@ export const TimeTravelControl = (limit=5) => {
      const dataProduct = woqlClient.db()
 
     const [report, setError] = useState(false)
-    const currentDay = chosenCommit && chosenCommit.time ? moment.unix(chosenCommit.time) : moment()
-    const currentStartTime = currentDay.unix();
+    // type Date 
+    const currentDay = chosenCommit && chosenCommit.time ? (new Date()).setTime(chosenCommit.time*1000) : new Date()
+    //chosenCommit && chosenCommit.time ? moment.unix(chosenCommit.time) : moment()
+    //Unix timestamp (in seconds)
+    const currentStartTime = Math.floor(+currentDay/1000) //currentDay.unix();
     const [olderCommit,setOlderCommit] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [startTime, setUpdateStartTime] = useState(currentStartTime);
@@ -209,11 +212,11 @@ export const TimeTravelControl = (limit=5) => {
     //    setReloadQuery(Date.now());
     }
 
-    const setStartTime=(time)=>{
+    const setStartTime=(date)=>{
         setCurrentPage(0);
         setGotoPosition(null)
         //setCurrentCommit(null)
-        const unixTime = time.add(1,'day').unix();
+        const unixTime = (Math.floor(+date/1000)+86400) //time.add(1,'day').unix();
         if(unixTime !==startTime) setDataProviderValues({dataProvider:[],selectedValue:0});
 
         setUpdateStartTime(unixTime)

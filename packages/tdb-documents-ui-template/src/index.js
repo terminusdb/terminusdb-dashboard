@@ -5,6 +5,7 @@ export {DocumentClassesSummary} from './DocumentClassesSummary'
 
 export {DocumentsGraphqlTable} from './components/DocumentsGraphqlTable'
 export {ListDocumentsComponent} from './ListDocumentsComponent'
+// we need this in diff viewer
 export {TraverseDocumentLinks} from "./components/TraverseDocumentLinks"
 export {onTraverse } from "./components/TraverseDocumentLinks"
 // table hooks

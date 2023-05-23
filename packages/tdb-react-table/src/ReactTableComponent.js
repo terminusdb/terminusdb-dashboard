@@ -2,7 +2,7 @@ import React,{useEffect, useMemo} from 'react';
 import { useTable, usePagination,  useSortBy, useFilters } from 'react-table'
 import {BiRefresh} from "react-icons/bi"
 import {MdOutlineResetTv} from "react-icons/md"
-import { Table,Container,Row, Col, Pagination, PaginationItem, PaginationLink,Button} from "react-bootstrap" //replace;
+import { Table,Row, Col, Button} from "react-bootstrap" //replace;
 import {CheckboxDropdown} from "./ColumsVisibilityComponent"
 import { DefaultColumnFilter } from './ColumnFilters';
 /**
@@ -11,7 +11,7 @@ import { DefaultColumnFilter } from './ColumnFilters';
  * sort - no, local, remote
  */ 
 
-export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, config, pages, freewidth, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes,hiddenColumns})=>{
+export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, config, pages, filtersBy, orderBy, rowCount, pageNumber, setLimits, setOrder, setFilters, pagesizes,hiddenColumns})=>{
 
    // console.log("COLUMS", JSON.stringify(columns,null,4))
 
@@ -146,7 +146,7 @@ export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, con
                         <tr {...row.getRowProps(getRowProps(row, config))} key={`page__${i}`} >
                             {row.cells.map((cell,i) => {
                                 return <td key={`cell__${i}`} {...cell.getCellProps([
-                                    getColumnProps(cell.column, config, freewidth),
+                                    getColumnProps(cell.column, config),
                                     getCellProps(cell, config),
                                 ])}>
                                     {cell.render("Cell")}
@@ -237,11 +237,8 @@ function getRowProps(row, config){
 }
 
 
-function getColumnProps(column, view, freewidth){
+function getColumnProps(column,config){
     let cstyle = {}
-    /*if(freewidth){
-        cstyle = view.getColumnDimensions(column.id)
-    }*/
     if(column.width){
             cstyle.width = column.width
         }
