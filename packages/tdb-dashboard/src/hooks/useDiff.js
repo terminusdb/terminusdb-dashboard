@@ -40,6 +40,13 @@ export function useDiff(){
                     }
                     originalValueResult = await clientCopy.getDocument({id: documentID})
                     break
+                /*default: 
+                    if(CRObject.status === "Merged"){
+                        clientCopy.ref(CRObject.merge_commit_id) 
+                    }else {
+                        clientCopy.checkout(CRObject.original_branch) 
+                    } 
+                    originalValueResult = await clientCopy.getDocument({id: documentID})*/
                 default :
                     clientCopy.checkout(CRObject.tracking_branch) 
                     changedValueResult = await clientCopy.getDocument({id: documentID})
@@ -115,6 +122,7 @@ export function useDiff(){
             getDocumentById,
             loading,
             error,
+            setChangedValue,
             originalValue,
             changedValue}
 }
