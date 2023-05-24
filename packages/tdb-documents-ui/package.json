@@ -1,6 +1,10 @@
 {
   "name": "@terminusdb/terminusdb-documents-ui",
+<<<<<<< HEAD
   "version": "6.2.2-alpha.4",
+=======
+  "version": "6.2.4",
+>>>>>>> 99ea3b55514c45ec4d7ccca2cb6707fa4be3def3
   "description": "SDK to build UI from terminusdb documents",
   "main": "src/index.js",
   "module": "es6/index",
