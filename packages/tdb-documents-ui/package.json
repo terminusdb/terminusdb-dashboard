@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb/terminusdb-documents-ui",
-  "version": "6.2.3-alpha.0",
+  "version": "6.2.5",
   "description": "SDK to build UI from terminusdb documents",
   "main": "src/index.js",
   "module": "es6/index",
@@ -126,6 +126,7 @@
     "react-leaflet": "^3.2.5",
     "react-leaflet-fullscreen": "^2.0.2",
     "react-select": "^5.2.2",
+    "react-syntax-highlighter": "^15.5.0",
     "uuid": "^9.0.0"
   }
 }
