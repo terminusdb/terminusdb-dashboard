@@ -5,13 +5,12 @@ import {tableViewConfig, graphViewConfig} from "../functions/ViewConfig"
 import {GRAPH_VIEW, TABLE_VIEW, JSON_VIEW, EDITOR_WRITE_OPTIONS} from "./constants"
 import {TDBCollapse} from './layout/TDBCollapse'
 import {TDBReactResizable} from './layout/TDBReactResizable'
-import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
-//import {WOQLClientObj} from '../init-woql-client'
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/ayu-dark.css'
-require('codemirror/mode/css/css')
-require('codemirror/mode/javascript/javascript')
+//import {ControlledQueryHook} from '@terminusdb-live/tdb-react-components'
+import CodeMirror from "@uiw/react-codemirror"
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { json } from '@codemirror/lang-json';
+import { EditorView } from "@codemirror/view";
+
 import {DOCUMENT_EXPLORER} from "../routing/constants"
 //import history from '../routing/history'
 import {FORM_VIEW, VIEW_DOCUMENT, PROGRESS_BAR_COMPONENT} from "./constants"
@@ -125,7 +124,8 @@ export const Results = ({freewidth, queryObj, woql, changeLimits,setOrder,loadin
                     <CodeMirror
                         value={JSON.stringify(bindings, null, 2)}
                         readOnly= {true}
-                        options={options}
+                        theme={vscodeDark}
+                        extensions={[json(),EditorView.lineWrapping]} 
                     />
                 }
             </TDBCollapse>

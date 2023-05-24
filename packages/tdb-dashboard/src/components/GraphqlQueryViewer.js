@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef} from "react";
+/*import React,{useState,useEffect,useRef} from "react";
 import {FiCopy} from "react-icons/fi"
 import {Button} from 'react-bootstrap'
 import 'codemirror/theme/ayu-dark.css'
@@ -61,4 +61,4 @@ export const GraphqlQueryView = ({queryToDisplay,start,limit,orderBy,filterBy}) 
             </div>  
             <textarea readOnly  key="variables" id="variables" ref={variables} value={JSON.stringify(variablesObj,null,4)}></textarea>
         </React.Fragment>
-}
+}*/

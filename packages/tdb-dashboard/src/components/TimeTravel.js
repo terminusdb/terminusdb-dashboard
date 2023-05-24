@@ -13,8 +13,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {FaPlus} from "react-icons/fa"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
-import {BranchSelector} from "./BranchSelector"
-import {DatePicker} from "./DatePicker"
+import {DatePickerComponent} from "./DatePicker"
 import {FaInfoCircle} from "react-icons/fa"
 
 
@@ -43,7 +42,7 @@ export const TimeTravel = ({show}) => {
         }
     }, [dataProvider])
     
-    const [reportAlert, setReportAlert] = useState(false)
+    //const [reportAlert, setReportAlert] = useState(false)
 
     const handleTimeTravel = (e, commit, selectedVaue) => {
         e.preventDefault()
@@ -54,13 +53,13 @@ export const TimeTravel = ({show}) => {
          }
     }
   
-    useEffect(() => {
+   /* useEffect(() => {
         if(chosenCommit && setHead){
             setHead(branch, chosenCommit)
             let message = `The state of data product has been set to date ${chosenCommit.label}`
             setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
          }
-    }, [chosenCommit])
+    }, [chosenCommit])*/
 
     // useEffect(() => {
     //     if(show){
@@ -155,7 +154,7 @@ export const TimeTravel = ({show}) => {
               <FaInfoCircle className="mr-2" />
               Time Travel to a selected Date
             </h6>
-            <DatePicker currentDay={currentDay} setStartTime={setStartTime} />
+            <DatePickerComponent currentDay={currentDay} setStartTime={setStartTime} />
           </Col>
           <Col md={6}>
             {/* I remove for all the case for now 

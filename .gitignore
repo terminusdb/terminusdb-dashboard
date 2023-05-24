@@ -3,6 +3,7 @@ local_data
 packages/*/node_modules
 packages/*/dist
 packages/*/es6*
+packages/*/esm*
 packages/*/env
 packages/*/auth_config
 packages/tdb-dashboard/.env

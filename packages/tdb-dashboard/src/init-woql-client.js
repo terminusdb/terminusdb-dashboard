@@ -222,6 +222,7 @@ export const WOQLClientProvider = ({children, params}) => {
     function setHead(branchID, refObject={}){// ridConsoleTime=false)
         if(!woqlClient)return
         if(branchID)woqlClient.checkout(branchID)
+        refObject = refObject || {}
         let sref=refObject.commit
         let refTime=refObject.time
         sref = sref || false

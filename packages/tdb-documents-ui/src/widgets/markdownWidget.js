@@ -10,7 +10,7 @@ import MDEditor, {
 }  from '@uiw/react-md-editor';
 //import CodeEditor from "@uiw/react-textarea-code-editor";
 import mermaid from "mermaid";
-import uuid from 'react-uuid'
+import { v4 as uuidv4 } from 'uuid';
 import { CompareDiffViewerWidget } from "./compareDiffViewerWidget"
 
 
@@ -35,7 +35,7 @@ export function getMarkdownUI( formData, onChange, name ) {
   }).filter(Boolean).join("")
 
   const Code = ({ inline, children = [], className, ...props }) => {
-      const demoid = useRef(`dome${uuid()}`);
+      const demoid = useRef(`dome${uuidv4()}`);
       const code = getCode(children);
       const demo = useRef(null);
       useEffect(() => {
@@ -103,7 +103,7 @@ export function getMarkdownUI_REF( formData, onChange, name ) {
   }).filter(Boolean).join("")
 
   const Code = ({ inline, children = [], className, ...props }) => {
-      const demoid = useRef(`dome${uuid()}`);
+      const demoid = useRef(`dome${uuidv4()}`);
       const code = getCode(children);
       const demo = useRef(null);
       useEffect(() => {
@@ -191,7 +191,7 @@ export function getViewMarkdownUI( formData, name, uiFrame, compareFormData, cla
       }).filter(Boolean).join("")
   
       const Code = ({ inline, children = [], className, ...props }) => {
-          const demoid = useRef(`dome${uuid()}`);
+          const demoid = useRef(`dome${uuidv4()}`);
           const code = getCode(children);
           const demo = useRef(null);
           useEffect(() => {

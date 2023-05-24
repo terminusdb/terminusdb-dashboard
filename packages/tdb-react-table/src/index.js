@@ -1,4 +1,5 @@
- /*WOQL Table*/
- export {GraphqlTable} from './GraphqlTable';
+ /*TDBReactTable*/
+ export {TDBReactTable} from './TDBReactTable';
  export {AdvancedSearch} from './AdvancedSearch';
- export {WOQLTable} from './WOQLTable';
+ // we have to remove this 
+ export {WOQLTable} from './WOQLTable'; 

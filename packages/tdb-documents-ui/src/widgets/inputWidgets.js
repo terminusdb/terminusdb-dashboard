@@ -6,8 +6,7 @@ import { XSD_ANY_URI, XSD_STRING, NUMBER_ARRAY, XSD_LANGUAGE  } from "../dataTyp
 import { TDBLabel } from "../components/LabelComponent"
 import { HiddenInputWidgets } from "./hiddenWidgets"
 
-
-/**
+/*
  * 
  * @param {*} data - filled data of a string field
  * @returns row height to display in textareas for xsd:string data type field 

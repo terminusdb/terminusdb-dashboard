@@ -1,8 +1,5 @@
  require("./css/less/terminusdb__style.less");
  /*Timetravel*/
- //export {Timeline} from './timetravel/Components/Timeline';
- //export {TimelineCommits} from './timetravel/Components/TimelineCommits';
- //export {useCommitsControl} from './timetravel/hook/useCommitsControl';
 
  /*WOQL Editor*/
  export {WOQLEditor} from './queryeditor/WOQLEditor'
