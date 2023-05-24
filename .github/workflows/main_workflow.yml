@@ -23,6 +23,9 @@ jobs:
       run : |
         cd packages/tdb-documents-ui
         npm run build
+      run : |
+        cd packages/tdb-react-table
+        npm run build
     - name: Build
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' }}
       env:
@@ -89,6 +92,9 @@ jobs:
     - name : Build Documents-UI
       run : |
         cd packages/tdb-documents-ui
+        npm run build
+      run : |
+        cd packages/tdb-react-table
         npm run build
     - name: Build local dashboard
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'pull_request' || startsWith(github.ref, 'refs/tags/v') }}
