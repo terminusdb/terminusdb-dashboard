@@ -23,6 +23,7 @@ jobs:
       run : |
         cd packages/tdb-documents-ui
         npm run build
+    - name : Build React Table
       run : |
         cd packages/tdb-react-table
         npm run build
@@ -93,6 +94,7 @@ jobs:
       run : |
         cd packages/tdb-documents-ui
         npm run build
+    - name : Build React Table
       run : |
         cd packages/tdb-react-table
         npm run build
