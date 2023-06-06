@@ -24,7 +24,7 @@ export const DetailsModelComponent = (props)=>{
 	const childrenArr = nodeData.allChildren || []
 	const hasConstraints = (childrenArr.length>0 || objPropsRelatedToClass.length >0) ? true : false;
 	const title=getLabelByName(nodeData.type);
-	const nodeSchemaData = mainGraphObj.getNodeData()
+	const nodeSchemaData = mainGraphObj.getNodeData() 
 
 	const updateBaseValue = (name,value) =>{
 		switch(name){
