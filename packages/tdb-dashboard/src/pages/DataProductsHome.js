@@ -45,7 +45,7 @@ export const DataProductsHome = (props) => {
         }
     }, [dataProduct,organization,woqlClient]) 
 
-    return  <Layout>
+    return  <Layout showLeftSideBar={true}>
             <main className="content mr-3 ml-5">
             { showDetailsToUpdate && <NewDatabaseModal  showModal={showDetailsToUpdate!==false} setShowModal={setShowUpdate} dbDetails={showDetailsToUpdate}/>}
           

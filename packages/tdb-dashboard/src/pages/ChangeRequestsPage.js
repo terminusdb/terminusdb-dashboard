@@ -225,7 +225,7 @@ export const ChangeRequestsPage = () => {
 		else return display
     }
 
-	return <Layout>  
+	return <Layout showLeftSideBar={true}>  
 		<div className="content mr-3 ml-5">  
 		{updateChangeRequestID && <SubmitChangeRequestModal operation={updateOperation} updateChangeRequestID={updateChangeRequestID} showModal={updateChangeRequestID!==false} setShowModal={setShowUpdateChangeRequestID} updateParent={updateParent}/>}            
 			<div className="mt-5 mb-5 mr-5">

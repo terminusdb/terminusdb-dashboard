@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {MenuItem, SubMenu, Sidebar} from 'react-pro-sidebar'
-import 'react-pro-sidebar/dist/css/styles.css'
+//import 'react-pro-sidebar/dist/css/styles.css'
 import {SearchBox} from "./SearchBox"
 import {useNavigate} from "react-router-dom"
 import {sortAlphabetically} from "./utils"

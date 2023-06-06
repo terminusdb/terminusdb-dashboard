@@ -114,7 +114,7 @@ export const ChangeDiff = () => {
     if(!client) return <div/>
 
 
-    return <Layout>
+    return <Layout showLeftSideBar={true}>
         <div className='d-flex ml-5 mt-4 mr-5'>
             <div className='w-100'>
                 {currentCRObject && <CRAction/>}
