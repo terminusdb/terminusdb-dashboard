@@ -44,7 +44,7 @@ export const Layout = (props) => {
     // const [defaultSize, setDefaultSize]=useState(false)
 
     const navigate = useNavigate()
-    const mainClassName = props.mainClassName || "container-fluid"
+    const mainClassName = props.mainClassName || "mt-4 container-fluid"
     
     const updateParent = () =>{
         exitChangeRequestBranch(currentCRStartBranch)
@@ -85,7 +85,7 @@ export const Layout = (props) => {
             </div>              
             <div className="ml-1 main-content h-100">                      
                 <MainNavBar setShowTimeTravel={setShowTimeTravel} changeRequestHolder={headerElement}/>
-                <div className={`${mainClassName} mt-4`} >
+                <div className={`${mainClassName} `} >
                     {currentChangeRequest && <GetHelpText/>}
                     {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          

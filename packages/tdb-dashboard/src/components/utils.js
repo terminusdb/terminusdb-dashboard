@@ -141,18 +141,19 @@ export const copyToClipboard = (str) => {
  * @param {*} id document ID 
  * @returns copy document ID to clipboard
  */
- export const CopyButton = ({text, title, label, css}) => {
+ export const CopyButton = ({text, title, label, css, onClick}) => {
+    const onClickObj = typeof onClick === "function" ?  {onClick:onClick} : {onClick:(e) => copyToClipboard(text)}
     return <Button variant="transparent" 
         className={`text-light ${css}`}
         title={title}
-        onClick={(e) => copyToClipboard(text)}>
+        {...onClickObj}>
             <FiCopy className='mb-1'/> {label && <span>{label}</span>}
     </Button>
 }
 
 export function trimWOQL (str) {
     let check = "WOQL."
-    if(str.includes(check)) {
+    if(typeof str === "string" && str.includes(check)) {
         return str.substr(check.length, str.length)
     }
     return str

@@ -29,6 +29,8 @@ import {GraphIqlEditor} from "./pages/GraphIqlEditor"
 import {PageNotFound} from "./pages/PageNotFound"
 import {DocumentsPageList} from "./pages/DocumentsListPage"
 import {PLANS} from "./routing/constants";
+import {GraphqlHandlerbarsPage} from "./pages/GraphqlHandlerbarsPage"
+import {FreeTextSearch} from "./pages/FreeTextSearch"
 
 export function App (props){
     let navigate = useNavigate();
@@ -84,8 +86,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                 <Route path="members" element={<UserManagement/>}/>
                 <Route path=":dataProduct" >
                     <Route index element={<DataProductsHome/>} />                     
-                    <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />
-                                       
+                    <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />                                    
                 </Route>
             </Route>             
             <Route path="*" element={<div><PageNotFound/></div >} />
@@ -105,6 +106,8 @@ function getRoutes(clientUser, isAdmin, woqlClient){
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
            
             <Route path=":dataProduct"  >
+                <Route path={PATH.OPENAI_CONF} element={<PrivateRoute component={GraphqlHandlerbarsPage}/>} />
+                <Route path={PATH.SEARCH} element={<PrivateRoute component={FreeTextSearch}/>} />
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
                 <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
                 

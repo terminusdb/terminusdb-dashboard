@@ -9,6 +9,8 @@ import {BsBookmarkPlus} from "react-icons/bs"
 import * as PATH from "../routing/constants"
 import {GrGraphQl} from "react-icons/gr"
 import {BiGitPullRequest} from "react-icons/bi"
+import {SiOpenai} from "react-icons/si"
+import {RiSearchLine} from "react-icons/ri"
 
 //User Messages
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusCMS ... "
@@ -38,6 +40,12 @@ export const IconBarConfig = {
         key:"data_products",
         path: PATH.DATA_PRODUCTS,
         icon: <AiOutlineDatabase size={24}/>
+    },
+    openAI: {
+        title: "OpenAI Configuration",
+        key: "open_ai_configuration",
+        path: PATH.OPENAI_CONF,
+        icon: <SiOpenai size={24}/>
     },
     dataProductExplorer: {
         title: "Data Product Explorer",
@@ -86,6 +94,12 @@ export const IconBarConfig = {
         key: "data_product_changes",
         path: PATH.CHANGE_REQUESTS,
         icon: <BiGitPullRequest size={24}/>
+    },
+    search :{
+        title: "Free text search",
+        key: "free_text_search",
+        path: PATH.SEARCH,
+        icon: <RiSearchLine size={24}/>
     }
 }
 

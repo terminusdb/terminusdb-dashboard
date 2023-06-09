@@ -14,7 +14,6 @@ import {BsPlus} from "react-icons/bs"
 import {BiMinusCircle} from "react-icons/bi"
 import {Loading} from "./Loading"
 import {WOQLClientObj} from '../init-woql-client'
-import { getTypenameFromStoreObject } from "@apollo/client/cache/inmemory/helpers"
 /**
  * 
  * @param {*} diff diff list 

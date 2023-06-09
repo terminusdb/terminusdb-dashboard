@@ -37,7 +37,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
     const [currentCRName,setCurrentCRName] = useState(false)
     const [currentCRStartBranch,setCurrentCRStartBranch] = useState(false)
-    
+ 
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
                              sidebarDataProductConnectedState:true,

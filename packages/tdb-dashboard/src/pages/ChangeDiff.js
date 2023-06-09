@@ -48,6 +48,7 @@ const CRAction = ({}) => {
     // if needRebase  
     const title = currentCRObject && currentCRObject.name ? currentCRObject.name : currentCRObject.messages[0].text
 
+    // we view this when the change riquest is out of date
     return <React.Fragment>  
         {errorMessage && <Alerts message={errorMessage} type={CONST.TERMINUS_DANGER} onCancel={setError}/>}
         <Card className="update__change__request__card">
@@ -113,7 +114,6 @@ export const ChangeDiff = () => {
    
     if(!client) return <div/>
 
-
     return <Layout>
         <div className='d-flex ml-5 mt-4 mr-5'>
             <div className='w-100'>
@@ -122,20 +122,3 @@ export const ChangeDiff = () => {
         </div>         
     </Layout>
 }
-
-     /*<small className="fw-bold mr-2 h6">You are in change request mode</small>
-                                    <span className="float-right fw-bold mr-2 text-dark badge bg-primary mb-1">
-                                        {currentCRObject[TRACKING_BRANCH]}
-                                    </span>*/
-
-/**
- * 
-                                <Row className="w-100 mt-5">
-                                    <Col md={6}>
-                                        {result && <DocumentModifiedCount documentModifiedCount={documentModifiedCount}/>}
-                                    </Col>
-                                    <Col md={6}>
-                                        <BranchCRMessage trackingBranch={currentCRObject.tracking_branch} originBranch={"main"}/>
-                                    </Col>
-                                </Row> 
- */

@@ -37,11 +37,17 @@
     "test",
     "lint"
   ],
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  },
   "repository": {},
   "author": "terminusdb group",
   "dependencies": {
     "@apollo/client": "^3.7.1",
     "@auth0/auth0-spa-js": "^1.19.3",
+    "@codemirror/highlight": "^0.19.8",
     "@fortawesome/fontawesome-free": "^6.3.0",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
@@ -50,6 +56,7 @@
     "@stripe/react-stripe-js": "^1.16.4",
     "@stripe/stripe-js": "^1.46.0",
     "@terminusdb/terminusdb-client": "^10.0.29",
+    "allotment": "^1.19.0",
     "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "codemirror": "^5.65.12",
@@ -61,7 +68,11 @@
     "graphql-formatter": "^1.0.3",
     "graphql-react": "^20.0.0",
     "graphql-ws": "^5.11.2",
+    "handlebars": "^4.7.7",
     "jshint": "^2.13.6",
+    "monaco-editor": "^0.39.0",
+    "monaco-editor-webpack-plugin": "^7.0.1",
+    "monaco-graphql": "^1.2.3",
     "papaparse": "^5.3.0",
     "prop-types": "^15.6.0",
     "re-resizable": "^6.9.9",
