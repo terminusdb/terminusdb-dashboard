@@ -89,6 +89,29 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {IconBarConfig.dataProductExplorer.icon}
                 </Nav.Link>
             </Nav.Item>
+            
+            <Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.graphiql.title} 
+                    className="nav-icon nav-product-expolorer" 
+                    {...disabled}
+                    to={getUrl(IconBarConfig.graphiql.path)} 
+                    
+                    id={IconBarConfig.graphiql.key}>
+                    {IconBarConfig.graphiql.icon}
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link  as={RouterNavLink}
+                    title={IconBarConfig.changes.title} 
+                    className="nav-icon nav-product-expolorer" 
+                    {...disabled}
+                    to={getUrl(IconBarConfig.changes.path)} 
+                    
+                    id={IconBarConfig.changes.key}>
+                    {IconBarConfig.changes.icon}
+                </Nav.Link>
+            </Nav.Item>
             {!currentChangeRequest &&
                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
@@ -115,29 +138,19 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     </Nav.Link>
                 </Nav.Item>
             }
-            
-            <Nav.Item>
-                <Nav.Link  as={RouterNavLink}
-                    title={IconBarConfig.graphiql.title} 
-                    className="nav-icon nav-product-expolorer" 
-                    {...disabled}
-                    to={getUrl(IconBarConfig.graphiql.path)} 
-                    
-                    id={IconBarConfig.graphiql.key}>
-                    {IconBarConfig.graphiql.icon}
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link  as={RouterNavLink}
-                    title={IconBarConfig.changes.title} 
-                    className="nav-icon nav-product-expolorer" 
-                    {...disabled}
-                    to={getUrl(IconBarConfig.changes.path)} 
-                    
-                    id={IconBarConfig.changes.key}>
-                    {IconBarConfig.changes.icon}
-                </Nav.Link>
-            </Nav.Item>
+             {!currentChangeRequest  && 
+                <Nav.Item>
+                    <Nav.Link  as={RouterNavLink}
+                        title={IconBarConfig.actions.title} 
+                        className="nav-icon nav-product-expolorer" 
+                        {...disabled}
+                        to={getUrl(IconBarConfig.actions.path)} 
+                        
+                        id={IconBarConfig.actions.key}>
+                        {IconBarConfig.actions.icon}
+                    </Nav.Link>
+                </Nav.Item>
+            }
             <hr className="my-3" role="separator"></hr>
             <div className="nav-icons-bottom">
                 <hr className="my-3" role="separator"></hr>

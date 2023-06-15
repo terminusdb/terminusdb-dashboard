@@ -2,7 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = (env, argv) => ({
   mode: 'development',
@@ -28,19 +27,6 @@ module.exports = (env, argv) => ({
       title: env.title ? env.title : "TerminusDB",
       template: path.resolve(__dirname, './src/index.html'),
       bundleFileName:"bundle.js"
-    }),
-    new MonacoWebpackPlugin({
-      languages: ['json', 'graphql'],
-      publicPath: '/',
-      customLanguages: [
-        {
-          label: 'graphql',
-          worker: {
-            id: 'graphql',
-            entry: require.resolve('monaco-graphql/esm/graphql.worker.js'),
-          },
-        },
-      ],
     }),
     new Dotenv({path: path.resolve(__dirname, '.env'), systemvars: true}),
     new webpack.LoaderOptionsPlugin({

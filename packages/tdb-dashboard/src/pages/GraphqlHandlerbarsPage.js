@@ -40,13 +40,13 @@ export function GraphqlHandlerbarsPage({}) {
            getGraphQLSchema, hasKey , hasOpenAIKEY, graphqlSchema, error, loading, setError} = useOpenAI()
 
     useEffect(()=>{
+        resetElement()
+        setError(false)
+        getGraphQLSchema()
         hasOpenAIKEY(organization)
-        getGraphQLSchema(organization, dataProduct)
         getGraphqlTablesConfig()
         getDocumentClasses()
-        resetElement()
-       
-    },[dataProduct])
+    },[organization, dataProduct])
 
     function resetElement(){
         setGraphqlQuery(`query(){}`)
@@ -126,7 +126,7 @@ export function GraphqlHandlerbarsPage({}) {
       <Allotment horizontal>
             <Allotment.Pane > 
                 <Allotment vertical> 
-                <GraphqlEditor schema={graphqlSchema} query={graphqlQuery} setValue={setGraphqlQuery}/>
+                {graphqlSchema && <GraphqlEditor schema={graphqlSchema} query={graphqlQuery} setValue={setGraphqlQuery}/>}
                 <HandlebarsEditor setValue={setHandlebarTemplate} value={handlebarsTemplate} classId={currentType}/>  
                 </Allotment>
             </Allotment.Pane>

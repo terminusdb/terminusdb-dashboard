@@ -15,6 +15,7 @@ export const EXAMPLES_PRODUCTS = "/example_products"
 export const TOKENS = "/tokens"
 export const PROFILE = "profile"
 export const TEAM_MEMBERS = "members"
+export const ACTIONS = "actions"
 
 export const SEARCH = "search"
 

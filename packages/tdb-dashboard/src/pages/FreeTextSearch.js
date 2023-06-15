@@ -23,20 +23,24 @@ export function FreeTextSearch() {
     const [elements, setElements] = useState("")
     const location = useLocation()
 
+
+    const commit = Array.isArray(searchableCommit) && searchableCommit.length>0 ? searchableCommit[0].searchable_commit['@value'] : null
     useEffect(()=>{
         if(searchResult)getElements()
 
     },[start,searchResult])
      
     useEffect(()=>{
-        getSearchableCommit()
+        getSearchableCommit(1, "Assigned")
     },[dataProduct])
 
     const onClickHandler = ()=>{
         const freeText = search.current.value
         if(freeText=== ""){
             setError("Please enter the search data")
-        }else getResearchResult (freeText, `${organization}/${dataProduct}`  )
+        }else {
+            getResearchResult (commit, freeText, `${organization}/${dataProduct}`  )
+        }
     }
     
     function getElements(){
@@ -67,19 +71,19 @@ export function FreeTextSearch() {
     }
 
     const prevActive = start>1 ? {onClick:changePageCallPreview} : {active:false}
-    const nextActive = searchResult.length> 5  ? {onClick:changePageCallNext} : {active:false}
+    const nextActive = searchResult.length> start+5  ? {onClick:changePageCallNext} : {active:false}
 
     const lastDiff = Math.min(searchResult.length, start+5)
 
     let page = Math.ceil(start/5)
 
-    return  <Layout showLeftSideBar={true} mainClassName={"h-view mt-0"}>     
-           {searchableCommit && <div className="d-flex">
+    return  <Layout showLeftSideBar={true} mainClassName={"h-view mt-4"}>     
+           {commit && <div className="d-flex">
                 <Form.Control ref={search} style={{maxWidth:"500px"}} type="text" placeholder="Search" className="ml-auto"/>
                <Button onClick={onClickHandler} className="mr-auto">Submit</Button>
             </div>}
             <Container className="mt-4">
-                {!searchableCommit && <Alert type="Info" >
+                {!commit  && <Alert type="Info" >
                     <h3>You need to index your data before search them</h3>
                     <p>if you haven't already done it, Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team,</p> 
                     after you can start to index your data using the change request workflow
@@ -91,7 +95,7 @@ export function FreeTextSearch() {
                     <div className="w-100 d-flex justify-content-center">
                         <Pagination size={"ls"}>
                             <Pagination.Prev {...prevActive} />
-                            <Pagination.Item active>{`Page ${page+1} -- Diff from ${start+1} to ${lastDiff} total result ${searchResult.length}`}</Pagination.Item>
+                            <Pagination.Item active>{`Result ${searchResult.length} --  Page ${page+1} -- from ${start+1} to ${lastDiff}`}</Pagination.Item>
                             <Pagination.Next {...nextActive} />
                         </Pagination>
                         </div>
@@ -100,7 +104,6 @@ export function FreeTextSearch() {
                 }   
              </Container>           
             </Layout>
-
 }
 
 function SearchDocument ({documentID}){

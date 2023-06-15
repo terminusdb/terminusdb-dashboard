@@ -23,7 +23,7 @@ export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, con
     const startPageSize=  limit ||  10
     const startPageNumber = pageNumber || 0
     let ut_config = {
-        columns,
+        columns: columns || [],
         defaultColumn:{ Filter: DefaultColumnFilter },
         data,
       

@@ -40,10 +40,10 @@ export function useOpenAI(){
         }
     },[location])
 
-    function getUrl(){
+    function getUrl(action="changes"){
         const client = woqlClient.copy()
         client.connectionConfig.api_extension = 'api/'
-        return client.connectionConfig.dbBase("changes")
+        return client.connectionConfig.dbBase(action)
     }
 
     const setStart = (value) =>{
@@ -52,25 +52,28 @@ export function useOpenAI(){
     }
 
     ///changes/:orgid/:dbid/indexedcommit
-    const getSearchableCommit = async ()=>{
+    const getSearchableCommit = async (limit=1, status=null)=>{
         try{
-            const url = `${getUrl()}/indexedcommit`
+            setLoading(true)
+            const url = `${getUrl()}/indexedcommits?limit=${limit}&status=${status}`
             const result = await woqlClient.sendCustomRequest("GET", url)
-            setSearchableCommit(result.commit)
+            if(result && result.bindings){
+                setSearchableCommit(result.bindings)
+            }
         }catch (err){
             setError(err.data || err.message)    
+        }finally{
+            setLoading(false)
         }
     }
 
-    const getResearchResult = async (freeText, domain, branch = "main"  ) =>{
+    const getResearchResult = async (commit, freeText, domain, branch = "main"  ) =>{
         if(woqlClient){
             try{
                 setLoading(true)
                 localStorage.setItem(`${location.pathname}___SEARCH__TEXT`,freeText)
-                const commit = searchableCommit //await getLastBranchCommit(branch)
-                const client = woqlClient.copy()
-                const url = `${client.server()}api/private/search?domain=${domain}&commit=${commit}`
-                const result = await client.sendCustomRequest("POST", url , {freeText:freeText})
+                const url = `${getUrl('index')}/search?domain=${domain}&commit=${commit}`
+                const result = await woqlClient.sendCustomRequest("POST", url , {freeText:freeText})
                 localStorage.setItem(`${location.pathname}___SEARCH__RESULT`,JSON.stringify(result))
                 setSearchResult(result)
             }catch(err){
@@ -97,20 +100,18 @@ export function useOpenAI(){
         clearTimeout(timeout)
     }
 
-    const pollingCall = async (currentTask) =>{
+    const pollingCall = async (commitid,updateStatus) =>{
         try{
-            const client = woqlClient.copy()
-            const pollingUrl = `${client.server()}api/private/check?task_id=${currentTask}`
-            const percent = await client.sendCustomRequest("GET", pollingUrl)
-            setPercentTask(percent.status)
-            if(percent.status<1){
+            const pollingUrl = `${getUrl()}/check/${commitid}`
+            const document = await woqlClient.sendCustomRequest("GET", pollingUrl)
+            if(document.indexing_status !== "Assigned" && document.indexing_status !== "Error"){
                 await timeout(5000)
-                await pollingCall(currentTask)
+                await pollingCall(commitid,updateStatus)
+            }else{
+                if(updateStatus)updateStatus(document)
             }
         }catch(err){
             clearTimeout(timeout)
-            setPercentTask(0)
-            setError(err.data || err.message)
         }finally{
             setLoading(false)
         }
@@ -211,10 +212,11 @@ export function useOpenAI(){
       }
     }
 
-    const getGraphQLSchema= async (organization, dataProduct)=>{
+    const getGraphQLSchema= async ()=>{
         if(woqlClient){
             try{
                 setLoading(true)
+                setGraphQlSchema(false)
                 const client = woqlClient.copy()
                 const url = client.connectionConfig.branchBase("graphql")
             
@@ -266,8 +268,9 @@ export function useOpenAI(){
 
     const getPrewiew = async (type,queryStr,handlebarsTemplate)=>{
       try{
-         let queryWithLimit = queryStr.replace("(","($offset: Int, $limit: Int , ")
-         queryWithLimit = queryWithLimit.replace(`${type}(`,`${type}(offset: $offset, limit: $limit `)
+         setError(false)
+         let queryWithLimit = queryStr//.replace("(","($offset: Int, $limit: Int , ")
+        // queryWithLimit = queryWithLimit.replace(`${type}(`,`${type}(offset: $offset, limit: $limit, `)
          setLoading(true)
          const query = gql(`${queryWithLimit}`)
          const result = await apolloClient.query({query:query,variables:{limit:5,offset:0}})
@@ -295,7 +298,8 @@ export function useOpenAI(){
 
     
 
-    return {getPrewiew,
+    return {pollingCall,
+            getPrewiew,
             resetPreviewResult,
             getSearchableCommit,
             searchableCommit,

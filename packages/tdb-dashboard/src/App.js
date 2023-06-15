@@ -31,6 +31,7 @@ import {DocumentsPageList} from "./pages/DocumentsListPage"
 import {PLANS} from "./routing/constants";
 import {GraphqlHandlerbarsPage} from "./pages/GraphqlHandlerbarsPage"
 import {FreeTextSearch} from "./pages/FreeTextSearch"
+import { IndexingActionMonitor } from "./pages/IndexingActionMonitor"
 
 export function App (props){
     let navigate = useNavigate();
@@ -110,6 +111,7 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                 <Route path={PATH.SEARCH} element={<PrivateRoute component={FreeTextSearch}/>} />
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
                 <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
+                <Route path={PATH.ACTIONS}  element={<PrivateRoute component={IndexingActionMonitor}/>} />
                 
                 <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<PrivateRoute component={ChangeRequestsPage}/>} />    

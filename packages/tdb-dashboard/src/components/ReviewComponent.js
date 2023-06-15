@@ -17,6 +17,7 @@ import { OriginHeader, TrackingHeader } from "./DiffView"
 import { useOpenAI } from "../hooks/useOpenAI"
 import { OpenAIModal } from "./OpenAiModal"
 import {SiOpenai} from "react-icons/si"
+import {openAIMessage} from "./panelMessage"
 
 const ConflictActions = () => {
 
@@ -98,17 +99,16 @@ const ConflictActions = () => {
 }
 
 const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
+    
     const { setCurrentCRObject, exitChangeRequestBranch,currentCRObject }= WOQLClientObj()
     const { organization, dataProduct , changeid} = useParams()
     const [show,showModal] = useState(false)
 
-   
-
-    const {hasOpenAIKEY,hasKey} = useOpenAI() 
+    const {hasOpenAIKEY,hasKey,pollingCall} = useOpenAI() 
 
     useEffect(()=>{
         hasOpenAIKEY(organization)
-    },[])
+    },[organization])
 
 
     const  [loadingMessage,setLoadingMessage] = useState(`Approving Change Request ...`)
@@ -118,26 +118,8 @@ const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
         if(submitAction !== CONST.APPROVE ) {
             setLoadingMessage(`Rejecting Change Request ...`)
         }
-       // if(submitAction === CONST.APPROVE  && hasKey){
-         // showModal(true)
-       // }else{
-            updateStatus (submitAction)
-       // }
-      /*  let status = submitAction === CONST.APPROVE ? CONST.MERGED : CONST.REJECTED
-        let res=await updateChangeRequestStatus(message, status, changeid)
-        const originalBranch = currentCRObject.original_branch
-        if(res){
-            setCurrentCRObject(false)
-            exitChangeRequestBranch(originalBranch)
-            navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
-        }*/
-    }
 
-    const showModalAndSubmit =(status) =>{
-        showModal(false)
-        if(status===1){
-            updateStatus(CONST.APPROVE)
-        }
+        updateStatus (submitAction)
     }
 
     async function updateStatus (submitAction) {
@@ -145,6 +127,9 @@ const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
         let res=await updateChangeRequestStatus(message, status, changeid)
         const originalBranch = currentCRObject.original_branch
         if(res){
+            if(res.tracking_branch_last_commit){
+                pollingCall(res.tracking_branch_last_commit)
+            }
             setCurrentCRObject(false)
             exitChangeRequestBranch(originalBranch)
             navigate(`/${organization}/${dataProduct}/change_requests?status=${status}`)
@@ -158,13 +143,14 @@ const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
 
     if(loading) return <Loading message={loadingMessage}/>
 
-    return <Stack directtion="horizontal" className="float-right">
-        {show && <OpenAIModal organization={organization} dataProduct={dataProduct} show ={show} showModal ={showModalAndSubmit}/>}
-        
+    
+    const infoMessage = openAIMessage[hasKey]
+    return <Stack directtion="horizontal" className="float-right">  
         <small className="text-muted fst-italic fw-light mr-2 ms-auto">
             {`Approve or Reject Change Request`}
         </small>
         <ButtonGroup className="align-items-center">
+            {infoMessage && <small>{infoMessage}</small>}
             {hasKey && <SiOpenai size={24} className="mx-3 mr-3"/>}
             {reviewButtons.map((button) => (
             <Button

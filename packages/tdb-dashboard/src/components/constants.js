@@ -11,6 +11,7 @@ import {GrGraphQl} from "react-icons/gr"
 import {BiGitPullRequest} from "react-icons/bi"
 import {SiOpenai} from "react-icons/si"
 import {RiSearchLine} from "react-icons/ri"
+import {FaCog} from "react-icons/fa"
 
 //User Messages
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusCMS ... "
@@ -100,6 +101,12 @@ export const IconBarConfig = {
         key: "free_text_search",
         path: PATH.SEARCH,
         icon: <RiSearchLine size={24}/>
+    },
+    actions :{
+        title: "Indexing Monitoring",
+        key: "indexing_actions",
+        path: PATH.ACTIONS,
+        icon: <FaCog size={24}/>
     }
 }
 

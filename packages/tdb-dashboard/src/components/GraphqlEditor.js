@@ -37,7 +37,7 @@ export function GraphqlEditor(props) {
 ...If this request succeeds, a GraphQL schema will be built from the returned introspection data, it will be validated, and then used for GraphiQL if it is valid. If this request fails, GraphiQL will run without a schema.
 */
   return (//schema={schema}
-    <GraphiQLProvider schema={props.graphqlSchema} fetcher={fetcher} defaultQuery='query(){}'>
+    <GraphiQLProvider schema={props.schema} fetcher={fetcher} defaultQuery='query(){}'>
       <EditorInterface  query={props.query} setValue={props.setValue}/>
     </GraphiQLProvider>
   );
@@ -76,7 +76,7 @@ function EditorInterface (props){
         executionContext.queryEditor.setValue(props.query)
         prettifyCall()
     }
-  },[props.query])
+  },[props.query, executionContext.queryEditor])
   
   return <Card className="h-100">
         <Card.Header>
