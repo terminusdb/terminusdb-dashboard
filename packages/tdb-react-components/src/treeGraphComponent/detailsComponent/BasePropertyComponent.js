@@ -23,9 +23,6 @@ export const BasePropertyComponent = (props)=> {
 		const [propId,setPropId] =  useState(currentPropId)
 		//const [idError,setIdError] =  useState(false)
 
-		// constants to see if property needs to be rendered as markdown
-		//const [displayRenderAs, setDisplayRenderAs] = useState(checkIfPropertyIsString(nodeSchemaData))
-
 		const changePropertyValue=(propName,propValue)=>{
 			// display render as option if string is a property 
 			if(propValue === "xsd:string") setDisplayRenderAs(Date.now())

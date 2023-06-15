@@ -11,7 +11,7 @@ import {useNavigate,useParams,useLocation} from "react-router-dom"
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl"
 
 const CollpaseButton = ({ setCollapseSideBar, collapseSideBar }) => {
-    return <Button className="btn-btn-lg bg-transparent border border-0"
+    return <Button className="btn-btn-lg bg-transparent border border-0 ml-3"
         title={collapseSideBar ? "Show Sidebar" : "Hide Sidebar" }
         onClick={(e) => setCollapseSideBar(!collapseSideBar)}>
         {collapseSideBar && <SlArrowRight size={24}/>}

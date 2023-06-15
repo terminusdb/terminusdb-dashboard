@@ -9,21 +9,31 @@ import {DataProductDocuments, DocumentExplorerDocuments} from "../components/Dat
 
 export const LeftSideBar = (props) => { 
     const { 
-        getLocation
+        getLocation,
+        collapseSideBar,
+        setCollapseSideBar
     } = WOQLClientObj()
 
 
     const {page,dataProduct} = getLocation()
 
-    return <ProSidebar>
-        <SidebarContent>
-            <Menu> 
-                <DataProductItems/>
-                {/*dataProduct && <ConnectedDataProduct/>*/}
-                {dataProduct && page==DOCUMENT_EXPLORER && <DocumentExplorerDocuments/>}
-                {dataProduct && page==PRODUCT_EXPLORER && <DataProductDocuments/>}
-                {/* dataProduct && getLocation()==PRODUCT_EXPLORER && <SampleQueries/> */}
-            </Menu>
-        </SidebarContent>
-    </ProSidebar>
+
+    function getSideNavClassName(collapseSideBar) {
+        if(collapseSideBar) return `hide__sideNav`
+        return ``
+    }
+
+    return <div className={`${getSideNavClassName(collapseSideBar)}`}>
+        <ProSidebar>
+            <SidebarContent>
+                <Menu> 
+                    <DataProductItems/>
+                    {/*dataProduct && <ConnectedDataProduct/>*/}
+                    {dataProduct && page==DOCUMENT_EXPLORER && <DocumentExplorerDocuments/>}
+                    {dataProduct && page==PRODUCT_EXPLORER && <DataProductDocuments/>}
+                    {/* dataProduct && getLocation()==PRODUCT_EXPLORER && <SampleQueries/> */}
+                </Menu>
+            </SidebarContent>
+        </ProSidebar>
+    </div>
 }

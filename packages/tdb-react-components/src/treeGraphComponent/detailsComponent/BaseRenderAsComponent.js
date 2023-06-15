@@ -18,13 +18,12 @@ function checkIfRenderedAsMarkdown(currentNodeJsonSchema, currentpropertyID) {
 
 /**
  * 
- * @param {*} nodeSchemaData contains selected nodeSchema information
+ * @param {*} currentNodeJson contains current nodeSchema information
  * @returns true if node is of string type 
  */
- function checkIfPropertyIsString(nodeSchemaData) {
-	if(nodeSchemaData && 
-    nodeSchemaData.hasOwnProperty("range") && 
-    nodeSchemaData["range"] === "xsd:string") {
+function checkIfPropertyIsString(currentNodeJson) {
+	if(currentNodeJson.hasOwnProperty("type") && 
+  currentNodeJson["type"] === "StringProperty") {
 		  return Date.now()
 	}
 	return false
@@ -36,8 +35,14 @@ export const BaseRenderAsComponent = ({ currentNodeJson, nodeSchemaData }) => {
    * by default when we attempt to add a property by default it is a string propetry & at this point 
    * nodeSchemaData will be an empty JSON object
    */
-  if(Object.keys(nodeSchemaData).length && !checkIfPropertyIsString(nodeSchemaData)) return <div/>
+  //if(!Object.keys(nodeSchemaData).length) return <div/>
+  //if(Object.keys(nodeSchemaData).length && !checkIfPropertyIsString(nodeSchemaData)) return <div/>
   
+  if(!Object.keys(currentNodeJson).length) return <div/>
+  if(Object.keys(currentNodeJson).length && 
+    !checkIfPropertyIsString(currentNodeJson)) return <div/>
+  
+
   const { mainGraphObj } =GraphContextObj()
   let currentpropertyID=currentNodeJson.id
   let isRenderedAsMetadata = checkIfRenderedAsMarkdown(mainGraphObj.getNodeData(), currentpropertyID)

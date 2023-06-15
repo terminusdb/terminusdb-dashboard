@@ -15,6 +15,7 @@ import {BiGitBranch} from 'react-icons/bi'
 import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
 import * as path from "../routing/constants"
 import {ConnectedDataProduct} from "../components/CurrentDataProductState"
+
  
 // returns a help text depending on which page you are while in a Change Request Mode
 function GetHelpText () {
@@ -73,58 +74,44 @@ export const Layout = (props) => {
     }   
     
     const headerElement = dataProduct ? changeRequestHolder() : ""
-    
-    //defaultSize={340} 
+
+  
+    function getMainNavClassName(collapseSideBar) {
+        if(collapseSideBar) return `expanded__main__content`
+        return ``
+    }
+
     return <Container fluid className="p-0 flex-row">
         {showModal && <SubmitChangeRequestModal updateChangeRequestID={currentChangeRequest} showModal={showModal} setShowModal={setShowModal} updateParent={updateParent}/>}            
-        {!collapseSideBar && <SplitPane split="vertical" 
+
+        <SplitPane split="vertical" 
             minSize={70} 
             defaultSize={defaultSize} primary="first" allowResize={false}>
-            <div className="side-black h-100 d-flex">
+            <div className="side-black h-100 d-flex" >
                 <IconBar setShowFeedbackForm={setShowFeedbackForm} />
                 {organization && showLeftSideBar && <LeftSideBar/>}
                 <div style={{position: "relative"}}>
                     {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
                 </div>
             </div>              
-            <div className="ml-1 main-content h-100">                      
+            <div className={`ml-1 main-content h-100 ${getMainNavClassName(collapseSideBar)}`}>                      
                 <MainNavBar setShowTimeTravel={setShowTimeTravel} 
                     changeRequestHolder={headerElement}
                     collapseSideBar={collapseSideBar} 
                     showLeftSideBar={showLeftSideBar}
                     setCollapseSideBar={setCollapseSideBar}/>
-                <div className={`${mainClassName} mt-4`} >
+                <div className={`${mainClassName} mt-4 `} >
                     {currentChangeRequest && <GetHelpText/>}
                     {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                     {props.children}
                 </div>
-            </div>
-        </SplitPane>}
-        {collapseSideBar && <SplitPane split="vertical" 
-            minSize={70} 
-            defaultSize={70} 
-            primary="first" 
-            allowResize={false}>
-            <div className="side-black h-100 d-flex">
-                <IconBar setShowFeedbackForm={setShowFeedbackForm} />
-                <div style={{position: "relative"}}>
-                    {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
-                </div>
-            </div>              
-            <div className="ml-1 main-content h-100">                      
-                <MainNavBar setShowTimeTravel={setShowTimeTravel} 
-                    showLeftSideBar={showLeftSideBar}
-                    changeRequestHolder={headerElement}/>
-                <div className={`${mainClassName} mt-4`} >
-                    {currentChangeRequest && <GetHelpText/>}
-                    {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
-                    { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
-                    {props.children}
-                </div>
-            </div>
-        </SplitPane>}
+            </div> 
+        </SplitPane>
     </Container>
+
+    
+   
 }
 
 /*
