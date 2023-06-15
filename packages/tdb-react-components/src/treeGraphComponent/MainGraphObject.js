@@ -631,6 +631,9 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		_currentNode.schema[newPropId] = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
 	}
 
+
+
+
 	const getEnumValues =()=>{
 		if(_currentNode.schema['@value']){
 			return _currentNode.schema['@value']
@@ -678,15 +681,14 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	// sets metadata render_as markdown
 	const setPropertyMarkDownInfo = (currentpropertyID) => {
 		if(!_currentNode.schema) return
-		if(_currentNode.schema.hasOwnProperty("@metadata")) {
+		if(_currentNode.schema.hasOwnProperty("@metadata") && 
+			_currentNode.schema["@metadata"].hasOwnProperty("render_as")) {
 			_currentNode.schema["@metadata"]["render_as"][currentpropertyID] = "markdown"
 		}
 		else {
 			// initialize metadata & render as for propertyObj
-			_currentNode.schema["@metadata"] = { 
-				"render_as": {
-					[currentpropertyID]: "markdown"
-				}
+			_currentNode.schema["@metadata"]["render_as"] = {
+				[currentpropertyID]: "markdown"
 			}
 		}
 	}
@@ -699,6 +701,21 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 				delete _currentNode.schema["@metadata"]
 			}
 			else delete _currentNode.schema["@metadata"]["render_as"][currentpropertyID] 
+		}
+	}
+
+	const setDocumentOrdering = (orderedPropertyList) => {
+		//console.log("_currentNode", _currentNode)
+		if(!_currentNode.schema) return
+		if(_currentNode.schema.hasOwnProperty("@metadata")) {
+			//_currentNode.schema["@metadata"]["render_as"][currentpropertyID] = "markdown"
+			_currentNode.schema["@metadata"]["order_by"] = orderedPropertyList
+		}
+		else {
+			// initialize metadata & render as for propertyObj
+			_currentNode.schema["@metadata"] = { 
+				"order_by": orderedPropertyList
+			}
 		}
 	}
 
@@ -833,6 +850,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	return {createNewMainGraph,
 			setId,getPropertyInfo,setPropertyInfo, 
 			setPropertyMarkDownInfo, 
+			setDocumentOrdering,
 			removePropertyMarkDownInfo, 
 			getNodeData,
 			objectPropertyToRange,setClassKey,getPropertyAsList,getClassKey,

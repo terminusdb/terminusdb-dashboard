@@ -24,7 +24,7 @@
     "lint": "eslint src",
     "autofix": "eslint src --fix",
     "cypress": "npx cypress open",
-    "test": "react-scripts test"
+    "test": "jest"
   },
   "jest": {
     "transformIgnorePatterns": [

@@ -439,8 +439,9 @@ export function fetchMetaData(documentFrame, property) {
  */
 function checkIfAllPropertiesAreOrdered(orderByArray) {
 	//@rjsf will automatically append fields not incl in order_by
-	orderByArray.push("*")
-	return orderByArray
+	let orderredArray = [...orderByArray]
+	orderredArray.push("*")
+	return orderredArray
 }
 
 // get order by for parent document type
