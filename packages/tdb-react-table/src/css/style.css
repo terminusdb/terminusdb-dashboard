@@ -1,4 +1,8 @@
 
+.table{
+  background-color: #303030;
+}
+
 .table td{
   white-space: nowrap;
   overflow: hidden;

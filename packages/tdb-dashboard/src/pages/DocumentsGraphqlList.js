@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
-import {NEW_DOC,EDIT_DOC} from "../routing/constants"
+import {NEW_DOC,EDIT_DOC, EXAMPLES_PRODUCTS} from "../routing/constants"
 import {gql} from "@apollo/client";
 import { ListDocumentsComponent, useTDBDocuments } from "@terminusdb/terminusdb-documents-ui-template";
 import {WOQLClientObj} from '../init-woql-client'
@@ -21,6 +21,8 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
     
     const querystr  = documentTablesConfig.objQuery[type].query
     const query = gql`${querystr}`
+    const tableConfig = documentTablesConfig.tablesColumnsConfig[type]
+    const advancedSearchConfig = documentTablesConfig.advancedSearchObj[type]
 
     function deleteDocumentHandler(row) {
         let fullId = row['id']
@@ -72,7 +74,8 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
            {!showDeleteModal && <ListDocumentsComponent type={type}
                 gqlQuery={query} 
                 apolloClient={apolloClient} 
-                tablesConfig={documentTablesConfig}  
+                advancedSearchConfig={advancedSearchConfig}
+                tableConfig={tableConfig}  
                 onViewButtonClick={onViewClick}
                 onEditButtonClick={onEditClick}
                 onRowClick={onViewClick}

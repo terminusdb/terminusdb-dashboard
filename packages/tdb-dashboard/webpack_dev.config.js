@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+
 module.exports = (env, argv) => ({
   mode: 'development',
   context: __dirname,
@@ -35,9 +36,13 @@ module.exports = (env, argv) => ({
   resolve: {
     alias: {
       "@terminusdb/terminusdb-client": path.resolve('../../../terminusdb-client/index.js'),
-      "@codemirror/state": path.resolve('../../node_modules/@codemirror/state/dist/index.js')          
+      "@codemirror/state": path.resolve('../../node_modules/@codemirror/state/dist/index.js'),     
+      'handlebars': path.resolve('../../node_modules/handlebars/dist/handlebars.js')   
     },
-    fallback: { "https": false },
+    fallback: { "https": false , 
+            "fs": false,
+    "os": false,
+    "path": false},
     extensions: [ '.js', '.jsx', '.json','.cjs'],
   },
   module: {

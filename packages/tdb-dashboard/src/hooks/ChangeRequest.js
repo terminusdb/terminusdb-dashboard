@@ -12,7 +12,6 @@ export function ChangeRequest(){
     const [changeRequestList, setChangeRequestList]  = useState([])
     const [manageConflict, setManageConflict]=useState(false)
 
-    useEffect
 
     //I'm using the client to get my custom url
     function getUrl(){

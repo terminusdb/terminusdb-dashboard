@@ -23,9 +23,13 @@ export const DocumentSearchComponent = ({setSelected, doctype}) => {
      },[doctype]);
     const querystr  = documentTablesConfig && documentTablesConfig.objQuery ? documentTablesConfig.objQuery[doctype].query : null
     const gqlQuery = querystr ? gql`${querystr}` : null
+    const tableConfig =  documentTablesConfig && documentTablesConfig.tablesColumnsConfig ? documentTablesConfig.tablesColumnsConfig[doctype] : []
+    const advancedSearchConfig = documentTablesConfig && documentTablesConfig.advancedSearchObj ? documentTablesConfig.advancedSearchObj[doctype] : null
+  
     if(!gqlQuery)  return <Loading message={`Loading the .... ${doctype} documents`} type={'PROGRESS_BAR_COMPONENT'}/>
 
-    return  <DocumentsGraphqlTable tableConfig={documentTablesConfig} 
+    return  <DocumentsGraphqlTable tableConfig={tableConfig} 
+                advancedSearchConfig = {advancedSearchConfig }
                 type={doctype} 
                 gqlQuery={gqlQuery}
                 apolloClient={apolloClient}

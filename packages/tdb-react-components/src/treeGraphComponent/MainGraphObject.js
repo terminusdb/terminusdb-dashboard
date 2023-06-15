@@ -590,7 +590,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	
 	const setId = (newId)=>{
-		if(!_currentNode.schema && _currentNode.id === newId) return 
+		if(!_currentNode.schema || _currentNode.id === newId) return 
 		const findEl = Object.values(_rootIndexObj).find((element)=>element.id &&  element.id === newId)	
 		if(findEl){
 			throw new Error ("Please enter an unique id")	

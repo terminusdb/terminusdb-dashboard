@@ -58,7 +58,7 @@ export const DisplayErrorPerProperty = ({ propertyName, errorType, message }) =>
 // function display error messages 
 export const ErrorDisplay = ({ errorData, message, css }) => {
     return <Accordion className="bg-transparent border-0 w-100">
-        <Card className="bg-transparent border-0">
+        <Card className="bg-transparent border-0 alert_danger_text">
             <Card.Header className="bg-transparent">
                 <span>{message} </span>
                 <ToggleErrorDisplay eventKey="0" expandComponent={"More Info" } hideComponent={"Hide"} css={css}/>

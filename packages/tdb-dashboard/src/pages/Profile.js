@@ -8,6 +8,7 @@ import CodeMirror from "@uiw/react-codemirror"
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
+import { OpenAICard } from "../components/OpenAICard"
 
 import {BsFillPeopleFill} from "react-icons/bs"
 import {EDITOR_READ_OPTIONS,EDITOR_READ} from "../components/constants"
@@ -56,6 +57,7 @@ export const Profile = () => {
             {user &&
             <Row>
             <Col className="ml-3 mt-5">
+                <OpenAICard organization={organization}/>
                 <TokenCard organization={organization}/>
                 {cloud_url && <React.Fragment>
                     <Card className="p-5 mb-4">
