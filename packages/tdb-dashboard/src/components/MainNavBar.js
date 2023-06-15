@@ -40,8 +40,8 @@ export const CollpaseButton = ({ setCollapseSideBar, collapseSideBar }) => {
         lineHeight: "16px",
         height: "24px",
         minWidth: "24px",
-        color: "rgb(77, 86, 121)",
-        backgroundColor: "#f1d7f0",
+        color: "rgb(195 196 201)",
+        backgroundColor: "rgb(100 100 100)",
         border: "1px solid rgb(208, 213, 231) !important",
         padding: "0px !important"
     }

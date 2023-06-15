@@ -144,6 +144,7 @@ div.SplitPane  .horizontal {
 
 .pro-sidebar-content {
   border-right: 1px solid #303030;
+  background: #000000;
 }
 /* ---------- Split Pane resizing css ---------- */
 
