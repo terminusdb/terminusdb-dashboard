@@ -1,27 +1,19 @@
 import React, {useEffect, useState} from "react";
 import {Container , Card, Button, ListGroup,Badge} from "react-bootstrap"
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {WOQLClientObj} from '../init-woql-client'
-import {ChangeRequest} from "../hooks/ChangeRequest"
-import {BiGitPullRequest} from "react-icons/bi"
-import Stack from 'react-bootstrap/Stack'
+import {useParams} from "react-router-dom";
 import {Loading} from "../components/Loading" 
-import {AiOutlineCheck} from "react-icons/ai"
-import ProgressBar from 'react-bootstrap/ProgressBar'
 import {extractID, getDays} from "../components/utils"
 import { Layout } from "./Layout";
 import { useOpenAI } from "../hooks/useOpenAI";
 import {AiFillCheckCircle, AiFillCloseCircle, AiFillClockCircle} from "react-icons/ai"
 import {ImSpinner5} from "react-icons/im"
 
-export const IndexingActionMonitor=({dataProduct})=>{
+export const IndexingActionMonitor=(props)=>{
 
     const {loading,error,getSearchableCommit,searchableCommit} = useOpenAI()
-
+    const {dataProduct} = useParams()
     useEffect(()=>{
-
         getSearchableCommit(10)  
-
     },[dataProduct])
 
     const formatListItem=()=>{

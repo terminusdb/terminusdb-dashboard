@@ -55,13 +55,15 @@ export function useOpenAI(){
     const getSearchableCommit = async (limit=1, status=null)=>{
         try{
             setLoading(true)
+            setSearchableCommit(false)
             const url = `${getUrl()}/indexedcommits?limit=${limit}&status=${status}`
             const result = await woqlClient.sendCustomRequest("GET", url)
             if(result && result.bindings){
                 setSearchableCommit(result.bindings)
             }
         }catch (err){
-            setError(err.data || err.message)    
+            setError(err.data || err.message)
+            setSearchableCommit(false)    
         }finally{
             setLoading(false)
         }
