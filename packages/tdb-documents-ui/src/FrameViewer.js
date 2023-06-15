@@ -62,13 +62,6 @@ export function FrameViewer(props){
 		setLanguage(false)
 	}
 
-	/*useEffect(() => {
-		if(theme) {
-			loadTheme(theme)
-		}
-	}, [theme])*/
-
-
 	useEffect(() => {
 		try{ 
 			if(frame && type && mode) { 

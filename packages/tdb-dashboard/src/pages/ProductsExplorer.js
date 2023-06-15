@@ -9,7 +9,7 @@ export const ProductsExplorer = (props) => {
     if(!woqlClient) return ""
 
     return <QueryPaneProvider woqlClient={woqlClient} newQueryPanelQuery={newQueryPanelQuery}>
-                <Layout>
+                <Layout showLeftSideBar={true}>
                     <main role="main" className="content mr-3 ml-5">              
                         <QueryView/>           
                     </main>

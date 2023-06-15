@@ -12,7 +12,7 @@ import { ViewDocument } from "../components/ViewDocumentLink"
   
 export const TDBDocument = ({ args, extracted, reference, uiFrame, clickedUnlinked, order_by, onTraverse, onSelect, hideFieldLabel, unfoldable, props, mode, linked_to, propertyDocumentation, linkId }) => {
 
-  let depth = 0 
+  let depth = 0  
 
   if(mode === CONST.CREATE) return <CreateDocument name={props.name} 
     onChange={props.onChange}

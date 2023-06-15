@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {ADD_PARENT,REMOVE_PARENT} from '../utils/actionType'
-import {ListComponent} from './ListComponent'
+import {ListComponent} from './ListComponent' 
 import {BaseSelectReactElement} from './BaseSelectReactElement'
 import {BaseSelectComponent} from './BaseSelectComponent'
 import {ParentsElementViewMode} from './viewMode/ParentsElementViewMode'

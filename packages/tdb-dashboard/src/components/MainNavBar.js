@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {Button, Dropdown} from 'react-bootstrap';
 import {Nav,Navbar} from "react-bootstrap"
 import {NewDataProduct} from "./NewDataProduct"
@@ -8,9 +8,21 @@ import {DATA_PRODUCTS} from "../routing/constants"
 import { UserMenu } from "./UserMenu";
 import { sortAlphabetically } from "./utils";
 import {useNavigate,useParams,useLocation} from "react-router-dom"
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl"
 
-export const MainNavBar = ({setShowTimeTravel, changeRequestHolder}) => {
-    const {woqlClient,changeOrganization,accessControlDashboard,clientUser} = WOQLClientObj()
+const CollpaseButton = ({ setCollapseSideBar, collapseSideBar }) => {
+    return <Button className="btn-btn-lg bg-transparent border border-0 ml-3"
+        title={collapseSideBar ? "Show Sidebar" : "Hide Sidebar" }
+        onClick={(e) => setCollapseSideBar(!collapseSideBar)}>
+        {collapseSideBar && <SlArrowRight size={24}/>}
+        {!collapseSideBar && <SlArrowLeft size={24}/>}
+    </Button> 
+}
+
+export const MainNavBar = ({setShowTimeTravel, changeRequestHolder, showLeftSideBar}) => {
+
+    const {woqlClient,changeOrganization,accessControlDashboard,clientUser, collapseSideBar, 
+        setCollapseSideBar} = WOQLClientObj()
     if(!clientUser || !woqlClient) return ""
     //we don't need setRoute
     const { organization, dataProduct } = useParams();
@@ -25,7 +37,8 @@ export const MainNavBar = ({setShowTimeTravel, changeRequestHolder}) => {
     // sort list in alphabetical order
     const teamList = sortAlphabetically (woqlClient ? woqlClient.userOrganizations() : []) 
 
-    return <Navbar className="navbar-dark bg-dark p-0 sticky-top main-navbar-shadow">           
+    return <Navbar className="navbar-dark bg-dark p-0 sticky-top main-navbar-shadow">  
+        {showLeftSideBar && <CollpaseButton setCollapseSideBar={setCollapseSideBar} collapseSideBar={collapseSideBar}/>}
         <div className="d-flex flex-grow-1 ">                    
             {dataProduct && currentPage!==`/${organization}/${dataProduct}` &&
             <React.Fragment>  

@@ -430,12 +430,25 @@ export function fetchMetaData(documentFrame, property) {
 }
 
 // ORDER_BY
+
+/**
+ * 
+ * @param {*} orderByArray is the order_by array included in @metadata
+ * if user has not mentioned a property we simply append this property to the end of the array 
+ * otherwise @rjsf will complain
+ */
+function checkIfAllPropertiesAreOrdered(orderByArray) {
+	//@rjsf will automatically append fields not incl in order_by
+	orderByArray.push("*")
+	return orderByArray
+}
+
 // get order by for parent document type
 export function getDocumentOrderBy(documentFrame) {
 	if(!documentFrame || !documentFrame.hasOwnProperty(CONST.METADATA)) return false
 	if(documentFrame[CONST.METADATA].hasOwnProperty(CONST.ORDER_BY)) {
 		// order by info
-		return documentFrame[CONST.METADATA][CONST.ORDER_BY]
+		return checkIfAllPropertiesAreOrdered(documentFrame[CONST.METADATA][CONST.ORDER_BY])
 	}
 	return false
 }

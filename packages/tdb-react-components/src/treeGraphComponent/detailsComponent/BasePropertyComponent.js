@@ -1,12 +1,13 @@
 import React,{useState} from 'react'
 import {BaseElement} from './BaseElement';
 import {Accordion} from '../../form/Accordion';
-
+import { BaseRenderAsComponent } from "./BaseRenderAsComponent"
 import {GET_ICON_NAME} from '../../constants/details-labels';
 import {BaseSelectComponent} from './BaseSelectComponent';
 import PropTypes from "prop-types";
 import {PropertyExtraInfo} from './PropertyExtraInfo'
 import {GraphContextObj} from '../hook/graphObjectContext'; 
+
 
 export const BasePropertyComponent = (props)=> {
 		const {mainGraphObj} =GraphContextObj()
@@ -23,6 +24,9 @@ export const BasePropertyComponent = (props)=> {
 		//const [idError,setIdError] =  useState(false)
 
 		const changePropertyValue=(propName,propValue)=>{
+			// display render as option if string is a property 
+			if(propValue === "xsd:string") setDisplayRenderAs(Date.now())
+			else setDisplayRenderAs(false)
 			mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)
 		}
 		
@@ -44,6 +48,8 @@ export const BasePropertyComponent = (props)=> {
 					   title={propId}
 					   leftIconClassName={leftIconClassName}
 					   tooltip={currentNodeJson.type || ''}>
+
+							  
 				{viewBaseSchema && <BaseElement updateValue={updateBaseValue}
 										   removeElement={props.removeElement} 
 										   nodeJsonData={currentNodeJson}
@@ -65,6 +71,10 @@ export const BasePropertyComponent = (props)=> {
 										
 					               		/>
 	               					}
+
+									<BaseRenderAsComponent nodeSchemaData={nodeSchemaData} 
+										currentNodeJson={currentNodeJson}/> 
+
 									{props.typeDescription &&
 									<div className="tdb__form__label">
 										<label className={props.labelClassName}>{props.typeDescription}</label>

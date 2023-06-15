@@ -124,7 +124,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	}
 
 	const resetTreeModel=()=>{
-		updateMainGraphData(mainGraphDataProvider)
+		updateMainGraphData(mainGraphDataProvider) 
 	}
 
 

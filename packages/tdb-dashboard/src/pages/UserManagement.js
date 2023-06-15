@@ -10,7 +10,7 @@ export const UserManagement = (props) =>{
     //this can change if local
     const setting =getSettings(clientUser)
 
-    return  <Layout>
+    return  <Layout showLeftSideBar={true}>
                 <TeamMembers organization={organization} currentUser={clientUser} options={setting} accessControlDashboard={accessControlDashboard} />
             </Layout>
 }

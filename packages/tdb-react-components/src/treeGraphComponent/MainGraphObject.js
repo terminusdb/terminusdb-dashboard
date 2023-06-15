@@ -564,6 +564,10 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			if(doc){
 				node.comment = doc['@comment'] || ''
 			}
+			const metadata = _currentNode.schema['@metadata']
+			if(metadata){
+				node.metadata = metadata 
+			}
 			node.abstract=_currentNode.schema['@abstract'] ? true : false
 			node.id = _currentNode.schema['@id'] || ''
 			node.subdocument = _currentNode.schema['@subdocument'] ? true : false
@@ -670,6 +674,34 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return obj
 
 	}
+
+	// sets metadata render_as markdown
+	const setPropertyMarkDownInfo = (currentpropertyID) => {
+		if(!_currentNode.schema) return
+		if(_currentNode.schema.hasOwnProperty("@metadata")) {
+			_currentNode.schema["@metadata"]["render_as"][currentpropertyID] = "markdown"
+		}
+		else {
+			// initialize metadata & render as for propertyObj
+			_currentNode.schema["@metadata"] = { 
+				"render_as": {
+					[currentpropertyID]: "markdown"
+				}
+			}
+		}
+	}
+
+	const removePropertyMarkDownInfo = (currentpropertyID) => {
+		if(!_currentNode.schema) return
+		if(_currentNode.schema.hasOwnProperty("@metadata")) {
+			if(Object.keys(_currentNode.schema["@metadata"]).length === 1 && 
+			Object.keys(_currentNode.schema["@metadata"]["render_as"]).length === 1 ) {
+				delete _currentNode.schema["@metadata"]
+			}
+			else delete _currentNode.schema["@metadata"]["render_as"][currentpropertyID] 
+		}
+	}
+
 	//range 
 	//option
 	//what happen if I change something before setting the id???
@@ -799,7 +831,10 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	}
 
 	return {createNewMainGraph,
-			setId,getPropertyInfo,setPropertyInfo,getNodeData,
+			setId,getPropertyInfo,setPropertyInfo, 
+			setPropertyMarkDownInfo, 
+			removePropertyMarkDownInfo, 
+			getNodeData,
 			objectPropertyToRange,setClassKey,getPropertyAsList,getClassKey,
 			setComment,setAbstract,setPropertyId,
 			getEnumValues,updateEnumValues,getObjectProperty,

@@ -114,13 +114,21 @@ export function displayDocumentLink(props, args, extracted, property, linked_to,
   let { fullFrame, onTraverse, mode, onSelect, uiFrame, reference } = args
   let documentation = util.checkIfPropertyHasDocumentation(extracted.extractedDocumentation, property, args.fullFrame[CONST.SELECTED_LANGUAGE])
   let selectedLanguage=fullFrame[CONST.SELECTED_LANGUAGE]
+  const [unlinked, clickedUnlinked]=useState(false)
+
+  useEffect(() => {
+    if(unlinked && mode === CONST.EDIT) {
+      // at this point we are in edit mode and have decided to unlink a document
+      if(props.onChange) props.onChange(null)
+    }
+  }, [unlinked])
 
   // at this point linked_to in fullframe
   let order_by = false
   if(fullFrame.hasOwnProperty(linked_to)) { 
     order_by=util.getOrderBy(fullFrame, linked_to)
   }
-
+ 
   // add logic for required properties 
   return  <TDBDocument extracted={extracted}  
     linkId={props.hasOwnProperty("id") ? props["id"] : null}
@@ -130,6 +138,7 @@ export function displayDocumentLink(props, args, extracted, property, linked_to,
     uiFrame={uiFrame}
     order_by={order_by}
     hideFieldLabel={hideFieldLabel}
+    clickedUnlinked={clickedUnlinked}
     onSelect={onSelect}
     reference={reference}
     onTraverse={onTraverse}

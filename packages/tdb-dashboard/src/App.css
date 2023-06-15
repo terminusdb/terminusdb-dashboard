@@ -1,5 +1,6 @@
 /** review this link after build of tdb-dcoumnets-ui*/
 @import "../../tdb-documents-ui/src/css/terminusdb__styles";
+/*@import url("https://unpkg.com/react-sidebar-ui@1.2.0/dist/index.css");*/
 
 html, body {
   height: 100% ;
@@ -53,6 +54,23 @@ img.user-avatar {
   height: 50px;
 }
 
+/** -------- Side bar ---------------- */
+
+.hide__sideNav {
+  transition: left 0.3s ease-in-out;
+  left: -25vw;
+  position: fixed;
+}
+
+
+
+.expanded__main__content {
+  left: 4rem;
+  position: fixed;
+  transition: left 0.3s ease-in-out;
+}
+
+
 /* ---------- Split Pane resizing css ---------- */
 .Resizer {
   -moz-box-sizing: border-box;
@@ -64,6 +82,7 @@ img.user-avatar {
   -moz-background-clip: padding;
   -webkit-background-clip: padding;
   background-clip: padding-box;
+  transition-timing-function: ease;
 }
 
 .Resizer:hover {
@@ -276,6 +295,7 @@ div.progress-bar-container {
   table-layout: fixed;
   margin-left: auto;
   margin-right: auto;
+  background-color: #303030;
 }
 
 .table td, .table th {
