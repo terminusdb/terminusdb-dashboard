@@ -12,6 +12,7 @@ import {extractID, getDays} from "../components/utils"
 import { Layout } from "./Layout";
 import { useOpenAI } from "../hooks/useOpenAI";
 import {AiFillCheckCircle, AiFillCloseCircle, AiFillClockCircle} from "react-icons/ai"
+import {ImSpinner5} from "react-icons/im"
 
 export const IndexingActionMonitor=({dataProduct})=>{
 
@@ -72,7 +73,7 @@ function ItemElement ({item}){
     },[item.index])
 
     const iconTypes = {'Assigned':<AiFillCheckCircle className="text-success" size="20px"/>,
-                       'Progress':<AiFillClockCircle className="text-warning" size="20px"/>,
+                       'Progress':<ImSpinner5 className="text-warning loading-icon" size="20px"/>,
                        'Error':<AiFillCloseCircle className="text-danger" size="20px"/>,
                        'Complete':<AiFillClockCircle className="text-success" size="20px"/>}
 
