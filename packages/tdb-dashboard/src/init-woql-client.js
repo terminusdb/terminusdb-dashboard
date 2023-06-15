@@ -37,6 +37,9 @@ export const WOQLClientProvider = ({children, params}) => {
     const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
     const [currentCRName,setCurrentCRName] = useState(false)
     const [currentCRStartBranch,setCurrentCRStartBranch] = useState(false)
+
+    // constants to control sidebar collapse
+    const [collapseSideBar, setCollapseSideBar] = useState(false)
     
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -322,7 +325,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 woqlClient,
                 loadingServer,
                 setDataProduct,
-                reconnectToServer
+                reconnectToServer,
+                collapseSideBar, 
+                setCollapseSideBar
             }}
         >
             {children}

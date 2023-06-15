@@ -35,7 +35,7 @@ export const DocumentExplorer = (props) => {
     }
 
 
-    return <Layout >
+    return <Layout showLeftSideBar={true}>
                 <main role="main" className="content mr-3 ml-5">
                     {documentLoading  && <Loading message={`Fetching documents ...`}/>}
                     {error && <ErrorMessageReport error={error} setError={setError}/>  }

@@ -29,8 +29,8 @@ export function constructFormParams (props, setDocumentation, reference, setRefe
   //console.log("display", display)
 
 
-  console.log("schema", schema)
-  console.log("properties.uiSchema", properties.uiSchema)
+  //console.log("schema", schema)
+  //console.log("properties.uiSchema", properties.uiSchema)
   //setUISchema(uiSchema)
   //setSchema(schema)
 

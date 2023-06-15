@@ -50,7 +50,7 @@ export const Profile = () => {
     }
 
     /* adding a comment for text */
-    return <Layout sideBarContent={<LeftSideBar/>}>
+    return <Layout sideBarContent={<LeftSideBar/>} showLeftSideBar={true}>
         <NewTeamModal show={showNewMemberModal} setShow={setShowNewMemberModal} />
         <div style={{marginTop: "20px"}}>
             {user &&

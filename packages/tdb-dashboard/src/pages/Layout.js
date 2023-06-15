@@ -15,6 +15,7 @@ import {BiGitBranch} from 'react-icons/bi'
 import {ChangeRequestComponent} from "../components/ChangeRequestComponent"
 import * as path from "../routing/constants"
 import {ConnectedDataProduct} from "../components/CurrentDataProductState"
+
  
 // returns a help text depending on which page you are while in a Change Request Mode
 function GetHelpText () {
@@ -32,7 +33,8 @@ function GetHelpText () {
 }
   
 export const Layout = (props) => { 
-    const {branch,exitChangeRequestBranch,currentChangeRequest,currentCRName,currentCRStartBranch} = WOQLClientObj()
+    const {branch,exitChangeRequestBranch,currentChangeRequest,currentCRName,currentCRStartBranch, collapseSideBar, 
+        setCollapseSideBar} = WOQLClientObj()
     const { organization, dataProduct } = useParams();
 
     const noChange = window.location.pathname.indexOf("change_requests")=== -1 ? true : false
@@ -40,6 +42,7 @@ export const Layout = (props) => {
     const [showTimeTravel, setShowTimeTravel] = useState(false)
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
     const [showModal,setShowModal] = useState(false)
+    
 
     // const [defaultSize, setDefaultSize]=useState(false)
 
@@ -65,35 +68,50 @@ export const Layout = (props) => {
     const changeRequestHolder = () =>{
         if(dataProduct && currentChangeRequest){
             return <ChangeRequestComponent currentCRStartBranch={currentCRStartBranch} currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} currentCRIdentifier={currentCRName || branch} setShowModal={setShowModal}/>
-        
+         
         }
         return <ConnectedDataProduct/>
     }   
     
     const headerElement = dataProduct ? changeRequestHolder() : ""
-    
-    //defaultSize={340} 
+
+  
+    function getMainNavClassName(collapseSideBar) {
+        if(collapseSideBar) return `expanded__main__content`
+        return ``
+    }
+
     return <Container fluid className="p-0 flex-row">
         {showModal && <SubmitChangeRequestModal updateChangeRequestID={currentChangeRequest} showModal={showModal} setShowModal={setShowModal} updateParent={updateParent}/>}            
-        <SplitPane split="vertical" minSize={70} defaultSize={defaultSize} primary="first" allowResize={false}>
-            <div className="side-black h-100 d-flex">
+
+        <SplitPane split="vertical" 
+            minSize={70} 
+            defaultSize={defaultSize} primary="first" allowResize={false}>
+            <div className="side-black h-100 d-flex" >
                 <IconBar setShowFeedbackForm={setShowFeedbackForm} />
                 {organization && showLeftSideBar && <LeftSideBar/>}
                 <div style={{position: "relative"}}>
                     {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
                 </div>
             </div>              
-            <div className="ml-1 main-content h-100">                      
-                <MainNavBar setShowTimeTravel={setShowTimeTravel} changeRequestHolder={headerElement}/>
-                <div className={`${mainClassName} mt-4`} >
+            <div className={`ml-1 main-content h-100 ${getMainNavClassName(collapseSideBar)}`}>                      
+                <MainNavBar setShowTimeTravel={setShowTimeTravel} 
+                    changeRequestHolder={headerElement}
+                    collapseSideBar={collapseSideBar} 
+                    showLeftSideBar={showLeftSideBar}
+                    setCollapseSideBar={setCollapseSideBar}/>
+                <div className={`${mainClassName} mt-4 `} >
                     {currentChangeRequest && <GetHelpText/>}
                     {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                     {props.children}
                 </div>
-            </div>
+            </div> 
         </SplitPane>
     </Container>
+
+    
+   
 }
 
 /*
