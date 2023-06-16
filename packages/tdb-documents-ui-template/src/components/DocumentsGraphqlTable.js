@@ -9,14 +9,13 @@ import {RiDeleteBin7Line, RiEdit2Fill} from "react-icons/ri"
 import {HiOutlineDocument} from "react-icons/hi"
 
 //to be review
-export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, onRowClick, onViewButtonClick, onEditButtonClick, onDeleteButtonClick, showGraphqlTab=true}) => {
-    if(!tableConfig) return ''
+export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, advancedSearchConfig, type, onRowClick, onViewButtonClick, onEditButtonClick, onDeleteButtonClick, showGraphqlTab=true}) => {
+    if(!tableConfig || !gqlQuery) return ''
     const query = gqlQuery//gql`${querystr}`
-    const [advSearchFields,setAdvFields] = useState(false)
+   // const [advSearchFields,setAdvFields] = useState(false)
     const [queryToDisplay,setQueryTodisplay] = useState(false)
    
-    if (!query) return ""
-    const tablesColumnsConfig = tableConfig.tablesColumnsConfig[type] || []
+    const tablesColumnsConfig = tableConfig //.tablesColumnsConfig[type] || []
     const {  setError,
         callGraphqlServer,
         error,
@@ -45,7 +44,7 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
             callGraphqlServer(10,0,{},false) 
             const queryStr = query.loc.source.body
             setQueryTodisplay(format(queryStr))
-            setAdvFields(tableConfig.advancedSearchObj[type])         
+                  
        }
     },[type]);
 
@@ -122,12 +121,12 @@ export const DocumentsGraphqlTable = ({gqlQuery,apolloClient,tableConfig, type, 
     return <div> 
             {error && <Alert onClose={() => setError(false)}  dismissible className="text-break" variant="danger">
                  GraphQL query error <pre className="pre--error">{errorMessage}</pre> </Alert>}  
-            {advSearchFields &&
+            {advancedSearchConfig &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>Advanced filter</Accordion.Header>
                         <Accordion.Body className="p-0">
-                            <AdvancedSearch fields={advSearchFields} setFilter={setAdvancedFilters} />
+                            <AdvancedSearch fields={advancedSearchConfig} setFilter={setAdvancedFilters} />
                         </Accordion.Body>
                     </Accordion.Item>   
                 </Accordion>} 

@@ -14,7 +14,6 @@ import {BsPlus} from "react-icons/bs"
 import {BiMinusCircle} from "react-icons/bi"
 import {Loading} from "./Loading"
 import {WOQLClientObj} from '../init-woql-client'
-import { getTypenameFromStoreObject } from "@apollo/client/cache/inmemory/helpers"
 /**
  * 
  * @param {*} diff diff list 
@@ -134,17 +133,6 @@ function DiffViewDocument ({documentID,diffObj, CRObject,propertyModifiedCount,f
     function handleTraverse (documentID) {
         onTraverse(documentID, setClicked)
     }
- 
-    /*useEffect(() => {
-        async function getChangedValue() {
-            const clientCopy = woqlClient.copy()
-            // apply patch on original value to get changed value 
-            // to get Sets in same order as that of original value
-            let changedValueResult=await clientCopy.patch(originalValue, diffObj)
-            if(setChangedValue) setChangedValue(changedValueResult)
-        }
-        if(diffObj && originalValue && woqlClient) getChangedValue()
-    }, [diffObj, originalValue, woqlClient])*/
 
    return <Accordion className="accordion__button padding-0 diff__accordian mb-3" id={eventKey} onSelect={getDocumentStatesOnClick}> 
         <Accordion.Item eventKey={eventKey} className="border-0">

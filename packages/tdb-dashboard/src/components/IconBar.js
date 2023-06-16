@@ -2,11 +2,14 @@ import React  from "react"
 import {Nav,Navbar} from "react-bootstrap"
 import { NavLink as RouterNavLink, useResolvedPath , useMatch} from "react-router-dom";
 import {AiOutlineMail} from "react-icons/ai"
-
+import { WOQLClientObj } from "../init-woql-client";
 import {IconBarConfig} from  "./constants" 
 import {useParams} from 'react-router-dom'
 
 export const IconBar =  ({setShowFeedbackForm}) => {
+
+     const {currentChangeRequest} = WOQLClientObj()
+
     const { organization, dataProduct } = useParams();
 
     let disabled =  {disabled:true} 
@@ -86,6 +89,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {IconBarConfig.dataProductExplorer.icon}
                 </Nav.Link>
             </Nav.Item>
+            
             <Nav.Item>
                 <Nav.Link  as={RouterNavLink}
                     title={IconBarConfig.graphiql.title} 
@@ -108,6 +112,45 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {IconBarConfig.changes.icon}
                 </Nav.Link>
             </Nav.Item>
+            {!currentChangeRequest &&
+                <Nav.Item>
+                    <Nav.Link  as={RouterNavLink}
+                        title={IconBarConfig.openAI.title} 
+                        className="nav-icon nav-product-expolorer" 
+                        {...disabled}
+                        to={getUrl(IconBarConfig.openAI.path)} 
+                        
+                        id={IconBarConfig.openAI.key}>
+                        {IconBarConfig.openAI.icon}
+                    </Nav.Link>
+                </Nav.Item>
+            }
+            {!currentChangeRequest  && 
+                <Nav.Item>
+                    <Nav.Link  as={RouterNavLink}
+                        title={IconBarConfig.search.title} 
+                        className="nav-icon nav-product-expolorer" 
+                        {...disabled}
+                        to={getUrl(IconBarConfig.search.path)} 
+                        
+                        id={IconBarConfig.search.key}>
+                        {IconBarConfig.search.icon}
+                    </Nav.Link>
+                </Nav.Item>
+            }
+             {!currentChangeRequest  && 
+                <Nav.Item>
+                    <Nav.Link  as={RouterNavLink}
+                        title={IconBarConfig.actions.title} 
+                        className="nav-icon nav-product-expolorer" 
+                        {...disabled}
+                        to={getUrl(IconBarConfig.actions.path)} 
+                        
+                        id={IconBarConfig.actions.key}>
+                        {IconBarConfig.actions.icon}
+                    </Nav.Link>
+                </Nav.Item>
+            }
             <hr className="my-3" role="separator"></hr>
             <div className="nav-icons-bottom">
                 <hr className="my-3" role="separator"></hr>

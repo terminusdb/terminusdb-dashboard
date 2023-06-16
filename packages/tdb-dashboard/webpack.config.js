@@ -48,7 +48,7 @@ module.exports = (env, argv) => ({
     alias: {
       "@codemirror/state": path.resolve('../../node_modules/@codemirror/state/dist/index.cjs')        
     },
-    fallback: { "https": false },
+    fallback: { "https": false ,  "fs": false, "os": false, "path": false},
     extensions: ['.js', '.jsx', '.json'],
   },
   module: {

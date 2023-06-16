@@ -6,6 +6,7 @@ packages/*/es6*
 packages/*/esm*
 packages/*/env
 packages/*/auth_config
+packages/tdb-dashboard/tmp_local
 packages/tdb-dashboard/.env
 packages/tdb-dashboard/cypress/integration/1-getting-started
 packages/tdb-dashboard/cypress/integration/2-advanced-examples

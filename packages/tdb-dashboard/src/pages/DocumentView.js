@@ -1,6 +1,6 @@
 import React, {useState,useEffect}  from "react";
 import {ViewDocumentComponent, useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
-import {useParams,useNavigate } from "react-router-dom";
+import {useParams,useNavigate, useLocation} from "react-router-dom";
 import {Loading} from "../components/Loading"
 import {decodeUrl} from "../components/utils"
 import {EDIT_DOC} from "../routing/constants"
@@ -17,6 +17,7 @@ export const DocumentView = () => {
     const [showCRModal, setShowCRModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
     const {
         frames,
         selectedDocument,
@@ -73,6 +74,19 @@ export const DocumentView = () => {
         }
     }
 
+    const navigatePreviewPage =()=>{
+        let previewPage = -1 
+        let options = {}
+        if(location.state && location.state.previewPagePathname){
+            previewPage= location.state.previewPagePathname
+            if(location.state.previewPage === "search"){
+                options = {state:{previewPage:"documentView",currentDocument:documentID}}
+            }
+
+        } 
+        navigate(previewPage,options)
+    }
+
     if(!selectedDocument || !frames) return  <Loading message={`Fetching ${documentID} ...`}/>
 
     return <React.Fragment>
@@ -90,7 +104,7 @@ export const DocumentView = () => {
           getDocumentById={getDocumentById}
           documentJson={selectedDocument}
           frames={frames}
-          closeButtonClick={()=>navigate(-1)}
+          closeButtonClick={navigatePreviewPage}
           documentID={documentID}
           history={history}
           startHistory={startHistory}

@@ -47,7 +47,7 @@ export const Layout = (props) => {
     // const [defaultSize, setDefaultSize]=useState(false)
 
     const navigate = useNavigate()
-    const mainClassName = props.mainClassName || "container-fluid"
+    const mainClassName = props.mainClassName || "mt-4 container-fluid"
     
     const updateParent = () =>{
         exitChangeRequestBranch(currentCRStartBranch)
@@ -61,9 +61,6 @@ export const Layout = (props) => {
 
     const showLeftSideBar = props.showLeftSideBar === false ? false : true
     const defaultSize = showLeftSideBar ? 340 : 70
-   /* useEffect(() => {
-        if(organization) setDefaultSize(340)
-    }, [organization])*/
 
     const changeRequestHolder = () =>{
         if(dataProduct && currentChangeRequest){
@@ -100,7 +97,7 @@ export const Layout = (props) => {
                     collapseSideBar={collapseSideBar} 
                     showLeftSideBar={showLeftSideBar}
                     setCollapseSideBar={setCollapseSideBar}/>
-                <div className={`${mainClassName} mt-4 `} >
+                <div className={`${mainClassName} `} >
                     {currentChangeRequest && <GetHelpText/>}
                     {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
                     { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
@@ -109,9 +106,6 @@ export const Layout = (props) => {
             </div> 
         </SplitPane>
     </Container>
-
-    
-   
 }
 
 /*

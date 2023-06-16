@@ -4,13 +4,13 @@ import Stack from 'react-bootstrap/Stack'
 import {HiPlusSm} from "react-icons/hi"
 import { DocumentsGraphqlTable } from "./components/DocumentsGraphqlTable";
 
-export const ListDocumentsComponent = ({type, apolloClient, tablesConfig , onRowClick, 
+export const ListDocumentsComponent = ({type, apolloClient, tableConfig , advancedSearchConfig, onRowClick, 
                                      onDeleteButtonClick,
                                      onViewButtonClick,
                                      onEditButtonClick,
                                      onCreateButtonClick,
                                      gqlQuery}) => {    
-    if(!tablesConfig) return 
+    if(!tableConfig) return 
    
     return <Card className="content border-secondary w-100 mt-5" variant="light">
             <Card.Header>
@@ -25,8 +25,9 @@ export const ListDocumentsComponent = ({type, apolloClient, tablesConfig , onRow
                 </Stack>   
             </Card.Header>
             <Card.Body className="text-break">
-            <DocumentsGraphqlTable tableConfig={tablesConfig} 
+            <DocumentsGraphqlTable tableConfig={tableConfig} 
                     type={type} 
+                    advancedSearchConfig={advancedSearchConfig}
                     gqlQuery={gqlQuery}
                     apolloClient={apolloClient}
                     onRowClick={onRowClick}

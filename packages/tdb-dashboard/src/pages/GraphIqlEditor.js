@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import { createGraphiQLFetcher } from "@graphiql/toolkit";
 import { GraphiQL } from "graphiql";
+
 //import {Container} from "react-bootstrap"
 import { Layout } from "./Layout";
 import {WOQLClientObj} from '../init-woql-client'
@@ -21,16 +22,20 @@ export function GraphIqlEditor({}) {
         }
   });
 
+
  const layoutClass = currentChangeRequest ? "container-fluid mainGraphIqlCR" :  "container-fluid mainGraphIql"
   
   return (
     <Layout mainClassName={layoutClass} showLeftSideBar={false}>
-        <GraphiQL 
+  
+  <GraphiQL 
           editorTheme="shadowfox"
           defaultQuery={'query{}'}
-          fetcher={fetcher}
-        
+          fetcher={fetcher} 
         />
+    
+
     </Layout>
   );
 }
+

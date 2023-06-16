@@ -68,6 +68,7 @@ img.user-avatar {
   left: 4rem;
   position: fixed;
   transition: left 0.3s ease-in-out;
+  width: 97% !important;
 }
 
 
@@ -300,6 +301,7 @@ div.progress-bar-container {
   table-layout: fixed;
   margin-left: auto;
   margin-right: auto;
+  background-color: #303030;
 }
 
 .table td, .table th {
@@ -1317,57 +1319,27 @@ button.graphiql-tab-add>svg
   opacity: 0.4;
 }
 
+.max-width-size{
+  max-width: 50%;
+  min-width: 300px
+}
+
+.h-view{
+  height: calc(100% - 65px);
+  overflow-y: auto;
+  margin: 2rem;
+  margin-left: 5rem;
+}
+
 .alert_expand_icons {
   margin-top: -20px;
 }
 
-
-/* advanced search css */
-/*
-.query-builder-container > .query-builder {
-  overflow: unset !important;
+.preview_pre{
+  height: auto;
+  width: auto;
+  white-space: break-spaces;
 }
-.group {
-  background: transparent !important;
-  border: 1px solid #dee2e6;
-}
-
-.rule {
-  background: transparent !important;
-  border: 1px solid #dee2e6;
-  padding: 10px;
-}
-
-.rule--field > .dropdown > .form-select {
-    min-width: 200px;
-    line-height: 1.5 !important;
-    min-height: 40px !important;
-    color: black;
-}
-
-.widget--widget >.dropdown > .form-select{
-  min-width: 100px;
-  line-height: 1.5 !important;
-  min-height: 40px !important;
-  color: black;
-}
-
-.rule--operator > .dropdown > .form-select {
-  min-width: 100px;
-  line-height: 1.5 !important;
-  min-height: 40px !important;
-  color: black;
-}
-
-.widget--widget > .form-control{
-  min-width: 250px;
-  line-height: 1.5 !important;
-  min-height: 40px !important;
-}
-
-.accordion{
-  --bs-accordion-bg: #303030 !important;
-}*/
 
 /** error builder error formatter **/
 .pre--error {
@@ -1384,3 +1356,73 @@ button.graphiql-tab-add>svg
   width:100%; 
   overflow-x:auto;
  }
+
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 2px);
+  background-color: red;
+}
+
+
+.pane-graphql {
+  height: calc(100%);
+  width: auto;
+  background-color: #00bc8c;
+}
+
+.editor {
+  height: calc(100%);
+  display: flex;
+  width: auto;
+  background-color: #0009bc;
+}
+
+.pane {
+  height: 100%;
+ /* width: 50%;*/
+ 
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 97.7vh;
+}
+
+#left-pane .editor {
+  height: 500px;
+}
+
+.editor {
+  height: 500px;
+  width: 600px;
+}
+
+#right-pane .editor {
+  height: 100%;
+}
+
+#openai_switch .form-check-input{
+  height: 1.5em !important;
+  width: 3em !important;
+}
+
+.loading-icon {
+  color: teal;
+  font-size: 2rem;
+  animation: animate 2s infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}

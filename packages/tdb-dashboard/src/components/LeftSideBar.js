@@ -6,7 +6,7 @@ import {PRODUCT_EXPLORER, DOCUMENT_EXPLORER} from "../routing/constants"
 import {DataProductItems} from "../components/DatabaseList"
 //import {ConnectedDataProduct} from "../components/CurrentDataProductState"
 import {DataProductDocuments, DocumentExplorerDocuments} from "../components/DataProductDocuments"
-import { CollpaseButton } from "./MainNavBar"
+import { CollpaseButton } from "../components/CollapseButton"
 
 export const LeftSideBar = (props) => { 
     const { 
