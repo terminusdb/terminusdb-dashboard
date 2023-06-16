@@ -16,7 +16,7 @@ import  Alert  from "react-bootstrap/Alert";
 
 export function FreeTextSearch() {
 
-    const {getSearchableCommit, searchableCommit, searchResult,getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
+    const {resetSearch, getSearchableCommit, searchableCommit, searchResult,getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
     const {dataProduct, organization} = useParams()
 
     const search = useRef(null)
@@ -26,11 +26,14 @@ export function FreeTextSearch() {
 
     const commit = Array.isArray(searchableCommit) && searchableCommit.length>0 ? searchableCommit[0].searchable_commit['@value'] : null
     useEffect(()=>{
-        if(searchResult)getElements()
-
+        if(searchResult){
+            getElements()
+        }
     },[start,searchResult])
      
     useEffect(()=>{
+        setElements([])
+        resetSearch()
         getSearchableCommit(1, "Assigned")
     },[dataProduct])
 

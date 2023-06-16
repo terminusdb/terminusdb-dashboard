@@ -30,15 +30,17 @@ export function useOpenAI(){
 
     const location = useLocation()
 
-
-    useEffect(()=>{
+    const resetSearch =() => {
         if(location.state && location.state.previewPage === "documentView"){
-          const resultSaved = localStorage.getItem(`${location.pathname}___SEARCH__RESULT`)
-          const startSaved = localStorage.getItem(`${location.pathname}___START`) || 0
-          setStartValue(Number(startSaved))
-          if(resultSaved)setSearchResult(JSON.parse(resultSaved))
+            const resultSaved = localStorage.getItem(`${location.pathname}___SEARCH__RESULT`)
+            const startSaved = localStorage.getItem(`${location.pathname}___START`) || 0
+            setStartValue(Number(startSaved))
+            if(resultSaved)setSearchResult(JSON.parse(resultSaved))
+        }else{
+            setStartValue(0)
+            setSearchResult(false)
         }
-    },[location])
+     }
 
     function getUrl(action="changes"){
         const client = woqlClient.copy()
@@ -54,9 +56,9 @@ export function useOpenAI(){
     ///changes/:orgid/:dbid/indexedcommit
     const getSearchableCommit = async (limit=1, status=null)=>{
         try{
-            setLoading(true)
             setSearchableCommit(false)
-            const url = `${getUrl()}/indexedcommits?limit=${limit}&status=${status}`
+            setLoading(true)
+            const url = `${getUrl('indexes')}?limit=${limit}&status=${status}`
             const result = await woqlClient.sendCustomRequest("GET", url)
             if(result && result.bindings){
                 setSearchableCommit(result.bindings)
@@ -72,9 +74,10 @@ export function useOpenAI(){
     const getResearchResult = async (commit, freeText, domain, branch = "main"  ) =>{
         if(woqlClient){
             try{
+                setSearchResult(false)
                 setLoading(true)
                 localStorage.setItem(`${location.pathname}___SEARCH__TEXT`,freeText)
-                const url = `${getUrl('index')}/search?domain=${domain}&commit=${commit}`
+                const url = `${getUrl('indexes')}/search?domain=${domain}&commit=${commit}`
                 const result = await woqlClient.sendCustomRequest("POST", url , {freeText:freeText})
                 localStorage.setItem(`${location.pathname}___SEARCH__RESULT`,JSON.stringify(result))
                 setSearchResult(result)
@@ -104,7 +107,7 @@ export function useOpenAI(){
 
     const pollingCall = async (commitid,updateStatus) =>{
         try{
-            const pollingUrl = `${getUrl()}/check/${commitid}`
+            const pollingUrl = `${getUrl('indexes')}/check/${commitid}`
             const document = await woqlClient.sendCustomRequest("GET", pollingUrl)
             if(document.indexing_status !== "Assigned" && document.indexing_status !== "Error"){
                 await timeout(5000)
@@ -301,6 +304,7 @@ export function useOpenAI(){
     
 
     return {pollingCall,
+            resetSearch,
             getPrewiew,
             resetPreviewResult,
             getSearchableCommit,
