@@ -68,7 +68,7 @@ export const BaseElement = (props)=>{
                     />
                 {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
                     <KeyComponent />
-                }
+                } 
                 {props.children}
 	            <BaseTextareaElement
                     placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 

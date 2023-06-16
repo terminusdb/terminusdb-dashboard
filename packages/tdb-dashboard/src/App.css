@@ -68,6 +68,7 @@ img.user-avatar {
   left: 4rem;
   position: fixed;
   transition: left 0.3s ease-in-out;
+  width: 97% !important;
 }
 
 
@@ -140,6 +141,11 @@ div.SplitPane  .horizontal {
 .Resizer.vertical {
   border-left: 0 !important;
   border-right: 0 !important;
+}
+
+.pro-sidebar-content {
+  border-right: 1px solid #303030;
+  background: #000000;
 }
 /* ---------- Split Pane resizing css ---------- */
 
@@ -1321,6 +1327,8 @@ button.graphiql-tab-add>svg
 .h-view{
   height: calc(100% - 65px);
   overflow-y: auto;
+  margin: 2rem;
+  margin-left: 5rem;
 }
 
 .alert_expand_icons {

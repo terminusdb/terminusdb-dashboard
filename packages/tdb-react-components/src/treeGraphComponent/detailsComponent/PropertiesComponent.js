@@ -8,6 +8,7 @@ import {STRING_TYPE_DATAPROVIDER,NUMBER_PROPERTY_PRECISION_DATAPROVIDER,BOOLEAN_
 		GEOMETRY_PROPS_DATAPROVIDER,TEMPORAL_PROPERTY_DATAPROVIDER,ELEMENT_HELP} from '../../constants/details-labels';
 
 import {GraphContextObj} from '../hook/graphObjectContext';
+import { DraggableComponent } from "./DraggableComponent"
 
 export const PropertiesComponent = (props)=> {
 	
@@ -98,8 +99,8 @@ export const PropertiesComponent = (props)=> {
 	    				  buttonIconClassName="menuWithLabel"
 						  iconClassName="fa fa-caret-down iconWithLabel" 
 		                  dropdownMenuClassName="dropdownMenuProperty rightPosition" 
-		                  addNewProperty={addNewProperty}/>				     
-	    	{propertiesPanels}
+		                  addNewProperty={addNewProperty}/>		
+				<DraggableComponent propertyPanelList={propertiesPanels}/>
 	    </Fragment>
 	)
 }

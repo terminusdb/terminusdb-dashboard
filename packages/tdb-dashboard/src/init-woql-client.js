@@ -39,7 +39,7 @@ export const WOQLClientProvider = ({children, params}) => {
     const [currentCRStartBranch,setCurrentCRStartBranch] = useState(false)
 
     // constants to control sidebar collapse
-    const [collapseSideBar, setCollapseSideBar] = useState(false)
+    const [collapseSideBar, setCollapseSideBar] = useState(localStorage.getItem(`Terminusdb-SideBar-Collapsed`) === "true" ? true : false) 
     
     // set left side bar open close state
     const sidebarStateObj = {sidebarDataProductListState:true,
@@ -69,7 +69,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
      useEffect(() => {
         const initWoqlClient = async(credentials,accessCredential )=>{
-            try{
+            try{ 
                  //the last organization viewed organization
                  //this is for woql client 
                 const dbClient = new TerminusClient.WOQLClient(opts.server,credentials)
