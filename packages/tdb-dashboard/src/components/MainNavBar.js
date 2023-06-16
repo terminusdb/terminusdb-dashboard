@@ -8,16 +8,8 @@ import {DATA_PRODUCTS} from "../routing/constants"
 import { UserMenu } from "./UserMenu";
 import { sortAlphabetically } from "./utils";
 import {useNavigate,useParams,useLocation} from "react-router-dom"
-import { SlArrowLeft, SlArrowRight } from "react-icons/sl"
+import { BlockPicker } from "react-color";
 
-const CollpaseButton = ({ setCollapseSideBar, collapseSideBar }) => {
-    return <Button className="btn-btn-lg bg-transparent border border-0 ml-3"
-        title={collapseSideBar ? "Show Sidebar" : "Hide Sidebar" }
-        onClick={(e) => setCollapseSideBar(!collapseSideBar)}>
-        {collapseSideBar && <SlArrowRight size={24}/>}
-        {!collapseSideBar && <SlArrowLeft size={24}/>}
-    </Button> 
-}
 
 export const MainNavBar = ({setShowTimeTravel, changeRequestHolder, showLeftSideBar}) => {
 
@@ -38,7 +30,6 @@ export const MainNavBar = ({setShowTimeTravel, changeRequestHolder, showLeftSide
     const teamList = sortAlphabetically (woqlClient ? woqlClient.userOrganizations() : []) 
 
     return <Navbar className="navbar-dark bg-dark p-0 sticky-top main-navbar-shadow">  
-        {showLeftSideBar && <CollpaseButton setCollapseSideBar={setCollapseSideBar} collapseSideBar={collapseSideBar}/>}
         <div className="d-flex flex-grow-1 ">                    
             {dataProduct && currentPage!==`/${organization}/${dataProduct}` &&
             <React.Fragment>  

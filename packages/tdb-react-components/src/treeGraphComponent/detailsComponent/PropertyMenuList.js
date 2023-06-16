@@ -2,6 +2,7 @@ import React ,{useState} from 'react';
 import {CLASS_PROPERTIES_LIST} from '../../constants/details-labels';
 import {Dropdown,ButtonGroup,Button} from 'react-bootstrap';
 import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
+
 export const PropertyMenuList =(props)=>  {
     const propertyTypeList=Array.from(CLASS_PROPERTIES_LIST);
     
@@ -24,7 +25,7 @@ export const PropertyMenuList =(props)=>  {
                 <Button variant="success" size="sm" className="bg-transparent border-0" >Add Property</Button>
                 <Dropdown.Toggle split variant="success"  size="sm" className="bg-transparent border-0" />
             <Dropdown.Menu>
-               {entries}
+                {entries}
             </Dropdown.Menu>
             </Dropdown>
 		</div>
