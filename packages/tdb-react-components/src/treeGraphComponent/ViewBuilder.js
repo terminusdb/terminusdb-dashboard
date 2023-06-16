@@ -131,6 +131,7 @@ export const ViewBuilder = (props)=>{
 						<ObjectClassModelViewMode custom={props.custom}/>}
 					{!showInfoComp && isEditMode===true &&
 						<DetailsModelComponent
+							customClassName="bg-dark"
 							objPropsRelatedToClass={objPropsRelatedToClass}
 							objectPropertyList={objectPropertyList}
 							removeElement={removeElement}

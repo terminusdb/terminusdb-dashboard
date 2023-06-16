@@ -115,7 +115,7 @@ export const DetailsModelComponent = (props)=>{
 
 	const tabsElement = getTabs()
 
-	return <div className="col-12 bg-dark h-100 pt-4">
+	return <div className={`col-12 ${props.customClassName} h-100 pt-4`}>
 				<div>
 					<div className="d-flex mb-3">
 						<BiNetworkChart className="schema-summary-icons"/>

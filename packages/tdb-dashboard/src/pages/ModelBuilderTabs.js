@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from "react"
 import {modelCallServerHook, GraphObjectProvider, ViewBuilder, SchemaDocumentView} from "@terminusdb-live/tdb-react-components"
-import {Tabs, Tab,Alert} from "react-bootstrap"
+import {Tabs, Tab,Stack, Container, Button} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, DOCUMENT_TAB, GRAPH_TAB, JSON_TAB} from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 import {Loading} from "../components/Loading" 
@@ -9,6 +9,42 @@ import {JSONModelBuilder} from "../components/JSONModelBuilder"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import Nav from 'react-bootstrap/Nav';
 import { MODEL_BUILDER_NAV } from "../components/constants"
+
+const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
+
+	function handleSwitch(chosen) {
+		setSelectedMode(chosen)
+	}
+
+	function getVariant(mode, selectedMode) {
+		if(mode === selectedMode) return "info"
+		return "dark"
+	}
+
+	function getModeLabel(mode, selectedMode, label) {
+		if(mode === selectedMode) return label
+		return `Switch to ${label}`
+	}
+
+
+	return <Stack direction="horizontal" gap={3}>
+		<Button variant={getVariant(DOCUMENT_TAB, selectedMode)} 
+			className="col-md-2" 
+			onClick={(e)=>handleSwitch(DOCUMENT_TAB)}>
+				{getModeLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}
+		</Button>
+		<Button variant={getVariant(GRAPH_TAB, selectedMode)}  
+			className="col-md-2" 
+			onClick={(e)=>handleSwitch(GRAPH_TAB)}>
+				{getModeLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}
+		</Button>
+		<Button variant={getVariant(JSON_TAB, selectedMode)}  
+			className="col-md-2" 
+			onClick={(e)=>handleSwitch(JSON_TAB)}>
+				{getModeLabel(JSON_TAB, selectedMode, "JSON Mode")}
+		</Button>
+	</Stack>
+}
 
 export const ModelBuilderTabs = () => {
 
@@ -19,6 +55,8 @@ export const ModelBuilderTabs = () => {
 
 	const [tab, setTab]=useState(DOCUMENT_TAB)
 
+	const [selectedMode, setSelectedMode] = useState(DOCUMENT_TAB)
+
 	// check if the user is in view mode or edit mode
 	let isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
 	isEditMode = currentChangeRequest ? false : isEditMode
@@ -26,6 +64,25 @@ export const ModelBuilderTabs = () => {
   const saveData=async (jsonObj, commitMessage)=>{
     await saveGraphChanges(jsonObj, commitMessage)
   }
+
+	return <>
+		
+		<ModelBuilderViewControl selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
+		{!callServerLoading && selectedMode === DOCUMENT_TAB  && 
+			<SchemaDocumentView saveData={saveData}
+				dbName={dataProduct} 
+				custom={true}/>}
+
+		{!callServerLoading && selectedMode === GRAPH_TAB  && 
+			<ViewBuilder  dbName={dataProduct} 
+				custom={true}
+				saveGraph={saveData}
+				isEditMode={isEditMode}/>}
+		
+		{/*!callServerLoading && dataProduct && 
+					<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />*/}
+		
+	</>
 
 	return <Tabs defaultActiveKey={DOCUMENT_TAB} 
 		id="model-builder-tab" 
