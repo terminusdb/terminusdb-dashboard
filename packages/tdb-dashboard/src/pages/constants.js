@@ -45,6 +45,7 @@ export const JS_TAB="JavaScript"
 export const CURL_TAB="curl"
 
 // Tabs on Model Builder page
+export const DOCUMENT_TAB = "Documents"
 export const GRAPH_TAB = "Graph"
 export const JSON_TAB="JSON"
 

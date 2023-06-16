@@ -35,6 +35,10 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	const updateMainGraphData = (mainGraph) =>{
 		const mainGraphObject= new MainGraphObject(mainGraph,dbName);
 		setMainGraphObj(mainGraphObject)
+		console.log("mainGraphObject.getDescendantsNode()", mainGraphObject.getDescendantsNode())
+		console.log("mainGraphObject.getObjectChoices()", mainGraphObject.getObjectChoices())
+		console.log("mainGraphObject.getObjectProperties()", mainGraphObject.getObjectProperties())
+		console.log("mainGraphObject.objectPropertyToRange()", mainGraphObject.objectPropertyToRange())
 		setGraphDataProvider(mainGraphObject.getDescendantsNode())
 		setObjectPropertyList(mainGraphObject.getObjectProperties())
 		setObjectChoicesList(mainGraphObject.getObjectChoices())

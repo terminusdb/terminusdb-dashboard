@@ -20,5 +20,6 @@ export {GraphContextObj} from './treeGraphComponent/hook/graphObjectContext'
  //export {FormatProps} from './treeGraphComponent/FormatDataForTree';
 //export {SchemaBuilder} from './treeGraphComponent/SchemaBuilder';
 export {ViewBuilder} from "./treeGraphComponent/ViewBuilder"
+export { SchemaDocumentView } from "./treeGraphComponent/SchemaDocumentView"
 export {errorMessageFormatter} from "./errorMonitoring/ResponseMessageDecoder"
 

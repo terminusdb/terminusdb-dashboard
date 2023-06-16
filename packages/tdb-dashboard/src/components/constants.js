@@ -479,6 +479,8 @@ export const MODEL_BUILDER_EDITOR_OPTIONS = {
 }
 
 
+
+
 export const DOCUMENT_PREFIX= {
     "@base": "terminusdb:///data/",
     "@schema": "terminusdb:///schema#",
