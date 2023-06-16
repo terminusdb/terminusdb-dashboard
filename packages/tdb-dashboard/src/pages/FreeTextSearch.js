@@ -84,7 +84,7 @@ export function FreeTextSearch() {
             </div>}
             <Container className="mt-4">
                 {!commit  && <Alert type="Info" >
-                    <h3>You need to index your data before search them</h3>
+                    <h3>You need to index your data before you can search</h3>
                     <p>if you haven't already done it, Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team,</p> 
                     after you can start to index your data using the change request workflow
                 </Alert>}
