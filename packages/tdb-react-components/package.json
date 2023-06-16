@@ -52,6 +52,8 @@
     "prop-types": "^15.6.0",
     "react-bootstrap": "^2.7.0",
     "react-dates": "^21.8.0",
+    "react-draggable-list": "^4.1.0",
+    "react-draggable-lists": "^1.0.1",
     "react-icons": "^3.11.0",
     "react-motion": "^0.5.2",
     "react-numeric-input": "^2.2.3",

@@ -1,3 +1,7 @@
+//FEATURE
+// map icon component
+import L from "leaflet";
+
 // constants 
 export const TYPE="@type"
 export const CLASS="@class"
@@ -139,9 +143,7 @@ export const GEOMETRY_ARRAY=[
   POINT,
   POLYGON
 ]
-//FEATURE
-// map icon component
-import L from "leaflet";
+
 
 export default L.icon({
     iconSize: [25, 41],

@@ -6,6 +6,7 @@ import {PRODUCT_EXPLORER, DOCUMENT_EXPLORER} from "../routing/constants"
 import {DataProductItems} from "../components/DatabaseList"
 //import {ConnectedDataProduct} from "../components/CurrentDataProductState"
 import {DataProductDocuments, DocumentExplorerDocuments} from "../components/DataProductDocuments"
+import { CollpaseButton } from "../components/CollapseButton"
 
 export const LeftSideBar = (props) => { 
     const { 
@@ -23,17 +24,22 @@ export const LeftSideBar = (props) => {
         return ``
     }
 
-    return <div className={`${getSideNavClassName(collapseSideBar)}`}>
-        <ProSidebar>
-            <SidebarContent>
-                <Menu> 
-                    <DataProductItems/>
-                    {/*dataProduct && <ConnectedDataProduct/>*/}
-                    {dataProduct && page==DOCUMENT_EXPLORER && <DocumentExplorerDocuments/>}
-                    {dataProduct && page==PRODUCT_EXPLORER && <DataProductDocuments/>}
-                    {/* dataProduct && getLocation()==PRODUCT_EXPLORER && <SampleQueries/> */}
-                </Menu>
-            </SidebarContent>
-        </ProSidebar>
+    return <div className="d-flex">
+        <div className={`${getSideNavClassName(collapseSideBar)}`}>
+        
+            <ProSidebar>
+                <SidebarContent>
+                    <Menu> 
+                        <DataProductItems/>
+                        {/*dataProduct && <ConnectedDataProduct/>*/}
+                        {dataProduct && page==DOCUMENT_EXPLORER && <DocumentExplorerDocuments/>}
+                        {dataProduct && page==PRODUCT_EXPLORER && <DataProductDocuments/>}
+                        {/* dataProduct && getLocation()==PRODUCT_EXPLORER && <SampleQueries/> */}
+                    </Menu>
+                </SidebarContent>
+            </ProSidebar>
+            
+        </div>
+        <CollpaseButton setCollapseSideBar={setCollapseSideBar} collapseSideBar={collapseSideBar}/>
     </div>
 }

@@ -72,7 +72,7 @@ export const Layout = (props) => {
     
     const headerElement = dataProduct ? changeRequestHolder() : ""
 
-  
+   
     function getMainNavClassName(collapseSideBar) {
         if(collapseSideBar) return `expanded__main__content`
         return ``
