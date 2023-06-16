@@ -16,7 +16,7 @@ import  Alert  from "react-bootstrap/Alert";
 
 export function FreeTextSearch() {
 
-    const {getSearchableCommit, searchableCommit, searchResult,getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
+    const {resetSearch, getSearchableCommit, searchableCommit, searchResult,getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
     const {dataProduct, organization} = useParams()
 
     const search = useRef(null)
@@ -26,11 +26,14 @@ export function FreeTextSearch() {
 
     const commit = Array.isArray(searchableCommit) && searchableCommit.length>0 ? searchableCommit[0].searchable_commit['@value'] : null
     useEffect(()=>{
-        if(searchResult)getElements()
-
+        if(searchResult){
+            getElements()
+        }
     },[start,searchResult])
      
     useEffect(()=>{
+        setElements([])
+        resetSearch()
         getSearchableCommit(1, "Assigned")
     },[dataProduct])
 
@@ -84,7 +87,7 @@ export function FreeTextSearch() {
             </div>}
             <Container className="mt-4">
                 {!commit  && <Alert type="Info" >
-                    <h3>You need to index your data before search them</h3>
+                    <h3>You need to index your data before you can search</h3>
                     <p>if you haven't already done it, Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team,</p> 
                     after you can start to index your data using the change request workflow
                 </Alert>}
