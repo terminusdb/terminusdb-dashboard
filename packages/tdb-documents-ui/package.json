@@ -111,7 +111,7 @@
     "chroma-js": "^2.4.2",
     "html-react-parser": "^3.0.4",
     "leaflet": "^1.9.4",
-    "leaflet-arrowheads": "^1.4.0",
+    "leaflet-arrowheads": "^1.4.0", 
     "mermaid": "^9.3.0",
     "react-bootstrap": "^2.7.0",
     "react-calendar": "^4.2.1",

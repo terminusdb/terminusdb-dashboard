@@ -6,7 +6,7 @@ import {MANDATORY_PROP} from '../../constants/details-labels';
 
 /* Nuking cardinality for now as db dosent support this - later we will implement */
 //const dataProvider = ['Null','Optional','List','Set','Cardinality','Cardinality_Between']
-const dataProvider = [MANDATORY_PROP,'Optional','List','Set']
+const dataProvider = [MANDATORY_PROP,'Optional','List','Set', 'Array']
 
 export const PropertyExtraInfo =(props)=>  {
     const {mainGraphObj} =GraphContextObj()
