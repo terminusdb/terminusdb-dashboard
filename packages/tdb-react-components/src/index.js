@@ -21,5 +21,6 @@ export {GraphContextObj} from './treeGraphComponent/hook/graphObjectContext'
 //export {SchemaBuilder} from './treeGraphComponent/SchemaBuilder';
 export {ViewBuilder} from "./treeGraphComponent/ViewBuilder"
 export { SchemaDocumentView } from "./treeGraphComponent/SchemaDocumentView"
+export { SchemaBuilderList } from "./treeGraphComponent/detailsComponent/SchemaController"
 export {errorMessageFormatter} from "./errorMonitoring/ResponseMessageDecoder"
 
