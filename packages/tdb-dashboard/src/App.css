@@ -730,7 +730,8 @@ input[type="radio"] {
 }
 
 .react-slidedown {
-  height: 0;
+  /*height: 0;*/
+  height: auto !important;
   transition-property: none;
   transition-duration: 0s !important;
   transition-timing-function: none !important;

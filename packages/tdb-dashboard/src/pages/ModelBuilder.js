@@ -12,19 +12,19 @@ import { MODEL_BUILDER_NAV } from "../components/constants"
 import { ModelBuilderTabs } from "./ModelBuilderTabs"
 
 export const ModelBuilder = (props) =>{
-	const {woqlClient,branch,ref,accessControlDashboard, currentChangeRequest} = WOQLClientObj()
-	if(!woqlClient) return ""
-	const dataProduct = woqlClient.db()
-
 	const [width, setWidth] = useState("")
 	const [schemaView, setSchemaView] = useState(SCHEMA_MODEL_VIEW)
+	
+	return <ModelBuilderTabs/>
+
+}
+
 
 	
-	
-
-	
-
-	const {mainGraphDataProvider,
+ 	/*const {woqlClient,branch,ref,accessControlDashboard, currentChangeRequest} = WOQLClientObj()
+	if(!woqlClient) return ""
+	const dataProduct = woqlClient.db()*/
+	/*const {mainGraphDataProvider,
 			saveGraphChanges,
 			reportMessage,
 			setReport,
@@ -32,9 +32,9 @@ export const ModelBuilder = (props) =>{
 	} = modelCallServerHook(woqlClient, branch, ref,dataProduct)
 
 	
-	if(!dataProduct) return <div>error in loading graph</div>
+	if(!dataProduct) return <div>error in loading graph</div>*/
 
-	return <React.Fragment>
+	/*return <React.Fragment>
 		{reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
 
 
@@ -44,5 +44,4 @@ export const ModelBuilder = (props) =>{
 					<ModelBuilderTabs/>
 			</GraphObjectProvider>
 		}
-	</React.Fragment>
-}
+	</React.Fragment>*/

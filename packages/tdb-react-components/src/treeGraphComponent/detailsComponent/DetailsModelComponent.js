@@ -121,7 +121,7 @@ export const DetailsModelComponent = (props)=>{
 						<BiNetworkChart className="schema-summary-icons"/>
 						<h5 className="ml-3" title={label}>{label}</h5>
 					</div>
-					{tabsElement && <Tabs panelClassName="bg-dark" tabsWrapperClass="bg-dark" tabClassName="bg-dark" items={tabsElement} transform={false} onChange={setTabKey} selectedTabKey={tabKey}/>}
+					{tabsElement && <Tabs panelClassName="bg-dark card-header" tabsWrapperClass="bg-dark" tabClassName="bg-dark" items={tabsElement} transform={false} onChange={setTabKey} selectedTabKey={tabKey}/>}
 				</div>
 			</div>
 }

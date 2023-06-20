@@ -8,7 +8,8 @@ import {JSONModelBuilder} from "../components/JSONModelBuilder"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import Nav from 'react-bootstrap/Nav';
 import { MODEL_BUILDER_NAV } from "../components/constants"
-import {MenuItem, SubMenu} from 'react-pro-sidebar'
+import { MenuItem, SubMenu } from 'react-pro-sidebar'
+
 
 export const ModelBuilderDocuments = () => {
 

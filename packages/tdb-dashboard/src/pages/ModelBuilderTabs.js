@@ -8,7 +8,8 @@ import {PROGRESS_BAR_COMPONENT}  from "../components/constants"
 import {JSONModelBuilder} from "../components/JSONModelBuilder" 
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import Nav from 'react-bootstrap/Nav';
-import { MODEL_BUILDER_NAV } from "../components/constants"
+import { MODEL_BUILDER_NAV } from "../components/constants" 
+import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
 
 const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 
@@ -52,6 +53,7 @@ export const ModelBuilderTabs = () => {
 	if(!woqlClient) return ""
 	const dataProduct = woqlClient.db()
 	const { callServerLoading, saveGraphChanges } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
+	const { selectedNodeObject } = GraphContextObj();
 
 	const [tab, setTab]=useState(DOCUMENT_TAB)
 

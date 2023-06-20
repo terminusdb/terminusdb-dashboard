@@ -131,7 +131,7 @@ export const DocumentExplorerDocuments= () => {
         // on click of View document lists
         function handleDocumentClick(docType) {
             navigate(`${docType}`)
-        }
+        } 
 
         return <MenuItem id={item["@id"]} icon={false} className="sub-menu-title">
             <ButtonGroup>
