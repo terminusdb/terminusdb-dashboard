@@ -17,7 +17,10 @@ import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction";
 
 export function FreeTextSearch() {
 
-    const {resetSearch, getSearchableCommit, searchableCommit, searchResult,getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
+    const {resetSearch,hasKey,hasOpenAIKEY,
+         getSearchableCommit, searchableCommit, 
+         searchResult,
+         getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
     const {dataProduct, organization} = useParams()
 
     const search = useRef(null)
@@ -35,6 +38,7 @@ export function FreeTextSearch() {
     useEffect(()=>{
         setElements([])
         resetSearch()
+        hasOpenAIKEY(organization)
         getSearchableCommit(1, "Assigned")
     },[dataProduct])
 
