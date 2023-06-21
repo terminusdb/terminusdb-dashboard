@@ -50,7 +50,7 @@ export const DataProductItems = (props) => {
             }  
             <SubMenu title="Data Products" 
                 className="menu-title "
-                defaultOpen={(page==DOCUMENT_EXPLORER || page==PRODUCT_EXPLORER || page===PRODUCT_MODELS) ? false : sidebarStateObj.sidebarDataProductListState}
+                defaultOpen={(page==DOCUMENT_EXPLORER || page==PRODUCT_EXPLORER) ? false : sidebarStateObj.sidebarDataProductListState}
                 onOpenChange={(e) => saveSidebarState("sidebarDataProductListState",e)}>
             <SearchBox placeholder={"Search for a Data Product"} onChange={setSearchDataProduct}/>
             {list.map(item => {

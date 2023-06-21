@@ -23,7 +23,7 @@ export const LeftSideBar = (props) => {
         if(collapseSideBar) return `hide__sideNav`
         return ``
     }
-
+ 
     return <div className="d-flex">
         <div className={`${getSideNavClassName(collapseSideBar)}`}>
         
@@ -32,7 +32,7 @@ export const LeftSideBar = (props) => {
                     <Menu> 
                         <DataProductItems/>
                         {/*dataProduct && <ConnectedDataProduct/>*/}
-                        {dataProduct && page===PRODUCT_MODELS  &&  <ModelBuilderDocuments/>}
+                        {/*dataProduct && page===PRODUCT_MODELS  &&  <ModelBuilderDocuments/>*/}
                         {dataProduct && page===DOCUMENT_EXPLORER && <DocumentExplorerDocuments/>}
                         {dataProduct && page===PRODUCT_EXPLORER && <DataProductDocuments/>}
                         {/* dataProduct && getLocation()==PRODUCT_EXPLORER && <SampleQueries/> */}

@@ -64,6 +64,10 @@ export const ModelBuilderTabs = () => {
     await saveGraphChanges(jsonObj, commitMessage)
   }
 
+	return <SchemaDocumentView saveData={saveData}
+		dbName={dataProduct} 
+		custom={true}/>
+
 	return <>
 		
 		<ModelBuilderViewControl selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>

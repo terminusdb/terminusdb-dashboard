@@ -35,22 +35,46 @@ export const BaseInputElement = (props) => {
 	const disabled = props.disabled === true ? {disabled:true} : {}
 	//const autoFocus= props.disabled!==true && props.autoFocus === true ? {autoFocus:true} :{}
 
-	return(
-			<div className={props.groupClassName}>
-			 	<div className="tdb__form__help">
-	                 <label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
-	                 <HelpComponent text={props.help}/>
-                </div>
-                <input ref={inputElement}
-                		placeholder={props.placeholder} 
-                		onBlur={onBlur} 
-                		{...disabled} onChange={onChange} 
-                		value={value} name={props.name} id={props.name}
-                		className={props.inputClassName}></input>       
-            	<span className="tdb__form__error">{props.itemError}</span>
-            </div>
+	const style = {
+		textAlign:"left", 
+		wordWrap: "break-word",
+		wordBreak: "break-word",
+		wordBreak: "break-all",
+		minWidth: "11rem",
+		width: "11rem",
+		display: "flex"
+	}
+	
+	if(props.view === `UI_VIEW`) {
+		return <div className={`${props.groupClassName} d-flex`}>
+			<div style={style} className="mt-2">
+				<label className={`${props.labelClassName} mr-3`} htmlFor={props.name}>{props.title}</label>
+				<HelpComponent text={props.help}/>
+		</div>
+			<input ref={inputElement}
+				placeholder={props.placeholder} 
+				onBlur={onBlur} 
+				{...disabled} onChange={onChange} 
+				value={value} name={props.name} id={props.name}
+				className={props.inputClassName}></input>       
+			<span className="tdb__form__error">{props.itemError}</span>
+		</div>
+	}
 
-	)
+	return <div className={props.groupClassName}>
+		<div className="tdb__form__help">
+			<label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
+			<HelpComponent text={props.help}/>
+		</div>
+		<input ref={inputElement}
+			placeholder={props.placeholder} 
+			onBlur={onBlur} 
+			{...disabled} onChange={onChange} 
+			value={value} name={props.name} id={props.name}
+			className={props.inputClassName}></input>       
+		<span className="tdb__form__error">{props.itemError}</span>
+	</div>
+
 }
 //pattern="[0-9]{4}" required
 BaseInputElement.propTypes = {

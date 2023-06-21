@@ -42,12 +42,12 @@ export const BaseElement = (props)=>{
 
     return(
    	    <div className="tdb__panel__box tdb__panel__box--edit">
-            <RemoveElementComponent 
+           { /*<RemoveElementComponent 
                 hasConstraints={props.hasConstraints} 
                 elementId={nodeJsonData.name}
                 elementType={nodeJsonData.type}
                 removeElement={props.removeElement}
-                />
+                />*/}
        	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
                     <Fragment>
                         <BaseCheckboxElement labelClassName={"mb-0"}
@@ -60,6 +60,7 @@ export const BaseElement = (props)=>{
                     title={`${ELEMENT_BASE_CONST.ID_TEXT} *` }
                     placeholder={ELEMENT_BASE_CONST.ID_PLACEHOLDER}
                     name='id'
+                    view={props.view}
                     panelName={nodeJsonData.name}
                     help={ELEMENT_HELP.class_id}
                     onBlur={changeElement}

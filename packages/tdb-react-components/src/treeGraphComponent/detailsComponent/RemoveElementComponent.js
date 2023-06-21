@@ -1,5 +1,6 @@
 import React from 'react';
-
+import Button from "react-bootstrap/Button"
+  
 export const RemoveElementComponent = (props) =>{
 
   const tooltip=props.hasConstraints ? "This node cannot be removed" : `Remove the current ${props.elementType}`;
@@ -12,10 +13,15 @@ export const RemoveElementComponent = (props) =>{
   }
 
   const onClick= props.hasConstraints === true ? {disabled:true} : {onClick:removeElement} 
-		
-  return(
-         <div className="tdb__panel__row">                                      
-            <button {...onClick} className='tdb__button__base tdb__panel__button tdb__panel__button--red fas fa-trash-alt' title={props.tooltip}>{props.children}</button>                     
-         </div>
-	)    
+
+  if(props.displayAsIcon) {
+    return <div className="tdb__panel__row">                                      
+        <button {...onClick} className='tdb__button__base tdb__panel__button tdb__panel__button--red fas fa-trash-alt' title={props.tooltip}>{props.children}</button>                     
+    </div>
+  }
+
+  return <Button className='bg-secondary text-danger'>
+      Delete Document
+    </Button>
+  
 } 
