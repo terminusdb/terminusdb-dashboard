@@ -7,12 +7,13 @@ import { BsToggleOn, BsSearch, BsKey } from "react-icons/bs"
 import { RxCheckbox } from "react-icons/rx"
 
 const StepDetail = ({ stepNumber, stepComponent, icon}) => {
-  return <Card className="bg-transparent p-3 mb-3 border border-secondary justify-content-center">
+  return <Card className="bg-transparent p-3 mb-3 border border-secondary justify-content-center"
+    style={{height: "10.5rem"}}>
     <Card.Body>
       <Stack>
         <h3 className="text-light fw-bold">{icon}</h3>
         <div className="text-light">
-          {`${ stepNumber }. `} { stepComponent }
+          <span className="fw-bold">{`${ stepNumber }.  `}</span> { stepComponent }
         </div>
       </Stack>
     </Card.Body>
@@ -52,18 +53,22 @@ export const DisplayNoIndexingAction = ({ helpDescription }) => {
     <h4 className="text-light fw-bold">Get started with Indexing Actions</h4>
     <h5 className="text-light fw-bold">{helpDescription}</h5>
     <Container className="my-5">
-      <label className="text-light small">
+      <h6 className="text-light">
         {`After following the below steps, you can start Indexing your data using the Change Request workflow`}
-      </label>
+      </h6>
       <Row>
-        <Col md={3}/>
+        <Col md={6}><StepDetail stepNumber={1} stepComponent={getStep1()} icon={<BsKey/>}/></Col>
+        <Col md={6}><StepDetail stepNumber={2} stepComponent={getStep2()} icon={<RiUserFollowFill/>}/></Col>
+      </Row>
+      <Row>
         <Col md={6}>
-          <StepDetail stepNumber={1} stepComponent={getStep1()} icon={<BsKey/>}/>
-          <StepDetail stepNumber={2} stepComponent={getStep2()} icon={<RiUserFollowFill/>}/>
+          
           <StepDetail stepNumber={3} stepComponent={getStep3()} icon={<RxCheckbox/>}/>
-          <StepDetail stepNumber={4} stepComponent={getStep4()} icon={<BsSearch/>}/>
+          
         </Col>
-        <Col md={3}/>
+        <Col md={6}>
+        <StepDetail stepNumber={4} stepComponent={getStep4()} icon={<BsSearch/>}/>
+        </Col>
 
       
 
