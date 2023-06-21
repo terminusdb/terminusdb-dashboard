@@ -13,6 +13,7 @@ import { useTDBDocuments } from "@terminusdb/terminusdb-documents-ui-template";
 import { useParams, useNavigate, useLocation, NavLink} from "react-router-dom";
 import { ErrorMessageReport } from "../components/ErrorMessageReport";
 import  Alert  from "react-bootstrap/Alert";
+import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction";
 
 export function FreeTextSearch() {
 
@@ -86,11 +87,11 @@ export function FreeTextSearch() {
                <Button onClick={onClickHandler} className="mr-auto">Submit</Button>
             </div>}
             <Container className="mt-4">
-                {!commit  && <Alert type="Info" >
+                {!commit  && <DisplayNoIndexingAction helpDescription={`You need to index your data before you can search`}/>/*<Alert type="Info" >
                     <h3>You need to index your data before you can search</h3>
                     <p>if you haven't already done it, Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team,</p> 
                     after you can start to index your data using the change request workflow
-                </Alert>}
+                </Alert>*/}
                 {error &&  <ErrorMessageReport error={error} setError={setError}/> }
                 {loading && <Loading>Search Documents</Loading>}
                 {searchResult && 

@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Container , Card, Button, ListGroup,Badge} from "react-bootstrap"
+import {useParams} from "react-router-dom";
 import {Loading} from "../components/Loading" 
 import {extractID, getDays} from "../components/utils"
 import { Layout } from "./Layout";
-import Stack from "react-bootstrap/Stack"
 import { useOpenAI } from "../hooks/useOpenAI";
 import {AiFillCheckCircle, AiFillCloseCircle, AiFillClockCircle} from "react-icons/ai"
 import {ImSpinner5} from "react-icons/im"
-import { useParams } from "react-router-dom";
-import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction"
-
 
 export const IndexingActionMonitor=(props)=>{
 
@@ -19,8 +16,10 @@ export const IndexingActionMonitor=(props)=>{
         getSearchableCommit(10)  
     },[dataProduct])
 
-
     const formatListItem=()=>{
+        if(searchableCommit.lenght === 0) return <ListGroup.Item  className="d-flex justify-content-between align-items-start">
+            No running actions 
+        </ListGroup.Item>
         let display= searchableCommit.map((item,index)=>{
 			//statusCount+=1
 			return  <ItemElement  key={`item___${index}`} item={item}/>
@@ -31,8 +30,7 @@ export const IndexingActionMonitor=(props)=>{
 	return <Layout>  
             <div className="content mr-3 ml-5">  
                 <div className="mt-5 mb-5 mr-5">
-                    {!searchableCommit.length && <DisplayNoIndexingAction helpDescription={`You need to index your data before any index actions appear on this page`}/>}
-                    {searchableCommit.length>0 && <Card>
+                    <Card>
                         <Card.Header>
                             Indexing Actions
                         </Card.Header>
@@ -42,7 +40,7 @@ export const IndexingActionMonitor=(props)=>{
                                 {searchableCommit && formatListItem()}
                             </ListGroup>
                         </Card.Body>
-                    </Card>}
+                    </Card>
                 </div>
             </div>
         </Layout>

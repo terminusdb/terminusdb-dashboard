@@ -1241,6 +1241,7 @@ button.graphiql-tab-add>svg
 }
 
 
+
 .table__columns__component > .form-check-label{
   margin-left: 10px;
 }
@@ -1426,3 +1427,11 @@ button.graphiql-tab-add>svg
     transform: rotate(720deg);
   }
 }
+
+/** */
+.openai_checkbox .form-check-input {
+  width: "1.5rem";
+  height: "1.5rem"
+}
+
+
