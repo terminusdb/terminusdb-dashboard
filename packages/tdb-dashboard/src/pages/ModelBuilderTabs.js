@@ -18,7 +18,7 @@ const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 	}
 
 	function getVariant(mode, selectedMode) {
-		if(mode === selectedMode) return "info"
+		if(mode === selectedMode) return "light"
 		return "dark"
 	}
 
@@ -30,17 +30,14 @@ const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 
 	return <Stack direction="horizontal" gap={3}>
 		<Button variant={getVariant(DOCUMENT_TAB, selectedMode)} 
-			className="col-md-2" 
 			onClick={(e)=>handleSwitch(DOCUMENT_TAB)}>
 				{getModeLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}
 		</Button>
 		<Button variant={getVariant(GRAPH_TAB, selectedMode)}  
-			className="col-md-2" 
 			onClick={(e)=>handleSwitch(GRAPH_TAB)}>
 				{getModeLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}
 		</Button>
 		<Button variant={getVariant(JSON_TAB, selectedMode)}  
-			className="col-md-2" 
 			onClick={(e)=>handleSwitch(JSON_TAB)}>
 				{getModeLabel(JSON_TAB, selectedMode, "JSON Mode")}
 		</Button>

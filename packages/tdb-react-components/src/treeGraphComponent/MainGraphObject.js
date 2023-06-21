@@ -861,6 +861,6 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			getDocumentTypeList,
 			getSchema,
 			getElementsNumber,getElement,getPropertyListByDomain,getObjPropsRelatedToClass,getAvailableParentsList,
-      		nodeApplyAction,addNewPropertyToClass,removePropertyToClass,
+      		nodeApplyAction,addNewPropertyToClass, removePropertyToClass,
       		updateNodeParents,getObjectProperties,getDescendantsNode,removeElementInMainGraph}
 }

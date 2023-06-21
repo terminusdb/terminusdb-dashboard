@@ -139,6 +139,7 @@ export const ViewBuilder = (props)=>{
 							nodePropertiesList={nodePropertiesList}
 							currentNodeJson={selectedNodeObject}
 							custom={props.custom}
+							tabBg={`dark`}
 							/>	}					
 				</div>
 			</SplitPane>
