@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import { FaInfoCircle } from "react-icons/fa";
+import { BsInfoCircle } from "react-icons/bs";
 
 export const HelpComponent = (props) =>{
 
@@ -8,7 +8,7 @@ export const HelpComponent = (props) =>{
     
 	return(
 	  <div className="icon-help">
-	  	<FaInfoCircle data-tip data-for={props.text} ></FaInfoCircle>
+	  	<BsInfoCircle className="text-muted" data-tip data-for={props.text} ></BsInfoCircle>
 	  	<ReactTooltip textColor="#24292e" id={props.text} type="warning" effect="solid" html={true}>
 	  	   {helpText}
 	  	</ReactTooltip>

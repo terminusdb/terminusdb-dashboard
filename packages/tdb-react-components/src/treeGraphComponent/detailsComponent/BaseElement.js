@@ -51,7 +51,8 @@ export const BaseElement = (props)=>{
        	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
                     <Fragment>
                         <BaseCheckboxElement labelClassName={"mb-0"}
-                                title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
+                            view={props.view}
+                            title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
                     </Fragment>
                 }
                 <BaseInputElement
