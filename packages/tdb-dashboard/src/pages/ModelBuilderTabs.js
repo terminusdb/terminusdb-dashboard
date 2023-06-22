@@ -28,7 +28,7 @@ const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 	}
 
 
-	return <Stack direction="horizontal" gap={3}>
+	return <Stack direction="horizontal" className="border-secondary border-bottom" gap={3}>
 		<Button variant={getVariant(DOCUMENT_TAB, selectedMode)} 
 			onClick={(e)=>handleSwitch(DOCUMENT_TAB)}>
 				{getModeLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}
@@ -42,7 +42,7 @@ const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 				{getModeLabel(JSON_TAB, selectedMode, "JSON Mode")}
 		</Button>
 	</Stack>
-}
+} 
 
 export const ModelBuilderTabs = () => {
 
@@ -64,9 +64,9 @@ export const ModelBuilderTabs = () => {
     await saveGraphChanges(jsonObj, commitMessage)
   }
 
-	return <SchemaDocumentView saveData={saveData}
+	/*return <SchemaDocumentView saveData={saveData}
 		dbName={dataProduct} 
-		custom={true}/>
+		custom={true}/>*/
 
 	return <>
 		

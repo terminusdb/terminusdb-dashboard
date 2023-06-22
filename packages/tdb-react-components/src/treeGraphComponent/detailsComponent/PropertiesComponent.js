@@ -91,6 +91,8 @@ export const PropertiesComponent = (props)=> {
 		   				return '';
 				}
 		});	
+
+		
 	}
 	const propertiesPanels=getPropertiesPanels(nodePropertiesList);
 	return(
@@ -99,7 +101,7 @@ export const PropertiesComponent = (props)=> {
 	    				  buttonIconClassName="menuWithLabel"
 						  iconClassName="fa fa-caret-down iconWithLabel" 
 		                  dropdownMenuClassName="dropdownMenuProperty rightPosition" 
-		                  addNewProperty={addNewProperty}/>		
+		                  addNewProperty={addNewProperty}/>	
 				<DraggableComponent propertyPanelList={propertiesPanels}/>
 	    </Fragment>
 	)

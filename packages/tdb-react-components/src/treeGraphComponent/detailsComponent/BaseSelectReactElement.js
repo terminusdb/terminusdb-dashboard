@@ -2,6 +2,7 @@ import React,{useState,useEffect}from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select'; 
 import {HelpComponent} from './HelpComponent';
+import { FormGroupComponent } from "./FormGroupComponent"
 
 export const BaseSelectReactElement=(props)=>{
 	
@@ -35,12 +36,34 @@ export const BaseSelectReactElement=(props)=>{
   const itemError = selectedOption===null ? props.itemError : ''
 
   const customStyles = {
-	option: (provided, state) => ({
-	  ...provided,
-	  color: state.isSelected ? '#00C08B' : '#495057',
-	 // padding: 20,
-	})
-}
+		control: (styles) => ({ ...styles, backgroundColor: "transparent", width: "100%", border: "1px solid #666" }),
+		menu: (styles) => ({ ...styles, backgroundColor: '#444'}),
+		option: (provided, state) => ({
+			...provided,
+			backgroundColor: "transparent",
+			color: state.isSelected ? '#00C08B' : '#495057',
+		// padding: 20,
+		})
+	}
+
+	if(props.view === `UI_VIEW`) {
+		return  <FormGroupComponent groupClassName={props.groupClassName}
+			labelComponent = {<label className={`${props.labelClassName} mr-3`} >{props.title}</label>}
+			helpComponent = {<HelpComponent text={props.help}/>}
+			errorComponent = {<span className="tdb__form__error">{itemError}</span>}
+			fieldComponent = {
+				<div className="w-100">
+					<Select styles={customStyles}
+						value={selectedOption}
+						isClearable={isClearable} 
+						onChange={onChange} 
+						options={dataProvider}  
+						placeholder={props.placeholder}
+						isDisabled={isDisabled}/>
+				</div>}
+			/>
+
+	}
 
 	return(
 		 <div className={props.groupClassName}>
@@ -48,7 +71,7 @@ export const BaseSelectReactElement=(props)=>{
           <label className={props.labelClassName} >{props.title}</label>
           <HelpComponent text={props.help}/>
         </div>
-		  	<Select   styles={customStyles}
+		  	<Select styles={customStyles}
           value={selectedOption}
 			  	isClearable={isClearable} 
 			  	onChange={onChange} 

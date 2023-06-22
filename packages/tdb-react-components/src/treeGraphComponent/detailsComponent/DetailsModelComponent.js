@@ -58,7 +58,7 @@ export const DetailsModelComponent = (props)=>{
 							 	 	,
 							    	key: 1,
 							    	tabClassName: 'tab',
-							    	panelClassName: 'tdb__panel'
+							    	panelClassName: 'tdb__panel' 
 							})
 		if(nodeData.type==='ChoiceClass'){
 			tabsArr.push({title:'Values',

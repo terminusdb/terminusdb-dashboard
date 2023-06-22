@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import PropTypes from 'prop-types'; 
 import {HelpComponent} from './HelpComponent' 
+import { FormGroupComponent } from "./FormGroupComponent"
 
 export const BaseSelectComponent = (props) => {
 
@@ -44,10 +45,22 @@ export const BaseSelectComponent = (props) => {
 	const title=props.title || ''
 	const isDisabled=props.isDisabled ? {disabled:true} : {}
 
+
+	if(props.view === `UI_VIEW`) { 
+		return <FormGroupComponent groupClassName={props.groupClassName}
+			labelComponent = {<label className={`${props.labelClassName} mr-3`} htmlFor={comboId}>{title}</label>}
+			helpComponent = {props.addHelpComponent ? <HelpComponent text={props.help}/> : <div/>}
+			errorComponent = {<div className="hideEmpty">{props.selErrorReporting}</div>}
+			fieldComponent = {<select value={value} {...isDisabled} name={comboId} className={props.selectClassName} onChange={onChange}>
+				{options}
+			</select>}/>
+	}
+
+
 	return(
 		<div className={props.groupClassName}>
 			<div className="tdb__form__help">
-            	<label className={props.labelClassName} htmlFor={comboId}>{title}</label>
+            	<label className={`${props.labelClassName} mr-3`} htmlFor={comboId}>{title}</label>
 	        	{props.addHelpComponent && <HelpComponent text={props.help}/> }
 	        </div>
 	        <div className="hideEmpty">

@@ -16,7 +16,7 @@ const Item = ({ item, itemSelected, dragHandleProps }) => {
     }}
   >
     {item.element}
-    <div className="disable-select dragHandle m-2"
+    <div className="disable-select dragHandle ml-2 mt-4"
       title={`Click here to rearrange properties ordering`}
       style={{
         width: "20px",

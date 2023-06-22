@@ -162,7 +162,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	}
 
 
-	const nodeApplyAction=(actionName,nodeName)=>{
+	const nodeApplyAction=(actionName,nodeName)=>{ 
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
             //the current selected node 
 			let currentNode=_rootIndexObj[nodeName];

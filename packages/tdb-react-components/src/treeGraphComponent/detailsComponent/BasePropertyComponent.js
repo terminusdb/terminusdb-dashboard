@@ -6,8 +6,9 @@ import {GET_ICON_NAME} from '../../constants/details-labels';
 import {BaseSelectComponent} from './BaseSelectComponent';
 import PropTypes from "prop-types";
 import {PropertyExtraInfo} from './PropertyExtraInfo'
-import {GraphContextObj} from '../hook/graphObjectContext'; 
-
+import {GraphContextObj} from '../hook/graphObjectContext';
+import Badge from 'react-bootstrap/Badge'; 
+import Stack from 'react-bootstrap/Stack'; 
 
 export const BasePropertyComponent = (props)=> {
 		const {mainGraphObj} =GraphContextObj()
@@ -40,12 +41,27 @@ export const BasePropertyComponent = (props)=> {
 				mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)				
 			}
 		}
+
+		function getAccordianTitle() {
+			return <Stack direction='horizontal' className='w-100'>
+				<label className='mr-3'>{propId}</label>
+				<div className='ms-auto text-right'>
+					{currentNodeJson && nodeSchemaData && <Badge bg="dark" className='text-warning mr-2'>
+						{`${currentNodeJson.type}   |   ${nodeSchemaData.range}`}
+					</Badge>}
+					{nodeSchemaData && <Badge bg="dark" className='text-info  mr-2'>
+						{nodeSchemaData.option}
+					</Badge>}
+				</div>
+			</Stack>
+		}
 		
 		return(
 			<Accordion showBody={props.showBody} 
 					   arrowOpenClassName = "accordion__arrow fa fa-caret-up"
 					   arrowCloseClassName = "accordion__arrow fa fa-caret-down"
-					   title={propId}
+					   title={getAccordianTitle()}
+						 className='w-100'
 					   leftIconClassName={leftIconClassName}
 					   tooltip={currentNodeJson.type || ''}>
 

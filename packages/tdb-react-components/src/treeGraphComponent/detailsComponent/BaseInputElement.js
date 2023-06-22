@@ -1,6 +1,8 @@
 import React, {useState,useEffect,useRef} from 'react';
 import PropTypes from 'prop-types'; 
 import {HelpComponent} from './HelpComponent';
+import { FormGroupComponent } from "./FormGroupComponent"
+
 export const BaseInputElement = (props) => {
 
 	const [value,setInputValue] = useState('')
@@ -35,30 +37,21 @@ export const BaseInputElement = (props) => {
 	const disabled = props.disabled === true ? {disabled:true} : {}
 	//const autoFocus= props.disabled!==true && props.autoFocus === true ? {autoFocus:true} :{}
 
-	const style = {
-		textAlign:"left", 
-		wordWrap: "break-word",
-		wordBreak: "break-word",
-		wordBreak: "break-all",
-		minWidth: "11rem",
-		width: "11rem",
-		display: "flex"
-	}
 	
 	if(props.view === `UI_VIEW`) {
-		return <div className={`${props.groupClassName} d-flex`}>
-			<div style={style} className="mt-2">
-				<label className={`${props.labelClassName} mr-3`} htmlFor={props.name}>{props.title}</label>
-				<HelpComponent text={props.help}/>
-		</div>
-			<input ref={inputElement}
+		return  <FormGroupComponent groupClassName={props.groupClassName}
+			labelComponent = {<label className={`${props.labelClassName} mr-3`} htmlFor={props.name}>{props.title}</label>}
+			helpComponent = {<HelpComponent text={props.help}/>}
+			errorComponent = {<span className="tdb__form__error">{props.itemError}</span>}
+			fieldComponent = {
+				<input ref={inputElement}
 				placeholder={props.placeholder} 
 				onBlur={onBlur} 
 				{...disabled} onChange={onChange} 
 				value={value} name={props.name} id={props.name}
-				className={props.inputClassName}></input>       
-			<span className="tdb__form__error">{props.itemError}</span>
-		</div>
+				className={props.inputClassName}></input>}
+			/>
+
 	}
 
 	return <div className={props.groupClassName}>

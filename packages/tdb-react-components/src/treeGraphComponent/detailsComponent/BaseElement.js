@@ -68,14 +68,16 @@ export const BaseElement = (props)=>{
                     defaultValue={nodeSchemaData.id}
                     itemError={indexError }//|| props.indexError}
                     />
+                <hr/>
                 {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
-                    <KeyComponent />
+                    <KeyComponent view={props.view}/>
                 } 
                 {props.children}
 	            <BaseTextareaElement
                     placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 
                     title={ELEMENT_BASE_CONST.DESCRIPTION_TEXT}
                     name='comment'
+                    view={props.view}
                     help={ELEMENT_HELP.class_comment}
                     onBlur={changeElement}
                     defaultValue={nodeSchemaData.comment || ''}
