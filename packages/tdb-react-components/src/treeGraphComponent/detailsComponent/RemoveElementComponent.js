@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from "react-bootstrap/Button"
+import { RiDeleteBin5Fill } from "react-icons/ri"
   
 export const RemoveElementComponent = (props) =>{
 
@@ -20,8 +21,17 @@ export const RemoveElementComponent = (props) =>{
     </div>
   }
 
-  return <Button className='bg-secondary text-danger'>
-      Delete Document
+  let label = "Document"
+
+  if(props.elementType === "Object") label="SubDocument"
+  if(props.elementType === "ChoiceClass") label="Enum"
+
+
+  return <Button className='bg-secondary text-danger border-0 btn-sm'
+    onClick={onClick}
+    title={`Delete ${ label}`}>
+      <RiDeleteBin5Fill size={16} />
+
     </Button>
   
 } 

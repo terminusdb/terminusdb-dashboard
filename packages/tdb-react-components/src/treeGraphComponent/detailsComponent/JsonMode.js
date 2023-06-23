@@ -47,10 +47,11 @@ export const JsonMode = (props)=>{
                     }
 			</div>
         </div>
-        <CodeMirror extensions={[json()]} 
+        <div className='w-100'><CodeMirror extensions={[json()]} 
                 theme={vscodeDark} 
                 value={JSON.stringify(jsonSchema, null, 2)}     
                 readOnly={!editMode}
-                onChange={onChangeHandler}/>
+                onChange={onChangeHandler}/></div>
+        
     </React.Fragment>
 }

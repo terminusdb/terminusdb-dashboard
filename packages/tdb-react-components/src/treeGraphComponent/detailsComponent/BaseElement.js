@@ -38,7 +38,7 @@ export const BaseElement = (props)=>{
 
     useEffect(() => {
         setIndexError(false);
-    },[nodeJsonData])
+    },[nodeJsonData]) 
 
     return(
    	    <div className="tdb__panel__box tdb__panel__box--edit">
@@ -68,7 +68,7 @@ export const BaseElement = (props)=>{
                     defaultValue={nodeSchemaData.id}
                     itemError={indexError }//|| props.indexError}
                     />
-                <hr/>
+                
                 {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
                     <KeyComponent view={props.view}/>
                 } 

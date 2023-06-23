@@ -4,7 +4,9 @@ import { FiHelpCircle } from "react-icons/fi"
 
 export const HelpComponent = (props) =>{
 
-	const helpText=props.text || 'tooltip test';
+	if(!props.text) return <React.Fragment/>
+
+	const helpText=props.text;
     
 	return(
 	  <div className="icon-help">

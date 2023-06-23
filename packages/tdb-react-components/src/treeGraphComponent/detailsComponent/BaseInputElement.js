@@ -8,7 +8,7 @@ export const BaseInputElement = (props) => {
 	const [value,setInputValue] = useState('')
 	//const [autoFocus,setAutoFocus] = useState({})
 	const inputElement = useRef(null);
-
+ 
 	useEffect(() => {
         if(props.defaultValue!==value){
         	setInputValue(props.defaultValue)
@@ -40,7 +40,7 @@ export const BaseInputElement = (props) => {
 	
 	if(props.view === `UI_VIEW`) {
 		return  <FormGroupComponent groupClassName={props.groupClassName}
-			labelComponent = {<label className={`${props.labelClassName} mr-3`} htmlFor={props.name}>{props.title}</label>}
+			labelComponent = {props.name ? <label className={`${props.labelClassName} mr-3`} htmlFor={props.name}>{props.title}</label> : <></>}
 			helpComponent = {<HelpComponent text={props.help}/>}
 			errorComponent = {<span className="tdb__form__error">{props.itemError}</span>}
 			fieldComponent = {
