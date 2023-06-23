@@ -83,9 +83,11 @@ export function FreeTextSearch() {
     const lastDiff = Math.min(searchResult.length, start+5)
 
     let page = Math.ceil(start/5)
+    console.log("hasKey free text search", hasKey)
 
     return  <Layout showLeftSideBar={true} mainClassName={"h-view mt-4"}>     
            {commit && <div className="d-flex">
+               {hasKey && <>HI KITTY</>}
                 <InputGroup className="mb-3">
                     <Form.Control ref={search} style={{maxWidth:"500px"}} type="text" placeholder="Search" className="ml-auto"/>
                     <Button onClick={onClickHandler} variant="light" className="mr-auto"><BsSearch/></Button>

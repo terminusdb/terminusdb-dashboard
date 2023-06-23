@@ -33,6 +33,8 @@ export const OpenAICard=({organization})=>{
 		changeOpenAIStatus(organization,isActive)
 	}
 
+	console.log("hasKey opn AI ", hasKey)
+
 	const title = hasKey === false ? "Add your secret OpenAI API key" : "Your OpenAI API key has been set"
     const subTitle= getLabel()
 	
