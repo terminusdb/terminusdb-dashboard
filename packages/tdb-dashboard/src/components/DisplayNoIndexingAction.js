@@ -55,10 +55,10 @@ export const DisplayNoIndexingAction = ({ helpDescription }) => {
 
   useEffect( ()=>{
     let check =  hasOpenAIKEY(organization)
-    console.log("check", check)
+    //console.log("check", check)
   },[organization])
 
-  console.log("hasKey", hasKey)
+
     
   
   return <div className="text-center justify-content-center">
