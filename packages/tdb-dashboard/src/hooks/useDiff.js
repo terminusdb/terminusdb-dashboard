@@ -77,6 +77,9 @@ export function useDiff(){
                 const limit = count+1
                 const client = woqlClient.copy()
                 client.connectionConfig.api_extension = 'api/'
+                if(client.connectionConfig.baseServer){
+                    client.connectionConfig.server = client.connectionConfig.baseServer
+                }
                 const baseUrl = client.connectionConfig.dbBase("changes")
                 const result = await client.sendCustomRequest("GET", `${baseUrl}/${changeRequestID}/diff?count=${limit}&start=${start}`)
                 totalResult[`start__${start}`] = result

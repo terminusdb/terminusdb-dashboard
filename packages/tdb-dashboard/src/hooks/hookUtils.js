@@ -55,7 +55,10 @@ export function formatErrorMessage (err){
 }
 
 export  function getChangesUrl(woqlClient){
-	const client = woqlClient.copy()
-	client.connectionConfig.api_extension = 'api/'
-	return client.connectionConfig.dbBase("changes")
+	const clientCopy = woqlClient.copy()
+	clientCopy.connectionConfig.api_extension = 'api/'
+	if(clientCopy.connectionConfig.baseServer){
+		clientCopy.connectionConfig.server = clientCopy.connectionConfig.baseServer
+	}
+	return clientCopy.connectionConfig.dbBase("changes")
 }

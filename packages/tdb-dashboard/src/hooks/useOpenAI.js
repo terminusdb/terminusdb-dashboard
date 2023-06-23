@@ -245,8 +245,7 @@ export function useOpenAI(){
             }finally{
                 setLoading(false)
             }
-        }
-        
+        } 
     }
 
     const updateDocument = async (type,queryStr,handlebarsTemplate)=>{
@@ -302,7 +301,6 @@ export function useOpenAI(){
     }
 
     
-
     return {pollingCall,
             resetSearch,
             getPrewiew,
