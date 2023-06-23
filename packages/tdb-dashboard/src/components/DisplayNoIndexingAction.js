@@ -50,16 +50,10 @@ function getStep4() {
 }
 
 export const DisplayNoIndexingAction = ({ helpDescription }) => {
-  const { hasOpenAIKEY, hasKey } = useOpenAI()
+  const {  hasKey } = useOpenAI()
   const { organization } = useParams()
 
-  useEffect( ()=>{
-    let check =  hasOpenAIKEY(organization)
-    //console.log("check", check)
-  },[organization])
-
-
-    
+  //console.log("hasKey",)
   
   return <div className="text-center justify-content-center">
     <h4 className="text-light fw-bold">Get started with Indexing Actions</h4>

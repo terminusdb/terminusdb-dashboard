@@ -20,7 +20,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 export function FreeTextSearch() {
 
-    const {resetSearch, getSearchableCommit, searchableCommit, searchResult,getResearchResult,start,setStart, error, setError,loading, hasKey} = useOpenAI()
+    const {resetSearch,hasOpenAIKEY,
+         getSearchableCommit, searchableCommit, 
+         searchResult,
+         getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
     const {dataProduct, organization} = useParams()
 
     const search = useRef(null)
@@ -38,6 +41,7 @@ export function FreeTextSearch() {
     useEffect(()=>{
         setElements([])
         resetSearch()
+        hasOpenAIKEY(organization)
         getSearchableCommit(1, "Assigned")
     },[dataProduct])
 
@@ -83,6 +87,7 @@ export function FreeTextSearch() {
     const lastDiff = Math.min(searchResult.length, start+5)
 
     let page = Math.ceil(start/5)
+
 
     return  <Layout showLeftSideBar={true} mainClassName={"h-view mt-4"}>     
            {commit && <div className="d-flex">

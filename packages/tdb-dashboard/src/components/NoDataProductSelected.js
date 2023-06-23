@@ -9,10 +9,12 @@ import { useNavigate } from "react-router-dom"
 import { Loading } from "./Loading"
 // tean home page
 export const NoDataProductSelected = (props) => { 
-    const {woqlClient,accessControlDashboard} = WOQLClientObj()
+    const {woqlClient,accessControlDashboard,clientUser} = WOQLClientObj()
 	const {cloneDatabase,loading:cloneLoading, error:cloneError , setError:setCloneError} = ManageDatabase()
 
     let list = woqlClient ? woqlClient.databases() : []
+
+	const remote = clientUser &&  clientUser.serverType !== "TerminusDB" ? true : false
 
     const createdb = accessControlDashboard ? accessControlDashboard.createDB() : false
     const showNoDataProduct = createdb && list.length===0 ? true : false
@@ -43,10 +45,6 @@ export const NoDataProductSelected = (props) => {
 			description: "CAMS is a critical asset management system that maps the dependency relationships between critical assets and displays them on a map to help first responders plan for emergencies."
 		}
 	]
-
-	const getCloneUrl = () =>{
-       // return `${localSettings.server}${organization}/${organization}/${dataProduct}`
-    }
 	
 	async function handleClone(dbName) {
 		const orgName = "Terminusdb_demo" //"TerminusX"
@@ -81,7 +79,7 @@ export const NoDataProductSelected = (props) => {
 						</Card.Body>
 					</Card>
 				</Col>
-				{cloneDataProduct.map((arr) => (
+				{remote && cloneDataProduct.map((arr) => (
 					<Col className="py-2 col-md-4" key={arr.name}>
 						<Card className="h-100">
 							<Card.Img variant="top" src={arr.img}/>

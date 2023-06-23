@@ -73,12 +73,8 @@ export function App (props){
                 </Routes>    
             </div>
 }
-
-function getRoutes(clientUser, isAdmin, woqlClient){
-    //const client = createApolloClient()
-
-    if(localSettings.connection_type==="LOCAL"){ 
-    return <React.Fragment>
+/*
+ <React.Fragment>
         <Route index element={<Home/>} />
             { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
             { clientUser.user !== "admin" && <Route path="administrator" element={<div><PageNotFound/></div >}/>}   
@@ -90,6 +86,46 @@ function getRoutes(clientUser, isAdmin, woqlClient){
                     <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />                                    
                 </Route>
             </Route>             
+            <Route path="*" element={<div><PageNotFound/></div >} />
+        </React.Fragment>*/
+
+function getRoutes(clientUser, isAdmin, woqlClient){
+    //const client = createApolloClient()
+
+    if(localSettings.connection_type==="LOCAL"){ 
+    return <React.Fragment>
+        <Route index element={<Home/>} />
+            { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
+            { clientUser.user !== "admin" && <Route path="administrator" element={<div><PageNotFound/></div >}/>}   
+            <Route path=":organization" >
+            <Route index element={<OrganizationHome/>}/>
+            {/*<Route path = {PATH.PROFILE} element = {<PrivateRoute component={Profile}/>} />  */}
+           {clientUser.user === "admin" &&  <Route path="administrator" element={<UserManagement/>}/>}
+           {clientUser.user !== "admin" &&  <Route path="administrator" element={<div><PageNotFound/></div >}/>}
+           
+            <Route path=":dataProduct"  >
+                <Route index element={<DataProductsHome/>}/>
+                <Route path={PATH.GRAPHIQL}  element={<GraphIqlEditor/>} />   
+                <Route path={PATH.CHANGE_REQUESTS} >
+                    <Route index  element={<ChangeRequestsPage/>} />    
+                    <Route path=":changeid" element={<ChangeDiff/>} /> 
+                </Route>
+                <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
+                    <Route index element={<Documents/>} />
+                        <Route path=":type">                       
+                            {<Route index element={<DocumentsPageList/>} /> }
+                            <Route path={PATH.NEW_DOC} element={<DocumentNew/>}/> 
+
+                            <Route path=":docid" >
+                                <Route index element={<DocumentView/>} /> 
+                                <Route path={PATH.EDIT_DOC} element={<DocumentEdit/>} /> 
+                            </Route> 
+                    </Route>
+                </Route>
+                <Route path={PATH.PRODUCT_EXPLORER} element={<ProductsExplorer/>} />
+                <Route path={PATH.PRODUCT_MODELS} element={<ModelProductPage/>} />                  
+            </Route>
+        </Route>           
             <Route path="*" element={<div><PageNotFound/></div >} />
         </React.Fragment>
     }
