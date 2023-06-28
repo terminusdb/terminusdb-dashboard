@@ -22,8 +22,7 @@ if not sys.argv[1].startswith("refs/tags"):
     files = [x for x in files if "dashboard-dev" in x]
 
 headers = {
-    'X-Auth-Email': os.environ["CLOUDFLARE_EMAIL"],
-    'X-Auth-Key': os.environ["CLOUDFLARE_API_KEY"],
+    'Authorization': 'Bearer ' + os.environ['CLOUDFLARE_API_KEY'],
 }
 zone = os.environ["CLOUDFLARE_ZONE"]
 print(requests.post(f"https://api.cloudflare.com/client/v4/zones/{zone}/purge_cache", json={'files': files}, headers=headers).text)

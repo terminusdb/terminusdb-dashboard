@@ -14,7 +14,7 @@ export function GraphIqlEditor({}) {
   if(!woqlClient) return 
   const client = woqlClient.copy()
   const url = client.connectionConfig.branchBase("graphql")
-  const autorization = woqlClient.localAuth() === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
+  const autorization = woqlClient.localAuth().type === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
   
   // TO BE REVIEW!!!!
   const fetcher = createGraphiQLFetcher({

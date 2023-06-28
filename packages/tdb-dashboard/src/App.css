@@ -1238,7 +1238,7 @@ button.graphiql-tab-add>svg
 .qb-lite .group--header:not(:hover) .group--actions,
 .qb-lite .rule_group:not(:hover) .group--drag-handler,
 .qb-lite .rule_group:not(:hover) .group--actions {
-  opacity: 1;
+  opacity: 1;https://github.com/terminusdb/terminusdb-dashboard/blob/main/packages/tdb-dashboard/src/App.css
 }
 
 .accordion{
