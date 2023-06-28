@@ -104,6 +104,7 @@ export const DocumentWoqlTable = () => {
 
     return <React.Fragment>
         <Row className="mt-5 w-100">
+        {extractedResults.length === 0 && <h3>NO RESULT</h3>}
         {extractedResults.length>0 && tableConfig && rowCount &&
                 <main className="content mr-3 ml-5 w-100 ">
                     <Row className="w-100 mb-5">

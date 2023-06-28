@@ -296,17 +296,17 @@ div.progress-bar-container {
   min-width: "33.333333%"
 }
 
-.table {
+/*.table {
   border: 0px solid transparent !important;
   table-layout: fixed;
   margin-left: auto;
   margin-right: auto;
-  background-color: #303030;
+  background-color: transparent!important;
 }
 
 .table td, .table th {
   border-top: 0 !important;
-  /*word-wrap: break-word !important;*/
+
   word-break: break-all !important;
 }
 
@@ -316,7 +316,7 @@ div.progress-bar-container {
 
 .table > :not(:first-child) {
   border-top: 0 !important;
-}
+}*/
 
 .RRT__tab {
   background: transparent !important;
@@ -1093,6 +1093,20 @@ button.graphiql-tab-add>svg
   color:white;
 }
 
+
+.graphiql-query-editor{
+  width: 100%;
+  height: 100%;
+}
+.graphiql-editor{
+  width: 100%;
+  height: 100%;
+}
+.graphiql-query-editor-wrapper{
+  width: 100%;
+  height: 100%;
+}
+
 .mainGraphIql{
   height : calc(100vh - 80px);
 }
@@ -1106,7 +1120,7 @@ button.graphiql-tab-add>svg
 }
 
 .graphiql-container{
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .graphiql-un-styled, .graphiql-toolbar-button{
@@ -1114,13 +1128,14 @@ button.graphiql-tab-add>svg
 }
 
 .graphiql-container .graphiql-editors {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .graphiql-editor >.CodeMirror{
   height: 100%;
   position: absolute;
   width: 100%;
+  background-color: transparent !important;
 }
 
 .result-window >.CodeMirror{
@@ -1239,6 +1254,7 @@ button.graphiql-tab-add>svg
 .form-check-input {
   min-height: 0 !important;
 }
+
 
 
 .table__columns__component > .form-check-label{
@@ -1427,15 +1443,10 @@ button.graphiql-tab-add>svg
   }
 }
 
-.graphiql-query-editor{
-  width: 100%;
-  height: 100%;
+/** */
+.openai_checkbox .form-check-input {
+  width: "1.5rem";
+  height: "1.5rem"
 }
-.graphiql-editor{
-  width: 100%;
-  height: 100%;
-}
-.graphiql-query-editor-wrapper{
-  width: 100%;
-  height: 100%;
-}
+
+

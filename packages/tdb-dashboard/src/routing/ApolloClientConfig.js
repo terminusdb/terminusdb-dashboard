@@ -8,12 +8,14 @@ export const createApolloClient = (woqlClient)=>{
   };
  
   const httpLink = new HttpLink({fetch:customFetch})//{uri:client.connectionConfig.branchBase("graphql")})  //new HttpLink(urlObj);
+  
+  const autorization = woqlClient.localAuth().type === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
   const authMiddleware = new ApolloLink((operation, forward) => {
         // add the authorization to the headers
         operation.setContext(({ headers = {} }) => ({
         headers: {
             ...headers,
-            authorization: 'Bearer '+ woqlClient.localAuth().key}
+            authorization: autorization}
         }));
         return forward(operation);
     })

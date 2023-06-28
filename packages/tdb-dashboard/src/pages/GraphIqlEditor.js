@@ -5,6 +5,7 @@ import { GraphiQL } from "graphiql";
 //import {Container} from "react-bootstrap"
 import { Layout } from "./Layout";
 import {WOQLClientObj} from '../init-woql-client'
+require( "graphiql/graphiql.min.css");
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/shadowfox.css');
 
@@ -13,12 +14,13 @@ export function GraphIqlEditor({}) {
   if(!woqlClient) return 
   const client = woqlClient.copy()
   const url = client.connectionConfig.branchBase("graphql")
-
+  const autorization = woqlClient.localAuth().type === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
+  
   // TO BE REVIEW!!!!
   const fetcher = createGraphiQLFetcher({
           url:url,
           headers: {
-            authorization: 'Bearer '+ woqlClient.localAuth().key
+            authorization: autorization
         }
   });
 

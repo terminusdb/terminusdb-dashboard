@@ -120,3 +120,7 @@ span.bg-primary.note__badge {
 .bg-success {
     background-color: var(--color-pink) !important; 
 }
+
+thead>tr:first-child {
+    display: none;
+}

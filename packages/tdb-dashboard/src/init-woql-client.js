@@ -85,18 +85,17 @@ export const WOQLClientProvider = ({children, params}) => {
                 await dbClient.getUserOrganizations()
                  // to be review the access control is only for the admin user
                  // to see what we have to disabled in the interface
-                 const testS = opts.server+'system/'
+                 //const testS = opts.server+'system/'
                  const access =  new TerminusClient.AccessControl(opts.server,accessCredential)
                  const clientAccessControl = new AccessControlDashboard(access)
-
-                 //I have to create a new call in accessControl 
-                 const url = `${dbClient.server()}api/users/info`
-                 const userInfo = await  dbClient.sendCustomRequest("GET", url)
-                 // add extra info to auth0User
-                 clientUser.userInfo = userInfo
-
+                
                  if(opts.connection_type !== "LOCAL"){
-                   const rolesList = await clientAccessControl.callGetRolesList()
+                    // get the subscription for the user
+                    const url = `${dbClient.server()}api/users/info`
+                    const userInfo = await  dbClient.sendCustomRequest("GET", url)
+                     // add extra info to auth0User
+                    clientUser.userInfo = userInfo
+                    const rolesList = await clientAccessControl.callGetRolesList()
                  }
                 
                  if(defOrg){

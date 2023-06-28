@@ -13,10 +13,17 @@ import { useTDBDocuments } from "@terminusdb/terminusdb-documents-ui-template";
 import { useParams, useNavigate, useLocation, NavLink} from "react-router-dom";
 import { ErrorMessageReport } from "../components/ErrorMessageReport";
 import  Alert  from "react-bootstrap/Alert";
+import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction";
+import { BsSearch } from "react-icons/bs"
+import InputGroup from 'react-bootstrap/InputGroup';
+
 
 export function FreeTextSearch() {
 
-    const {resetSearch, getSearchableCommit, searchableCommit, searchResult,getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
+    const {resetSearch,hasOpenAIKEY,
+         getSearchableCommit, searchableCommit, 
+         searchResult,
+         getResearchResult,start,setStart, error, setError,loading,} = useOpenAI()
     const {dataProduct, organization} = useParams()
 
     const search = useRef(null)
@@ -34,6 +41,7 @@ export function FreeTextSearch() {
     useEffect(()=>{
         setElements([])
         resetSearch()
+        hasOpenAIKEY(organization)
         getSearchableCommit(1, "Assigned")
     },[dataProduct])
 
@@ -80,17 +88,21 @@ export function FreeTextSearch() {
 
     let page = Math.ceil(start/5)
 
+
     return  <Layout showLeftSideBar={true} mainClassName={"h-view mt-4"}>     
            {commit && <div className="d-flex">
-                <Form.Control ref={search} style={{maxWidth:"500px"}} type="text" placeholder="Search" className="ml-auto"/>
-               <Button onClick={onClickHandler} className="mr-auto">Submit</Button>
+                <InputGroup className="mb-3">
+                    <Form.Control ref={search} style={{maxWidth:"500px"}} type="text" placeholder="Search" className="ml-auto"/>
+                    <Button onClick={onClickHandler} variant="light" className="mr-auto"><BsSearch/></Button>
+                </InputGroup>
+
             </div>}
             <Container className="mt-4">
-                {!commit  && <Alert type="Info" >
+                {!commit  && <DisplayNoIndexingAction helpDescription={`You need to index your data before you can search`}/>/*<Alert type="Info" >
                     <h3>You need to index your data before you can search</h3>
                     <p>if you haven't already done it, Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team,</p> 
                     after you can start to index your data using the change request workflow
-                </Alert>}
+                </Alert>*/}
                 {error &&  <ErrorMessageReport error={error} setError={setError}/> }
                 {loading && <Loading>Search Documents</Loading>}
                 {searchResult && 

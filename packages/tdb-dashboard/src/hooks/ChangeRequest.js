@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getCRConflictError } from "../components/utils"
 import {WOQLClientObj} from '../init-woql-client'
 import { formatErrorMessage } from './hookUtils'
+import {getChangesUrl} from './hookUtils'
  
 export function ChangeRequest(){  
     const { woqlClient, currentCRObject, setCurrentCRObject } = WOQLClientObj()
@@ -12,12 +13,9 @@ export function ChangeRequest(){
     const [changeRequestList, setChangeRequestList]  = useState([])
     const [manageConflict, setManageConflict]=useState(false)
 
-
     //I'm using the client to get my custom url
     function getUrl(){
-        const client = woqlClient.copy()
-        client.connectionConfig.api_extension = 'api/'
-        return client.connectionConfig.dbBase("changes")
+        return getChangesUrl(woqlClient)
     }
     
     const createChangeRequest = async(name,message,fromBranch) =>{

@@ -103,7 +103,7 @@ export function GraphqlHandlerbarsPage({}) {
     
     const queryResultPreviewString = queryResultPreview ? JSON.stringify(queryResultPreview,null,4) : ""
 
-    return <Layout  showLeftSideBar={true} mainClassName={"h-view"}>
+    return <Layout  showLeftSideBar={true} mainClassName={"h-view ml-5"}>
         <Card className="h-100">
         <Card.Header>
             <Stack direction="horizontal" gap={1}>
@@ -113,7 +113,7 @@ export function GraphqlHandlerbarsPage({}) {
             }
             {!loading  && 
             <React.Fragment>
-                {hasKey && <div className="ml-4 mr-auto">You OpenAi key is setted, add your query and template and start to index your data<SiOpenai size={24} className="mx-3 mr-3"/></div>}
+                {hasKey && <div className="ml-4 mr-auto"><SiOpenai size={24} className="mx-3 mr-3"/>You have set your OpenAI API key, add your query and template and start to index your data</div>}
                 {hasKey === false && <div className="ml-4 mr-auto">Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team 
                  </div>}
                 <Button onClick={runQuery} className="bg-light text-dark"><SiHandlebarsdotjs className="mr-2"/>
@@ -132,7 +132,7 @@ export function GraphqlHandlerbarsPage({}) {
             </Allotment.Pane>
             <Allotment.Pane >
                 <Card className="h-100">
-                    <Card.Header>
+                    <Card.Header className="bg-transparent">
                         <Stack direction="horizontal" gap={1}>
                             Preview
                             <CopyButton text={queryResultPreviewString} title="Copy result obj" css={"ml-auto btn btn-md bg-light text-dark float-right"}/>
@@ -185,7 +185,7 @@ function HandlebarsEditor( {value, setValue}){
 
    
     return <Card className="h-100">
-        <Card.Header>
+        <Card.Header className="bg-transparent">
             <Stack direction="horizontal" gap={1}>
                 Handlebars template
                 <CopyButton text={value} title="Copy handlebars template" css={"ml-auto btn btn-md bg-light text-dark float-right"}/>

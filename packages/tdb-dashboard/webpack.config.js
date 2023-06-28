@@ -29,20 +29,13 @@ module.exports = (env, argv) => ({
      }),
      new CopyWebPackPlugin({
       patterns: [
-        { from: path.resolve(__dirname, "./src/App.css"), to: "assets/App.css", force:true },
+        { from: path.resolve(__dirname, "./src/bootstrap_darkly.css"), to: "assets/bootstrap_darkly.css", force:true },
         { from: path.resolve(__dirname, "./src/Colors.css"), to: "assets/Colors.css", force:true },
+        { from: path.resolve(__dirname, "./src/App.css"), to: "assets/App.css", force:true },  
         { from: path.resolve(__dirname, "./src/assets"), to: "assets/", force:true },
-        
-        
       ]})
 
 
-  //{ chunks:["contact", "vendor"], template: "src/pages/contact.html",  filename: "contact.html"}
-   /*new HtmlWebPackPlugin({
-      chunks:["bundle"],
-      template: path.join(__dirname, '..' , 'console/index.html'),
-      filename: 'index.html'
-    }),*/
   ],
   resolve: {
     alias: {

@@ -79,7 +79,7 @@ function EditorInterface (props){
   },[props.query, executionContext.queryEditor])
   
   return <Card className="h-100">
-        <Card.Header>
+        <Card.Header className="bg-transparent">
           <Stack direction="horizontal" gap={1}>
               Graphql query
               <Button variant="transparent" 
