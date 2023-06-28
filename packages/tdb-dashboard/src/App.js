@@ -105,7 +105,13 @@ function getRoutes(clientUser, isAdmin, woqlClient){
            
             <Route path=":dataProduct"  >
                 <Route index element={<DataProductsHome/>}/>
-                <Route path={PATH.GRAPHIQL}  element={<GraphIqlEditor/>} />   
+                <Route path={PATH.GRAPHIQL}  element={<GraphIqlEditor/>} />  
+
+                <Route path={PATH.OPENAI_CONF} element={<GraphqlHandlerbarsPage/>} />
+                <Route path={PATH.SEARCH} element={<FreeTextSearch/>} />
+                <Route path={PATH.ACTIONS}  element={<IndexingActionMonitor/>} />
+               
+
                 <Route path={PATH.CHANGE_REQUESTS} >
                     <Route index  element={<ChangeRequestsPage/>} />    
                     <Route path=":changeid" element={<ChangeDiff/>} /> 

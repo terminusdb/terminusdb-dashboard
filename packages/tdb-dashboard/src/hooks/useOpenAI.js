@@ -9,7 +9,7 @@ import { getIntrospectionQuery } from 'graphql';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 
 export function useOpenAI(){ 
-    const {apolloClient,woqlClient} = WOQLClientObj()
+    const {apolloClient,woqlClient,clientUser} = WOQLClientObj()
 
     const [graphqlSchema,setGraphQlSchema] = useState(false)
     const [queryResult,setQueryResult] = useState(false)
@@ -45,12 +45,29 @@ export function useOpenAI(){
     function getUrl(action="changes"){
         const client = woqlClient.copy()
         client.connectionConfig.api_extension = 'api/'
+        if(client.connectionConfig.baseServer){
+            client.connectionConfig.server = client.connectionConfig.baseServer
+        }
         return client.connectionConfig.dbBase(action)
     }
 
     const setStart = (value) =>{
         setStartValue(value)
         localStorage.setItem(`${location.pathname}___START`,start)
+    }
+
+        ///changes/:orgid/:dbid/indexedcommit
+    const updateIndexStatus = async (commit,status)=>{
+        try{
+            setLoading(true)
+            const url = `${getUrl('indexes')}/${commit}`
+            const result = await woqlClient.sendCustomRequest("PUT", url,{status:status})
+            return result
+            }catch (err){
+                setError(err.data || err.message)
+            }finally{
+                setLoading(false)
+        }
     }
 
     ///changes/:orgid/:dbid/indexedcommit
@@ -78,7 +95,7 @@ export function useOpenAI(){
                 setLoading(true)
                 localStorage.setItem(`${location.pathname}___SEARCH__TEXT`,freeText)
                 const url = `${getUrl('indexes')}/search?domain=${domain}&commit=${commit}`
-                const result = await woqlClient.sendCustomRequest("POST", url , {freeText:freeText})
+                const result = await woqlClient.sendCustomRequest("POST", url , {search:freeText})
                 localStorage.setItem(`${location.pathname}___SEARCH__RESULT`,JSON.stringify(result))
                 setSearchResult(result)
             }catch(err){
@@ -107,7 +124,7 @@ export function useOpenAI(){
 
     const pollingCall = async (commitid,updateStatus) =>{
         try{
-            const pollingUrl = `${getUrl('indexes')}/check/${commitid}`
+            const pollingUrl = `${getUrl('indexes')}/${commitid}/check`
             const document = await woqlClient.sendCustomRequest("GET", pollingUrl)
             if(document.indexing_status !== "Assigned" && document.indexing_status !== "Error"){
                 await timeout(5000)
@@ -143,7 +160,12 @@ export function useOpenAI(){
             try{
                 setLoading(true)
                 const client = woqlClient.copy()
-                const url = `${client.server()}api/private/organizations/${UTILS.encodeURISegment(orgName)}/openaikey`
+                let url 
+                if(clientUser.serverType === "TerminusDB" ){
+                    url = `${client.connectionConfig.baseServer}api/indexes/${UTILS.encodeURISegment(orgName)}/openaikey`
+                }else{
+                    url = `${client.server()}api/private/organizations/${UTILS.encodeURISegment(orgName)}/openaikey`
+                }
                 const hasKeyResult = await client.sendCustomRequest("GET", url)
                 setHasKey(hasKeyResult.key )
             }catch(err){
@@ -226,10 +248,12 @@ export function useOpenAI(){
                 const url = client.connectionConfig.branchBase("graphql")
             
                 // TO BE REVIEW!!!!
+                const autorization = woqlClient.localAuth().type === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
+ 
                 const fetcher = createGraphiQLFetcher({
                         url:url,
                         headers: {
-                        authorization: 'Bearer '+ woqlClient.localAuth().key
+                        authorization: autorization
                     }
                 });
 
@@ -302,6 +326,7 @@ export function useOpenAI(){
 
     
     return {pollingCall,
+            updateIndexStatus,
             resetSearch,
             getPrewiew,
             resetPreviewResult,

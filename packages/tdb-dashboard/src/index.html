@@ -3,12 +3,14 @@
   <head>
     <title><%= htmlWebpackPlugin.options.title %></title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://unpkg.com/graphiql/graphiql.min.css"> 
-    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-    <link rel="icon" type="image/png" href="https://assets.terminusdb.com/images/terminusx-color.png"/>
+    <link href="/assets/graphiql.min.css" rel="stylesheet"> 
+   
+    <!-- <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    -->
+      <link rel="icon" type="image/png" href="https://assets.terminusdb.com/images/terminusx-color.png"/>
     <!--<link rel="stylesheet" src="https://unpkg.com/react-sidebar-ui@1.2.0/dist/index.css"/>-->
-		<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+		<script src='/assets/leaflet.fullscreenv1.0.1.min.js'></script>
+    <link href='/assets/leaflet.fullscreenv1.0.1.css' rel='stylesheet' />
     </style>
   </head>
   <body>
@@ -21,23 +23,7 @@
       }
 
     </style>
-
-   <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-625355122"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'AW-625355122');
-    </script>
-    <script>
-      if(window.location.pathname == "/verify"){
-        window.addEventListener('load',function(){
-          gtag('event', 'conversion', {'send_to': 'AW-625355122/pmA5CIjRqfsCEPLSmKoC'});
-        })
-      }
-    </script>-->
-    <link href="https://bootswatch.com/5/darkly/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="/assets/bootstrap_darkly.css" rel="stylesheet" crossorigin="anonymous">
      <link href="/assets/Colors.css" rel="stylesheet"> 
      </body>
 </html>

@@ -5,6 +5,7 @@ import { GraphiQL } from "graphiql";
 //import {Container} from "react-bootstrap"
 import { Layout } from "./Layout";
 import {WOQLClientObj} from '../init-woql-client'
+require( "graphiql/graphiql.min.css");
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/shadowfox.css');
 

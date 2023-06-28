@@ -28,6 +28,8 @@ export const IndexingActionMonitor=(props)=>{
 		return display
     }
 
+    
+
 	return <Layout>  
             <div className="content mr-3 ml-5">  
                 <div className="mt-5 mb-5 mr-5">
@@ -54,7 +56,14 @@ function ItemElement ({item}){
     const startstatus = extractID(item.indexing_status || "")
     const index = extractID(item.index || "")
     const [status , setStatus] = useState(startstatus)
-    const {pollingCall} = useOpenAI()
+    const {pollingCall,updateIndexStatus} = useOpenAI()
+
+
+    const changeStatusHandler = async (status)=>{
+        setStatus("Progress")
+        await updateIndexStatus(index,status)
+        pollingCall(index, updateStatus)
+    }
 
     const updateStatus = (doc) =>{
         item.indexing_status = `@schema:Indexing_Status/${doc.indexing_status}`
@@ -90,6 +99,23 @@ function ItemElement ({item}){
 						</small>
                        
 					</div>
-                    {status=== "Assigned" && <span class="text-dark ml-1 badge bg-light mr-1">{item.searchable_commit["@value"]}</span>}
+                    {status === "Progress" &&  
+                        <Button variant="dark" onClick={(e) => changeStatusHandler("Close")} className="bg-warning text-dark mr-4">   
+                            <small className="text-gray fw-bold">
+                                <span >Restart</span>
+                            </small>
+                        </Button>
+                    }
+                    {(status=== "Assigned" || status=== "Error") &&
+                    <Stack direction="horizontal" gap={3}>
+                        {status=== "Assigned" && 
+                        <span class="text-dark ml-1 badge bg-light mr-1">{item.searchable_commit["@value"]}</span>}
+                        <Button variant="dark" onClick={(e) => changeStatusHandler("Sent")} className="bg-success text-dark mr-4">   
+                            <small className="text-gray fw-bold">
+                                <span >Restart</span>
+                            </small>
+                        </Button>
+                    </Stack>
+                    }
 		    </ListGroup.Item>
 }

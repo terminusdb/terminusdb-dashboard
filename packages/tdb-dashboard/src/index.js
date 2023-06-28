@@ -5,12 +5,13 @@ import {WOQLClientProvider} from './init-woql-client'
 import {localSettings} from "../localSettings"
 import {auth0_conf} from '../auth_config'
 import {Auth0Provider} from "./react-auth0-spa"
-
 import {LoginModal} from "./components/LoginModal"
 import { createRoot } from 'react-dom/client';
 
 require('./App.css')
+require('./bootstrap_darkly.css')
 require('./Colors.css')
+
 
 function NavigationComponent(){
 
