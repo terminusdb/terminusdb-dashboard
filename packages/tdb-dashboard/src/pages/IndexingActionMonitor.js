@@ -75,10 +75,10 @@ function ItemElement ({item}){
         }
     },[item.index])
 
-    const iconTypes = {'Assigned':<AiFillCheckCircle className="text-success" size="20px"/>,
+    const iconTypes = {'Assigned':<AiFillCheckCircle className="text-green" size="20px"/>,
                        'Progress':<ImSpinner5 className="text-warning loading-icon" size="20px"/>,
                        'Error':<AiFillCloseCircle className="text-danger" size="20px"/>,
-                       'Complete':<AiFillClockCircle className="text-success" size="20px"/>}
+                       'Complete':<AiFillClockCircle className="text-warning loading-icon" size="20px"/>}
 
     const name  = item.name ? item.name['@value'] : ''
     
