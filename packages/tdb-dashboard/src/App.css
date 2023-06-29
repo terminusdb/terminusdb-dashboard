@@ -1062,6 +1062,10 @@ pre.CodeMirror-line  > span > span.cm-string {
   background-color: transparent !important;
 }
 
+.graphiql-un-styled[data-value="settings"]{
+  display: none !important;
+}
+
 /* 
 .graphiql-container .graphiql-chevron-icon{
   color:white;

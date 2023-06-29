@@ -6,8 +6,6 @@ import { GraphiQL } from "graphiql";
 import { Layout } from "./Layout";
 import {WOQLClientObj} from '../init-woql-client'
 require( "graphiql/graphiql.min.css");
-//require('codemirror/lib/codemirror.css');
-//require('codemirror/theme/shadowfox.css');
 
 export function GraphIqlEditor({}) {
   const {woqlClient,currentChangeRequest} = WOQLClientObj() 

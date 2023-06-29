@@ -17,15 +17,9 @@ function NavigationComponent(){
 
     let navigate = useNavigate();
     const redirect_uri = window.location.origin
-
-
-    // this happen after confirm you password linking in the email url
-   /* if (window.location.search.includes("supportSignUp=true")) {
-     // window.location.replace('/') 
-    }*/
+    localStorage.setItem("graphiql:theme","dark")
     // you enter here only if you are log - in 
     const onRedirectCallback = (appState) => {
-    
       navigate(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
       
     };
@@ -47,9 +41,6 @@ function NavigationComponent(){
     if(localSettings && localSettings.connection_type=== "LOCAL" && !localStorage.getItem("Terminusdb-USER")){
       return <LoginModal showModal={true} isCloseble={false}/>
     }
-
-
-   
 
     return  <WOQLClientProvider params={localSettings}>
             <App/>
