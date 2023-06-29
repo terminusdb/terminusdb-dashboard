@@ -2,6 +2,7 @@
  /* mute: D2D3D9 */
 
  :root {
+    --color-green:rgb(0, 188, 140);
     --color-pink: #de7dd8;
     --text-contrast-pink: #002856;
     --color-indigo: rgb(52, 80, 220);
@@ -68,6 +69,10 @@
   
 .verify__email {
     background : linear-gradient(122deg,var(--color-yellow) 0,var(--color-pink) 48%, var(--color-indigo) 100%);
+}
+
+.text-green{
+    color: var(--color-green) !important;
 }
 
 .text-success,
