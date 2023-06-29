@@ -70,12 +70,11 @@ export function FreeTextSearch() {
         }
         setElements(elementsArr)
     }
- 
+
 
     const changePageCallNext =()=>{
         setStart(start+5)
     }
-
 
     const changePageCallPreview =()=>{
         setStart(start-5)
@@ -88,11 +87,6 @@ export function FreeTextSearch() {
 
     let page = Math.ceil(start/5)
 
-    /*
-      <Alert variant="primary bg-dark text-warning" className="mx-4 ml-4 mr-4">
-            <span className="d-flex justify-content-center">
-      <FiAlertTriangle size={24} className="mr-3"/><h5>Experimental Feature</h5></span></Alert> 
-    */
     return  <Layout showLeftSideBar={true} mainClassName={"mt-4"}>  
            {commit && <div className="d-flex flex-column">
            <Alert variant="primary bg-dark text-warning" className="mx-4 ml-4 mr-4">

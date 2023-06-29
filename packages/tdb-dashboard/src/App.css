@@ -1076,27 +1076,6 @@ button.graphiql-tab-add>svg
   color:white;
 }
 
-<<<<<<< HEAD
-=======
-
-.graphiql-query-editor{
-  width: 100%;
-  height: 100%;
-}
-.graphiql-editor{
-  width: 100%;
-  height: 100%;
-}
-.graphiql-query-editor-wrapper{
-  width: 100%;
-  height: 100%;
-}
-
-.mainGraphIql{
-  height : calc(100vh - 80px);
-}
->>>>>>> main
-
 .graphiql-query-editor{
   width: 100%;
   height: 100%;
