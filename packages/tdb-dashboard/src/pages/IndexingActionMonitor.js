@@ -32,7 +32,7 @@ export const IndexingActionMonitor=(props)=>{
 
 	return <Layout>  
             <div className="content mr-3 ml-5">  
-                <div className="mt-5 mb-5 mr-5">
+                <div className="mb-5">
                     {!searchableCommit.length && <DisplayNoIndexingAction helpDescription={`You need to index your data before any index actions appear on this page`}/>}
                     {searchableCommit.length>0 && <Card>
                         <Card.Header>

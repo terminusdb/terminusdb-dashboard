@@ -19,7 +19,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 
 export function FreeTextSearch() {
-
     const {resetSearch,hasOpenAIKEY,
          getSearchableCommit, searchableCommit, 
          searchResult,
@@ -88,8 +87,11 @@ export function FreeTextSearch() {
 
     let page = Math.ceil(start/5)
 
-
-    return  <Layout showLeftSideBar={true} mainClassName={"h-view mt-4"}>     
+//   <Alert variant="warning" className="mx-4 ml-4 mr-4"><h5>This is an experimental feature</h5></Alert>   
+         // <h3 className="text-warning text-upper text-center">Experimental Feature</h3>
+    return  <Layout showLeftSideBar={true} mainClassName={"mt-4"}>  
+      
+         
            {commit && <div className="d-flex">
                 <InputGroup className="mb-3">
                     <Form.Control ref={search} style={{maxWidth:"500px"}} type="text" placeholder="Search" className="ml-auto"/>

@@ -6,21 +6,21 @@ import { GraphiQL } from "graphiql";
 import { Layout } from "./Layout";
 import {WOQLClientObj} from '../init-woql-client'
 require( "graphiql/graphiql.min.css");
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/shadowfox.css');
+//require('codemirror/lib/codemirror.css');
+//require('codemirror/theme/shadowfox.css');
 
 export function GraphIqlEditor({}) {
   const {woqlClient,currentChangeRequest} = WOQLClientObj() 
   if(!woqlClient) return 
   const client = woqlClient.copy()
   const url = client.connectionConfig.branchBase("graphql")
-  const autorization = woqlClient.localAuth().type === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
+  const authorization = woqlClient.localAuth().type === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
   
   // TO BE REVIEW!!!!
   const fetcher = createGraphiQLFetcher({
           url:url,
           headers: {
-            authorization: autorization
+            authorization: authorization
         }
   });
 
@@ -29,14 +29,7 @@ export function GraphIqlEditor({}) {
   
   return (
     <Layout mainClassName={layoutClass} showLeftSideBar={false}>
-  
-  <GraphiQL 
-          editorTheme="shadowfox"
-          defaultQuery={'query{}'}
-          fetcher={fetcher} 
-        />
-    
-
+      <GraphiQL defaultQuery={'query{}'} fetcher={fetcher}  />
     </Layout>
   );
 }

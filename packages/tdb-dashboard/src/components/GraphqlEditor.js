@@ -23,10 +23,13 @@ export function GraphqlEditor(props) {
   const client = woqlClient.copy()
   const url = client.connectionConfig.branchBase("graphql")
 
+  const authorization = woqlClient.localAuth().type === "jwt" ? 'Bearer '+ woqlClient.localAuth().key : 'Basic '+ btoa(`${woqlClient.localAuth().user}:${woqlClient.localAuth().key}`)
+ 
+
   const fetcher = createGraphiQLFetcher({
     url:url,
     headers: {
-    authorization: 'Bearer '+ woqlClient.localAuth().key
+    authorization: authorization
 }});
   
 /*

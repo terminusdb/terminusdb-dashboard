@@ -145,7 +145,7 @@ div.SplitPane  .horizontal {
 
 .pro-sidebar-content {
   border-right: 1px solid #303030;
-  background: #000000;
+  background: #1a1919;
 }
 /* ---------- Split Pane resizing css ---------- */
 
@@ -161,7 +161,7 @@ div.progress-bar-container {
 }
 /* ---------- progress bar css ---------- */
 
-/* ---------- icon bar css ---------- */
+/* ---------- icon bar css ---------- */x
 .nav-bar-row {
   height: -webkit-fill-available;
 }
@@ -295,28 +295,6 @@ div.progress-bar-container {
 .doc-summary-card {
   min-width: "33.333333%"
 }
-
-/*.table {
-  border: 0px solid transparent !important;
-  table-layout: fixed;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: transparent!important;
-}
-
-.table td, .table th {
-  border-top: 0 !important;
-
-  word-break: break-all !important;
-}
-
-.table thead th, .member-headers {
-  color: #a3b6ca !important;
-}
-
-.table > :not(:first-child) {
-  border-top: 0 !important;
-}*/
 
 .RRT__tab {
   background: transparent !important;
@@ -1072,14 +1050,19 @@ pre.CodeMirror-line  > span > span.cm-string {
     max-width: 100%;
   }
 
-
-.table td{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
+.mainGraphIql{
+  height : calc(100vh - 80px);
 }
 
+.mainGraphIqlCR{
+  height : calc(100vh - 150px);
+}
+
+.graphiql-container{
+  background-color: transparent !important;
+}
+
+/* 
 .graphiql-container .graphiql-chevron-icon{
   color:white;
 }
@@ -1105,14 +1088,6 @@ button.graphiql-tab-add>svg
 .graphiql-query-editor-wrapper{
   width: 100%;
   height: 100%;
-}
-
-.mainGraphIql{
-  height : calc(100vh - 80px);
-}
-
-.mainGraphIqlCR{
-  height : calc(100vh - 150px);
 }
 
 .graphiql-session{
@@ -1143,6 +1118,8 @@ button.graphiql-tab-add>svg
   position: absolute;
   width: 100%;
 }
+
+/* ---- end ---*/
 
 #json_type_field-warning-box svg {
   height: 15px;
@@ -1201,44 +1178,12 @@ button.graphiql-tab-add>svg
   background-color: #adb5bd !important;
 }
 
-/*.MuiButton-contained {
-  background-color: #a9a7a5;
-}
-.MuiButton-containedPrimary {
-  color: #fff;
-  background-color: #3f51b5;
-}
-.MuiButton-containedSecondary {
-  color: #fff;
-  background-color: #f50057;
-}
-
-.group {
-  background: transparent !important;
-  border: 1px solid #dee2e6 !important;
-}
-
-.rule_group{
-  background-color: white;
-}
-
-.MuiButton-text{
-  color: rgb(0, 188, 140)!important;
-  margin-right: 20px;
-}
-.MuiInputBase-input{
-  min-height: 20px !important;
-}*/
-
-/*.qb-lite .group--drag-handler, .qb-lite .group--actions {
-  transition: opacity 0.2s;
-}*/
 .qb-lite .group--header:hover .group--header .group--drag-handler, .qb-lite .group--header:hover .group--header .group--actions,
 .qb-lite .group--header:not(:hover) .group--drag-handler,
 .qb-lite .group--header:not(:hover) .group--actions,
 .qb-lite .rule_group:not(:hover) .group--drag-handler,
 .qb-lite .rule_group:not(:hover) .group--actions {
-  opacity: 1;https://github.com/terminusdb/terminusdb-dashboard/blob/main/packages/tdb-dashboard/src/App.css
+  opacity: 1;
 }
 
 .accordion{
@@ -1447,6 +1392,35 @@ button.graphiql-tab-add>svg
 .openai_checkbox .form-check-input {
   width: "1.5rem";
   height: "1.5rem"
+}
+
+/* table CSS */
+.table td{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px ;
+}
+
+.table {
+  border: 0px solid transparent !important;
+  table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent!important;
+}
+
+.table td, .table th {
+  border-top: 0 !important;
+  word-break: break-all !important;
+}
+
+.table thead th, .member-headers {
+  color: #a3b6ca !important;
+}
+
+.table > :not(:first-child) {
+  border-top: 0 !important;
 }
 
 
