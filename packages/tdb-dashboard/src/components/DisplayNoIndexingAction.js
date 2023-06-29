@@ -1,5 +1,5 @@
 import React, { useEffect }  from "react";
-import {Container , Card, Button, Col,Row} from "react-bootstrap"
+import {Container , Card, Button, Col,Row,Alert} from "react-bootstrap"
 import Stack from "react-bootstrap/Stack"
 import { useParams, NavLink} from "react-router-dom";
 import { RiUserFollowFill } from "react-icons/ri"
@@ -8,6 +8,7 @@ import {SiHandlebarsdotjs} from "react-icons/si"
 import { useOpenAI } from "../hooks/useOpenAI";
 import { RxCheckbox } from "react-icons/rx"
 import {WOQLClientObj} from '../init-woql-client'
+import {FiAlertTriangle} from 'react-icons/fi'
 
 const StepDetail = ({ stepNumber, stepComponent, icon}) => {
   
@@ -62,6 +63,8 @@ export const DisplayNoIndexingAction = ({ helpDescription }) => {
   const connection_type = clientUser.connection_type==="LOCAL" ? "LOCAL" : "REMOTE"
   
   return <div className="text-center justify-content-center">
+    <Alert variant="primary bg-dark text-warning" className="mx-4 ml-4 mr-4"><span className="d-flex justify-content-center"><FiAlertTriangle size={24} className="mr-3"/><h5>
+      Experimental Feature</h5></span></Alert> 
     <h4 className="text-light fw-bold">Get started with Indexing Actions</h4>
     <h5 className="text-light fw-bold">{helpDescription}</h5>
     <Container className="my-5">

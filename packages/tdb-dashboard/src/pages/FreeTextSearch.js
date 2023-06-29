@@ -16,10 +16,10 @@ import  Alert  from "react-bootstrap/Alert";
 import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction";
 import { BsSearch } from "react-icons/bs"
 import InputGroup from 'react-bootstrap/InputGroup';
+import {FiAlertTriangle} from 'react-icons/fi'
 
 
 export function FreeTextSearch() {
-
     const {resetSearch,hasOpenAIKEY,
          getSearchableCommit, searchableCommit, 
          searchResult,
@@ -70,12 +70,11 @@ export function FreeTextSearch() {
         }
         setElements(elementsArr)
     }
- 
+
 
     const changePageCallNext =()=>{
         setStart(start+5)
     }
-
 
     const changePageCallPreview =()=>{
         setStart(start-5)
@@ -88,9 +87,12 @@ export function FreeTextSearch() {
 
     let page = Math.ceil(start/5)
 
-
-    return  <Layout showLeftSideBar={true} mainClassName={"h-view mt-4"}>     
-           {commit && <div className="d-flex">
+    return  <Layout showLeftSideBar={true} mainClassName={"mt-4"}>  
+           {commit && <div className="d-flex flex-column">
+           <Alert variant="primary bg-dark text-warning" className="mx-4 ml-4 mr-4">
+            <span className="d-flex justify-content-center">
+            <FiAlertTriangle size={24} className="mr-3"/><h5>Experimental Feature</h5></span></Alert> 
+ 
                 <InputGroup className="mb-3">
                     <Form.Control ref={search} style={{maxWidth:"500px"}} type="text" placeholder="Search" className="ml-auto"/>
                     <Button onClick={onClickHandler} variant="light" className="mr-auto"><BsSearch/></Button>

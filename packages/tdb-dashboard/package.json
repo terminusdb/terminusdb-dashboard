@@ -63,7 +63,7 @@
     "codemirror-graphql": "^2.0.2",
     "console-browserify": "^1.2.0",
     "date-fns": "^2.27.0",
-    "graphiql": "^2.2.0",
+    "graphiql": "^3.0.0",
     "graphql": "^15.8.0",
     "graphql-formatter": "^1.0.3",
     "graphql-react": "^20.0.0",
