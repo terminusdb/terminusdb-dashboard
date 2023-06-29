@@ -91,7 +91,7 @@ export const Layout = (props) => {
                     {showFeedbackForm && <Feedback setShowFeedbackForm={setShowFeedbackForm}/>}
                 </div>
             </div>              
-            <div className={`ml-1 main-content h-100 ${getMainNavClassName(collapseSideBar)}`}>                      
+            <div className={` main-content h-100 ${getMainNavClassName(collapseSideBar)}`}>                      
                 <MainNavBar setShowTimeTravel={setShowTimeTravel} 
                     changeRequestHolder={headerElement}
                     collapseSideBar={collapseSideBar} 

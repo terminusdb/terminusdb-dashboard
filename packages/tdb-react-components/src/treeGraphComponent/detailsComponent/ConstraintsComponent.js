@@ -18,8 +18,8 @@ export const ConstraintsComponent =(props)=>{
     const change=(evt)=>{
        setChecked({checked:evt.target.checked});
     }
-    //const elementLabel={}
-
+    //const elementLabel={} 
+ 
     const getConstraintsMessage=()=>{
     	let message=[]
 

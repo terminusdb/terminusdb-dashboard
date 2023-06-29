@@ -2,7 +2,7 @@ import React  from 'react'
 import {RelationshipBox} from './RelationshipBox'
 import {GraphContextObj} from '../hook/graphObjectContext'
 import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
-
+ 
 export const RelationshipView = (props)=>{
 	const {changeCurrentNode,
 		  selectedNodeObject,

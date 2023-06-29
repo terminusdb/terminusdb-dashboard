@@ -14,6 +14,7 @@ export const BaseElement = (props)=>{
     //const subdocument_disabled = nodeSchemaData.subdocument_disabled === true ? {disabled:true} : {}
 
     const changeElement=(name,value)=>{
+        
         let val=value;
         val = value.trim();
         try{
@@ -40,14 +41,16 @@ export const BaseElement = (props)=>{
         setIndexError(false);
     },[nodeJsonData]) 
 
-    return(
-   	    <div className="tdb__panel__box tdb__panel__box--edit">
-           { /*<RemoveElementComponent 
+    return( <>
+      { <RemoveElementComponent 
                 hasConstraints={props.hasConstraints} 
                 elementId={nodeJsonData.name}
+                displayAsIcon={props.view === `UI_VIEW` ?false : true}
                 elementType={nodeJsonData.type}
                 removeElement={props.removeElement}
-                />*/}
+                />}
+   	    <div className="tdb__panel__box tdb__panel__box--edit">
+         
        	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
                     <Fragment>
                         <BaseCheckboxElement labelClassName={"mb-0"}
@@ -83,6 +86,7 @@ export const BaseElement = (props)=>{
                     defaultValue={nodeSchemaData.comment || ''}
             />
     	</div>
+        </>
     )
 }
 

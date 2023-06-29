@@ -26,8 +26,8 @@ export const BasePropertyComponent = (props)=> {
 
 		const changePropertyValue=(propName,propValue)=>{
 			// display render as option if string is a property 
-			if(propValue === "xsd:string") setDisplayRenderAs(Date.now())
-			else setDisplayRenderAs(false)
+			//if(propValue === "xsd:string") setDisplayRenderAs(Date.now())
+			//else setDisplayRenderAs(false)
 			mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)
 		}
 		
@@ -50,7 +50,8 @@ export const BasePropertyComponent = (props)=> {
 						{`${currentNodeJson.type}   |   ${nodeSchemaData.range}`}
 					</Badge>}
 					{nodeSchemaData && <Badge bg="dark" className='text-info  mr-2'>
-						{nodeSchemaData.option}
+						{nodeSchemaData.option === "" && `Mandatory`}
+						{nodeSchemaData.option !== "" && nodeSchemaData.option}
 					</Badge>}
 				</div>
 			</Stack>
@@ -68,7 +69,8 @@ export const BasePropertyComponent = (props)=> {
 							  
 				{viewBaseSchema && <BaseElement updateValue={updateBaseValue}
 										   removeElement={props.removeElement} 
-										   nodeJsonData={currentNodeJson}
+										   nodeJsonData={currentNodeJson} 
+											 view={props.view}
 										   showAllButton={showAllButton}
 										   nodeSchemaData={nodeSchemaData}
 										   isNodeObject={false}
@@ -80,6 +82,7 @@ export const BasePropertyComponent = (props)=> {
 									<BaseSelectComponent
 			                            help={props.help}
 										optionChange={changePropertyValue}
+										view={props.view}
 			                            title={props.selectDataProvider.label}
 					            		dataProvider={props.selectDataProvider.options}
 					            		name={props.selectDataProvider.id}
@@ -99,7 +102,7 @@ export const BasePropertyComponent = (props)=> {
 									
 	               					{props.children}
 									{props.showCardinality &&
-	               	  				 <PropertyExtraInfo extraInfoValue={nodeSchemaData} propObj={currentNodeJson} />
+	               	  				 <PropertyExtraInfo extraInfoValue={nodeSchemaData} propObj={currentNodeJson} view={props.view} />
 	               					}
 								   </BaseElement>}
 			</Accordion>

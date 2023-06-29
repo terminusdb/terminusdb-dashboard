@@ -116,7 +116,7 @@ export const ViewBuilder = (props)=>{
 						</div>
 						}
 					</SizeMe>
-				</div>
+				</div> 
 					<div className='h-100'>
 					{isEditMode===true &&
 						<RightBarHeaderTools saveData={saveData} />

@@ -32,17 +32,17 @@ export const JsonMode = (props)=>{
 				<div role="group" className="btn-group">
                     {editMode &&
                         <Fragment>
-                            <button  type="button" className="btn btn-outline-light btn-lg border-0" onClick={saveChange}>
-                                <AiOutlineSave/>
+                            <button  type="button" className="btn btn-light btn-sm border-0" onClick={saveChange}>
+                                <AiOutlineSave/> Save Changes
                             </button>
-                            <button  type="button" className="btn btn-outline-light btn-lg border-0" onClick={()=>{setEditMode(false)}}>
-                                <AiOutlineCloseCircle/>
+                            <button  type="button" className="btn btn-light btn-sm border-0" onClick={()=>{setEditMode(false)}}>
+                                <AiOutlineCloseCircle/> Close
                             </button>
                         </Fragment>
                     }
                     {!editMode &&
-					<button  type="button" className="btn btn-outline-light btn-lg border-0" onClick={()=>{setEditMode(true)}}>
-						<FaRegEdit/>
+					<button  type="button" className="btn btn-light btn-sm border-0" onClick={()=>{setEditMode(true)}}>
+						<FaRegEdit/> Edit Schema
 					</button>
                     }
 			</div>

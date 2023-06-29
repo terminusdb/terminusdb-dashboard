@@ -59,7 +59,7 @@ export const KeyComponent = (props) => {
 							elementId='fields' 
 							elementType='node'
 							isKey={true}
-							dataProvider={fields}/>	: <label className='text-muted'>{`No Property Key set`}</label>}
+							dataProvider={fields}/>	: <label className='text-muted mt-3'>{`No Property Key set`}</label>}
 				/>
 				 
 			{	/*<h6 className="text-light fw-bold">	</h6>

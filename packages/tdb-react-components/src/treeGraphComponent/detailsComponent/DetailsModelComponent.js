@@ -52,6 +52,7 @@ export const DetailsModelComponent = (props)=>{
 	    							removeElement={props.removeElement}
 	    							hasConstraints={hasConstraints}
 	    							nodeJsonData={nodeData}
+										view={props.view}
 									nodeSchemaData={nodeSchemaData}
 	    							updateValue={updateBaseValue}
 									/>

@@ -531,21 +531,26 @@ input[type="radio"] {
 
 
 ::-webkit-scrollbar {
-  width: 12px;
-  background: transparent;
-  border: 1px solid grey;
+  width: 3px;
+  /*background: transparent;*/
+  background: #111;
+  border: 1px solid rgb(0, 0, 0);
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 3px; 
+  -moz-border-radius: 3px; 
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb
 {
-	border-radius: 10px;
+	border-radius: 4px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   box-shadow:inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #444;
-  max-height: 50%;
-  height: 50%;
+  /*max-height: 25%;*/
+  /*background-color: #855afc;*/
+  height: 15%;
 }
 
 

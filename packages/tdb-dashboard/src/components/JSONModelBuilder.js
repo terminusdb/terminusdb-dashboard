@@ -92,12 +92,12 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
     
     //console.log("editMode", editMode)
     return <>
-        <label className="text-warning mt-4">{editMessage}</label>
+        <label className="text-warning">{editMessage}</label>
         {reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
        
-        <Card className={`border border-secondary mt-4`} {...editStyle}>
-            {loading && <Loading message={"Updating schema"} type={PROGRESS_BAR_COMPONENT}/>}       
-            <Card.Header>
+        <Card className={`border-0 bg-transparent`} {...editStyle}>
+             {loading && <Loading message={"Updating schema"}/>}       
+            <Card.Header className="bg-transparent">
                 <Stack direction="horizontal" className="w-100 justify-content-end">
                     {editMode && <div className="w-100">
                         <div role="group" className="btn-group w-100">

@@ -51,42 +51,42 @@ export const PropertiesComponent = (props)=> {
 		   			baseObj['title']=`${CLASS_TYPE_NAME_LABEL.CHOICE_CLASS} Type *`
 		   			baseObj['placeholder']=`Select ${CLASS_TYPE_NAME_LABEL.CHOICE_CLASS} Type`
 					baseObj['help']=ELEMENT_HELP.enum_property	
-		   			return <ObjectProperty  {...baseObj} key={propertyItem.name}/>;
+		   			return <ObjectProperty  {...baseObj} key={propertyItem.name} view={props.view}/>;
 		   		
 		   		case PROPERTY_TYPE_NAME.NUMERIC_PROPERTY:
 		   			baseObj['selectDataProvider']=NUMBER_PROPERTY_PRECISION_DATAPROVIDER;
 					baseObj['help']=ELEMENT_HELP.number_subtype	
-		   			return <BasePropertyComponent {...baseObj} key={propertyItem.name} />
+		   			return <BasePropertyComponent {...baseObj} key={propertyItem.name} view={props.view}/>
 
 		   		case PROPERTY_TYPE_NAME.STRING_PROPERTY:
 		   			baseObj['selectDataProvider']=STRING_TYPE_DATAPROVIDER;	
 					baseObj['help']=ELEMENT_HELP.string_subtype			   				   			
-		   			return <BasePropertyComponent {...baseObj} key={propertyItem.name} />
+		   			return <BasePropertyComponent {...baseObj} key={propertyItem.name} view={props.view}/>
 
 				case PROPERTY_TYPE_NAME.BOOLEAN_PROPERTY:
 					baseObj['selectDataProvider']=BOOLEAN_TYPE_DATAPROVIDER;	
 					baseObj['help']=ELEMENT_HELP.string_subtype			   				   			
-					return <BasePropertyComponent {...baseObj} key={propertyItem.name} />
-				
+					return <BasePropertyComponent {...baseObj} key={propertyItem.name} view={props.view}/>
+				 
 				case PROPERTY_TYPE_NAME.JSON_PROPERTY:
 						baseObj['selectDataProvider']=JSON_TYPE_DATAPROVIDER;	
 						baseObj['help']=ELEMENT_HELP.string_subtype			   				   			
-						return <BasePropertyComponent {...baseObj} key={propertyItem.name} />
+						return <BasePropertyComponent {...baseObj} key={propertyItem.name} view={props.view}/>
 
 		   		case PROPERTY_TYPE_NAME.GEO_PROPERTY:
 		   			baseObj['selectDataProvider']=GEOMETRY_PROPS_DATAPROVIDER;
 					baseObj['help']=ELEMENT_HELP.geo_subtype		
-		   			return <BasePropertyComponent {...baseObj} key={propertyItem.name} />
+		   			return <BasePropertyComponent {...baseObj} key={propertyItem.name} view={props.view}/>
 		   		case PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY:
 					baseObj['help']=ELEMENT_HELP.time_subtype	
 		   			baseObj['selectDataProvider']=TEMPORAL_PROPERTY_DATAPROVIDER;
-		   			return <BasePropertyComponent {...baseObj}  key={propertyItem.name} />
+		   			return <BasePropertyComponent {...baseObj}  key={propertyItem.name} view={props.view} />
 		   		case PROPERTY_TYPE_NAME.OBJECT_PROPERTY:
 		   			baseObj['title']='Links To Type *'
 		   			baseObj['placeholder']='Select Type'
 		   			baseObj['comboDataProvider']=objectPropertyList || [];
 					baseObj['help']=ELEMENT_HELP.link_property	
-		   			return <ObjectProperty  {...baseObj} key={propertyItem.name} />;
+		   			return <ObjectProperty  {...baseObj} key={propertyItem.name} view={props.view}/>;
 		   			default:
 		   				return '';
 				}

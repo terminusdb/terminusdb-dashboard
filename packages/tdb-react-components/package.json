@@ -49,6 +49,8 @@
     "core-js": "^3.8.2",
     "d3": "^5.16.0",
     "date-fns": "^2.16.1",
+    "gojs": "^2.3.8",
+    "gojs-react": "^1.1.2",
     "jointjs": "^3.7.3",
     "prop-types": "^15.6.0",
     "react-bootstrap": "^2.7.0",

@@ -8,7 +8,27 @@ import {GraphContextObj} from '../hook/graphObjectContext';
 import {Accordion} from  '../../form/Accordion';
 import {CLASS_TYPE_NAME,CLASS_TYPE_NAME_LABEL,getLabelByName} from '../utils/elementsName'
 
-export const ParentsFilter = (props) => {
+export const  removeParent=(selectedValue)=>{
+	const { updateParentsList } = GraphContextObj();
+	
+	updateParentsList(selectedValue,REMOVE_PARENT)
+}
+
+export const getParentList=()=>{
+	const {selectedNodeObject,graphDataProvider} = GraphContextObj();
+	
+	const parents=selectedNodeObject.parents || [];
+	const listParent=[]
+	parents.forEach((parentName,index)=>{
+		const elementObj=graphDataProvider.get(parentName);
+	const elementData=elementObj.data;
+	const label=elementData.label || elementData.id
+		listParent.push({name:elementData.name,label:label})
+	})
+	return listParent;
+}
+
+export const ParentsFilter = (props) => {  
 	const {selectedNodeObject,graphDataProvider,updateParentsList,availableParentsList} = GraphContextObj();
 	
 	const [classType,setClassType]=useState(CLASS_TYPE_NAME.OBJECT_CLASSES)
@@ -75,9 +95,7 @@ export const ParentsFilter = (props) => {
 		updateParentsList(parentName,ADD_PARENT)
 	}
 
-	const removeParent=(selectedValue)=>{
-		updateParentsList(selectedValue,REMOVE_PARENT)
-	}
+	
 		
 	const elementClassList=[{label:CLASS_TYPE_NAME_LABEL.DOCUMENT_CLASSES,
 							value:CLASS_TYPE_NAME.DOCUMENT_CLASSES},
@@ -93,19 +111,49 @@ export const ParentsFilter = (props) => {
 
     
 
-    const getParentList=()=>{
-    	const parents=selectedNodeObject.parents || [];
-    	const listParent=[]
-    	parents.forEach((parentName,index)=>{
-    		const elementObj=graphDataProvider.get(parentName);
-			const elementData=elementObj.data;
-			const label=elementData.label || elementData.id
-    		listParent.push({name:elementData.name,label:label})
-    	})
-    	return listParent;
-   }
-    const listDataProvider=getParentList();
     
+    const listDataProvider=getParentList();
+  
+		if(props.view === `UI_VIEW`) {
+			return <>
+				<h6 className='text-muted fw-bold'>Parent List</h6>
+				{listDataProvider.length>0 &&
+					<ParentsElementViewMode />}
+					<Accordion titleClassName="tdb__accordion__head"
+									title="Add/Remove Parents"  
+									tooltip="Add/Remove Parents">
+				<div className="tdb__panel__box">
+				    <div className="tdb__list">
+			     		<div className="tdb__list__items" >
+			     			{listDataProvider.length===0 && 'No Parents'}
+ 			     			<ListComponent removeItem={removeParent} elementId={elementId} elementType={elementType} dataProvider={listDataProvider}/>					 
+						 </div>
+						 {showAddParentsBox &&	
+							 <>					 
+							 {showComboObjectType && 					 	
+								<BaseSelectComponent
+									defaultValue={classType} 
+									dataProvider={elementClassList} 
+									optionChange={changeParentList} 
+									showLabel={false}  
+									name='elementsType'
+									setEnableSave={props.setEnableSave}/>					 	
+							 }
+							 	<BaseSelectReactElement
+								 	name="addParent"
+								 	resetSelection={true} 
+									isClearable={false} 
+									onChange={addParent} 
+									placeholder={placeholder} 
+									dataProvider={dataProvider} 
+									optionChange={addParent}/>
+							</>
+						}
+					</div>
+				</div>	
+				</Accordion>
+			</>
+		}
     
 
 	return (	<>

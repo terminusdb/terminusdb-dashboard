@@ -92,7 +92,7 @@ BaseSelectComponent.propTypes = {
 BaseSelectComponent.defaultProps = {
    defaultValue :'',
    groupClassName:"form-group",//'tdb__form__group',
-   selectClassName:"form-control",//'tdb__form__element',
+   selectClassName:"form-control text-white",//'tdb__form__element',
    labelClassName:'tdb__form__label',
    title:'',
    showLabel:true,

@@ -27,11 +27,11 @@ export const RemoveElementComponent = (props) =>{
   if(props.elementType === "ChoiceClass") label="Enum"
 
 
-  return <Button className='bg-secondary text-danger border-0 btn-sm'
+  return <Button className='bg-secondary text-danger border-0 btn-sm float-right mt-3 fw-bold'
     onClick={onClick}
     title={`Delete ${ label}`}>
-      <RiDeleteBin5Fill size={16} />
-
+      {/*<RiDeleteBin5Fill size={16} />*/}
+      {`Delete ${ label}`}
     </Button>
   
 } 
