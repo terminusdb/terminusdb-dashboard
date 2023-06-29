@@ -60,6 +60,7 @@ export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mod
       onChange={ (event) => onChange(event.target.value, name) } />}
     {/** only allow numbers */} 
     {NUMBER_ARRAY.includes(placeholder) &&  <input type="number"
+      step="any"
       id={id}   
       name={id}
       pattern="[0-9]*"
