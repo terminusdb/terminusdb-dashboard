@@ -41,7 +41,7 @@ export const BaseSelectReactElement=(props)=>{
 		option: (provided, state) => ({
 			...provided,
 			backgroundColor: "transparent",
-			color: state.isSelected ? '#00C08B' : '#495057',
+			color: state.isSelected ? '#00C08B' : "#f8f8f8", //'#495057'
 		// padding: 20,
 		})
 	}

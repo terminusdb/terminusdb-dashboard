@@ -39,9 +39,9 @@ export const JsonMode = (props)=>{
                                 <AiOutlineCloseCircle/> Close
                             </button>
                         </Fragment>
-                    }
+                    } 
                     {!editMode &&
-					<button  type="button" className="btn btn-light btn-sm border-0" onClick={()=>{setEditMode(true)}}>
+					<button  type="button" className="btn btn-light btn-sm border-0 my-3" onClick={()=>{setEditMode(true)}}>
 						<FaRegEdit/> Edit Schema
 					</button>
                     }
