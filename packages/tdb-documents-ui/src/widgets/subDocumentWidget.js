@@ -10,6 +10,7 @@ import { DisplayDocumentation } from "../templates"
 import { AiOutlineUp, AiOutlineRight } from "react-icons/ai"
 import { displayInternalProperties } from "../helpers/documentHelpers"
 import { HiddenSubDocumentWidgets } from "./hiddenWidgets"
+import { getLinkedDescription } from "../components/DescriptionComponent"
 
 const CollapseMessage = ({ message, name, icon }) => {
   return <>
@@ -115,7 +116,7 @@ function getExpanded(expanded, linked_to, frame) {
 }
   
 export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, index, hideFieldLabel, linked_to, propertyDocumentation, id, label, reference, subDocumentData, setSubDocumentData, args }) => {
-  const [open, setOpen] = useState(args.mode === CONST.VIEW ? getExpanded(expanded, linked_to, args.fullFrame) : expanded);
+  const [open, setOpen] = useState(args.mode === CONST.VIEW ? getExpanded(expanded, linked_to, args.fullFrame) : true);
   //const [open, setOpen] = useState(true);
   let uiFrame = args.uiFrame, mode = args.mode 
  
@@ -145,7 +146,7 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
       className="tdb__label__width" 
       hideFieldLabel={hideFieldLabel}/> 
     <Card bg="secondary" className={`tdb__subdocument__input ${util.getBorder(uiFrame, props.name, index)} w-100`} key={id}>
-      <Button variant={"secondary"}
+      {mode === CONST.VIEW && <><Button variant={"secondary"}
         className={`text-start p-4`}
         data-testid={`root_subdocument_${props.name}_button`}
         name={`root_subdocument_${props.name}_button`}
@@ -154,8 +155,8 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
         aria-expanded={open} 
       >
         {/*<TDBLabel name={props.name} required={props.required} comment={comment}/>*/}
-        {!open && <CollapseMessage message={`Click here to expand SubDocument`} name={props.name} icon={<AiOutlineRight className="text-muted"/>}/>}
-        {open && <CollapseMessage message={`Click here to collapse SubDocument`} name={props.name} icon={<AiOutlineUp className="text-muted"/>}/>}
+        {!open && <CollapseMessage message={`Click here to expand SubDocument`} name={linked_to} icon={<AiOutlineRight className="text-muted"/>}/>}
+        {open && <CollapseMessage message={`Click here to collapse SubDocument`} name={linked_to} icon={<AiOutlineUp className="text-muted"/>}/>}
       </Button>
       <Collapse in={open}>
         <div id={`root_subdocument_${props.name}`}>
@@ -176,7 +177,30 @@ export const TDBSubDocument = ({ extracted, expanded, order_by, comment, props, 
             linked_to={linked_to}
             args={args}/>}
         </div>
-      </Collapse>
+      </Collapse></>}
+      {mode !== CONST.VIEW && <>
+        <Card.Header>
+          {getLinkedDescription (linked_to, `SubDocument`)}
+        </Card.Header>
+        <div id={`root_subdocument_${props.name}`}>
+          {subDocumentData && linked_to === subDocumentData[CONST.TYPE] && <SubDocumentProperties properties={extracted.properties} 
+            //required={extracted.required}
+            required={props.required}
+            //formData={props.formData}
+            id={id}
+            index={index}
+            reference={reference}
+            order_by={order_by}
+            props={props}
+            subDocumentPropertyName={props.name}
+            propertyDocumentation={propertyDocumentation}
+            onChange={props.onChange}
+            subDocumentData={subDocumentData} 
+            setSubDocumentData={setSubDocumentData}
+            linked_to={linked_to}
+            args={args}/>}
+        </div>
+      </>}
     </Card>
   </Stack>
 }

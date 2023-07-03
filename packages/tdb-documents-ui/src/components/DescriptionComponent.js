@@ -4,11 +4,11 @@ import { AiOutlineLink } from "react-icons/ai"
 
 // description field for document links 
 // shows to which document a property is linked
-export function getLinkedDescription (linked) {
+export function getLinkedDescription (linked, type) {
   return  <Stack direction="horizontal" gap={2} className="fw-bold">
     <AiOutlineLink className="text-warning h6 mt-1"/>
     <small className="fst-italic text-muted">
-      {`Linked to document: `}
+      {`Linked to ${type ? type : "document"}: `}
       <span className="text-warning fw-bold">{linked}</span>
     </small>
   </Stack>
