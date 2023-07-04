@@ -689,7 +689,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			// initialize metadata & render as for propertyObj
 			_currentNode.schema["@metadata"] = {
 				"render_as": {
-					[currentpropertyID]: "markdown"
+					[currentpropertyID]: "markdown" 
 				}
 			}
 		}
