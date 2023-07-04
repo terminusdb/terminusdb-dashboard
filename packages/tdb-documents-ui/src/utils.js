@@ -824,7 +824,7 @@ export function getFieldUIFrame (uiFrame, subDocumentPropertyName, defaultClassN
 export function getBorder (uiFrame, subDocumentPropertyName, index) {
   if(uiFrame && uiFrame.hasOwnProperty(subDocumentPropertyName)) {
 		if(index) {
-			if(uiFrame[subDocumentPropertyName][index].hasOwnProperty(CONST.BORDER)) {
+			if(uiFrame[subDocumentPropertyName][index] && uiFrame[subDocumentPropertyName][index].hasOwnProperty(CONST.BORDER)) {
 				return uiFrame[subDocumentPropertyName][index][CONST.BORDER]
 			}
 			else return "border border-dark"

@@ -7,7 +7,7 @@ import { Container } from "react-bootstrap";
 
 function addUiFrameForEachField(docConfig, property) {
   // This is mostly used to set the ui frame per fields in diff view
-  if(docConfig.hasOwnProperty("fieldUIFrame") && docConfig["fieldUIFrame"].hasOwnProperty(property)) {
+  if(docConfig["fieldUIFrame"] && docConfig["fieldUIFrame"].hasOwnProperty(property)) {
     return { [property] : docConfig["fieldUIFrame"][property] }
   } 
   // it can be some assosciated properties of @oneOfs at this point
