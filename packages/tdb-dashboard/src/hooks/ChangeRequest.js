@@ -37,6 +37,22 @@ export function ChangeRequest(){
         }
     }
 
+    const addNewMessage = async(message, crID = false) =>{
+        try{
+            setLoading(true)
+            const payload = {message}
+            const currentCR = crID 
+            const changeRequestDoc = await woqlClient.sendCustomRequest("POST", `${getUrl()}/${currentCR}/messages`,payload)
+            return changeRequestDoc
+        }catch(err){ 
+            const errMessage = formatErrorMessage(err)
+            setError(errMessage)
+            return false
+        }finally{
+            setLoading(false)
+        }  
+    }
+
     const updateChangeRequestStatus = async(message, status="Submitted", crID = false) =>{
         try{
             setLoading(true)
@@ -116,6 +132,7 @@ export function ChangeRequest(){
         errorMessage,
         changeRequestList,
         createChangeRequest,
+        addNewMessage,
         getChangeRequestList,
         updateChangeRequestStatus,
         getChangeRequestByID,
