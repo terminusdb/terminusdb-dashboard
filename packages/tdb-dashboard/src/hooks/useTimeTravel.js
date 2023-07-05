@@ -10,19 +10,22 @@ const QUERY_TYPE_LOAD = 'QUERY_TYPE_LOAD';
 const QUERY_TYPE_PREVIOUS = 'QUERY_TYPE_PREVIOUS';
 const QUERY_TYPE_NEXT = 'QUERY_TYPE_NEXT';
 
-export const TimeTravelControl = (limit=5) => {
+export const useTimeTravel = (limit=5) => {
     const {woqlClient, branch, chosenCommit,setHead} = WOQLClientObj()
     if(!woqlClient) return ""
      const dataProduct = woqlClient.db()
 
     const [report, setError] = useState(false)
     // type Date 
-    const currentDay =  new Date()
-    if(chosenCommit && chosenCommit.time)currentDay.setTime(chosenCommit.time*1000) 
+    const startcurrentDay =  new Date()
+    // If there is a commit selected I add 6 second to the time
+    // because the query is less then or he not get the selected one
+    if(chosenCommit && chosenCommit.time)startcurrentDay.setTime((chosenCommit.time*1000)+6000)
    //Unix timestamp (in seconds)
-    const currentStartTime = Math.floor(+currentDay/1000) //currentDay.unix();
+    const currentStartTime = Math.floor(+startcurrentDay/1000)
     const [olderCommit,setOlderCommit] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
+    const [currentDay, setUpdateCurrentDay] = useState(startcurrentDay);
     const [startTime, setUpdateStartTime] = useState(currentStartTime);
     const [gotoPosition,setGotoPosition] = useState(null);
     const [reloadQuery,setReloadQuery] = useState(0);
@@ -87,6 +90,8 @@ export const TimeTravelControl = (limit=5) => {
                     else queryObj = WOQL.lib().commits(branch, limit,currentPage);
             } 
             const tmpWoqlClient =  woqlClient.copy()
+            // I should reset the commit or I see only a subset of commits 
+            tmpWoqlClient.ref(null)
             
             tmpWoqlClient.query(queryObj).then((result) => {
                 if (result.bindings) {
@@ -214,15 +219,20 @@ export const TimeTravelControl = (limit=5) => {
     //    setReloadQuery(Date.now());
     }
 
-    const setStartTime=(date)=>{
+    const setStartTime=(date,resetday)=>{
         setCurrentPage(0);
         setGotoPosition(null)
         //setCurrentCommit(null)
-        const unixTime = (Math.floor(+date/1000)+86400) //time.add(1,'day').unix();
+        const unixTime = (Math.floor(+date/1000)+86400)
         if(unixTime !==startTime) setDataProviderValues({dataProvider:[],selectedValue:0});
         if(chosenCommit && chosenCommit.time){
             //reset the commit
             setHead(branch, {})
+        }
+        if(resetday){
+            const tmpCurrentDay = new Date()
+            tmpCurrentDay.setTime(date)
+            setUpdateCurrentDay(tmpCurrentDay+6000)
         }
         setUpdateStartTime(unixTime)
     }

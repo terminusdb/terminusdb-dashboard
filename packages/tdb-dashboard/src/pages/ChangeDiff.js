@@ -40,7 +40,7 @@ const CRAction = ({}) => {
 
  
     //{currentCRObject.needRebase && currentCRObject.status !== "Merged" && <div>
-    if (currentCRObject.needRebase === false || currentCRObject.status === CONST.MERGED) 
+    if (currentCRObject && (currentCRObject.needRebase === false || currentCRObject.status === CONST.MERGED)) 
         return <ChangeDiffComponent/>
 
     if(currentCRObject.hasOwnProperty("manageConflict") && currentCRObject.manageConflict) return <ChangeDiffComponent/>

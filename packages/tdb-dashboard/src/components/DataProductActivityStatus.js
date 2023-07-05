@@ -7,7 +7,7 @@ import {
     Legend,
     ResponsiveContainer,
     AreaChart, Area } from 'recharts'
-import {TimeTravelControl} from "../hooks/TimeTravelControl"
+import {useTimeTravel} from "../hooks/useTimeTravel"
 import {printtsDate, printtsTime} from "./utils"
 import {Loading} from "./Loading"
 import {PROGRESS_BAR_COMPONENT} from "./constants"
@@ -16,7 +16,7 @@ import {Col} from "react-bootstrap"
 export const DataProductActivityStatus = ()=>{
     const {
         dataProvider
-    } = TimeTravelControl(50)
+    } = useTimeTravel(50)
 
     return  <React.Fragment>
                 <Col md={12}>

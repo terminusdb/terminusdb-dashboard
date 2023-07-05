@@ -58,11 +58,11 @@ export const WOQLClientProvider = ({children, params}) => {
     const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
-       // const startWith = process.env.BASE_URL ? 2 : 1 
+        // const startWith = process.env.BASE_URL ? 2 : 1 
         const teamPath = locArr.length>1 && !noTeam[locArr[1]] ? UTILS.decodeURISegment(locArr[1]) : false
         const dataPath = locArr.length>2 && !noDatabase[locArr[2]] ? UTILS.decodeURISegment(locArr[2]) : false
         const page = locArr.length>3 ? locArr[3] : false
-       // console.log(teamPath,dataPath,page)
+        // console.log(teamPath,dataPath,page)
         
         return {organization:teamPath,dataProduct:dataPath,page}
     }
@@ -208,6 +208,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     function exitChangeRequestBranch(branchName = "main"){
         woqlClient.checkout(branchName)
+        woqlClient.ref(null)
         const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
         localStorage.removeItem([TERMINUSCMS_CR])
         localStorage.removeItem([TERMINUSCMS_CR_ID])
@@ -226,7 +227,7 @@ export const WOQLClientProvider = ({children, params}) => {
         if(branchID)woqlClient.checkout(branchID)
         refObject = refObject || {}
         let sref=refObject.commit
-        let refTime=refObject.time
+       //let refTime=refObject.time
         sref = sref || false
         woqlClient.ref(sref)
 

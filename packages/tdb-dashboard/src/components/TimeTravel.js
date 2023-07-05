@@ -1,12 +1,10 @@
 import React, {useState, useEffect, useRef} from "react"
 import {BiTimer, BiTime, BiMessageAltDetail} from "react-icons/bi"
-import {BsFillCircleFill, BsCalendar} from"react-icons/bs"
+import {BsFillCircleFill} from"react-icons/bs"
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component'
 import 'react-vertical-timeline-component/style.min.css'
-import {TimeTravelControl} from "../hooks/TimeTravelControl"
+import {useTimeTravel} from "../hooks/useTimeTravel"
 import {Button, Card, Row, Col} from "react-bootstrap"
-import {TERMINUS_SUCCESS} from "./constants"
-import {Alerts} from "./Alerts"
 import {AiOutlineUser} from "react-icons/ai"
 import {printtsDate, printtsTime} from "./utils"
 import {WOQLClientObj} from '../init-woql-client'
@@ -16,31 +14,30 @@ import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {DatePickerComponent} from "./DatePicker"
 import {FaInfoCircle} from "react-icons/fa"
 
-
-export const TimeTravel = ({show}) => {
- 
+export const TimeTravel = ({refreshTime}) => {
     let cardColor = "#303030", transparantColor = "transparent", activeColor = "#00bc8c"
-    const  {branch, chosenCommit,setHead, currentChangeRequest} = WOQLClientObj()
-  
-    const {currentItem, 
+    const {setHead,chosenCommit,branch} = WOQLClientObj()
+    const {
         dataProvider, 
-        //setSelectedValue, 
-        setCurrentDay,
         loadNextPage,
         olderCommit, 
-        loadPreviousPage,
-        setReloadQuery,
         currentDay,
         setStartTime,
         loading,
         setLoading,
-        } = TimeTravelControl() 
+        } = useTimeTravel() 
 
     useEffect(() => { // when new commit logs are loaded on click of previous or next 
         if(dataProvider.length > 0) {
             setLoading(false)
         }
     }, [dataProvider])
+
+    useEffect(()=>{
+      if(refreshTime){
+        setStartTime(refreshTime,true)
+      }
+    },[refreshTime])
     
     //const [reportAlert, setReportAlert] = useState(false)
 
@@ -53,20 +50,6 @@ export const TimeTravel = ({show}) => {
          }
     }
   
-   /* useEffect(() => {
-        if(chosenCommit && setHead){
-            setHead(branch, chosenCommit)
-            let message = `The state of data product has been set to date ${chosenCommit.label}`
-            setReportAlert(<Alerts message={message} type={TERMINUS_SUCCESS} onCancel={setReportAlert}/>)
-         }
-    }, [chosenCommit])*/
-
-    // useEffect(() => {
-    //     if(show){
-    //         setReloadQuery(Date.now())
-    //     }
-    // }, [show])
-
 
     const TimelineElements = () => {
         if(!dataProvider) return <div/>

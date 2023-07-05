@@ -11,7 +11,7 @@ import {ErrorMessageReport} from "../components/ErrorMessageReport"
 // I pass this so I'm sure it exists before loading the component
 export const DocumentsGraphqlList = ({documentTablesConfig}) => {    
     const {type} = useParams()
-    const {apolloClient,branch,setChangeRequestBranch,woqlClient} = WOQLClientObj()
+    const {apolloClient,branch,setChangeRequestBranch,woqlClient,ref} = WOQLClientObj()
     const {deleteDocument,loading,error,setError} = useTDBDocuments(woqlClient)
     const [showCRModal, setShowCRModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
@@ -72,6 +72,7 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
              /> }
              {error && <ErrorMessageReport error={error} setError={setError}/>}
            {!showDeleteModal && <ListDocumentsComponent type={type}
+                commit={ref}
                 gqlQuery={query} 
                 apolloClient={apolloClient} 
                 advancedSearchConfig={advancedSearchConfig}

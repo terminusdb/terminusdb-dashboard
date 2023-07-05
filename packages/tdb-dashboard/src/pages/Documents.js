@@ -11,7 +11,7 @@ import {Loading} from "../components/Loading"
 import {Col} from "react-bootstrap"
 
 export const Documents = () => {   
-    const {woqlClient} = WOQLClientObj()
+    const {woqlClient,ref} = WOQLClientObj()
     const {dataProduct,organization} = useParams()
     const navigate = useNavigate() 
     const {perDocumentCount,
@@ -25,7 +25,7 @@ export const Documents = () => {
 //
     useEffect(() => {
         getDocumentNumbers()
-    },[dataProduct])
+    },[dataProduct,ref])
 
     const getUrl = (pageName)=> {
         return  `/${organization}/${dataProduct}/${pageName}`
