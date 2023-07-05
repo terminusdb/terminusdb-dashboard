@@ -51,7 +51,7 @@ export const MessageBox = ({ setMessage, message }) => {
 // displays textarea to write comments  & button to save comments
 export const MessageComponent = ({setKey}) => {
     const { currentCRObject, setCurrentCRObject }= WOQLClientObj()
-    const { updateChangeRequestStatus, loading } = ChangeRequest()
+    const { addNewMessage, loading } = ChangeRequest()
     const [comment, setComment]=useState("")
     const { id } = useParams()
 
@@ -59,7 +59,7 @@ export const MessageComponent = ({setKey}) => {
     async function handleMessage(comment) {
         let id=extractID(currentCRObject["@id"])
         // this call return the changeRequestObj Updated
-        let res=await updateChangeRequestStatus(comment, currentCRObject.status, id)
+        let res=await addNewMessage(comment, id)
         // we'll see if add need rebase check every time
         res.needRebase = currentCRObject.needRebase
         setCurrentCRObject(res)
