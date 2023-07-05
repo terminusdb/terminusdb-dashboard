@@ -23,7 +23,7 @@ export function extractDocuments(documentResultsArr) {
             // if it is an array this is set type, I can have more than 1 result for row
             //?? I can pust the count
             if (Array.isArray(item[key])) {
-                newJson[key] = `${(item[key].length)}`
+                newJson[key] = `Item Count ${(item[key].length)}`
             }
             else if (item[key] && typeof item[key] === "object") {
                 //key 
