@@ -8,10 +8,9 @@ import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
-
 export const DocumentNew = () => {   
     const {organization,dataProduct,type} = useParams()
-    const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest} = WOQLClientObj()
+    const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest,useChangeRequest} = WOQLClientObj()
     const [showModal, setShowModal] = useState(false)
 
     const {
@@ -30,7 +29,7 @@ export const DocumentNew = () => {
     //try to change/add documents in main branch
     // I'm moving this logic in change request
     useEffect(() => {
-        if(!currentChangeRequest){
+        if(!currentChangeRequest && useChangeRequest){
             setShowModal(true)
         }
         getDocumentFrames()
@@ -51,7 +50,7 @@ export const DocumentNew = () => {
     return  <React.Fragment>
             {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
             {error && <ErrorMessageReport error={error} setError={setError}/>}
-            {currentChangeRequest &&  frames &&  
+            {(!useChangeRequest || currentChangeRequest) &&  frames &&  
                 <NewDocumentComponent 
                     SearchComponent={DocumentSearchComponent}
                     frames={frames}

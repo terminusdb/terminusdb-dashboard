@@ -9,7 +9,7 @@ import {Loading} from "../components/Loading"
 export const DocumentsPageList = () => {
     const {type} = useParams()
     
-    const {woqlClient, currentChangeRequest,ref } = WOQLClientObj()
+    const {woqlClient,ref } = WOQLClientObj()
     const {documentTablesConfig, getGraphqlTablesConfig,loading} = useTDBDocuments(woqlClient)
     if(!woqlClient) return ""
 

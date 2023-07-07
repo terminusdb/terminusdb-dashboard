@@ -1,4 +1,25 @@
 
+export function storeChangeRequestDBStatus(orgName,dbName,status,setStatus){
+    const cr_name = `TERMINUSCMS_CR_STATUS.${orgName}_____${dbName}`
+    localStorage.setItem(cr_name,status)
+    setStatus(status==="Inactive" ? false : true)
+}
+
+export function getStoreChangeRequestDBStatus(orgName,dbName,setStatus){
+    const cr_name = `TERMINUSCMS_CR_STATUS.${orgName}_____${dbName}`
+    const item = localStorage.getItem(cr_name)
+    let status = true
+    if(item) status = item==="Inactive" ? false : true
+    setStatus(status)
+    return status
+}
+
+export function deleteStoreChangeRequestDBStatus(orgName,dbName){
+    const cr_name = `TERMINUSCMS_CR_STATUS.${orgName}_____${dbName}`
+    localStorage.removeItem(cr_name)
+}
+
+
 export function graphStructureFromBindings(bindings) {
     let gs = {}
     for (var i = 0; i < bindings.length; i++) {

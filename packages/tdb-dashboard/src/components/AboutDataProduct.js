@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment, useRef} from "react"
 import {WOQLClientObj} from '../init-woql-client'
 import {timeConverter, } from "../pages/utils"
-import {Button,Alert} from "react-bootstrap"
+import {Button,Alert,ButtonGroup,ToggleButton} from "react-bootstrap"
 import {DATA_PRODUCT_HEALTHY} from "../pages/constants"
 import {HealthModal} from "./HealthModal"
 import {localSettings} from "../../localSettings"
@@ -20,9 +20,9 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     const {dataProduct,organization} =useParams()
     const [showHealth, setShowHealth]=useState(false)
     const [branchCount, setBranchCount]= useState(0)
-    const {woqlClient, accessControlDashboard} = WOQLClientObj()
+    const {woqlClient, accessControlDashboard, updateChangeRequestStatus, useChangeRequest,clientUser} = WOQLClientObj()
     const {documentClasses,getDocumentClasses} = useTDBDocuments(woqlClient)
-    
+    const [radioValue, setRadioValue] = useState(useChangeRequest===false ? "Inactive" : "Active");
 
     const {cloneDatabase, loading:loadingClone, error:errorClone , setError:setCloneError} =  ManageDatabase()
 
@@ -90,9 +90,43 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     const showUpdateHandler = () =>{
         setShowUpdate(dataProductDetails)
     }
+
+    const radios = [
+        { name: 'Change Request Mode Active', value: 'Active' , title:'manage your documents using the change request mode'},
+        { name: 'Change Request Mode Inactive', value: 'Inactive' , title:'manage your documents directly in the current branch'},
+      ];
+    
+
+    const updateChangeRequestStatusHandler = function(value){
+        setRadioValue(value)
+        updateChangeRequestStatus(value)
+    }
     
     return <React.Fragment> 
         <HealthModal dataProduct={dataProduct} showHealth={showHealth} setShowHealth={setShowHealth}/>
+        {clientUser.serverType !== "TerminusDB" &&
+        <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
+            <Card.Body>
+            <ButtonGroup>
+                {radios.map((radio, idx) => (
+                <ToggleButton
+                    key={idx}
+                    id={`radio-${idx}`}
+                    type="radio"
+                    title={radio.title}
+                    variant={idx === 0 ? 'outline-success' : 'outline-warning'}
+                    name="radio"
+                    value={radio.value}
+                    checked={radioValue === radio.value}
+                    onChange={(e) => updateChangeRequestStatusHandler(e.currentTarget.value)}
+                >
+                    {radio.name}
+                </ToggleButton>
+                ))}
+            </ButtonGroup>
+            </Card.Body>
+        </Card>
+        }
         <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
             <Card.Body>
                 <h4 className="text-light mb-3 fw-bold">About</h4>
