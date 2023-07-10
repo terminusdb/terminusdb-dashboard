@@ -9,6 +9,7 @@ import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
 import {getChangesUrl} from "./hooks/hookUtils"
 import {cleanGraphiqlCache} from "./pages/utils"
+import {getStoreChangeRequestDBStatus,storeChangeRequestDBStatus} from "./hooks/utils"
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
@@ -34,9 +35,12 @@ export const WOQLClientProvider = ({children, params}) => {
     const [chosenCommit,setChosenCommit]=useState({})
     const [currentCRObject, setCurrentCRObject]=useState(false)
     const [userHasMergeRole,setTeamUserRoleMerge] = useState(false)
+
     const [currentChangeRequest,setCurrentChangeRequest] = useState(false)
     const [currentCRName,setCurrentCRName] = useState(false)
     const [currentCRStartBranch,setCurrentCRStartBranch] = useState(false)
+
+    const [useChangeRequest,setUseChangeRequest] = useState(true)
 
     // constants to control sidebar collapse
     const [collapseSideBar, setCollapseSideBar] = useState(localStorage.getItem(`Terminusdb-SideBar-Collapsed`) === "true" ? true : false) 
@@ -58,11 +62,11 @@ export const WOQLClientProvider = ({children, params}) => {
     const noDatabase = {"":true,"profile":true,"administrator" :true}
     const getLocation = ()=>{
         const locArr = location.pathname.split("/")
-       // const startWith = process.env.BASE_URL ? 2 : 1 
+        // const startWith = process.env.BASE_URL ? 2 : 1 
         const teamPath = locArr.length>1 && !noTeam[locArr[1]] ? UTILS.decodeURISegment(locArr[1]) : false
         const dataPath = locArr.length>2 && !noDatabase[locArr[2]] ? UTILS.decodeURISegment(locArr[2]) : false
         const page = locArr.length>3 ? locArr[3] : false
-       // console.log(teamPath,dataPath,page)
+        // console.log(teamPath,dataPath,page)
         
         return {organization:teamPath,dataProduct:dataPath,page}
     }
@@ -150,33 +154,42 @@ export const WOQLClientProvider = ({children, params}) => {
             setHead('main',{commit:false,time:false})
 
             if(dbName){
+                // getStoreChangeRequestDBStatus(client.organization(),dbName,setUseChangeRequest)
                 //clear graphiql interface local storage
                 cleanGraphiqlCache()
-                // check if there is a change request related
-                const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
 
-                const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
-                const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)  
+                const changeRequestStatus = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/profile/status`)
+                setUseChangeRequest(changeRequestStatus.isActive)
+                if(changeRequestStatus.isActive){
+                // check if there is a change request related
+                    const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
+
+                    const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
+                    const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)  
             
-                if(lastBranch && lastChangeRequest){
-                    //check the changeRequest Status
-                    const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
-                    if(changeObj.status=== "Open"){
-                        client.checkout(lastBranch)
-                        setBranch(lastBranch)
-                        setCurrentChangeRequest(lastChangeRequest)
-                        setCurrentCRStartBranch(changeObj.original_branch)
-                        setCurrentCRName(changeObj.name || changeObj.messages[0].text)
+                    if(lastBranch && lastChangeRequest){
+                        //check the changeRequest Status
+                        const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
+                        if(changeObj.status=== "Open"){
+                            client.checkout(lastBranch)
+                            setBranch(lastBranch)
+                            setCurrentChangeRequest(lastChangeRequest)
+                            setCurrentCRStartBranch(changeObj.original_branch)
+                            setCurrentCRName(changeObj.name || changeObj.messages[0].text)
+                        }else{
+                            localStorage.removeItem(TERMINUSCMS_CR)  
+                            localStorage.removeItem(TERMINUSCMS_CR_ID)  
+                            setBranch("main")
+                            setCurrentChangeRequest(false)
+                            setCurrentCRName(false)
+                            setCurrentCRStartBranch(false)
+                        }
                     }else{
-                        localStorage.removeItem(TERMINUSCMS_CR)  
-                        localStorage.removeItem(TERMINUSCMS_CR_ID)  
+                        //if we are not change request
                         setBranch("main")
                         setCurrentChangeRequest(false)
-                        setCurrentCRName(false)
-                        setCurrentCRStartBranch(false)
                     }
                 }else{
-                    //if we are not change request
                     setBranch("main")
                     setCurrentChangeRequest(false)
                 }
@@ -208,6 +221,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     function exitChangeRequestBranch(branchName = "main"){
         woqlClient.checkout(branchName)
+        woqlClient.ref(null)
         const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
         localStorage.removeItem([TERMINUSCMS_CR])
         localStorage.removeItem([TERMINUSCMS_CR_ID])
@@ -226,7 +240,7 @@ export const WOQLClientProvider = ({children, params}) => {
         if(branchID)woqlClient.checkout(branchID)
         refObject = refObject || {}
         let sref=refObject.commit
-        let refTime=refObject.time
+       //let refTime=refObject.time
         sref = sref || false
         woqlClient.ref(sref)
 
@@ -296,11 +310,21 @@ export const WOQLClientProvider = ({children, params}) => {
         sidebarStateObj[name]=value
     }
 
+    const updateChangeRequestStatus= async function(status){
+        const isActive = status === "Inactive" ? false : true
+        await woqlClient.sendCustomRequest("PUT", `${getChangesUrl(woqlClient)}/profile/status`,{isActive:isActive})
+        setUseChangeRequest(isActive) 
+        if(status==="Inactive"){
+            exitChangeRequestBranch(currentCRStartBranch)
+        }
+    }
 
     return (
         <WOQLContext.Provider
             value={{
+                updateChangeRequestStatus,
                 currentCRName,
+                useChangeRequest,
                 exitChangeRequestBranch,
                 apolloClient,
                 setChangeRequestBranch,

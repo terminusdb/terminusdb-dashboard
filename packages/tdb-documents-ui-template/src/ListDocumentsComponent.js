@@ -4,7 +4,7 @@ import Stack from 'react-bootstrap/Stack'
 import {HiPlusSm} from "react-icons/hi"
 import { DocumentsGraphqlTable } from "./components/DocumentsGraphqlTable";
 
-export const ListDocumentsComponent = ({type, apolloClient, tableConfig , advancedSearchConfig, onRowClick, 
+export const ListDocumentsComponent = ({commit,type, apolloClient, tableConfig , advancedSearchConfig, onRowClick, 
                                      onDeleteButtonClick,
                                      onViewButtonClick,
                                      onEditButtonClick,
@@ -26,6 +26,7 @@ export const ListDocumentsComponent = ({type, apolloClient, tableConfig , advanc
             </Card.Header>
             <Card.Body className="text-break">
             <DocumentsGraphqlTable tableConfig={tableConfig} 
+                    commit={commit}
                     type={type} 
                     advancedSearchConfig={advancedSearchConfig}
                     gqlQuery={gqlQuery}

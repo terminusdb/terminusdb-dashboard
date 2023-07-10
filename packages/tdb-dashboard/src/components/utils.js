@@ -303,8 +303,11 @@ export const status = {
 
 /** just get change request ID, remove "Changerequest/" from ID */
 export function extractID(id) {
-    let str= id.split("/") 
-    return str[1]
+    if(typeof id === "string"){
+        let str= id.split("/") 
+        return str[1]
+    }
+    return ""
 }
 
 /** sorts alphabetically  */

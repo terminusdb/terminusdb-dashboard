@@ -72,6 +72,7 @@ export function GraphqlHandlerbarsPage({}) {
                 setHandlebarTemplate(classObj['@metadata']['embedding']['template'])
             }else if(documentTablesConfig && documentTablesConfig.objQueryOpenAI && documentTablesConfig.objQueryOpenAI[classId]){
                 setGraphqlQuery(format(documentTablesConfig.objQueryOpenAI[classId].query))
+                setHandlebarTemplate("")
             }
             setType(classId)
             resetPreviewResult()

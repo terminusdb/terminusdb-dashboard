@@ -11,6 +11,10 @@ export const DatePickerComponent = ({currentDay, setStartTime}) => {
         // convert to ISO timeStamp 
       if(setStartTime)setStartTime(data)
     }
+
+    useEffect(()=>{
+      setCurrentDate(currentDay)
+    },[currentDay])
  
     return <DatePicker onChange={handleOnChange} 
             value={selected} 

@@ -112,6 +112,7 @@ export const QueryPane = ({queryObj}) => {
                                 <Col md={size}> 
                                 <div className="editor-pallet">
                                 <WOQLEditor
+                                    language={queryObj.editorObj.language}
                                     editorObject={queryObj.editorObj}
                                     editable={true}
                                     theme="dark"/>

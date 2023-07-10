@@ -99,8 +99,7 @@ export const Layout = (props) => {
                     setCollapseSideBar={setCollapseSideBar}/>
                 <div className={`${mainClassName} `} >
                     {currentChangeRequest && <GetHelpText/>}
-                    {/*dataProduct && noChange && <ChangeRequestComponent currentChangeRequest={currentChangeRequest} closeChangeRequest={closeChangeRequest} branch={branch} setShowModal={setShowModal}/>*/}
-                    { dataProduct  && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
+                    { dataProduct  && showTimeTravel && <TimeTravelContainer show={showTimeTravel} setShowTimeTravel={setShowTimeTravel}/>}                          
                     {props.children}
                 </div>
             </div> 

@@ -10,7 +10,7 @@ import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
 import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
 export const DocumentEdit = () => { 
-    const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest} = WOQLClientObj()
+    const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest,useChangeRequest} = WOQLClientObj()
     if(!woqlClient) return ''
     const [showModal, setShowModal] = useState(false) 
     const {type, docid} = useParams()
@@ -53,7 +53,7 @@ export const DocumentEdit = () => {
     return <React.Fragment>
         {error && <ErrorMessageReport error={error} setError={setError}/>}
         {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
-        {currentChangeRequest && 
+        {!useChangeRequest || currentChangeRequest && 
             <EditDocumentComponent
                 SearchComponent={DocumentSearchComponent}
                 documentID={documentID} 

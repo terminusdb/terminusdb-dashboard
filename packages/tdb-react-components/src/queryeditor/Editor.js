@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 
 import CodeMirror from "@uiw/react-codemirror"
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
@@ -24,6 +24,10 @@ export const CodeViewer = ({text, language, theme}) => {
 
 export const CodeEditor = ({text, language, onChange, onBlur, theme}) => {
     const [value,setValue] = useState(text || "")
+    
+    useEffect(() => {
+        setValue(text)
+    }, [language])
     
     const onChangeHandler = React.useCallback((value, viewUpdate) => {
         setValue(value)

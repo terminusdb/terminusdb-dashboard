@@ -8,7 +8,7 @@ import {useParams} from 'react-router-dom'
 
 export const IconBar =  ({setShowFeedbackForm}) => {
 
-     const {currentChangeRequest} = WOQLClientObj()
+     const {currentChangeRequest,useChangeRequest} = WOQLClientObj()
 
     const { organization, dataProduct } = useParams();
 
@@ -101,18 +101,18 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {IconBarConfig.graphiql.icon}
                 </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            {useChangeRequest && <Nav.Item>
                 <Nav.Link  as={RouterNavLink}
                     title={IconBarConfig.changes.title} 
-                    className="nav-icon nav-product-expolorer" 
+                    className="nav-icon nav-product-explorer" 
                     {...disabled}
                     to={getUrl(IconBarConfig.changes.path)} 
                     
                     id={IconBarConfig.changes.key}>
                     {IconBarConfig.changes.icon}
                 </Nav.Link>
-            </Nav.Item>
-            {!currentChangeRequest &&
+            </Nav.Item>}
+            {useChangeRequest && !currentChangeRequest &&
                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={IconBarConfig.openAI.title} 
@@ -125,7 +125,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     </Nav.Link>
                 </Nav.Item>
             }
-            {!currentChangeRequest  && 
+            {useChangeRequest && !currentChangeRequest  && 
                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={IconBarConfig.search.title} 
@@ -138,7 +138,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     </Nav.Link>
                 </Nav.Item>
             }
-             {!currentChangeRequest  && 
+             {useChangeRequest && !currentChangeRequest  && 
                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={IconBarConfig.actions.title} 

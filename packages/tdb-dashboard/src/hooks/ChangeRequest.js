@@ -129,6 +129,7 @@ export function ChangeRequest(){
     return {
         loading,
         setError,
+        addNewMessage,
         errorMessage,
         changeRequestList,
         createChangeRequest,

@@ -59,7 +59,8 @@ export const MessageComponent = ({setKey}) => {
     async function handleMessage(comment) {
         let id=extractID(currentCRObject["@id"])
         // this call return the changeRequestObj Updated
-        let res=await addNewMessage(comment, id)
+        let res=await addNewMessage(comment,id)
+
         // we'll see if add need rebase check every time
         res.needRebase = currentCRObject.needRebase
         setCurrentCRObject(res)

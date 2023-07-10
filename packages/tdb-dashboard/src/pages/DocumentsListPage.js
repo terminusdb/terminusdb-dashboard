@@ -9,7 +9,7 @@ import {Loading} from "../components/Loading"
 export const DocumentsPageList = () => {
     const {type} = useParams()
     
-    const {woqlClient, currentChangeRequest } = WOQLClientObj()
+    const {woqlClient,ref } = WOQLClientObj()
     const {documentTablesConfig, getGraphqlTablesConfig,loading} = useTDBDocuments(woqlClient)
     if(!woqlClient) return ""
 
@@ -17,7 +17,7 @@ export const DocumentsPageList = () => {
 
     useEffect(() => {
         getGraphqlTablesConfig()
-    },[])
+    },[ref])
 
     if(loading || documentTablesConfig===null) return <Loading message={`Loading Documents list ...`}/>
     if(viewGraphql) return <DocumentsGraphqlList documentTablesConfig={documentTablesConfig}/>
