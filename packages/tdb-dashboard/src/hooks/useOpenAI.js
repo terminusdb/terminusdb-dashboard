@@ -300,8 +300,11 @@ export function useOpenAI(){
     const getPrewiew = async (type,queryStr,handlebarsTemplate)=>{
       try{
          setError(false)
-         let queryWithLimit = queryStr//.replace("(","($offset: Int, $limit: Int , ")
-        // queryWithLimit = queryWithLimit.replace(`${type}(`,`${type}(offset: $offset, limit: $limit, `)
+         let queryWithLimit = queryStr  
+         if(queryStr.indexOf("$limit") === -1){
+            queryWithLimit = queryStr.replace("(","($offset: Int, $limit: Int, ")
+            queryWithLimit = queryWithLimit.replace(`${type}(`,`${type}(offset: $offset, limit: $limit, `)
+         }
          setLoading(true)
          const query = gql(`${queryWithLimit}`)
          const result = await apolloClient.query({query:query,variables:{limit:5,offset:0}})
