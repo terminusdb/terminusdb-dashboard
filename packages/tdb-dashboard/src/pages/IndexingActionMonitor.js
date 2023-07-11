@@ -42,7 +42,8 @@ export const IndexingActionMonitor=(props)=>{
                             </ListGroup>
                         </Card.Body>
                     </Card>}
-                    {!loading && searchableCommit && searchableCommit.length === 0 && <DisplayNoIndexingAction helpDescription={`You need to index your data before any index actions appear on this page`}/>}
+                    {!loading && !searchableCommit && <DisplayNoIndexingAction helpDescription={`You need to index your data before any index actions appear on this page`}/>}
+
                 </div>
             </div>
         </Layout>
