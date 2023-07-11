@@ -97,7 +97,7 @@ export const DocumentView = () => {
             deleteDocument={callDeleteDocument}
             documentID={documentID}
             showDeleteModal={showDeleteModal}
-            handleClose={()=>showDeleteModal(false)}
+            handleClose={()=>setShowDeleteModal(false)}
         /> }
         <ViewDocumentComponent 
           type={type}

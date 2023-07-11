@@ -11,7 +11,7 @@ import {ErrorMessageReport} from "../components/ErrorMessageReport"
 // I pass this so I'm sure it exists before loading the component
 export const DocumentsGraphqlList = ({documentTablesConfig}) => {    
     const {type} = useParams()
-    const {apolloClient,branch,setChangeRequestBranch,woqlClient,ref} = WOQLClientObj()
+    const {apolloClient,branch,setChangeRequestBranch,woqlClient,ref,currentChangeRequest,useChangeRequest} = WOQLClientObj()
     const {deleteDocument,loading,error,setError} = useTDBDocuments(woqlClient)
     const [showCRModal, setShowCRModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
@@ -29,7 +29,7 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
         setTobeDeleted(fullId)
         // I can not change main directly
         // I can change other branches creates with create branch interface
-        if(woqlClient.checkout() === "main"){
+        if(useChangeRequest && !currentChangeRequest){
             setShowCRModal(true)
         }else setShowDeleteModal(true)
     }

@@ -10,7 +10,6 @@ import {ImSpinner5} from "react-icons/im"
 import { useParams } from "react-router-dom";
 import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction"
 
-
 export const IndexingActionMonitor=(props)=>{
 
     const {loading,error,getSearchableCommit,searchableCommit} = useOpenAI()
@@ -28,23 +27,22 @@ export const IndexingActionMonitor=(props)=>{
 		return display
     }
 
-    
-
 	return <Layout>  
             <div className="content mr-3 ml-5">  
                 <div className="mb-5">
-                    {!searchableCommit.length && <DisplayNoIndexingAction helpDescription={`You need to index your data before any index actions appear on this page`}/>}
+                    {loading && <Loading message={`Fetching Indexing Actions ...`}/>}
                     {searchableCommit.length>0 && <Card>
                         <Card.Header>
                             Indexing Actions
                         </Card.Header>
                         <Card.Body className="p-0">
                             <ListGroup as="ol" key={"ListGroup"}> 
-                                {loading && <Loading message={`Fetching Change Requests ...`}/>}
+                                
                                 {searchableCommit && formatListItem()}
                             </ListGroup>
                         </Card.Body>
                     </Card>}
+                    {!loading && searchableCommit && searchableCommit.length === 0 && <DisplayNoIndexingAction helpDescription={`You need to index your data before any index actions appear on this page`}/>}
                 </div>
             </div>
         </Layout>
@@ -93,16 +91,19 @@ function ItemElement ({item}){
 						 		from branch 
 							<span class="text-dark ml-1 badge bg-success">{item.branch["@value"]}</span>
 						
-						</div>					
+						</div>
+                        {status === "Error" && item.error_message && 
+                        <div sclassName="text-danger text-small fw-bold ml-4">Error: {item.error_message["@value"]}</div>}			
 						<small className="text-light text-small fw-bold">
-							runned {getDays(item.time["@value"])} days ago 
+							ran {getDays(item.time["@value"])} days ago 
 						</small>
+                       
                        
 					</div>
                     {status === "Progress" &&  
                         <Button variant="dark" onClick={(e) => changeStatusHandler("Close")} className="bg-warning text-dark mr-4">   
                             <small className="text-gray fw-bold">
-                                <span >Restart</span>
+                                <span >Stop</span>
                             </small>
                         </Button>
                     }
@@ -110,6 +111,7 @@ function ItemElement ({item}){
                     <Stack direction="horizontal" gap={3}>
                         {status=== "Assigned" && 
                         <span class="text-dark ml-1 badge bg-light mr-1">{item.searchable_commit["@value"]}</span>}
+                       
                         <Button variant="dark" onClick={(e) => changeStatusHandler("Sent")} className="bg-success text-dark mr-4">   
                             <small className="text-gray fw-bold">
                                 <span >Restart</span>

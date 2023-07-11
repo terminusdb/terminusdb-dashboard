@@ -37,7 +37,7 @@ export const DocumentEdit = () => {
    }
     // implement the chage method
     useEffect(() => {
-        if(!currentChangeRequest){
+        if(useChangeRequest && !currentChangeRequest){
             setShowModal(true)
         }
         getDocumentFrames()
@@ -53,7 +53,7 @@ export const DocumentEdit = () => {
     return <React.Fragment>
         {error && <ErrorMessageReport error={error} setError={setError}/>}
         {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
-        {!useChangeRequest || currentChangeRequest && 
+        {(!useChangeRequest || currentChangeRequest) && 
             <EditDocumentComponent
                 SearchComponent={DocumentSearchComponent}
                 documentID={documentID} 

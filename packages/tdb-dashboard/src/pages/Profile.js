@@ -25,7 +25,7 @@ import {useNavigate} from "react-router-dom"
 import { PLANS } from "../routing/constants"
 
 export const Profile = () => {
-    const {woqlClient,clientUser:user} = WOQLClientObj()
+    const {woqlClient,clientUser:user,accessControlDashboard} = WOQLClientObj()
     if(!woqlClient) return
     const organization = woqlClient.organization()
     //const team = user ? user['http://terminusdb.com/schema/system#team'] : ''
@@ -57,7 +57,7 @@ export const Profile = () => {
             {user &&
             <Row>
             <Col className="ml-3 mt-5">
-                <OpenAICard organization={organization}/>
+                <OpenAICard organization={organization} isAdmin={accessControlDashboard && accessControlDashboard.isAdmin()}/>
                 <TokenCard organization={organization}/>
                 {cloud_url && <React.Fragment>
                     <Card className="p-5 mb-4">
