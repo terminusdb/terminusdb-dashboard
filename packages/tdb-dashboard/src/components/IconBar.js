@@ -8,7 +8,9 @@ import {useParams} from 'react-router-dom'
 
 export const IconBar =  ({setShowFeedbackForm}) => {
 
-     const {currentChangeRequest,useChangeRequest} = WOQLClientObj()
+     const {currentChangeRequest,useChangeRequest, accessControlDashboard} = WOQLClientObj()
+
+     const instanceRead = accessControlDashboard && accessControlDashboard.instanceRead() ? accessControlDashboard.instanceRead() : false
 
     const { organization, dataProduct } = useParams();
 
@@ -66,7 +68,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {IconBarConfig.dataProductModal.icon}
                 </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            {instanceRead && <Nav.Item>
                 <Nav.Link  
                     as={RouterNavLink}
                     title={IconBarConfig.documentExplorer.title} 
@@ -77,7 +79,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     id={IconBarConfig.documentExplorer.key}>
                     {IconBarConfig.documentExplorer.icon}
                 </Nav.Link>
-            </Nav.Item>
+            </Nav.Item>}
           <Nav.Item>
                 <Nav.Link  as={RouterNavLink}
                     title={IconBarConfig.dataProductExplorer.title} 
@@ -90,18 +92,18 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                 </Nav.Link>
             </Nav.Item>
             
-            <Nav.Item>
+            {instanceRead && <Nav.Item>
                 <Nav.Link  as={RouterNavLink}
                     title={IconBarConfig.graphiql.title} 
-                    className="nav-icon nav-product-expolorer" 
+                    className="nav-icon nav-product-expolorer"
                     {...disabled}
                     to={getUrl(IconBarConfig.graphiql.path)} 
                     
                     id={IconBarConfig.graphiql.key}>
                     {IconBarConfig.graphiql.icon}
                 </Nav.Link>
-            </Nav.Item>
-            {useChangeRequest && <Nav.Item>
+            </Nav.Item>}
+            {instanceRead && useChangeRequest && <Nav.Item>
                 <Nav.Link  as={RouterNavLink}
                     title={IconBarConfig.changes.title} 
                     className="nav-icon nav-product-explorer" 
@@ -112,7 +114,8 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     {IconBarConfig.changes.icon}
                 </Nav.Link>
             </Nav.Item>}
-            {useChangeRequest && !currentChangeRequest &&
+            {instanceRead && useChangeRequest && !currentChangeRequest &&
+                <>
                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={IconBarConfig.openAI.title} 
@@ -124,8 +127,6 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                         {IconBarConfig.openAI.icon}
                     </Nav.Link>
                 </Nav.Item>
-            }
-            {useChangeRequest && !currentChangeRequest  && 
                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={IconBarConfig.search.title} 
@@ -137,9 +138,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                         {IconBarConfig.search.icon}
                     </Nav.Link>
                 </Nav.Item>
-            }
-             {useChangeRequest && !currentChangeRequest  && 
-                <Nav.Item>
+                 <Nav.Item>
                     <Nav.Link  as={RouterNavLink}
                         title={IconBarConfig.actions.title} 
                         className="nav-icon nav-product-expolorer" 
@@ -150,6 +149,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                         {IconBarConfig.actions.icon}
                     </Nav.Link>
                 </Nav.Item>
+                </>
             }
             <hr className="my-3" role="separator"></hr>
             <div className="nav-icons-bottom">

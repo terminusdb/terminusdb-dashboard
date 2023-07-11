@@ -24,6 +24,8 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     const {documentClasses,getDocumentClasses} = useTDBDocuments(woqlClient)
     const [radioValue, setRadioValue] = useState(useChangeRequest===false ? "Inactive" : "Active");
 
+
+    const isAdmin = accessControlDashboard ? accessControlDashboard.isAdmin() : false
     const {cloneDatabase, loading:loadingClone, error:errorClone , setError:setCloneError} =  ManageDatabase()
 
     const cloneInTeam = useRef(null);
@@ -37,6 +39,10 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     const getCloneUrl = () =>{
         return `${localSettings.server}${organization}/${organization}/${dataProduct}`
     }
+
+    useEffect(() =>{
+        setRadioValue(useChangeRequest===false ? "Inactive" : "Active")
+    },[useChangeRequest])
 
     useEffect(() => {
         if(!healthColor) setColor("text-muted")
@@ -104,7 +110,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     
     return <React.Fragment> 
         <HealthModal dataProduct={dataProduct} showHealth={showHealth} setShowHealth={setShowHealth}/>
-        {clientUser.serverType !== "TerminusDB" &&
+        {clientUser.serverType !== "TerminusDB" && isAdmin &&
         <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
             <Card.Body>
             <ButtonGroup>

@@ -4,7 +4,7 @@ import {useOpenAI} from "../hooks/useOpenAI"
 import {Alerts} from "./Alerts"
 import {SwitchOpenAi} from "./SwitchOpenAi"
 
-export const OpenAICard=({organization})=>{
+export const OpenAICard=({organization,isAdmin})=>{
 	
 	const {loading,changeOpenAIStatus,
 		 error,saveOpenAIKey,hasOpenAIKEY,hasKey,deleteOpenAIKEY} = useOpenAI()
@@ -25,8 +25,11 @@ export const OpenAICard=({organization})=>{
 		}
 	}
 
-	function deleteKey () { 
-		deleteOpenAIKEY(organization)
+	async function deleteKey () { 
+		const done = await deleteOpenAIKEY(organization)
+		if(done && openAIKEY.current){
+			openAIKEY.current.value = ""
+		}
     }
 
 	function changeStatus (isActive){
@@ -36,7 +39,7 @@ export const OpenAICard=({organization})=>{
 
 	const title = hasKey === false ? "Add your secret OpenAI API key" : "Your OpenAI API key has been set"
     const subTitle= getLabel()
-	
+
 		function getLabel(){
 			if(hasKey === false){
 				return <label className="description text-muted fw-bold">
@@ -45,62 +48,64 @@ export const OpenAICard=({organization})=>{
 			}
 			const label = hasKey === "active" ? "After every change request merge we'll index your documents" : "You have set an OpenAI API key. Please activate this option inorder to index your data"
 			return label
-			return <Stack direction="horizontal" gap={4}>
-					<label className="description text-muted fw-bold mr-auto ">
-						{label}
-							</label>
-					</Stack>
-
+		}
+	const KeyInputComponentInstance = KeyInputComponent()
+		function KeyInputComponent (){
+			if(!isAdmin) return  <div className="form-group">
+								<div className="input-group mt-2 mb-2">
+									<input className="form-control"
+										value= {"xxxxxxxx"}
+										type="password"
+									/>
+								</div>
+								</div>
+			if(hasKey) return <div className="form-group">
+				<div className="input-group mt-2 mb-2">
+					<input className="form-control"
+						value= {"xxxxxxxx"}
+						type="password"
+					/>
+					<div className="input-group-append">
+						{!loading &&  <Button variant="danger" id="delete_openai_key" onClick={deleteKey}>Delete OpenAIKey</Button>}
+						{loading && <button className="btn-lg disabled"><i className="fas fa-spinner fa-spin"></i> 
+						<span style={{marginLeft:"10px"}}>Loading</span></button>}
+					</div>
+				</div>
+				</div>	
+			if(hasKey === false) return <div className="form-group">
+				<div className="input-group mt-2 mb-2">
+					<input className="form-control"
+							id="openAIKEY"
+						ref={openAIKEY}
+						type="password"
+						placeholder="Add your openAI key"
+					/>
+					<div className="input-group-append">
+						{!loading &&  <Button variant="info" id="generate_new_token" onClick={saveOpenAIKeyHandler}> Save OpenAIKey</Button>}
+						{loading && <button className="btn-lg disabled"><i className="fas fa-spinner fa-spin"></i> 
+						<span style={{marginLeft:"10px"}}>Loading</span></button>}
+					</div>
+		
+				</div>
+			</div>
 		}
 
 		return( <React.Fragment>
 				<Card className="p-5 mb-5">
-				<h4 className="mt-4 text-success"><strong>{title}</strong></h4>
+					<h4 className="mt-4 text-success"><strong>{title}</strong></h4>
 						<Stack direction="horizontal" gap={2}>
 							
 							<div>
 								{hasKey !== false && <SwitchOpenAi status={hasKey} 
 									changeOpenAIStatus={changeStatus}
-									title={subTitle}/>}
+									title={subTitle} isAdmin={isAdmin}/>}
 							</div>
 						</Stack>
 					<Row>
-					<Col>
-					{hasKey  && 
-						<div className="form-group">
-						<div className="input-group mt-2 mb-2">
-							<input className="form-control"
-								value= {"xxxxxxxx"}
-								type="password"
-							/>
-							<div className="input-group-append">
-								{!loading &&  <Button variant="danger" id="delete_openai_key" onClick={deleteKey}>Delete OpenAIKey</Button>}
-								{loading && <button className="btn-lg disabled"><i className="fas fa-spinner fa-spin"></i> 
-								<span style={{marginLeft:"10px"}}>Loading</span></button>}
-							</div>
-						</div>
-						</div>	
-					}
-					{hasKey === false &&
-					<div className="form-group">
-						<div className="input-group mt-2 mb-2">
-							<input className="form-control"
-									id="openAIKEY"
-								ref={openAIKEY}
-								type="password"
-								placeholder="Add your openAI key"
-							/>
-							<div className="input-group-append">
-								{!loading &&  <Button variant="info" id="generate_new_token" onClick={saveOpenAIKeyHandler}> Save OpenAIKey</Button>}
-								{loading && <button className="btn-lg disabled"><i className="fas fa-spinner fa-spin"></i> 
-								<span style={{marginLeft:"10px"}}>Loading</span></button>}
-							</div>
-
-						</div>
-					</div>}
-					</Col>
+						<Col>{KeyInputComponentInstance}</Col>
 					</Row>
-			</Card>
+				</Card>
 			</React.Fragment>
 	)
 }
+

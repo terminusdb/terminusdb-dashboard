@@ -2,7 +2,6 @@ import React, {useState,useEffect,useRef} from "react";
 import Form from "react-bootstrap/Form"
 import { Layout } from "./Layout";
 import Button from "react-bootstrap/Button";
-import {WOQLClientObj} from '../init-woql-client'
 import Accordion from 'react-bootstrap/Accordion'
 import Stack from 'react-bootstrap/Stack'
 import { useOpenAI } from "../hooks/useOpenAI";
@@ -17,9 +16,10 @@ import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction";
 import { BsSearch } from "react-icons/bs"
 import InputGroup from 'react-bootstrap/InputGroup';
 import {FiAlertTriangle} from 'react-icons/fi'
-
+import { WOQLClientObj } from "../init-woql-client";
 
 export function FreeTextSearch() {
+    const {branch} = WOQLClientObj()
     const {resetSearch,hasOpenAIKEY,
          getSearchableCommit, searchableCommit, 
          searchResult,
@@ -42,7 +42,7 @@ export function FreeTextSearch() {
         setElements([])
         resetSearch()
         hasOpenAIKEY(organization)
-        getSearchableCommit(1, "Assigned")
+        getSearchableCommit(1, "Assigned",branch)
     },[dataProduct])
 
     const onClickHandler = ()=>{
@@ -50,7 +50,7 @@ export function FreeTextSearch() {
         if(freeText=== ""){
             setError("Please enter the search data")
         }else {
-            getResearchResult (commit, freeText, `${organization}/${dataProduct}`  )
+            getResearchResult (commit, freeText)
         }
     }
     
@@ -100,13 +100,14 @@ export function FreeTextSearch() {
 
             </div>}
             <Container className="mt-4">
-                {!commit  && <DisplayNoIndexingAction helpDescription={`You need to index your data before you can search`}/>/*<Alert type="Info" >
+                {loading && <Loading>Search Documents</Loading>}
+                {!loading && !commit  && <DisplayNoIndexingAction helpDescription={`You need to index your data before you can search`}/>/*<Alert type="Info" >
                     <h3>You need to index your data before you can search</h3>
                     <p>if you haven't already done it, Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team,</p> 
                     after you can start to index your data using the change request workflow
                 </Alert>*/}
                 {error &&  <ErrorMessageReport error={error} setError={setError}/> }
-                {loading && <Loading>Search Documents</Loading>}
+               
                 {searchResult && 
                     <React.Fragment>
                     <div className="w-100 d-flex justify-content-center">

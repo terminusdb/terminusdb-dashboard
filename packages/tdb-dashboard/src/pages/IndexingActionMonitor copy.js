@@ -84,7 +84,7 @@ function ItemElement ({item}){
 						
 						</div>					
 						<small className="text-light text-small fw-bold">
-							runned {getDays(item.time["@value"])} days ago 
+							ran {getDays(item.time["@value"])} days ago 
 						</small>
                        
 					</div>

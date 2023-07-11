@@ -71,11 +71,13 @@ export function useOpenAI(){
     }
 
     ///changes/:orgid/:dbid/indexedcommit
-    const getSearchableCommit = async (limit=1, status=null)=>{
+    const getSearchableCommit = async (limit=1, status=null, branch=null)=>{
         try{
-            setSearchableCommit(false)
             setLoading(true)
-            const url = `${getUrl('indexes')}?limit=${limit}&status=${status}`
+            setSearchableCommit(false)
+            const statusQuery = status ? `&status=${status}` : ''
+            const branchQuery = branch ? `&branch=${branch}` : ''
+            const url = `${getUrl('indexes')}?limit=${limit}${statusQuery}${branchQuery}`
             const result = await woqlClient.sendCustomRequest("GET", url)
             if(result && result.bindings){
                 setSearchableCommit(result.bindings)
@@ -88,13 +90,13 @@ export function useOpenAI(){
         }
     }
 
-    const getResearchResult = async (commit, freeText, domain, branch = "main"  ) =>{
+    const getResearchResult = async (commit, freeText) =>{
         if(woqlClient){
             try{
-                setSearchResult(false)
                 setLoading(true)
+                setSearchResult(false)
                 localStorage.setItem(`${location.pathname}___SEARCH__TEXT`,freeText)
-                const url = `${getUrl('indexes')}/search?domain=${domain}&commit=${commit}`
+                const url = `${getUrl('indexes')}/search?commit=${commit}`
                 const result = await woqlClient.sendCustomRequest("POST", url , {search:freeText})
                 localStorage.setItem(`${location.pathname}___SEARCH__RESULT`,JSON.stringify(result))
                 setSearchResult(result)
@@ -184,6 +186,7 @@ export function useOpenAI(){
                 const url = `${client.server()}api/private/organizations/${UTILS.encodeURISegment(orgName)}/openaikey`
                 const keyStatusObj = await client.sendCustomRequest("DELETE", url)
                 setHasKey(keyStatusObj.key)
+                return keyStatusObj
             }catch(err){
                setError() 
             }finally{
