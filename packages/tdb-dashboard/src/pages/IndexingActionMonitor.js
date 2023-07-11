@@ -43,6 +43,7 @@ export const IndexingActionMonitor=(props)=>{
                         </Card.Body>
                     </Card>}
                     {!loading && !searchableCommit && <DisplayNoIndexingAction helpDescription={`You need to index your data before any index actions appear on this page`}/>}
+
                 </div>
             </div>
         </Layout>
