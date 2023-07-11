@@ -133,6 +133,7 @@ export function ChangeRequest(){
         errorMessage,
         changeRequestList,
         createChangeRequest,
+        addNewMessage,
         getChangeRequestList,
         updateChangeRequestStatus,
         getChangeRequestByID,

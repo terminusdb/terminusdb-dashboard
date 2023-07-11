@@ -173,7 +173,7 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
             placement={"left"}
             overlay={
               <Tooltip id={`tooltip-${"left"}`}>
-                {historyItem.message}
+                <label className="text-light">{historyItem.message}</label>
               </Tooltip>
             }
           >

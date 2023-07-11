@@ -67,7 +67,7 @@ export function DisplayPropertyNameAndComment ({ comment }){
 			placement={'right'}
 			overlay={
 			<Tooltip id={`tooltip-right`}>
-				<small className="text-gray">{comment}</small>
+				<small className="text-light">{comment}</small>
 			</Tooltip>
 			}
 		> 
