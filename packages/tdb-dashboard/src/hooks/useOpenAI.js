@@ -307,7 +307,7 @@ export function useOpenAI(){
          }
          setLoading(true)
          const query = gql(`${queryWithLimit}`)
-         const result = await apolloClient.query({query:query,variables:{limit:5,offset:0}})
+         const result = await apolloClient.query({query:query,variables:{limit:10,offset:0}})
          
          if(result.errors){
             setError(result.errors)

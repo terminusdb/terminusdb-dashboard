@@ -135,7 +135,7 @@ export function GraphqlHandlerbarsPage({}) {
                 <Card className="h-100">
                     <Card.Header className="bg-transparent">
                         <Stack direction="horizontal" gap={1}>
-                            Preview
+                            Preview - showing only the first 10 results
                             <CopyButton text={queryResultPreviewString} title="Copy result obj" css={"ml-auto btn btn-md bg-light text-dark float-right"}/>
                          </Stack>
                     </Card.Header>
