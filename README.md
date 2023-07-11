@@ -1,15 +1,18 @@
 # terminusdb-dashboard
+
 Dashboard for TerminusDB. Monorepo for the TerminusDB dashboard components. Please see the individual packages for more
 details. The main dashboard package can be found in `packages/tdb-dashboard`.
 
 ## Setting up terminusdb-dashboard
 
 **Clone the repository**
+
 ```sh
 git clone https://github.com/terminusdb/terminusdb-dashboard.git
 ```
 
 **Install all the dependencies**
+
 ```sh
 cd terminusdb-dashboard
 npm install
