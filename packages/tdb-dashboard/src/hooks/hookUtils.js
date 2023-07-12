@@ -1,5 +1,6 @@
 import { localSettings } from "../../localSettings";
 import { getCRConflictError } from "../components/utils"
+import React from "react" 
 export function getOptions(token){
 
 	const options = {
@@ -40,6 +41,10 @@ export function formatErrorMessage (err){
 	let message = err.message
 	if (message.indexOf("Network Error")>-1){
 		message = "Network Error"
+		if(localSettings.connection_type === "LOCAL"){
+			message =`Network Error the ${localSettings.server} is not running.
+				You need to use docker compose to use the dashboard`
+		}
 	}else if(err.data){ 
 		if( err.data["api:message"] === "Incorrect authentication information"){
 			message =  "Incorrect authentication information, wrong username or password"
