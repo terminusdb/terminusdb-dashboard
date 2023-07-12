@@ -111,6 +111,7 @@ jobs:
             TERMINUSDB_KEY=root
             FEEDBACK_URL="https://cloud.terminusdb.com/"
             BASE_URL="dashboard"
+            TERMINUSDB_SERVER="http://localhost:3035/terminusdb"
         ' > .env
         npm run build
         cd dist
