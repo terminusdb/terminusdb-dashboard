@@ -13,11 +13,15 @@ export const RemoveElementComponent = (props) =>{
       }
   }
 
-  const onClick= props.hasConstraints === true ? {disabled:true} : {onClick:removeElement} 
+  //const onClick= props.hasConstraints === true ? {disabled:true} : {onClick: props.removeElement} 
+
 
   if(props.displayAsIcon) {
     return <div className="tdb__panel__row">                                      
-        <button {...onClick} className='tdb__button__base tdb__panel__button tdb__panel__button--red fas fa-trash-alt' title={props.tooltip}>{props.children}</button>                     
+        <Button 
+          disabled={ props.hasConstraints === true ? true : false }
+          onClick={(e) => removeElement()}
+          className='tdb__button__base tdb__panel__button tdb__panel__button--red fas fa-trash-alt' title={props.tooltip}>{props.children}</Button>                     
     </div>
   }
 
@@ -27,11 +31,14 @@ export const RemoveElementComponent = (props) =>{
   if(props.elementType === "ChoiceClass") label="Enum"
 
 
-  return <Button className='bg-secondary text-danger border-0 btn-sm float-right mt-3 fw-bold'
-    onClick={onClick}
+  //return <Button className='bg-secondary text-danger border-0 btn-sm float-right mt-3 fw-bold'
+  return <Button className={props.className}
+    onClick={(e) => removeElement()}
+    disabled={ props.hasConstraints === true ? true : false }
     title={`Delete ${ label}`}>
+      <RiDeleteBin5Fill size={props.size} className='text-danger h2'/>
       {/*<RiDeleteBin5Fill size={16} />*/}
-      {`Delete ${ label}`}
+      {/*`Delete ${ label}`*/}
     </Button>
   
 } 

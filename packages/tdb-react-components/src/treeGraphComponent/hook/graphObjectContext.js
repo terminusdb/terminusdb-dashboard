@@ -9,7 +9,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 
 	const [graphDataProvider, setGraphDataProvider] = useState(null);
 	const [selectedNodeObject, setSelectedNodeObject] = useState({});
-	const [nodePropertiesList, setNodePropertiesList] = useState([]);
+	const [nodePropertiesList, setNodePropertiesList] = useState([]); 
 
 	const [isFocusOnNode, setFocusOnNode] = useState(false);
 	const [objectPropertyToRange,setObjectPropertyToRange]=useState({})
@@ -41,7 +41,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		//console.log("mainGraphObject.objectPropertyToRange()", mainGraphObject.objectPropertyToRange())
 		setGraphDataProvider(mainGraphObject.getDescendantsNode())
 		setObjectPropertyList(mainGraphObject.getObjectProperties())
-		setObjectChoicesList(mainGraphObject.getObjectChoices())
+		setObjectChoicesList(mainGraphObject.getObjectChoices()) 
 		setObjectPropertyToRange(mainGraphObject.objectPropertyToRange())
 		resetSelection()
 	}
@@ -81,7 +81,8 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		}else if(mainGraphObj && mainGraphObj.getElement(nodeId)){
 			setSelectedNodeObject(mainGraphObj.getElement(nodeId));
 			//I not need this there are inside the json schema
-			setNodePropertiesList(mainGraphObj.getPropertyListByDomain(nodeId));
+			
+			setNodePropertiesList(mainGraphObj.getPropertyListByDomain(nodeId)); 
 			setObjPropsRelatedToClass(mainGraphObj.getObjPropsRelatedToClass(nodeId))
 			
 			//I NEED THE AVALAIBLE PARENT LIST
@@ -95,8 +96,8 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		changeCurrentNode(nodeObject.name,focusOnNode);
 	}
 
-	const addNewProperty=(propertyType,propertyRange)=>{
-		const propertiesList=mainGraphObj.addNewPropertyToClass(selectedNodeObject.name,propertyType,propertyRange);
+	const addNewProperty=(propertyType, propertyRange)=>{
+		const propertiesList=mainGraphObj.addNewPropertyToClass(selectedNodeObject.name, propertyType, propertyRange);
 		setNodePropertiesList(propertiesList)
 	}
 	
@@ -132,14 +133,27 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	}
 
 
+	// returns back order_by list to display property 
+	const getDocumentOrdering = () => {
+		if(selectedNodeObject && 
+			selectedNodeObject.schema && 
+			selectedNodeObject.schema.hasOwnProperty("@metadata") && 
+			selectedNodeObject.schema["@metadata"].hasOwnProperty("order_by"))
+			return selectedNodeObject.schema["@metadata"]["order_by"]
+		return null
+	}
+
+
+
 	return (
 		<GraphContext.Provider
             value={{
 			updateGraphNode,
             resetTreeModel,
+						getDocumentOrdering,
             mainGraphObj,
             objectPropertyToRange,
-	        graphDataProvider,
+	        graphDataProvider, 
 	        selectedNodeObject,
 	        nodePropertiesList,
 	        graphUpdateLabel,

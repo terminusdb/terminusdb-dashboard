@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {PROPERTY_TYPE_NAME,PROPERTY_TYPE_LABEL} from '../utils/elementsName'
 import {GraphContextObj} from '../hook/graphObjectContext'
 import {RelationshipView} from '../relationshipView/RelationshipView'
+//import { RelationshipLinkView } from "../relationshipView/RelationshipLinkView"
 
  
 const constraintMessage={childrenNum:'This node has',
@@ -29,20 +30,37 @@ export const ConstraintsComponent =(props)=>{
     		const cName=childrenNum===1 ? 'child' : 'children';
     		const childrenMessage=`${childrenNum} direct ${cName}`
     		message.push(<div className="tdb__list" key='children'>
-    						<div className="tdb__list__title">Children</div>
-    						<div className="tdb__list__items">{childrenMessage}</div>
-    					</div>)
+    		    <div className="tdb__list__title">Children</div>
+    			<div className="tdb__list__items">{childrenMessage}</div>*
+                <></>
+    		</div>)
     	}
     	return message;
     }
 	
     const message=getConstraintsMessage();
 
+    if(props.view === `UI_VIEW`) {
+        let childrenList = []
+        nodeData.allChildren.map((child) => {
+            childrenList.push(child.id)
+        })
+        if(!childrenList.length) return <label className='text-muted fst-italic small'>No Children ...</label>
+        return <>{childrenList}</>
+    }
+
+    /*return <div className="tdb__panel__box">    
+        <RelationshipLinkView
+        />  
+        {message}
+    </div>*/
+
 	return(<>
-            <div className="tdb__panel__box">    
-                <RelationshipView
-                 />  
-                {message}
+            <div className="tdb__panel__box">  
+         
+            {message}  
+                <RelationshipView/>  
+                
             </div>
         </>
 	)

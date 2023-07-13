@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import { FiHelpCircle } from "react-icons/fi"
+import { FiHelpCircle } from "react-icons/fi" 
 
 export const HelpComponent = (props) =>{
 

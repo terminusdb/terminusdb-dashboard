@@ -42,12 +42,12 @@ export const JsonMode = (props)=>{
                     } 
                     {!editMode &&
 					<button  type="button" className="btn btn-light btn-sm border-0 my-3" onClick={()=>{setEditMode(true)}}>
-						<FaRegEdit/> Edit Schema
+					    Edit JSON Schema
 					</button>
                     }
 			</div>
         </div>
-        <div className='w-100'><CodeMirror extensions={[json()]} 
+        <div className='w-100' style={{maxWidth: "900px"}}><CodeMirror extensions={[json()]} 
                 theme={vscodeDark} 
                 value={JSON.stringify(jsonSchema, null, 2)}     
                 readOnly={!editMode}

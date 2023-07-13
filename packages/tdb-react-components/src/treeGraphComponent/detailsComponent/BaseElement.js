@@ -16,7 +16,7 @@ export const BaseElement = (props)=>{
     const changeElement=(name,value)=>{
         
         let val=value;
-        val = value.trim();
+        //val = value.trim();
         try{
             if(name === 'id'){
                 setIndexError(false);           
@@ -42,13 +42,15 @@ export const BaseElement = (props)=>{
     },[nodeJsonData]) 
 
     return( <>
-      { <RemoveElementComponent 
-                hasConstraints={props.hasConstraints} 
-                elementId={nodeJsonData.name}
-                displayAsIcon={props.view === `UI_VIEW` ?false : true}
-                elementType={nodeJsonData.type}
-                removeElement={props.removeElement}
-                />}
+      {nodeJsonData && nodeJsonData.type!=="Document" && <RemoveElementComponent 
+            hasConstraints={props.hasConstraints} 
+            elementId={nodeJsonData.name}
+            displayAsIcon={false}
+            size={"17"}
+            className={'btn-sm border-0 bg-transparent float-right'}
+            elementType={nodeJsonData.type}
+            removeElement={props.removeElement}
+            />}
    	    <div className="tdb__panel__box tdb__panel__box--edit">
          
        	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 

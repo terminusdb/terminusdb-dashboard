@@ -106,6 +106,7 @@ const getType = (element) =>{
 
 export const getPropertyType = (itemName, itemValue,linkPropList,enumPropList) =>{
     let property
+		//if(itemName === "@oneOf") return  { value: itemValue, type: PROPERTY_TYPE_NAME.ONEOF_PROPERTY}
     if(typeof itemValue === 'string')property = itemValue
     else property = itemValue['@class']
     const getProp = (element) => element.name === property;
@@ -122,8 +123,9 @@ export const getPropertyType = (itemName, itemValue,linkPropList,enumPropList) =
 	return {value:'',type:''}
 }
 
+
 export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
-	//{classId:{listofProperty}}
+	//{classId:{listofProperty}} 
 
 	const propertiesOfClass={}
 	//{classLink:[classId]}
@@ -143,7 +145,6 @@ export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
 						linkPropertyClass[value].push({nodeName:classId,propName:key})
 					}
 					propertiesOfClass[classId].push(getNewPropertyTemplate(type,key))//value,property))
-
 				}
 			})
 		})

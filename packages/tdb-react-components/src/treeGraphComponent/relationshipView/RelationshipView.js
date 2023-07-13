@@ -18,7 +18,7 @@ export const RelationshipView = (props)=>{
             
 			const property = mainGraphObj.getObjectProperty(complexPropertyObj.nodeName,complexPropertyObj.propName)
 			if(property){
-				const label = property.id || ''
+				const label = property.id || '' 
 
 				return <RelationshipBox source={propertyDomainName} 
 									sourceAction={changeCurrentNode}

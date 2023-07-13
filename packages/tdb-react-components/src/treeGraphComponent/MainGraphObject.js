@@ -8,6 +8,7 @@ import {formatData,
 import {getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 import {CLASS_TYPE_NAME} from './utils/elementsName' 
 import {MANDATORY_PROP} from "../constants/details-labels"
+import { BiMessageAltError } from 'react-icons/bi';
 
 export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
@@ -147,12 +148,12 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	/*
 	* add a new property in the class property list 
-	*/
-	const addNewPropertyToClass = (nodeName, propertyType)=>{
+	*/ 
+	const addNewPropertyToClass = (nodeName, propertyType, propertyRange)=>{
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
 			const newProperty=getNewPropertyTemplate(propertyType) //_graphUpdateObject.addPropertyToClass(nodeName,propertyType,propertyRange);
 			if(!_domainToProperties[nodeName]){
-				_domainToProperties[nodeName]=[];
+				_domainToProperties[nodeName]=[]; 
 			}
 			_domainToProperties[nodeName].unshift(newProperty);
 			//_propertiesList.set(newProperty.name,newProperty);
@@ -491,7 +492,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			  objectPropertyList,
 			  objectChoiceList] = new formatDataForTreeChart(getRoot());
 		_descendantsNode=descendantsNode;
-		_documentTypeList=documentTypeList
+		_documentTypeList=documentTypeList 
 		_objectTypeList=objectTypeList
 		_objectPropertyList=objectPropertyList;
 		_objectChoiceList=objectChoiceList;
@@ -631,9 +632,6 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		_currentNode.schema[newPropId] = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
 	}
 
-
-
-
 	const getEnumValues =()=>{
 		if(_currentNode.schema['@value']){
 			return _currentNode.schema['@value']
@@ -691,7 +689,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 				[currentpropertyID]: "markdown"
 			}
 		}
-	}
+	} 
 
 	const removePropertyMarkDownInfo = (currentpropertyID) => {
 		if(!_currentNode.schema) return
@@ -836,6 +834,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		_currentNode.schema['@value'] = enumArr
 	}
 
+
+
 	const getSchema = () =>{
 		const schemaArr=[]
 		schemaArr.push(_mainGraphElementsJson[0])
@@ -843,14 +843,14 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			if(item.schema) 
 				schemaArr.push(item.schema)
 		}) 
-
+		//console.log("schema", schema)
 		return JSON.stringify(schemaArr,null,4)
 	}
 
 	return {createNewMainGraph,
 			setId,getPropertyInfo,setPropertyInfo, 
 			setPropertyMarkDownInfo, 
-			setDocumentOrdering,
+			setDocumentOrdering, 
 			removePropertyMarkDownInfo, 
 			getNodeData,
 			objectPropertyToRange,setClassKey,getPropertyAsList,getClassKey,

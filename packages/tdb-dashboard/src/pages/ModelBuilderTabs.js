@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from "react"
-import {modelCallServerHook, SchemaDiagram, ViewBuilder, SchemaDocumentView} from "@terminusdb-live/tdb-react-components"
-import {Tabs, Tab,Stack, Container, Button} from "react-bootstrap"
+import {modelCallServerHook, ViewBuilder, SchemaDocumentView} from "@terminusdb-live/tdb-react-components"
+import {Tabs, Tab,Stack, Row, Col, Button} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, DOCUMENT_TAB, GRAPH_TAB, JSON_TAB, DIAGRAM_TAB} from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 import {Loading} from "../components/Loading" 
@@ -13,10 +13,28 @@ import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import { AiOutlineCheckCircle } from "react-icons/ai"
+import ListGroup from 'react-bootstrap/ListGroup';
+import { FiHelpCircle } from "react-icons/fi"
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
+const renderTooltip = (helpText) => (
+	<Tooltip id="help-tooltip" >
+		<label className="text-light">{helpText}</label>
+	</Tooltip>
+);
+
+const Help = ({ helpText }) => {
+	return <OverlayTrigger
+		placement="top"
+		overlay={renderTooltip(helpText)}
+		>
+			<Button variant="transparent" className="btn btn-sm"><FiHelpCircle className="text-muted"/></Button>
+	</OverlayTrigger>
+}
 
 const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 	
-
 	function handleSwitch(chosen) {
 		setSelectedMode(chosen)
 	}
@@ -26,30 +44,41 @@ const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 		return "dark"
 	}
 
+	function getActiveClassName (mode, selectedMode) {
+		if(mode === selectedMode) return true
+		return false
+	}
+
 	function getModeLabel(mode, selectedMode, label) {
 		if(mode === selectedMode) return label
 		return `Switch to ${label}`
 	}
 
-//
-	return <Stack direction="horizontal" className="border-secondary border-bottom" gap={3}>
-		<Button variant={getVariant(DOCUMENT_TAB, selectedMode)} 
-			onClick={(e)=>handleSwitch(DOCUMENT_TAB)}>
-				{getModeLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}
-		</Button>
-		<Button variant={getVariant(DIAGRAM_TAB, selectedMode)} 
-			onClick={(e)=>handleSwitch(DIAGRAM_TAB)}>
-				{getModeLabel(DIAGRAM_TAB, selectedMode, "Diagram Mode")}
-		</Button>
-		<Button variant={getVariant(GRAPH_TAB, selectedMode)}  
-			onClick={(e)=>handleSwitch(GRAPH_TAB)}>
-				{getModeLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}
-		</Button>
-		<Button variant={getVariant(JSON_TAB, selectedMode)}  
-			onClick={(e)=>handleSwitch(JSON_TAB)}>
-				{getModeLabel(JSON_TAB, selectedMode, "JSON Mode")}
-		</Button>
-	</Stack>
+	return <ListGroup variant="flush">
+		<ListGroup.Item onClick={(e)=>handleSwitch(DOCUMENT_TAB)} 
+			action
+			active={getActiveClassName(DOCUMENT_TAB, selectedMode)}
+			className="bg-transparent">
+			{getModeLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}
+			<Help helpText="Create or View Schema Builder in Form UI View"/>
+		</ListGroup.Item>
+		<ListGroup.Item onClick={(e)=>handleSwitch(GRAPH_TAB)}
+			action
+			active={getActiveClassName(GRAPH_TAB, selectedMode)}
+			className="bg-transparent">
+			{getModeLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}
+			<Help helpText="Create or View Schema Builder in Graphical UI View"/>
+		</ListGroup.Item>
+		<ListGroup.Item onClick={(e)=>handleSwitch(JSON_TAB)}
+			active={getActiveClassName(JSON_TAB, selectedMode)}
+			action
+			className="bg-transparent">
+			{getModeLabel(JSON_TAB, selectedMode, "JSON Mode")}
+			<Help helpText="Create or View Schema in JSON View mode"/>
+		</ListGroup.Item>
+	</ListGroup>
+
+
 } 
 
 export const ModelBuilderTabs = () => {
@@ -60,6 +89,7 @@ export const ModelBuilderTabs = () => {
 	const { callServerLoading, saveGraphChanges } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
 	const { selectedNodeObject } = GraphContextObj();
 	const [showSavedMsg, setShowSavedMsg] = useState(false);
+	const [selectedKey, setSelectedKey] = useState(1)
 
 	const [tab, setTab]=useState(DOCUMENT_TAB)
 
@@ -74,84 +104,50 @@ export const ModelBuilderTabs = () => {
 		setShowSavedMsg(Date.now())
   }
 
-	/*return <SchemaDocumentView saveData={saveData}
-		dbName={dataProduct} 
-		custom={true}/>*/
-
 	const closeShowSavedMessage = () => setShowSavedMsg(!showSavedMsg);
 
-	return <>
-		
-		<ModelBuilderViewControl selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
-		{!callServerLoading && selectedMode === DOCUMENT_TAB  && 
-			<SchemaDocumentView  	dbName={dataProduct} 
-				saveGraph={saveData}
-				custom={true}/>}
+	return <Row className="w-100">
+		<Col md={10}>
+			{!callServerLoading && selectedMode === DOCUMENT_TAB  && 
+				<SchemaDocumentView  	dbName={dataProduct} 
+					saveGraph={saveData}
+					custom={true}/>}
 
-		{!callServerLoading && selectedMode === DIAGRAM_TAB  && 
-			<SchemaDiagram  dbName={dataProduct} 
-				saveGraph={saveData}
-				custom={true}/>}
 
-		{!callServerLoading && selectedMode === GRAPH_TAB  && 
-			<ViewBuilder  dbName={dataProduct} 
-				custom={true}
-				saveGraph={saveData}
-				isEditMode={isEditMode}/>}
-		
-		{!callServerLoading && selectedMode === JSON_TAB && 
-					<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />}
-					<ToastContainer
-							className="p-3 mt-4"
-							position={'bottom-end'}
-							style={{ zIndex: 1 }}
-						>
-							<Toast show={showSavedMsg} 
-								delay={3000} autohide
-								onClose={closeShowSavedMessage} 
-								bg="success">
-									<Toast.Header>
-										<AiOutlineCheckCircle className="text-success mr-2" size="20"/> <span>Success</span>
-										</Toast.Header>
-									<Toast.Body>
-										
-										<strong className="me-auto">Your changes have been successfully saved</strong>
+			{!callServerLoading && selectedMode === GRAPH_TAB  && 
+				<ViewBuilder  dbName={dataProduct} 
+					custom={true}
+					saveGraph={saveData}
+					isEditMode={isEditMode}/>}
 			
-									</Toast.Body>
-								</Toast>
-								
-								
-						</ToastContainer>
-	</>
+			{!callServerLoading && selectedMode === JSON_TAB && 
+				<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />}
+				<ToastContainer
+						className="p-3 mt-4"
+						position={'bottom-end'}
+						style={{ zIndex: 1 }}
+					>
+						<Toast show={showSavedMsg} 
+							delay={3000} autohide
+							onClose={closeShowSavedMessage} 
+							bg="success">
+								<Toast.Header>
+									<AiOutlineCheckCircle className="text-success mr-2" size="20"/> <span>Success</span>
+									</Toast.Header>
+								<Toast.Body>
+									
+									<strong className="me-auto">Your changes have been successfully saved</strong>
+		
+								</Toast.Body>
+							</Toast>
+							
+							
+					</ToastContainer>
+		</Col>
+		<Col md={2}  className="border-left border-secondary vh-100">
+			<ModelBuilderViewControl selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
+		</Col>
+	</Row>
 
-	return <Tabs defaultActiveKey={DOCUMENT_TAB} 
-		id="model-builder-tab" 
-		className="mt-3" 
-		onSelect={(k) => setTab(k)} >   
-		<Tab eventKey={DOCUMENT_TAB} title="Schema">
-			{callServerLoading &&  <Loading message={`Fetching schema of ${dataProduct}...`}/>}                  
-										
-			{!callServerLoading && tab === DOCUMENT_TAB  && 
-				<SchemaDocumentView saveData={saveData}
-          dbName={dataProduct} 
-          custom={true}/>}
-		</Tab>              
-		<Tab eventKey={GRAPH_TAB} title="Graph View">
-			{callServerLoading &&  <Loading message={`Fetching schema of ${dataProduct}...`}/>}                  
-										
-			{!callServerLoading && tab === GRAPH_TAB  && 
-				<ViewBuilder 
-						dbName={dataProduct} 
-						custom={true}
-						saveGraph={saveData}
-						isEditMode={isEditMode}/>}
-		</Tab>
-		<Tab eventKey={JSON_TAB} title="JSON View">
-			{callServerLoading &&  <Loading message={`Fetching schema of ${dataProduct}...`}/>}                   
-																			
-			{/*!callServerLoading && dataProduct && 
-					<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />*/}
-		</Tab>
 
-	</Tabs>
 }

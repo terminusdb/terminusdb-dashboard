@@ -58,7 +58,7 @@ BaseTextareaElement.propTypes = {
 BaseTextareaElement.defaultProps = {
 	  title:'',
 	  defaultValue: '',
-	  groupClassName:'form-group mb-3',
+	  groupClassName:'form-group',
 	  inputClassName:"form-control",
 	  labelClassName:'tdb__form__label',
 	  disabled:false

@@ -3,16 +3,16 @@ import {CLASS_PROPERTIES_LIST} from '../../constants/details-labels';
 import {Dropdown,ButtonGroup,Button} from 'react-bootstrap';
 import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
 import DropdownButton from 'react-bootstrap/DropdownButton';
-
-export const PropertyMenuList =(props)=>  {
+ 
+export const PropertyMenuList =(props)=>  { 
     const propertyTypeList=Array.from(CLASS_PROPERTIES_LIST);
     
-    const addNewProperty=(propertyType,propertyRange)=>{
+    const addNewProperty=(propertyType, propertyRange)=>{
         props.addNewProperty(propertyType,propertyRange)
     }
 
     const entries = propertyTypeList.map((item, index) =>{
-             let onClick={onClick:()=>{addNewProperty(item.id,item.defaultRange)}}
+             let onClick={onClick:()=>{addNewProperty(item.id, item.defaultRange)}}
 
              if(item.id===PROPERTY_TYPE_NAME.CHOICE_PROPERTY && props.enumDisabled===true){
                 onClick={disabled:true}
@@ -22,7 +22,7 @@ export const PropertyMenuList =(props)=>  {
         })
 
     return <div className="tdb__panel__bar">
-        <DropdownButton id="add_property" title="Add Properties" className="my-3" size="sm" variant={"light"}>
+        <DropdownButton id="add_property" title={props.title} className="my-3" size="sm" variant={"light"}>
             {entries}
         </DropdownButton>
     </div>

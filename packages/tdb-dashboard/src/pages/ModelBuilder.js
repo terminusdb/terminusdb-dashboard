@@ -14,6 +14,7 @@ import { ModelBuilderTabs } from "./ModelBuilderTabs"
 export const ModelBuilder = (props) =>{
 	const [width, setWidth] = useState("")
 	const [schemaView, setSchemaView] = useState(SCHEMA_MODEL_VIEW)
+	const [tab, setTab]=useState(DOCUMENT_TAB)
 	
 	return <ModelBuilderTabs/>
 

@@ -85,7 +85,7 @@ BaseInputElement.propTypes = {
 BaseInputElement.defaultProps = {
 	  title:'',
 	  defaultValue: '',
-	  groupClassName:'form-group mb-3',//'tdb__form__group',
+	  groupClassName:'form-group ',//'tdb__form__group',
 	  inputClassName:'form-control text-white',//'tdb__form__element',
 	  labelClassName:'tdb__form__label',
 	  disabled:false,

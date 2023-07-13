@@ -73,6 +73,8 @@ export const InitProvider = ({children, config}) => {
         setDoc(false)
 	}
 
+	console.log("tdbClient", tdbClient)
+
 	return (
 		<InitContext.Provider
 			value={{

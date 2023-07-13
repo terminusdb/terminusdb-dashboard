@@ -5,6 +5,7 @@ import {OLD_VALUE, CHANGED_VALUE} from "./constants"
 import {getSelectedTypeData} from "./functions"
 import {oldData, changedData} from "./diff.constants"
 import '../../src/css/terminusdb__darkly.css'
+import Button from "react-bootstrap/Button"
 import { STAR_WAR_FRAMES, PEOPLE_OLD_VALUE, PEOPLE_NEW_VALUE } from "./starwars.constants"
 
 export const Output = () => {
@@ -18,6 +19,8 @@ export const Output = () => {
         setDoc,
         dataProduct
 	} = InitObj()
+
+  const [res, setRes]=useState(false)
 
   let test = {
     "@context": {
@@ -98,9 +101,48 @@ export const Output = () => {
       alert(`You have clicked on ${clicked} ...`)
     }
 
+   /* async function getSelectedDocument(documentId){
+      try{
+          const params={id: documentId}
+          const result = await tdbClient.getDocument(params)
+          setRes(result)
+      }catch(err){
+          //setError(err.data || {message:err.message})
+      }finally{
+          //setLoading(false)
+      }
+  }
+  const handleGet = () => {
+    let documentId = "terminusdb:///documentation/data/Menu/How%20To%20Guides"
+    let test = getSelectedDocument(documentId)
+  }
+
+  async function updateDocument(jsonDocument) {
+    try{
+       
+        let commitMsg=`Updating document ${jsonDocument["@id"]}`
+        // pass create:true 
+        await tdbClient.updateDocument(jsonDocument, {}, null, commitMsg, false, false, false, true)
+        return true
+    }catch(err){
+        //display conflict
+        //setSelectedDocument(jsonDocument)
+        //setError(err.data || {message:err.message})
+   }finally{/*setLoading(false)*//*()}
+  }
+
+    const handleEdit = () => {
+      console.log("res", res)
+      let newVectorID = "terminusdb:///documentation/data/Menu1/Use%20VectorLink"
+      let newJSON = res 
+      newJSON["Level1"].push(newVectorID)
+      console.log("newJSON", newJSON)
+      updateDocument(newJSON)
+    }*/
     
 
     return <div className="w-100">
+    
         <DiffViewer 
             oldValue={oldVal} 
             newValue={newVal}
