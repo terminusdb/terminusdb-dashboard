@@ -79,7 +79,7 @@ export function useOpenAI(){
             const branchQuery = branch ? `&branch=${branch}` : ''
             const url = `${getUrl('indexes')}?limit=${limit}${statusQuery}${branchQuery}`
             const result = await woqlClient.sendCustomRequest("GET", url)
-            if(result && result.bindings){
+            if(result && result.bindings && result.bindings.length>0){
                 setSearchableCommit(result.bindings)
             }
         }catch (err){
