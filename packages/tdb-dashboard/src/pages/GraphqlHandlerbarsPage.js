@@ -84,7 +84,7 @@ export function GraphqlHandlerbarsPage({}) {
     const getDocumentClassesList=()=>{
         return <Form.Select aria-label="Default select example" onChange={setData}>
                 <option value={""}>Select a document</option>
-                    {documentClasses && documentClasses.map(item=>{
+                    {Array.isArray(documentClasses) && documentClasses.map(item=>{
                        return  <option key={item['@id']} value={item['@id']}>{item['@id']}</option>
                     })}
                 </Form.Select>

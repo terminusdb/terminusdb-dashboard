@@ -11,7 +11,7 @@ import {BiPlus} from "react-icons/bi"
 import {TERMINUS_DANGER} from "./constants"
 import {Alerts} from "./Alerts"
 import {useNavigate,useParams} from "react-router-dom"
-import { UTILS } from "@terminusdb/terminusdb-client"
+import {UTILS} from "@terminusdb/terminusdb-client"
 import {Loading} from "../components/Loading"
 import { ManageDatabase } from "../hooks/ManageDatabase"
 export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) => {
@@ -26,7 +26,7 @@ export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) =>
     const startlabel = dbDetails && dbDetails.label ? dbDetails.label : '' 
     const startComment =  dbDetails && dbDetails.comment ? dbDetails.comment : '' 
     const title = startid ? `Update the Dataproduct ${startid} details` : 'New Data Product'
-    const loadingMessage = startid ? `Updating ${startid}` : `Creating ${label}`
+    const loadingMessage = startid ? `Updating ${startid}` : `Creating ${startid}`
     const defValueId = startid ? {style:{display:"none"}} : {}
     const action = startid ? {onClick:handleUpdate} : {onClick:handleCreate}
     const buttonLabel = startid ? "Update Dataproduct" : CREATE_NEW_DATA_PRODUCT_BUTTON.label 
@@ -36,8 +36,6 @@ export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) =>
     const [description, setDescription]=useState(startComment)
   
     let navigate = useNavigate();
-
-    
 
     async function handleCreate () {
         const result = await createDatabase(id,label,description)
