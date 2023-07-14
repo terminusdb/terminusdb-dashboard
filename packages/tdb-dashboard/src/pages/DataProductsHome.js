@@ -12,7 +12,7 @@ import {DATA_PRODUCT_HEALTHY} from "./constants"
 import {Layout} from "./Layout"
 import {useParams} from 'react-router-dom'
 import {NewDatabaseModal} from "../components/NewDatabaseModal"
-
+import {AiFillHdd} from "react-icons/ai"
 //MAYBE WE CAN CREATE A VIEM MODE PAGE
 export const DataProductsHome = (props) => {  
     const {dataProduct,organization} = useParams()
@@ -85,9 +85,7 @@ export const DataProductsHome = (props) => {
                                                     {dataProduct && dataProductDetails && (dataProductSettings ==  MANAGE_COLLECTIONS) && 
                                                         <ManageProducts updateTable={updateTable} branches = {branches} setDataProductSettings={setDataProductSettings}/>
                                                     }
-                                                </Row>
-                                                
-                                            
+                                                </Row>                                      
                                             </div>
                                         </div>
                                     </div>

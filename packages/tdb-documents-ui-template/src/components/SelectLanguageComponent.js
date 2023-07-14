@@ -8,7 +8,11 @@ import Form from 'react-bootstrap/Form'
  * @returns an array including described languages
  */
 function extractLanguages(documentation) {
+  // some time it is an object not an array
   let langArray=[]
+  if(documentation && typeof documentation==="object"){
+    documentation=[documentation]
+  }
   documentation.map(doc => {
     if(doc.hasOwnProperty(CONST.LANGUAGE)) {
       langArray.push(doc[CONST.LANGUAGE])

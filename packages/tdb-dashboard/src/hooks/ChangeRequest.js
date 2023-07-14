@@ -73,11 +73,11 @@ export function ChangeRequest(){
         try{
             setLoading(true) 
             const result = await woqlClient.sendCustomRequest("GET", getUrl())
-            //console.log("result ** ", result)
             setChangeRequestList(result)
             return result
         }catch(err){
             const errMessage = formatErrorMessage(err)
+            console.log("getChangeRequestList", errMessage)
             setError(errMessage)
         }finally{
             setLoading(false)
@@ -122,9 +122,6 @@ export function ChangeRequest(){
             setLoading(false)
         }     
     } 
-
-    console.log("manageConflict", manageConflict)
-
 
     return {
         loading,

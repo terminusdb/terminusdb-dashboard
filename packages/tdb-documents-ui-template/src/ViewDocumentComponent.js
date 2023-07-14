@@ -32,7 +32,9 @@ const DisplayDocumentID = ({ documentID, size }) => {
 }
 
 // we have to fix traversedocklinek
-export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,closeButtonClick,documentID,deleteDocument,editDocument, history, diffObject, setDiffCommitObject, changeHistoryPage, startHistory}) => {
+export const ViewDocumentComponent = ({type,getDocumentById,
+										documentJson,frames,closeButtonClick,documentID,deleteDocument,editDocument, 
+										history, diffObject, setDiffCommitObject, changeHistoryPage, startHistory}) => {
 
 	const [view, setView] = useState(CONST.FORM_VIEW)
 	const [clicked, setClicked]=useState(false)
@@ -117,7 +119,7 @@ export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,
 			documentFrame={frames[type] || {}}
 			showInfo={showInfo} 
 			setShowInfo={setShowInfo}/>
-		<ViewDocumentHistory setShowInfo={setShowInfo} 
+		{showInfo.history && <ViewDocumentHistory setShowInfo={setShowInfo} 
 			showInfo={showInfo} 
 			frames={frames}
 			diffObject={diffObject}
@@ -126,7 +128,7 @@ export const ViewDocumentComponent = ({type,getDocumentById,documentJson,frames,
 			startHistory={startHistory}
 			changeHistoryPage={changeHistoryPage}
 			type={type}
-			documentID={documentID}/>
+			documentID={documentID}/>}
 	</div>
       
 }

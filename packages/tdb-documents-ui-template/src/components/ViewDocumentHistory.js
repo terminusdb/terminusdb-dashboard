@@ -204,7 +204,9 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
   </Stack> 
 }
 
-export const ViewDocumentHistory = ({ setShowInfo, showInfo, documentID, history, diffObject, setDiffCommitObject, frames, type, changeHistoryPage, startHistory }) => {
+export const ViewDocumentHistory = ({ setShowInfo, showInfo, 
+                                      documentID, 
+                                      history, diffObject, setDiffCommitObject, frames, type, changeHistoryPage, startHistory }) => {
   if(!showInfo.history) return <React.Fragment/>
 
   //console.log("got history", history)

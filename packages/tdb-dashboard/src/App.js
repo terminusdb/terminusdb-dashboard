@@ -32,10 +32,11 @@ import {PLANS} from "./routing/constants";
 import {GraphqlHandlerbarsPage} from "./pages/GraphqlHandlerbarsPage"
 import {FreeTextSearch} from "./pages/FreeTextSearch"
 import { IndexingActionMonitor } from "./pages/IndexingActionMonitor"
+import {ProductHomePage} from "./pages/ProductHomePage"
 
 export function App (props){
     let navigate = useNavigate();
-    const {connectionError,loadingServer,clientUser,accessControlDashboard,woqlClient} = WOQLClientObj()
+    const {connectionError,loadingServer,clientUser,accessControlDashboard,useChangeRequest} = WOQLClientObj()
     if(!clientUser) return ""
     // we have this loading only in terminusX, it is auth0 information/login loading
     const {loading} = clientUser
@@ -69,28 +70,12 @@ export function App (props){
 
     return <div className="container-fluid container-background h-100">      
                 <Routes>
-                {getRoutes(clientUser,isAdmin, woqlClient)}          
+                {getRoutes(clientUser,isAdmin, useChangeRequest)}          
                 </Routes>    
             </div>
 }
-/*
- <React.Fragment>
-        <Route index element={<Home/>} />
-            { clientUser.user === "admin" && <Route path="administrator" element={<UserManagement/>}/>}
-            { clientUser.user !== "admin" && <Route path="administrator" element={<div><PageNotFound/></div >}/>}   
-            <Route path=":organization" >
-                <Route index element={<OrganizationHome/>}/>
-                <Route path="members" element={<UserManagement/>}/>
-                <Route path=":dataProduct" >
-                    <Route index element={<DataProductsHome/>} />                     
-                    <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentExplorer/>} />                                    
-                </Route>
-            </Route>             
-            <Route path="*" element={<div><PageNotFound/></div >} />
-        </React.Fragment>*/
 
-function getRoutes(clientUser, isAdmin, woqlClient){
-    //const client = createApolloClient()
+function getRoutes(clientUser, isAdmin, useChangeRequest){
 
     if(localSettings.connection_type==="LOCAL"){ 
     return <React.Fragment>
@@ -102,20 +87,20 @@ function getRoutes(clientUser, isAdmin, woqlClient){
             {/*<Route path = {PATH.PROFILE} element = {<PrivateRoute component={Profile}/>} />  */}
            {clientUser.user === "admin" &&  <Route path="administrator" element={<UserManagement/>}/>}
            {clientUser.user !== "admin" &&  <Route path="administrator" element={<div><PageNotFound/></div >}/>}
-           
             <Route path=":dataProduct"  >
-                <Route index element={<DataProductsHome/>}/>
+                <Route index element={<ProductHomePage/>}/>
                 <Route path={PATH.GRAPHIQL}  element={<GraphIqlEditor/>} />  
-
-                <Route path={PATH.OPENAI_CONF} element={<GraphqlHandlerbarsPage/>} />
-                <Route path={PATH.SEARCH} element={<FreeTextSearch/>} />
-                <Route path={PATH.ACTIONS}  element={<IndexingActionMonitor/>} />
-               
-
-                <Route path={PATH.CHANGE_REQUESTS} >
-                    <Route index  element={<ChangeRequestsPage/>} />    
-                    <Route path=":changeid" element={<ChangeDiff/>} /> 
-                </Route>
+                {useChangeRequest &&
+                <>
+                    <Route path={PATH.OPENAI_CONF} element={<GraphqlHandlerbarsPage/>} />
+                    <Route path={PATH.SEARCH} element={<FreeTextSearch/>} />
+                    <Route path={PATH.ACTIONS}  element={<IndexingActionMonitor/>} />
+                    <Route path={PATH.CHANGE_REQUESTS} >
+                        <Route index  element={<ChangeRequestsPage/>} />    
+                        <Route path=":changeid" element={<ChangeDiff/>} /> 
+                    </Route>
+                </>
+                }
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<Documents/>} />
                         <Route path=":type">                       
@@ -149,16 +134,20 @@ function getRoutes(clientUser, isAdmin, woqlClient){
             <Route path={PATH.MEMBERS} element={<PrivateRoute component={UserManagement}/>}/>
            
             <Route path=":dataProduct"  >
-                <Route path={PATH.OPENAI_CONF} element={<PrivateRoute component={GraphqlHandlerbarsPage}/>} />
-                <Route path={PATH.SEARCH} element={<PrivateRoute component={FreeTextSearch}/>} />
                 <Route index element={<PrivateRoute component={DataProductsHome}/>} />
                 <Route path={PATH.GRAPHIQL}  element={<PrivateRoute component={GraphIqlEditor}/>} /> 
-                <Route path={PATH.ACTIONS}  element={<PrivateRoute component={IndexingActionMonitor}/>} />
-                
-                <Route path={PATH.CHANGE_REQUESTS} >
-                    <Route index  element={<PrivateRoute component={ChangeRequestsPage}/>} />    
-                    <Route path=":changeid" element={<PrivateRoute component={ChangeDiff}/>} /> 
-                </Route>
+                {useChangeRequest &&
+                    <>
+                        <Route path={PATH.OPENAI_CONF} element={<PrivateRoute component={GraphqlHandlerbarsPage}/>} />
+                        <Route path={PATH.SEARCH} element={<PrivateRoute component={FreeTextSearch}/>} />
+                        <Route path={PATH.ACTIONS}  element={<PrivateRoute component={IndexingActionMonitor}/>} />
+                        <Route path={PATH.CHANGE_REQUESTS} >
+                            <Route index  element={<PrivateRoute component={ChangeRequestsPage}/>} />    
+                            <Route path=":changeid" element={<PrivateRoute component={ChangeDiff}/>} /> 
+                        </Route>
+                    </>
+                }
+
                 <Route path={PATH.DOCUMENT_EXPLORER} element={<DocumentTemplate/>}>
                     <Route index element={<PrivateRoute component={Documents}/>} />
                         <Route path=":type">                       
