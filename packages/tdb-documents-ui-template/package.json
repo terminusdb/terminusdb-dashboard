@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.20.1",
+    "@terminusdb/terminusdb-client": "^10.0.31",
     "@uiw/codemirror-theme-okaidia": "^4.20.2",
     "@uiw/codemirror-theme-vscode": "^4.20.0",
     "@uiw/react-codemirror": "^4.20.0",
