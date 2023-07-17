@@ -97,7 +97,10 @@ export const useTDBDocuments = (woqlClient) => {
             if(clientCopy.connectionConfig.baseServer){
                 clientCopy.connectionConfig.server = clientCopy.connectionConfig.baseServer
             }
-            const baseUrl = clientCopy.connectionConfig.branchBase("tables")
+            let baseUrl = clientCopy.connectionConfig.branchBase("tables")
+            if(clientCopy.db()==="_system"){
+                baseUrl = baseUrl.replace("_system","admin/_system")
+            }
             clientCopy.sendCustomRequest("GET", baseUrl).then(result=>{
                 setDocumentTablesConfig(result)  
             }).catch(err=>{
@@ -197,16 +200,21 @@ export const useTDBDocuments = (woqlClient) => {
     // get document history
     async function getDocumentHistory(documentID, start=0, count=5) {
         try{
+            if(woqlClient && woqlClient.db()=== "_system"){
+                setHistory([])
+                return true
+            }
             setLoading(true) 
             setError(false) 
             setStartHistory(start)
-            await woqlClient.getDocumentHistory(documentID, { start: start, count:6 }).then(result=>{
-                setHistory(result)
-            })
+            const result = await woqlClient.getDocumentHistory(documentID, { start: start, count:6 })
+            setHistory(result)
             return true
         }catch(err){
             setError(err.data || {message:err.message})
-       }finally{setLoading(false)}
+       }finally{
+            setLoading(false)
+        }
     }
 
     // get document history diffs

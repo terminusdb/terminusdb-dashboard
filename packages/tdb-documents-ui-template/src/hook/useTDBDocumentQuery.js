@@ -49,7 +49,8 @@ export function useTDBDocumentQuery (woqlClient, document, queryLimit, queryStar
             setLoading(true)
             let tstart = Date.now()
             let db=woqlClient.db()
-            params['type'] = controlledDocument
+            params['query']= {"@type":controlledDocument}
+            //params['type'] = controlledDocument
             params['as_list'] = true
             params['skip'] = start
             params['count']=limit

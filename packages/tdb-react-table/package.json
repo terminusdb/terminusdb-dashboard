@@ -44,8 +44,8 @@
   "repository": {},
   "author": "terminusdb group",
   "dependencies": {
-    "@terminusdb/terminusdb-client": "^10.0.29",
     "@react-awesome-query-builder/ui": "^6.1.2",
+    "@terminusdb/terminusdb-client": "^10.0.31",
     "bootstrap": "^5.2.3",
     "classnames": "^2.2.5",
     "date-fns": "^2.28.0",

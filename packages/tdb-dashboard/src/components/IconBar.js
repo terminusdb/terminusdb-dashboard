@@ -8,18 +8,16 @@ import {useParams} from 'react-router-dom'
 
 export const IconBar =  ({setShowFeedbackForm}) => {
 
-     const {currentChangeRequest,useChangeRequest, accessControlDashboard} = WOQLClientObj()
-
-     const instanceRead = accessControlDashboard && accessControlDashboard.instanceRead() ? accessControlDashboard.instanceRead() : false
-
+    const {currentChangeRequest,useChangeRequest, accessControlDashboard} = WOQLClientObj()
+    const instanceRead = accessControlDashboard && accessControlDashboard.instanceRead() ? accessControlDashboard.instanceRead() : false
     const { organization, dataProduct } = useParams();
 
-    let disabled =  {disabled:true} 
-    let  basecss = "disabled"
-    if(dataProduct && dataProduct!=='_system'){
+    let disabled = {}// {disabled:true} 
+    let basecss = "" //"disabled"
+    /*if(dataProduct && dataProduct!=='_system'){
         disabled={}
         basecss = ""
-    }
+    }*/
 
     const getUrl = (pageName)=> {
         return  `/${organization}/${dataProduct}/${pageName}`

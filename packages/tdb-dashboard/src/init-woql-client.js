@@ -9,7 +9,6 @@ import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
 import {getChangesUrl} from "./hooks/hookUtils"
 import {cleanGraphiqlCache} from "./pages/utils"
-import {getStoreChangeRequestDBStatus,storeChangeRequestDBStatus} from "./hooks/utils"
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
@@ -139,6 +138,22 @@ export const WOQLClientProvider = ({children, params}) => {
         }
     }, [opts.user, clientUser.email])
 
+    /*
+    * get the change request status
+    */
+    const getChangeRequestIsActive  = async (client) =>{
+        try{
+            if(client.db()!=="_system"){
+                const changeRequestStatus = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/profile/status`)
+                setUseChangeRequest(changeRequestStatus.isActive)
+                return changeRequestStatus
+            }
+            setUseChangeRequest(false)
+            return {isActive:false}
+        }catch(err){
+            return {isActive:false}
+        }
+    }
 
     //dataproduct change
     const setDataProduct = async (dbName,hubClient,accessDash) =>{
@@ -156,42 +171,40 @@ export const WOQLClientProvider = ({children, params}) => {
             if(dbName){
                 // getStoreChangeRequestDBStatus(client.organization(),dbName,setUseChangeRequest)
                 //clear graphiql interface local storage
-                cleanGraphiqlCache()
-
-                const changeRequestStatus = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/profile/status`)
-                setUseChangeRequest(changeRequestStatus.isActive)
+                cleanGraphiqlCache()            
+                const changeRequestStatus = getChangeRequestIsActive(client)
                 if(changeRequestStatus.isActive){
-                // check if there is a change request related
-                    const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
+                    // check if there is a change request related
+                        const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
 
-                    const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
-                    const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)  
-            
-                    if(lastBranch && lastChangeRequest){
-                        //check the changeRequest Status
-                        const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
-                        if(changeObj.status=== "Open"){
-                            client.checkout(lastBranch)
-                            setBranch(lastBranch)
-                            setCurrentChangeRequest(lastChangeRequest)
-                            setCurrentCRStartBranch(changeObj.original_branch)
-                            setCurrentCRName(changeObj.name || changeObj.messages[0].text)
+                        const lastBranch = localStorage.getItem(TERMINUSCMS_CR)  
+                        const lastChangeRequest = localStorage.getItem(TERMINUSCMS_CR_ID)  
+                
+                        if(lastBranch && lastChangeRequest){
+                            //check the changeRequest Status
+                            const changeObj = await client.sendCustomRequest("GET", `${getChangesUrl(client)}/${lastChangeRequest}`)
+                            if(changeObj.status=== "Open"){
+                                client.checkout(lastBranch)
+                                setBranch(lastBranch)
+                                setCurrentChangeRequest(lastChangeRequest)
+                                setCurrentCRStartBranch(changeObj.original_branch)
+                                setCurrentCRName(changeObj.name || changeObj.messages[0].text)
+                            }else{
+                                localStorage.removeItem(TERMINUSCMS_CR)  
+                                localStorage.removeItem(TERMINUSCMS_CR_ID)  
+                                setBranch("main")
+                                setCurrentChangeRequest(false)
+                                setCurrentCRName(false)
+                                setCurrentCRStartBranch(false)
+                            }
                         }else{
-                            localStorage.removeItem(TERMINUSCMS_CR)  
-                            localStorage.removeItem(TERMINUSCMS_CR_ID)  
+                            //if we are not change request
                             setBranch("main")
                             setCurrentChangeRequest(false)
-                            setCurrentCRName(false)
-                            setCurrentCRStartBranch(false)
                         }
                     }else{
-                        //if we are not change request
                         setBranch("main")
                         setCurrentChangeRequest(false)
-                    }
-                }else{
-                    setBranch("main")
-                    setCurrentChangeRequest(false)
                 }
             }
         }
@@ -311,11 +324,16 @@ export const WOQLClientProvider = ({children, params}) => {
     }
 
     const updateChangeRequestStatus= async function(status){
-        const isActive = status === "Inactive" ? false : true
-        await woqlClient.sendCustomRequest("PUT", `${getChangesUrl(woqlClient)}/profile/status`,{isActive:isActive})
-        setUseChangeRequest(isActive) 
-        if(status==="Inactive"){
-            exitChangeRequestBranch(currentCRStartBranch)
+        try{
+            const isActive = status === "Inactive" ? false : true
+            await woqlClient.sendCustomRequest("PUT", `${getChangesUrl(woqlClient)}/profile/status`,{isActive:isActive})
+            setUseChangeRequest(isActive) 
+            if(status==="Inactive"){
+                exitChangeRequestBranch(currentCRStartBranch)
+            }
+        }catch(err){
+            console.log(err.message)
+            setUseChangeRequest(false) 
         }
     }
 

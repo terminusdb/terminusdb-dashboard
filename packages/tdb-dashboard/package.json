@@ -55,7 +55,7 @@
     "@graphiql/toolkit": "^0.8.0",
     "@stripe/react-stripe-js": "^1.16.4",
     "@stripe/stripe-js": "^1.46.0",
-    "@terminusdb/terminusdb-client": "^10.0.29",
+    "@terminusdb/terminusdb-client": "^10.0.31",
     "allotment": "^1.19.0",
     "axios": "^0.21.1",
     "classnames": "^2.2.5",

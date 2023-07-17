@@ -39,14 +39,6 @@ export const DocumentWoqlTable = () => {
         setControlledRefresh,
         controlledRefresh
     } = useTDBDocumentQuery(woqlClient, type, 10)
-
-    /*useEffect(() => { // get documents on click of document types
-        setBarLoading(true)
-        setTableConfig(false)
-        setDocumentResults(false)
-        setControlledRefresh(controlledRefresh+1)
-    }, [type])*/
-
  
     function extractDocuments(documentResults) {
         var extractedResults=[]
@@ -104,8 +96,8 @@ export const DocumentWoqlTable = () => {
 
     return <React.Fragment>
         <Row className="mt-5 w-100">
-        {extractedResults.length === 0 && <h3>NO RESULT</h3>}
-        {extractedResults.length>0 && tableConfig && rowCount &&
+        {(extractedResults.length === 0 || rowCount===0) && <h3>NO RESULT</h3>}
+        {extractedResults.length>0 && tableConfig && rowCount!==0 &&
                 <main className="content mr-3 ml-5 w-100 ">
                     <Row className="w-100 mb-5">
                         <Col md={11}>
