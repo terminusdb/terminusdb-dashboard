@@ -12,12 +12,12 @@ export const IconBar =  ({setShowFeedbackForm}) => {
     const instanceRead = accessControlDashboard && accessControlDashboard.instanceRead() ? accessControlDashboard.instanceRead() : false
     const { organization, dataProduct } = useParams();
 
-    let disabled = {}// {disabled:true} 
-    let basecss = "" //"disabled"
-    /*if(dataProduct && dataProduct!=='_system'){
+    let disabled = {disabled:true} 
+    let basecss = "disabled"
+    if( dataProduct ){
         disabled={}
         basecss = ""
-    }*/
+    }
 
     const getUrl = (pageName)=> {
         return  `/${organization}/${dataProduct}/${pageName}`
