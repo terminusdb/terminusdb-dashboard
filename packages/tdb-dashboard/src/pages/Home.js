@@ -44,6 +44,7 @@ export const Home = () => {
                     </h3>                      
                     <Row>
                     {teamList.map((item,index) =>{
+                        if(item.name!=="terminusCR"){
                         return <Col md={4} className="py-2 doc-summary-card" key={`key___${index}`}>
                         <Button id={item.name} className="bg-transparent border-0 p-0 w-100" onClick={(e) => changeOrganizationHandler(item.name)}>
                             <Card bg="dark" style={{maxHeight: "220px", cursor: "pointer"}} >
@@ -58,7 +59,7 @@ export const Home = () => {
                             </Card>
                         </Button>
                             </Col>
-                            })}
+                            }})}
                         </Row>
                 </Col>
             </Container>
