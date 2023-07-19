@@ -245,8 +245,10 @@ export const AdvancedSearch = (props) =>{
       setTree(immutableTree)
     }
 
+    // we added form or the document interface will refresh if we click enter
     return <div>
-     <form>
+     <form onSubmit={(event)=>{event.stopPropagation()
+                               event.preventDefault()}}>
       <Query
         {...config} 
         value={tree}
