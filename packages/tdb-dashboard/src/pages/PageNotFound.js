@@ -7,7 +7,7 @@ export const PageNotFound = () => {
     const navigate = useNavigate()
 
     function goBack() {
-        navigate(-1)
+        navigate('/')
     }
 
     return <div className="d-flex align-items-center justify-content-center vh-100">
@@ -24,7 +24,7 @@ export const PageNotFound = () => {
             <p className="tdb__page__not__found__text">
                 The page you’re looking for doesn’t exist.
             </p>
-            <Button className="btn btn-info w-100" onClick={goBack}>BACK</Button>
+            <Button className="btn btn-info w-100" onClick={goBack}>Go Home</Button>
         </div>
     </div>
 }
