@@ -232,7 +232,8 @@ export const WOQLClientProvider = ({children, params}) => {
         
     }
 
-    function exitChangeRequestBranch(branchName = "main"){
+    function exitChangeRequestBranch(branchName){
+        branchName = branchName || "main"
         woqlClient.checkout(branchName)
         woqlClient.ref(null)
         const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName()
