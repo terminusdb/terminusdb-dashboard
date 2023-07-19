@@ -172,22 +172,3 @@ function getRoutes(clientUser, isAdmin, useChangeRequest){
 
 //   <Route path={PATH.PRODUCT_EXPLORER} element={<PrivateRoute component={ProductsExplorer}/>} />
 //<Route path={PATH.PRODUCT_MODELS} element={<PrivateRoute component={ModelProductPage}/>} />  
-/*
- {
-                      "@type":"Triple",
-                      "subject":{
-                         "@type":"NodeValue",
-                         "variable":"Branch"
-                      },
-                      "predicate":{
-                         "@type":"NodeValue",
-                         "node":"name"
-                      },
-                      "object":{
-                         "@type":"Value",
-                         "data":{
-                            "@type":"xsd:string",
-                            "@value":"false"
-                         }
-                      }
-                   }*/
