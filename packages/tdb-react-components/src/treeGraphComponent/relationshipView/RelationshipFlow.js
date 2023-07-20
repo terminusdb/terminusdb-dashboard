@@ -32,16 +32,14 @@ import {RelationshipView} from './RelationshipView'
 const circle__style =  {
   height: "10px",
   width: "10px",
-  backgroundColor: "#f8f8f8",
-  borderRadius: "50%"
+  backgroundColor: "#f8f8f8"
 }
 
 const selected__node__circle__style = {
   height: "10px",
   width: "10px",
   backgroundColor: "#f8f8f8",
-  border: "3px solid #FF0072",
-  borderRadius: "50%"
+  border: "3px solid #FF0072"
 }
 
 
@@ -101,16 +99,16 @@ const RelationshipFlow = (props) => {
                 <div style={circle__style}></div>  
                 <div className='fst-italic text-muted small'>Documents linked to selected Document</div>
               </Stack>
-              {props.nodeData.type!=='ChoiceClass' &&
+              {/*props.nodeData.type!=='ChoiceClass' &&
                 <ParentsFilter key={`parent__${props.nodeData.name}`} view={props.view}/>
-              }
-              <Accordion titleClassName="tdb__accordion__head"
+              */}
+              {/*<Accordion titleClassName="tdb__accordion__head"
                 //title="Add/Remove Parents"  
                 //showBody={true}
                 title={<GetTitle listDataProvider={props.nodeData.allChildren} title = {"Children List"}/>}
                 tooltip="View and Add/Remove Parents">
                 <ConstraintsComponent key={`const__${props.nodeData.name}`} view={props.view}/>
-              </Accordion>
+              </Accordion>*/}
               <Accordion showBody={false} 
                 arrowOpenClassName = "accordion__arrow fa fa-caret-up"
                 arrowCloseClassName = "accordion__arrow fa fa-caret-down"

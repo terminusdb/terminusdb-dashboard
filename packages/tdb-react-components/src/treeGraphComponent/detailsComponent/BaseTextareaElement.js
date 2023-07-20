@@ -24,12 +24,12 @@ export const BaseTextareaElement = (props) => {
 	const disabled= props.disabled === true ? {disabled:true} : {}
 
 	if(props.view === `UI_VIEW`) {
-		return  <FormGroupComponent groupClassName={props.groupClassName}
+		return  <div className='mb-2'><FormGroupComponent groupClassName={props.groupClassName}
 			labelComponent = {<label className={`${props.labelClassName} mr-3`} >{props.title}</label>}
 			helpComponent = {<HelpComponent text={props.help}/>}
-			fieldComponent = {<textarea rows="5" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
+			fieldComponent = {<textarea rows="1" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
 		}
-			/>
+			/></div>
 	}
 
 	return(
@@ -38,7 +38,7 @@ export const BaseTextareaElement = (props) => {
 	                 <label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
 	                 <HelpComponent text={props.help}/>
                 </div>
-                <textarea rows="5" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
+                <textarea rows="1" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
             </div>
 
 	)

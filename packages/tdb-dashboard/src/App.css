@@ -325,13 +325,14 @@ div.progress-bar-container {
 }
 
 .RRT__showmore-label--selected {
-  background: white !important;
-  color:black;
+  background: black !important;
+  color:white;
 }
 
 .RRT__showmore-list--opened{
-  background: white !important;
-  color:black;
+  background: black !important;
+  color:white;
+  border-radius: 4px;
 }
 
 .tdb__panel__bar, .tdb__panel__title {

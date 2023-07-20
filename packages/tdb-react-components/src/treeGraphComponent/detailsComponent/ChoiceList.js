@@ -62,7 +62,7 @@ export const ChoiceList =(props)=> {
 	const choiceTitle='Add'
 
 	if(props.view === `UI_VIEW`) {
-		return <div className='w-100'>
+		return <div className='w-100 mt-3'>
 			<Stack direction="horizontal" className='w-100' gap={2}>
 				<BaseInputElement 
 					groupClassName={"w-100"} 

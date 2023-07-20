@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { RightBarHeaderTools } from "./detailsComponent/RightBarHeaderTools"
 import {DetailsModelFormComponent} from './detailsComponent/DetailsModelFormComponent'
 import { DetailsModelComponent } from './detailsComponent/DetailsModelComponentView'
 import {GraphContextObj} from './hook/graphObjectContext'
@@ -7,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Badge from "react-bootstrap/Badge"
 import Container from 'react-bootstrap/Container';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -71,6 +71,44 @@ export const SchemaDocumentView = (props) => {
 		if(props.saveGraph) props.saveGraph(json, commitMessage)
 		
 	}
+
+  return 	<SplitPane split="vertical"
+    defaultSize="25%"
+    className='mr-3 border border-dark rounded view__builder__pane' 
+    onChange={size => handleWidthChange(size, setWidth)}>
+    <div className='h-100 border-right border-secondary overflow-y-scroll'>
+      <SchemaBuilderList/>
+    </div>
+    <div>
+      <SizeMe monitorHeight={true}>{({ size }) =>
+        <div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%"}}>
+          {!showInfoComp && <InfoBoxComponent dbName={props.dbName} custom={props.custom} view={`UI_VIEW`}/>}
+          {showInfoComp &&  <>
+            {/*<RightBarHeaderTools saveData={saveData} view={`UI_VIEW`}/>*/}
+     
+            <Card className="bg-transparent border-0">
+              <Card.Body> 
+                <DetailsModelComponent
+                  customClassName="bg-transparent"
+                  objPropsRelatedToClass={objPropsRelatedToClass}
+                  objectPropertyList={objectPropertyList}
+                  removeElement={removeElement}
+                  addNewProperty={addNewProperty}
+                  nodePropertiesList={nodePropertiesList}
+                  currentNodeJson={selectedNodeObject}
+                  tabKey={tabKey}
+                  saveData={saveData}
+                  setTabKey={setTabKey}
+                  custom={props.custom}
+                  tabBg={`transparent`}/>
+                </Card.Body>
+            </Card>
+            
+          </>}
+        </div>}
+      </SizeMe>
+    </div>
+  </SplitPane>
 
   return <div style={{height: "100vh"}}>
     <Row className="h-100">

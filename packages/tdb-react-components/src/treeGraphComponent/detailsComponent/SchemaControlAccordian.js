@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { RightBarHeaderTools } from "./RightBarHeaderTools"
 import { InfoBoxComponent } from "./InfoBoxComponent"
 import {DetailsModelComponent} from './DetailsModelComponent'
 import { GraphContextObj } from '../hook/graphObjectContext'
@@ -26,8 +25,6 @@ const AddNewModel = ({ onClick }) => {
   const { setNodeAction, changeCurrentNode } = GraphContextObj();
 
   function handleAddNew (action, type) {
-    //if(changeCurrentNode) changeCurrentNode("DocumentClasses")
-    //if(setNodeAction) setNodeAction(ADD_NEW_ENTITY)
     if(setNodeAction) setNodeAction(action, type)
   }
 
@@ -35,7 +32,7 @@ const AddNewModel = ({ onClick }) => {
     key={"add_new"}
     id={`add_new}`}
     drop={"down"}
-    className="w-100"
+    className="w-100 ml-3"
     variant="dark"
     title={`Add New`}>
       <Dropdown.Item eventKey="1" onClick={(e) => handleAddNew(ADD_NEW_ENTITY, "DocumentClasses")}>
@@ -68,12 +65,12 @@ const DisplayMenu = ({  selectedNodeObject, objectPropertyList, changeCurrentNod
   objectPropertyList.map((obj, index) => {
     if(obj.type === "Document") {
       displayDocumentList.push(
-        <Button className={`btn-sm text-left tdb__ui__controller__buttons ${getActive(obj.value)}`}
-        variant="transparent" 
-        title={`Click here to view properties of ${obj.label}`}
-        onClick={(e) => handleCurrentNode(obj.value)}>
-          <span className="text-gray text-break">{obj.label}</span>
-        </Button>
+          <Button className={`btn-sm text-left tdb__ui__controller__buttons ${getActive(obj.value)}`}
+          variant="transparent" 
+          title={`Click here to view properties of ${obj.label}`}
+          onClick={(e) => handleCurrentNode(obj.value)}>
+            <span className="text-gray text-break">{obj.label}</span>
+          </Button>
       )
     }
     else if(obj.type === "Object") {
@@ -100,12 +97,11 @@ const DisplayMenu = ({  selectedNodeObject, objectPropertyList, changeCurrentNod
     )
   })
 
-  //onClick={(e) => handleClassClick(item["@id"])}>     
   
   if(!displayDocumentList.length && !displaySubDocumentList.length && !displayEnumList.length) {
     return <div className="mt-4">
     <AddNewModel onClick={handleCurrentNode}/>
-    <label className="small text-muted fw-bold fst-italic mt-2">
+    <label className="small text-muted fw-bold fst-italic mt-2 ml-3">
       No Documents available ...
       Click on the above Add New Button.
       </label>
@@ -141,7 +137,6 @@ const DisplayMenu = ({  selectedNodeObject, objectPropertyList, changeCurrentNod
 export const SchemaBuilderList = () => {
   const {  objectPropertyList, changeCurrentNode, objectChoicesList, selectedNodeObject } = GraphContextObj();
  
-  //console.log("objectChoicesList", objectChoicesList)
   return <DisplayMenu changeCurrentNode={changeCurrentNode}
     objectPropertyList={sortAlphabetically(objectPropertyList, "label")}
     selectedNodeObject={selectedNodeObject}

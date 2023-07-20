@@ -86,7 +86,7 @@ export function createNodesAndEdges(selectedNodeObject, objPropsRelatedToClass, 
     sourcePosition: Position.Right,
     targetPosition: Position.Left,
     style: {
-      color: "#333",
+      color: "#333", 
       background: "#eee",
       border: "3px solid #ff0072",
       //padding: "5"

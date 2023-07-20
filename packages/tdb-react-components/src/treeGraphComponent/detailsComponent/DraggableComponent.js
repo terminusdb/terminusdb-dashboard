@@ -51,6 +51,8 @@ export const DraggableComponent = ({ propertyPanelList }) => {
   const { mainGraphObj } =GraphContextObj()
   const [list, setList] = useState([]);
 
+  if (propertyPanelList && !propertyPanelList.length) return <label className="small text-muted fst-italic fw-bold">No Properties ...</label>
+
   useEffect(() => {
     if(propertyPanelList && propertyPanelList.length) {
       const panelList = propertyPanelList.map((item, index) => 

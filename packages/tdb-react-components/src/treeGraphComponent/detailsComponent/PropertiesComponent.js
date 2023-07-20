@@ -1,7 +1,7 @@
 import React, { useState,Fragment } from 'react'
 import {BasePropertyComponent} from './BasePropertyComponent'
 import {ObjectProperty} from './ObjectProperty'
-//import { ObjectSetProperty } from "./ObjectSetProperty"
+import { OneOfProperty } from "./OneOfProperty"
 import {PropertyMenuList} from './PropertyMenuList'
 import {PROPERTY_TYPE_NAME,CLASS_TYPE_NAME_LABEL} from '../utils/elementsName'
 import {STRING_TYPE_DATAPROVIDER,NUMBER_PROPERTY_PRECISION_DATAPROVIDER,BOOLEAN_TYPE_DATAPROVIDER,
@@ -12,7 +12,7 @@ import {GraphContextObj} from '../hook/graphObjectContext';
 import { DraggableComponent } from "./DraggableComponent"
 import { mapByOrder, sortAlphabetically } from "../../utils"
 
-export const renderProperties = (propertyItem, view, propertyList) => {
+export const renderProperties = (propertyItem, view) => {
 	const {mainGraphObj,
 		nodePropertiesList,
 		addNewProperty,
@@ -77,20 +77,24 @@ export const renderProperties = (propertyItem, view, propertyList) => {
 				 baseObj['comboDataProvider']=objectPropertyList || [];
 				baseObj['help']=ELEMENT_HELP.link_property	
 				 return <ObjectProperty  {...baseObj} key={propertyItem.name} view={view}/>;
-			/*case PROPERTY_TYPE_NAME.ONEOF_PROPERTY:
+			case PROPERTY_TYPE_NAME.ONEOF_PROPERTY:
 				baseObj['title']='Links To One of *'
 				baseObj['placeholder']='Select Document'
 				 baseObj['comboDataProvider']=objectPropertyList || [];
 				baseObj['help']=ELEMENT_HELP.oneOf_type	
-				 return <ObjectSetProperty  {...baseObj} key={propertyItem.name} view={view} propertyList={propertyList}/>;*/
+				 return <OneOfProperty  {...baseObj} 
+				 	key={propertyItem.name}
+					view={view}/>;
 			 default:
 				 return ''; 
-		}
+	}
 }
 
 export const getPropertiesPanels=(propertyList, view)=>{
 	return propertyList.map((propertyItem,index)=>{
-		return renderProperties(propertyItem, view, propertyList)
+		if(!propertyItem.oneOfDomain) {
+			return renderProperties(propertyItem, view)
+		}
 	});	
 }
 
@@ -121,6 +125,7 @@ export const PropertiesComponent = (props)=> {
 	    <Fragment>
 	    	<PropertyMenuList enumDisabled={enumDisabled} 
 					title={"Add Properties"}
+					oneOfDomain={false}
 	    		buttonIconClassName="menuWithLabel"
 					iconClassName="fa fa-caret-down iconWithLabel" 
 					dropdownMenuClassName="dropdownMenuProperty rightPosition" 

@@ -10,6 +10,7 @@ import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import Nav from 'react-bootstrap/Nav';
 import { MODEL_BUILDER_NAV } from "../components/constants" 
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import { AiOutlineCheckCircle } from "react-icons/ai"
@@ -17,6 +18,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { FiHelpCircle } from "react-icons/fi"
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { SchemaViewController } from "./SchemaViewController"
 
 const renderTooltip = (helpText) => (
 	<Tooltip id="help-tooltip" >
@@ -44,40 +46,78 @@ const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 		return "dark"
 	}
 
-	function getActiveClassName (mode, selectedMode) {
+	function getActive (mode, selectedMode) {
 		if(mode === selectedMode) return true
 		return false
 	}
 
-	function getModeLabel(mode, selectedMode, label) {
+	function getActiveClassName (mode, selectedMode) {
+		if(mode === selectedMode) return "bg-dark border border-light"
+		return ""
+	}
+
+	function getHelpLabel(mode, selectedMode, label) {
 		if(mode === selectedMode) return label
 		return `Switch to ${label}`
 	}
 
-	return <ListGroup variant="flush">
+	function getLabel(mode, selectedMode, helpText) {
+		if(mode === DOCUMENT_TAB) return <div title={getHelpLabel(mode, selectedMode, helpText)}>{
+			`UI`}
+		</div>
+		else if (mode === GRAPH_TAB) return <div title={getHelpLabel(mode, selectedMode, helpText)}>
+			{`GUI`}
+		</div>
+		return  <div title={getHelpLabel(mode, selectedMode, helpText)}>{`JSON UI`}</div>
+	}
+
+	return <Stack direction="vertical" gap={2} className="w-100 mt-4">
+		<Button onClick={(e)=>handleSwitch(DOCUMENT_TAB)}
+			variant = "secondary"
+			active={getActive(DOCUMENT_TAB, selectedMode)}
+			className={getActiveClassName(DOCUMENT_TAB, selectedMode)}
+			title={getHelpLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}>
+			UI 
+		</Button>
+		<Button onClick={(e)=>handleSwitch(GRAPH_TAB)}
+			variant = "secondary"
+			active={getActive(GRAPH_TAB, selectedMode)}
+			className={getActiveClassName(GRAPH_TAB, selectedMode)}
+			title={getHelpLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}>
+			GUI
+		</Button>
+		<Button onClick={(e)=>handleSwitch(JSON_TAB)}
+			variant = "secondary"
+			active={getActive(JSON_TAB, selectedMode)}
+			className={getActiveClassName(JSON_TAB, selectedMode)}
+			title={getHelpLabel(JSON_TAB, selectedMode, "JSON Mode")}>
+			JSON
+		</Button>
+
+	</Stack>
+
+	/*return <ListGroup variant="flush">
 		<ListGroup.Item onClick={(e)=>handleSwitch(DOCUMENT_TAB)} 
 			action
 			active={getActiveClassName(DOCUMENT_TAB, selectedMode)}
 			className="bg-transparent">
-			{getModeLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}
-			<Help helpText="Create or View Schema Builder in Form UI View"/>
+			{getLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}
 		</ListGroup.Item>
 		<ListGroup.Item onClick={(e)=>handleSwitch(GRAPH_TAB)}
 			action
 			active={getActiveClassName(GRAPH_TAB, selectedMode)}
 			className="bg-transparent">
-			{getModeLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}
-			<Help helpText="Create or View Schema Builder in Graphical UI View"/>
+			{getLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}
 		</ListGroup.Item>
 		<ListGroup.Item onClick={(e)=>handleSwitch(JSON_TAB)}
 			active={getActiveClassName(JSON_TAB, selectedMode)}
 			action
 			className="bg-transparent">
-			{getModeLabel(JSON_TAB, selectedMode, "JSON Mode")}
-			<Help helpText="Create or View Schema in JSON View mode"/>
+			{getLabel(JSON_TAB, selectedMode, "JSON Mode")}
 		</ListGroup.Item>
-	</ListGroup>
+	</ListGroup>*/
 
+//{<Help helpText={getHelpLabel(JSON_TAB, selectedMode, "JSON Mode")}/>}
 
 } 
 
@@ -106,8 +146,26 @@ export const ModelBuilderTabs = () => {
 
 	const closeShowSavedMessage = () => setShowSavedMsg(!showSavedMsg);
 
-	return <Row className="w-100">
-		<Col md={10}>
+	return   <Row className="w-100">
+		<Col md={11}>
+			<ToastContainer
+				className="p-3 mt-4"
+				position={'top-end'}
+				style={{ zIndex: 1 }}>
+				<Toast show={showSavedMsg} 
+					delay={3000} autohide
+					onClose={closeShowSavedMessage} 
+					bg="success">
+						<Toast.Header>
+							<AiOutlineCheckCircle className="text-success mr-2" size="20"/> <span>Success</span>
+							</Toast.Header>
+						<Toast.Body>
+							
+							<strong className="me-auto">Your changes have been successfully saved</strong>
+
+						</Toast.Body>
+					</Toast>
+			</ToastContainer>
 			{!callServerLoading && selectedMode === DOCUMENT_TAB  && 
 				<SchemaDocumentView  	dbName={dataProduct} 
 					saveGraph={saveData}
@@ -120,31 +178,13 @@ export const ModelBuilderTabs = () => {
 					saveGraph={saveData}
 					isEditMode={isEditMode}/>}
 			
-			{!callServerLoading && selectedMode === JSON_TAB && 
-				<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />}
-				<ToastContainer
-						className="p-3 mt-4"
-						position={'bottom-end'}
-						style={{ zIndex: 1 }}
-					>
-						<Toast show={showSavedMsg} 
-							delay={3000} autohide
-							onClose={closeShowSavedMessage} 
-							bg="success">
-								<Toast.Header>
-									<AiOutlineCheckCircle className="text-success mr-2" size="20"/> <span>Success</span>
-									</Toast.Header>
-								<Toast.Body>
-									
-									<strong className="me-auto">Your changes have been successfully saved</strong>
+			{!callServerLoading && selectedMode === JSON_TAB && <div className="ml-3">
+				<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />
+			</div>}
 		
-								</Toast.Body>
-							</Toast>
-							
-							
-					</ToastContainer>
+			
 		</Col>
-		<Col md={2}  className="border-left border-secondary vh-100">
+		<Col md={1}  className="border-left border-secondary vh-100">
 			<ModelBuilderViewControl selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
 		</Col>
 	</Row>

@@ -138,8 +138,8 @@ export const CLASS_PROPERTIES_LIST=[{label:'Enum Property', id:'ChoiceProperty',
 	{label:'Temporal Property', id:'TemporalProperty',defaultRange:'xsd:dateTime'},
 	{label:'Boolean Property', id:'BooleanProperty',defaultRange:'xsd:boolean'},
 	{label:'JSON Property', id:'JSONProperty',defaultRange:'sys:JSON'},
-	{label:'Link Property', id:'LinkProperty',defaultRange:''}/*,
-									{label:'OneOf Property', id:'OneOfProperty',defaultRange:''}*/]
+	{label:'Link Property', id:'LinkProperty',defaultRange:''},
+	{label:'OneOf Property', id:'OneOfProperty',defaultRange:''}]
 
 
 export const GET_ICON_NAME={StringProperty:'custom-img-string',
@@ -286,7 +286,7 @@ export const ELEMENT_HELP = {
     'number_subtype': `Choose from a decimal, integer or other, more refined numeric types ${FIELD_TYPE}`,
     'geo_subtype': `A geographic point (coordinate), a path (coordinate line) or a shape (coordinate polygon) ${FIELD_TYPE}`,
     'time_subtype': `A date, a date and time, or a range of date times ${FIELD_TYPE}`,
-		/*'oneOf_type': `The value of @oneOf field is a set, so can be any number of documents all of which have mutually disjointed properties, can be linked.`*/
+		'oneOf_type': `The value of @oneOf field is a set, so can be any number of documents all of which have mutually disjointed properties, can be linked.`
 }
 
 export const DEFAULT_SCHEMA_VIEW="default"

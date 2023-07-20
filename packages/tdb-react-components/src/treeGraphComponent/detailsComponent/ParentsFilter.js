@@ -8,8 +8,9 @@ import {GraphContextObj} from '../hook/graphObjectContext';
 import Badge from 'react-bootstrap/Badge';
 import {Accordion} from  '../../form/Accordion';
 import {CLASS_TYPE_NAME,CLASS_TYPE_NAME_LABEL,getLabelByName} from '../utils/elementsName'
+import Button from "react-bootstrap/Button"
 
-export const  removeParent=(selectedValue)=>{
+export const  removeParent = (selectedValue) => {
 	const { updateParentsList } = GraphContextObj();
 	
 	updateParentsList(selectedValue,REMOVE_PARENT)
@@ -37,9 +38,9 @@ export const GetTitle = ({ listDataProvider, title }) => {
 	</h6>
 }
 
-
+ 
 export const ParentsFilter = (props) => {  
-	const {selectedNodeObject,graphDataProvider,updateParentsList,availableParentsList} = GraphContextObj();
+	const {selectedNodeObject,setNodeAction,graphDataProvider,updateParentsList,availableParentsList} = GraphContextObj();
 	
 	const [classType,setClassType]=useState(CLASS_TYPE_NAME.OBJECT_CLASSES)
 	const [dataProvider,setDataProvider]=useState(null)
@@ -103,78 +104,90 @@ export const ParentsFilter = (props) => {
 	*/
 	const addParent=(elementId,parentName)=>{
 		updateParentsList(parentName,ADD_PARENT)
-	}
+	} 
 
 	
 		
-	const elementClassList=[{label:CLASS_TYPE_NAME_LABEL.DOCUMENT_CLASSES,
-							value:CLASS_TYPE_NAME.DOCUMENT_CLASSES},
-							{label:CLASS_TYPE_NAME_LABEL.OBJECT_CLASSES,
-							value:CLASS_TYPE_NAME.OBJECT_CLASSES}]
+	const elementClassList=[{
+		label:CLASS_TYPE_NAME_LABEL.DOCUMENT_CLASSES,
+		value:CLASS_TYPE_NAME.DOCUMENT_CLASSES},
+		{label:CLASS_TYPE_NAME_LABEL.OBJECT_CLASSES,
+		value:CLASS_TYPE_NAME.OBJECT_CLASSES
+	}]
 
 		
-    const elementId=selectedNodeObject.name;
-    const elementType=selectedNodeObject.type;
+	const elementId=selectedNodeObject.name;
+	const elementType=selectedNodeObject.type;
 
-    const title='Edit Parents';
-    const tooltip='Tooltip';
+	const title='Edit Parents';
+	const tooltip='Tooltip';
+	
+	const listDataProvider=getParentList();
+
+	const AddNew = () => {
+
+		function handleNewParent() {
+			//setNewChild(Date.now())
+			setNodeAction(ADD_PARENT)
+		} 
+
+		return <Button className="btn-sm float-right" 
+			onClick={handleNewParent} 
+			variant="light">
+				Add New Parent
+		</Button>
+	}
 		
-		
+	return <>
+		{/*<h6 className='text-muted fw-bold'>Parent List</h6>*/}
+		{/*listDataProvider.length>0 &&
+			<ParentsElementViewMode />*/}
+			<Accordion titleClassName="tdb__accordion__head"
+					//title="Add/Remove Parents"  
+					//showBody={true}
+					title={<GetTitle listDataProvider={listDataProvider} title = {"Parent List"}/>}
+					tooltip="View and Add/Remove Parents">
+				<div className="tdb__panel__box">
+				<AddNew/>
+				{showAddParentsBox &&	
+							<>					 
+							{showComboObjectType && 					 	
+								<BaseSelectComponent
+									defaultValue={classType} 
+									dataProvider={elementClassList} 
+									optionChange={changeParentList} 
+									showLabel={false}  
+									view={props.view}
+									name='elementsType'
+									setEnableSave={props.setEnableSave}/>					 	
+							}
+								<BaseSelectReactElement
+									name="addParent"
+									resetSelection={true} 
+									isClearable={false} 
+									onChange={addParent} 
+									placeholder={placeholder} 
+									dataProvider={dataProvider} 
+									optionChange={addParent}/> 
+							</>
+						}
+						{listDataProvider.length > 0 &&<div className="tdb__list">
+							<div className='small'>
+									<ListComponent removeItem={removeParent} elementId={elementId}
+									view={props.view} 
+										elementType={elementType} dataProvider={listDataProvider}/>					 
+							</div>
+						
+					</div>}
+				</div>	
+		</Accordion>
+	</>
+	
+}
 
-    
-    const listDataProvider=getParentList();
-  
-		if(props.view === `UI_VIEW`) {
-			return <>
-				{/*<h6 className='text-muted fw-bold'>Parent List</h6>*/}
-				{/*listDataProvider.length>0 &&
-					<ParentsElementViewMode />*/}
-					<Accordion titleClassName="tdb__accordion__head"
-							//title="Add/Remove Parents"  
-							showBody={true}
-							title={<GetTitle listDataProvider={listDataProvider} title = {"Parent List"}/>}
-							tooltip="View and Add/Remove Parents">
-						<div className="tdb__panel__box">
-						{showAddParentsBox &&	
-									<>					 
-									{showComboObjectType && 					 	
-										<BaseSelectComponent
-											defaultValue={classType} 
-											dataProvider={elementClassList} 
-											optionChange={changeParentList} 
-											showLabel={false}  
-											view={props.view}
-											name='elementsType'
-											setEnableSave={props.setEnableSave}/>					 	
-									}
-										<BaseSelectReactElement
-											name="addParent"
-											resetSelection={true} 
-											isClearable={false} 
-											onChange={addParent} 
-											placeholder={placeholder} 
-											dataProvider={dataProvider} 
-											optionChange={addParent}/>
-									</>
-								}
-								{listDataProvider.length > 0 &&<div className="tdb__list">
-								
-										 <ListComponent removeItem={removeParent} elementId={elementId}
-											view={props.view} 
-												elementType={elementType} dataProvider={listDataProvider}/>					 
-								
-								
-							</div>}
-						</div>	
-				</Accordion>
-			</>
-		}
-    
-
-	return (	<>
-				<div className="tdb__panel__title tdb__panel__title--parent">
-		  	 		Parent List
-		  	 	</div>
+/**
+ * return (	<>
+				<GetTitle listDataProvider={listDataProvider} title = {"Parent List"}/>
 		  	 	{listDataProvider.length>0 &&
 					<ParentsElementViewMode />
 				}
@@ -215,4 +228,4 @@ export const ParentsFilter = (props) => {
 				</>
 				
 	)
-}
+ */

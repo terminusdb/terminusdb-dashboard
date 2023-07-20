@@ -53,6 +53,12 @@ export const RelationshipView = (props)=>{
 		}
 	})
 		
+	if(!relObjArr.length && !domainToProp.length) {
+		return <div className="tdb__panel__box">
+			<label className="text-muted small fst-italic fw-bold">No links to display ...</label>
+ 		</div>
+	}
+
 	return(
 		<div className="tdb__panel__box">
 		   {relObjArr}

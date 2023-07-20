@@ -1,9 +1,9 @@
 import React,{useState,useEffect,Fragment} from 'react';
 import PropTypes from "prop-types";
-import Card from "react-bootstrap/Card"
+import Badge from "react-bootstrap/Badge"
 import Stack from "react-bootstrap/Stack"
 import {BiNetworkChart} from "react-icons/bi"
-import { RightBarHeaderTools } from "./RightBarHeaderTools"
+import { SaveBarHeaderTools } from "./SaveBarHeaderTools"
 /*
 * remove and use react-bootstrap
 */
@@ -36,7 +36,7 @@ export const DetailsModelComponent = (props)=>{
 
 	const saveData=(commitMessage)=>{
 		const json = getSchemaGraph();
-	
+		
 		if(props.saveData) props.saveData(json, commitMessage)
 	}
 
@@ -75,11 +75,11 @@ export const DetailsModelComponent = (props)=>{
 		}
 		else if(currentTab === JSON_TAB) {
 			return <JsonMode nodeData={nodeData}/>
-		}
+		} 
 		else { 
 			// selected document/ SubDoument or Enum to be displayed 
 			return <BaseElement key={`base__${nodeData.name}`}
-				removeElement={removeElement}
+				removeElement={removeElement} 
 				hasConstraints={hasConstraints}
 				nodeJsonData={nodeData}
 				view={`UI_VIEW`}
@@ -90,12 +90,12 @@ export const DetailsModelComponent = (props)=>{
 
 	const TabContent  = (args) => {
 		return <>
-			<RightBarHeaderTools saveData={args.saveData} 
+			<SaveBarHeaderTools saveData={args.saveData} 
 				hasConstraints={args.hasConstraints} 
 				elementId={args.nodeData.name}
 				nodeJsonData={args.nodeData}
-				removeElement={args.removeElement}
-				view={`UI_VIEW`}/>
+				displayDelete={true}
+				removeElement={args.removeElement}/>
 			{getTabDisplay(args)}
 		</>
 	}
@@ -156,6 +156,7 @@ export const DetailsModelComponent = (props)=>{
 			panelClassName: 'tdb__panel'
 		})
 
+	
 		return tabsArr;
 	}
 
@@ -165,16 +166,16 @@ export const DetailsModelComponent = (props)=>{
 	const tabsElement = getTabs()
 
 
-	return <div className={` ${props.customClassName} h-100`}>
+	return <div className={` ${props.customClassName} h-100`} style={{marginTop: "-15px"}}>
 		{tabsElement && <Tabs panelClassName={`{bg-${props.tabBg} card-header}`} 
 			tabsWrapperClass={`bg-${props.tabBg}`} 
 			tabClassName={`bg-${props.tabBg}`}  
-			items={tabsElement} 
+			items={tabsElement}  
 			transform={false} 
 			onChange={(tab) => props.setTabKey(tab)} 
 			selectedTabKey={props.tabKey}/>}
 				
-	</div>
+	</div> 
 }
 
 DetailsModelComponent.propTypes = {

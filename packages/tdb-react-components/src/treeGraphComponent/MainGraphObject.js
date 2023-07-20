@@ -140,7 +140,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	createNewMainGraph();
 	
-	const getAvailableParentsList=(nodeId)=>{
+	const getAvailableParentsList=(nodeId)=>{ 
 		const nodeObject=getElement(nodeId);
 		return  availableParentsList(nodeObject,_objectTypeList,_documentTypeList,_rootIndexObj)
 	}
@@ -149,19 +149,34 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	/*
 	* add a new property in the class property list 
 	*/ 
-	const addNewPropertyToClass = (nodeName, propertyType, propertyRange)=>{
+	const addNewPropertyToClass = (nodeName, propertyType, propertyRange, oneOfDomain)=>{
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
 			const newProperty=getNewPropertyTemplate(propertyType) //_graphUpdateObject.addPropertyToClass(nodeName,propertyType,propertyRange);
+			newProperty['oneOfDomain']=oneOfDomain
 			if(!_domainToProperties[nodeName]){
 				_domainToProperties[nodeName]=[]; 
 			}
+			if(newProperty['oneOfDomain']) {
+				// this is a one of property
+				_domainToProperties[nodeName].map(arr => {
+					if( arr.type === "OneOfProperty") {
+						if(!arr.hasOwnProperty("PropertyList")) {
+							arr["PropertyList"] = []
+						}
+						arr["PropertyList"].push(newProperty)
+					}
+				})
+			}
+	
 			_domainToProperties[nodeName].unshift(newProperty);
-			//_propertiesList.set(newProperty.name,newProperty);
 			return  _domainToProperties[nodeName].slice();
+			
+			//_propertiesList.set(newProperty.name,newProperty);
+			
 		}
 		return [];
 	}
-
+ 
 
 	const nodeApplyAction=(actionName,nodeName)=>{ 
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
@@ -198,7 +213,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
                     actionType=NODE_ACTION_NAME.ADD_CHILD
               		isChoiceClass=true
               		break
-            }
+            } 
         	 let newNodeObj={};
         	 if(actionName===NODE_ACTION_NAME.ADD_PARENT){
 
@@ -209,8 +224,11 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
         	 	const rootParentNode=getRoot(elementType);
 
         	 	newNodeObj=getNewNodeTemplate(null,elementType)
+						
+						 //is new parent
+						 newNodeObj["isNewParent"] = true
 				 
-				 //_graphUpdateObject.addNodeToTree(rootParentNode,currentNode);
+				 		//_graphUpdateObject.addNodeToTree(rootParentNode,currentNode);
         		
 
         	 	rootParentNode.children.push(newNodeObj);
@@ -403,7 +421,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			}
 			if(!classElement.newElement){
 				deleteDocList.push(classElement.id)
-			}
+			}	
 
 			return nodeElement;
 		}
@@ -615,7 +633,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	
     //maybe the best things to do is post with full_replace
 	//to be review
-	
+	 
 	const setPropertyId = (propertyObj, newPropId, rangePropValue) =>{
 		if(propertyObj.id === newPropId)return
 		if( _currentNode.schema[newPropId]!== undefined){
@@ -628,8 +646,18 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			delete _currentNode.schema[oldPropId]
 		}
 		propertyObj.id = newPropId
-		//I set as Optional
-		_currentNode.schema[newPropId] = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
+			//I set as Optional
+		let propertyTemplate = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
+		if(propertyObj.hasOwnProperty("oneOfDomain") && propertyObj["oneOfDomain"]) {
+			let oneOfIndex = propertyObj["oneOfDomain"]["key"]
+			if(!_currentNode.schema["@oneOf"]) _currentNode.schema["@oneOf"] = []
+			if(!_currentNode.schema["@oneOf"][oneOfIndex]) {
+				_currentNode.schema["@oneOf"].push( { [newPropId]: propertyTemplate } )
+			}
+			else _currentNode.schema["@oneOf"][oneOfIndex][newPropId] = propertyTemplate 
+		}
+		else _currentNode.schema[newPropId] = propertyTemplate
+		//_currentNode.schema[newPropId] = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
 	}
 
 	const getEnumValues =()=>{
@@ -836,9 +864,10 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 
 
-	const getSchema = () =>{
+	const getSchema = () =>{ 
 		const schemaArr=[]
 		schemaArr.push(_mainGraphElementsJson[0])
+	
 		Object.values(_rootIndexObj).forEach(item=>{
 			if(item.schema) 
 				schemaArr.push(item.schema)

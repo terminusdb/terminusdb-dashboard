@@ -16,7 +16,7 @@ import {getLabelByName} from '../utils/elementsName'
 import {GraphContextObj} from '../hook/graphObjectContext'
 import {JsonMode} from './JsonMode'
 
-export const DetailsModelComponent = (props)=>{
+export const DetailsModelComponent = (props)=>{ 
 	const {mainGraphObj,updateGraphNode} = GraphContextObj()
 	const [tabKey,setTabKey]=useState(1)
 	const nodeData = props.currentNodeJson ? props.currentNodeJson : {}
@@ -62,7 +62,7 @@ export const DetailsModelComponent = (props)=>{
 							    	panelClassName: 'tdb__panel' 
 							})
 		if(nodeData.type==='ChoiceClass'){
-			tabsArr.push({title:'Values',
+			tabsArr.push({title:'Values', 
 	             getContent: () =><ChoiceList key={`choice__${nodeData.name}`}
 	             					choices={nodeData.choices} />
 	             				  ,
@@ -102,6 +102,7 @@ export const DetailsModelComponent = (props)=>{
 				panelClassName: 'tdb__panel'
 		})
 
+	
 		return tabsArr;
 	}
 
@@ -116,14 +117,14 @@ export const DetailsModelComponent = (props)=>{
 
 	const tabsElement = getTabs()
 
-	return <div className={`col-12 ${props.customClassName} h-100 pt-4`}>
+	return <div className={`col-12 ${props.customClassName} h-100 mt-3`}>
 				<div>
-					<div className="d-flex mb-3">
+					{/*<div className="d-flex">
 						<BiNetworkChart className="schema-summary-icons"/>
-						<h5 className="ml-3" title={label}>{label}</h5>
-					</div>
-					{tabsElement && <Tabs panelClassName={`{bg-${props.tabBg} card-header}`} 
-						tabsWrapperClass={`bg-${props.tabBg}`} 
+						<h5 className="text-light fw-bold" title={label}>{label}</h5>
+					</div>*/}
+					{tabsElement && <Tabs panelClassName={`{bg-${props.tabBg} card-header} `} 
+						tabsWrapperClass={`bg-${props.tabBg} rounded`} 
 						tabClassName={`bg-${props.tabBg}`}  items={tabsElement} transform={false} onChange={setTabKey} selectedTabKey={tabKey}/>}
 				</div>
 			</div>

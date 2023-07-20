@@ -9,8 +9,9 @@ import {DEFAULT_SCHEMA_VIEW} from '../constants/details-labels';
 import {ModelMainHeaderComponent} from './detailsComponent/ModelMainHeaderComponent';
 import {InfoBoxComponent} from './detailsComponent/InfoBoxComponent'
 import {InfoObjectComponent} from './detailsComponent/InfoObjectComponent'
-import {RightBarHeaderTools} from './detailsComponent/RightBarHeaderTools';
+import {SaveBarHeaderTools} from './detailsComponent/SaveBarHeaderTools';
 import {ObjectClassModelViewMode} from './detailsComponent/viewMode/ObjectClassModelViewMode'
+import { ReactTreeComponent } from "./ReactTreeComponent"
 
 export const ViewBuilder = (props)=>{
 
@@ -85,21 +86,50 @@ export const ViewBuilder = (props)=>{
 		showInfoComp=true;
 	}
 
+	return <div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%"}}>
+		{graphDataProvider && <ReactTreeComponent
+			objectPropertyToRange={objectPropertyToRange}
+			zoomEvent={zoomEvent}
+			isEditMode={isEditMode}
+			setNodeAction={setNodeAction}
+			selectedNodeObject={selectedNodeObject}
+			changeCurrentNode={changeCurrentNode}
+		//	width={size.width} height={size.height}
+			addedNewNode={selectedNodeObject.newNode}
+			graphUpdateLabel={graphUpdateLabel}
+			graphDataProvider={graphDataProvider}
+			isFocusOnNode={isFocusOnNode}
+		/>}
+	</div>
+
 
 	return (<React.Fragment>		
-			<SplitPane split="vertical"
-				defaultSize="70%"
-				className='ml-5 mr-3 border border-dark rounded view__builder__pane' 
-				onChange={size => handleWidthChange(size, setWidth)}>
+		<SplitPane split="vertical"
+			defaultSize="50%"
+			className='mr-3 border border-dark rounded view__builder__pane' 
+			onChange={size => handleWidthChange(size, setWidth)}>
 				<div>
-					<ModelMainHeaderComponent
+					{/*<ModelMainHeaderComponent
 						setNodeAction={setNodeAction}
 						extraTools={props.extraTools}
 						setZoomEvent={setZoomEvent}
-					/>
+					/>*/}
 					<SizeMe monitorHeight={true}>{({ size }) =>
 						<div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%"}}>
-							{graphDataProvider && <>
+							{graphDataProvider && <ReactTreeComponent
+								objectPropertyToRange={objectPropertyToRange}
+								zoomEvent={zoomEvent}
+								isEditMode={isEditMode}
+								setNodeAction={setNodeAction}
+								selectedNodeObject={selectedNodeObject}
+								changeCurrentNode={changeCurrentNode}
+								width={size.width} height={size.height}
+								addedNewNode={selectedNodeObject.newNode}
+								graphUpdateLabel={graphUpdateLabel}
+								graphDataProvider={graphDataProvider}
+								isFocusOnNode={isFocusOnNode}
+							/>}
+							{/*graphDataProvider && <>
 								<ModelTreeComponent 
 									objectPropertyToRange={objectPropertyToRange}
 									zoomEvent={zoomEvent}
@@ -112,37 +142,40 @@ export const ViewBuilder = (props)=>{
 									graphUpdateLabel={graphUpdateLabel}
 									graphDataProvider={graphDataProvider}
 									isFocusOnNode={isFocusOnNode}/>
-							</>}
+							</>*/}
 						</div>
 						}
 					</SizeMe>
-				</div> 
-					<div className='h-100'>
-					{isEditMode===true &&
-						<RightBarHeaderTools saveData={saveData} />
-					}		
-					{showInfoComp && selectedNodeObject.type!==CLASS_TYPE_NAME.SCHEMA_GROUP &&
-						<InfoBoxComponent dbName={props.dbName} custom={props.custom}/>
-					}
-					{showInfoComp && selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_GROUP &&
-						<InfoObjectComponent panelType={selectedNodeObject.name} custom={props.custom}/>
-					}
-					{!showInfoComp && isEditMode===false &&
-						<ObjectClassModelViewMode custom={props.custom}/>}
-					{!showInfoComp && isEditMode===true &&
-						<DetailsModelComponent
-							customClassName="bg-dark"
-							objPropsRelatedToClass={objPropsRelatedToClass}
-							objectPropertyList={objectPropertyList}
-							removeElement={removeElement}
-							addNewProperty={addNewProperty}
-							nodePropertiesList={nodePropertiesList}
-							currentNodeJson={selectedNodeObject}
-							custom={props.custom}
-							tabBg={`dark`}
-							/>	}					
 				</div>
-			</SplitPane>
-			</React.Fragment>
+				<div className='h-100 border-left border-secondary overflow-y-scroll'>
+						{isEditMode===true &&
+							<SaveBarHeaderTools saveData={saveData} 
+								displayDelete={true} 
+								className="px-3"
+								nodeJsonData={selectedNodeObject}/>
+						}		
+						{showInfoComp && selectedNodeObject.type!==CLASS_TYPE_NAME.SCHEMA_GROUP &&
+							<InfoBoxComponent dbName={props.dbName} custom={props.custom}/>
+						}
+						{showInfoComp && selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_GROUP &&
+							<InfoObjectComponent panelType={selectedNodeObject.name} custom={props.custom}/>
+						}
+						{!showInfoComp && isEditMode===false &&
+							<ObjectClassModelViewMode custom={props.custom}/>}
+						{!showInfoComp && isEditMode===true &&
+							<DetailsModelComponent
+								//customClassName="bg-dark"
+								objPropsRelatedToClass={objPropsRelatedToClass}
+								objectPropertyList={objectPropertyList}
+								removeElement={removeElement}
+								addNewProperty={addNewProperty}
+								nodePropertiesList={nodePropertiesList}
+								currentNodeJson={selectedNodeObject}
+								custom={props.custom}
+								tabBg={`dark`}
+								/>	}					
+				</div>
+		</SplitPane>
+	</React.Fragment>
 	)
 }

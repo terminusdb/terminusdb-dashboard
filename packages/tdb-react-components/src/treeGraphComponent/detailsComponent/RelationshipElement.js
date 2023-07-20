@@ -9,7 +9,7 @@ import {Accordion} from  '../../form/Accordion';
 
 export const RelationShipElement = (props) => {
 
-  if(props.view === `UI_VIEW`) {
+  //if(props.view === `UI_VIEW`) {
     return <Card bg="dark">
      {/* <Card.Header className="border-0">
         <label className="text-muted fst-italic small">{`Shows relationship between documents`}</label>
@@ -28,15 +28,15 @@ export const RelationShipElement = (props) => {
        <RelationshipFlow nodeData={props.nodeData} view={props.view}/>
       </Card.Body>
     </Card>
-  } 
+  //} 
 
-  return <Card className='my-1 bg-transparent border-0'>
+  /*return <Card className='my-1 bg-transparent border-0'>
     <Card.Body className='p-2'>
       {props.nodeData.type!=='ChoiceClass' &&
         <ParentsFilter key={`parent__${props.nodeData.name}`} view={props.view}/>
       }
       <ConstraintsComponent key={`const__${props.nodeData.name}`}/>
       </Card.Body>
-  </Card>
+  </Card>*/
 
 }

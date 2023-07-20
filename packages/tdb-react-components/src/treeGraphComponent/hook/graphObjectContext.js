@@ -77,7 +77,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		}
 		setFocusOnNode(focusOnNode);
 		if(nodeId===null){
-			resetSelection()
+			resetSelection() 
 		}else if(mainGraphObj && mainGraphObj.getElement(nodeId)){
 			setSelectedNodeObject(mainGraphObj.getElement(nodeId));
 			//I not need this there are inside the json schema
@@ -96,9 +96,42 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		changeCurrentNode(nodeObject.name,focusOnNode);
 	}
 
-	const addNewProperty=(propertyType, propertyRange)=>{
-		const propertiesList=mainGraphObj.addNewPropertyToClass(selectedNodeObject.name, propertyType, propertyRange);
-		setNodePropertiesList(propertiesList)
+	function getOneOfPropertyList(tempPropertiesList) {
+		let oneOfFiltered = tempPropertiesList.filter(arr => arr.id === "@oneOf") 
+		if(oneOfFiltered.length && 
+			oneOfFiltered[0].hasOwnProperty("PropertyList") && 
+			oneOfFiltered[0]["PropertyList"]) return oneOfFiltered[0]["PropertyList"]
+		else return []
+	}
+
+	const addNewProperty=(propertyType, propertyRange, oneOfDomain)=>{ 
+		const propertiesList=mainGraphObj.addNewPropertyToClass(selectedNodeObject.name, propertyType, propertyRange, oneOfDomain);
+		let tempPropertiesList = [...propertiesList]
+		let oneOfProperties=getOneOfPropertyList(tempPropertiesList), newPropertiesList=[] 
+		tempPropertiesList.map(arr => {
+			if(arr.oneOfDomain) {
+				if(!oneOfProperties[arr.oneOfDomain.key]) {
+					oneOfProperties[arr.oneOfDomain.key] = {}
+					oneOfProperties[arr.oneOfDomain.key][arr.name] = arr
+				}
+				else { 
+					oneOfProperties[arr.oneOfDomain.key][arr.name] = arr
+				}
+				//oneOfProperties.push(arr)
+			}
+			else newPropertiesList.push(arr)
+		})
+		if(oneOfProperties.length) {
+			newPropertiesList.map(newProps => {
+				if(newProps.type === 'OneOfProperty') {
+					newProps["PropertyList"]=oneOfProperties
+				}
+			})
+		}
+		
+
+		setNodePropertiesList(newPropertiesList)
+		//setNodePropertiesList(propertiesList)
 	}
 	
 	const removeElement=(elementId,elementType)=>{

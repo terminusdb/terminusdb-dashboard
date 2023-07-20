@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'; 
 
 export const NodeMenuList = (props)=> {
 
 	const onClick=(evt)=>{
 		const action_name=evt.currentTarget.id;
 		if(props.setNodeAction)props.setNodeAction(action_name);
-	}
+	} 
 
 	const checkDisabledItem = (itemId)=>{
 		if(props.disabledItemsList){

@@ -7,7 +7,7 @@ import { EditorView } from "@codemirror/view";
 
 import {PROGRESS_BAR_COMPONENT, TERMINUS_SUCCESS} from "./constants"
 import {Loading} from "./Loading"
-import {Alert} from "react-bootstrap"
+import {Alert, Button} from "react-bootstrap"
 import {MODEL_BUILDER_EDITOR_OPTIONS} from "./constants"
 import { BiUndo } from "react-icons/bi"
 import {FaRegEdit} from 'react-icons/fa'
@@ -18,7 +18,7 @@ import {CopyButton} from "./utils"
 import Card from "react-bootstrap/Card"
 import {BsSave} from "react-icons/bs"
 import Stack from "react-bootstrap/Stack"
-import {modelCallServerHook} from "@terminusdb-live/tdb-react-components"
+import {modelCallServerHook, SaveBarHeaderTools} from "@terminusdb-live/tdb-react-components"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 
 // we moved the save data at this level or we lost our change if there is an error
@@ -73,6 +73,9 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
         setCommitMessage(e.target.value)
     }
 
+    function handleEdit () {
+        setEditMode(Date.now())
+    }
 
     async function saveGraph (){
         if(value) {
@@ -87,47 +90,44 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
         }
     }
 
+    function handleSave(e) {
+        saveGraph()
+    }
+
+    function handleReset(e) {
+        loadSchema() 
+    }
+
+
     const editStyle = editMode ? {className:"border rounded border-warning position-sticky"} : {}
     const editMessage = editMode ? "Save schema or you will lose your changes" : ""
+    const copyButtonCss = "text-light btn btn-lg bg-transparent border-light text-light float-right btn btn-lg btn-transparent"
     
     //console.log("editMode", editMode)
-    return <>
-        <label className="text-warning">{editMessage}</label>
+    return <div className="ml-5">
+        <label className="text-warning  mt-3 fst-italic fw-bold">{editMessage}</label>
         {reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
        
-        <Card className={`border-0 bg-transparent`} {...editStyle}>
+        <Card {...editStyle}>
              {loading && <Loading message={"Updating schema"}/>}       
-            <Card.Header className="bg-transparent">
-                <Stack direction="horizontal" className="w-100 justify-content-end">
-                    {editMode && <div className="w-100">
-                        <div role="group" className="btn-group w-100">
-                            <div className="col-md-10 pr-0 pl-0">
-                                <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
-                            </div>
-                            <button  type="button" id="schema_save_button" className="btn btn-sm bg-light text-dark" onClick={saveGraph}>
-                                <BsSave className="small"/> {"Save"}
-                            </button>
-                            <button  type="button" 
-                                title="Undo changes"
-                                className="btn btn-sm bg-danger text-white mr-2" onClick={()=>{ loadSchema() }}>
-                                <BiUndo className="h5"/> {"Undo"}
-                            </button>
-                        </div>
-                    </div>
-                    }
+            <Card.Header>
+                <Stack direction="horizontal" className="w-100 justify-content-start">
+                    {editMode && <SaveBarHeaderTools saveData={handleSave} 
+                        handleReset={ handleReset }
+                        displayDelete={false}/>}
                     {accessControlEditMode && !editMode &&
-                        <button  type="button" className="btn-edit-json-model btn btn-md btn-light text-dark float-right mr-2" 
-                            onClick={()=>{setEditMode(true)}}>
+                        <Button className="btn-edit-json-model btn btn-md btn-light text-dark float-right mr-2" 
+                            onClick={handleEdit}>
                             <FaRegEdit className="mb-1"/> Edit Schema
-                        </button>
+                        </Button>
                     }
                     <CopyButton text={jsonSchema} 
                         label={""}
                         title={`Copy JSON schema`} 
-                        css={"btn btn-md bg-light text-dark float-right"}/>
+                        css={editMode ? `mt-3 ml-2 ${copyButtonCss}` : `ms-auto ${copyButtonCss}`}/>
                 </Stack>
             </Card.Header>
-            <div className="h-100">
+            <Card.Body>
                 <CodeMirror  
                     onChange={onChangeHandler}
                     readOnly={!editMode}
@@ -136,7 +136,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
                     theme={vscodeDark} 
                     className="model-builder-code-mirror"
                 />
-            </div>
+            </Card.Body>
         </Card>
-    </>
+    </div>
 }

@@ -26,7 +26,7 @@ export const ModelProductPage = () => {
 			<GraphObjectProvider currentChangeRequest={currentChangeRequest} setError={setReport} 
 				mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
 					<Layout showLeftSideBar={true} mainClassName={`container-fluid`}>
-						<main className="content mr-3 ml-5">
+						<main className="content mr-3">
 						{reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
 							<ModelBuilder/> 
 						</main> 

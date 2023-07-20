@@ -8,7 +8,7 @@ export const Accordion = (props) => {
 
     const openBody = ()=>{setShowBody(!showBody)};
 
-    const itemClassName=`tdb__accordion ${props.className}`;
+    const itemClassName=`tdb__accordion ${props.className} w-100`;
       
     const arrowClassName=`tdb__accordion__arrow ${props.arrowClassName}`;
      		

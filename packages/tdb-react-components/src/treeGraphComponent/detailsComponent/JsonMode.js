@@ -40,18 +40,20 @@ export const JsonMode = (props)=>{
                             </button>
                         </Fragment>
                     } 
-                    {!editMode &&
+                    {/*!editMode &&
 					<button  type="button" className="btn btn-light btn-sm border-0 my-3" onClick={()=>{setEditMode(true)}}>
 					    Edit JSON Schema
 					</button>
-                    }
+                    */}
 			</div>
         </div>
-        <div className='w-100' style={{maxWidth: "900px"}}><CodeMirror extensions={[json()]} 
+        <div className='w-100 mt-3'>
+            <CodeMirror extensions={[json()]} 
                 theme={vscodeDark} 
                 value={JSON.stringify(jsonSchema, null, 2)}     
-                readOnly={!editMode}
-                onChange={onChangeHandler}/></div>
+                //readOnly={!editMode}
+                onChange={onChangeHandler}/>
+        </div>
         
     </React.Fragment>
 }

@@ -6,6 +6,9 @@ import {BaseInputElement} from './BaseInputElement';
 import {BaseTextareaElement} from './BaseTextareaElement';
 import {BaseCheckboxElement} from './BaseCheckboxElement';
 import {KeyComponent} from './KeyComponent';
+import {BaseAddParentElement} from "./BaseAddParentElement"
+import {BaseAddChildElement} from "./BaseAddChildElement"
+import {NewLinkInformation} from "./NewLinkInformation"
 
 export const BaseElement = (props)=>{	
     const [indexError,setIndexError]=useState(false);
@@ -42,7 +45,7 @@ export const BaseElement = (props)=>{
     },[nodeJsonData]) 
 
     return( <>
-      {nodeJsonData && nodeJsonData.type!=="Document" && <RemoveElementComponent 
+      {/*nodeJsonData && nodeJsonData.type!=="Document" && <RemoveElementComponent 
             hasConstraints={props.hasConstraints} 
             elementId={nodeJsonData.name}
             displayAsIcon={false}
@@ -50,43 +53,48 @@ export const BaseElement = (props)=>{
             className={'btn-sm border-0 bg-transparent float-right'}
             elementType={nodeJsonData.type}
             removeElement={props.removeElement}
-            />}
+            />*/}
    	    <div className="tdb__panel__box tdb__panel__box--edit">
-         
-       	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
-                    <Fragment>
-                        <BaseCheckboxElement labelClassName={"mb-0"}
-                            view={props.view}
-                            title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
-                    </Fragment>
-                }
-                <BaseInputElement
-                    autoFocus={true} 
-                    disabled={!nodeJsonData.newElement}
-                    title={`${ELEMENT_BASE_CONST.ID_TEXT} *` }
-                    placeholder={ELEMENT_BASE_CONST.ID_PLACEHOLDER}
-                    name='id'
-                    view={props.view}
-                    panelName={nodeJsonData.name}
-                    help={ELEMENT_HELP.class_id}
-                    onBlur={changeElement}
-                    defaultValue={nodeSchemaData.id}
-                    itemError={indexError }//|| props.indexError}
-                    />
+            
+           <NewLinkInformation nodeJsonData={nodeJsonData}/>
+
+            {props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
+                <Fragment>
+                    <BaseCheckboxElement labelClassName={"mb-0"}
+                        view={props.view}
+                        title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
+                </Fragment>
+            }
+            <BaseInputElement
+                autoFocus={true} 
+                disabled={!nodeJsonData.newElement}
+                title={`${ELEMENT_BASE_CONST.ID_TEXT} *` }
+                placeholder={ELEMENT_BASE_CONST.ID_PLACEHOLDER}
+                name='id'
+                view={props.view}
+                panelName={nodeJsonData.name}
+                help={ELEMENT_HELP.class_id}
+                onBlur={changeElement}
+                defaultValue={nodeSchemaData.id}
+                itemError={indexError }//|| props.indexError}
+                />
                 
-                {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
-                    <KeyComponent view={props.view}/>
-                } 
-                {props.children}
-	            <BaseTextareaElement
-                    placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 
-                    title={ELEMENT_BASE_CONST.DESCRIPTION_TEXT}
-                    name='comment'
-                    view={props.view}
-                    help={ELEMENT_HELP.class_comment}
-                    onBlur={changeElement}
-                    defaultValue={nodeSchemaData.comment || ''}
+            {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
+                <KeyComponent view={props.view}/>
+            } 
+            {props.children}
+            <BaseTextareaElement
+                placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 
+                title={ELEMENT_BASE_CONST.DESCRIPTION_TEXT}
+                name='comment'
+                view={props.view}
+                help={ELEMENT_HELP.class_comment}
+                onBlur={changeElement}
+                defaultValue={nodeSchemaData.comment || ''}
             />
+
+            <BaseAddParentElement {...props}/>
+            <BaseAddChildElement {...props}/>
     	</div>
         </>
     )

@@ -35,7 +35,7 @@ function ToggleErrorDisplay({ children, eventKey, expandComponent, hideComponent
  */
 export const DisplayErrorPerProperty = ({ propertyName, errorType, message }) => {
     return <Accordion className="bg-transparent  border-0 w-100">
-      <Accordion.Item eventKey={propertyName} className={"bg-transparent border-0 alert_danger_text"}>
+      <Accordion.Item eventKey={propertyName} className={"bg-transparent border-0 alert_danger_text text-break"}>
           <div className="mb-3">
               <div className="fw-bold d-flex">
                   <ToggleErrorDisplay eventKey={propertyName} 

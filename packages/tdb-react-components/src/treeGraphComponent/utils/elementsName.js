@@ -6,8 +6,8 @@ export const PROPERTY_TYPE_NAME={
 	TEMPORAL_PROPERTY:'TemporalProperty',
 	OBJECT_PROPERTY:'LinkProperty',
 	BOOLEAN_PROPERTY:'BooleanProperty',
-	JSON_PROPERTY:'JSONProperty'/*,
-	ONEOF_PROPERTY:'OneOfProperty'*/
+	JSON_PROPERTY:'JSONProperty',
+	ONEOF_PROPERTY:'OneOfProperty'
 }
 
 export const getLabelByName=(elementName)=>{
