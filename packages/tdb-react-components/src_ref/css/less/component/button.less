@@ -1,0 +1,103 @@
+.tdb__button__base{
+	border: 1px solid #808080;
+	color: white;
+	padding: 12px 30px;
+    border-radius: 3px;
+    margin:0px;
+    white-space: normal;
+    font-size: inherit;
+    letter-spacing: .88px;
+    background-color: #808080;
+
+
+    &--bgreen{
+    	background-color: white;
+    	border:1px solid @brand-color-green;
+    	color: @brand-color-green;
+    	&:hover{
+    		border:1px solid @brand-color-green;
+    		background-color: @brand-color-green;
+    		color: white;
+    	}
+    	&:focus{
+    		border:1px solid @brand-color-green;
+    		background-color: @brand-color-green;
+    		color: white;
+    	}
+    }
+
+     &--bblue{
+    	background-color: white;
+    	border:1px solid @brand-color-blue;
+    	color: @brand-color-blue;
+    	&:hover{
+    		border:1px solid @brand-color-blue;
+    		background-color: @brand-color-blue;
+    		color: white;
+    	}
+    	&:focus{
+    		border:1px solid @brand-color-blue;
+    		background-color: @brand-color-blue;
+    		color: white;
+    	}
+    }
+
+    &--green{
+		background-color: @brand-color-green;
+		&:hover{
+			background-color: @brand-color-green;
+    		border:1px solid @brand-color-green;
+    	}
+    	&:focus{
+    		background-color: @brand-color-green;
+    		border:1px solid @brand-color-green;
+    	}
+	}
+
+	&--bred{
+		color: #dc3545;
+        border-color: #dc3545;
+        background-color: #ffff;
+
+        &:hover{
+            background-color:#dc3545;  
+            border:1px solid #dc3545;
+            color:#fff;
+        }
+        &:focus{
+            background-color:#dc3545;  
+            border:1px solid #dc3545;
+            color:#fff;
+        }
+	}
+	/*
+	review when remove bootstrap
+	*/
+	&:hover{
+	  opacity: 0.8;
+	  outline: 0px !important;;
+	  box-shadow:0 0 0 0!important;
+	}
+
+	&:focus{
+	  outline: 0px !important;;
+	  box-shadow:0 0 0 0!important;
+	}
+
+	&:active{
+	  outline: 0px !important;
+	  box-shadow:0 0 0 0!important;
+	}
+
+    &:disabled{
+      // border: 1px solid #999999;
+      // background-color: #cccccc;
+       color: #666666;
+       cursor: not-allowed;
+    }
+}
+
+
+
+
+

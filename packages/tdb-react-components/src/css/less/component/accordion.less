@@ -1,9 +1,16 @@
 .tdb__accordion{
     background: transparent;
+		padding: 0.5rem;
+    margin-top: 0.5rem;
+    /* padding-top: 3px; */
+    /* padding-bottom: 3px; */
+    border-radius: 6px;
+    border: 1px solid #6666;
+    background-color: rgb(53, 53, 53, 0.6);
     /*margin-bottom: 5px;*/
-	padding-top: 3px;
-	padding-bottom: 3px;
-	border-bottom: 1px solid rgb(102, 102, 102);
+		/*padding-top: 3px;
+		padding-bottom: 3px;
+		border-bottom: 1px solid rgb(102, 102, 102);*/
 
     &--parent{
     	margin-left: 7px;
@@ -57,8 +64,9 @@
 	    }
 
 	    &:hover{
-	    	 background-color: #ddd;
-			 color:grey;
+	    	background-color: rgb(57, 57, 57);
+			 	color:#fff;
+				border-radius: 6px;
 	    }
 
 	     &--green{
@@ -71,6 +79,7 @@
 	    padding: 5px;
 	    font-size: 16px;
 	    align-items: center;
+			width: 100%;
    	}
 
 
@@ -93,4 +102,7 @@
 
 .disable-select .tdb__accordion {
   width: 100% !important;
+}
+.tdb__accordion__title div {
+	width: 100%;
 }

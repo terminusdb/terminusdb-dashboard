@@ -6,6 +6,9 @@ import {BaseInputElement} from './BaseInputElement';
 import {BaseTextareaElement} from './BaseTextareaElement';
 import {BaseCheckboxElement} from './BaseCheckboxElement';
 import {KeyComponent} from './KeyComponent';
+import {BaseAddParentElement} from "./BaseAddParentElement"
+import {BaseAddChildElement}  from "./BaseAddChildElement"
+import {CLASS_TYPE_NAME} from "../utils/elementsName"
 
 export const BaseElement = (props)=>{	
     const [indexError,setIndexError]=useState(false);
@@ -14,8 +17,9 @@ export const BaseElement = (props)=>{
     //const subdocument_disabled = nodeSchemaData.subdocument_disabled === true ? {disabled:true} : {}
 
     const changeElement=(name,value)=>{
+        
         let val=value;
-        val = value.trim();
+        //val = value.trim();
         try{
             if(name === 'id'){
                 setIndexError(false);           
@@ -37,48 +41,71 @@ export const BaseElement = (props)=>{
     }
 
     useEffect(() => {
-        setIndexError(false);
-    },[nodeJsonData])
+        setIndexError(false); 
+    },[nodeJsonData]) 
 
-    return(
+    function isPropertyType (type) {
+        if(nodeJsonData.type===CLASS_TYPE_NAME.DOCUMENT_CLASS) return false
+        if(nodeJsonData.type===CLASS_TYPE_NAME.OBJECT_CLASS) return false
+        if(nodeJsonData.type===CLASS_TYPE_NAME.CHOICE_CLASS) return false
+        return true
+    }
+
+    return( <>
+        {/** not providing delete option for one of (temporary) */}
+        {nodeJsonData && isPropertyType(nodeJsonData.type) && !nodeJsonData.oneOfDomain && <RemoveElementComponent 
+            hasConstraints={props.hasConstraints} 
+            elementId={nodeJsonData.name}
+            displayAsIcon={false}
+            size={"17"}
+            className={'btn-sm border-0 bg-transparent float-right'}
+            elementType={nodeJsonData.type} 
+            removeElement={props.removeElement}
+            />}
    	    <div className="tdb__panel__box tdb__panel__box--edit">
-            <RemoveElementComponent 
-                hasConstraints={props.hasConstraints} 
-                elementId={nodeJsonData.name}
-                elementType={nodeJsonData.type}
-                removeElement={props.removeElement}
+             
+
+            {props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
+                <Fragment>
+                    <BaseCheckboxElement labelClassName={"mb-0"}
+                        view={props.view}
+                        title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
+                </Fragment>
+            }
+            <BaseInputElement 
+                autoFocus={true} 
+                disabled={!nodeJsonData.newElement}
+                title={`${ELEMENT_BASE_CONST.ID_TEXT} *` }
+                placeholder={ELEMENT_BASE_CONST.ID_PLACEHOLDER}
+                name='id'
+                view={props.view}
+                panelName={nodeJsonData.name}
+                help={ELEMENT_HELP.class_id}
+                onBlur={changeElement}
+                defaultValue={nodeSchemaData.id}
+                itemError={indexError }//|| props.indexError}
                 />
-       	    	{props.isNodeObject && nodeJsonData.type!=='ChoiceClass' && 
-                    <Fragment>
-                        <BaseCheckboxElement labelClassName={"mb-0"}
-                                title={'Abstract'} help={"abstract"} name='abstract' defaultValue={nodeSchemaData.abstract} onBlur={changeElement} />
-                    </Fragment>
-                }
-                <BaseInputElement
-                    autoFocus={true} 
-                    disabled={!nodeJsonData.newElement}
-                    title={`${ELEMENT_BASE_CONST.ID_TEXT} *` }
-                    placeholder={ELEMENT_BASE_CONST.ID_PLACEHOLDER}
-                    name='id'
-                    panelName={nodeJsonData.name}
-                    help={ELEMENT_HELP.class_id}
-                    onBlur={changeElement}
-                    defaultValue={nodeSchemaData.id}
-                    itemError={indexError }//|| props.indexError}
-                    />
-                {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
-                    <KeyComponent />
-                } 
-                {props.children}
-	            <BaseTextareaElement
-                    placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 
-                    title={ELEMENT_BASE_CONST.DESCRIPTION_TEXT}
-                    name='comment'
-                    help={ELEMENT_HELP.class_comment}
-                    onBlur={changeElement}
-                    defaultValue={nodeSchemaData.comment || ''}
+                
+            {props.isNodeObject  && nodeJsonData.type!=='ChoiceClass' && 
+                <KeyComponent view={props.view}/>
+            } 
+            {props.children}
+            <BaseTextareaElement
+                placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 
+                title={ELEMENT_BASE_CONST.DESCRIPTION_TEXT}
+                name='comment'
+                view={props.view}
+                help={ELEMENT_HELP.class_comment}
+                onBlur={changeElement}
+                defaultValue={nodeSchemaData.comment || ''}
             />
+
+			<BaseAddParentElement {...props}/>
+			<BaseAddChildElement {...props}/>
+
+           
     	</div>
+        </>
     )
 }
 

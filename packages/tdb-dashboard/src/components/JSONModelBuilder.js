@@ -39,7 +39,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
 
 
     const {saveGraphChanges,
-        reportMessage,
+        reportMessage, 
         setReport,
         callServerLoading:loading,
     } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
@@ -95,7 +95,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
         <label className="text-warning mt-4">{editMessage}</label>
         {reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
        
-        <Card className={`border border-secondary mt-4`} {...editStyle}>
+        <Card className={`border border-secondary`} {...editStyle}>
             {loading && <Loading message={"Updating schema"} type={PROGRESS_BAR_COMPONENT}/>}       
             <Card.Header>
                 <Stack direction="horizontal" className="w-100 justify-content-end">

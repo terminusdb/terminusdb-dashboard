@@ -6,8 +6,9 @@ export const PROPERTY_TYPE_NAME={
 	TEMPORAL_PROPERTY:'TemporalProperty',
 	OBJECT_PROPERTY:'LinkProperty',
 	BOOLEAN_PROPERTY:'BooleanProperty',
-	JSON_PROPERTY:'JSONProperty'
-}
+	JSON_PROPERTY:'JSONProperty',
+	ONEOF_PROPERTY:'OneOfProperty'
+} 
 
 export const getLabelByName=(elementName)=>{
 	switch(elementName){
@@ -36,15 +37,15 @@ export const PROPERTY_TYPE_LABEL={
 	
 }
 
-export const CLASS_TYPE_NAME={
+export const CLASS_TYPE_NAME={ 
 	SCHEMA_ROOT: 'ROOT',
 	SCHEMA_GROUP: 'Group',
-  	OBJECT_CLASS:'Object',
-  	CHOICE_CLASS:"ChoiceClass",
-  	DOCUMENT_CLASS:"Document",
-  	DOCUMENT_CLASSES:"DocumentClasses",
-  	OBJECT_CLASSES:"ObjectClasses",
-  	CHOICE_CLASSES:"ChoiceClasses"
+	OBJECT_CLASS:'Object',
+	CHOICE_CLASS:"ChoiceClass", 
+	DOCUMENT_CLASS:"Document",
+	DOCUMENT_CLASSES:"DocumentClasses",
+	OBJECT_CLASSES:"ObjectClasses",
+	CHOICE_CLASSES:"ChoiceClasses"
 }
 
 export const CLASS_TYPE_NAME_LABEL={

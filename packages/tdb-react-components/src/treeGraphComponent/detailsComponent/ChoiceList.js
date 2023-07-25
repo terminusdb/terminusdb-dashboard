@@ -3,6 +3,9 @@ import {BaseInputElement} from './BaseInputElement';
 import {ListComponent} from './ListComponent';
 import {GraphContextObj} from '../hook/graphObjectContext';
 import {ELEMENT_HELP} from '../../constants/details-labels';
+import { FormGroupComponent } from "./FormGroupComponent"
+import Stack from "react-bootstrap/Stack"
+import Button from 'react-bootstrap/Button';
 
 //import Select from 'react-select';
 //import {ADD_NEW_CHOICE,REMOVE_CHOICE} from '../../constants/ActionTypes'
@@ -54,13 +57,37 @@ export const ChoiceList =(props)=> {
 		}
 	}
 
+	//const title='Values';
 	const title='Values';
-	const choiceTitle='Add a value'
+	const choiceTitle='Add'
+
+	if(props.view === `UI_VIEW`) {
+		return <div className='w-100 mt-3'>
+			<Stack direction="horizontal" className='w-100' gap={2}>
+				<BaseInputElement 
+					groupClassName={"w-100"} 
+					view={props.view}  
+					help={ELEMENT_HELP.choice_id} 
+					placeholder={ELEMENT_HELP.choice_id} 
+					itemError={idReqError} title="Add Value" name="id"  onBlur={onBlur} defaultValue={idValue}/>
+				<Button className="btn btn-sm" variant="light" onClick={addNewBox}>{choiceTitle}</Button>  			  
+			</Stack>
+			
+			<FormGroupComponent 
+				labelComponent = {<span>{title}</span>	  }
+				fieldComponent = {
+					<div className='d-block'>
+						<ListComponent dataProvider={choicesList} removeItem={removeChoice} />
+					</div>
+				}/>
+		</div> 
+	}
 	
+	 
 	return(<>
 		<div className="tdb__panel__box tdb__panel__box--edit"> 
-		  <span className="tdb__panel__subtitle">{title}</span>	  
-		  <ListComponent dataProvider={choicesList} removeItem={removeChoice} />		 
+		  <span className="tdb__panel__subtitle">{title}</span>	   
+		  <ListComponent dataProvider={choicesList}/>		 
 		</div>
 		<div className="tdb__panel__box" >		   
 	   		<span className="tdb__panel__subtitle">New Value</span>		  		

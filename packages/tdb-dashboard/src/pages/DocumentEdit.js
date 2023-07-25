@@ -7,7 +7,7 @@ import {Loading} from "../components/Loading"
 import {CreateChangeRequestModal} from "../components/CreateChangeRequestModal"
 import {decodeUrl} from "../components/utils"
 import {DocumentSearchComponent} from "../components/DocumentSearchComponent"
-import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
+//import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
 
 export const DocumentEdit = () => { 
     const {setChangeRequestBranch, branch,woqlClient,currentChangeRequest,useChangeRequest} = WOQLClientObj()

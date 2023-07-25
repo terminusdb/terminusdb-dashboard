@@ -55,7 +55,7 @@ export const InfoObjectComponent =(props)=> {
 			<div class="shadow-sm card border-light">
 				<div class="card-body">
 					<div className="d-flex">
-						<BiNetworkChart className="schema-summary-icons mr-3"/>
+						{<BiNetworkChart className="schema-summary-icons mr-3"/>}
 						<h5>{title}</h5>
 					</div>
 					<p>{description}</p>

@@ -2,6 +2,8 @@ import React from 'react'
 import {BasePropertyComponent} from './BasePropertyComponent'; 
 import {BaseSelectReactElement} from './BaseSelectReactElement';
 import {GraphContextObj} from '../hook/graphObjectContext'; 
+import { FormGroupComponent } from "./FormGroupComponent"
+import {HelpComponent} from './HelpComponent' 
 
 export const ObjectProperty =(props)=>{
 	const {mainGraphObj} =GraphContextObj()
@@ -26,6 +28,30 @@ export const ObjectProperty =(props)=>{
 	const onChangeValue=(propName,propValue)=>{
 		//the value is for internal track of the new element the label is the real ID of the class
 		mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)
+	}
+
+	if(props.view === `UI_VIEW`) {
+		return <BasePropertyComponent {...props} >
+		<FormGroupComponent groupClassName={props.groupClassName}
+			labelComponent = {<label className={` mr-3`} htmlFor={props.title}>{props.title}</label>}
+			helpComponent = {<HelpComponent text={props.help}/>}
+			//errorComponent = {<div className="hideEmpty">{errorMessage}</div>}
+			fieldComponent = {
+				<div className='w-100'>
+					<BaseSelectReactElement
+						//help={props.help}
+						//itemError={errorMessage}
+						//title={props.title}
+						optionChange={onChangeValue}
+						defaultValue={defaultValue}
+						placeholder={props.placeholder} 
+						resetSelection={false} 
+						isClearable={false}
+						dataProvider={dataProvider} name="range" 
+						/>
+				</div>
+			}/>
+			</BasePropertyComponent>
 	}
 
 	/*

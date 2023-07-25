@@ -18,7 +18,10 @@ export {GraphObjectProvider} from './treeGraphComponent/hook/graphObjectContext'
 export {GraphContextObj} from './treeGraphComponent/hook/graphObjectContext'
  //export {FormatData} from './treeGraphComponent/FormatDataForTree';
  //export {FormatProps} from './treeGraphComponent/FormatDataForTree';
-//export {SchemaBuilder} from './treeGraphComponent/SchemaBuilder';
+//export { SchemaLinks } from "./treeGraphComponent/SchemaLinks"
 export {ViewBuilder} from "./treeGraphComponent/ViewBuilder"
+export { SaveBarHeaderTools } from "./treeGraphComponent/detailsComponent/SaveBarHeaderTools"
+export { SchemaDocumentView } from "./treeGraphComponent/SchemaDocumentView"
+export { SchemaBuilderList } from "./treeGraphComponent/detailsComponent/SchemaController"
 export {errorMessageFormatter} from "./errorMonitoring/ResponseMessageDecoder"
 

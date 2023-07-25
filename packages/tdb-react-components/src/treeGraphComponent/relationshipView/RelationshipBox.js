@@ -6,7 +6,7 @@ export const RelationshipBox =(props)=>{
 
 	const source=props.source || {id:"Source",label:"NO Source"};
 	const target=props.target || {id:"Target",label:"NO Target"};
-	
+	 
 		
 	return(
 			<div className="tdb__rel__box">

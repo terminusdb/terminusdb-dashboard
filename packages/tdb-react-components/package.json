@@ -9,7 +9,7 @@
     "./*/index.js"
   ],
   "files": [
-    "*.md",
+    "*.md", 
     "src",
     "es6",
     "dist"
@@ -64,7 +64,8 @@
     "react-tooltip": "^4.2.10",
     "react-transition-group": "^4.4.1",
     "react-use-dimensions": "^1.2.1",
-    "recharts": "^1.8.5"
+    "recharts": "^1.8.5",
+    "reactflow": "^11.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

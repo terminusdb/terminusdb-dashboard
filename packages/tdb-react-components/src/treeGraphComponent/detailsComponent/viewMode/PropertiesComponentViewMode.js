@@ -6,7 +6,7 @@ import {PROPERTY_TYPE_NAME} from '../../utils/elementsName'
 import {GET_ICON_NAME,CARDINALITY_MIN_TITLE,CARDINALITY_MAX_TITLE} from '../../../constants/details-labels';
 import {ListComponent} from '../ListComponent'
 
-export const PropertiesComponentViewMode =(props)=> {
+export const PropertiesComponentViewMode =(props)=> { 
 	
 	const getPropertiesPanels=()=>{
 		return dataProvider.map((propertyItem,index)=>{

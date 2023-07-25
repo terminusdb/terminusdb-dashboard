@@ -6,9 +6,27 @@ import {GET_ICON_NAME} from '../../constants/details-labels';
 import {BaseSelectComponent} from './BaseSelectComponent';
 import PropTypes from "prop-types";
 import {PropertyExtraInfo} from './PropertyExtraInfo'
-import {GraphContextObj} from '../hook/graphObjectContext'; 
+import {GraphContextObj} from '../hook/graphObjectContext';
+import Badge from 'react-bootstrap/Badge'; 
+import Stack from 'react-bootstrap/Stack'; 
 
-
+export const GetAccordianTitle = ({ propId, nodeSchemaData, currentNodeJson }) => {
+	return <Stack direction='horizontal' className='w-100'>
+		<label className='mr-3'>{propId}</label>
+		<div className='ms-auto text-right'>
+			{currentNodeJson && nodeSchemaData && <Badge bg="dark" className='text-warning mr-2'>
+				{`${currentNodeJson.type} `}
+				{ nodeSchemaData.range && `  |   ${nodeSchemaData.range}` }
+				
+			</Badge>}
+			{nodeSchemaData && <Badge bg="dark" className='text-info  mr-2'>
+				{nodeSchemaData.option === "" && `Mandatory`}
+				{nodeSchemaData.option !== "" && nodeSchemaData.option}
+			</Badge>}
+		</div>
+	</Stack>
+}
+ 
 export const BasePropertyComponent = (props)=> {
 		const {mainGraphObj} =GraphContextObj()
 		//const extraInfoValue = props.extraInfoValue || {}
@@ -25,34 +43,38 @@ export const BasePropertyComponent = (props)=> {
 
 		const changePropertyValue=(propName,propValue)=>{
 			// display render as option if string is a property 
-			if(propValue === "xsd:string") setDisplayRenderAs(Date.now())
-			else setDisplayRenderAs(false)
+			//if(propValue === "xsd:string") setDisplayRenderAs(Date.now())
+			//else setDisplayRenderAs(false)
 			mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)
 		}
 		
 		const updateBaseValue = (propName,propValue)=>{
 			if(propName === 'id'){
 				const defaultValue = props.selectDataProvider ? props.selectDataProvider.options[0].value : false
-					//set the id and the type of the property 
+				//set the id and the type of the property 
 				mainGraphObj.setPropertyId(currentNodeJson,propValue,defaultValue)
 				setPropId(propValue)				
 			}else if(propName === 'comment'){
 				mainGraphObj.setPropertyInfo(currentNodeJson,propName,propValue)				
 			}
 		}
+
+		
 		
 		return(
 			<Accordion showBody={props.showBody} 
 					   arrowOpenClassName = "accordion__arrow fa fa-caret-up"
 					   arrowCloseClassName = "accordion__arrow fa fa-caret-down"
-					   title={propId}
+					   title={<GetAccordianTitle propId={propId} nodeSchemaData={nodeSchemaData} currentNodeJson={currentNodeJson}/>}
+						 className='w-100'
 					   leftIconClassName={leftIconClassName}
 					   tooltip={currentNodeJson.type || ''}>
-
-							  
+ 
+							    
 				{viewBaseSchema && <BaseElement updateValue={updateBaseValue}
 										   removeElement={props.removeElement} 
-										   nodeJsonData={currentNodeJson}
+										   nodeJsonData={currentNodeJson} 
+											 view={props.view}
 										   showAllButton={showAllButton}
 										   nodeSchemaData={nodeSchemaData}
 										   isNodeObject={false}
@@ -64,6 +86,7 @@ export const BasePropertyComponent = (props)=> {
 									<BaseSelectComponent
 			                            help={props.help}
 										optionChange={changePropertyValue}
+										view={props.view}
 			                            title={props.selectDataProvider.label}
 					            		dataProvider={props.selectDataProvider.options}
 					            		name={props.selectDataProvider.id}
@@ -83,7 +106,7 @@ export const BasePropertyComponent = (props)=> {
 									
 	               					{props.children}
 									{props.showCardinality &&
-	               	  				 <PropertyExtraInfo extraInfoValue={nodeSchemaData} propObj={currentNodeJson} />
+	               	  				 <PropertyExtraInfo extraInfoValue={nodeSchemaData} propObj={currentNodeJson} view={props.view} />
 	               					}
 								   </BaseElement>}
 			</Accordion>

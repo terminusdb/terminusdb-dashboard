@@ -246,7 +246,7 @@ export const ModelTreeComponent = (props)=>{
                     orient="auto-start-reverse">
                   <path d="M 0 0 L 10 5 L 0 10 z" fill="green" />
                 </marker>
-                 </defs>
+                 </defs> 
                 <g id={'treeGraphContainer'} ref={treeGraphContainer}>               
                   <rect 
                     opacity={0}
