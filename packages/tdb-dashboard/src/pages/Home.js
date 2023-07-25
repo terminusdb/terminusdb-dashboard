@@ -46,18 +46,18 @@ export const Home = () => {
                     {teamList.map((item,index) =>{
                         if(item.name!=="terminusCR"){
                         return <Col md={4} className="py-2 doc-summary-card" key={`key___${index}`}>
-                        <Button id={item.name} className="bg-transparent border-0 p-0 w-100" onClick={(e) => changeOrganizationHandler(item.name)}>
-                            <Card bg="dark" style={{maxHeight: "220px", cursor: "pointer"}} >
-                                <Card.Header className="bg-transparent border-0 d-flex text-wrap">
-                                </Card.Header>
-                                <Card.Body>
-                                    <Row className="ml-3">
-                                        <h4>{item.name}</h4>
-                                    </Row>
-                                </Card.Body>
-                                
-                            </Card>
-                        </Button>
+                                <Button id={item.name} className="bg-transparent border-0 p-0 w-100" onClick={(e) => changeOrganizationHandler(item.name)}>
+                                    <Card bg="dark" style={{maxHeight: "220px", cursor: "pointer"}} >
+                                        <Card.Header className="bg-transparent border-0 d-flex text-wrap">
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <Row className="ml-3">
+                                                <h4>{item.name}</h4>
+                                            </Row>
+                                        </Card.Body>
+                                        
+                                    </Card>
+                                </Button>
                             </Col>
                             }})}
                         </Row>
