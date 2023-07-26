@@ -162,8 +162,12 @@ function SearchDocument ({documentID}){
             <Button onClick={navigateToDoc}>Manage Document</Button>
             </Stack>
             {Object.keys(selectedDocument).map(key=>{
+                    let value = selectedDocument[key]
+                    if(value && typeof value === "object"){
+                        value = JSON.stringify(value)
+                    }
                     return<Stack direction="horizontal" gap={2} >
-                            <p class="font-weight-bold text-success">{key}: </p><p class="font-weight-bold">{selectedDocument[key]}</p>
+                            <p class="font-weight-bold text-success">{key}: </p><p class="font-weight-bold">{value}</p>
                         </Stack>
             })}
        </React.Fragment>}
