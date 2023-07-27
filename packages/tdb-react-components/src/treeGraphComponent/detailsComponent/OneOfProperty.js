@@ -30,27 +30,49 @@ const DisplayPropertyList = ({ oneOf, view }) => {
 const DisplayEachOneOfSection = ({ addNew, currentNodeJson, view }) => {
 	const {addNewProperty} =GraphContextObj()
 	let el = []
-	for(let number=0; number < addNew; number++) {
-		el.push(
-			<Card className='mt-2'>
-				<Card.Header>{number+1}</Card.Header>
-				<Card.Body>  
-					<PropertyMenuList  
-						title={`Add Choice Properties`}
-						oneOfDomain={true} // tell property menu list that these props belongs to one ofs 
-						oneOfIndex={number}
-						buttonIconClassName="menuWithLabel"
-						iconClassName="fa fa-caret-down iconWithLabel" 
-						dropdownMenuClassName="dropdownMenuProperty rightPosition" 
-						addNewProperty={addNewProperty}/>
-					{currentNodeJson.hasOwnProperty("PropertyList") && <DisplayPropertyList 
-						oneOf={currentNodeJson.PropertyList[number]} 
-						view={view}/>}
-				</Card.Body>
-			</Card>
-		) 
+	
+	if(Array.isArray(currentNodeJson.PropertyList)) {
+		for(let number=0; number < addNew; number++) {
+			el.push(
+				<Card className='mt-2'>
+					<Card.Header>{number+1}</Card.Header>
+					<Card.Body>  
+						<PropertyMenuList  
+							title={`Add Choice Properties`}
+							oneOfDomain={true} // tell property menu list that these props belongs to one ofs 
+							oneOfIndex={number}
+							buttonIconClassName="menuWithLabel"
+							iconClassName="fa fa-caret-down iconWithLabel" 
+							dropdownMenuClassName="dropdownMenuProperty rightPosition" 
+							addNewProperty={addNewProperty}/>
+						{currentNodeJson.hasOwnProperty("PropertyList") && <DisplayPropertyList 
+							oneOf={currentNodeJson.PropertyList[number]} 
+							view={view}/>}
+					</Card.Body>
+				</Card>
+			) 
+		}
+		return el
 	}
-	return el
+
+	// single entry 
+	return 	<Card className='mt-2'>
+		<Card.Header>{1}</Card.Header>
+		<Card.Body>  
+			<PropertyMenuList  
+				title={`Add Choice Properties`}
+				oneOfDomain={true} // tell property menu list that these props belongs to one ofs 
+				oneOfIndex={0}
+				buttonIconClassName="menuWithLabel"
+				iconClassName="fa fa-caret-down iconWithLabel" 
+				dropdownMenuClassName="dropdownMenuProperty rightPosition" 
+				addNewProperty={addNewProperty}/>
+					<DisplayPropertyList 
+						oneOf={currentNodeJson.PropertyList} 
+						view={view}/>
+			</Card.Body>
+		</Card>
+	
 }
 
 function getNumberOfOneOfs(currentNodeJson) {
@@ -58,7 +80,7 @@ function getNumberOfOneOfs(currentNodeJson) {
 	if(currentNodeJson && !currentNodeJson.hasOwnProperty("PropertyList")) {
 		return 0
 	}
-	return currentNodeJson.PropertyList.length 
+	return Array.isArray(currentNodeJson.PropertyList) ? currentNodeJson.PropertyList.length : 1
 }
 
 export const OneOfProperty =(props)=>{
@@ -70,7 +92,7 @@ export const OneOfProperty =(props)=>{
 	let nodeSchemaData = props.nodeSchemaData || {}
 
 	const [addNew, setAddNew] = useState(getNumberOfOneOfs(currentNodeJson))
-
+ 
 	const id=props.id;
 	const leftIconClassName=GET_ICON_NAME[currentNodeJson.type] || "custom-img-string"
 
@@ -78,7 +100,7 @@ export const OneOfProperty =(props)=>{
 	function addOneOf() {
 		//setOneOfArray(arr => [...arr, <GetOneOfElement oneOf={oneOfArray} index={oneOfArray.length}/>]);
 		setAddNew(addNew+1)
-	} 
+	}  
 
 	function handleRemoveOneOf (elementId, elementType) {
 		if(removeElement) removeElement(elementId, elementType)

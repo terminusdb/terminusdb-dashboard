@@ -48,7 +48,7 @@
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.5",
     "core-js": "^3.8.2",
-    "d3": "^5.16.0",
+    "d3": "^5.16.0", 
     "date-fns": "^2.16.1",
     "prop-types": "^15.6.0",
     "react-bootstrap": "^2.7.0",

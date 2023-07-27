@@ -104,7 +104,7 @@ export const ViewBuilder = (props)=>{
 	</div>
 
 
-	return (<React.Fragment>		
+	/*return (<React.Fragment>		
 		<SplitPane split="vertical"
 			defaultSize="50%"
 			className='mr-3 border border-dark rounded view__builder__pane' 
@@ -114,23 +114,11 @@ export const ViewBuilder = (props)=>{
 						setNodeAction={setNodeAction}
 						extraTools={props.extraTools}
 						setZoomEvent={setZoomEvent}
-					/>*/}
+					/>*//*}
 					<SizeMe monitorHeight={true}>{({ size }) =>
 						<div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%"}}>
-							{graphDataProvider && <ReactTreeComponent
-								objectPropertyToRange={objectPropertyToRange}
-								zoomEvent={zoomEvent}
-								isEditMode={isEditMode}
-								setNodeAction={setNodeAction}
-								selectedNodeObject={selectedNodeObject}
-								changeCurrentNode={changeCurrentNode}
-								width={size.width} height={size.height}
-								addedNewNode={selectedNodeObject.newNode}
-								graphUpdateLabel={graphUpdateLabel}
-								graphDataProvider={graphDataProvider}
-								isFocusOnNode={isFocusOnNode}
-							/>}
-							{/*graphDataProvider && <>
+						
+							{graphDataProvider && <>
 								<ModelTreeComponent 
 									objectPropertyToRange={objectPropertyToRange}
 									zoomEvent={zoomEvent}
@@ -143,7 +131,7 @@ export const ViewBuilder = (props)=>{
 									graphUpdateLabel={graphUpdateLabel}
 									graphDataProvider={graphDataProvider}
 									isFocusOnNode={isFocusOnNode}/>
-							</>*/}
+							</>}
 						</div>
 						}
 					</SizeMe>
@@ -178,5 +166,5 @@ export const ViewBuilder = (props)=>{
 				</div>
 		</SplitPane>
 	</React.Fragment>
-	)
+	)*/
 }

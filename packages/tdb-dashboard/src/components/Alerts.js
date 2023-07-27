@@ -64,9 +64,12 @@ export const Alerts = ({message, type, onCancel, time}) => {
 
             <div className="d-flex justify-content-between">   
                 <div className="w-100">
-                    <FaExclamationTriangle className="me-1 mb-1" />
-                    <div className="d-flex justify-content-between">   
-                        <strong>ERROR: </strong><AlertCloseButton className={"alert_btn_close alert_danger_text"} onClick={() => onClose("danger")}/>
+                    <div className="d-flex">
+                        <FaExclamationTriangle className="mt-1 mr-2" />
+                        <div className="d-flex justify-content-between">   
+                            <strong className="col-md-11">ERROR: </strong>
+                            <AlertCloseButton className={"alert_btn_close alert_danger_text"} onClick={() => onClose("danger")}/>
+                        </div>
                     </div>
                     <pre className="pre--error">{message}</pre>
                 </div> 

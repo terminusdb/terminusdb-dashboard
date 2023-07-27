@@ -169,7 +169,17 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 						if(!arr.hasOwnProperty("PropertyList")) {
 							arr["PropertyList"] = []
 						}
-						arr["PropertyList"].push(newProperty)
+						if(Array.isArray(arr["PropertyList"])){
+							arr["PropertyList"].push(newProperty)
+						}
+						else { 
+							// single entry 
+							let key = Object.keys(arr["PropertyList"])[0]
+							let singleEntry = arr["PropertyList"][key]
+							arr["PropertyList"] = {}
+							arr["PropertyList"][key] = singleEntry
+							arr["PropertyList"][newProperty.id] = newProperty
+						}
 					}
 				})
 			}
@@ -753,10 +763,24 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		if(propertyObj.hasOwnProperty("oneOfDomain") && propertyObj["oneOfDomain"]) {
 			let oneOfIndex = propertyObj["oneOfDomain"]["key"]
 			if(!_currentNode.schema["@oneOf"]) _currentNode.schema["@oneOf"] = []
+			
 			if(!_currentNode.schema["@oneOf"][oneOfIndex]) {
 				_currentNode.schema["@oneOf"].push( { [newPropId]: propertyTemplate } )
 			}
-			else _currentNode.schema["@oneOf"][oneOfIndex][newPropId] = propertyTemplate 
+			else {
+				if(Array.isArray(_currentNode.schema["@oneOf"])) {
+					_currentNode.schema["@oneOf"][oneOfIndex][newPropId] = propertyTemplate 
+				}
+				else { 
+					// one of is an object (single entry)
+					let singleEntry = _currentNode.schema["@oneOf"] 
+					// make the entry an array 
+					_currentNode.schema["@oneOf"] = []
+					_currentNode.schema["@oneOf"].push(singleEntry)
+					// new entry
+					_currentNode.schema["@oneOf"].push( { [newPropId]: propertyTemplate } )
+				}
+			}
 		}
 		else _currentNode.schema[newPropId] = propertyTemplate
 		//_currentNode.schema[newPropId] = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}

@@ -36,7 +36,6 @@ const position = { x: 0, y: 0 };
 const edgeType = 'simplebezier';
 
 
-
 const getLayoutedElements = (nodes, edges, direction = 'LR') => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
@@ -69,86 +68,52 @@ const getLayoutedElements = (nodes, edges, direction = 'LR') => {
   return { nodes, edges };
 };
 
+
+
 const Tree = (props) => { 
 
+  //console.log("treeNodes", treeNodes)
+
   const {
-    graphDataProvider,
-    setNodeAction,
-    graphUpdateLabel,
     selectedNodeObject,
     changeCurrentNode,
     nodePropertiesList,
-    objectPropertyToRange,
     addNewProperty,
     removeElement,
     objectPropertyList,
     objPropsRelatedToClass,
-    getSchemaGraph,isFocusOnNode,mainGraphObj,
-    } = GraphContextObj();
-
-
-  const onNodeClick = (event, node) => {
-    //on node click 
-    if(props.changeCurrentNode){
-			props.changeCurrentNode(node.id);
-		}
-  }
+  } = GraphContextObj();
   
-  const isEditMode = props.isEditMode === false ? false : true
   
-  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-    props.initialNodes,
-    props.initialEdges
-  );
-  
-  const store = useStoreApi();
-  const reactFlowWrapper = useRef(null);
-  
-  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
+  const { setCenter, fitView } = useReactFlow();
 
-  const { setCenter, project } = useReactFlow();
 
-  const focusNode = (selectedDocumentID) => {
-    if(!selectedDocumentID) return
-    const { nodeInternals } = store.getState();
-    let foundNode = []
-    const nodes = Array.from(nodeInternals).map(([, node]) => {
-      if(node.id === selectedDocumentID) {
-        foundNode.push(node)
-        return
-      }
-    });
-
-    if (foundNode.length > 0) {
-      const node = foundNode[0];
-
-      const x = node.position.x //+ node.width / 2;
-      const y = node.position.y //+ node.height / 2;
-      const zoom = 1.85;
-
-      setCenter(x, y, { zoom, duration: 1000 });
-    }};
 
   useEffect(() => {
-    if(selectedNodeObject) {
-      setNodes((nds) =>
-        nds.map((node) => {
-          if (node.id === selectedNodeObject.id) {
-            // it's important that you create a new object here
-            // in order to notify react flow about the change
-            node.style = { ...node.style, backgroundColor: '#FF0072' };
-          }
-          else {
-            node.style = { ...node.style, backgroundColor: util.getNodeBg(node.data.type) };
-          }
-          return node;
-        })
+    if(props.treeNodes) {
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        props.treeNodes,
+        props.treeEdges
       );
+      setNodes(layoutedNodes)
+      setEdges(layoutedEdges)
+      if(layoutedNodes.length ) {
+        let filtered = layoutedNodes.filter(arr => {
+          if(arr.id !== 'ROOT' && arr.id !== 'DocumentClasses' && arr.id !== 'ChoiceClasses') 
+            return arr
+        })
+        if(filtered.length) {
+          const x = filtered[0].position.x + filtered[0].position.x / 2;
+          const y = filtered[0].position.y //+ node.height / 2;
+          const zoom = 1.85;
+          setCenter(x, y, { zoom, duration: 1000 });
+        }
+        
+      }
     }
-  }, [selectedNodeObject]);
-
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+  }, [props.treeNodes])
 
   const onLayout = useCallback(
     (direction) => {
@@ -164,6 +129,28 @@ const Tree = (props) => {
     [nodes, edges]
   );
 
+  useEffect(() => {
+    if(selectedNodeObject) { 
+      setNodes((nds) =>
+        nds.map((node) => {
+          if (node.id === selectedNodeObject.id) {
+            // it's important that you create a new object here
+            // in order to notify react flow about the change
+            node.style = { ...node.style, backgroundColor: '#FF0072' };
+          } 
+          else {
+            node.style = { ...node.style, backgroundColor: util.getNodeBg(node.data.type) };
+          }
+          return node;
+        })
+      );
+    }
+  }, [selectedNodeObject]);
+
+    
+  
+  
+  const isEditMode = props.isEditMode === false ? false : true
   let showInfoComp=false
 	if(!selectedNodeObject || !selectedNodeObject.name ||
 		selectedNodeObject.type===CLASS_TYPE_NAME.SCHEMA_ROOT ||
@@ -171,54 +158,80 @@ const Tree = (props) => {
 		showInfoComp=true;
 	}
 
-  const FocusOnButton = () => {
-    const [currentAccordianKey, setCurrentAccordianKey] = useState(false)
+  const store = useStoreApi();
+  const reactFlowWrapper = useRef(null);
+  
+  const focusNode = (selectedDocumentID) => {
+    if(!selectedDocumentID) return
+    const { nodeInternals } = store.getState();
+    let foundNode = []
+    const nodes = Array.from(nodeInternals).map(([, node]) => {
+      if(node.id === selectedDocumentID) {
+        foundNode.push(node)
+        return
+      }
+    });
 
-    function handleClicked (selectedDocument) {
-      focusNode(selectedDocument)
-      setCurrentAccordianKey(false)
+    if (foundNode.length > 0) {
+      const node = foundNode[0];
+
+      const x = node.position.x + node.position.x / 2;
+      const y = node.position.y //+ node.height / 2;
+      const zoom = 1.85;
+
+      setCenter(x, y, { zoom, duration: 1000 });
+    }};
+
+    const FocusOnButton = () => {
+      const [currentAccordianKey, setCurrentAccordianKey] = useState(false)
+  
+      function handleClicked (selectedDocument) {
+        focusNode(selectedDocument)
+        setCurrentAccordianKey(false)
+      }
+  
+      function handleAccordianControl (selected) {
+        setCurrentAccordianKey(selected)
+      }
+  
+      return <Dropdown autoClose={currentAccordianKey ? "inside" : false}>
+        <Dropdown.Toggle variant="secondary">
+          {`Focus on `}
+        </Dropdown.Toggle>
+        <Dropdown.Menu >
+          <Dropdown.Item className="gui__focus__dowpdown" onClick={(e) => {
+            e.preventDefault();
+            //focusNode(selectedNodeObject.id)
+          }}>
+            <SchemaBuilderList onClicked={handleClicked}
+              currentAccordianKey={currentAccordianKey}
+              handleAccordianControl={handleAccordianControl} 
+              canAdd={false}/>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     }
 
-    function handleAccordianControl (selected) {
-      setCurrentAccordianKey(selected)
-    }
 
-    return <Dropdown >
-      <Dropdown.Toggle variant="secondary">
-        {`Focus on `}
-      </Dropdown.Toggle>
-      <Dropdown.Menu >
-        <Dropdown.Item className="gui__focus__dowpdown" onClick={(e) => {
-          e.preventDefault();
-          //focusNode(selectedNodeObject.id)
-        }}>
-          <SchemaBuilderList onClicked={handleClicked}
-            currentAccordianKey={currentAccordianKey}
-            handleAccordianControl={handleAccordianControl} 
-            canAdd={false}/>
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+  const onNodeClick = (event, node) => {
+    //on node click 
+    if(changeCurrentNode){
+			changeCurrentNode(node.id);
+		}
   }
 
-  
-  return <div style={{height: "1000px"}} ref={reactFlowWrapper} >
+  //console.log("nodes ---", nodes)
+ 
+  return  <div style={{height: "1000px"}} ref={reactFlowWrapper} > 
     <ReactFlow
       nodes={nodes}
       edges={edges}
       onNodeClick={onNodeClick}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      //onConnect={onConnect}
-      //fitView 
     > 
       <Panel position="top-right">
-        {selectedNodeObject.id && <>
-          <FocusOnButton/>
-          {/*<Button variant={"secondary"} className="btn-sm" onClick={(e) => focusNode(selectedNodeObject.id)} >
-            {`Jump to ${selectedNodeObject.id}`}
-          </Button>*/} 
-        </>  }
+      
+        <FocusOnButton/>
+      
         <Accordion titleClassName="tdb__accordion__head"
             title="Editor"  
             showBody={true}>
@@ -266,13 +279,14 @@ export const GUIComponent = (props) => {
   //const[graphData, setGraphData] = useState(null)
   const [treeNodes, setTreeNodes] = useState(false)
   const [treeEdges, setTreeEdges] = useState(false)
+  const [refreshGraph, setRefreshGraph]  = useState(false)
 
-  console.log("graphDataProvider", graphDataProvider)
-
-  //return <></>
+  //console.log("graphDataProvider", graphDataProvider) 
 
   useEffect(() => {
     if(graphDataProvider) {
+      setTreeNodes(false)
+      setTreeEdges(false)
       const tmpValue = [...graphDataProvider.values()]
       //setGraphData(tmpValue)
 
@@ -328,16 +342,26 @@ export const GUIComponent = (props) => {
 
         }
       })
-      setTreeNodes(initialNodes)
-      setTreeEdges(initialEdges)
+      setRefreshGraph({
+        initialNodes: initialNodes,
+        initialEdges: initialEdges,
+        refresh: Date.now()
+      })
     }
   }, [graphDataProvider])
 
-  
-  if(!treeEdges && !treeEdges) return <div/>
+  useEffect (() => {
+    if(refreshGraph) {
+      setTreeNodes(refreshGraph.initialNodes)
+      setTreeEdges(refreshGraph.initialEdges)
+    }
+  }, [refreshGraph])
 
-  return <ReactFlowProvider>
-    <Tree {...props} initialNodes={treeNodes} initialEdges={treeEdges}/>
+  
+
+  if(!treeEdges && !treeEdges) return <div/>
+  return  <ReactFlowProvider>
+    <Tree {...props} treeNodes={treeNodes} treeEdges={treeEdges}/>
   </ReactFlowProvider>
 }
 

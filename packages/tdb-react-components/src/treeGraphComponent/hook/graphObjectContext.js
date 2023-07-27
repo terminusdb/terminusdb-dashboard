@@ -42,7 +42,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		//console.log("mainGraphObject.getObjectChoices()", mainGraphObject.getObjectChoices())
 		//console.log("mainGraphObject.getObjectProperties()", mainGraphObject.getObjectProperties())
 		//console.log("mainGraphObject.objectPropertyToRange()", mainGraphObject.objectPropertyToRange())
-		setGraphDataProvider(mainGraphObject.getDescendantsNode())
+		setGraphDataProvider(mainGraphObject.getDescendantsNode()) 
 		setObjectPropertyList(mainGraphObject.getObjectProperties())
 		setObjectChoicesList(mainGraphObject.getObjectChoices()) 
 		setObjectPropertyToRange(mainGraphObject.objectPropertyToRange())
@@ -53,6 +53,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	*/
 	useEffect(() => {
 		try{
+			//setGraphDataProvider(null)
 			updateMainGraphData(mainGraphDataProvider)
 		//}
 		}catch(err){

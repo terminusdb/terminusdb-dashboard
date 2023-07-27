@@ -157,10 +157,11 @@ export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
 				//if(key.indexOf("@") === -1){
 				if(checkForPropertyKey(key)) {
 					//it is a property
-					const property = element[key], oneOfTemplate = []
+					const property = element[key]
+					let oneOfTemplate = []
 					const {value, type} = getPropertyType(key,property,linkPropList,enumPropList)
 					if(type === PROPERTY_TYPE_NAME.ONEOF_PROPERTY) {
-						if(Array.isArray(value)) {
+						if(Array.isArray(value)) { 
 							value.map( (eachVal, index) => {
 								let propertyTemplate = {}
 								for(let prop in eachVal) {
@@ -171,13 +172,24 @@ export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
 								}
 								oneOfTemplate.push(propertyTemplate)
 							})
-							//console.log(oneOfTemplate)
-							let oneOfPropertyTemplate = getNewPropertyTemplate(type,key)
-							oneOfPropertyTemplate["PropertyList"] = oneOfTemplate
-							//propertiesOfClass[classId] = oneOfPropertyTemplate
-							propertiesOfClass[classId].push(oneOfPropertyTemplate)//value,property))
 						}
-						
+						else {
+							// one of can also be an object if only one entry of one of 
+							let oneOfValue = value
+							oneOfTemplate = {}
+							for(let eachVal in oneOfValue) {
+								let propertyTemplate = {}
+								const {value, type} = getPropertyType(eachVal, oneOfValue[eachVal], linkPropList, enumPropList)
+								let eachValTemplate = getNewPropertyTemplate(type, eachVal)
+								eachValTemplate["oneOfDomain"] = { key : 0 }
+								//propertyTemplate[eachVal] = eachValTemplate
+								//oneOfTemplate.push(propertyTemplate)
+								oneOfTemplate[eachVal] = eachValTemplate 
+							}
+						}
+						let oneOfPropertyTemplate = getNewPropertyTemplate(type, key)
+						oneOfPropertyTemplate["PropertyList"] = oneOfTemplate
+						propertiesOfClass[classId].push(oneOfPropertyTemplate)
 					}
 					else if(type === PROPERTY_TYPE_NAME.OBJECT_PROPERTY || type ===PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
 						//value or range is the class linked

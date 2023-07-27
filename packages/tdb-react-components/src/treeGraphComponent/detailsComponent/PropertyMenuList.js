@@ -4,7 +4,7 @@ import {Dropdown,ButtonGroup,Button} from 'react-bootstrap';
 import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
 import DropdownButton from 'react-bootstrap/DropdownButton';
  
-export const PropertyMenuList =(props)=>  { 
+export const PropertyMenuList =(props)=>  {  
     const propertyTypeList=Array.from(CLASS_PROPERTIES_LIST);
     
     const addNewProperty=(propertyType, propertyRange, oneOfDomain)=>{

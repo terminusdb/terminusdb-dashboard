@@ -22,9 +22,9 @@ export const ModelProductPage = () => {
 	if(!dataProduct) return <div>error in loading graph</div>
   
 	return <React.Fragment>
-		{dataProduct &&  
+		{dataProduct &&   
 			<GraphObjectProvider currentChangeRequest={currentChangeRequest} setError={setReport} 
-				mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}>
+				mainGraphDataProvider={mainGraphDataProvider} dbName={dataProduct}> 
 					<Layout showLeftSideBar={true} mainClassName={`container-fluid`}>
 						<main className="content mr-3">
 						{reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
