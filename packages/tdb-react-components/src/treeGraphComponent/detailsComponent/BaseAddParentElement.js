@@ -56,7 +56,7 @@ export const BaseAddParentElement = (props) => {
     } 
     
     // display parents of selected document
-    const getSelectedParents = (nodeData) => {
+    const getSelectedParents = (nodeData) => { 
       if(nodeData.parents && nodeData.parents.length) {
         let selectedParentsList = []
         nodeData.parents.map(par => {

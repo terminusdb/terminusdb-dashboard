@@ -15,14 +15,14 @@ const customStyles = {
 }
  
 export const BaseMultiSelectReactElement=(props)=>{
-	
+	 
 	const onChange=(selectedValue, actionType)=>{
 		// on click of delete
 		if(actionType.action === "remove-value") {
-			props.onChange(actionType.removedValue.name, actionType.action);
+			props.onChange(actionType.removedValue.label, actionType.action);
 		}
 		else if(actionType.action === "select-option") // on adding new option
-		props.onChange(actionType.option.name, actionType.action);
+		props.onChange(actionType.option.label, actionType.action);
 	}
 
 	const dataProvider=props.dataProvider || [];	
