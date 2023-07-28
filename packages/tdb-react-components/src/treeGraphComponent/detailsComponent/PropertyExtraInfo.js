@@ -36,7 +36,14 @@ export const PropertyExtraInfo =(props)=>  {
     }
 
     return <Fragment>
-            <BaseSelectComponent addHelpComponent={false} optionChange={optionChange} name="option" dataProvider={dataProvider} defaultValue={currentOption} view={props.view} title="Field Type"/>             
+            <BaseSelectComponent addHelpComponent={false} 
+                optionChange={optionChange} 
+                name="option"
+                isDisabled={props.isDisabled}
+                dataProvider={dataProvider} 
+                defaultValue={currentOption} 
+                view={props.view} 
+                title="Field Type"/>             
             {/*currentOption === 'Cardinality_Between' &&
                 <Fragment>
                     <BaseInputElement help={ELEMENT_HELP.card_min} defaultValue={extraInfoValue.min_cardinality || ''} name='min_cardinality' title={CARDINALITY_MIN_TITLE} onBlur={changePropertyValue} checkValue={cardCheckValue}/>

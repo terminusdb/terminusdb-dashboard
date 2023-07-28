@@ -58,6 +58,7 @@ export const BaseElement = (props)=>{
             elementId={nodeJsonData.name}
             displayAsIcon={false}
             size={"17"}
+            isDisabled={props.isDisabled}
             className={'btn-sm border-0 bg-transparent float-right'}
             elementType={nodeJsonData.type} 
             removeElement={props.removeElement}
@@ -91,6 +92,7 @@ export const BaseElement = (props)=>{
             } 
             {props.children}
             <BaseTextareaElement
+                isDisabled={props.isDisabled}
                 placeholder={ELEMENT_BASE_CONST.DESCRIPTION_PLACEHOLDER} 
                 title={ELEMENT_BASE_CONST.DESCRIPTION_TEXT}
                 name='comment'

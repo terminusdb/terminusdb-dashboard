@@ -10,13 +10,14 @@ import {Loading} from "./Loading"
 import {Alert} from "react-bootstrap"
 import {MODEL_BUILDER_EDITOR_OPTIONS} from "./constants"
 import { BiUndo } from "react-icons/bi"
-import {FaRegEdit} from 'react-icons/fa'
+import { BsSave } from "react-icons/bs"
+import {FaRegEdit, FaSave} from 'react-icons/fa'
 import {TERMINUS_DANGER,DOCUMENT_PREFIX} from "./constants"
 import {GRAPH_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
 import {CopyButton} from "./utils"
 import Card from "react-bootstrap/Card"
-import {BsSave} from "react-icons/bs"
+import Button from "react-bootstrap/Button"
 import Stack from "react-bootstrap/Stack"
 import {modelCallServerHook} from "@terminusdb-live/tdb-react-components"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
@@ -39,7 +40,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
 
 
     const {saveGraphChanges,
-        reportMessage, 
+        reportMessage,  
         setReport,
         callServerLoading:loading,
     } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
@@ -89,6 +90,21 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
 
     const editStyle = editMode ? {className:"border rounded border-warning position-sticky"} : {}
     const editMessage = editMode ? "Save schema or you will lose your changes" : ""
+
+    const ToolButtons = ({ id, title, onClick, icon}) => {
+        return 	<Button title={title}
+            id={id}
+            type="button" 
+            variant="light"
+            className="btn-lg border border-light bg-transparent"
+            onClick={onClick}>
+                {icon}
+        </Button>
+    }
+
+    function handleEditMode() {
+        setEditMode(true)
+    }
     
     //console.log("editMode", editMode)
     return <>
@@ -98,34 +114,34 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
         <Card className={`border border-secondary`} {...editStyle}>
             {loading && <Loading message={"Updating schema"} type={PROGRESS_BAR_COMPONENT}/>}       
             <Card.Header>
-                <Stack direction="horizontal" className="w-100 justify-content-end">
-                    {editMode && <div className="w-100">
-                        <div role="group" className="btn-group w-100">
-                            <div className="col-md-10 pr-0 pl-0">
-                                <input id="schema_save_description" placeholder={"Enter a description to tag update"} type="text" className="form-control" onBlur={handleCommitMessage}/>
-                            </div>
-                            <button  type="button" id="schema_save_button" className="btn btn-sm bg-light text-dark" onClick={saveGraph}>
-                                <BsSave className="small"/> {"Save"}
-                            </button>
-                            <button  type="button" 
-                                title="Undo changes"
-                                className="btn btn-sm bg-danger text-white mr-2" onClick={()=>{ loadSchema() }}>
-                                <BiUndo className="h5"/> {"Undo"}
-                            </button>
-                        </div>
-                    </div>
-                    }
+                <Stack direction='horizontal' gap={2} className={` w-100 justify-content-end`}>
+                    {editMode && <>
+                        <input id="schema_save_description" 
+                            placeholder={"Enter a description to tag update"} 
+                            type="text" 
+                            className="form-control border border-light" 
+                            onBlur={handleCommitMessage}/>
+                        <ToolButtons title={`Save`}
+                            id="schema_save_button"
+                            onClick={(e) => saveGraph()}
+                            icon={<FaSave size="26" className="h2 text-light"/>}/>
+                        <ToolButtons title={`Undo`}
+                            id="schema_reset_button"
+                            onClick={ (e) => loadSchema() }
+                            icon={<BiUndo size="26" className="h2 text-light"/>}/>
+                    </>}
                     {accessControlEditMode && !editMode &&
                         <button  type="button" className="btn-edit-json-model btn btn-md btn-light text-dark float-right mr-2" 
-                            onClick={()=>{setEditMode(true)}}>
+                            onClick={handleEditMode}>
                             <FaRegEdit className="mb-1"/> Edit Schema
                         </button>
                     }
                     <CopyButton text={jsonSchema} 
                         label={""}
                         title={`Copy JSON schema`} 
-                        css={"btn btn-md bg-light text-dark float-right"}/>
+                        css={`btn ${editMode ? `btn-lg` : `btn-md`}  bg-transparent text-light border border-light float-right`}/>
                 </Stack>
+                
             </Card.Header>
             <div className="h-100">
                 <CodeMirror  

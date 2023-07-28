@@ -63,61 +63,57 @@ export const BasePropertyComponent = (props)=> {
 		
 		return(
 			<Accordion showBody={props.showBody} 
-					   arrowOpenClassName = "accordion__arrow fa fa-caret-up"
-					   arrowCloseClassName = "accordion__arrow fa fa-caret-down"
-					   title={<GetAccordianTitle propId={propId} nodeSchemaData={nodeSchemaData} currentNodeJson={currentNodeJson}/>}
-						 className='w-100'
-					   leftIconClassName={leftIconClassName}
-					   tooltip={currentNodeJson.type || ''}>
+				arrowOpenClassName = "accordion__arrow fa fa-caret-up"
+				arrowCloseClassName = "accordion__arrow fa fa-caret-down"
+				title={<GetAccordianTitle propId={propId} nodeSchemaData={nodeSchemaData} currentNodeJson={currentNodeJson}/>}
+				className='w-100'
+				leftIconClassName={leftIconClassName}
+				tooltip={currentNodeJson.type || ''}>
  
 							    
 				{viewBaseSchema && <BaseElement updateValue={updateBaseValue}
-										   removeElement={props.removeElement} 
-										   nodeJsonData={currentNodeJson} 
-											 view={props.view}
-										   showAllButton={showAllButton}
-										   nodeSchemaData={nodeSchemaData}
-										   isNodeObject={false}
-										  // indexError={idError}
-										   
-										   
-								   >
-								   {props.selectDataProvider &&
-									<BaseSelectComponent
-			                            help={props.help}
-										optionChange={changePropertyValue}
-										view={props.view}
-			                            title={props.selectDataProvider.label}
-					            		dataProvider={props.selectDataProvider.options}
-					            		name={props.selectDataProvider.id}
-					               		defaultValue={nodeSchemaData.range || ''}
-										
-					               		/>
-	               					}
+					removeElement={props.removeElement} 
+					nodeJsonData={currentNodeJson} 
+					view={props.view}
+					isDisabled={props.isDisabled}
+					showAllButton={showAllButton}
+					nodeSchemaData={nodeSchemaData}
+					isNodeObject={false}>
+								   
+				{props.selectDataProvider &&
+				<BaseSelectComponent
+					help={props.help}
+					optionChange={changePropertyValue}
+					view={props.view}
+					isDisabled={props.isDisabled}
+					title={props.selectDataProvider.label}
+					dataProvider={props.selectDataProvider.options}
+					name={props.selectDataProvider.id}
+					defaultValue={nodeSchemaData.range || ''}/>
+				}
 
-									<BaseRenderAsComponent nodeSchemaData={nodeSchemaData} 
-										currentNodeJson={currentNodeJson}/> 
+				<BaseRenderAsComponent nodeSchemaData={nodeSchemaData} 
+					isDisabled={props.isDisabled}
+					currentNodeJson={currentNodeJson}/> 
 
-									{props.typeDescription &&
-									<div className="tdb__form__label">
-										<label className={props.labelClassName}>{props.typeDescription}</label>
-									</div>
-									}
-									
-	               					{props.children}
-									{props.showCardinality &&
-	               	  				 <PropertyExtraInfo extraInfoValue={nodeSchemaData} propObj={currentNodeJson} view={props.view} />
-	               					}
-								   </BaseElement>}
-			</Accordion>
-		)
+				{props.typeDescription &&
+				<div className="tdb__form__label">
+					<label className={props.labelClassName}>{props.typeDescription}</label>
+				</div>
+				}
+				
+				{props.children}
+				{props.showCardinality &&
+					<PropertyExtraInfo isDisabled={props.isDisabled} 
+					extraInfoValue={nodeSchemaData} 
+					propObj={currentNodeJson} 
+					view={props.view} />
+				}
+			</BaseElement>}
+		</Accordion>
+	)
 }
 
-/*
-<Fragment>
-							<BaseInputElement itemError={minError} help="card_min" defaultValue={currentNodeJson.min || ''} name='min' title={CARDINALITY_MIN_TITLE} onBlur={changePropertyValue} checkValue={cardCheckValue}/>
-                			<BaseInputElement itemError={maxError} help="card_max" defaultValue={currentNodeJson.max || ''} name='max' title={CARDINALITY_MAX_TITLE} onBlur={changePropertyValue} checkValue={cardCheckValue}/>
-	               		</Fragment>*/
 
 BasePropertyComponent.propTypes = {
     showCardinality:PropTypes.bool

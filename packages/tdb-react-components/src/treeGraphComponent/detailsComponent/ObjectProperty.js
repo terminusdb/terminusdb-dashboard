@@ -15,7 +15,7 @@ export const ObjectProperty =(props)=>{
 	const dataProvider=props.comboDataProvider || [];
 	const errorMessage="Please select an element"
 
-	const getSelectedValue=()=>{
+	const getSelectedValue=()=>{ 
 		if(nodeSchemaData.range){
 			//the label is the schema class id (if the class is not saved the id can change)
 			const rangeValue = dataProvider.find(element => element.label === nodeSchemaData.range);
@@ -63,6 +63,7 @@ export const ObjectProperty =(props)=>{
 			<BaseSelectReactElement
 				help={props.help}
 				itemError={errorMessage}
+				isDisabled={props.isDisabled}
 				title={props.title}
 				optionChange={onChangeValue}
 				defaultValue={defaultValue}

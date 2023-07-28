@@ -27,7 +27,7 @@ const DisplayPropertyList = ({ oneOf, view }) => {
 	return oneOfArrayElements
 }  
 
-const DisplayEachOneOfSection = ({ addNew, currentNodeJson, view }) => {
+const DisplayEachOneOfSection = ({ addNew, currentNodeJson, view, isDisabled }) => {
 	const {addNewProperty} =GraphContextObj()
 	let el = []
 	
@@ -37,14 +37,14 @@ const DisplayEachOneOfSection = ({ addNew, currentNodeJson, view }) => {
 				<Card className='mt-2'>
 					<Card.Header>{number+1}</Card.Header>
 					<Card.Body>  
-						<PropertyMenuList  
+						{!isDisabled &&  <PropertyMenuList  
 							title={`Add Choice Properties`}
 							oneOfDomain={true} // tell property menu list that these props belongs to one ofs 
 							oneOfIndex={number}
 							buttonIconClassName="menuWithLabel"
 							iconClassName="fa fa-caret-down iconWithLabel" 
 							dropdownMenuClassName="dropdownMenuProperty rightPosition" 
-							addNewProperty={addNewProperty}/>
+							addNewProperty={addNewProperty}/>}
 						{currentNodeJson.hasOwnProperty("PropertyList") && <DisplayPropertyList 
 							oneOf={currentNodeJson.PropertyList[number]} 
 							view={view}/>}
@@ -59,17 +59,17 @@ const DisplayEachOneOfSection = ({ addNew, currentNodeJson, view }) => {
 	return 	<Card className='mt-2'>
 		<Card.Header>{1}</Card.Header>
 		<Card.Body>  
-			<PropertyMenuList  
+			{!isDisabled && <PropertyMenuList  
 				title={`Add Choice Properties`}
 				oneOfDomain={true} // tell property menu list that these props belongs to one ofs 
 				oneOfIndex={0}
 				buttonIconClassName="menuWithLabel"
 				iconClassName="fa fa-caret-down iconWithLabel" 
 				dropdownMenuClassName="dropdownMenuProperty rightPosition" 
-				addNewProperty={addNewProperty}/>
-					<DisplayPropertyList 
-						oneOf={currentNodeJson.PropertyList} 
-						view={view}/>
+				addNewProperty={addNewProperty}/>}
+				<DisplayPropertyList 
+					oneOf={currentNodeJson.PropertyList} 
+					view={view}/>
 			</Card.Body>
 		</Card>
 	
@@ -113,17 +113,21 @@ export const OneOfProperty =(props)=>{
 		className='w-100'
 		leftIconClassName={leftIconClassName}
 		tooltip={currentNodeJson.type || ''}>
-			<Button onClick={addOneOf} className="btn btn-sm bg-light text-dark">Add One of</Button>
+			{!props.isDisabled && <Button onClick={addOneOf} className="btn btn-sm bg-light text-dark">Add One of</Button>}
 			<RemoveElementComponent 
 				//hasConstraints={props.hasConstraints} 
-				elementId={"@oneOf"}
+				elementId={"@oneOf"} 
 				displayAsIcon={false}
+				isDisabled={props.isDisabled}
 				size={"17"}
 				className={'btn-sm border-0 bg-transparent float-right'}
 				elementType={"OneOfProperty"}
 				removeElement={handleRemoveOneOf}
 			/>
-			<DisplayEachOneOfSection addNew={addNew} currentNodeJson={currentNodeJson} view={props.view}/>
+			<DisplayEachOneOfSection addNew={addNew} 
+				currentNodeJson={currentNodeJson} 
+				isDisabled={props.isDisabled}
+				view={props.view}/>
 			{/*<DisplayOneOfArray oneOfArray={oneOfArray} view={props.view}/>*/}
 	</Accordion>		
 	

@@ -315,6 +315,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
     *in this case I have to remove the direct parent
     */
     const checkRelatedParents=(elementObjClass,parentObjClass)=>{
+			if(!parentObjClass) return 
+			if(!parentObjClass.parents) return
     	parentObjClass.parents.forEach((parentName)=>{
     		const parentOfParentObj=_rootIndexObj[parentName];
     		const parentRelated=removeElementToArr(elementObjClass.parents,parentName);    		
@@ -367,9 +369,17 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return elementObjClass;
 	}
 
+	const fetchParentObject = (parentName) => {
+		if(_rootIndexObj[parentName]) return _rootIndexObj[parentName]
+		for(let obj in _rootIndexObj) {
+			if(_rootIndexObj[obj].id && _rootIndexObj[obj].id === parentName) return _rootIndexObj[obj]
+		}
+		return {}
+	}
+
 	const updateNodeParents=(elementName, parentName, actionName)=>{
 		const elementObjClass=_rootIndexObj[elementName];
-		const parentObjClass=_rootIndexObj[parentName];
+		const parentObjClass=fetchParentObject(parentName);
 		
 		checkRelatedParents(elementObjClass, parentObjClass);
 
@@ -381,6 +391,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 				 parentObjClass.children.push(elementObjClass);
 				 }
 		 }			
+		 //elementObjClass.parents.push(parentObjClass.name);
 		 elementObjClass.parents.push(parentObjClass.name);
 		 parentObjClass.allChildren.push(elementObjClass);
 
@@ -416,65 +427,9 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		  elementObjClass.schema['@inherits']=elementObjClass.parents
 	  }
 	 
-	  moveNodeUnderParent(parentName,elementName);
+	  //moveNodeUnderParent(parentName,elementName);
 	  return elementObjClass;
  }
-
-	const updateNodeParents_ref=(elementName,parentName,actionName)=>{
-	   const elementObjClass=_rootIndexObj[elementName];
-	   const parentObjClass=_rootIndexObj[parentName];
-	   
-	   checkRelatedParents(elementObjClass,parentObjClass);
-
-	  // _graphUpdateObject.changeNodeParent(elementName,parentName,actionName);
-
-	   if(actionName===NODE_ACTION_NAME.ADD_PARENT){
-			//the node could be children of another node or children of root node 
-			if(parentObjClass.type===elementObjClass.type){
-				  removeChildFromRoot(elementObjClass);
-				  if(elementObjClass.parents.length===0){
-					parentObjClass.children.push(elementObjClass);
-				  }
-			}			
-			elementObjClass.parents.push(parentObjClass.name);
-			parentObjClass.allChildren.push(elementObjClass);
-
-		}else{
-			removeElementToArr(elementObjClass.parents,parentName);
-			removeElementToArr(parentObjClass.children,elementName);
-			if(parentObjClass.allChildren)
-				removeElementToArr(parentObjClass.allChildren,elementName);
-
-			/*
-			* if the parents array is empty I move the node under the root group
-			*/
-			if(elementObjClass.parents.length===0){
-				parentName=addToParentGroup(elementObjClass)
-			}else if(elementObjClass.type===CLASS_TYPE_NAME.DOCUMENT_CLASS){
-				const docParent=elementObjClass.parents.findIndex((pName)=>{
-							const pElement=_rootIndexObj[pName];
-
-							return pElement.type===CLASS_TYPE_NAME.DOCUMENT_CLASS
-						})
-				if(docParent===-1){
-					parentName=addToParentGroup(elementObjClass)
-				}
-			}
-		}
-		/*
-		* this is for save the change
-		*/
-		if(elementObjClass.parents.length===0 && elementObjClass.schema['@inherits']){
-			delete elementObjClass.schema['@inherits']
-		}else if(elementObjClass.parents.length===1){
-			elementObjClass.schema['@inherits']=elementObjClass.parents[0]
-		}else{
-			elementObjClass.schema['@inherits']=elementObjClass.parents
-		}
-		
-		moveNodeUnderParent(parentName,elementName);
-		return elementObjClass;
-	}
 
 	const addToParentGroup=(elementObjClass)=>{
 		const parentRoot=getRoot(elementObjClass.type);
@@ -843,10 +798,23 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	
 
 	const getPropertyInfo = (propId)=>{
-		//if(!_currentNode.schema[propId]) return {}
 		if(!_currentNode.schema[propId]) {
 			// check if current property is a property of OneOfProperty
-			return checkIfPropertyExistsInOneOf(_currentNode.schema, propId)
+			let oneOfProperties = checkIfPropertyExistsInOneOf(_currentNode.schema, propId)
+			if(Object.keys(oneOfProperties).length) return oneOfProperties
+			// check if current property is a property in their parents - we display inheritted properties in 
+			// <PropertiesComponent/>
+			if(_currentNode.parents && _currentNode.parents.length) {
+				let inheritedProperies = {}
+				_currentNode.parents.map(parentName => {
+					if(_rootIndexObj[parentName] && _rootIndexObj[parentName].schema.hasOwnProperty(propId)){
+						// property is inherritted 
+						inheritedProperies= extractPropertyInfo(_rootIndexObj[parentName].schema[propId], propId)
+						
+					}
+				})
+				if(Object.keys(inheritedProperies).length) return inheritedProperies
+			}
 		}
 		return extractPropertyInfo(_currentNode.schema[propId], propId)
 	}

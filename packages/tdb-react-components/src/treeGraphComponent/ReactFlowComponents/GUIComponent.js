@@ -233,18 +233,16 @@ const Tree = (props) => {
         <FocusOnButton/>
       
         <Accordion titleClassName="tdb__accordion__head"
-            title="Editor"  
+            title="Editor"   
+            //className="panel__width"
             showBody={true}>
           <Card className="border border-secondary"  style={{backgroundColor : "black"}}>
             <Card.Body>
               <Stack direction="horizontal" gap={2}>
-                <div>
-                  <Button onClick={() => onLayout('LR')} variant="light" className="btn-sm ml-3">horizontal layout</Button>
-                  <Button onClick={() => onLayout('TB')} variant="light" className='ml-1 btn-sm'>vertical layout</Button>
-                </div>
-                <PanelLegend/>
+                <Button onClick={() => onLayout('LR')} variant="light" className="btn-sm ml-3">horizontal layout</Button>
+                <Button onClick={() => onLayout('TB')} variant="light" className='ml-1 btn-sm'>vertical layout</Button>
               </Stack>
-              
+              <PanelLegend/>
               <div className='h-100 overflow-y-scroll'> 
                   {!showInfoComp && isEditMode===true &&
                     <DetailsModelComponent 
@@ -299,16 +297,17 @@ export const GUIComponent = (props) => {
           if(dat.data.name ===  "DocumentClasses" && !dat.data.children.length) return
           //create nodes
           let nodeID = dat.data.id ? dat.data.id : dat.data.name
-          initialNodes.push(
+          initialNodes.push( 
             {
               id: nodeID,
               data: { 
-                label: dat.data.label ?  dat.data.label : dat.data.name, type: dat.data.type,
+                label: nodeID, //dat.data.label ?  dat.data.label : dat.data.name, 
+                type: dat.data.type,
                 toolbarPosition: Position.Top
               },
               position,
               style: selectedNodeObject && nodeID===selectedNodeObject.id ? {
-                color: "#fff", 
+                /*color: "#fff", */
                 background: "#ff0072",
               } : util.getNodeColor(dat.data, selectedNodeObject)
             }

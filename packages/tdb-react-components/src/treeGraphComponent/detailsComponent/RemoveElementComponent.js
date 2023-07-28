@@ -15,6 +15,9 @@ export const RemoveElementComponent = (props) =>{
 
   //const onClick= props.hasConstraints === true ? {disabled:true} : {onClick: props.removeElement} 
 
+  // do not display delete icon is property is disabled 
+  // used when we display inherited properties 
+  if(props.isDisabled) return <div/>
 
   if(props.displayAsIcon) {
     return <div className="tdb__panel__row">                                      

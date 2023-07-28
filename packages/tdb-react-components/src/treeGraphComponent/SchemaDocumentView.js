@@ -76,7 +76,7 @@ export const SchemaDocumentView = (props) => {
     defaultSize="23%"
     className='mr-3 border-left border-dark rounded view__builder__pane' 
     onChange={size => handleWidthChange(size, setWidth)}>
-    <div className='h-100 border-right border-secondary overflow-y-scroll'>
+    <div className='h-100 border-right border-secondary overflow-y-scroll overflow-x-hidden'>
       <SchemaBuilderList canAdd={true}/>
     </div>
     <div>
@@ -86,8 +86,8 @@ export const SchemaDocumentView = (props) => {
           {showInfoComp &&  <>
             {/*<RightBarHeaderTools saveData={saveData} view={`UI_VIEW`}/>*/}
      
-            <Card className="bg-transparent border-0">
-              <Card.Body> 
+            <Card className="bg-transparent border-0 h-100">
+              <Card.Body className="overflow-auto"> 
                 <DetailsModelComponent
                   customClassName="bg-transparent"
                   objPropsRelatedToClass={objPropsRelatedToClass}

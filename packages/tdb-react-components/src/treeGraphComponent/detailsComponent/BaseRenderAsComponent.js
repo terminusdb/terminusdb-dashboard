@@ -29,7 +29,7 @@ function checkIfPropertyIsString(currentNodeJson) {
 	return false
 }
 
-export const BaseRenderAsComponent = ({ currentNodeJson, nodeSchemaData }) => {
+export const BaseRenderAsComponent = ({ currentNodeJson, isDisabled }) => {
 
   /** if nodeSchemaData available && property type is string
    * by default when we attempt to add a property by default it is a string propetry & at this point 
@@ -58,12 +58,14 @@ export const BaseRenderAsComponent = ({ currentNodeJson, nodeSchemaData }) => {
     }
     setChecked(checked);
   }
+  const disabled = isDisabled === true ? {disabled:true} : {}
 
   return <div className="d-flex">
     <input type="checkbox" 
       id="tdb__render__as__checkbox" 
       className="mr-2"
       checked={checked}
+      {...disabled}
       onChange={(e) => handleChange(!checked)}/>
     <label className="mt-2">Render As Markdown</label>
   </div>

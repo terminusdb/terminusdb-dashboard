@@ -86,7 +86,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 		}else if(mainGraphObj && mainGraphObj.getElement(nodeId)){
 			setSelectedNodeObject(mainGraphObj.getElement(nodeId));
 			//I not need this there are inside the json schema
-			
+			 
 			setNodePropertiesList(mainGraphObj.getPropertyListByDomain(nodeId)); 
 			setObjPropsRelatedToClass(mainGraphObj.getObjPropsRelatedToClass(nodeId))
 			

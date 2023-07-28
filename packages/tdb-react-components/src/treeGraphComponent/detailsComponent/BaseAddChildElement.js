@@ -31,7 +31,7 @@ export const BaseAddChildElement = (props) => {
       return []
       
     }
-
+ 
     const handleChildren = (currentChildName, actionType) => {
       // actionType === "remove-value" on clicking delete of multi react select
       let action = actionType === "remove-value" ? REMOVE_CHILD : ADD_CHILD 
@@ -41,16 +41,30 @@ export const BaseAddChildElement = (props) => {
     // get dataprovider to display documents to appear as parent list
     let childrenList = getClassDataProvider(selectedNodeObject.type, availableChildrenList)
 
-    return <FormGroupComponent 
-      labelComponent = {<label className={`mr-3`}>{`Children`}</label>}
-      helpComponent = {<HelpComponent text={`Here you can add Children to ${props.nodeJsonData.id}`}/>}
-      fieldComponent = {
-       <div className="w-100">
-          <BaseMultiSelectReactElement onChange={handleChildren}
-            selectedValues={getSelectedChildren(props.nodeJsonData)}
-            dataProvider={childrenList}/>
-        </div>
-      }/>
+    if(props.view === `UI_VIEW`) {
+      return <FormGroupComponent 
+        labelComponent = {<label className={`mr-3`}>{`Children`}</label>}
+        helpComponent = {<HelpComponent text={`Here you can add Children to ${props.nodeJsonData.id}`}/>}
+        fieldComponent = {
+        <div className="w-100">
+            <BaseMultiSelectReactElement onChange={handleChildren}
+              selectedValues={getSelectedChildren(props.nodeJsonData)}
+              dataProvider={childrenList}/>
+          </div>
+        }/>
+    }
+
+    return  <div className="mb-3">
+      <div className="d-flex">
+        <label className={`mr-3`}>{`Children`}</label>
+        <HelpComponent text={`Here you can add Children to ${props.nodeJsonData.id}`}/>
+      </div>
+      <div className="w-100">
+        <BaseMultiSelectReactElement onChange={handleChildren}
+              selectedValues={getSelectedChildren(props.nodeJsonData)}
+              dataProvider={childrenList}/>
+      </div>
+    </div>
   }
 
   return <div/>

@@ -21,7 +21,7 @@ export const BaseTextareaElement = (props) => {
 		setInputValue(evt.currentTarget.value)
 	}
 
-	const disabled= props.disabled === true ? {disabled:true} : {}
+	const disabled= props.isDisabled === true ? {disabled:true} : {}
 
 	if(props.view === `UI_VIEW`) {
 		return  <div className='mb-2'><FormGroupComponent groupClassName={props.groupClassName}
@@ -35,11 +35,11 @@ export const BaseTextareaElement = (props) => {
 	return(
 			<div className={props.groupClassName}>
 			 	<div className="tdb__form__help">
-	                 <label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
-	                 <HelpComponent text={props.help}/>
-                </div>
-                <textarea rows="1" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
-            </div>
+						<label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
+						<HelpComponent text={props.help}/>
+					</div>
+					<textarea rows="1" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
+			</div>
 
 	)
 }

@@ -3,7 +3,7 @@ import Stack from "react-bootstrap/Stack"
 import * as style from "./styles"
 
 export const PanelLegend = () => {
-  return <Stack direction='horizontal' gap={2}>
+  return <Stack direction='horizontal' gap={2} className="m-3">
     <Stack direction='horizontal' gap={2}>
       <div style={style.selected_style}></div>  
       <div className='fst-italic text-muted small'>Selected Document</div>
