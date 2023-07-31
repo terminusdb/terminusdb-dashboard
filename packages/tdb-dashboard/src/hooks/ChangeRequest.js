@@ -12,7 +12,7 @@ export function ChangeRequest(){
     const [errorMessage, setError] = useState(false)
     const [changeRequestList, setChangeRequestList]  = useState([])
     const [manageConflict, setManageConflict]=useState(false)
-
+ 
     //I'm using the client to get my custom url
     function getUrl(){
         return getChangesUrl(woqlClient)
@@ -71,7 +71,7 @@ export function ChangeRequest(){
 
     const getChangeRequestList = async(branchName, message) =>{
         try{
-            setLoading(true) 
+            setLoading(true)  
             const result = await woqlClient.sendCustomRequest("GET", getUrl())
             setChangeRequestList(result)
             return result

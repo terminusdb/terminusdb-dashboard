@@ -5,7 +5,7 @@ import {OLD_VALUE, CHANGED_VALUE} from "./constants"
 import {getSelectedTypeData} from "./functions"
 import {oldData, changedData} from "./diff.constants"
 import '../../src/css/terminusdb__darkly.css'
-import { STAR_WAR_FRAMES, PEOPLE_OLD_VALUE, PEOPLE_NEW_VALUE } from "./starwars.constants"
+//import { STAR_WAR_FRAMES, PEOPLE_OLD_VALUE, PEOPLE_NEW_VALUE } from "./starwars.constants"
 
 export const Output = () => {
     const {

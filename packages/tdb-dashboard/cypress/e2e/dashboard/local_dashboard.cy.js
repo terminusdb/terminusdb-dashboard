@@ -5,7 +5,7 @@ describe('visit dashboard local', () => {
   
    
     beforeAll(function () {
-      // visit at the start
+      // visit at the start 
         cy.visit(dashboard)
     })
 

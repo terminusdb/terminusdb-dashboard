@@ -21,7 +21,7 @@ import {OrganizationHome } from "./pages/OrganizationHome"
 import {DocumentNew} from "./pages/DocumentNew"
 import {DocumentEdit} from "./pages/DocumentEdit"
 import {DocumentView} from "./pages/DocumentView"
-import {Home} from "./pages/Home"
+import {Home} from "./pages/Home" 
 import {ChangeRequestsPage} from "./pages/ChangeRequestsPage"
 import {ChangeDiff} from "./pages/ChangeDiff"
 import {DocumentTemplate} from "./pages/DocumentTemplate"
@@ -120,7 +120,7 @@ function getRoutes(clientUser, isAdmin, useChangeRequest){
             <Route path="*" element={<div><PageNotFound/></div >} />
         </React.Fragment>
     }
-    return <React.Fragment>
+    return <React.Fragment> 
         {/*<Route path="/verify" element={<VerifyEmail/>}/>*/}
         <Route path="/verify" element={<VerifyEmail/>}/>
         <Route path = {PATH.INVITE_PAGE} element = {<PrivateRoute component={InvitePage}/>} />                     

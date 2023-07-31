@@ -8,7 +8,7 @@ import {createClientUser} from "./clientUtils"
 import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
 import {getChangesUrl} from "./hooks/hookUtils"
-import {cleanGraphiqlCache} from "./pages/utils"
+import {cleanGraphiqlCache} from "./pages/utils" 
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 

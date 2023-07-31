@@ -50,9 +50,9 @@ export const ChangeRequestsPage = () => {
     
     const {
 		loading,
-		getChangeRequestList,
+		getChangeRequestList, 
 		changeRequestList
-    } =  ChangeRequest() 
+    } =  ChangeRequest()  
 
 	const [filter, setFilter]=useState(startStatus)
 

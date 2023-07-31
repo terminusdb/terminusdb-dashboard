@@ -8,7 +8,7 @@ import {formatData,
 		addElementToPropertyList} from './FormatDataForTree';
 import {getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 import {CLASS_TYPE_NAME} from './utils/elementsName' 
-import {MANDATORY_PROP} from "../constants/details-labels"
+import {MANDATORY_PROP, UNIT_TYPE_DATAPROVIDER} from "../constants/details-labels"
 import { BiMessageAltError } from 'react-icons/bi';
 
 export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
@@ -700,6 +700,13 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	
     //maybe the best things to do is post with full_replace
 	//to be review
+
+	const getDefaultPropertyTemplate = (rangePropValue) => {
+		// if property is sys:Unit return template 
+		// as of now we dont provide sys unit as optional or as arrays
+		if(rangePropValue === UNIT_TYPE_DATAPROVIDER) return rangePropValue
+		return {"@class": rangePropValue,"@type": "Optional"}
+	}
 	 
 	const setPropertyId = (propertyObj, newPropId, rangePropValue) =>{
 		if(propertyObj.id === newPropId)return
@@ -713,8 +720,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			delete _currentNode.schema[oldPropId]
 		}
 		propertyObj.id = newPropId
-			//I set as Optional
-		let propertyTemplate = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
+		//I set as Optional
+		let propertyTemplate = currentPropertyValue || getDefaultPropertyTemplate(rangePropValue)
 		if(propertyObj.hasOwnProperty("oneOfDomain") && propertyObj["oneOfDomain"]) {
 			let oneOfIndex = propertyObj["oneOfDomain"]["key"]
 			if(!_currentNode.schema["@oneOf"]) _currentNode.schema["@oneOf"] = []

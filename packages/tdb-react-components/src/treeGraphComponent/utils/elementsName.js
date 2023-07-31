@@ -7,6 +7,7 @@ export const PROPERTY_TYPE_NAME={
 	OBJECT_PROPERTY:'LinkProperty',
 	BOOLEAN_PROPERTY:'BooleanProperty',
 	JSON_PROPERTY:'JSONProperty',
+	UNIT_PROPERTY: 'UnitProperty',
 	ONEOF_PROPERTY:'OneOfProperty'
 } 
 
@@ -134,7 +135,8 @@ export const PROPERTY_TYPE_BY_CLASS = { 'sys:JSON':PROPERTY_TYPE_NAME.JSON_PROPE
 										'xdd:dateRange':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
 										'xsd:date':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
 										'xsd:time':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
-										'xsd:dateTimeStamp':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY}
+										'xsd:dateTimeStamp':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'sys:Unit': PROPERTY_TYPE_NAME.UNIT_PROPERTY}
 										
 
 

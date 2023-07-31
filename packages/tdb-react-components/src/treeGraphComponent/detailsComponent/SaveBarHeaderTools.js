@@ -28,7 +28,7 @@ export const SaveBarHeaderTools =(props)=>{
         if(commitInput) commitInput.current.value=''
 	}
 
-    const handleReset=()=>{
+    const handleReset=()=>{ 
 			if(props.handleReset) {
 				// custom handle reset ftn passed here 
 				props.handleReset();
@@ -71,34 +71,11 @@ export const SaveBarHeaderTools =(props)=>{
 				hasConstraints={props.hasConstraints} 
 				elementId={props.nodeJsonData.name}
 				//displayAsIcon={true}
-									size={"26"}
-									className={'btn-lg border border-danger bg-transparent'}
+				size={"26"}
+				className={'btn-lg border border-danger bg-transparent'}
 				view={props.view} 
 				elementType={props.nodeJsonData.type}
 				removeElement={props.removeElement}/>}
 		</Stack>
 
-   
-	/*return (<div className="flex-grow-1 d-flex align-item-center pt-2 pb-2 bg-dark pl-3" style={{marginTop:'1px',marginBottom:'2px'}}>
-            <div className="mr-3 flex-grow-1">
-                <input ref={commitInput} 
-                    placeholder={TOOLBAR_LABELS.CommitLabel} 
-                    type="text" 
-                    id="schema_save_description"
-                    className="form-control" onBlur={handleCommitMessage}/>
-            </div>
-            <div role="group" className="btn-group">
-                <button title={TOOLBAR_LABELS.SaveButtonTooltip}
-                    id="schema_save_button"
-                    type="button" 
-                    className="btn-product-model-save btn btn-outline-light btn-lg border-0"
-                    onClick={handleSave}>
-                    <AiOutlineSave size="1.6em"/>
-                </button>
-                <button title={TOOLBAR_LABELS.ResetButtonTooltip} type="button" className="btn btn-outline-light btn-lg border-0" onClick={handleReset}>
-                    <BiUndo size="1.6em"/>
-                    
-                </button>
-            </div>
-        </div>)*/
 }

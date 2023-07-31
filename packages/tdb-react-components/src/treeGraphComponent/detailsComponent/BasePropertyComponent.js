@@ -7,12 +7,17 @@ import {BaseSelectComponent} from './BaseSelectComponent';
 import PropTypes from "prop-types";
 import {PropertyExtraInfo} from './PropertyExtraInfo'
 import {GraphContextObj} from '../hook/graphObjectContext';
-import Badge from 'react-bootstrap/Badge'; 
+import Badge from 'react-bootstrap/Badge';  
 import Stack from 'react-bootstrap/Stack'; 
 
-export const GetAccordianTitle = ({ propId, nodeSchemaData, currentNodeJson }) => {
+export const GetAccordianTitle = ({ propId, nodeSchemaData, currentNodeJson, isInherited }) => {
 	return <Stack direction='horizontal' className='w-100'>
 		<label className='mr-3'>{propId}</label>
+		{isInherited && <div className='w-100'>
+			<Badge bg="dark" className='text-light strong fw-bol border border-info mr-2'>
+				{`Inheritted from | ${isInherited.inheritedFrom}`}
+			</Badge>
+		</div>}
 		<div className='ms-auto text-right'>
 			{currentNodeJson && nodeSchemaData && <Badge bg="dark" className='text-warning mr-2'>
 				{`${currentNodeJson.type} `}
@@ -65,11 +70,18 @@ export const BasePropertyComponent = (props)=> {
 			<Accordion showBody={props.showBody} 
 				arrowOpenClassName = "accordion__arrow fa fa-caret-up"
 				arrowCloseClassName = "accordion__arrow fa fa-caret-down"
-				title={<GetAccordianTitle propId={propId} nodeSchemaData={nodeSchemaData} currentNodeJson={currentNodeJson}/>}
+				title={<GetAccordianTitle propId={propId} 
+					isInherited={props.isInherited}
+					nodeSchemaData={nodeSchemaData} 
+					currentNodeJson={currentNodeJson}/>
+				}
 				className='w-100'
 				leftIconClassName={leftIconClassName}
 				tooltip={currentNodeJson.type || ''}>
- 
+				
+				{props.isInherited && <label className='m-2 text-muted fst-italic small'>
+					Note - To edit Inherited properties, select the parent document.
+				</label>}
 							    
 				{viewBaseSchema && <BaseElement updateValue={updateBaseValue}
 					removeElement={props.removeElement} 
