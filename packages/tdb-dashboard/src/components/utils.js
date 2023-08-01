@@ -5,18 +5,17 @@ import {format, subSeconds} from "date-fns"
 import {FiCopy} from "react-icons/fi"
 import React, {useState} from "react"
 import {VscGitPullRequestDraft} from "react-icons/vsc"
-import {AiOutlineDeleteRow} from "react-icons/ai"
+import {AiOutlineDeleteRow,AiOutlineClose} from "react-icons/ai"
 import {VscGitPullRequest} from "react-icons/vsc"
 import {VscCheck} from "react-icons/vsc" 
-import {AiOutlineCheck} from "react-icons/ai"
-import Stack from 'react-bootstrap/Stack';
 import Badge from "react-bootstrap/Badge"
 import Button from "react-bootstrap/Button"
 import {
 	OPEN,
 	REJECTED,
 	MERGED, 
-	SUBMITTED
+	SUBMITTED,
+    CLOSE
 } from "./constants"
 
 export const isArray = (arr) => {
@@ -290,7 +289,8 @@ export const iconTypes={
 	[OPEN]:<VscGitPullRequestDraft className="text-muted mb-1 mr-1"/>,
 	[SUBMITTED]:<VscGitPullRequest className="text-warning mb-1 mr-1"/>,
 	[REJECTED]:<AiOutlineDeleteRow className="text-danger mb-1 mr-1"/>,
-    [MERGED] :<VscCheck className="success__color mb-1 mr-1"/>
+    [MERGED] :<VscCheck className="success__color mb-1 mr-1"/>,
+    [CLOSE] :<AiOutlineClose className="text-danger mb-1 mr-1"/>
 }
 
 
@@ -299,6 +299,7 @@ export const status = {
     [SUBMITTED]: <Badge bg="warning text-dark">Review required</Badge>,
     [REJECTED]: <Badge bg="danger text-dark">{REJECTED}</Badge>,
     [MERGED]:  <Badge bg="success text-dark">{MERGED}</Badge>,
+    [CLOSE]:  <Badge bg="danger text-dark">{CLOSE}</Badge>
 }
 
 /** just get change request ID, remove "Changerequest/" from ID */
