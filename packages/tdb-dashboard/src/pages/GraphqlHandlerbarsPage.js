@@ -8,7 +8,6 @@ import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card"
 import { format } from 'graphql-formatter'
-import {gql} from "@apollo/client"
 import { useParams, NavLink } from "react-router-dom"
 import { useTDBDocuments } from "@terminusdb/terminusdb-documents-ui-template";
 import {WOQLClientObj} from '../init-woql-client'
@@ -25,6 +24,7 @@ import {CopyButton} from "../components/utils"
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
 import { Loading } from "../components/Loading";
 import {PROGRESS_BAR_COMPONENT} from "../components/constants"
+import {getGqlQuery} from "./utils"
 
 export function GraphqlHandlerbarsPage({}) {
     const {woqlClient} = WOQLClientObj()
@@ -67,8 +67,10 @@ export function GraphqlHandlerbarsPage({}) {
         const classObj= documentClasses.find(item=>item['@id']===classId)
         if(classObj){
             if(classObj['@metadata'] && classObj['@metadata']['embedding']){
-            const query = gql(`${classObj['@metadata']['embedding']['query']}`)
-                setGraphqlQuery(format(query.loc.source.body))      
+            const query = getGqlQuery(classObj['@metadata']['embedding']['query'],setError)
+            const value = query ? format(query.loc.source.body) : ''
+                setGraphqlQuery(value)
+
                 setHandlebarTemplate(classObj['@metadata']['embedding']['template'])
             }else if(documentTablesConfig && documentTablesConfig.objQueryOpenAI && documentTablesConfig.objQueryOpenAI[classId]){
                 setGraphqlQuery(format(documentTablesConfig.objQueryOpenAI[classId].query))
@@ -96,8 +98,8 @@ export function GraphqlHandlerbarsPage({}) {
             return <Alert type="Info">There are no document of type {currentType}</Alert>
         }
         return <ListGroup >
-              {queryResultPreview && queryResultPreview.map(item=>{
-                    return <ListGroup.Item><pre className="preview_pre">{item}</pre></ListGroup.Item>
+              {queryResultPreview && queryResultPreview.map((item, key)=>{
+                    return <ListGroup.Item key={`item__${key}`}><pre className="preview_pre">{item}</pre></ListGroup.Item>
                 })}
             </ListGroup>
     }

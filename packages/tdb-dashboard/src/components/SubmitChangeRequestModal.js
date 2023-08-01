@@ -8,8 +8,12 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
     
     const closeModal = () => setShowModal(false)
 
+    const titleObj= {"Submitted":'Submit the Change Request for review',
+                     "Open" : "Reopen the change request",
+                     "Close" : <Alert variant="danger">You are Closing this change request. You can not undo this operation</Alert>}
+
     const statusUpdate = operation || "Submitted"
-    const title = statusUpdate === "Submitted" ? 'Submit the Change Request for review' : `Reopen the change request`
+    const title = titleObj[statusUpdate]
 
     const runCreate = async () => {
         const message = messageRef.current.value
