@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import {NEW_DOC,EDIT_DOC, EXAMPLES_PRODUCTS} from "../routing/constants"
-import {gql} from "@apollo/client";
 import { ListDocumentsComponent, useTDBDocuments } from "@terminusdb/terminusdb-documents-ui-template";
 import {WOQLClientObj} from '../init-woql-client'
 import {CreateChangeRequestModal} from '../components/CreateChangeRequestModal'
 import { DeleteDocumentModal } from "../components/DeleteDocumentModal";
 import {ErrorMessageReport} from "../components/ErrorMessageReport"
+import {getGqlQuery} from "./utils"
 
 // I pass this so I'm sure it exists before loading the component
 export const DocumentsGraphqlList = ({documentTablesConfig}) => {    
@@ -20,7 +20,7 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
     const navigate = useNavigate()
     
     const querystr  = documentTablesConfig.objQuery[type].query
-    const query = gql`${querystr}`
+    const query = getGqlQuery(querystr,setError)
     const tableConfig = documentTablesConfig.tablesColumnsConfig[type]
     const advancedSearchConfig = documentTablesConfig.advancedSearchObj[type]
 
