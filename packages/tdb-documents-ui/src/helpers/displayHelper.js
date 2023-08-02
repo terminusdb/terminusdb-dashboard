@@ -9,7 +9,6 @@ import { TDBSubDocument, populateSubDocumentData } from "../widgets/subDocumentW
 import { TDBDocument } from "../widgets/documentWidget"
 import { TDBJSON } from "../widgets/JSONWidget"
 import * as CONST from "../constants"
-import { TDBGeoCollectionDocuments } from "../mapComponents/geoCollectionWidget"
 import { TDBFeatureCollectionDocuments } from "../mapComponents/featureCollectionWidget"
 import { TDBBBoxDocuments } from "../widgets/bboxGeoJSONWidget"
 import { extractPropertyDocumentation } from "./widgetHelper"
@@ -341,7 +340,6 @@ export function displayCollectionDocument (args, property, id) {
     bounds: bounds
   } 
   return <TDBFeatureCollectionDocuments config={config}/>
-  return <TDBGeoCollectionDocuments config={config}/>
 }
 
 export function displayFeatureCollectionDocument (args, property, id, featureData) {

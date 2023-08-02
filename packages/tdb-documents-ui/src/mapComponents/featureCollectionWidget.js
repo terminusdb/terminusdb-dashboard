@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import Stack from "react-bootstrap/Stack"
 import { FullscreenControl } from "react-leaflet-fullscreen";
-import "react-leaflet-fullscreen/dist/styles.css";
+import "react-leaflet-fullscreen/dist/styles.css"; 
 import { TDBLabel } from "../components/LabelComponent"
 import { v4 as uuidv4 } from 'uuid';
 import "leaflet-arrowheads"
@@ -12,11 +12,12 @@ import * as CONST from "../constants"
 import { customMapOptions, customMarkerOptions, getCenterFromData }  from "./markers"
 import * as util from "../utils"
 
+ 
 export const TDBFeatureCollectionDocuments = ({ config }) => {
   const mapRef = useRef(null);
   
   let mapID=uuidv4()
-  
+   
   const map = () => { 
     let zoom=MAP_OPTION.zoom
     //let bounds=util.setBounds(config.documents.hasOwnProperty(CONST.B_BOX) ? config.documents[CONST.B_BOX] : [])
@@ -57,7 +58,7 @@ export const TDBFeatureCollectionDocuments = ({ config }) => {
   return <Stack direction="horizontal"  className="mb-3">
     <TDBLabel name={config.label ? config.label : config.name} 
       required={config.required} 
-      id={config.id}/>
+      id={config.id}/> 
     <div ref={mapRef} id={`tdb__map__geojson__leaflet_${mapID}`} className="rounded" data-testid={`map-leaflet-id`}></div>
   </Stack>
 }

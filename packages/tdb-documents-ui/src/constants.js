@@ -2,10 +2,20 @@
 // map icon component
 import L from "leaflet";
 
+
+
+export default L.icon({
+  iconSize: [25, 41],
+  iconAnchor: [10, 41],
+  popupAnchor: [2, -40],
+  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+})
+
 // constants 
 export const TYPE="@type"
 export const CLASS="@class"
-export const INHERITS="@inherits"
+export const INHERITS="@inherits" 
 
 // info constanst to help with rjsf forms
 export const PLACEHOLDER="@placeholder"
@@ -144,14 +154,6 @@ export const GEOMETRY_ARRAY=[
   POLYGON
 ]
 
-
-export default L.icon({
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40],
-    iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
-    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-})
 
 // MIN ITEMS PER DIMENSIONS
 export const BBOX_MIN_ITEMS=4
