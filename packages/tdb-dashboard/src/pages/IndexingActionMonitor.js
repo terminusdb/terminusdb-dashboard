@@ -100,8 +100,8 @@ function ItemElement ({item}){
         let extraInfo = "" 
         if(num === 0){
             extraInfo =<>
-            <div>if you haven't done it already, Go to <NavLink to={`/${organization}/${dataProduct}/openai_configuration`} className={"mr-1"}>Open AI configuration </NavLink> page
-            to add a graphql query and an handlebars template for every Document you would like to index</div></>
+            <div>If not already configured, Go to <NavLink to={`/${organization}/${dataProduct}/openai_configuration`} className={"mr-1"}>Open AI configuration </NavLink> page
+            and add a GraphQL query and a Handlebars template for each document you would like to index.</div></>
         }
 
         return <><div>{message}</div>{extraInfo}</>
