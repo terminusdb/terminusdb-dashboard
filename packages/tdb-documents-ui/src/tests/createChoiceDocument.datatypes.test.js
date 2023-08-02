@@ -34,7 +34,7 @@ describe("Test Choice Documents", () => {
 			formData={config.formData}
 			mode={config.mode}
 			onSubmit={handleSubmit}/>
-		)
+		) 
 
 		logRoles(container)
 		

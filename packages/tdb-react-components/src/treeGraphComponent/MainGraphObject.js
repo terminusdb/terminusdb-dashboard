@@ -392,7 +392,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 				 }
 		 }			
 		 //elementObjClass.parents.push(parentObjClass.name);
-		 elementObjClass.parents.push(parentObjClass.name);
+		 //elementObjClass.parents.push(parentObjClass.name);
+		 elementObjClass.parents.push(parentName); 
 		 parentObjClass.allChildren.push(elementObjClass);
 
 	 	}

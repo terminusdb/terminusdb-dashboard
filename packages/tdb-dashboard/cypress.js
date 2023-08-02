@@ -7,7 +7,7 @@
    
     "env"; {
       "password"; "root"
-    }
+    } 
   }
 
   //"baseUrl":"https://dashboard-dev.terminusdb.com/",

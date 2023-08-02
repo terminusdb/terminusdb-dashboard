@@ -1,4 +1,5 @@
 import { tree, hierarchy } from 'd3-hierarchy';
+import { BiAlarmAdd } from 'react-icons/bi';
 import {PROPERTY_TYPE_NAME, CLASS_TYPE_NAME, getRootIndexObj,PROPERTY_TYPE_BY_CLASS} from './utils/elementsName';
 import {removeElementToArr,getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 
@@ -346,18 +347,29 @@ const removeRelatedElements=(classObj,classesMap,_rootIndexObj)=>{
 }
 
 /*
-* recursive remove related parents
+* recursive remove related parents 
 * parents=['parentName001','parentName002'...]
 */
+
+const getParentObject = (parentName, _rootIndexObj) => {
+	if(_rootIndexObj[parentName]) return _rootIndexObj[parentName]
+	for(let item in _rootIndexObj) {
+		if(_rootIndexObj[item].id === parentName) {
+			// it will be a newly added parent in this stage which has not yet been saved in schema
+			return _rootIndexObj[item]
+		}
+	}
+	return {}
+}
 
 const removeRelatedParent=(parentsList,classesMap,_rootIndexObj)=>{
 	parentsList.forEach((parentName,key)=>{
 		/*if(classesMap.has(parentName)){
-			classesMap.delete(parentName)
+			classesMap.delete(parentName) 
 		}*/
 		removeElementToArr(classesMap,parentName);
 
-		const parentObj=_rootIndexObj[parentName];
+		const parentObj=getParentObject(parentName, _rootIndexObj)
 		removeRelatedParent(parentObj.parents,classesMap,_rootIndexObj);
 	})
 }

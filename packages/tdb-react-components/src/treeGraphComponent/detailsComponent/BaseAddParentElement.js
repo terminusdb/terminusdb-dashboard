@@ -45,7 +45,7 @@ export const BaseAddParentElement = (props) => {
 	 
   if(!props.nodeJsonData) return <div/>
   
-  if(props.nodeJsonData.type === 'Document' || props.nodeJsonData.type === 'Object') {
+  if(props.nodeJsonData.type === 'Document' || props.nodeJsonData.type === 'Object') { 
     
     
     // on change of select component

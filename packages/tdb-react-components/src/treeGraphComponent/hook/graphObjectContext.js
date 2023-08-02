@@ -158,8 +158,8 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 
 	const updateGraphNode = ()=>{setGraphUpdateLabel(Date.now())}
 	
-	const updateParentsList =(parentName, action)=>{ 
-		mainGraphObj.updateNodeParents(selectedNodeObject.name, parentName, action)
+	const updateParentsList =(parentName, action)=>{  
+		mainGraphObj.updateNodeParents(selectedNodeObject.name, parentName, action) 
 		setAvailableParentsList(mainGraphObj.getAvailableParentsList(selectedNodeObject.name))
 		setGraphUpdateLabel(Date.now());
 	}

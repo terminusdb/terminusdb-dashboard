@@ -4,7 +4,7 @@ import Select from 'react-select';
 import {HelpComponent} from './HelpComponent';
 import { FormGroupComponent } from "./FormGroupComponent"
 
-const customStyles = {
+const customStyles = { 
 	control: (styles) => ({ ...styles, backgroundColor: "transparent", width: "100%", border: "1px solid #666" }),
 	menu: (styles) => ({ ...styles, backgroundColor: '#444'}),
 	option: (provided, state) => ({

@@ -4,14 +4,14 @@ import { useAuth0 } from "../react-auth0-spa"
 import {getOptions,getBaseUrl} from "./hookUtils"
 
 export const CreateNewOrg=()=> {
-	const axiosHub=axios.create();
+	const axiosHub=axios.create(); 
     const {getTokenSilently } = useAuth0()
    // const {clientUser } = WOQLClientObj()
 
     const [loading,setLoading]=useState(null)
     const [teamCreated,setTeamCreated]=useState(null)
     const [errorMessage,setError] =useState(null)
-    
+     
     const baseUrl=getBaseUrl();
 
     async function createNewOrg(orgid){
@@ -19,7 +19,7 @@ export const CreateNewOrg=()=> {
         setError(false)
         try{
             const token = await getTokenSilently()
-            const options = getOptions(token);
+            const options = getOptions(token); 
             const payload = {organization:orgid}
             const response = await axiosHub.post(`${baseUrl}/private/organizations`, payload,options)
             localStorage.setItem("Org",orgid)
