@@ -7,7 +7,8 @@ import {PROGRESS_BAR_COMPONENT} from "./constants"
 import {WOQLClientObj} from "../init-woql-client"
 import {TERMINUS_DANGER} from "./constants"
 import {Alerts} from "./Alerts"
-import {useNavigate,useParams} from "react-router-dom"
+import {useNavigate,useParams} from "react-router-dom" 
+import { DELETE_DATA_PRODUCT_ID, DELETE_DATAPRODUCT_BUTTON_ID } from "../cypress.constants"
 
 export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}) => {
     const {
@@ -90,15 +91,17 @@ export const DeleteDatabaseModal = ({showModal,setShowModal, dataProductDetails}
                     <Form.Control required 
                         id={dataProductDetails.name} 
                         type={deleteDataProductForm.type} 
+                        data-cy={DELETE_DATA_PRODUCT_ID}
                         onChange={handleOnChange} 
                         placeholder={deleteDataProductForm.placeholder} />
                 </Form.Group>
             </Form>
-        </Modal.Body>
+        </Modal.Body> 
         <Modal.Footer>
             <Button
                 id ="delete_data_product_button"
                 variant="danger" 
+                data-cy={DELETE_DATAPRODUCT_BUTTON_ID}
                 title={`Delete Data Product ${dataProductDetails.name}`} 
                 disabled={disabled}
                 onClick={handleClick}>

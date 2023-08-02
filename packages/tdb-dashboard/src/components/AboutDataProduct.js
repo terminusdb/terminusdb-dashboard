@@ -13,6 +13,7 @@ import { ManageDatabase } from "../hooks/ManageDatabase"
 import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
 import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
+import { UPDATE_DATA_PRODUCT_BUTTON, HOME_DELETE_DATAPRODUCT_BUTTON_ID } from "../cypress.constants"
 
 import { UTILS } from "@terminusdb/terminusdb-client"
 
@@ -188,6 +189,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                     <div className="w-100 d-block align-items-center gx-0">
                         <Button variant="light" 
                             id="update_database"
+                            data-cy={UPDATE_DATA_PRODUCT_BUTTON}
                             title={`Update Data Product ${dataProduct} info`} 
                             className=" btn btn-md h4 w-100 mt-4 text-dark"
                             onClick={showUpdateHandler}>
@@ -251,6 +253,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                         <span className="mt-2 text-light w-100 mb-0"> Delete this Data Product, there is no going back. Please be certain. </span>
                         <Button variant="secondary" 
                             id="home_open_delete_product_modal"
+                            data-cy={HOME_DELETE_DATAPRODUCT_BUTTON_ID}
                             title={`Delete Data Product ${dataProduct}`} 
                             className=" btn btn-lg h2 text-danger fw-bold w-100 mt-4"
                             onClick={(e) =>setShowDeleteModal(true)}>

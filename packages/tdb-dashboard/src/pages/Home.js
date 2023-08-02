@@ -46,7 +46,9 @@ export const Home = () => {
                     {teamList.map((item,index) =>{
                         if(item.name!=="terminusCR"){
                         return <Col md={4} className="py-2 doc-summary-card" key={`key___${index}`}>
-                                <Button id={item.name} className="bg-transparent border-0 p-0 w-100" onClick={(e) => changeOrganizationHandler(item.name)}>
+                                <Button id={item.name} 
+                                    data-cy={item.name}
+                                    className="bg-transparent border-0 p-0 w-100" onClick={(e) => changeOrganizationHandler(item.name)}>
                                     <Card bg="dark" style={{maxHeight: "220px", cursor: "pointer"}} >
                                         <Card.Header className="bg-transparent border-0 d-flex text-wrap">
                                         </Card.Header>
