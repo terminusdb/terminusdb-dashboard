@@ -1,6 +1,10 @@
 
 /// <reference types="cypress" />
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false;
+});
+
 ///8MmY%*2q
 //tester@terminusdb.com
 

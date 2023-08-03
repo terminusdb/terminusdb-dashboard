@@ -39,7 +39,8 @@ export const WOQLClientProvider = ({children, params}) => {
     const [currentCRName,setCurrentCRName] = useState(false)
     const [currentCRStartBranch,setCurrentCRStartBranch] = useState(false)
 
-    const [useChangeRequest,setUseChangeRequest] = useState(true)
+    // I'm starting with undefined this means no server response
+    const [useChangeRequest,setUseChangeRequest] = useState(undefined)
 
     // constants to control sidebar collapse
     const [collapseSideBar, setCollapseSideBar] = useState(localStorage.getItem(`Terminusdb-SideBar-Collapsed`) === "true" ? true : false) 
@@ -172,7 +173,7 @@ export const WOQLClientProvider = ({children, params}) => {
                 // getStoreChangeRequestDBStatus(client.organization(),dbName,setUseChangeRequest)
                 //clear graphiql interface local storage
                 cleanGraphiqlCache()            
-                const changeRequestStatus = getChangeRequestIsActive(client)
+                const changeRequestStatus = await getChangeRequestIsActive(client)
                 if(changeRequestStatus.isActive){
                     // check if there is a change request related
                         const {TERMINUSCMS_CR , TERMINUSCMS_CR_ID} = changeRequestName(client)
@@ -218,6 +219,7 @@ export const WOQLClientProvider = ({children, params}) => {
 
     function setChangeRequestBranch(branchName,changeRequestId, CRName){
         // save the branch from 
+      
         setCurrentCRStartBranch(woqlClient.checkout())
         woqlClient.checkout(branchName)
         setBranch(branchName)

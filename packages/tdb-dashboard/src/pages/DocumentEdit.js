@@ -42,7 +42,7 @@ export const DocumentEdit = () => {
         }
         getDocumentFrames()
         getSelectedDocument(documentID)
-	},[branch])
+	},[branch,useChangeRequest])
 
     const closeButtonClick = () =>{
         navigate(-1)
@@ -53,7 +53,7 @@ export const DocumentEdit = () => {
     return <React.Fragment>
         {error && <ErrorMessageReport error={error} setError={setError}/>}
         {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
-        {(!useChangeRequest || currentChangeRequest) && 
+        {(useChangeRequest === false|| currentChangeRequest) && 
             <EditDocumentComponent
                 SearchComponent={DocumentSearchComponent}
                 documentID={documentID} 
