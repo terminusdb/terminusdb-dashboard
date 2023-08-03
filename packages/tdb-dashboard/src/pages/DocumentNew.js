@@ -33,7 +33,7 @@ export const DocumentNew = () => {
             setShowModal(true)
         }
         getDocumentFrames()
-	},[branch])
+	},[branch,useChangeRequest])
 
     const callCreateDocument = async (jsonDocument) =>{
         const created = await createDocument(jsonDocument)
@@ -50,7 +50,7 @@ export const DocumentNew = () => {
     return  <React.Fragment>
             {showModal && <CreateChangeRequestModal showModal={showModal} type={type}  setShowModal={setShowModal}  updateViewMode={setChangeRequestBranch}/>}
             {error && <ErrorMessageReport error={error} setError={setError}/>}
-            {(!useChangeRequest || currentChangeRequest) &&  frames &&  
+            {(useChangeRequest === false || currentChangeRequest) &&  frames &&  
                 <NewDocumentComponent 
                     SearchComponent={DocumentSearchComponent}
                     frames={frames}
