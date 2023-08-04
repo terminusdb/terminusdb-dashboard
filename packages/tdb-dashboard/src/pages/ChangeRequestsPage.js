@@ -12,7 +12,8 @@ import {
 	OPEN,
 	REJECTED,
 	MERGED, 
-	SUBMITTED
+	SUBMITTED,
+	CLOSE
 } from "../components/constants"
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import {extractID, status, iconTypes, getDays} from "../components/utils"
@@ -72,12 +73,13 @@ export const ChangeRequestsPage = () => {
     }
 	
   
-    const countType = {[OPEN] : 0 , [SUBMITTED]:0, [REJECTED]:0, [MERGED]:0 }
+    const countType = {[OPEN] : 0 , [SUBMITTED]:0, [REJECTED]:0, [MERGED]:0, [CLOSE]:0 }
 	const activeClassNameType = { 
 		[OPEN] : "text-decoration-underline text-light" , 
 		[SUBMITTED]: "text-decoration-underline text-warning",  
 		[REJECTED]: "text-decoration-underline text-danger", 
-		[MERGED]: "text-decoration-underline success__color"
+		[MERGED]: "text-decoration-underline success__color",
+		[CLOSE]: "text-decoration-underline text-danger",
 	}
 
 	function getActiveClassName (filter, status) {
@@ -121,6 +123,12 @@ export const ChangeRequestsPage = () => {
 						<span className={`${getActiveClassName (filter, REJECTED)}`}>{countType[REJECTED]} {REJECTED}</span>
 					</small>
 				</Button>
+				<Button variant="dark" onClick={(e) => displayCRs(CLOSE)} className="btn bg-transparent border-0 text-gray">   
+					<small className="text-gray fw-bold">
+						{iconTypes[CLOSE]} 
+						<span className={`${getActiveClassName (filter, CLOSE)}`}>{countType[CLOSE]} {CLOSE}</span>
+					</small>
+				</Button>
 			</Stack>
 		</React.Fragment>
    }
@@ -140,6 +148,11 @@ export const ChangeRequestsPage = () => {
 
 	const submitCR = (id)=>{
 		setUpdateOperation(SUBMITTED)
+		setShowUpdateChangeRequestID(id)
+	}
+
+	const closeCR = (id)=>{
+		setUpdateOperation(CLOSE)
 		setShowUpdateChangeRequestID(id)
 	}
 
@@ -168,12 +181,14 @@ export const ChangeRequestsPage = () => {
 						</Button>
 						<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>
 							View Diff</Button>
+						<Button className="bg-danger text-dark mr-4 btn btn-sm" title="you are closing your CR" onClick={()=>closeCR(id)}>Close</Button>
 						
 					</React.Fragment> 
 			case SUBMITTED: 
 				return <React.Fragment>
 					<Button data-cy={CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF} title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
 					<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
+					<Button className="bg-danger text-dark mr-4 btn btn-sm" title="you are closing your CR"  onClick={()=>closeCR(id)}>Close</Button>
 				</React.Fragment>
 			case REJECTED: 
 				return <React.Fragment>
@@ -185,6 +200,8 @@ export const ChangeRequestsPage = () => {
 							<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>View Approved Diff</Button>
 							<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
 					  </React.Fragment>
+			case CLOSE :
+				return ""
 		}
 	}
  

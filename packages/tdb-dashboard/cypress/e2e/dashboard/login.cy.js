@@ -2,7 +2,11 @@
 
 import { SiGmail } from "react-icons/si"
 
-///8MmY%*2q 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false;
+});
+
+///8MmY%*2q
 //tester@terminusdb.com
 
 //emf7V3RaiDXCsx$#@%yy

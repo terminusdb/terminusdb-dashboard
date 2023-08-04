@@ -5,10 +5,11 @@ import {extractID, getDays} from "../components/utils"
 import { Layout } from "./Layout";
 import Stack from "react-bootstrap/Stack"
 import { useOpenAI } from "../hooks/useOpenAI";
-import {AiFillCheckCircle, AiFillCloseCircle, AiFillClockCircle} from "react-icons/ai"
+import {AiFillCheckCircle, AiFillCloseCircle, AiFillClockCircle,AiOutlineClose} from "react-icons/ai"
 import {ImSpinner5} from "react-icons/im"
-import { useParams } from "react-router-dom";
+import { useParams,NavLink } from "react-router-dom";
 import { DisplayNoIndexingAction } from "../components/DisplayNoIndexingAction"
+import { formatError } from "./utils";
 
 export const IndexingActionMonitor=(props)=>{
 
@@ -52,6 +53,7 @@ export const IndexingActionMonitor=(props)=>{
 const endStatus = {"Assigned":true, "Error":true}
 
 function ItemElement ({item}){
+    let { organization,dataProduct } = useParams()
     const startstatus = extractID(item.indexing_status || "")
     const index = extractID(item.index || "")
     const [status , setStatus] = useState(startstatus)
@@ -60,12 +62,23 @@ function ItemElement ({item}){
 
     const changeStatusHandler = async (status)=>{
         setStatus("Progress")
-        await updateIndexStatus(index,status)
-        pollingCall(index, updateStatus)
+        const result = await updateIndexStatus(index,status)
+        if(status === "Sent"){
+            pollingCall(index, updateStatus)
+        }else{
+            updateStatus(result)
+        }
     }
 
     const updateStatus = (doc) =>{
+        if(!doc)return 
         item.indexing_status = `@schema:Indexing_Status/${doc.indexing_status}`
+        if(doc.error_message){
+            item.error_message = {"@type":"xsd:string","@value":doc.error_message}
+        }
+        if(doc.indexed_documents){
+            item.indexed_documents = {"@type":"xsd:string","@value":doc.indexed_documents}
+        }
         setStatus(doc.indexing_status)
     }
     useEffect(()=>{
@@ -74,12 +87,27 @@ function ItemElement ({item}){
         }
     },[item.index])
 
-    const iconTypes = {'Assigned':<AiFillCheckCircle className="text-green" size="20px"/>,
-                       'Progress':<ImSpinner5 className="text-warning loading-icon" size="20px"/>,
-                       'Error':<AiFillCloseCircle className="text-danger" size="20px"/>,
-                       'Complete':<AiFillClockCircle className="text-warning loading-icon" size="20px"/>}
+    const iconTypes = {'Assigned':<AiFillCheckCircle className="text-green" size="20px" style={{minWidth: "20px"}}/>,
+                       'Progress':<ImSpinner5 className="text-warning loading-icon" size="20px" style={{minWidth: "20px"}}/>,
+                       'Error':<AiFillCloseCircle className="text-danger" size="20px" style={{minWidth: "20px"}}/>,
+                       'Close':<AiOutlineClose className="text-danger" size="20px" style={{minWidth: "20px"}}/>,
+                       'Complete':<AiFillClockCircle className="text-warning loading-icon" size="20px" style={{minWidth: "20px"}}/>}
 
+                       
     const name  = item.name ? item.name['@value'] : ''
+    
+    const documentIndexed =(num)=>{
+        const message =  `${num} Documents have been indexed` 
+        let extraInfo = "" 
+        if(num === 0){
+            extraInfo =<>
+            <div>If not already configured, Go to <NavLink to={`/${organization}/${dataProduct}/openai_configuration`} className={"mr-1"}>Open AI configuration </NavLink> page
+            and add a GraphQL query and a Handlebars template for each document you would like to index.</div></>
+        }
+
+        return <><div>{message}</div>{extraInfo}</>
+						
+    }
     
            //"@schema:Indexing_Status/Progress" 
     const message  = "no message" //item.messages[0].text || '' //item[tracking_branch]
@@ -94,13 +122,19 @@ function ItemElement ({item}){
 						
 						</div>
                         {status === "Error" && item.error_message && 
-                        <div sclassName="text-danger text-small fw-bold ml-4">Error: {item.error_message["@value"]}</div>}			
-						<small className="text-light text-small fw-bold">
+                        <div className="text-small fw-bold">Error: {formatError(item.error_message["@value"],organization,dataProduct)}</div>}
+
+                        {(status === "Complete" || status=== "Assigned") && item.indexed_documents && documentIndexed(item.indexed_documents["@value"])}
+
+                       <small className="text-light text-small fw-bold">
 							ran {getDays(item.time["@value"])} days ago 
 						</small>
                        
                        
 					</div>
+                    {status === "Close" &&  <small className="text-light text-small fw-bold">
+							 This indexing has been stopped
+						</small>}
                     {status === "Progress" &&  
                         <Button variant="dark" onClick={(e) => changeStatusHandler("Close")} className="bg-warning text-dark mr-4">   
                             <small className="text-gray fw-bold">
@@ -122,3 +156,4 @@ function ItemElement ({item}){
                     }
 		    </ListGroup.Item>
 }
+

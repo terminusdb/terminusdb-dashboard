@@ -101,7 +101,9 @@ export function useOpenAI(){
                 localStorage.setItem(`${location.pathname}___SEARCH__RESULT`,JSON.stringify(result))
                 setSearchResult(result)
             }catch(err){
-               setError(err.data || err.message)              
+                console.log(err.data)
+                const errValue = err.data && err.data.error ? err.data.error : err.message
+               setError(errValue)              
             }finally{
                 setLoading(false)
             }

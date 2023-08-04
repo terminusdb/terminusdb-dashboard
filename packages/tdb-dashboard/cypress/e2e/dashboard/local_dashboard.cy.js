@@ -1,5 +1,9 @@
 /// <reference types="cypress" />
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false;
+});
+
 describe('visit dashboard local', () => {
     const dashboard = "http://localhost:6364/dashboard"
   

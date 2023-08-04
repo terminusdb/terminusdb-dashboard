@@ -17,6 +17,9 @@ import { BsSearch } from "react-icons/bs"
 import InputGroup from 'react-bootstrap/InputGroup';
 import {FiAlertTriangle} from 'react-icons/fi'
 import { WOQLClientObj } from "../init-woql-client";
+import { formatError } from "./utils";
+import {Alerts} from "../components/Alerts"
+import {TERMINUS_DANGER} from "../components/constants"
 
 export function FreeTextSearch() {
     const {branch} = WOQLClientObj()
@@ -106,8 +109,7 @@ export function FreeTextSearch() {
                     <p>if you haven't already done it, Go to <NavLink to={`/${organization}/profile`}>Profile page</NavLink> and add an OpenAi Key to your team,</p> 
                     after you can start to index your data using the change request workflow
                 </Alert>*/}
-                {error &&  <ErrorMessageReport error={error} setError={setError}/> }
-               
+                {error &&  <Alerts message={formatError(error,organization,dataProduct)} type={TERMINUS_DANGER} onCancel={setError}/>}
                 {searchResult && 
                     <React.Fragment>
                     <div className="w-100 d-flex justify-content-center">

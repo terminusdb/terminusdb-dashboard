@@ -74,7 +74,7 @@ describe(`Test Document History Widget`, () => {
     cy.get(`button[data-cy=${CONST.CREATE_CHANGE_REQUEST_BUTTON}]`).should('exist').click();
     cy.get(2000)
     cy.wait('@getBranchName').then((interception) => {
-      assert.isNotNull(interception.response.body, '1st API call has data')
+      assert.isNotNull(interception.response.body, 'Intercepting create CR API ')
       //console.log("interception.response.body", interception.response.body)
       branchID = interception.response.body.branchName
     })

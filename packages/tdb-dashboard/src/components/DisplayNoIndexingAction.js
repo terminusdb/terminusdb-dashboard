@@ -26,13 +26,12 @@ const StepDetail = ({ stepNumber, stepComponent, icon}) => {
 }
 
 
+
 function getStep(stepNumber,supMode) {
   let { organization,dataProduct } = useParams()
   const stepOptions= {
-    "step1":<>
-              Visit <NavLink href="https://platform.openai.com/account/api-keys" className={"mr-1"}>Open AI</NavLink>
-              and create a your Secret API Key
-            </>,
+    "step1":<>Visit <a href="https://platform.openai.com/account/api-keys" target="_blank" className={"mr-1"}>Open AI</a>
+              and create a your Secret API Key</>,
     "step2": {"LOCAL":<>
                 Copy and paste your generated OpenAI API Key in your environment variables, restart the application
               </>,
@@ -42,12 +41,17 @@ function getStep(stepNumber,supMode) {
               },
     "step3":<>
             Go to <NavLink to={`/${organization}/${dataProduct}/openai_configuration`} className={"mr-1"}>Open AI configuration </NavLink> page
-            to add a graphql query and an handlebar template for every Document
+            to add a graphql query and an handlebar template for every Document you like to index
             </>,
-    "step4": <>
+    "step4":  {"REMOTE":<>
               In your profile turn on the Indexing button next to the OpenAI Key field.
               All data products in your team will begin to index.
               </>,
+              "LOCAL":<>
+              Use VectorLink to Semantically search your data products and use the vector embeddings to talk to OpenAI.
+              Click <NavLink href="https://terminusdb.com/docs/" className={"mr-1"}>here</NavLink>for more info on how to use VectorLink.
+              </>},
+
     "step5": <>
               Use VectorLink to Semantically search your data products and use the vector embeddings to talk to OpenAI.
               Click <NavLink href="https://terminusdb.com/docs/" className={"mr-1"}>here</NavLink>for more info on how to use VectorLink.
@@ -77,8 +81,8 @@ export const DisplayNoIndexingAction = ({ helpDescription }) => {
           <StepDetail stepNumber={1} stepComponent={getStep(1)} icon={<BsKey/>}/>
           <StepDetail stepNumber={2} stepComponent={getStep(2, connection_type)} icon={<RiUserFollowFill/>}/>
           <StepDetail stepNumber={3} stepComponent={getStep(3)} icon={<SiHandlebarsdotjs/>}/>
-          <StepDetail stepNumber={4} stepComponent={getStep(4)} icon={<RxCheckbox/>}/>
-          <StepDetail stepNumber={5} stepComponent={getStep(5)} icon={<BsSearch/>}/>
+          <StepDetail stepNumber={4} stepComponent={getStep(4, connection_type)} icon={<RxCheckbox/>}/>
+          {connection_type === "REMOTE" && <StepDetail stepNumber={5} stepComponent={getStep(5)} icon={<BsSearch/>}/>}
         </Col>
         <Col md={3}></Col>
       </Row>
