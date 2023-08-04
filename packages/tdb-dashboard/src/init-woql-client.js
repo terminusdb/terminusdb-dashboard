@@ -9,6 +9,7 @@ import { formatErrorMessage } from './hooks/hookUtils'
 import { createApolloClient } from './routing/ApolloClientConfig'
 import {getChangesUrl} from "./hooks/hookUtils"
 import {cleanGraphiqlCache} from "./pages/utils" 
+import { DOCUMENT_TAB } from "./pages/constants"
 
 export const WOQLContext = React.createContext()
 export const WOQLClientObj = () => useContext(WOQLContext) 
@@ -40,6 +41,9 @@ export const WOQLClientProvider = ({children, params}) => {
     const [currentCRStartBranch,setCurrentCRStartBranch] = useState(false)
 
     const [useChangeRequest,setUseChangeRequest] = useState(true)
+
+    // selectedMode for Product Model builder
+    const [selectedMode, setSelectedMode] = useState(DOCUMENT_TAB)
 
     // constants to control sidebar collapse
     const [collapseSideBar, setCollapseSideBar] = useState(localStorage.getItem(`Terminusdb-SideBar-Collapsed`) === "true" ? true : false) 
@@ -369,7 +373,9 @@ export const WOQLClientProvider = ({children, params}) => {
                 setDataProduct,
                 reconnectToServer,
                 collapseSideBar, 
-                setCollapseSideBar
+                setCollapseSideBar,
+                selectedMode, 
+                setSelectedMode
             }}
         >
             {children}

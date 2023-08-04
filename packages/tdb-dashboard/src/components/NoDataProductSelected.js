@@ -7,7 +7,7 @@ import { WOQLClient } from "@terminusdb/terminusdb-client"
 import {localSettings} from "../../localSettings"
 import { useNavigate } from "react-router-dom"
 import { Loading } from "./Loading"
-import { NEW_DATA_PRODUCT_BUTTON_ID } from "../cypress.constants"
+import { NEW_DATA_PRODUCT_BUTTON_ID, CLONE_BUTTON } from "../cypress.constants"
 
 // tean home page
 export const NoDataProductSelected = (props) => { 
@@ -98,6 +98,7 @@ export const NoDataProductSelected = (props) => {
 									</small>
 									<div className="ms-auto">
 										<Button className="btn-info btn-sm text-white fw-bold" 
+											data-cy={`${CLONE_BUTTON}_${arr.name}`}
 											onClick={()=>handleClone(arr.name)}>
 											Clone
 										</Button>

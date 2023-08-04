@@ -110,6 +110,7 @@ function getRoutes(clientUser, isAdmin, useChangeRequest){
                             <Route path=":docid" >
                                 <Route index element={<DocumentView/>} /> 
                                 <Route path={PATH.EDIT_DOC} element={<DocumentEdit/>} /> 
+                                <Route path="*" element={<div><PageNotFound/></div >} />
                             </Route> 
                     </Route>
                 </Route>

@@ -249,6 +249,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	        objectChoicesList,
 	        isFocusOnNode,
 	        needToSave,
+					dbName,
 			updateMainGraphData
 	    	}}>
 	     {children}

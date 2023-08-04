@@ -1,0 +1,8 @@
+{
+  "label": "0_Planet__test",
+  "orbital_period": "123",
+  "diameter": "117",
+  "gravity": "gravity",
+  "climate": "Hot",
+  "@type": "Planet"
+}

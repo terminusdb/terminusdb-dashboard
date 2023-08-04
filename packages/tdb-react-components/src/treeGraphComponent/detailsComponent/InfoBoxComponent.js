@@ -9,10 +9,12 @@ import Card from "react-bootstrap/Card"
 import Stack from "react-bootstrap/Stack"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import { TiDocumentText } from "react-icons/ti"
+import { TbStatusChange } from "react-icons/tb"
  
 export const InfoBoxComponent =(props)=> {
 
-	const {mainGraphObj} = GraphContextObj();
+	const {mainGraphObj, dbName} = GraphContextObj();
 
 	const elementsNumber=mainGraphObj ? mainGraphObj.getElementsNumber() : {}
 
@@ -23,14 +25,38 @@ export const InfoBoxComponent =(props)=> {
 
 	if(props.view === `UI_VIEW`) {
 		return <Row className="w-100 mt-5">
-			<Col md={3}/>
-			<Col md={6}>
-				<Card className="mt-5 ">
-					<Card.Body className='text-center'>
-						<BiNetworkChart size="66" className='text-muted m-3'/>
+			<Col md={1}/>
+			<Col md={9}>
+				<Card className="mt-5 bg-transparent border-0" style={{color: "rgb(165 165 165 / 75%) !important"}}>
+					<Card.Body className='tdb__muted'>
+						<h1 className='ml-3'>{`${dbName} has`}</h1>
+						<Stack direction='horizontal' gap={2}>
+							<TiDocumentText size="60" className='m-3'/>
+							<h3 className=' fw-bold'>{entitiesNum}</h3>
+							<h3>{entitiesNum === 1 ? ` Document` : ` Documents`}</h3>
+						</Stack>
+
+						<Stack direction='horizontal' gap={2}>
+							<TbStatusChange size="60" className=' m-3'/>
+							<h3 className=' fw-bold'>{choiceClassesNum}</h3>
+							<h3>{choiceClassesNum === 1 ? ` Enum` : ` Enums`}</h3>
+						</Stack>
+
+						{entitiesNum > 0 &&	<h5 className='ml-3 fst-italic'>
+							{`Click on a document to view and edit its properties & settings`}
+						</h5>}
+						{entitiesNum === 0 &&	<h5 className='ml-3  fst-italic'>
+							{`Use the sidebar to create a New Document/ SubDocument or Enum`}
+						</h5>}
+						<h5 className='ml-3  fst-italic'>
+							{`Currently you are in UI Mode, you can swap to Graph UI Mode to view heirarchy or use the JSON Mode
+							to edit schema using the JSON editor.`}
+						</h5>
+						
+						{/*<BiNetworkChart size="66" className='text-muted m-3'/>
 						<h4 className='text-muted mb-5'>
 						<span >
-							<span >{`There are `}</span>
+							<span >{`There are `}</span> 
 							<span className='text-white fw-bold'>{entitiesNum}</span>
 							<span>{entitiesNum === 1 ? ` Document` : ` Documents`}</span>
 							<span>{` and `}</span>
@@ -38,11 +64,11 @@ export const InfoBoxComponent =(props)=> {
 							<span>{choiceClassesNum === 1 ? ` Enum` : ` Enums`}</span>
 							<span>{` in this DataProduct`}</span>
 						</span>
-					</h4>
+					</h4>*/}
 					</Card.Body>
 				</Card>
 			</Col>
-			<Col md={3}/>
+			<Col md={2}/>
 			
 		</Row>
 	}

@@ -157,7 +157,7 @@ const DisplayHistory = ({ history, setDiffCommitObject, diffObject, frames, type
   historyBuffer.map((historyItem, index) => {
     let commitID = historyItem.identifier
     elements.push(<Card key={commitID} className="mb-4">
-      <Card.Body>
+      <Card.Body> 
         {refresh && <RadioButtonControllers commitID={commitID} 
           displayText={getFormattedTime(historyItem.timestamp)}
           compareChecked={compareChecked} 

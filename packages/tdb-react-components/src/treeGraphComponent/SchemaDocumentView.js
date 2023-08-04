@@ -81,7 +81,7 @@ export const SchemaDocumentView = (props) => {
     </div>
     <div>
       <SizeMe monitorHeight={true}>{({ size }) =>
-        <div style={{ minHeight:"400px", height: "calc(100vh - 10px)", width: "100%"}}>
+        <div style={{ minHeight:"400px", height: "calc(100vh - 10px)", marginRight: "5rem"}}>
           {!showInfoComp && <InfoBoxComponent dbName={props.dbName} custom={props.custom} view={`UI_VIEW`}/>}
           {showInfoComp &&  <>
             {/*<RightBarHeaderTools saveData={saveData} view={`UI_VIEW`}/>*/}

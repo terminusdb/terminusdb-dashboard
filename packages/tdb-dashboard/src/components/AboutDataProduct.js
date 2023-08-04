@@ -13,7 +13,7 @@ import { ManageDatabase } from "../hooks/ManageDatabase"
 import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
 import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
-import { UPDATE_DATA_PRODUCT_BUTTON, HOME_DELETE_DATAPRODUCT_BUTTON_ID } from "../cypress.constants"
+import * as cyCONST from "../cypress.constants"
 
 import { UTILS } from "@terminusdb/terminusdb-client"
 
@@ -99,8 +99,8 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     }
 
     const radios = [
-        { name: 'Change Request Mode Active', value: 'Active' , title:'manage your documents using the change request mode'},
-        { name: 'Change Request Mode Inactive', value: 'Inactive' , title:'manage your documents directly in the current branch'},
+        { name: 'Change Request Mode Active', value: 'Active' , title:'manage your documents using the change request mode', dataCy: cyCONST.CHANGE_REQUEST_MODE_ACTIVE},
+        { name: 'Change Request Mode Inactive', value: 'Inactive' , title:'manage your documents directly in the current branch', dataCy: cyCONST.CHANGE_REQUEST_MODE_INACTIVE},
       ];
     
 
@@ -115,14 +115,15 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
         <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
             <Card.Body>
             <ButtonGroup>
-                {radios.map((radio, idx) => (
+                {radios.map((radio, idx) => ( 
                 <ToggleButton
                     key={idx}
                     id={`radio-${idx}`}
                     type="radio"
+                    data-cy={radio.dataCy}
                     title={radio.title}
                     variant={idx === 0 ? 'outline-success' : 'outline-warning'}
-                    name="radio"
+                    name={radio.name} // used for cypress testing
                     value={radio.value}
                     checked={radioValue === radio.value}
                     onChange={(e) => updateChangeRequestStatusHandler(e.currentTarget.value)}
@@ -189,7 +190,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                     <div className="w-100 d-block align-items-center gx-0">
                         <Button variant="light" 
                             id="update_database"
-                            data-cy={UPDATE_DATA_PRODUCT_BUTTON}
+                            data-cy={cyCONST.UPDATE_DATA_PRODUCT_BUTTON}
                             title={`Update Data Product ${dataProduct} info`} 
                             className=" btn btn-md h4 w-100 mt-4 text-dark"
                             onClick={showUpdateHandler}>
@@ -253,7 +254,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                         <span className="mt-2 text-light w-100 mb-0"> Delete this Data Product, there is no going back. Please be certain. </span>
                         <Button variant="secondary" 
                             id="home_open_delete_product_modal"
-                            data-cy={HOME_DELETE_DATAPRODUCT_BUTTON_ID}
+                            data-cy={cyCONST.HOME_DELETE_DATAPRODUCT_BUTTON_ID}
                             title={`Delete Data Product ${dataProduct}`} 
                             className=" btn btn-lg h2 text-danger fw-bold w-100 mt-4"
                             onClick={(e) =>setShowDeleteModal(true)}>

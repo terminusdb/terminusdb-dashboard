@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from "react"
 import {modelCallServerHook, ViewBuilder, SchemaDocumentView} from "@terminusdb-live/tdb-react-components"
-import {Tabs, Tab,Stack, Row, Col, Button} from "react-bootstrap"
+import {Tabs, Tab,Stack, Row, Badge, Button} from "react-bootstrap"
 import {SCHEMA_MODEL_VIEW, DOCUMENT_TAB, GRAPH_TAB, JSON_TAB, DIAGRAM_TAB} from "./constants"
 import {WOQLClientObj} from '../init-woql-client'
 import {Loading} from "../components/Loading" 
@@ -16,7 +16,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import { AiOutlineCheckCircle, AiOutlineCheck } from "react-icons/ai"
 import ListGroup from 'react-bootstrap/ListGroup';
 import { FiHelpCircle } from "react-icons/fi"
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'; 
 import Tooltip from 'react-bootstrap/Tooltip';
 import { Alerts } from "../components/Alerts"
 import { FormatErrorMessages } from "../components/ErrorMessageReport"
@@ -24,12 +24,21 @@ import { FormatErrorMessages } from "../components/ErrorMessageReport"
 
 
 
-const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
+export const ModelBuilderViewControl = () => {
+
+	const {
+		selectedMode, 
+		setSelectedMode
+} = WOQLClientObj()
 	
 	function handleSwitch(chosen) {
 		setSelectedMode(chosen)
 	}
 
+	function getActiveIcon(mode, selectedMode) {
+		if(mode === selectedMode) return <AiOutlineCheck className="custom__green float-right ml-3" size={20}/>
+		return <></>
+	}
 	
 	function getActive (mode, selectedMode) {
 		if(mode === selectedMode) return true
@@ -37,66 +46,55 @@ const ModelBuilderViewControl = ({ selectedMode, setSelectedMode }) => {
 	}
 
 	function getActiveClassName (mode, selectedMode) {
-		if(mode === selectedMode) return "bg-dark border border-light"
-		return ""
+		if(mode === selectedMode) return "bg-dark text-white tdb__selected__modelUI btn-sm"
+		return "border border-dark bg-transparent btn-sm "
 	}
 
 	function getHelpLabel(mode, selectedMode, label) {
 		if(mode === selectedMode) return label
 		return `Switch to ${label}`
-	}
+	} 
 
-	function getLabel(mode, selectedMode, helpText) {
-		if(mode === DOCUMENT_TAB) return <div title={getHelpLabel(mode, selectedMode, helpText)}>{
-			`UI`}
-		</div>
-		else if (mode === GRAPH_TAB) return <div title={getHelpLabel(mode, selectedMode, helpText)}>
-			{`GUI`}
-		</div>
-		return  <div title={getHelpLabel(mode, selectedMode, helpText)}>{`JSON UI`}</div>
-	}
-
-	return <Stack direction="vertical" gap={2} className="w-100 mt-4">
+	return <div className="mt-2">
 		<Button onClick={(e)=>handleSwitch(DOCUMENT_TAB)}
-			variant = "secondary"
 			active={getActive(DOCUMENT_TAB, selectedMode)}
-			className={getActiveClassName(DOCUMENT_TAB, selectedMode)}
+			className={`${getActiveClassName(DOCUMENT_TAB, selectedMode)} mb-2`}
 			title={getHelpLabel(DOCUMENT_TAB, selectedMode, "UI Mode")}>
-			UI 
+			{getHelpLabel(DOCUMENT_TAB, selectedMode, "UI Mode")} 
+			{getActiveIcon(DOCUMENT_TAB, selectedMode)} 
+			
 		</Button>
 		<Button onClick={(e)=>handleSwitch(GRAPH_TAB)}
-			variant = "secondary"
 			active={getActive(GRAPH_TAB, selectedMode)}
-			className={getActiveClassName(GRAPH_TAB, selectedMode)}
+			className={`${getActiveClassName(GRAPH_TAB, selectedMode)} mb-2`}
 			title={getHelpLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")}>
-			GUI
+			{getHelpLabel(GRAPH_TAB, selectedMode, "Graph UI Mode")} {getActiveIcon(GRAPH_TAB, selectedMode)}
 		</Button>
 		<Button onClick={(e)=>handleSwitch(JSON_TAB)}
-			variant = "secondary"
 			active={getActive(JSON_TAB, selectedMode)}
-			className={getActiveClassName(JSON_TAB, selectedMode)}
+			className={`${getActiveClassName(JSON_TAB, selectedMode)} mb-2`}
 			title={getHelpLabel(JSON_TAB, selectedMode, "JSON Mode")}>
-			JSON
+			{getHelpLabel(JSON_TAB, selectedMode, "JSON Mode")} {getActiveIcon(JSON_TAB, selectedMode)}
 		</Button>
 
-	</Stack>
+	
+	</div>
 
 
 } 
  
 export const ModelBuilder = () => {
 
-  const { woqlClient, branch, ref, accessControlDashboard, currentChangeRequest, collapseSideBar } = WOQLClientObj()
+  const { woqlClient, branch, ref, accessControlDashboard, currentChangeRequest, collapseSideBar, selectedMode } = WOQLClientObj()
 	if(!woqlClient) return "" 
 	const dataProduct = woqlClient.db()
 	const { callServerLoading, saveGraphChanges, reportMessage } = modelCallServerHook(woqlClient, branch, ref,dataProduct)
 	const { selectedNodeObject } = GraphContextObj();
 	const [showSavedMsg, setShowSavedMsg] = useState(false);
-	const [selectedKey, setSelectedKey] = useState(1)
 
 	const [tab, setTab]=useState(DOCUMENT_TAB)
 
-	const [selectedMode, setSelectedMode] = useState(DOCUMENT_TAB)
+	//const [selectedMode, setSelectedMode] = useState(DOCUMENT_TAB)
 
 	// check if the user is in view mode or edit mode
 	let isEditMode = accessControlDashboard && accessControlDashboard.schemaWrite() || false
@@ -112,7 +110,7 @@ export const ModelBuilder = () => {
 	const closeShowSavedMessage = () => setShowSavedMsg(!showSavedMsg);
  
 	return   <Row className="w-100">
-		<Col md={11}>
+		{/*<Col md={11}>*/}
 			{!reportMessage && <ToastContainer
 				className="p-3 mt-4"
 				position={'top-end'}
@@ -153,14 +151,17 @@ export const ModelBuilder = () => {
 				<div className={collapseSideBar ? "ml-5" : ""}>
 					<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />
 				</div>
-			</div>}
+			</div>} 
 		
 			  
-		</Col>
-		<Col md={1}  className="border-left border-secondary vh-100">
-			<ModelBuilderViewControl selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
-		</Col>
+		{/*</Col>*/}
 	</Row>
 
 
 }
+
+/**
+ * <Col md={1}  className="border-left border-secondary vh-100">
+			<ModelBuilderViewControl selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
+		</Col>
+ */

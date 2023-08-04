@@ -3,6 +3,7 @@ import {Alert, Modal, Button, Form} from "react-bootstrap"
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import {useNavigate} from "react-router-dom" 
 import { FormLabel } from "react-bootstrap"
+import { INPUT_CR_NAME, INPUT_CR_MESSAGE, CREATE_CHANGE_REQUEST_BUTTON } from "../cypress.constants"
 import {BranchControl} from "../hooks/BranchControl"
 
 export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMode, type}) => { 
@@ -64,6 +65,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
                     <Form.Control required  
                         ref={nameRef}
                         id="add_changerequest_name" 
+                        data-cy={INPUT_CR_NAME}
                         type="text"
                         placeholder={`Please type the change request name`} />          
                 </Form.Group>          
@@ -72,6 +74,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
                         ref={messageRef}
                         id="add_message" 
                         type="text"
+                        data-cy={INPUT_CR_MESSAGE}
                         placeholder={`Please type the change request description`} />
                 </Form.Group>
             </Form>
@@ -81,6 +84,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
                 disabled={loading}
                 id ="add_element_button"
                 variant="light" 
+                data-cy={CREATE_CHANGE_REQUEST_BUTTON}
                 className="text-dark btn-sm"
                 title={`Start a change request`} 
                 onClick={runCreate}>{loading ? 'Sending Request ...' : "Start a change request"} 

@@ -1430,4 +1430,14 @@ button.graphiql-tab-add>svg
   border-top: 0 !important;
 }
 
+/** custom green color to show success */
+.custom__green { 
+  color: #00bc8c;
+}
+
+/** to highlight current Mode in Product Model Builder*/
+.tdb__selected__modelUI { 
+  border: 1px solid #f9d891 !important;
+}
+
 

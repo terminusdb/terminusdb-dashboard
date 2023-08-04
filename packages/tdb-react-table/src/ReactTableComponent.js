@@ -122,8 +122,8 @@ export const ReactTableComponent = ({setHiddenColumns, columns, data, limit, con
                         {headerGroups.map((headerGroup,index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={`header__${index}`}>
                             {headerGroup.headers.map((column,index) => (
-                            <th key={`column__${index}`}>
-                                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                            <th key={`column__${index}`} id={`th_${index}`}>
+                                <div id={`th_label${index}`} {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.render('Header')}
                                     <span>
                                         {column.isSorted

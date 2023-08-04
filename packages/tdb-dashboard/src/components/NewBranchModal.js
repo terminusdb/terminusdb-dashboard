@@ -10,6 +10,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {FaPlus} from "react-icons/fa"
 import {singleSelectStyle} from "./constants"
 import Select from 'react-select'
+import { BRANCH_ID_INPUT, CREATE_BRANCH_BUTTON_ID } from "../cypress.constants"
 
 export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => {
     const {branch, ref}=WOQLClientObj()
@@ -48,6 +49,7 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
                 <Form.Group className="mb-3">
                     <Form.Control required id={newBranchForm.id.id} 
                     type={"text"} 
+                    data-cy={BRANCH_ID_INPUT}
                     onBlur={handleOnBlur} 
                     placeholder={newBranchForm.id.placeholder} />
                 </Form.Group>
@@ -66,7 +68,9 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            <Button onClick={handleCreate} className= "float-right" {...CREATE_NEW_BRANCH_BUTTON}>
+            <Button onClick={handleCreate} 
+                id={CREATE_BRANCH_BUTTON_ID}
+                data-cy={CREATE_BRANCH_BUTTON_ID} className= "float-right" {...CREATE_NEW_BRANCH_BUTTON}>
                 <i className={CREATE_NEW_BRANCH_BUTTON.icon}/> {CREATE_NEW_BRANCH_BUTTON.label}
             </Button>
         </Modal.Footer>
@@ -74,7 +78,7 @@ export const NewBranchModal = ({newBranch, onCancel, createBranch, loading}) => 
 }
 
 function checkSubmission(newID, setReportAlert){
-    if(newID && newID.length){
+    if(newID && newID.length){ 
         let nid = newID.trim()
             if(!legalURLID(nid)){
                 let message = "Branch IDs can only include lowercase characters, numbers and underscores and be no more than 40 characters long"

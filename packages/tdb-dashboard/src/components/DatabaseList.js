@@ -6,7 +6,7 @@ import {SearchBox} from "./SearchBox"
 import {useNavigate} from "react-router-dom"
 import {sortAlphabetically} from "./utils"
 import {NewDataProduct} from "./NewDataProduct"
-import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER } from "../routing/constants"
+import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER, PRODUCT_MODELS } from "../routing/constants"
  
 /* returns a list of data products */
 export const DataProductItems = (props) => {
@@ -50,7 +50,7 @@ export const DataProductItems = (props) => {
             } 
             <SubMenu title="Data Products" 
                 className="menu-title "
-                defaultOpen={(page==DOCUMENT_EXPLORER || page==PRODUCT_EXPLORER) ? false : sidebarStateObj.sidebarDataProductListState}
+                defaultOpen={(page==DOCUMENT_EXPLORER || page==PRODUCT_MODELS || page==PRODUCT_EXPLORER) ? false : sidebarStateObj.sidebarDataProductListState}
                 onOpenChange={(e) => saveSidebarState("sidebarDataProductListState",e)}>
             <SearchBox placeholder={"Search for a Data Product"} onChange={setSearchDataProduct}/>
             {list.map(item => {

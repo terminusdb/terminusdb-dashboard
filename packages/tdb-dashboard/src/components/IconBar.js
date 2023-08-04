@@ -50,6 +50,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                 to={toHomeTeam} 
                 className={getActive}
                 {...disabled}
+                data-cy={"HOME"}
                 id={"HOME"}>
                      {IconBarConfig.dataProductView.icon}    
             </RouterNavLink> 
@@ -61,7 +62,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     className="nav-icon nav-product-model" 
                     {...disabled}
                     to={getUrl(IconBarConfig.dataProductModal.path)} 
-                    
+                    data-cy={IconBarConfig.dataProductModal.key}
                     id={IconBarConfig.dataProductModal.key}>
                     {IconBarConfig.dataProductModal.icon}
                 </Nav.Link>
@@ -72,6 +73,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     title={IconBarConfig.documentExplorer.title} 
                     className="nav-icon nav-document-expolorer" 
                     {...disabled}
+                    data-cy={IconBarConfig.documentExplorer.key}
                     to={getUrl(IconBarConfig.documentExplorer.path)} 
                     
                     id={IconBarConfig.documentExplorer.key}>
@@ -83,6 +85,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     title={IconBarConfig.dataProductExplorer.title} 
                     className="nav-icon nav-product-expolorer" 
                     {...disabled}
+                    data-cy={IconBarConfig.dataProductExplorer.key}
                     to={getUrl(IconBarConfig.dataProductExplorer.path)} 
                     
                     id={IconBarConfig.dataProductExplorer.key}>
@@ -96,7 +99,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     className="nav-icon nav-product-expolorer"
                     {...disabled}
                     to={getUrl(IconBarConfig.graphiql.path)} 
-                    
+                    data-cy={IconBarConfig.graphiql.key}
                     id={IconBarConfig.graphiql.key}>
                     {IconBarConfig.graphiql.icon}
                 </Nav.Link>
@@ -106,6 +109,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                     title={IconBarConfig.changes.title} 
                     className="nav-icon nav-product-explorer" 
                     {...disabled}
+                    data-cy={IconBarConfig.changes.key}
                     to={getUrl(IconBarConfig.changes.path)} 
                     
                     id={IconBarConfig.changes.key}>
@@ -120,7 +124,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                         className="nav-icon nav-product-expolorer" 
                         {...disabled}
                         to={getUrl(IconBarConfig.openAI.path)} 
-                        
+                        data-cy={IconBarConfig.openAI.key}
                         id={IconBarConfig.openAI.key}>
                         {IconBarConfig.openAI.icon}
                     </Nav.Link>
@@ -131,7 +135,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                         className="nav-icon nav-product-expolorer" 
                         {...disabled}
                         to={getUrl(IconBarConfig.search.path)} 
-                        
+                        data-cy={IconBarConfig.search.key}
                         id={IconBarConfig.search.key}>
                         {IconBarConfig.search.icon}
                     </Nav.Link>
@@ -142,7 +146,7 @@ export const IconBar =  ({setShowFeedbackForm}) => {
                         className="nav-icon nav-product-expolorer" 
                         {...disabled}
                         to={getUrl(IconBarConfig.actions.path)} 
-                        
+                        data-cy={IconBarConfig.actions.key}
                         id={IconBarConfig.actions.key}>
                         {IconBarConfig.actions.icon}
                     </Nav.Link>

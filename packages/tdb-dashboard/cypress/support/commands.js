@@ -28,7 +28,6 @@
 import * as CONST from "../../src/cypress.constants"
 const email = Cypress.env('COLLABORATOR_USER')
 const password = Cypress.env('COLLABORATOR_PASSWORD')
-const team = Cypress.env('TEAM_NAME')
 
 
 /** user login function */
@@ -41,7 +40,7 @@ Cypress.Commands.add('userLogin', () => {
 });
 
 /** select a team */
-Cypress.Commands.add('selectTeam', () => {
+Cypress.Commands.add('selectTeam', (team) => {
   cy.get(`#${team}`).click()
   cy.location().should((loc) => {
     expect(loc.pathname).to.eq(`/${team}`)
@@ -49,20 +48,27 @@ Cypress.Commands.add('selectTeam', () => {
 })
 
 /** check if in correct data product */
-Cypress.Commands.add('inCorrectDataProduct', (dataProduct) => {
+Cypress.Commands.add('inCorrectDataProduct', (team, dataProduct) => {
   cy.location().should((loc) => {
     expect(loc.pathname).to.eq(`/${team}/${dataProduct}`)
   })
 })
 
+/** check if url is in right location */
+Cypress.Commands.add('isCorrectURL', (link) => {
+  cy.location().should((loc) => {
+    expect(loc.pathname).to.eq(link)
+  })
+})
+
 /** create a data product */
-Cypress.Commands.add('newDataProduct', (dataProduct) => {
+Cypress.Commands.add('newDataProduct', (team, dataProduct) => {
   cy.get(`button[data-cy=${CONST.NEW_DATA_PRODUCT_BUTTON_ID}]`).click()
   cy.get(`input[data-cy=${CONST.NEW_DATA_PRODUCT_ID}]`).type(dataProduct)
   cy.get(`input[data-cy=${CONST.NEW_DATA_PRODUCT_NAME}]`).type(dataProduct)
   cy.get(`textarea[data-cy=${CONST.NEW_DATA_PRODUCT_DESC}]`).type(dataProduct)
   cy.get(`button[data-cy=${CONST.CREATE_NEW_DATA_PRODUCT_BUTTON_ID}]`).click()
-  cy.inCorrectDataProduct(dataProduct)
+  cy.inCorrectDataProduct(team, dataProduct)
 })
 
 /** delete a data product  */
@@ -72,6 +78,19 @@ Cypress.Commands.add('deleteDataProduct', (dataProduct) => {
   cy.get(`input[data-cy=${CONST.DELETE_DATA_PRODUCT_ID}]`).type(dataProduct) 
   cy.get(`button[data-cy=${CONST.DELETE_DATAPRODUCT_BUTTON_ID}]`).click()
   cy.get(`#${dataProduct}`).should('not.exist');
+})
+
+/** create a CR */
+Cypress.Commands.add('createCR', (crName) => {
+  cy.get(`button[data-cy=${CONST.NEW_DOCUMENT_BUTTON_ID}_Planet]`).should('exist').click();
+  cy.get(2000)
+  // the CR modal should not pop up on click of create document
+  cy.get('.modal-dialog').should('exist') 
+  // add CR Name
+  cy.get(`input[data-cy=${CONST.INPUT_CR_NAME}]`).focus().type(crName)
+  // add CR Message
+  cy.get(`input[data-cy=${CONST.INPUT_CR_MESSAGE}]`).focus().type(`${crName}__MESSAGE`)
+ 
 })
 
 /** logout */

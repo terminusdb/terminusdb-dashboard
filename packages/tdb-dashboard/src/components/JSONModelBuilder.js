@@ -111,7 +111,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
         <label className="text-warning mt-4">{editMessage}</label>
         {reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
        
-        <Card className={`border border-secondary`} {...editStyle}>
+        <Card className={`border border-secondary mr-5`} {...editStyle}>
             {loading && <Loading message={"Updating schema"} type={PROGRESS_BAR_COMPONENT}/>}       
             <Card.Header>
                 <Stack direction='horizontal' gap={2} className={` w-100 justify-content-end`}>

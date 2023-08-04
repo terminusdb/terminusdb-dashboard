@@ -1,12 +1,18 @@
 /**
  * This test checks the Update of data product details
+ * checks included - 
+ * 1) Login
+ * 2) Select a Team
+ * 3) Create a New Data product
+ * 4) Update Data Product details
+ * 5) Delete Data Product
+ * 6) Logout 
  */
 import * as CONST from "../../../src/cypress.constants"
-const teamName = Cypress.env('TEAM_NAME')
-
 const dataProduct = `test__${Date.now()}`
 // new time stamp 
 const update_dataProduct = `test__${Date.now()}`
+const teamName = Cypress.env('TEAM_NAME')
 
 describe(`Visit dashboard team ${teamName}`, () => {
   const dashboard = Cypress.config().baseUrl
@@ -29,12 +35,12 @@ describe(`Visit dashboard team ${teamName}`, () => {
 
   // select a team 
   it('Select Team', () => {
-    cy.selectTeam()
+    cy.selectTeam(teamName)
   })
 
   // Create a new data product
   it('Create a new dataProduct', ()=>{
-    cy.newDataProduct(dataProduct)
+    cy.newDataProduct(teamName, dataProduct)
   })
 
   // Update dataProduct details

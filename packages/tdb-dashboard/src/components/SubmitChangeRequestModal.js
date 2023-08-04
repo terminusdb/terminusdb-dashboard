@@ -1,6 +1,7 @@
 import React, {useRef, useState} from "react"
 import {Alert, Modal, Button, Form} from "react-bootstrap" 
 import {ChangeRequest} from "../hooks/ChangeRequest"
+import { CHANGE_REQUEST_SUBMIT_REVIEW, CHANGE_REQUEST_MESSAGE_FOR_REVIEW } from "../cypress.constants"
 
 export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent, updateChangeRequestID, operation}) => { 
     const messageRef = useRef(null);
@@ -41,6 +42,7 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
                 <Form.Group className="mb-3 tdb__input">
                     <Form.Control required 
                         ref={messageRef}
+                        data-cy={CHANGE_REQUEST_MESSAGE_FOR_REVIEW}
                         id="add_message" 
                         as="textarea" rows={3}
                         placeholder={`Please type a message`} />
@@ -53,6 +55,7 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
                 id ="add_element_button"
                 variant="light" 
                 className="text-dark btn-sm"
+                data-cy={CHANGE_REQUEST_SUBMIT_REVIEW}
                 title={`Submit change request`} 
                 onClick={runCreate}>{loading ? 'Sending Request ...' : "Submit change request"} 
             </Button>
