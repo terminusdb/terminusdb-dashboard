@@ -12,7 +12,7 @@ import '@terminusdb/terminusdb-documents-ui/dist/css/terminusdb__darkly.css'
  
 export const DocumentView = () => {   
     const { branch,setChangeRequestBranch,woqlClient,currentChangeRequest,useChangeRequest} = WOQLClientObj()
-    const {type, docid} = useParams()
+    const {type, docid,organization,dataProduct} = useParams()
     const [showCRModal, setShowCRModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
     const navigate = useNavigate()
@@ -75,9 +75,9 @@ export const DocumentView = () => {
     }
 
     const navigatePreviewPage =()=>{
-        let previewPage = -1 
+        let previewPage = `/${organization}/${dataProduct}/documents/${type}` 
         let options = {}
-        if(location.state && location.state.previewPagePathname){
+        if(!currentChangeRequest && location.state && location.state.previewPagePathname){
             previewPage= location.state.previewPagePathname
             if(location.state.previewPage === "search"){
                 options = {state:{previewPage:"documentView",currentDocument:documentID}}
