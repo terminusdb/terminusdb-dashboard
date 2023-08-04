@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import {NEW_DOC,EDIT_DOC, EXAMPLES_PRODUCTS} from "../routing/constants"
 import { ListDocumentsComponent, useTDBDocuments } from "@terminusdb/terminusdb-documents-ui-template";
@@ -24,22 +24,37 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
     const tableConfig = documentTablesConfig.tablesColumnsConfig[type]
     const advancedSearchConfig = documentTablesConfig.advancedSearchObj[type]
 
-    function deleteDocumentHandler(row) {
+
+    const deleteDocumentHandler =(row, currentChangeRequest,useChangeRequest )=>{
         let fullId = row['id']
         setTobeDeleted(fullId)
         // I can not change main directly
         // I can change other branches creates with create branch interface
-        if(useChangeRequest && !currentChangeRequest){
-            setShowCRModal(true)
-        }else setShowDeleteModal(true)
     }
+
+    const closeModal =()=>{
+        setShowCRModal(false)
+        setShowDeleteModal(true)
+    }
+
+    useEffect(()=>{
+        if(tobeDeleted){
+            if(useChangeRequest && currentChangeRequest === false){
+                setShowCRModal(true)
+            }else setShowDeleteModal(true)
+        }
+    },[tobeDeleted])
 
     async function callDeleteDocument(){
         const delCall = await deleteDocument(tobeDeleted)
         if(delCall){
-            setShowDeleteModal(false)
-            setTobeDeleted(false)
+            resetShowDelete()
         }
+    }
+
+    const resetShowDelete =()=>{
+        setShowDeleteModal(false)
+        setTobeDeleted(false)
     }
 
     const onViewClick = (row) =>{
@@ -61,14 +76,14 @@ export const DocumentsGraphqlList = ({documentTablesConfig}) => {
     return  <React.Fragment>
             {showCRModal && 
                 <CreateChangeRequestModal showModal={showCRModal}
-                 type={type}  setShowModal={setShowCRModal}
+                 type={type}  setShowModal={closeModal}
                 updateViewMode={setChangeRequestBranch}/>}   
             {showDeleteModal && <DeleteDocumentModal
                 loading={loading}
                 deleteDocument={callDeleteDocument}
                 documentID={tobeDeleted}
                 showDeleteModal={showDeleteModal}
-                handleClose={()=>setShowDeleteModal(false)}
+                handleClose={()=>resetShowDelete()}
              /> }
              {error && <ErrorMessageReport error={error} setError={setError}/>}
            {!showDeleteModal && <ListDocumentsComponent type={type}

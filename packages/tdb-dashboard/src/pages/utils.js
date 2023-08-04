@@ -22,15 +22,15 @@ export const getGqlQuery = (str,setError)=>{
 export function formatError(errorStr,organization,dataProduct){
     if(typeof errorStr !=="string" ) return ''
     if(errorStr.search('Incorrect API key')> -1){
-        return <>Incorrect API key Provided, You can find your API key at 
+        return <>Incorrect API key provided. Find your OpenAI API key at
         <a className="mr-1 ml-1 text-success" href="https://platform.openai.com/account/api-keys" target="_blank"> 
         https://platform.openai.com/account/api-keys </a></>
         
     }else if (errorStr.search('missing field')> -1 || errorStr.search("input' is invalid.")> -1){
         return <>
-        You can have an error in your graphql queries or handlebars templates. 
+        You have an error in your GraphQL query or Handlebars templates.
         <div>Go to <NavLink to={`/${organization}/${dataProduct}/openai_configuration`} className={"mr-1"}>Open AI configuration </NavLink> page
-        to check your graphql queries and handlebars templates, load the query/template and use the 'Preview' button to see if there is any error</div></>
+        to check your GraphQL queries and Handlebars templates. Load the query/template and use the 'Preview' button to check for errors.</div></>
     }
     return errorStr
 }
