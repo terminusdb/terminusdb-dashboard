@@ -4,7 +4,7 @@ const teamName = Cypress.env('TEAM_NAME')
 const dataProduct="nuclear"
 const email = Cypress.env('COLLABORATOR_USER')
 const crName=`CR_${Date.now()}`
-let documentID="", nuclearPowerPlantData={}, branchID={}
+let documentID="", nuclearPowerPlantData={}
 
 describe(`Test document explorer UI (Edit/delete/create)`, () => {
   const dashboard = Cypress.config().baseUrl
@@ -40,37 +40,24 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
     cy.wait('@cloaning')
   })*/
 
+  // set CR Inactive
+  it("Set Change Request Inactive", () => {
+    cy.visit(`/CYPRESS_TEST_TEAM/nuclear`)
+    cy.get(`label[data-cy=${CONST.CHANGE_REQUEST_MODE_INACTIVE}]`).should('exist').click();
+  })
+
   // Go to Document Explorer
   it("Go to Document Explorer", () => {
-    cy.visit(`/CYPRESS_TEST_TEAM/nuclear`)
     cy.get(`a[data-cy=${IconBarConfig.documentExplorer.key}]`).should('exist').click();
   })
 
   // Click on add a new NuclearPowerPlant 
-  /*it("Click on add a new NuclearPowerPlant", () => {
+  it("Click on add a new NuclearPowerPlant", () => {
     cy.get(`button[data-cy=${CONST.NEW_DOCUMENT_BUTTON_ID}_NuclearPowerPlant]`).should('exist').click();
     cy.get(2000)
-    // the CR modal should pop up on click of create document
-    cy.get('.modal-dialog').should('exist')  
-  })*/
-
-  // Create a CR 
-  it("Create a CR ", () => {
-    let url = `/api/changes/${teamName}/${dataProduct}`    
-    cy.intercept({
-      method: 'POST',
-      path: url,
-    }).as('getBranchName')
-    cy.createCR(crName, "NuclearPowerPlant") 
-    // create CR 
-    cy.get(`button[data-cy=${CONST.CREATE_CHANGE_REQUEST_BUTTON}]`).should('exist').click();
-    cy.get(2000)
-    cy.wait('@getBranchName').then((interception) => {
-      assert.isNotNull(interception.response.body, 'Intercepting create CR API ')
-      //console.log("interception.response.body", interception.response.body)
-      branchID = interception.response.body.branchName
-    })
   })
+
+  
 
   // Check if Frame Viewer of NuclearPowerPlant is loaded
   it("Check if Frame Viewer of NuclearPowerPlant is loaded", () => {
@@ -147,7 +134,7 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
 
   // Create new Nuclear Power Plant
   it("Create new Nuclear Power Plant", () => {
-    const url = `/${teamName}/api/document/${teamName}/${dataProduct}/local/branch/${branchID}?author=${email}&message=add%20a%20new%20document`    
+    const url = `/${teamName}/api/document/${teamName}/${dataProduct}/local/branch/main?author=${email}&message=add%20a%20new%20document`    
     cy.intercept({
       method: 'POST',
       path: url,
@@ -174,5 +161,30 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
     cy.visit(`${teamName}/${dataProduct}/documents/NuclearPowerPlant/${documentID}`)
     cy.get(2000)
   })
+
+  // Check if Frame Viewer of NuclearPowerPlant is loaded
+  it("Check if Frame Viewer of NuclearPowerPlant is loaded", () => {
+    // check if frame viewer loaded
+    cy.get(`div[data-cy=${CONST.FRAME_VIEWER}]`).should('exist');
+    cy.wait(1000)
+  }) 
+
+  // Check if Frame Viewer of NuclearPowerPlant is loaded
+  it("Check if Frame Viewer of NuclearPowerPlant is loaded", () => {
+    // check if frame viewer loaded
+    cy.get(`div[data-cy=${CONST.FRAME_VIEWER}]`).should('exist');
+    cy.wait(1000)
+  }) 
+
+  // test document traversing
+  it("Click linked Country to test Document traversing", () => {
+    // check if frame viewer loaded
+    cy.get(`div[data-cy=${`Country/${nuclearPowerPlantData.country}`}]`).should('exist').click();
+    cy.wait(1000)
+    cy.get('.modal-dialog').should('exist') 
+    cy.get(`div[id="traverse__document__links"]`).should('exist')
+    
+  }) 
+
 
 })

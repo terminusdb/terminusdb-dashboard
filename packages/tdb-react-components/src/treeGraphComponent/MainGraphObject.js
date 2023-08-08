@@ -613,6 +613,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	
 	// new functions
 	const getClassKey=()=>{
+		if(!_currentNode) return {type:'Lexical',fields:[]}
 		if(_currentNode.schema['@key']){
 			const keyObj= _currentNode.schema['@key'];
 			return {type : keyObj["@type"],fields: keyObj['@fields'] || []}
