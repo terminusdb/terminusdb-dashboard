@@ -9,7 +9,7 @@
     "./*/index.js"
   ],
   "files": [
-    "*.md", 
+    "*.md",
     "src",
     "es6",
     "dist"
@@ -48,7 +48,7 @@
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.5",
     "core-js": "^3.8.2",
-    "d3": "^5.16.0", 
+    "d3": "^5.16.0",
     "date-fns": "^2.16.1",
     "prop-types": "^15.6.0",
     "react-bootstrap": "^2.7.0",
@@ -64,8 +64,8 @@
     "react-tooltip": "^4.2.10",
     "react-transition-group": "^4.4.1",
     "react-use-dimensions": "^1.2.1",
-    "recharts": "^1.8.5",
-    "reactflow": "^11.7.4"
+    "reactflow": "^11.7.4",
+    "recharts": "^1.8.5"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
