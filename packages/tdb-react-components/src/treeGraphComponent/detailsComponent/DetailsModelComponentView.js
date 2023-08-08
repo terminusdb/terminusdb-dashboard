@@ -10,7 +10,7 @@ import {ChoiceList} from './ChoiceList';
 import {getLabelByName} from '../utils/elementsName'
 import {GraphContextObj} from '../hook/graphObjectContext'
 import {JsonMode} from './JsonMode'
-import {RelationShipElement} from './RelationShipElement';
+import {RelationShipElement} from './RelationshipElement';
 
 
 const PROPERTIES_TAB = 'Properties'
