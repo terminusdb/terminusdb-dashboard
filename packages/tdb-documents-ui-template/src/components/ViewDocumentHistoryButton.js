@@ -11,6 +11,7 @@ export const ViewDocumentHistoryButton = ({ setShowInfo }) => {
     setShowInfo(info)
   }
   return <Button variant="light" className="text-dark btn btn-sm" title={`View Document History`}
+    data-cy="history__button"
     onClick={handleViewFrames}>
    {/*<BiHistory/>*/} {"History"} 
   </Button>

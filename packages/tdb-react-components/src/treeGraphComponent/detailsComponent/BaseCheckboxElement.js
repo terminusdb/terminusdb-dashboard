@@ -19,6 +19,17 @@ export const BaseCheckboxElement = (props) => {
 
 	const disabled= props.disabled === true ? {disabled:true} : {}
 
+	if(props.view === `UI_VIEW`) {
+		return <div className={`${props.groupClassName} d-flex`}>
+			<span className="tdb__form__span mr-3">
+			 	<input  type="checkbox" onChange={onChange} checked={value || false}  {...disabled} onChange={onChange} name={props.name} className={props.inputClassName}></input>            
+				<label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
+			</span>
+			<span className="mt-1"><HelpComponent text={props.help}/></span>
+			
+		</div>
+	}
+
 	return(
 			<div className={props.groupClassName}>
 			 	<div className="tdb__form__help">

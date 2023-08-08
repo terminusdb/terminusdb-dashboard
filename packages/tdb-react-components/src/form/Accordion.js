@@ -8,7 +8,7 @@ export const Accordion = (props) => {
 
     const openBody = ()=>{setShowBody(!showBody)};
 
-    const itemClassName=`tdb__accordion ${props.className}`;
+    const itemClassName=`tdb__accordion ${props.className} w-100`;
       
     const arrowClassName=`tdb__accordion__arrow ${props.arrowClassName}`;
      		
@@ -26,8 +26,8 @@ export const Accordion = (props) => {
 	     <div className={itemClassName}>
             <div className={titleClassName} {...onClick} {...tooltip}>
                <div className="tdb__accordion__title">
-                    {props.leftIconClassName && 
-                      <i className={`tdb__accordion__icon ${props.leftIconClassName}`}></i>}
+                    {/*props.leftIconClassName && 
+                      <i className={`tdb__accordion__icon ${props.leftIconClassName}`}></i>*/}
                     <div>{props.title}</div> 
                 </div>
                 {openIconClass}            

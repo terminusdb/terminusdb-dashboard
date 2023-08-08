@@ -183,6 +183,7 @@ const DisplayLinkFrame = ({ reference, args, linkPropertyComment, formData, orde
       mode={mode} 
       formData={formData}
       onChange={onChange}
+      documentLinkPropertyName={documentLinkPropertyName}
       id={cardKey}
       linked_to={linked_to}/>
 
@@ -195,7 +196,7 @@ export const CreateDisplay = ({ args, name, formData,linkPropertyComment, order_
   
   return <>
     {getDocumentLinkChoiceDescription(name, linked_to)}
-    <ToggleComponent action={action} setAction={setAction} toggleKey={cardKey}/> 
+    <ToggleComponent action={action} setAction={setAction} toggleKey={cardKey} propertyName={name}/> 
     <DisplayLinkFrame action={action} 
       extracted={extracted}
       required={required}

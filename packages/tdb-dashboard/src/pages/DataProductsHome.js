@@ -12,7 +12,9 @@ import {DATA_PRODUCT_HEALTHY} from "./constants"
 import {Layout} from "./Layout"
 import {useParams} from 'react-router-dom'
 import {NewDatabaseModal} from "../components/NewDatabaseModal"
-import {AiFillHdd} from "react-icons/ai"
+import { BRANCH_MANAGEMENT_BUTTON_ID } from "../cypress.constants"
+
+
 //MAYBE WE CAN CREATE A VIEM MODE PAGE
 export const DataProductsHome = (props) => {  
     const {dataProduct,organization} = useParams()
@@ -75,6 +77,7 @@ export const DataProductsHome = (props) => {
                                                     <Col md={2}>
                                                         {accessControlDashboard && accessControlDashboard.branch() && 
                                                         <Button variant="light" id="home_show_branches" 
+                                                            data-cy={BRANCH_MANAGEMENT_BUTTON_ID}
                                                             className="m-3 btn btn-sm float-right text-right text-dark" 
                                                             onClick={(e) => setDataProductSettings(MANAGE_COLLECTIONS)}>
                                                             <BsBriefcase className="me-2"/> {MANAGE_COLLECTIONS}

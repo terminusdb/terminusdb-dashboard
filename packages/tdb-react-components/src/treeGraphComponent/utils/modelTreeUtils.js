@@ -30,9 +30,9 @@ export const getNewPropertyTemplate=(type,name=null)=>{
       if(name) newProp['newElement'] = false
     return newProp;
 }
+ 
 
-
-export const getNewNodeTemplate=(name=null,type=null,parent)=>{
+export const getNewNodeTemplate=(name=null,type=null,parent)=>{ 
 	  const nodeId = name ||  ""
     const nodeName= name || `CLASS_${(new Date()).getTime()}`;
     

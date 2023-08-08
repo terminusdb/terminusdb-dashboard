@@ -9,12 +9,12 @@ import {CLASS_TYPE_NAME} from '../utils/elementsName'
 //import {ENTITIES_BUTTON, RELATIONSHIP_BUTTON,CLASSES_BUTTON} from '../../../constants/ObjectsName'
 
 export const Tree = (props) =>{
-    const links=props.links || [];
+    const links=props.links || []; 
     const nodes=props.nodes || [];
     const objectPropertyToRange=props.objectPropertyToRange || {}
 
     const nodeIndex={};
-
+ 
     let nodesChildren=nodes.map((node,i)=>{
 
         let isSelected=false

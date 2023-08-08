@@ -7,6 +7,8 @@ import { WOQLClient } from "@terminusdb/terminusdb-client"
 import {localSettings} from "../../localSettings"
 import { useNavigate } from "react-router-dom"
 import { Loading } from "./Loading"
+import { NEW_DATA_PRODUCT_BUTTON_ID, CLONE_BUTTON } from "../cypress.constants"
+
 // tean home page
 export const NoDataProductSelected = (props) => { 
     const {woqlClient,accessControlDashboard,clientUser} = WOQLClientObj()
@@ -75,7 +77,7 @@ export const NoDataProductSelected = (props) => {
 					<Card className="h-100 tdb__create__new__dp bg-info" style={{opacity: "0.8"}}>
 						<Card.Body>
 							{accessControlDashboard && accessControlDashboard.createDB() && 
-								<NewDataProduct css={"mt-5 p-5 opacity-1"}/>}
+								<NewDataProduct css={"mt-5 p-5 opacity-1"} dataCy={NEW_DATA_PRODUCT_BUTTON_ID}/>}
 						</Card.Body>
 					</Card>
 				</Col>
@@ -96,6 +98,7 @@ export const NoDataProductSelected = (props) => {
 									</small>
 									<div className="ms-auto">
 										<Button className="btn-info btn-sm text-white fw-bold" 
+											data-cy={`${CLONE_BUTTON}_${arr.name}`}
 											onClick={()=>handleClone(arr.name)}>
 											Clone
 										</Button>

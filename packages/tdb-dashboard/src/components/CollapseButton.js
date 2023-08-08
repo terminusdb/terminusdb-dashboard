@@ -53,7 +53,7 @@ export const CollpaseButton = ({ setCollapseSideBar, collapseSideBar }) => {
       style={collapseSideBar ? hiddenStyle : style}
       title={collapseSideBar ? "Show Sidebar" : "Hide Sidebar" }
       onClick={handleCollapse}>
-      {collapseSideBar && <HiChevronDoubleRight size={20}/>}
-      {!collapseSideBar && <HiChevronDoubleLeft size={20}/>}
+      {collapseSideBar && <HiChevronDoubleRight size={20} className="ml-1"/>}
+      {!collapseSideBar && <HiChevronDoubleLeft size={20} className="ml-1"/>}
   </Button> 
 } 

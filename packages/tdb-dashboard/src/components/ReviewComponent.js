@@ -160,6 +160,7 @@ const ToggleActions = ({ message, updateChangeRequestStatus , loading}) => {
                 variant={button.variant}
                 name={button.name}
                 value={button.value}
+                data-cy={button.name}
                 className={button.className}
                 onClick={(e) => doAction(e.currentTarget.value)}
 >

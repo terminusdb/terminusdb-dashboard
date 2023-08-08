@@ -5,7 +5,7 @@ import 'react-pro-sidebar/dist/css/styles.css'
 import {BsFillExclamationTriangleFill, BsBriefcase} from "react-icons/bs"
 import {BiGitBranch} from "react-icons/bi"
 import {printts} from "./utils"
-import { DOCUMENT_EXPLORER, PRODUCT_EXPLORER } from "../routing/constants"
+import { CURRENT_BRANCH_BADGE } from "../cypress.constants"
 
 /* returns current data product to which your connected and status */
 export const ConnectedDataProduct = (props) => {
@@ -53,7 +53,7 @@ export const ConnectedDataProduct = (props) => {
                 <strong className={`mr-1 ${status}`}> ● </strong>  {currentCommit} 
             </span>
           
-            <Badge bg="success" className="ml-2 fw-bold mr-2 text-dark">
+            <Badge bg="success" className="ml-2 fw-bold mr-2 text-dark" data-cy={CURRENT_BRANCH_BADGE}>
                 <BiGitBranch className="mr-1"/>
                 {branch} 
             </Badge>  

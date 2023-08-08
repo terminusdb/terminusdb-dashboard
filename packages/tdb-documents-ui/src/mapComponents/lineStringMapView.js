@@ -7,7 +7,7 @@ import "leaflet-arrowheads"
 import L from "leaflet"
 import { v4 as uuidv4 } from 'uuid';
 import { MARKER_OPTION } from "./map.constants"
-
+ 
 export const lineStringMapViewer = (args) => {
 	let { documents, zoom, onMarkerClick, center, bounds }=args
 	

@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import PropTypes from 'prop-types'; 
 import {HelpComponent} from './HelpComponent';
+import { FormGroupComponent } from "./FormGroupComponent"
 
 export const BaseTextareaElement = (props) => {
 
@@ -20,16 +21,25 @@ export const BaseTextareaElement = (props) => {
 		setInputValue(evt.currentTarget.value)
 	}
 
-	const disabled= props.disabled === true ? {disabled:true} : {}
+	const disabled= props.isDisabled === true ? {disabled:true} : {}
+
+	if(props.view === `UI_VIEW`) {
+		return  <div className='mb-2'><FormGroupComponent groupClassName={props.groupClassName}
+			labelComponent = {<label className={`${props.labelClassName} mr-3`} >{props.title}</label>}
+			helpComponent = {<HelpComponent text={props.help}/>}
+			fieldComponent = {<textarea rows="1" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
+		}
+			/></div>
+	}
 
 	return(
 			<div className={props.groupClassName}>
 			 	<div className="tdb__form__help">
-	                 <label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
-	                 <HelpComponent text={props.help}/>
-                </div>
-                <textarea rows="5" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
-            </div>
+						<label className={props.labelClassName} htmlFor={props.name}>{props.title}</label>
+						<HelpComponent text={props.help}/>
+					</div>
+					<textarea rows="1" onBlur={onBlur} {...disabled} onChange={onChange} value={value} name={props.name} className={props.inputClassName}></textarea>       
+			</div>
 
 	)
 }
@@ -48,7 +58,7 @@ BaseTextareaElement.propTypes = {
 BaseTextareaElement.defaultProps = {
 	  title:'',
 	  defaultValue: '',
-	  groupClassName:'form-group mb-3',
+	  groupClassName:'form-group',
 	  inputClassName:"form-control",
 	  labelClassName:'tdb__form__label',
 	  disabled:false

@@ -1,16 +1,16 @@
 .tdb__panel{
     outline: 0;
-    overflow-y: auto !important;
+    /* overflow-y: auto !important;
     overflow-x: hidden;
-    /* padding: 0 1% 0 0; */
+    padding: 0 1% 0 0; */
     padding: 0px;
     margin: 0;
     word-wrap: break-word;
     flex: 1;
     flex: 1 1 auto;
     min-height: 100px;
-    margin-bottom: 100px;
-    /* height: calc(100vh - 330px); */
+    /* margin-bottom: 100px;
+    height: calc(100vh - 330px); */
 
   &--nopad{
     padding:0px;
@@ -59,15 +59,15 @@
 
   &__bar{
     background: transparent;
-    justify-content: flex-end;
+    /*justify-content: flex-end;*/
     display: flex;
-    border-bottom: 1px solid rgb(102, 102, 102);;
+    /*border-bottom: 1px solid rgb(102, 102, 102);;*/
   }
 
   &__box{
     display: flex;
     flex-direction: column;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 
     &--edit{
       padding: 20px;
@@ -218,7 +218,8 @@
 
     &__items{
       margin-bottom:10px;
-      border: 1px solid #868484;
+      border: 1px solid #4d4d4d;
+      border-radius: 4px;
       padding: 10px;
       margin-bottom: 20px;
       text-align: center;
@@ -227,7 +228,7 @@
     &__item{
       display: flex;
       align-items: baseline;
-      border-bottom: 1px solid #dddd;
+      /*border-bottom: 1px solid #dddd;*/
       padding-left: 10px;
     }
 }

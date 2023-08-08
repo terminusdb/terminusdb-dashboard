@@ -17,10 +17,10 @@ export const ObjectClassModelViewMode = (props) => {
 	const  currentNodeJson = selectedNodeObject || {};
 	const label = currentNodeJson.id;
 
-	return(<div className="col-12 bg-dark h-100 pt-4 overflow-auto">
+	return(<div className="col-12  h-100 pt-4 overflow-auto">
 			<div>
 				<div className="d-flex mb-3">
-					<BiNetworkChart className="schema-summary-icons"/>
+					{<BiNetworkChart className="schema-summary-icons"/>}
 					<h5 className="ml-3" title={label}>{label}</h5>
 				</div>
 			<div className="tdb__panel">

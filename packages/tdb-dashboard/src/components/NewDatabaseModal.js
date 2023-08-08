@@ -14,7 +14,9 @@ import {useNavigate,useParams} from "react-router-dom"
 import {UTILS} from "@terminusdb/terminusdb-client"
 import {Loading} from "../components/Loading"
 import { ManageDatabase } from "../hooks/ManageDatabase"
-export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) => {
+import { NEW_DATA_PRODUCT_ID, NEW_DATA_PRODUCT_DESC, NEW_DATA_PRODUCT_NAME, CREATE_NEW_DATA_PRODUCT_BUTTON_ID } from "../cypress.constants" 
+
+export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) => { 
     const {
         reconnectToServer
     } = WOQLClientObj()
@@ -94,16 +96,20 @@ export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) =>
                 <Form.Group className="mb-3" {...defValueId}>
                     <Form.Control required id={newDataProductForm.id.id} 
                         type={"text"} 
+                        data-cy={NEW_DATA_PRODUCT_ID}
                         defaultValue={id}
                         onBlur={handleOnBlur} 
                         placeholder={newDataProductForm.id.placeholder} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Control  defaultValue={label}
-                    required id={newDataProductForm.label.id} type={"text"} onBlur={handleOnBlur} placeholder={newDataProductForm.label.placeholder} />
+                        data-cy={NEW_DATA_PRODUCT_NAME}
+                        required id={newDataProductForm.label.id} type={"text"} onBlur={handleOnBlur} placeholder={newDataProductForm.label.placeholder} />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Control  defaultValue={description} id={newDataProductForm.description.id} as="textarea"  onBlur={handleOnBlur} rows="5" placeholder={newDataProductForm.description.placeholder} />
+                    <Form.Control  defaultValue={description} 
+                        data-cy={NEW_DATA_PRODUCT_DESC}
+                        id={newDataProductForm.description.id} as="textarea"  onBlur={handleOnBlur} rows="5" placeholder={newDataProductForm.description.placeholder} />
                 </Form.Group>
             </Form>}
         </Modal.Body>
@@ -111,6 +117,7 @@ export const NewDatabaseModal = ({showModal, setShowModal, dbDetails = null}) =>
               <button title={IconBarConfig.dataProductView.title}  
                     className="btn-new-data-product mr-1 pt-2 pb-2 pr-4 pl-4 btn btn-sm btn btn-info" 
                     to={IconBarConfig.dataProductView.path} 
+                    data-cy={CREATE_NEW_DATA_PRODUCT_BUTTON_ID}
                     {...action}
                     id="create_data_product_button">
                     <BiPlus className="mr-1" size="1em"/>{buttonLabel}

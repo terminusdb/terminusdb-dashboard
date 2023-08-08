@@ -3,11 +3,13 @@ import {removeElementToArr} from './utils/modelTreeUtils'
 import {formatData,
 		formatProperties,
 		formatDataForTreeChart,
+		availableChildrenList,
 		availableParentsList,checkLinkProperty,
 		addElementToPropertyList} from './FormatDataForTree';
 import {getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 import {CLASS_TYPE_NAME} from './utils/elementsName' 
-import {MANDATORY_PROP} from "../constants/details-labels"
+import {MANDATORY_PROP, UNIT_TYPE_DATAPROVIDER} from "../constants/details-labels"
+import { BiMessageAltError } from 'react-icons/bi';
 
 export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
@@ -139,30 +141,60 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 
 	createNewMainGraph();
 	
-	const getAvailableParentsList=(nodeId)=>{
+	const getAvailableParentsList=(nodeId)=>{ 
 		const nodeObject=getElement(nodeId);
 		return  availableParentsList(nodeObject,_objectTypeList,_documentTypeList,_rootIndexObj)
+	}
+
+	const getAvailableChildrenList=(nodeId)=>{ 
+		const nodeObject=getElement(nodeId);
+		return  availableChildrenList(nodeObject,_objectTypeList,_documentTypeList,_rootIndexObj)
 	}
 
 
 	/*
 	* add a new property in the class property list 
-	*/
-	const addNewPropertyToClass = (nodeName, propertyType)=>{
+	*/ 
+	const addNewPropertyToClass = (nodeName, propertyType, propertyRange, oneOfDomain)=>{
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
 			const newProperty=getNewPropertyTemplate(propertyType) //_graphUpdateObject.addPropertyToClass(nodeName,propertyType,propertyRange);
+			newProperty['oneOfDomain']=oneOfDomain
 			if(!_domainToProperties[nodeName]){
-				_domainToProperties[nodeName]=[];
+				_domainToProperties[nodeName]=[]; 
 			}
+			if(newProperty['oneOfDomain']) {
+				// this is a one of property
+				_domainToProperties[nodeName].map(arr => {
+					if( arr.type === "OneOfProperty") {
+						if(!arr.hasOwnProperty("PropertyList")) {
+							arr["PropertyList"] = []
+						}
+						if(Array.isArray(arr["PropertyList"])){
+							arr["PropertyList"].push(newProperty)
+						}
+						else { 
+							// single entry 
+							let key = Object.keys(arr["PropertyList"])[0]
+							let singleEntry = arr["PropertyList"][key]
+							arr["PropertyList"] = {}
+							arr["PropertyList"][key] = singleEntry
+							arr["PropertyList"][newProperty.id] = newProperty
+						}
+					}
+				})
+			}
+	
 			_domainToProperties[nodeName].unshift(newProperty);
-			//_propertiesList.set(newProperty.name,newProperty);
 			return  _domainToProperties[nodeName].slice();
+			
+			//_propertiesList.set(newProperty.name,newProperty);
+			
 		}
 		return [];
 	}
+ 
 
-
-	const nodeApplyAction=(actionName,nodeName)=>{
+	const nodeApplyAction=(actionName,nodeName)=>{ 
 		if(nodeName!==null && _rootIndexObj[nodeName]){ 
             //the current selected node 
 			let currentNode=_rootIndexObj[nodeName];
@@ -197,7 +229,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
                     actionType=NODE_ACTION_NAME.ADD_CHILD
               		isChoiceClass=true
               		break
-            }
+            } 
         	 let newNodeObj={};
         	 if(actionName===NODE_ACTION_NAME.ADD_PARENT){
 
@@ -208,8 +240,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
         	 	const rootParentNode=getRoot(elementType);
 
         	 	newNodeObj=getNewNodeTemplate(null,elementType)
-				 
-				 //_graphUpdateObject.addNodeToTree(rootParentNode,currentNode);
+						
+				 		//_graphUpdateObject.addNodeToTree(rootParentNode,currentNode);
         		
 
         	 	rootParentNode.children.push(newNodeObj);
@@ -283,6 +315,8 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
     *in this case I have to remove the direct parent
     */
     const checkRelatedParents=(elementObjClass,parentObjClass)=>{
+			if(!parentObjClass) return 
+			if(!parentObjClass.parents) return
     	parentObjClass.parents.forEach((parentName)=>{
     		const parentOfParentObj=_rootIndexObj[parentName];
     		const parentRelated=removeElementToArr(elementObjClass.parents,parentName);    		
@@ -304,38 +338,76 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	    })
 	}
 
+	const updateNodeChildren = (elementName, childName, actionName) => {
+		const elementObjClass=_rootIndexObj[elementName];
+		const childObjClass=_rootIndexObj[childName];
 
-	const updateNodeParents=(elementName,parentName,actionName)=>{
-	   const elementObjClass=_rootIndexObj[elementName];
-	   const parentObjClass=_rootIndexObj[parentName];
-	   
-	   checkRelatedParents(elementObjClass,parentObjClass);
+		if(actionName===NODE_ACTION_NAME.ADD_CHILD){
+		
+			childObjClass.parents.push(elementObjClass.name);
+			elementObjClass.allChildren.push(childObjClass);
+			elementObjClass.children.push(childObjClass);
+			
+		}
+		else { 
+			// remove child
+			removeElementToArr(childObjClass.parents, elementName);
+			removeElementToArr(elementObjClass.children, childName);
+			if(elementObjClass.allChildren)
+				removeElementToArr(elementObjClass.allChildren, childName);
+		}
 
-	  // _graphUpdateObject.changeNodeParent(elementName,parentName,actionName);
+		if(childObjClass.parents.length===0 && childObjClass.schema['@inherits']){
+		  delete childObjClass.schema['@inherits']
+	  }
+		else if(childObjClass.parents.length === 1){
+		  childObjClass.schema['@inherits'] = childObjClass.parents[0]
+	  }
+		else{
+		  childObjClass.schema['@inherits']=childObjClass.parents
+	  }
+		return elementObjClass;
+	}
 
-	   if(actionName===NODE_ACTION_NAME.ADD_PARENT){
-			//the node could be children of another node or children of root node 
-			if(parentObjClass.type===elementObjClass.type){
-				  removeChildFromRoot(elementObjClass);
-				  if(elementObjClass.parents.length===0){
-					parentObjClass.children.push(elementObjClass);
-				  }
-			}			
-			elementObjClass.parents.push(parentObjClass.name);
-			parentObjClass.allChildren.push(elementObjClass);
+	const fetchParentObject = (parentName) => {
+		if(_rootIndexObj[parentName]) return _rootIndexObj[parentName]
+		for(let obj in _rootIndexObj) {
+			if(_rootIndexObj[obj].id && _rootIndexObj[obj].id === parentName) return _rootIndexObj[obj]
+		}
+		return {}
+	}
 
-		}else{
-			removeElementToArr(elementObjClass.parents,parentName);
-			removeElementToArr(parentObjClass.children,elementName);
+	const updateNodeParents=(elementName, parentName, actionName)=>{
+		const elementObjClass=_rootIndexObj[elementName];
+		const parentObjClass=fetchParentObject(parentName);
+		
+		checkRelatedParents(elementObjClass, parentObjClass);
+
+		if(actionName===NODE_ACTION_NAME.ADD_PARENT){
+		 //the node could be children of another node or children of root node 
+		 if(parentObjClass.type===elementObjClass.type){
+				 removeChildFromRoot(elementObjClass);
+				 if(elementObjClass.parents.length===0){
+				 parentObjClass.children.push(elementObjClass);
+				 }
+		 }			
+		 //elementObjClass.parents.push(parentObjClass.name);
+		 //elementObjClass.parents.push(parentObjClass.name);
+		 elementObjClass.parents.push(parentName); 
+		 parentObjClass.allChildren.push(elementObjClass);
+
+	 	}
+		else {
+			removeElementToArr(elementObjClass.parents, parentName);
+			removeElementToArr(parentObjClass.children, elementName);
 			if(parentObjClass.allChildren)
-				removeElementToArr(parentObjClass.allChildren,elementName);
+				removeElementToArr(parentObjClass.allChildren, elementName);
 
-			/*
-			* if the parents array is empty I move the node under the root group
-			*/
+		
 			if(elementObjClass.parents.length===0){
 				parentName=addToParentGroup(elementObjClass)
-			}else if(elementObjClass.type===CLASS_TYPE_NAME.DOCUMENT_CLASS){
+			} 
+			else if(elementObjClass.type===CLASS_TYPE_NAME.DOCUMENT_CLASS){
 				const docParent=elementObjClass.parents.findIndex((pName)=>{
 							const pElement=_rootIndexObj[pName];
 
@@ -346,20 +418,19 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 				}
 			}
 		}
-		/*
-		* this is for save the change
-		*/
-		if(elementObjClass.parents.length===0 && elementObjClass.schema['@inherits']){
-			delete elementObjClass.schema['@inherits']
-		}else if(elementObjClass.parents.length===1){
-			elementObjClass.schema['@inherits']=elementObjClass.parents[0]
-		}else{
-			elementObjClass.schema['@inherits']=elementObjClass.parents
-		}
-		
-		moveNodeUnderParent(parentName,elementName);
-		return elementObjClass;
-	}
+
+	  // save changes
+	  if(elementObjClass.parents.length===0 && elementObjClass.schema['@inherits']){
+		  delete elementObjClass.schema['@inherits']
+	  }else if(elementObjClass.parents.length===1){
+		  elementObjClass.schema['@inherits']=elementObjClass.parents[0]
+	  }else{
+		  elementObjClass.schema['@inherits']=elementObjClass.parents
+	  }
+	 
+	  //moveNodeUnderParent(parentName,elementName);
+	  return elementObjClass;
+ }
 
 	const addToParentGroup=(elementObjClass)=>{
 		const parentRoot=getRoot(elementObjClass.type);
@@ -402,7 +473,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			}
 			if(!classElement.newElement){
 				deleteDocList.push(classElement.id)
-			}
+			}	
 
 			return nodeElement;
 		}
@@ -426,11 +497,27 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		return _removeClassElement(elementName);
 	}
 
+	const extractDomainProperties = (propertyByDomain) => {
+		let oneOfArrayList = propertyByDomain.filter(arr => arr.id === "@oneOf")
+		if(oneOfArrayList.length) {
+			let oneOfPropertyList = []
+			oneOfArrayList[0]["PropertyList"].map( arr => {
+				let propertyName = Object.keys(arr)[0]
+				oneOfPropertyList.push(arr[propertyName])
+			})
+			return oneOfPropertyList
+		}
+		else return propertyByDomain
+		//return oneOfArrayList.length ? oneOfArrayList[0]["PropertyList"] : propertyByDomain
+	}
 
 	const removePropertyToClass=(domainClassName,propertyName)=>{
-		const propertyByDomain=_domainToProperties[domainClassName] || [];	
+		const propertyByDomain=_domainToProperties[domainClassName] || [];	 
 		
 		//remove the property from the class properties list
+	
+		//let propertyByDomainList = extractDomainProperties(propertyByDomain)
+		//const propertyObject=removeElementToArr(propertyByDomain,propertyName)
 		const propertyObject=removeElementToArr(propertyByDomain,propertyName)
 		
 		const range = getPropertyClassFromSchema(propertyObject.id)
@@ -491,7 +578,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			  objectPropertyList,
 			  objectChoiceList] = new formatDataForTreeChart(getRoot());
 		_descendantsNode=descendantsNode;
-		_documentTypeList=documentTypeList
+		_documentTypeList=documentTypeList 
 		_objectTypeList=objectTypeList
 		_objectPropertyList=objectPropertyList;
 		_objectChoiceList=objectChoiceList;
@@ -526,6 +613,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	
 	// new functions
 	const getClassKey=()=>{
+		if(!_currentNode) return {type:'Lexical',fields:[]}
 		if(_currentNode.schema['@key']){
 			const keyObj= _currentNode.schema['@key'];
 			return {type : keyObj["@type"],fields: keyObj['@fields'] || []}
@@ -614,7 +702,14 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 	
     //maybe the best things to do is post with full_replace
 	//to be review
-	
+
+	const getDefaultPropertyTemplate = (rangePropValue) => {
+		// if property is sys:Unit return template 
+		// as of now we dont provide sys unit as optional or as arrays
+		if(rangePropValue === UNIT_TYPE_DATAPROVIDER) return rangePropValue
+		return {"@class": rangePropValue,"@type": "Optional"}
+	}
+	 
 	const setPropertyId = (propertyObj, newPropId, rangePropValue) =>{
 		if(propertyObj.id === newPropId)return
 		if( _currentNode.schema[newPropId]!== undefined){
@@ -628,11 +723,32 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		}
 		propertyObj.id = newPropId
 		//I set as Optional
-		_currentNode.schema[newPropId] = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
+		let propertyTemplate = currentPropertyValue || getDefaultPropertyTemplate(rangePropValue)
+		if(propertyObj.hasOwnProperty("oneOfDomain") && propertyObj["oneOfDomain"]) {
+			let oneOfIndex = propertyObj["oneOfDomain"]["key"]
+			if(!_currentNode.schema["@oneOf"]) _currentNode.schema["@oneOf"] = []
+			
+			if(!_currentNode.schema["@oneOf"][oneOfIndex]) {
+				_currentNode.schema["@oneOf"].push( { [newPropId]: propertyTemplate } )
+			}
+			else {
+				if(Array.isArray(_currentNode.schema["@oneOf"])) {
+					_currentNode.schema["@oneOf"][oneOfIndex][newPropId] = propertyTemplate 
+				}
+				else { 
+					// one of is an object (single entry)
+					let singleEntry = _currentNode.schema["@oneOf"] 
+					// make the entry an array 
+					_currentNode.schema["@oneOf"] = []
+					_currentNode.schema["@oneOf"].push(singleEntry)
+					// new entry
+					_currentNode.schema["@oneOf"].push( { [newPropId]: propertyTemplate } )
+				}
+			}
+		}
+		else _currentNode.schema[newPropId] = propertyTemplate
+		//_currentNode.schema[newPropId] = currentPropertyValue || {"@class": rangePropValue,"@type": "Optional"}
 	}
-
-
-
 
 	const getEnumValues =()=>{
 		if(_currentNode.schema['@value']){
@@ -653,16 +769,15 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		}
 	}
 
-	const getPropertyInfo = (propId)=>{
-		if(!_currentNode.schema[propId]) return {}
+	const extractPropertyInfo = (propertyInfo, propId) => {
 		let obj = {}
-		switch(typeof _currentNode.schema[propId]){
+		switch(typeof propertyInfo){
 			case 'string':
-				obj= {range:_currentNode.schema[propId],option:'',id:propId}
+				obj= { range:propertyInfo, option: '', id: propId }
 				break;
 			case 'object':
-				const propInfo = _currentNode.schema[propId]
-				obj = {range:propInfo['@class'],option:propInfo['@type'],id:propId} 				
+				const propInfo = propertyInfo
+				obj = { range: propInfo['@class'], option: propInfo['@type'], id: propId } 				
 				if(propInfo['@type'] === 'Cardinality'){
 					obj['cardinality'] = propInfo['@cardinality']
 				}else if(propInfo['@type'] === 'Cardinality_Between'){
@@ -671,11 +786,46 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 				}
 				break
 			default:
-				obj= {id:propId}
+				obj= { id: propId }
 		}
 		obj['comment'] = getPropertyComment(propId)
-		return obj
+		return obj 
+	}
 
+	const checkIfPropertyExistsInOneOf = (currentSchema, propId) => {
+		if(!currentSchema["@oneOf"]) return {}
+		// check if property is part of @oneOf 
+		if(Array.isArray(currentSchema["@oneOf"])) {
+			let propertyFound=currentSchema["@oneOf"].filter( arr => arr.id === propId)
+			return extractPropertyInfo(propertyFound, propId)
+		}
+		else if(currentSchema["@oneOf"].hasOwnProperty(propId)) {
+			return extractPropertyInfo(_currentNode.schema["@oneOf"][propId], propId)
+		}
+		return {}
+	}
+	
+
+	const getPropertyInfo = (propId)=>{
+		if(!_currentNode.schema[propId]) {
+			// check if current property is a property of OneOfProperty
+			let oneOfProperties = checkIfPropertyExistsInOneOf(_currentNode.schema, propId)
+			if(Object.keys(oneOfProperties).length) return oneOfProperties
+			// check if current property is a property in their parents - we display inheritted properties in 
+			// <PropertiesComponent/>
+			if(_currentNode.parents && _currentNode.parents.length) {
+				let inheritedProperies = {}
+				_currentNode.parents.map(parentName => {
+					if(_rootIndexObj[parentName] && _rootIndexObj[parentName].schema.hasOwnProperty(propId)){
+						// property is inherritted 
+						inheritedProperies= extractPropertyInfo(_rootIndexObj[parentName].schema[propId], propId)
+						
+					}
+				})
+				if(Object.keys(inheritedProperies).length) return inheritedProperies
+			}
+		}
+		return extractPropertyInfo(_currentNode.schema[propId], propId)
 	}
 
 	// sets metadata render_as markdown
@@ -689,11 +839,11 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			// initialize metadata & render as for propertyObj
 			_currentNode.schema["@metadata"] = {
 				"render_as": {
-					[currentpropertyID]: "markdown" 
+					[currentpropertyID]: "markdown"
 				}
 			}
 		}
-	}
+	} 
 
 	const removePropertyMarkDownInfo = (currentpropertyID) => {
 		if(!_currentNode.schema) return
@@ -838,21 +988,24 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 		_currentNode.schema['@value'] = enumArr
 	}
 
-	const getSchema = () =>{
+
+
+	const getSchema = () =>{ 
 		const schemaArr=[]
 		schemaArr.push(_mainGraphElementsJson[0])
+	
 		Object.values(_rootIndexObj).forEach(item=>{
 			if(item.schema) 
 				schemaArr.push(item.schema)
 		}) 
-
+		//console.log("schema", schema)
 		return JSON.stringify(schemaArr,null,4)
 	}
 
 	return {createNewMainGraph,
 			setId,getPropertyInfo,setPropertyInfo, 
 			setPropertyMarkDownInfo, 
-			setDocumentOrdering,
+			setDocumentOrdering, 
 			removePropertyMarkDownInfo, 
 			getNodeData,
 			objectPropertyToRange,setClassKey,getPropertyAsList,getClassKey,
@@ -863,6 +1016,7 @@ export const MainGraphObject = (mainGraphDataProvider,dbName)=>{
 			getDocumentTypeList,
 			getSchema,
 			getElementsNumber,getElement,getPropertyListByDomain,getObjPropsRelatedToClass,getAvailableParentsList,
-      		nodeApplyAction,addNewPropertyToClass,removePropertyToClass,
-      		updateNodeParents,getObjectProperties,getDescendantsNode,removeElementInMainGraph}
+			getAvailableChildrenList,
+      		nodeApplyAction,addNewPropertyToClass, removePropertyToClass,
+      		updateNodeParents, updateNodeChildren, getObjectProperties,getDescendantsNode,removeElementInMainGraph}
 }

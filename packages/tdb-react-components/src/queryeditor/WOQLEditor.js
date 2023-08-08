@@ -5,7 +5,7 @@ import {makeWOQLFromString} from "./queryPaneUtils"
 /**
  * Controls the display of query viewer and editor
  */
-export const WOQLEditor = ({language, editorObject, editable, setEditorContent, setMainError, setWOQLQuery, theme}) => {
+export const WOQLEditor = ({editorObject, editable, setEditorContent, setMainError, setWOQLQuery, theme}) => {
 
     const [syntaxError, setSyntaxError] = useState(false)
     WOQLEditor.propTypes = {
@@ -52,7 +52,7 @@ export const WOQLEditor = ({language, editorObject, editable, setEditorContent, 
 
     return <React.Fragment>
                 {syntaxError && <h4 className="text-danger">{syntaxError}</h4>}
-                <CodeEditor  language={language} onBlur={onBlur} text={editorObject.text} theme={theme}/>
+                <CodeEditor  onBlur={onBlur} text={editorObject.text} theme={theme}/>
             </React.Fragment>  
 
     return(

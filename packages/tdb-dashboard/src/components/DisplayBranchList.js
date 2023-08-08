@@ -6,7 +6,7 @@ import {RiDeleteBin7Line} from "react-icons/ri"
 import {timeConverter} from "../pages/utils"
 import { CREATE_NEW_BRANCH_BUTTON} from "./constants"
 import {AiOutlineClose, AiOutlinePlus} from "react-icons/ai"
-
+import { NEW_BRANCH_BUTTON_ID, SWITCH_BRANCH_ID } from "../cypress.constants"
 
 const BranchItem = (props) => {
     const { name, head, timestamp, branch, branches, setShowDefault, handleSwitch, handleDelete, handleBranchClick} = props
@@ -43,7 +43,7 @@ const BranchItem = (props) => {
             </span>
           </Col>
           <Col className="col-auto">
-            <span title={`View Commit Logs and preform actions on a branch ${id}`}>
+            <span data-cy={`${SWITCH_BRANCH_ID}__${id}`} title={`View Commit Logs and preform actions on a branch ${id}`}>
                 <FiMoreHorizontal className="mr-2 mb-1 react-icons info" onClick={(e) => handleDetails(id)}/> 
             </span>
           </Col>
@@ -82,7 +82,9 @@ export const DisplayBranchList = ({branchCount, branchList, branch, setShowDefau
                    {branchCount && <Badge variant="info" className="text-dark ml-3">{branchCount}</Badge>}
                </h6>
                <span className="w-100 text-right">
-                    <Button id="home_open_create_new_branch_modal"  variant="info" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
+                    <Button id="home_open_create_new_branch_modal"
+                        data-cy={NEW_BRANCH_BUTTON_ID}  
+                        variant="info" className="mr-3 btn btn-sm" title={CREATE_NEW_BRANCH_BUTTON.title} onClick={(e) => setNewBranch(true)}>
                         <AiOutlinePlus className="me-2 "/>{CREATE_NEW_BRANCH_BUTTON.label}
                     </Button>
                     <Button variant="light" className="btn btn-sm text-dark btn-outline border-1 rounded" title={"Close Branch List"}  onClick={(e) => setDataProductSettings(false)}>

@@ -10,6 +10,7 @@ import {SearchBox} from "./SearchBox"
 import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import {Loading} from "./Loading"
 import {NEW_DOC} from "../routing/constants"
+import { NEW_DOCUMENT_BUTTON_ID } from "../cypress.constants"
 import {useParams, useNavigate} from "react-router-dom"
 
 export const DataProductDocuments = () => {
@@ -89,7 +90,7 @@ export const DataProductDocuments = () => {
                 })
                 }    
     </SubMenu>
-}
+} 
 // side bar document
 
 export const DocumentExplorerDocuments= () => {  
@@ -145,6 +146,7 @@ export const DocumentExplorerDocuments= () => {
                 {!disabled && <Button 
                     className="btn-create-document pro-item-content btn-sm bg-secondary" 
                     variant="dark" 
+                    data-cy={`${NEW_DOCUMENT_BUTTON_ID}_${item["@id"]}`}
                     title={`Add a new ${item["@id"]}`}
                     onClick={(e) => newDocHandler(item["@id"])}
                 > 

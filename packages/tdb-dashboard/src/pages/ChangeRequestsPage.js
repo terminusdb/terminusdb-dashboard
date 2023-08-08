@@ -18,6 +18,7 @@ import {
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import {extractID, status, iconTypes, getDays} from "../components/utils"
 import { Layout } from "./Layout";
+import { CR_KEEP_EDITING, CR_READY_FOR_REVIEW, CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF } from "../cypress.constants"
 
 const GetChangeRequestSummary = ({changeRequestList}) => {
 	if(!changeRequestList) return <div/>
@@ -51,9 +52,9 @@ export const ChangeRequestsPage = () => {
     
     const {
 		loading,
-		getChangeRequestList,
+		getChangeRequestList, 
 		changeRequestList
-    } =  ChangeRequest() 
+    } =  ChangeRequest()  
 
 	const [filter, setFilter]=useState(startStatus)
 
@@ -167,11 +168,13 @@ export const ChangeRequestsPage = () => {
 				return <React.Fragment>
 						<Button className='btn btn-light btn-sm text-dark mr-4' 
 							title = "Keep Editing in this Change Request"
+							data-cy={CR_KEEP_EDITING}
 							onClick={()=>setChangeRequest(item)}>
 								Keep Editing  
 						</Button>
 						<Button className="btn btn-warning mr-2 btn-sm text-dark" 
 							title="Submit Change Request for Review"
+							data-cy={CR_READY_FOR_REVIEW}
 							onClick={()=>submitCR(id)}>
 							<AiOutlineCheck className="mr-1"/><small className="fw-bold"></small>
 								Ready for Review
@@ -183,7 +186,7 @@ export const ChangeRequestsPage = () => {
 					</React.Fragment> 
 			case SUBMITTED: 
 				return <React.Fragment>
-					<Button title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
+					<Button data-cy={CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF} title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
 					<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
 					<Button className="bg-danger text-dark mr-4 btn btn-sm" title="you are closing your CR"  onClick={()=>closeCR(id)}>Close</Button>
 				</React.Fragment>

@@ -1,7 +1,7 @@
 import { localSettings } from "../../localSettings";
 import { getCRConflictError } from "../components/utils"
 import React from "react" 
-export function getOptions(token){
+export function getOptions(token){ 
 
 	const options = {
 		mode: 'cors', // no-cors, cors, *same-origin

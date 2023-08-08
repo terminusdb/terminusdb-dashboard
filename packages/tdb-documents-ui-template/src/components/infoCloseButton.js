@@ -17,6 +17,7 @@ import { Button } from "react-bootstrap"
   return <Button variant="light" 
     className="btn-sm btn text-dark float-right ms-auto" 
     tilte={`Close`}
+    data-cy={`close__info__button`}
     onClick={handleClose}>
     <FaTimes/>
   </Button>

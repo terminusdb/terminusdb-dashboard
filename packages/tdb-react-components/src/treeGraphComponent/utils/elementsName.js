@@ -6,8 +6,10 @@ export const PROPERTY_TYPE_NAME={
 	TEMPORAL_PROPERTY:'TemporalProperty',
 	OBJECT_PROPERTY:'LinkProperty',
 	BOOLEAN_PROPERTY:'BooleanProperty',
-	JSON_PROPERTY:'JSONProperty'
-}
+	JSON_PROPERTY:'JSONProperty',
+	UNIT_PROPERTY: 'UnitProperty',
+	ONEOF_PROPERTY:'OneOfProperty'
+} 
 
 export const getLabelByName=(elementName)=>{
 	switch(elementName){
@@ -36,15 +38,15 @@ export const PROPERTY_TYPE_LABEL={
 	
 }
 
-export const CLASS_TYPE_NAME={
+export const CLASS_TYPE_NAME={ 
 	SCHEMA_ROOT: 'ROOT',
 	SCHEMA_GROUP: 'Group',
-  	OBJECT_CLASS:'Object',
-  	CHOICE_CLASS:"ChoiceClass",
-  	DOCUMENT_CLASS:"Document",
-  	DOCUMENT_CLASSES:"DocumentClasses",
-  	OBJECT_CLASSES:"ObjectClasses",
-  	CHOICE_CLASSES:"ChoiceClasses"
+	OBJECT_CLASS:'Object',
+	CHOICE_CLASS:"ChoiceClass", 
+	DOCUMENT_CLASS:"Document",
+	DOCUMENT_CLASSES:"DocumentClasses",
+	OBJECT_CLASSES:"ObjectClasses",
+	CHOICE_CLASSES:"ChoiceClasses"
 }
 
 export const CLASS_TYPE_NAME_LABEL={
@@ -133,7 +135,8 @@ export const PROPERTY_TYPE_BY_CLASS = { 'sys:JSON':PROPERTY_TYPE_NAME.JSON_PROPE
 										'xdd:dateRange':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
 										'xsd:date':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
 										'xsd:time':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
-										'xsd:dateTimeStamp':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY}
+										'xsd:dateTimeStamp':PROPERTY_TYPE_NAME.TEMPORAL_PROPERTY,
+										'sys:Unit': PROPERTY_TYPE_NAME.UNIT_PROPERTY}
 										
 
 

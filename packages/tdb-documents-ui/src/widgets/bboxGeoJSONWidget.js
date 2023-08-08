@@ -6,7 +6,7 @@ import { MapViewer } from "../mapComponents/mapViewer"
 import * as CONST from "../constants"
 import * as util from "../utils"
 
-export const TDBBBoxDocuments = ({ config }) => {
+export const TDBBBoxDocuments = ({ config }) => { 
 
   let mapConfig = { 
     type: CONST.B_BOX,

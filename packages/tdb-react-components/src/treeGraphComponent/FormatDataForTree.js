@@ -1,8 +1,9 @@
 import { tree, hierarchy } from 'd3-hierarchy';
+import { BiAlarmAdd } from 'react-icons/bi';
 import {PROPERTY_TYPE_NAME, CLASS_TYPE_NAME, getRootIndexObj,PROPERTY_TYPE_BY_CLASS} from './utils/elementsName';
 import {removeElementToArr,getNewNodeTemplate,getNewPropertyTemplate} from './utils/modelTreeUtils'
 
-export const formatData =(dataProvider,dbName)=>{
+export const formatData =(dataProvider,dbName)=>{ 
 	let _rootIndexObj=getRootIndexObj(dbName);
 	_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.CHOICE_CLASSES]);
 	//_rootIndexObj.ROOT.children.push(_rootIndexObj[CLASS_TYPE_NAME.OBJECT_CLASSES]);
@@ -106,6 +107,7 @@ const getType = (element) =>{
 
 export const getPropertyType = (itemName, itemValue,linkPropList,enumPropList) =>{
     let property
+		if(itemName === "@oneOf") return  { value: itemValue, type: PROPERTY_TYPE_NAME.ONEOF_PROPERTY}
     if(typeof itemValue === 'string')property = itemValue
     else property = itemValue['@class']
     const getProp = (element) => element.name === property;
@@ -122,8 +124,28 @@ export const getPropertyType = (itemName, itemValue,linkPropList,enumPropList) =
 	return {value:'',type:''}
 }
 
+function checkForPropertyKey(key) {
+	if(key === "@oneOf") return true
+	if(key.indexOf("@") === -1) return true
+	return false
+}
+
+
+const getLinkedToType = (value, linkPropList, enumPropList) => {
+	let type = null
+	if(linkPropList && linkPropList.length) {
+		let match = linkPropList.filter(arr => arr.value === value )
+		if(match && match.length) return match[0].type
+	}
+	if(enumPropList && enumPropList.length) {
+		let match = enumPropList.filter(arr => arr.value === value )
+		if(match && match.length) return CLASS_TYPE_NAME.CHOICE_CLASS
+	}
+	return type
+}
+
 export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
-	//{classId:{listofProperty}}
+	//{classId:{listofProperty}} 
 
 	const propertiesOfClass={}
 	//{classLink:[classId]}
@@ -133,16 +155,59 @@ export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
 			const classId = element['@id']
 			propertiesOfClass[classId]=[]
 			Object.keys(element).forEach(key=>{
-				if(key.indexOf("@") === -1){
+				//if(key.indexOf("@") === -1){
+				if(checkForPropertyKey(key)) {
 					//it is a property
 					const property = element[key]
+					let oneOfTemplate = []
 					const {value, type} = getPropertyType(key,property,linkPropList,enumPropList)
-					if(type === PROPERTY_TYPE_NAME.OBJECT_PROPERTY || type ===PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
+					if(type === PROPERTY_TYPE_NAME.ONEOF_PROPERTY) {
+						if(Array.isArray(value)) { 
+							value.map( (eachVal, index) => {
+								let propertyTemplate = {}
+								for(let prop in eachVal) {
+									const {value, type} = getPropertyType(prop, eachVal[prop], linkPropList, enumPropList)
+									let eachValTemplate = getNewPropertyTemplate(type, prop)
+									eachValTemplate["oneOfDomain"] = { key : index }
+									propertyTemplate[prop] = eachValTemplate
+								}
+								oneOfTemplate.push(propertyTemplate)
+							})
+						}
+						else {
+							// one of can also be an object if only one entry of one of 
+							let oneOfValue = value
+							oneOfTemplate = {}
+							for(let eachVal in oneOfValue) {
+								let propertyTemplate = {}
+								const {value, type} = getPropertyType(eachVal, oneOfValue[eachVal], linkPropList, enumPropList)
+								let eachValTemplate = getNewPropertyTemplate(type, eachVal)
+								eachValTemplate["oneOfDomain"] = { key : 0 }
+								//propertyTemplate[eachVal] = eachValTemplate
+								//oneOfTemplate.push(propertyTemplate)
+								oneOfTemplate[eachVal] = eachValTemplate 
+							}
+						}
+						let oneOfPropertyTemplate = getNewPropertyTemplate(type, key)
+						oneOfPropertyTemplate["PropertyList"] = oneOfTemplate
+						propertiesOfClass[classId].push(oneOfPropertyTemplate)
+					}
+					else if(type === PROPERTY_TYPE_NAME.OBJECT_PROPERTY || type ===PROPERTY_TYPE_NAME.CHOICE_PROPERTY){
 						//value or range is the class linked
 						if(!linkPropertyClass[value])linkPropertyClass[value]=[]
-						linkPropertyClass[value].push({nodeName:classId,propName:key})
+						linkPropertyClass[value].push({ 
+							nodeName: classId, 
+							propName: key, 
+							linked_to_type: getLinkedToType(value, linkPropList, enumPropList) 
+						})
+						let propTemplate = getNewPropertyTemplate(type,key)
+						// add linked_to_type - to store info of what type 
+						// is the property linked to which can be used to 
+						// get colored nodes in relationship tab
+						propTemplate["linked_to_type"]= getLinkedToType(value, linkPropList, enumPropList) 
+						propertiesOfClass[classId].push(propTemplate)//value,property))
 					}
-					propertiesOfClass[classId].push(getNewPropertyTemplate(type,key))//value,property))
+					else propertiesOfClass[classId].push(getNewPropertyTemplate(type,key))//value,property))
 
 				}
 			})
@@ -150,7 +215,7 @@ export const formatProperties = (dataProvider,linkPropList,enumPropList) => {
 	}
 
 	return [propertiesOfClass,linkPropertyClass]
-}
+} 
 
 
 const readSchema = ( _rootIndexObj, dataProvider=[]) =>{
@@ -226,6 +291,15 @@ const isSubDocument = (element)=>{
 	return element['@subdocument'] ? true : false
 }
 
+export const availableChildrenList = (classObj,objectTypeList,documentTypeList,_rootIndexObj) => {
+	const resultListObject={};
+	
+	resultListObject['documentClassArr']=removeRelatedElements(classObj,documentTypeList,_rootIndexObj);
+	resultListObject['objectClassArr']=[]
+	if(classObj.type===CLASS_TYPE_NAME.OBJECT_CLASS)
+		resultListObject['objectClassArr']=removeRelatedElements(classObj,objectTypeList,_rootIndexObj);
+	return resultListObject;
+}
 /*
 *the list of available parents depends on the type of node
 *the list can not have the node currents parents or the currents children
@@ -236,6 +310,7 @@ const isSubDocument = (element)=>{
 
 export const availableParentsList = (classObj,objectTypeList,documentTypeList,_rootIndexObj)=>{
 	const resultListObject={};
+	
 	resultListObject['documentClassArr']=removeRelatedElements(classObj,documentTypeList,_rootIndexObj);
 	resultListObject['objectClassArr']=[]
 	if(classObj.type===CLASS_TYPE_NAME.OBJECT_CLASS)
@@ -250,10 +325,12 @@ const removeRelatedElements=(classObj,classesMap,_rootIndexObj)=>{
 
 	removeElementToArr(objectClassMap,classObj.name);
 
+	// not removing for now
 	if(classObj.children && classObj.children.length>0){
 		removeRelatedChildren(classObj.children,objectClassMap);
 	}
 
+	// not removing for now - coz required to show 
 	if(classObj.parents && classObj.parents.length>0)
 		removeRelatedParent(classObj.parents,objectClassMap,_rootIndexObj)
 
@@ -270,18 +347,29 @@ const removeRelatedElements=(classObj,classesMap,_rootIndexObj)=>{
 }
 
 /*
-* recursive remove related parents
+* recursive remove related parents 
 * parents=['parentName001','parentName002'...]
 */
+
+const getParentObject = (parentName, _rootIndexObj) => {
+	if(_rootIndexObj[parentName]) return _rootIndexObj[parentName]
+	for(let item in _rootIndexObj) {
+		if(_rootIndexObj[item].id === parentName) {
+			// it will be a newly added parent in this stage which has not yet been saved in schema
+			return _rootIndexObj[item]
+		}
+	}
+	return {}
+}
 
 const removeRelatedParent=(parentsList,classesMap,_rootIndexObj)=>{
 	parentsList.forEach((parentName,key)=>{
 		/*if(classesMap.has(parentName)){
-			classesMap.delete(parentName)
+			classesMap.delete(parentName) 
 		}*/
 		removeElementToArr(classesMap,parentName);
 
-		const parentObj=_rootIndexObj[parentName];
+		const parentObj=getParentObject(parentName, _rootIndexObj)
 		removeRelatedParent(parentObj.parents,classesMap,_rootIndexObj);
 	})
 }

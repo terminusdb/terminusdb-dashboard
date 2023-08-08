@@ -62,6 +62,7 @@
     "codemirror": "^5.65.12",
     "codemirror-graphql": "^2.0.2",
     "console-browserify": "^1.2.0",
+    "dagre": "^0.8.5",
     "date-fns": "^2.27.0",
     "graphiql": "^3.0.0",
     "graphql": "^15.8.0",

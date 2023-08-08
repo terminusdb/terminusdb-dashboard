@@ -11,7 +11,6 @@ import { TDBLabel } from "../components/LabelComponent"
 import { getDisplay } from "../helpers/fieldDisplay"
 import { getPlaceholder } from "../helpers/placeholderHelper"
 import { TDBInput } from "../widgets/inputWidgets"
-import { Polygon } from "react-leaflet"
 
 // Move down button
 const MoveDownButton = ({ element, variant }) => {

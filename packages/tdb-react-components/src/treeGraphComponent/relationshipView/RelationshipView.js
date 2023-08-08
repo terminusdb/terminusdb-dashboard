@@ -2,7 +2,7 @@ import React  from 'react'
 import {RelationshipBox} from './RelationshipBox'
 import {GraphContextObj} from '../hook/graphObjectContext'
 import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
-
+ 
 export const RelationshipView = (props)=>{
 	const {changeCurrentNode,
 		  selectedNodeObject,
@@ -10,21 +10,22 @@ export const RelationshipView = (props)=>{
 		  mainGraphObj,nodePropertiesList} = GraphContextObj();
 
 	const propertyList = nodePropertiesList || {}
+	let domainToProp = [], relObjArr = []
 	/*
 	* get all the relationship where the select node is a target
 	*/
-	const relObjArr= objPropsRelatedToClass.map((complexPropertyObj,index)=>{
+	objPropsRelatedToClass.map((complexPropertyObj,index)=>{
             const propertyDomainName=mainGraphObj.getElement(complexPropertyObj.nodeName,false) || {};
             
 			const property = mainGraphObj.getObjectProperty(complexPropertyObj.nodeName,complexPropertyObj.propName)
 			if(property){
-				const label = property.id || ''
+				const label = property.id || '' 
 
-				return <RelationshipBox source={propertyDomainName} 
+				relObjArr.push(<RelationshipBox source={propertyDomainName} 
 									sourceAction={changeCurrentNode}
 									target={selectedNodeObject}
 									propId={label} 
-									key={'rel__'+index}/>
+									key={'rel__'+index}/>)
 			}
 	})
 
@@ -32,7 +33,7 @@ export const RelationshipView = (props)=>{
 	* get all the relationship where the select node is a source
 	* current node properties 
 	*/
-	const domainToProp = propertyList.map((propertyItem,index)=>{
+	propertyList.map((propertyItem,index)=>{
 		
 		if(propertyItem.type===PROPERTY_TYPE_NAME.CHOICE_PROPERTY || 
 		   propertyItem.type===PROPERTY_TYPE_NAME.OBJECT_PROPERTY){
@@ -43,7 +44,7 @@ export const RelationshipView = (props)=>{
 				
            		const rangeElement=mainGraphObj.getElement(info.range,false) 
 
-		   		return(<RelationshipBox source={selectedNodeObject} 
+							 domainToProp.push(<RelationshipBox source={selectedNodeObject} 
             					targetAction={changeCurrentNode}
 	   	                        target={rangeElement}
 	   	                        propId={label} 
@@ -53,6 +54,12 @@ export const RelationshipView = (props)=>{
 		}
 	})
 		
+	if(!relObjArr.length && !domainToProp.length) {
+		return <div className="tdb__panel__box">
+			<label className="text-muted small fst-italic fw-bold">No links to display ...</label>
+ 		</div>
+	}
+
 	return(
 		<div className="tdb__panel__box">
 		   {relObjArr}

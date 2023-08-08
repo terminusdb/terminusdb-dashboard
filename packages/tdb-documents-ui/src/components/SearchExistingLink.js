@@ -28,6 +28,7 @@ const LinkedDocument = ({ selected, onTraverse, className }) => {
     <div className={`text-break text-decoration-underline ${className} bg-transparent`}
       onClick={(e) => handleClick(e, selected.id)} 
       style={ {cursor: "pointer"} }
+      data-cy={selected.id}
       id={selected.id}> 
       {selected.label ? selected.label : selected.id} 
     </div>
@@ -35,7 +36,7 @@ const LinkedDocument = ({ selected, onTraverse, className }) => {
 }
 
 // Selected link component 
-const Selected = ({ selected, onTraverse, setShowSearch, setSelected, id, onChange }) => {
+const Selected = ({ selected, onTraverse, setShowSearch, setSelected, id, onChange, documentLinkPropertyName }) => {
 
   if(!selected) return <div/> 
 
@@ -51,14 +52,15 @@ const Selected = ({ selected, onTraverse, setShowSearch, setSelected, id, onChan
     </small>
     <LinkedDocument selected={selected} onTraverse={onTraverse}/>
     <UnlinkButton onDelete={handleDelete}
-      title={"Delete link"}
+      title={"Delete link"} 
       label={"Change Link"}
+      documentLinkPropertyName={documentLinkPropertyName}
       id={id} />
   </div>
 }
 
 
-export const SearchExistingLink = ({ onSelect, onTraverse, linked_to, mode, onChange, formData, id, className }) => {
+export const SearchExistingLink = ({ onSelect, onTraverse, linked_to, mode, onChange, formData, id, className, documentLinkPropertyName }) => {
   const [selected, setSelected] = useState(fetchSelected(formData))
   const [showSearch, setShowSearch]=useState(true)
 
@@ -88,6 +90,7 @@ export const SearchExistingLink = ({ onSelect, onTraverse, linked_to, mode, onCh
     {selected && <Selected selected={selected} 
       setSelected={setSelected} 
       onTraverse={onTraverse}
+      documentLinkPropertyName={documentLinkPropertyName}
       setShowSearch={setShowSearch} 
       id={id}
       onChange={onChange}/>}
