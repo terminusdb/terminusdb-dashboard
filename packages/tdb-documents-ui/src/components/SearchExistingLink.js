@@ -28,6 +28,7 @@ const LinkedDocument = ({ selected, onTraverse, className }) => {
     <div className={`text-break text-decoration-underline ${className} bg-transparent`}
       onClick={(e) => handleClick(e, selected.id)} 
       style={ {cursor: "pointer"} }
+      data-cy={selected.id}
       id={selected.id}> 
       {selected.label ? selected.label : selected.id} 
     </div>
