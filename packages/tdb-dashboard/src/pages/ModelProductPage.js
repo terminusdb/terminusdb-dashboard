@@ -1,8 +1,9 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { ModelBuilder } from "./ModelBuilder"
 import { Layout } from "./Layout"
 import { modelCallServerHook, GraphObjectProvider } from "@terminusdb-live/tdb-react-components"
 import { WOQLClientObj } from '../init-woql-client'
+import { DOCUMENT_TAB } from "../pages/constants"
 import { ErrorMessageReport } from "../components/ErrorMessageReport"
 
 export const ModelProductPage = () => {
@@ -17,7 +18,12 @@ export const ModelProductPage = () => {
 		reportMessage,
 		setReport,
 		callServerLoading,
+		setSelectedMode
 	} = modelCallServerHook(woqlClient, branch, ref,dataProduct)
+
+	useEffect(() => {
+		if(setSelectedMode) setSelectedMode(DOCUMENT_TAB)      
+	}, [])
 
 	if(!dataProduct) return <div>error in loading graph</div>
   

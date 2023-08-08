@@ -31,7 +31,7 @@ export const DataProductItems = (props) => {
         const {page,organization} = getLocation() 
         const currentPage = page ? `/${page}` : "" 
         navigate(`/${organization}/`+dp.name+currentPage)
-        setDataProduct(dp.name)         
+        setDataProduct(dp.name)   
     }
 
     const DataProductMenu = ({handleClick, item}) => {

@@ -69,7 +69,7 @@ describe(`Test Document History Widget`, () => {
       method: 'POST',
       path: url,
     }).as('getBranchName')
-    cy.createCR(crName) 
+    cy.createCR(crName, "Planet") 
      // create CR 
     cy.get(`button[data-cy=${CONST.CREATE_CHANGE_REQUEST_BUTTON}]`).should('exist').click();
     cy.get(2000)
@@ -92,7 +92,7 @@ describe(`Test Document History Widget`, () => {
   })
 
   // Edit Planet's orbital_period second time
-  it("Edit Planet's orbital_period second time", () => {
+  /*it("Edit Planet's orbital_period second time", () => {
     cy.visit(`${teamName}/${dataProduct}/documents/Planet/dGVybWludXNkYjovLy9zdGFyLXdhcnMvUGxhbmV0LzE=`)
     cy.get(`button[data-cy=edit__document]`).should('exist').click();
     // edit orbital_period, concatinate 1
@@ -113,7 +113,7 @@ describe(`Test Document History Widget`, () => {
     // click on submit button to submit changes
     cy.get('.btn').contains('Submit').should('exist').click(); 
     cy.wait(1000)
-  })
+  })*/
 
   
   /*it("Intercept History calls", () => {

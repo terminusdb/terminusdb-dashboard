@@ -81,8 +81,8 @@ Cypress.Commands.add('deleteDataProduct', (dataProduct) => {
 })
 
 /** create a CR */
-Cypress.Commands.add('createCR', (crName) => {
-  cy.get(`button[data-cy=${CONST.NEW_DOCUMENT_BUTTON_ID}_Planet]`).should('exist').click();
+Cypress.Commands.add('createCR', (crName, type) => {
+  cy.get(`button[data-cy=${CONST.NEW_DOCUMENT_BUTTON_ID}_${type}]`).should('exist').click();
   cy.get(2000)
   // the CR modal should not pop up on click of create document
   cy.get('.modal-dialog').should('exist') 

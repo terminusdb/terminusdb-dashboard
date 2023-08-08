@@ -13,7 +13,7 @@ import { BiUndo } from "react-icons/bi"
 import { BsSave } from "react-icons/bs"
 import {FaRegEdit, FaSave} from 'react-icons/fa'
 import {TERMINUS_DANGER,DOCUMENT_PREFIX} from "./constants"
-import {GRAPH_TAB} from "../pages/constants"
+import {GRAPH_TAB, DOCUMENT_TAB} from "../pages/constants"
 import {GraphContextObj} from "@terminusdb-live/tdb-react-components"
 import {CopyButton} from "./utils"
 import Card from "react-bootstrap/Card"
@@ -37,7 +37,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
 
     let branch = "main"
     let ref = ""
-
+ 
 
     const {saveGraphChanges,
         reportMessage,  
@@ -62,7 +62,8 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
     }
     
     useEffect(() => {
-        if(tab == GRAPH_TAB) return
+        if(tab === GRAPH_TAB) return
+        if(tab === DOCUMENT_TAB) return
         loadSchema()
     }, [tab,dataProduct,mainGraphObj])
 

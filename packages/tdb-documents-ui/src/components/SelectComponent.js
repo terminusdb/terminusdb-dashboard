@@ -107,6 +107,7 @@ export const SelectComponent = ({ options, mode, onChange, value, id, placeholde
     onChange={handleChange}
     placeholder={placeholder}
     data-testid="select"
+    isSearchable={true}
     inputId={id}
     defaultValue={value}
     styles={colourStyles}/>

@@ -3,7 +3,7 @@ import React from "react"
 import Form from 'react-bootstrap/Form';
 import { v4 as uuidv4 } from 'uuid';
 
-export const TDBCheckBox = ({ checked, checkBoxKey, name, onChange }) => {
+export const TDBCheckBox = ({ checked, checkBoxKey, name, onChange, propertyName }) => {
   
   /*return <> 
     <input type="radio" 
@@ -18,6 +18,7 @@ export const TDBCheckBox = ({ checked, checkBoxKey, name, onChange }) => {
     inline
     checked={ checked === name ? true : false }
     label={name}
+    data-cy={`${name}__${propertyName}`}
     name={checkBoxKey}
     htmlFor={checkBoxKey}
     for={checkBoxKey}

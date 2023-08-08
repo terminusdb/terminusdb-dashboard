@@ -83,7 +83,7 @@ export const ModelBuilderViewControl = () => {
 
 } 
  
-export const ModelBuilder = () => {
+export const ModelBuilder = () => { 
 
   const { woqlClient, branch, ref, accessControlDashboard, currentChangeRequest, collapseSideBar, selectedMode } = WOQLClientObj()
 	if(!woqlClient) return "" 
@@ -149,7 +149,7 @@ export const ModelBuilder = () => {
 			
 			{!callServerLoading && selectedMode === JSON_TAB && <div className="ml-5 mr-5">
 				<div className={collapseSideBar ? "ml-5" : ""}>
-					<JSONModelBuilder accessControlEditMode={isEditMode} tab={tab} />
+					<JSONModelBuilder accessControlEditMode={isEditMode} tab={selectedMode} />
 				</div>
 			</div>} 
 		

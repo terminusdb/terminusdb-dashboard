@@ -1,0 +1,60 @@
+{
+  "@id": "NuclearPowerPlant/ASCO%20GR_test",
+  "@type": "NuclearPowerPlant",
+  "name": "ASCO GR_test",
+  "capacity": {
+    "@id": "NuclearPowerPlant/ASCO%20GR_test/capacity/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FMWe+1990.5",
+    "@type": "Quantity",
+    "quantity": "1990.5",
+    "unit": "Unit/$"
+  },
+  "commissioning_year": "1983",
+  "country": "Country/Argentina",
+  "gppd_idnr": "WRI1006213",
+  "location": {
+    "@id": "Point/03d8f091c3aebad2d43effb153fcfea06e1754485421cab90c10fc3f821646c4",
+    "@type": "Point",
+    "coordinates": [
+      0.5679,
+      41.2008
+    ],
+    "type": "Point"
+  },
+  "output": [
+    {
+      "@id": "NuclearPowerPlant/ASCO%20GR_test/output/AnnualOutput/2015",
+      "@type": "AnnualOutput",
+      "output": {
+        "@id": "NuclearPowerPlant/ASCO%20GR_test/output/NuclearPowerPlant/ASCO%20GR_test/output/AnnualOutput/2015/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FGWh+15802.182",
+        "@type": "Quantity",
+        "quantity": "15802.182",
+        "unit": "Unit/GWh"
+      },
+      "year": "2015"
+    },
+    {
+      "@id": "NuclearPowerPlant/ASCO%20GR_test/output/AnnualOutput/2016",
+      "@type": "AnnualOutput",
+      "output": {
+        "@id": "NuclearPowerPlant/ASCO%20GR_test/output/NuclearPowerPlant/ASCO%20GR_test/output/AnnualOutput/2016/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FGWh+16029.262",
+        "@type": "Quantity",
+        "quantity": "16029.262",
+        "unit": "Unit/GWh"
+      },
+      "year": "2016"
+    },
+    {
+      "@id": "NuclearPowerPlant/ASCO%20GR_test/output/AnnualOutput/2017",
+      "@type": "AnnualOutput",
+      "output": {
+        "@id": "NuclearPowerPlant/ASCO%20GR_test/output/NuclearPowerPlant/ASCO%20GR_test/output/AnnualOutput/2017/output/Quantity/http%3A%2F%2Flib.terminusdb.com%2Fnuclear%2FUnit%2FGWh+15241.801",
+        "@type": "Quantity",
+        "quantity": "15241.801",
+        "unit": "Unit/GWh"
+      },
+      "year": "2017"
+    }
+  ],
+  "owner": "ENDESA GENERACION S.A.",
+  "url": "http://www.ree.es/en/statistical-data-of-spanish-electrical-system/annual-report/preliminary-report-spanish-electricity-system-2015"
+}

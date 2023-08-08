@@ -203,6 +203,7 @@ export const GraphObjectProvider = ({mainGraphDataProvider,children,dbName,setEr
 	
 
 	const getSchemaGraph=()=>{
+		if(!mainGraphObj) return
 		return mainGraphObj.getSchema()
 	}
 

@@ -5,7 +5,7 @@ import "react-leaflet-fullscreen/dist/styles.css";
 import { TDBLabel } from "../components/LabelComponent"
 import { v4 as uuidv4 } from 'uuid';
 import "leaflet-arrowheads"
-import L from "leaflet" 
+//import L from "leaflet"  
 import icon from "../constants"
 import { MAP_OPTION, LINE_COLOR } from "./map.constants"
 import * as CONST from "../constants"

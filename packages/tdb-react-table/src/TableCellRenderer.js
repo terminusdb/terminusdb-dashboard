@@ -27,7 +27,7 @@ export const StringRenderer = (props)=>{
         strValue=value.name || value._id
     }
     return (<span>
-                <span title={strValue}>{strValue} </span>
+                <span data-cy={strValue} title={strValue}>{strValue} </span>
            </span>)
 }
 

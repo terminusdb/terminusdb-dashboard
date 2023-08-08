@@ -79,7 +79,7 @@ describe(`Test to check Branch Management workflow`, () => {
       method: 'POST',
       path: url,
     }).as('getBranchName')
-    cy.createCR(crName)
+    cy.createCR(crName, "Planet")
      // create CR 
     cy.get(`button[data-cy=${CONST.CREATE_CHANGE_REQUEST_BUTTON}]`).should('exist').click();
     cy.get(2000)
