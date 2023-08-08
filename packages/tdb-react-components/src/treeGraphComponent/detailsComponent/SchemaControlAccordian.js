@@ -32,7 +32,7 @@ const AddNewModel = ({ onClick }) => {
     key={"add_new"}
     id={`add_new}`}
     drop={"down"}
-    className="w-100 ml-3"
+    className="w-100 ml-3 mb-3"
     variant="dark"
     title={`Add New`}>
       <Dropdown.Item eventKey="1" onClick={(e) => handleAddNew(ADD_NEW_ENTITY, "DocumentClasses")}>
