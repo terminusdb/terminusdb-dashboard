@@ -115,6 +115,7 @@ export const TraverseDocumentLinks = ({show, onHide, clicked,getDocumentById,fra
             	</strong>
 				<Button className=" ms-auto btn btn-sm bg-transparent text-light border-0 float-right" 
 					title="Close"
+					data-cy={"close__traverse__document__links"}
 					onClick={handleClose}>
 					<AiOutlineClose/>
 				</Button>

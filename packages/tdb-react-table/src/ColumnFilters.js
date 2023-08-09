@@ -23,7 +23,7 @@ function formatTypenumber (value, options){
 }
 
 export function DefaultColumnFilter({
-    column: { filterValue, options , setFilter },type}) {
+    column: { filterValue, options , setFilter, id },type}) {
     const operator = options && options.operator ? options.operator : "regex"
     const startValue = filterValue ? filterValue.value : null
     const [value, setValue] = useState(startValue)
@@ -34,6 +34,7 @@ export function DefaultColumnFilter({
       <input
         style={{maxWidth:"99%"}}
         value={value || ''}
+        data-cy={id}
         onKeyPress={(ev) => {
           if (ev.key === 'Enter') {
             // Do code here

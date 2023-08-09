@@ -160,7 +160,7 @@ function getAction (formData, unfoldable) {
   return CONST.LINK_NEW_DOCUMENT
 }
 
-const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {
+const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked, documentLinkPropertyName }) => {
   function handleDelete(e) {
     // clickedUnlinked is set in the case of choice documents 
     // where user has decided to unlink doc - after unlink is clicked all 
@@ -172,8 +172,9 @@ const EditHelper = ({ linked_to, cardKey, setDeleteLink, clickedUnlinked }) => {
   return <Stack direction="horizontal" gap={4}>
     {getLinkedDescription (linked_to)}
     <UnlinkButton onDelete={handleDelete}
-      title={"Delete document"}
-      label={"Unlink"}
+      title={"Delete document"} 
+      documentLinkPropertyName={documentLinkPropertyName}
+      label={"Unlink"} 
       id={cardKey} />
   </Stack>
 } 
@@ -201,7 +202,9 @@ export const EditDocument = ({ name, args, reference, onTraverse, clickedUnlinke
     <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>
     {deleteLink!==cardKey && <Card bg="secondary" className="mb-3 border border-dark w-100" key={cardKey}>
       <Card.Header>
-        <EditHelper linked_to={linked_to} cardKey={cardKey} setDeleteLink={setDeleteLink} clickedUnlinked={clickedUnlinked}/>
+        <EditHelper linked_to={linked_to} cardKey={cardKey} 
+          documentLinkPropertyName={name}
+          setDeleteLink={setDeleteLink} clickedUnlinked={clickedUnlinked}/>
       </Card.Header>
       <Card.Body>
         {action && <DisplayFilledFrame action={action} 

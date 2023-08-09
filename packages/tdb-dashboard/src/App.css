@@ -1195,7 +1195,7 @@ button.graphiql-tab-add>svg
 
 .accordion{
   background-color: #303030;
-  --bs-accordion-bg:#303030;
+  /*--bs-accordion-bg:#303030;*/
 }
 
 .table__columns__component > .form-check-input{

@@ -114,6 +114,7 @@ export const QueryPaneTools = ({queryObj, setExpanded, runQuery,handleLanguageCh
             <Col md={2} className="d-flex justify-content-end">
 
                 <Button className={"mr-1 mb-1 m-1 pt-2 pb-2 pr-4 pl-4"} type="submit"
+                    data-cy={RUN_QUERY_CONFIG.label}
                     variant={RUN_QUERY_CONFIG.variant} title={RUN_QUERY_CONFIG.title} id={RUN_QUERY_CONFIG.id} 
                     onClick={(e)=>handleRunQuery(e)}>
                     <i className={RUN_QUERY_CONFIG.icon}/>  

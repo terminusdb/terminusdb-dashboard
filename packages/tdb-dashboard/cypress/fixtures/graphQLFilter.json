@@ -1,0 +1,60 @@
+{
+  "data": {
+    "NuclearPowerPlant": [
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "DAE RAJASTHAN"
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "KAIGA"
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "KAKRAPARA"
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "KUNDANKULAM"
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "Kudankulam"
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "M.A.P.P."
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "N.A.P.S"
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "R.A.P.S."
+      },
+      {
+        "country": {
+          "name": "India"
+        },
+        "name": "TARAPUR"
+      }
+    ]
+  }
+}

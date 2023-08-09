@@ -23,6 +23,8 @@
   --success-bg: #d1e7dd;
   --success-diff-icons-color: var(--success-bg);
   --success-border-color: #badbcc;
+  --link-change-color: #3bdf92;
+  --link-original-color: #e54957;
 }
 
 
@@ -172,7 +174,7 @@ label.latlng-control-label {
 
 /** for document link properties */
 .tdb__diff__original-underline { 
-  color: var(--danger-bg);
+  color: var(--link-original-color);
 }
 
 .tdb__diff__changed__deleted {
@@ -194,7 +196,7 @@ label.latlng-control-label {
 
 /** for document link properties */
 .tdb__diff__changed-underline { 
-  color: var(--success-bg);
+  color: var(--link-change-color);
 }
 
 /** margin bottom for fields */

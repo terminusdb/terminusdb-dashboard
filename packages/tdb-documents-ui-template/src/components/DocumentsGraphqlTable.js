@@ -124,7 +124,7 @@ export const DocumentsGraphqlTable = ({commit,gqlQuery,apolloClient,tableConfig,
             {advancedSearchConfig &&
                  <Accordion className="mb-4">
                     <Accordion.Item eventKey="0">
-                        <Accordion.Header>Advanced filter</Accordion.Header>
+                        <Accordion.Header data-cy={"Advanced filter"}>Advanced filter</Accordion.Header>
                         <Accordion.Body className="p-0">
                             <AdvancedSearch fields={advancedSearchConfig} setFilter={setAdvancedFilters} />
                         </Accordion.Body>

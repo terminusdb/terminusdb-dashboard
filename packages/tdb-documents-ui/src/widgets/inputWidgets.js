@@ -25,7 +25,7 @@ export const TDBInput = ({ id, name, value, required, isKey, hideFieldLabel, mod
   // from altering the value
   const [inputValue, setInputValue] = useState(value)
 
-  if(mode === VIEW && !value) {
+  if(mode === VIEW && !value) { 
     if(className === "tdb__doc__input tdb__diff__original__deleted" || 
     className === "tdb__doc__input tdb__diff__changed__deleted" )
       return <HiddenInputWidgets name={label ? label : name} 
