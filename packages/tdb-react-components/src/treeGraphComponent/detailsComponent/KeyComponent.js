@@ -9,11 +9,11 @@ import { FormGroupComponent } from "./FormGroupComponent"
 import { HelpComponent } from "./HelpComponent"
 import Card from "react-bootstrap/Card"
 
-export const KeyComponent = (props) => { 
+export const KeyComponent = (props) => {  
     const {mainGraphObj,selectedNodeObject} = GraphContextObj()
     const {type,fields} = mainGraphObj.getClassKey(selectedNodeObject)
 
-    const [needUpdate,setNeedUpdate] = useState(0)
+    const [needUpdate,setNeedUpdate] = useState(0) 
     
     var keyTypeArr = ['Lexical','Hash','Random','ValueHash']
     // if selected node is a subdocument then we allow key to be only Random/ValueHash

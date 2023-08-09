@@ -119,9 +119,10 @@ describe(`Test to check Branch Management workflow`, () => {
     cy.wait('@addDocument').then((interception) => {
       assert.isNotNull(interception.response.body, 'intercepting Add Document API')
       //console.log("interception.response.body", interception.response.body)
-      documentID = interception.response.body.branchName
+      let  fullId = interception.response.body[0]
+      documentID = btoa(fullId)
     })
-
+    cy.get(2000)
   })
 
   // Submit CR for Review  

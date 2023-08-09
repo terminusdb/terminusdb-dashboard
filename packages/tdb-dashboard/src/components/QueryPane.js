@@ -8,7 +8,7 @@ import {WOQLClientObj} from '../init-woql-client'
 import {QueryPaneTools} from "./QueryPaneTools"
 import {ResultErrors} from "./Errors"
 import {Loading} from "./Loading"
-import {QueryPaneObj} from '../hooks/QueryPanelContext'
+import {QueryPaneObj} from '../hooks/QueryPanelContext' 
 import {WOQLEditor} from '@terminusdb-live/tdb-react-components'
 import {makeWOQLFromString, makeWOQLIntoString} from "@terminusdb-live/tdb-react-components"
 import {LANGUAGE_LIST} from './constants.js'

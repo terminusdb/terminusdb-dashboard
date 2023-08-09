@@ -29,7 +29,7 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
   })
 
   // select Terminusdb_demo team 
-  /*it('Select Team', () => {
+  it('Select Team', () => {
     cy.selectTeam(teamName)
   })
 
@@ -38,11 +38,11 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
     cy.intercept(`/${teamName}/${dataProduct}`).as('cloaning')
     cy.get(`button[data-cy=${CONST.CLONE_BUTTON}_${dataProduct}]`).should('exist').click();
     cy.wait('@cloaning')
-  })*/
+  })
 
   // set CR Inactive
   it("Set Change Request Inactive", () => {
-    cy.visit(`/CYPRESS_TEST_TEAM/nuclear`)
+    //cy.visit(`/CYPRESS_TEST_TEAM/nuclear`)
     cy.get(`label[data-cy=${CONST.CHANGE_REQUEST_MODE_INACTIVE}]`).should('exist').click();
   })
 
@@ -145,10 +145,10 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
 
     cy.wait('@addDocument').then((interception) => {
       assert.isNotNull(interception.response.body, 'intercepting Add Document API')
-      console.log("interception.response.body", interception.response.body)
+      //console.log("interception.response.body", interception.response.body)
       let  fullId = interception.response.body[0]
       documentID = btoa(fullId)
-      console.log("encoded", documentID)
+      //console.log("encoded", documentID)
       //`https://dashboard.terminusdb.com/${orgName}/${dbName}/documents/${type}/${fullIdEncode}`
     })
     cy.get(2000)
@@ -179,12 +179,53 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
   // test document traversing
   it("Click linked Country to test Document traversing", () => {
     // check if frame viewer loaded
-    cy.get(`div[data-cy=${`Country/${nuclearPowerPlantData.country}`}]`).should('exist').click();
+    cy.get(`div[data-cy="${`${nuclearPowerPlantData.country}`}"]`).should('exist').click();
     cy.wait(1000)
     cy.get('.modal-dialog').should('exist') 
     cy.get(`div[id="traverse__document__links"]`).should('exist')
-    
+    // close traverse modal
+    cy.get(`button[data-cy="close__traverse__document__links"]`).should('exist').click()
   }) 
 
+  // Edit Document
+  it("Edit NuclearPowerPlant", () => {
+    cy.get(`button[data-cy="edit__document"]`).should('exist').click()
+  }) 
+
+  // Unlink Country and add another Country instead
+  it("Unlink Country and create a new Country and link instead", () => {
+    // after linking a document, change link button for the field should appear in dom
+    cy.get(`button[data-cy="delete__country"]`).contains('Unlink').should('exist').click();
+    cy.wait(1000)
+    // add country
+    cy.get(`input[data-cy="Create New Document__country"]`).should('exist').click();
+    cy.get(`textarea[data-cy="root_country_name_1"]`).focus().type("test__country")
+
+    // click on submit button to create document
+    cy.get('.btn').contains('Submit').should('exist').click();
+    cy.wait(1000)
+  }) 
+
+  // delete document
+  it("Delete document", () => {
+    cy.get(`button[data-cy="Delete Document"]`).should('exist').click();
+    cy.wait(1000)
+    cy.get('.modal-dialog').should('exist') 
+    cy.get(`button[data-cy="Delete"]`).should('exist').click();
+    cy.wait(1000)
+
+  })
+
+  // delete dataProduct 
+  it('Delete dataProduct', ()=>{
+    cy.visit(`/${teamName}/${dataProduct}`)
+    cy.deleteDataProduct(dataProduct)
+  })
+
+  it('Logout', () => {
+    cy.logout()
+  })
+
+  
 
 })

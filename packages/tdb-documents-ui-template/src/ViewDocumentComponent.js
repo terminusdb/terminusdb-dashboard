@@ -64,7 +64,7 @@ export const ViewDocumentComponent = ({type,getDocumentById,
 							<Button variant="light" type="button" data-cy="edit__document" title="Edit Document"  onClick={editDocument} className="btn-sm btn d-flex text-dark mr-2">
 								{/*<AiFillEdit/>*/}{"Edit"}
 							</Button>
-							<Button variant="danger" style={CONST.TOOLBAR_BUTTON_STYLES} type="button" title="Delete Document" onClick={deleteDocument}className="btn-sm btn text-gray">
+							<Button variant="danger" data-cy={"Delete Document"} style={CONST.TOOLBAR_BUTTON_STYLES} type="button" title="Delete Document" onClick={deleteDocument}className="btn-sm btn text-gray">
 								<RiDeleteBin7Line className=" mb-1"/>
 							</Button>
 						</div>

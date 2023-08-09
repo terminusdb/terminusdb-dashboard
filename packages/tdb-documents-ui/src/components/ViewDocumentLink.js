@@ -13,6 +13,7 @@ import { BsTrashFill } from "react-icons/bs"
 import { SearchExistingLink } from "./SearchExistingLink"
 import { CreateDocument, CreateDisplay } from "./CreateDocumentLink"
 import { documentInternalProperties } from "../helpers/documentHelpers"
+import { HiddenLinkWidgets } from "../widgets/hiddenWidgets"
 
  
 const DisplayLinks = ({ documentData, args, uiFrame, index, propertyDocumentation, reference, cardKey, onTraverse, setDocumentData, unfoldable, action, formData, onChange, documentLinkPropertyName, extracted, required, mode, linked_to }) => {
@@ -66,8 +67,21 @@ export const ViewDocument = ({ name, required, args, uiFrame, reference, index, 
   const [documentData, setDocumentData] = useState(formData)
   const [cardKey, setCardKey]=useState(depth+1)
 
-  if(mode === CONST.VIEW && !formData) return <div className={`tdb__${name}__hidden`}/> 
- 
+  if(mode === CONST.VIEW && !formData) {
+    let className = uiFrame && uiFrame.hasOwnProperty(name) ? uiFrame[name]["className"] : ""
+    if(className === "tdb__doc__input tdb__diff__original__deleted" || 
+    className === "tdb__doc__input tdb__diff__changed__deleted" )
+      return <HiddenLinkWidgets name={name} 
+        required={required}
+        comment={comment} 
+        //isKey={isKey} 
+        className={className}
+        //id={id} 
+        hideFieldLabel={hideFieldLabel}
+      />
+    return <div className={`tdb__${name}__hidden`}/> 
+  }
+  
 
   return <Stack direction="horizontal">
     <TDBLabel name={name} required={required} comment={comment} className={"tdb__label__width"} hideFieldLabel={hideFieldLabel}/>

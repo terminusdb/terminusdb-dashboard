@@ -17,6 +17,7 @@ export const DeleteDocumentModal =({loading,deleteDocument,documentID,showDelete
             </span>
             <div className="d-flex mt-3 justify-content-center">
                 <Button className="btn-sm bg-danger text-gray mr-2"
+                    data-cy={"Delete"}
                     onClick={deleteDocument}> 
                     <RiDeleteBin7Line className="mb-1" /> Delete
                 </Button>

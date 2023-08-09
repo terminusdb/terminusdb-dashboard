@@ -11,7 +11,7 @@ export const QueryView = (props) => {
     const QueryPaneBox = (props) => {
         return (
             <div id={props.id}>
-                <Button {...NEW_PANE_CONFIG} onClick={() => {addQueryPane()}} >
+                <Button {...NEW_PANE_CONFIG} data-cy={NEW_PANE_CONFIG.label} onClick={() => {addQueryPane()}} >
                     <i className={NEW_PANE_CONFIG.icon}/>
                     <span className="ml-1">{NEW_PANE_CONFIG.label}</span></Button>
                

@@ -93,6 +93,35 @@ Cypress.Commands.add('createCR', (crName, type) => {
  
 })
 
+// clear codemirror
+Cypress.Commands.add("clearCodeMirror", () => {
+  cy.get('.CodeMirror')
+    .first()
+    .then((editor) => {
+      editor[0].CodeMirror.setValue('');
+    })
+});
+
+
+// add to codemirror
+Cypress.Commands.add("editCodeMirror", (text) => {
+  cy.get('.CodeMirror')
+  .first()
+  .then((editor) => {
+    editor[0].CodeMirror.setValue(text);
+  });
+});
+
+// check if codemirror textarea value is qual to a json value
+Cypress.Commands.add("expectCodeMirrorToHave", (data) => {
+  cy.get('.CodeMirror-wrap') // code mirror in graphQL interface
+  .then((editor) => {
+    let response = editor[0].CodeMirror.getValue()
+    expect(response).to.eq(JSON.stringify(data, null, 2))
+  });
+});
+
+
 /** logout */
 Cypress.Commands.add('logout', () => {
   cy.get('#profile_menu_arrow').click()
