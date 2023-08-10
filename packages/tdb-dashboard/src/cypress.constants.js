@@ -43,7 +43,8 @@ export const CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF="cr_submit_review_for_diff"
 /** CHANGE REQUEST ACTIONS */
 export const CR_READY_FOR_REVIEW="cr_ready_for_review"
 export const CR_KEEP_EDITING="cr_keep_editing"
-
+export const CR_ACTION_MESSAGEBOX="cr_messagebox"
+export const MERGED_CR="merged_cr"
 
 
 /** DOCUMENT EXPLORER CONSTANTS */

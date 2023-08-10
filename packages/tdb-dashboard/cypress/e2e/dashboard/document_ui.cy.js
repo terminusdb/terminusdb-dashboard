@@ -99,7 +99,7 @@ describe(`Test document explorer UI (Edit/delete/create)`, () => {
 
   // Add capacity 
   it("Add capacity (test numeric field & linking in subdocument)", () => {
-    // add country and test linking documents 
+    // add capacity and test linking documents 
     cy.get(`input[data-cy="root_capacity_quantity"]`).focus().type(nuclearPowerPlantData.capacity.quantity)
     cy.wait(1000)
     // link a new unit

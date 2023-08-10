@@ -34,8 +34,8 @@ describe(`Test to check Branch Management workflow`, () => {
     cy.selectTeam(teamName)
   })
 
-  //Clone Starwars team
-  it('Clone Starwars team', () => {
+  //Clone Starwars data product
+  it('Clone Starwars data product', () => {
     cy.intercept(`/${teamName}/${dataProduct}`).as('cloaning')
     cy.get(`button[data-cy=${CONST.CLONE_BUTTON}_${dataProduct}]`).should('exist').click();
     cy.wait('@cloaning')

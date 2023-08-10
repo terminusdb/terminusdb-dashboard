@@ -106,11 +106,10 @@ export const HiddenLinkWidgets = (config) => {
     <TDBLabel name={config.name} 
       comment={config.comment} 
       //isKey={config.isKey}
-      //id={config.id} 
       required={config.required}
       hideFieldLabel={config.hideFieldLabel}/>
     <Card bg="secondary" className={`tdb__subdocument__input w-100 p-4`}>
-      <Card.Body>
+      <Card.Body data-cy={`deleted__${config.name}`} >
         <DeleteIcons className={className}/>
         <AddedIcons className={className}/>
       </Card.Body>

@@ -12,11 +12,12 @@ import {CopyButton} from "./utils"
 import { ManageDatabase } from "../hooks/ManageDatabase"
 import { useParams } from "react-router-dom"
 import { Loading } from "./Loading"
+import Stack from "react-bootstrap/Stack"
 import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import * as cyCONST from "../cypress.constants"
 
 import { UTILS } from "@terminusdb/terminusdb-client"
-
+ 
 export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setShowUpdate, healthColor ,branches}) =>{
     const {dataProduct,organization} =useParams()
     const [showHealth, setShowHealth]=useState(false)
@@ -99,8 +100,8 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     }
 
     const radios = [
-        { name: 'Change Request Mode Active', value: 'Active' , title:'manage your documents using the change request mode', dataCy: cyCONST.CHANGE_REQUEST_MODE_ACTIVE},
-        { name: 'Change Request Mode Inactive', value: 'Inactive' , title:'manage your documents directly in the current branch', dataCy: cyCONST.CHANGE_REQUEST_MODE_INACTIVE},
+        { name: 'Change Request Mode Active', label: "ON", value: 'Active' , title:'manage your documents using the change request mode', dataCy: cyCONST.CHANGE_REQUEST_MODE_ACTIVE, className: 'rounded-left'},
+        { name: 'Change Request Mode Inactive', label: "OFF", value: 'Inactive' , title:'manage your documents directly in the current branch', dataCy: cyCONST.CHANGE_REQUEST_MODE_INACTIVE, className: 'rounded-right'},
       ];
     
 
@@ -108,34 +109,17 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
         setRadioValue(value)
         updateChangeRequestStatus(value)
     }
+
+    const getActiveClassName = (radioLabel, radioValue) => {
+        if(radioLabel === "ON" && radioValue === "Active") return `btn fw-bold bg-success text-black`
+        if(radioLabel === "OFF" && radioValue === "Inactive") return `btn fw-bold bg-warning text-black`
+        return `bg-secondary text-white`
+    }
     
     return <React.Fragment> 
         <HealthModal dataProduct={dataProduct} showHealth={showHealth} setShowHealth={setShowHealth}/>
-        {clientUser.serverType !== "TerminusDB" && isAdmin &&
-        <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
-            <Card.Body>
-            <ButtonGroup>
-                {radios.map((radio, idx) => ( 
-                <ToggleButton
-                    key={idx}
-                    id={`radio-${idx}`}
-                    type="radio"
-                    data-cy={radio.dataCy}
-                    title={radio.title}
-                    variant={idx === 0 ? 'outline-success' : 'outline-warning'}
-                    name={radio.name} // used for cypress testing
-                    value={radio.value}
-                    checked={radioValue === radio.value}
-                    onChange={(e) => updateChangeRequestStatusHandler(e.currentTarget.value)}
-                >
-                    {radio.name}
-                </ToggleButton>
-                ))}
-            </ButtonGroup>
-            </Card.Body>
-        </Card>
-        }
-        <Card className="bg-transparent p-1 mb-5 tdb__align__container" border="muted">
+        
+        <Card className="bg-transparent mb-5 tdb__align__container" border="muted">
             <Card.Body>
                 <h4 className="text-light mb-3 fw-bold">About</h4>
                 
@@ -201,9 +185,46 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                 } 
             </Card.Body>
         </Card>
-        <hr className="my-4 border-indigo dropdown-divider" role="separator"></hr>
-      
-        <Card className="bg-transparent p-1 mt-5" border="muted">
+        
+        {clientUser.serverType !== "TerminusDB" && isAdmin &&
+        <Card className="bg-transparent mb-5 tdb__align__container" border="muted">
+            <Card.Body>
+                <h4 className="text-light mb-3 fw-bold">Manage Change Request Mode</h4>
+                <div className="d-flex">
+                    <div >
+                        <label className="text-light h6 mr-1">{`${dataProduct} is in Change Request`}</label>
+                        <label className={`fw-bold h6 mr-1 ${radioValue==='Active' ? 'text-success' : 'text-warning'}`}>{`${radioValue}`}</label>
+                        <label className="text-light h6 mr-1">{`mode`}</label>
+                    </div> 
+                
+                    {<ButtonGroup className="ms-auto">
+                        {radios.map((radio, idx) => ( 
+                        <ToggleButton
+                            key={idx}
+                            id={`radio-${idx}`}
+                            type="radio"
+                            style={{height: "2.5rem"}}
+                            className={`${radio.className} ${getActiveClassName(radio.label, radioValue)}`}
+                            data-cy={radio.dataCy}
+                            title={radio.title}
+                            variant={"secondary"}
+                            name={radio.name} // used for cypress testing
+                            value={radio.value}
+                            checked={radioValue === radio.value}
+                            onChange={(e) => updateChangeRequestStatusHandler(e.currentTarget.value)}
+                        >
+                            {radio.label}
+                        </ToggleButton>
+                        ))}
+                    </ButtonGroup>}
+                </div>
+            </Card.Body>
+        </Card>
+        }
+        
+
+        {/*<hr className="my-4 border-indigo dropdown-divider" role="separator"></hr>*/}
+        <Card className="bg-transparent mb-5" border="muted">
            <Card.Body>
                 {!loadingClone && accessControlDashboard && accessControlDashboard.deleteDB() && 
                 <Fragment>
@@ -212,7 +233,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                         Clone
                     </h4>
                     <InputGroup>
-                        <span className="mt-2 text-light w-100 mb-0">
+                        <span className="mt-2 mb-2 text-light w-100 mb-0">
                             {`You can Clone ${dataProduct} to another Team or in the current Team with a different name.`}
                         </span>
                         <Form.Control ref={cloneDBName}
@@ -243,8 +264,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
             </Card.Body>
         </Card>
 
-        <hr className="my-4 border-indigo dropdown-divider" role="separator"></hr>
-        <Card className="bg-transparent p-1 " border="muted">
+        <Card className="bg-transparent  " border="muted">
            <Card.Body>
                 {accessControlDashboard && accessControlDashboard.deleteDB() && <Fragment>
                     <h4 className="card-header-title text-light fw-bold">

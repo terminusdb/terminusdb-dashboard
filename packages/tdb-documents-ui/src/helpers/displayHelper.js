@@ -149,8 +149,8 @@ export function displayDocumentLink(props, args, extracted, property, linked_to,
 
 // ENUMs
 export function displayEnum (args, props, property, id, hideFieldLabel) {
-
-  let { documentFrame, mode, fullFrame } = args 
+ 
+  let { documentFrame, mode, fullFrame, uiFrame } = args 
     
   let enumDocumentClass=documentFrame[props.name]["@id"]
   let options = documentFrame[property]["@values"]
@@ -167,6 +167,7 @@ export function displayEnum (args, props, property, id, hideFieldLabel) {
     value={props.formData}
     mode={mode}
     label={label}
+    className={uiFrame && uiFrame.hasOwnProperty(props.name) ? uiFrame[props.name].className : ""}
     id={id}
     onChange={props.onChange}
     required={props.required}/>

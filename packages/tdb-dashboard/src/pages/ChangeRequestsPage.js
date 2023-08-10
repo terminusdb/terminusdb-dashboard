@@ -18,7 +18,7 @@ import {
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import {extractID, status, iconTypes, getDays} from "../components/utils"
 import { Layout } from "./Layout";
-import { CR_KEEP_EDITING, CR_READY_FOR_REVIEW, CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF } from "../cypress.constants"
+import { CR_KEEP_EDITING, CR_READY_FOR_REVIEW, CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF, MERGED_CR } from "../cypress.constants"
 
 const GetChangeRequestSummary = ({changeRequestList}) => {
 	if(!changeRequestList) return <div/>
@@ -111,7 +111,7 @@ export const ChangeRequestsPage = () => {
 						<span className={`${getActiveClassName (filter, SUBMITTED)}`} >{countType[SUBMITTED]} Review</span> 
 					</small>
 				</Button>  
-				<Button variant="dark" onClick={(e) => displayCRs(MERGED)} className="btn bg-transparent border-0 text-gray">   
+				<Button variant="dark" data-cy={MERGED_CR} onClick={(e) => displayCRs(MERGED)} className="btn bg-transparent border-0 text-gray">   
 					<small className="text-gray fw-bold">
 						{iconTypes[MERGED]} 
 						<span className={`${getActiveClassName (filter, MERGED)}`}>{countType[MERGED]} {MERGED}</span> 
@@ -217,7 +217,7 @@ export const ChangeRequestsPage = () => {
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
 					{iconTypes[item.status]}
 					<div className="ms-2 me-auto">
-						<div className="fw-bold text-success">
+						<div className="fw-bold text-white">
 							{name}
 							<span class="text-dark ml-1 badge bg-light mr-1">{item.tracking_branch}</span>
 						 		from branch 

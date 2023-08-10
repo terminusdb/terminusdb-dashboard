@@ -75,13 +75,13 @@
     color: var(--color-green) !important;
 }
 
-.text-success,
+/*.text-success,*/
 h3.text-success,
 h4.text-success,
 h2.text-success,
 strong.text-success,
-span.text-success,
-div.text-success {
+span.text-success
+/*div.text-success*/ {
     color: var(--color-pink) !important;
 }
 
@@ -122,7 +122,7 @@ span.bg-primary.note__badge {
     font-weight: bolder !important;
 }
 
-.bg-success {
+a.bg-success {
     background-color: var(--color-pink) !important; 
 }
 

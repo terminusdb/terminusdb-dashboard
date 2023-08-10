@@ -86,7 +86,7 @@ export const NoDataProductSelected = (props) => {
 						<Card className="h-100">
 							<Card.Img variant="top" src={arr.img}/>
 							<Card.Body>
-								<Card.Title className="h5 fw-bold text-success">{arr.label}</Card.Title>
+								<Card.Title className="h5 fw-bold text-gray">{arr.label}</Card.Title>
 								<Card.Text className="text-light text-left h6">
 									{arr.description}
 								</Card.Text>
