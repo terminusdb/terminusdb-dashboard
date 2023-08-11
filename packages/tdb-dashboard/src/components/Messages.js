@@ -13,6 +13,7 @@ import {VscCommentDiscussion} from "react-icons/vsc"
 import {Loading} from "./Loading"
 import Spinner from 'react-bootstrap/Spinner';
 import * as CONST from "./constants"
+import { CR_ACTION_MESSAGEBOX } from "../cypress.constants"
 
 // displays Previous Messages
 const CommentSection = () => {
@@ -44,6 +45,7 @@ export const MessageBox = ({ setMessage, message }) => {
         value={message}
         onChange={e => setMessage(e.target.value)}
         style={{color: "white"}}
+        data-cy={CR_ACTION_MESSAGEBOX}
         className="bg-dark border-secondary" 
         placeholder={"Add a new comment or message ..."}/>
 }

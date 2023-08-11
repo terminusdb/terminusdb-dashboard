@@ -181,7 +181,7 @@ label.latlng-control-label {
   color: var(--success-diff-icons-color);
   font-size: var(--diff-icons-size);
 }
-
+ 
 .tdb__diff__changed {
   color: var(--success-color) !important;
   background-color: var(--success-bg);

@@ -37,17 +37,27 @@ function constructOptionsBasedOnDocumentation(options) {
   }
 }
 
+function getClassName(className) {
+  if(className === 'tdb__doc__input tdb__diff__original') {
+    return `text-danger bg-transparent border-0`
+  }
+  else if (className === 'tdb__doc__input tdb__diff__changed') {
+    return `text-success bg-transparent border-0`
+  }
+  return ""
+}
+
 
 // widget displays enum widget
-export const TDBEnum = ({ id, options, name, value, required, mode, enumDocumentClass, hideFieldLabel, onChange, label }) => {
+export const TDBEnum = ({ id, options, name, value, required, mode, className, enumDocumentClass, hideFieldLabel, onChange, label }) => {
 
   if(mode === VIEW && !value) return <div className={`tdb__${name}__hidden`}/>
   if(mode === VIEW && value) return <Stack direction="horizontal"  className="tdb__enum__input">
     <TDBLabel name={label ? label : name} 
       hideFieldLabel={hideFieldLabel}
-      required={required} 
+      required={required}  
       id={id}/>
-    <div className="w-100">
+    <div className={`w-100 ${getClassName(className)}`}> 
       {value}
     </div>
   </Stack>

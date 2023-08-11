@@ -1,0 +1,18 @@
+{
+  "capacity": {
+    "@type": "Quantity",
+    "quantity": "1",
+    "unit": "http://lib.terminusdb.com/nuclear/Unit/$"
+  },
+  "coolant": {
+    "@type": "Substance",
+    "name": "coolant_test"
+  },
+  "moderator": {
+    "@type": "Substance",
+    "name": "moderator_test"
+  },
+  "name": "ExperimentalReactor_test",
+  "type": "BWR",
+  "@type": "ExperimentalReactor"
+}
