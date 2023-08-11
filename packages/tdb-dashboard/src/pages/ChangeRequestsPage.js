@@ -16,7 +16,11 @@ import {
 	CLOSE
 } from "../components/constants"
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import { FiMoreHorizontal } from "react-icons/fi"
 import {extractID, status, iconTypes, getDays} from "../components/utils"
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Layout } from "./Layout";
 import { CR_KEEP_EDITING, CR_READY_FOR_REVIEW, CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF, MERGED_CR } from "../cypress.constants"
 
@@ -161,9 +165,26 @@ export const ChangeRequestsPage = () => {
 		setShowUpdateChangeRequestID(id)
 	}
 
+	const OtherActions = () => {
+		return <DropdownButton
+			as={ButtonGroup}
+			key={"secondary"}
+			id={`dropdown-variants-${"secondary"}`}
+			variant={"secondary"}
+			title={"secondary"}>
+				<Dropdown.Item eventKey="1">Action</Dropdown.Item>
+				<Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+				<Dropdown.Item eventKey="3" active>
+					Active Item
+				</Dropdown.Item>
+				<Dropdown.Divider />
+				<Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+		</DropdownButton>
+	}
+
 	function buttonstatus (item, actions) {
 		const id = extractID(item["@id"]) 
-		switch (item.status) {
+		switch (item.status) { 
 			case OPEN :
 				return <React.Fragment>
 						<Button className='btn btn-light btn-sm text-dark mr-4' 
@@ -232,6 +253,7 @@ export const ChangeRequestsPage = () => {
 						</small>
 					</div>
 					{buttonstatus(item)}
+					{/*<OtherActions/>*/}
 				</ListGroup.Item>
 			}
         })

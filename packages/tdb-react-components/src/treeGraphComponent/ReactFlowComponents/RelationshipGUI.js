@@ -51,7 +51,7 @@ const nodeTypes = {
 };
 
 const RelationshipGUI = (props) => {
-  const {
+  const { 
     changeCurrentNode,
     selectedNodeObject,
     objPropsRelatedToClass,
@@ -63,7 +63,7 @@ const RelationshipGUI = (props) => {
 
   let { initialNodes, initialEdges } = createNodesAndEdges(selectedNodeObject, objPropsRelatedToClass, propertyList, mainGraphObj);
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges); 
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
 

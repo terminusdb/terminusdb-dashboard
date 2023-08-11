@@ -2,14 +2,16 @@ import React from "react"
 import { CLASS_TYPE_NAME, PROPERTY_TYPE_NAME } from '../utils/elementsName'
 import { Position } from 'reactflow';
 import * as style from "./styles"
+import { getInheritedProperties } from "../detailsComponent/PropertiesComponent"
 
 
-
+ 
 export function createNodesAndEdges(selectedNodeObject, objPropsRelatedToClass, propertyList, mainGraphObj) {
 
   const initialNodes = [], sourceList = [], targetList = [];
   const initialEdges = [];
   const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const inheritedProperties= getInheritedProperties();
 
   initialNodes.push({ 
     id: selectedNodeObject.id, 
@@ -37,6 +39,18 @@ export function createNodesAndEdges(selectedNodeObject, objPropsRelatedToClass, 
       })
     }
 	}) 
+
+  inheritedProperties.map((inheritedProperty) => {
+    const property = mainGraphObj.getObjectProperty(inheritedProperty.isInherited.inheritedFrom, inheritedProperty.name)
+    if(property){
+      sourceList.push({
+        id: inheritedProperty.isInherited.inheritedFrom,
+        label: inheritedProperty.isInherited.inheritedFrom,
+        propertyName: inheritedProperty.name,
+        linkedToType: selectedNodeObject.type
+      })
+    }
+  })
 
   /*
 	* get all the relationship where the select node is a source
@@ -121,7 +135,7 @@ export function createNodesAndEdges(selectedNodeObject, objPropsRelatedToClass, 
     if(targetList[i].linkedToType) {
       tNodeTemp.data["style"] = getNodeStyle(targetList[i].linkedToType)
     }
-      initialNodes.push(tNodeTemp)
+    initialNodes.push(tNodeTemp)
     initialEdges.push({
       id: `edge-${selectedNodeObject.id}->${targetList[i].id}->${targetList[i].propertyName}`,
       //target: targetList[i].id,
