@@ -13,7 +13,6 @@
     --text-yellow: #664d03 ;
     --color-contrast-yellow: #002856;
     --color-border-yellow: #d7a12f;
-
     --custom-text: var(--color-pink);
     --custom-nav: var(--color-pink);
     --custom-nav-text: var(--text-contrast-pink);
@@ -24,6 +23,11 @@
     --badge-color: var(--color-yellow);
     --badge-text-color: var(--color-contrast-yellow);
     --badge-border-color: var(--color-border-yellow);
+}
+
+/** yello wtext*/
+.text-yellow {
+    color: var(--color-yellow);
 }
 
 /** subscription css */
@@ -73,6 +77,14 @@
 
 .text-green{
     color: var(--color-green) !important;
+}
+
+.text-primary {
+    color: var(--color-yellow) !important;
+}
+
+.border-primary {
+    border: 1px solid var(--color-yellow) !important;
 }
 
 /*.text-success,*/

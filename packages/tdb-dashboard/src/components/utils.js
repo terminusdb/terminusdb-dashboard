@@ -7,7 +7,7 @@ import React, {useState} from "react"
 import {VscGitPullRequestDraft} from "react-icons/vsc"
 import {AiOutlineDeleteRow,AiOutlineClose} from "react-icons/ai"
 import {VscGitPullRequest} from "react-icons/vsc"
-import {VscCheck} from "react-icons/vsc" 
+import {BiCheck} from "react-icons/bi" 
 import Badge from "react-bootstrap/Badge"
 import Button from "react-bootstrap/Button"
 import {
@@ -286,15 +286,15 @@ export const getDays = (timestamp) =>{
 }
 
 export const iconTypes={
-	[OPEN]:<VscGitPullRequestDraft className="text-muted mb-1 mr-1"/>,
-	[SUBMITTED]:<VscGitPullRequest className="text-warning mb-1 mr-1"/>,
-	[REJECTED]:<AiOutlineDeleteRow className="text-danger mb-1 mr-1"/>,
-    [MERGED] :<VscCheck className="success__color mb-1 mr-1"/>,
-    [CLOSE] :<AiOutlineClose className="text-danger mb-1 mr-1"/>
+	[OPEN]:<VscGitPullRequestDraft className="text-muted mb-1 mr-1" size={20}/>,
+	[SUBMITTED]:<VscGitPullRequest className="text-warning mb-1 mr-1" size={20}/>,
+	[REJECTED]:<AiOutlineDeleteRow className="text-danger mb-1 mr-1" size={22}/>,
+    [MERGED] :<BiCheck className="success__color mb-1 mr-1" size={24}/>, 
+    [CLOSE] :<AiOutlineClose className="text-danger mb-1 mr-1" size={22}/>
 }
 
 
-export const status = {
+export const status = { 
 	[OPEN]:<Badge bg="warning text-dark" >OPEN</Badge>,
     [SUBMITTED]: <Badge bg="warning text-dark">Review required</Badge>,
     [REJECTED]: <Badge bg="danger text-dark">{REJECTED}</Badge>,

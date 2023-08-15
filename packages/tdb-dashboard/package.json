@@ -57,6 +57,8 @@
     "@stripe/react-stripe-js": "^1.16.4",
     "@stripe/stripe-js": "^1.46.0",
     "@terminusdb/terminusdb-client": "^10.0.31",
+    "@uiw/react-markdown-preview": "^4.1.15",
+    "@uiw/react-md-editor": "^3.23.5",
     "allotment": "^1.19.0",
     "axios": "^0.21.1",
     "classnames": "^2.2.5",

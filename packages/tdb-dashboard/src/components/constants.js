@@ -13,7 +13,8 @@ import {SiOpenai} from "react-icons/si"
 import {RiSearchLine} from "react-icons/ri"
 import {FaCog} from "react-icons/fa"
 
-import logo from "../assets/logo.png"
+//import logo from "../assets/logo.png"
+
 
 //User Messages
 export const SERVER_LOADING_MESSAGE = "Setting up TerminusCMS ... "
@@ -29,7 +30,8 @@ export const IconBarConfig = {
     logo: {
         title: "TerminusDB",
         key:"TerminusDB",
-        img: <img src={logo} className="logo-img"/>,
+        img: <img src="https://assets.terminusdb.com/images/terminusx-color.png" className="logo-img"/>,
+        //img: <img src={logo} className="logo-img"/>,
         /*svg: <React.Fragment> 
             <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
             <g fill="#00C08B">
@@ -494,7 +496,7 @@ export const OPEN="Open"
 export const MERGED="Merged"
 export const SUBMITTED="Submitted"
 export const REJECTED="Rejected"
-export const CLOSE = "Close"
+export const CLOSE = "Closed"
 
 // CR actions
 export const COMMENT="Comment"

@@ -55,14 +55,14 @@ export const Profile = () => {
         <NewTeamModal show={showNewMemberModal} setShow={setShowNewMemberModal} />
         <div style={{marginTop: "20px"}}>
             {user &&
-            <Row>
+            <Row className="mr-2">
             <Col className="ml-3 mt-5">
                 <OpenAICard organization={organization} isAdmin={accessControlDashboard && accessControlDashboard.isAdmin()}/>
                 <TokenCard organization={organization}/>
                 {cloud_url && <React.Fragment>
                     <Card className="p-5 mb-4">
                         <span className="d-block mb-4">
-                            <h4 className="mt-4 text-success"><strong>Client Libraries</strong></h4>
+                            <h4 className="mt-4 text-light fw-bold"><strong>Client Libraries</strong></h4>
                             <h6 className="description text-muted fw-bold">
                                 Copy the below code snippet to connect to TerminusX cloud via our Python/Javascript Client or curl command.
                             </h6>
@@ -121,9 +121,9 @@ export const Profile = () => {
 
             </Col>
             <Col sm="4" className="mt-5">
-                <Card className="shadow-sm border-0 px-3 rounded-2 mb-3 py-4 mx-auto mr-4">
-                    <img className="card-img cowduck-feedback-avatar large-avatar rounded-circle mx-auto" src={user.picture}/>
-                    <span className="mx-auto w-100 mt-5 text-center">
+                <Card className="shadow-sm border-0 px-3 rounded-2 mb-5 py-3 mx-auto mr-4">
+                    <img className="card-img profile-avatar large-avatar rounded-circle mx-auto" src={user.picture}/>
+                    <span className="mx-auto w-100 mt-2 text-center">
                         <div className="fw-bold mb-2" title="Your name">
                             <BiUser className="mr-2 fw-bold text-muted"/>
                             {`${user.given_name} ${user.family_name}`}
@@ -137,17 +137,20 @@ export const Profile = () => {
                             {organization}
                         </div>
 
-                        <Button id="profile_open_create_new_team_modal" className="btn-info mt-4 mb-4" onClick={()=>{setShowNewMemberModal(true)}}>
+                        <Button id="profile_open_create_new_team_modal" className="btn-info mt-2 mb-3" onClick={()=>{setShowNewMemberModal(true)}}>
                             <BsFillPeopleFill className="mr-2"/>Create a new Team
                         </Button>
                     </span>
                 </Card> 
                 <Card className="shadow-sm border-0 rounded-2 mb-3 mx-auto mr-4">
-                    <Card.Header >
-                        <Card.Title>Subscription : {tier}</Card.Title>
-                    </Card.Header>
-                    <Card.Body>
-                        <Button onClick={gotoSubscription} className="mt-4 mb-4 w-100 pt-3 pb-3 btn-success">Update Your Subscription</Button>
+                   { /*<Card.Header >
+                        <label className="text-light">CurrentSubscription : <label className="text-yellow fw-bold">{tier}</label></label>
+                    </Card.Header>*/}
+                    <Card.Body className="m-4">
+                        <label className="mt-4 text-light fw-bold">CurrentSubscription : <label className="text-yellow fw-bold">{tier}</label></label>
+                        <Button onClick={gotoSubscription} 
+                            className="mt-4 mb-4 w-100 btn-md btn-light">Update Your Subscription
+                        </Button>
                     </Card.Body>
                 </Card>                    
 

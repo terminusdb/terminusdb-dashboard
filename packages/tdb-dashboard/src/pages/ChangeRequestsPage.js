@@ -6,7 +6,7 @@ import {ChangeRequest} from "../hooks/ChangeRequest"
 import {BiGitPullRequest} from "react-icons/bi"
 import Stack from 'react-bootstrap/Stack'
 import {Loading} from "../components/Loading" 
-import {AiOutlineCheck} from "react-icons/ai"
+import {BiCheck} from "react-icons/bi"
 import {SubmitChangeRequestModal} from "../components/SubmitChangeRequestModal"
 import {
 	OPEN,
@@ -16,13 +16,19 @@ import {
 	CLOSE
 } from "../components/constants"
 import ProgressBar from 'react-bootstrap/ProgressBar'
-import { FiMoreHorizontal } from "react-icons/fi"
 import {extractID, status, iconTypes, getDays} from "../components/utils"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Layout } from "./Layout";
-import { CR_KEEP_EDITING, CR_READY_FOR_REVIEW, CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF, MERGED_CR } from "../cypress.constants"
+import { FiMoreHorizontal } from "react-icons/fi"
+import * as cyCONST from "../cypress.constants"
+import { CopyButton } from "../components/utils"
+import { AiOutlineArrowLeft, AiOutlineSearch} from "react-icons/ai"
+import { BiUndo } from "react-icons/bi"
+import { TbArrowsDiff } from "react-icons/tb"
+import { IoMdClose } from "react-icons/io"
+import { BranchBadge } from "../components/BranchBadge"
 
 const GetChangeRequestSummary = ({changeRequestList}) => {
 	if(!changeRequestList) return <div/>
@@ -115,7 +121,7 @@ export const ChangeRequestsPage = () => {
 						<span className={`${getActiveClassName (filter, SUBMITTED)}`} >{countType[SUBMITTED]} Review</span> 
 					</small>
 				</Button>  
-				<Button variant="dark" data-cy={MERGED_CR} onClick={(e) => displayCRs(MERGED)} className="btn bg-transparent border-0 text-gray">   
+				<Button variant="dark" data-cy={cyCONST.MERGED_CR} onClick={(e) => displayCRs(MERGED)} className="btn bg-transparent border-0 text-gray">   
 					<small className="text-gray fw-bold">
 						{iconTypes[MERGED]} 
 						<span className={`${getActiveClassName (filter, MERGED)}`}>{countType[MERGED]} {MERGED}</span> 
@@ -165,21 +171,72 @@ export const ChangeRequestsPage = () => {
 		setShowUpdateChangeRequestID(id)
 	}
 
-	const OtherActions = () => {
+
+	const OtherActions = ({item}) => {
+		if(item.status === REJECTED || item.status === CLOSE) return <div/>
 		return <DropdownButton
 			as={ButtonGroup}
-			key={"secondary"}
-			id={`dropdown-variants-${"secondary"}`}
-			variant={"secondary"}
-			title={"secondary"}>
-				<Dropdown.Item eventKey="1">Action</Dropdown.Item>
-				<Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-				<Dropdown.Item eventKey="3" active>
-					Active Item
-				</Dropdown.Item>
-				<Dropdown.Divider />
-				<Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+			key={cyCONST.MORE_CR_ACTIONS}
+			id={cyCONST.MORE_CR_ACTIONS}
+			data-cy={cyCONST.MORE_CR_ACTIONS}
+			variant={"Secondary"}
+			title={<FiMoreHorizontal	className="mb-1"/>}>
+				{actions(item)}
 		</DropdownButton>
+	}
+
+
+	const actions = (item) => {
+		const id = extractID(item["@id"]) 
+		switch (item.status) { 
+			case OPEN :
+				return <React.Fragment>
+					<Dropdown.Item eventKey={cyCONST.CR_KEEP_EDITING} 
+						onClick={()=>setChangeRequest(item)}
+						title = "Continue Editing in this Change Request">
+							<AiOutlineArrowLeft className="mr-1 text-light"/> <label>Continue Editing</label>
+					</Dropdown.Item>
+					<Dropdown.Item eventKey={cyCONST.CR_VIEW_DIFF}
+						onClick={()=>goToDiffPage(item)}>
+							<TbArrowsDiff className="mr-1 text-success"/> <label>View Diff</label>
+					</Dropdown.Item>
+					<Dropdown.Item eventKey={cyCONST.CR_CLOSE}
+						title="you are closing your CR"
+						onClick={()=>closeCR(id)}> 
+							<IoMdClose className="mr-1 text-danger"/> <label>Close Change Request </label>
+					</Dropdown.Item>
+				</React.Fragment> 
+			case SUBMITTED: 
+				return <React.Fragment>
+					<Dropdown.Item eventKey={cyCONST.CR_REOPEN} 
+						onClick={()=>reopenCR(id)}
+						title = "Reopen this Change Request">
+							<BiUndo className="mr-1 text-light"/> <label>Reopen</label>
+					</Dropdown.Item>
+					<Dropdown.Item eventKey={cyCONST.CR_CLOSE} 
+						onClick={()=>closeCR(id)}
+						title = "Close this Change Request">
+							<IoMdClose className="mr-1 text-danger"/>  <label>Close</label>
+					</Dropdown.Item>
+				</React.Fragment>
+		
+			case MERGED : 
+				return <React.Fragment>
+					<Dropdown.Item eventKey={cyCONST.CR_VIEW_DIFF} 
+						onClick={()=>goToDiffPage(item)}
+						title = "View Approved Diff">
+							<TbArrowsDiff className="mr-1 text-success"/> <label>View Approved Diff</label>
+					</Dropdown.Item>
+					<Dropdown.Item eventKey={cyCONST.CR_CLOSE} 
+						onClick={()=>reopenCR(id)}
+						title = "Reopen this Change Request">
+							<BiUndo className="mr-1 text-light"/>  <label>Reopen</label>
+					</Dropdown.Item>
+				</React.Fragment>
+
+			case CLOSE :
+				return ""
+		}
 	}
 
 	function buttonstatus (item, actions) {
@@ -187,76 +244,64 @@ export const ChangeRequestsPage = () => {
 		switch (item.status) { 
 			case OPEN :
 				return <React.Fragment>
-						<Button className='btn btn-light btn-sm text-dark mr-4' 
-							title = "Keep Editing in this Change Request"
-							data-cy={CR_KEEP_EDITING}
-							onClick={()=>setChangeRequest(item)}>
-								Keep Editing  
-						</Button>
-						<Button className="btn btn-warning mr-2 btn-sm text-dark" 
+						<Button className="btn btn-sm border border-secondary  bg-secondary" 
 							title="Submit Change Request for Review"
-							data-cy={CR_READY_FOR_REVIEW}
+							data-cy={cyCONST.CR_READY_FOR_REVIEW}
 							onClick={()=>submitCR(id)}>
-							<AiOutlineCheck className="mr-1"/><small className="fw-bold"></small>
-								Ready for Review
+							<BiCheck className="mr-1 text-warning" size={24}/>
+							<span className="text-gray">Ready for review</span>
 						</Button>
-						<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>
-							View Diff</Button>
-						<Button className="bg-danger text-dark mr-4 btn btn-sm" title="you are closing your CR" onClick={()=>closeCR(id)}>Close</Button>
-						
 					</React.Fragment> 
 			case SUBMITTED: 
 				return <React.Fragment>
-					<Button data-cy={CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF} title="go to diff page to review" className="btn btn-warning mr-2 btn-sm text-dark"  onClick={()=>goToDiffPage(item)} >Review</Button>
-					<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
-					<Button className="bg-danger text-dark mr-4 btn btn-sm" title="you are closing your CR"  onClick={()=>closeCR(id)}>Close</Button>
+					<Button data-cy={cyCONST.CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF} 
+						title="Review CR after viewing Diffs" 
+						className="btn btn-sm border border-secondary  bg-secondary" 
+						onClick={()=>goToDiffPage(item)} >
+							<AiOutlineSearch className="mr-1 text-warning" size={20}/>
+							<span className="text-gray">Review</span>
+					</Button>
 				</React.Fragment>
 			case REJECTED: 
 				return <React.Fragment>
-					   		{/*<Badge bg="danger text-dark mr-4" >{REJECTED}</Badge>*/}
-					   		<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
-					   </React.Fragment>
-			case MERGED : 
-				return <React.Fragment>
-							<Button className="bg-success text-dark mr-4 btn btn-sm" onClick={()=>goToDiffPage(item)}>View Approved Diff</Button>
-							<Button className="bg-light text-dark mr-4 btn btn-sm" onClick={()=>reopenCR(id)}>Reopen</Button>
-					  </React.Fragment>
-			case CLOSE :
-				return ""
+					<Button className="btn btn-sm border border-secondary  bg-secondary" 
+						data-cy={cyCONST.CR_REOPEN}
+						onClick={()=>reopenCR(id)}>
+							<BiUndo className="mr-1 text-light" size={24}/>
+							<span className="text-gray">Reopen</span>
+					</Button>
+				</React.Fragment>
 		}
 	}
- 
-	
+
+
 	const formatListItem=()=>{
 		if(!changeRequestList) return ""
 		let statusCount=0
-        let display=changeRequestList.slice(0).reverse().map((item,index)=>{
-			if(item.status === filter) {
+		let display=changeRequestList.slice(0).reverse().map((item,index)=>{
+		if(item.status === filter) {
 				statusCount+=1
 				const name  = item.name || ''
 				const message  = item.messages[0].text || '' //item[tracking_branch]
 				return  <ListGroup.Item  key={`item___${index}`}  className="d-flex justify-content-between align-items-start">
-					{iconTypes[item.status]}
-					<div className="ms-2 me-auto">
-						<div className="fw-bold text-white">
-							{name}
-							<span class="text-dark ml-1 badge bg-light mr-1">{item.tracking_branch}</span>
-						 		from branch 
-							<span class="text-dark ml-1 badge bg-success">{item.original_branch}</span>
-						
-						</div>					
-						<div className="text-gray font-italic">
-							{message}
-						</div>
-						<small className="text-light text-small fw-bold">
-							opened {getDays(item.creation_time)} days ago by {item['creator_email'] || item['creator']}
-						</small>
-					</div>
-					{buttonstatus(item)}
-					{/*<OtherActions/>*/}
+					<Stack>
+						<Stack direction="horizontal" gap={3} className="w-100">
+							{iconTypes[item.status]}
+							<div>
+								<h6>{message}</h6> 
+								<label className="text-light fst-italic">
+									opened {getDays(item.creation_time)} days ago by {item['creator_email'] || item['creator']}
+								</label>
+							</div>
+							<BranchBadge branchName={item.original_branch} 
+							 className="ms-auto" variant={"success"}/>
+							{buttonstatus(item)}
+							<OtherActions item={item}/>
+						</Stack>
+					</Stack>
 				</ListGroup.Item>
 			}
-        })
+		})
 		if(!statusCount) {
 			return <Card>
 				<Card.Body>
@@ -265,7 +310,7 @@ export const ChangeRequestsPage = () => {
 			</Card>
 		}
 		else return display
-    }
+		}
 
 	return <Layout showLeftSideBar={true}>  
 		<div className="content mr-3 ml-5">  

@@ -107,7 +107,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
         setEditMode(true)
     }
     
-    //console.log("editMode", editMode)
+    //console.log("editMode", editMode) 
     return <>
         <label className="text-warning mt-4">{editMessage}</label>
         {reportMessage && <ErrorMessageReport error={reportMessage} setError={setReport}/>}
@@ -118,6 +118,7 @@ export const JSONModelBuilder = ({tab,accessControlEditMode}) => {
                 <Stack direction='horizontal' gap={2} className={` w-100 justify-content-end`}>
                     {editMode && <>
                         <input id="schema_save_description" 
+                            data-cy="schema_save_description" 
                             placeholder={"Enter a description to tag update"} 
                             type="text" 
                             className="form-control border border-light" 

@@ -676,12 +676,20 @@ input[type="radio"] {
   cursor: auto;
 }
 
+/** profile avatar */
+.profile-avatar {
+  height: 5rem !important;
+  width: 5rem !important;
+  min-height: 5rem !important;
+  min-width: 5rem !important;
+}
+
 /* ---------- feedback form ---------- */
 .cowduck-feedback-avatar{
   height: 13rem !important;
   width: 13rem !important;
-  min-height: 10rem !important;
-  min-width: 10rem !important;
+  min-height: 5rem !important;
+  min-width: 5rem !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1168,18 +1176,14 @@ button.graphiql-tab-add>svg
 /** pagination */
 
 
-.page-item.active .page-link {
+.page-item.active .page-link,
+a.page-link {
   z-index: 3;
   color: #fff;
-  background-color: #de7dd8 !important;
-  border-color: #de7dd8 !important;
-  color: #343a40!important;
+  background-color: #444 !important;
 }
 
-.page-link { 
-  background-color: #f8f9fa!important;
-  color: #343a40!important;
-}
+
 
 .history__page__item > .page-link {
   background-color: #adb5bd !important;
@@ -1439,5 +1443,17 @@ button.graphiql-tab-add>svg
 .tdb__selected__modelUI { 
   border: 1px solid #f9d891 !important;
 }
+
+
+/** comment markdown editor in CR screen */
+.col-centered {
+  display:inline-block;
+  float:none;
+  margin-right:-4px;
+}
+.pos{
+  position: relative;
+}
+
 
 

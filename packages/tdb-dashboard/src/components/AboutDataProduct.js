@@ -15,6 +15,7 @@ import { Loading } from "./Loading"
 import Stack from "react-bootstrap/Stack"
 import {useTDBDocuments} from "@terminusdb/terminusdb-documents-ui-template"
 import * as cyCONST from "../cypress.constants"
+import { RadioButton } from "./RadioButton"
 
 import { UTILS } from "@terminusdb/terminusdb-client"
  
@@ -196,8 +197,13 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                         <label className={`fw-bold h6 mr-1 ${radioValue==='Active' ? 'text-success' : 'text-warning'}`}>{`${radioValue}`}</label>
                         <label className="text-light h6 mr-1">{`mode`}</label>
                     </div> 
+
+                    <RadioButton radioList={radios} 
+                        radioValue={radioValue} 
+                        onChange={updateChangeRequestStatusHandler}
+                        getActiveClassName={getActiveClassName}/>
                 
-                    {<ButtonGroup className="ms-auto">
+                    {/*<ButtonGroup className="ms-auto">
                         {radios.map((radio, idx) => ( 
                         <ToggleButton
                             key={idx}
@@ -215,8 +221,8 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
                         >
                             {radio.label}
                         </ToggleButton>
-                        ))}
-                    </ButtonGroup>}
+                        ))
+                    </ButtonGroup>*/}
                 </div>
             </Card.Body>
         </Card>

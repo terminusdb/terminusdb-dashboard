@@ -43,8 +43,12 @@ export const CHANGE_REQUEST_SUBMIT_REVIEW_FOR_DIFF="cr_submit_review_for_diff"
 /** CHANGE REQUEST ACTIONS */
 export const CR_READY_FOR_REVIEW="cr_ready_for_review"
 export const CR_KEEP_EDITING="cr_keep_editing"
+export const CR_VIEW_DIFF="cr_view_diff"
+export const CR_REOPEN="cr_view_reopen"
+export const CR_CLOSE="cr_close"
 export const CR_ACTION_MESSAGEBOX="cr_messagebox"
 export const MERGED_CR="merged_cr"
+export const MORE_CR_ACTIONS="more_cr_actions"
 
 
 /** DOCUMENT EXPLORER CONSTANTS */
@@ -53,3 +57,7 @@ export const NEW_DOCUMENT_BUTTON_ID="new_document"
 
 /** FRAME VIEWER */
 export const FRAME_VIEWER= "tdb__frame__viewer"
+
+/** OPEN AI */
+export const OPENAI_INACTIVE="openAI_inactive"
+export const OPENAI_ACTIVE="openAI_active"

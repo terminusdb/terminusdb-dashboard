@@ -19,6 +19,8 @@ import {
     MESSAGES, 
     TRACKING_BRANCH
 } from "../components/constants"
+import { CURRENT_BRANCH_BADGE } from "../cypress.constants"
+import { BranchBadge } from "./BranchBadge"
 import {Messages} from "../components/Messages"
 import {ReviewComponent} from "../components/ReviewComponent"
 
@@ -32,22 +34,21 @@ const DocumentModifiedCount = ({documentModifiedCount}) => {
     </h6>
 }
 
-export const BranchCRMessage = ({css, title}) => {
-    return <React.Fragment>
-        <Badge bg={css} className="fw-bold mr-2 text-dark">
-            <BiGitBranch className=" mr-1"/>{title}
-        </Badge>
-    </React.Fragment>
+export const BranchCRMessage = ({title, color}) => {
+    return <BranchBadge branchName={title} 
+        variant={color} 
+        className={"ml-2 mt-2"} 
+        dataCy={CURRENT_BRANCH_BADGE}/>
 }
 
 const DisplayHeader = ({author, documentModifiedCount, tracking_branch,original_branch}) => {
     return <>
-        <h6 className="mt-2">{`${author} wants to merge `}</h6> 
+        <h6 className="mt-2 text-light">{`${author} wants to merge `}</h6> 
         <DocumentModifiedCount documentModifiedCount={documentModifiedCount}/>
-        <h6 className="mt-2">{` into `}</h6>
-        <BranchCRMessage title={original_branch} css={"success"}/>
-        <h6 className="mt-2">{`from `}</h6>
-        <BranchCRMessage title={tracking_branch} css={"primary"}/>
+        <h6 className="mt-2 text-light">{` into `}</h6>
+        <BranchCRMessage title={original_branch} color="success"/>
+        <h6 className="mt-2 text-light">{`from `}</h6>
+        <BranchCRMessage title={tracking_branch} color="primary"/>
     </>
 }
 
@@ -71,7 +72,7 @@ export const ChangeDiffComponent = () => {
    
     useEffect(() => {
         getDocumentFrames()
-        getDiffList(changeid)
+        getDiffList(changeid) 
     }, [])
     
 
@@ -98,8 +99,22 @@ export const ChangeDiffComponent = () => {
             {!documentModifiedCount && <h6 className="text-muted fw-bold mt-3 mb-3">
                 {`No documents `}
             </h6>}
-            <Card bg="transparent" className="border-secondary mt-5 mb-5">
-                <Card.Header>
+            <hr className='border-0'/> 
+            <h5 className="text-light fw-bold mt-3 mb-3">Submit your Review</h5>
+       
+            <Stack direction="horizontal" gap={2} className="mt-1">
+                <DisplayHeader author={author} 
+                    tracking_branch={currentCRObject.name || currentCRObject.tracking_branch}
+                    original_branch ={currentCRObject.original_branch}
+                    documentModifiedCount={documentModifiedCount}/>
+            </Stack>
+            {currentCRObject.status === SUBMITTED && <ReviewComponent/> } 
+            
+            {!loading && <div className='mt-5'>
+                <DiffView diffs={result} frames={frames} CRObject={currentCRObject} start={start} changePage={changePage}/>
+            </div> }
+            {/*<Card bg="transparent" className="border-secondary mt-5 mb-5">
+                <Card.Header className='bg-dark'>
                     <Stack direction="horizontal" gap={2} className="mt-1">
                         <DisplayHeader author={author} 
                             tracking_branch={currentCRObject.name || currentCRObject.tracking_branch}
@@ -112,10 +127,12 @@ export const ChangeDiffComponent = () => {
                     <ReviewComponent/> } 
                     {!loading && <DiffView diffs={result} frames={frames} CRObject={currentCRObject} start={start} changePage={changePage}/>} 
                 </Card.Body> 
-            </Card>
-        </Tab>
+            </Card>*/}
+        </Tab> 
         <Tab eventKey={MESSAGES} title={MESSAGES}>
-            <Messages setKey={setKey}/>
+            <Card bg="transparent" className="border-0 mt-5 mb-5">
+                <Messages setKey={setKey}/>
+            </Card>
         </Tab>
     </Tabs>
 }

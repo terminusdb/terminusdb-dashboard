@@ -43,6 +43,7 @@ export const SaveBarHeaderTools =(props)=>{
 		const ToolButtons = ({ id, title, onClick, icon}) => {
 			return 	<Button title={title}
 				id={id}
+				data-cy={id}
 				type="button" 
 				variant="light"
 				className="btn-lg border border-light bg-transparent"
@@ -56,6 +57,7 @@ export const SaveBarHeaderTools =(props)=>{
 			<input ref={commitInput}
 				placeholder={TOOLBAR_LABELS.CommitLabel} 
 				id="schema_save_description"
+				data-cy="schema_save_description" 
 				className="form-control border border-light" 
 				type="text" 
 				onBlur={handleCommitMessage}/>       

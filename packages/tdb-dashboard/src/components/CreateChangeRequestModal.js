@@ -43,7 +43,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
         <Modal.Header>
-            <Modal.Title className="text-success h6 fw-bold">Start a new change request</Modal.Title>
+            <Modal.Title className="text-light fw-bold h5 fw-bold">Start a new change request</Modal.Title>
             <Button variant="close" aria-label="Close" onClick={closeModal} />
         </Modal.Header>
         <Modal.Body className="p-3">
@@ -51,7 +51,7 @@ export const CreateChangeRequestModal = ({showModal, setShowModal , updateViewMo
              <Alert variant="danger"  onClose={() => setError(false)} dismissible>{errorMessage}</Alert>}
             <Form> 
                 <Form.Group className="mb-3 tdb__input">
-                    <Form.Label>Change request from branch</Form.Label>
+                    <Form.Label className="text-light">Change request from branch</Form.Label>
                     <Form.Select onChange={(evt)=>setBranchName(evt.target.value)}
                             aria-label="Default select example" 
                             value={selectedBranch}>

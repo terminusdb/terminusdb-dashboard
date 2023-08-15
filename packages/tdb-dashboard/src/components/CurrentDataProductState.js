@@ -6,6 +6,7 @@ import {BsFillExclamationTriangleFill, BsBriefcase} from "react-icons/bs"
 import {BiGitBranch} from "react-icons/bi"
 import {printts} from "./utils"
 import { CURRENT_BRANCH_BADGE } from "../cypress.constants"
+import { BranchBadge } from "./BranchBadge"
 
 /* returns current data product to which your connected and status */
 export const ConnectedDataProduct = (props) => {
@@ -50,13 +51,18 @@ export const ConnectedDataProduct = (props) => {
         }
         
             <span className="pro-item-content"> 
-                <strong className={`mr-1 ${status}`}> ● </strong>  {currentCommit} 
+                {/*<strong className={`mr-1 ${status}`}> ● </strong>  {currentCommit} */}
+                {currentCommit}
+               
             </span>
-          
-            <Badge bg="success" className="ml-2 fw-bold mr-2 text-dark" data-cy={CURRENT_BRANCH_BADGE}>
+            <BranchBadge branchName={branch} 
+                variant={"success"} 
+                className={"ml-2 mt-2"} 
+                dataCy={CURRENT_BRANCH_BADGE}/>
+           {/* <Badge bg="success" className="ml-2 fw-bold mr-2 text-dark" data-cy={CURRENT_BRANCH_BADGE}>
                 <BiGitBranch className="mr-1"/>
                 {branch} 
-            </Badge>  
+            </Badge> */ }
                    
              
     </React.Fragment>
