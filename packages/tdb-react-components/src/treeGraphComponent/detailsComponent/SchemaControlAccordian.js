@@ -29,19 +29,29 @@ const AddNewModel = ({ onClick }) => {
   }
 
   return <DropdownButton
-    key={"add_new"}
-    id={`add_new}`}
+    key={"add_new_to_schema_button"}
+    id={`add_new_to_schema_button`}
+    data-cy={`add_new_to_schema_button`}
     drop={"down"}
     className="w-100 ml-3 mb-3"
     variant="dark"
     title={`Add New`}>
-      <Dropdown.Item eventKey="1" onClick={(e) => handleAddNew(ADD_NEW_ENTITY, "DocumentClasses")}>
+      <Dropdown.Item eventKey="1"
+        data-cy={`add_new_document`} 
+        id={`add_new_document`} 
+        onClick={(e) => handleAddNew(ADD_NEW_ENTITY, "DocumentClasses")}>
         Add New Document
       </Dropdown.Item>
-      <Dropdown.Item eventKey="2" onClick={(e) => handleAddNew(ADD_NEW_CLASS, "DocumentClasses")}>
+      <Dropdown.Item eventKey="2" 
+        data-cy={`add_new_subdocument`} 
+        id={`add_new_subdocument`} 
+        onClick={(e) => handleAddNew(ADD_NEW_CLASS, "DocumentClasses")}>
         Add New SubDocument
       </Dropdown.Item>
-      <Dropdown.Item eventKey="3" onClick={(e) => handleAddNew(ADD_NEW_CHOICE_CLASS, "ChoiceClasses")}>
+      <Dropdown.Item eventKey="3" 
+        data-cy={`add_new_choice_class`} 
+        id={`add_new_choice_class`} 
+        onClick={(e) => handleAddNew(ADD_NEW_CHOICE_CLASS, "ChoiceClasses")}>
         Add New Enum
       </Dropdown.Item>
   </DropdownButton>

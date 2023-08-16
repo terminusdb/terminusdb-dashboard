@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form'
 import {Button} from "react-bootstrap"
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import { useParams } from "react-router-dom"
+import MDEditor from '@uiw/react-md-editor';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import {
     extractID, 
     getDays
@@ -27,11 +29,17 @@ const CommentSection = () => {
     if(Array.isArray(currentCRObject["messages"])) {
         currentCRObject["messages"].slice(0).reverse().map(curr => {
             elements.push(
-                <React.Fragment key={curr.timestamp}>
-                    {curr.text}
-                    <Card.Text className="text-muted">{getDays(curr.timestamp)} days ago by {curr.author} </Card.Text>
+                <div class="container mb-3">
+                    <div class="row row-centered pos">
+                        <div class="col-xs-12 col-centered">
+                            <Card.Text className="text-muted">{getDays(curr.timestamp)} days ago by {curr.author} </Card.Text>
+                            <div class="well">
+                                <MarkdownPreview source={curr.text}/>
+                            </div>
+                        </div>
+                    </div>
                     <hr/>
-                </React.Fragment>
+                </div>
             )
         })
     }
@@ -40,14 +48,30 @@ const CommentSection = () => {
 
 // displays textarea to write comments 
 export const MessageBox = ({ setMessage, message }) => {
-    return <Form.Control as="textarea" 
-        rows={5} 
+
+    const handleChange = (str) => {
+        if(setMessage) setMessage(str)
+    }
+  
+    return <> 
+        <MDEditor
+            value={message}
+            textareaProps={{
+                placeholder: "Add a new comment or message ..."
+              }}
+            data-cy={CR_ACTION_MESSAGEBOX}
+            onChange={handleChange}/>
+       
+    </>
+
+    /*return <Form.Control as="textarea" 
+        rows={5}  
         value={message}
         onChange={e => setMessage(e.target.value)}
         style={{color: "white"}}
         data-cy={CR_ACTION_MESSAGEBOX}
         className="bg-dark border-secondary" 
-        placeholder={"Add a new comment or message ..."}/>
+        placeholder={"Add a new comment or message ..."}/>*/
 }
 
 // displays textarea to write comments  & button to save comments
@@ -62,12 +86,12 @@ export const MessageComponent = ({setKey}) => {
         let id=extractID(currentCRObject["@id"])
         // this call return the changeRequestObj Updated
         let res=await addNewMessage(comment,id)
-
+        setComment("")
         // we'll see if add need rebase check every time
         res.needRebase = currentCRObject.needRebase
         setCurrentCRObject(res)
         if(setKey) setKey(CONST.MESSAGES)
-        setComment("")
+       
     }
 
     return <React.Fragment>

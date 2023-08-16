@@ -60,6 +60,7 @@ export const NewMemberModal = ({show, setShow, team, accessControlDashboard,opti
                     <Form.Control
                         ref={emailInput}
                         {...value}
+                        id={"invite__email__input"}
                         type="text"
                         placeholder="Email"
                         aria-describedby="inputGroupPrepend"

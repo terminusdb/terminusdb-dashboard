@@ -11,6 +11,8 @@ export const TimeTravelWidget = ({setShowTimeTravel}) => {
     return <Button className="btn-lg border-0" 
         title="Time Travel through history of Data Product" 
         variant="outline-dark"
+        data-cy={`time_travel_widget_id`}
+        id={`time_travel_widget_id`}
         onClick={(e) => setShowTimeTravel(true)} > 
             <BiTimer style={{color: iconColor, fontSize: "35px"}} className="time-travel-icon"/>
     </Button>

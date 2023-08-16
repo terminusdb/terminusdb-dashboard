@@ -249,5 +249,15 @@ describe(`Test Advanced Filters in document explorer`, () => {
     });*/
   })
 
+  // delete dataProduct 
+  it('Delete dataProduct', ()=>{
+    cy.visit(`/${teamName}/${dataProduct}`)
+    cy.deleteDataProduct(dataProduct)
+  })
+
+  it('Logout', () => {
+    cy.logout()
+  })
+
 
 }) 

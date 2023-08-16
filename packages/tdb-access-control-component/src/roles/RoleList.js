@@ -54,7 +54,7 @@ export const RoleListModal = (props)=>{
             size="lg"
             onHide={(e) => props.setShow(false)}>
         <Modal.Header closeButton>
-            <h5 className="text-success mt-3 mb-3">{props.title}</h5>
+            <h5 className="text-light fw-bold mt-3 mb-3">{props.title}</h5>
         </Modal.Header>
         <Modal.Body>
             {props.successMessage &&

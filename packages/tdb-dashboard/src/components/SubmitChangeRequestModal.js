@@ -1,5 +1,6 @@
 import React, {useRef, useState} from "react"
-import {Alert, Modal, Button, Form} from "react-bootstrap" 
+import {Modal, Button, Form} from "react-bootstrap" 
+import { Alerts } from "./Alerts"
 import {ChangeRequest} from "../hooks/ChangeRequest"
 import { CHANGE_REQUEST_SUBMIT_REVIEW, CHANGE_REQUEST_MESSAGE_FOR_REVIEW } from "../cypress.constants"
 
@@ -10,8 +11,8 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
     const closeModal = () => setShowModal(false)
 
     const titleObj= {"Submitted":'Submit the Change Request for review',
-                     "Open" : "Reopen the change request",
-                     "Close" : <Alert variant="danger">You are Closing this change request. You can not undo this operation</Alert>}
+                     "Open" : "Reopen the change request", 
+                     "Close" : <label style={{color: "#f95f5f"}}>Are you sure you want to close this change request? You can not undo this operation.</label>}
 
     const statusUpdate = operation || "Submitted"
     const title = titleObj[statusUpdate]
@@ -34,8 +35,8 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
     //<Loading message={`Deleting Data Product ${dataProductDetails.label} ...`} type={PROGRESS_BAR_COMPONENT}/>}
     return <Modal size="lg" className="modal-dialog-right" show={showModal} onHide={closeModal}>
         <Modal.Header>
-            <Modal.Title className="text-success">
-                <small className="fw-bold mr-2 h6">{title}</small>
+            <Modal.Title className="text-light">
+                <label className="h5 fw-bold">{title}</label>
             </Modal.Title>
             <Button variant="close" aria-label="Close" onClick={closeModal} />
         </Modal.Header>

@@ -44,7 +44,7 @@ export const OpenAICard=({organization,isAdmin})=>{
 			if(hasKey === false){
 				return <label className="description text-muted fw-bold">
 							Generate a token in your OpenAI account and copy this here
-							</label>
+							</label> 
 			}
 			const label = hasKey === "active" ? "After every change request merge we'll index your documents" : "You have set an OpenAI API key. Please activate this option inorder to index your data"
 			return label
@@ -92,7 +92,7 @@ export const OpenAICard=({organization,isAdmin})=>{
 
 		return( <React.Fragment>
 				<Card className="p-5 mb-5">
-					<h4 className="mt-4 text-success"><strong>{title}</strong></h4>
+					<h4 className="mt-4 text-light fw-bold"><strong>{title}</strong></h4>
 						<Stack direction="horizontal" gap={2}>
 							
 							<div>

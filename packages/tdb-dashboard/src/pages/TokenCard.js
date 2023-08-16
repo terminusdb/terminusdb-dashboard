@@ -68,7 +68,7 @@ export const TokenCard=({organization})=>{
     
 	return( <React.Fragment>
 		 	<Card className="p-5 mb-5">
-			 	<h4 className="mt-4 text-success"><strong>Generate Personal Access Token</strong></h4>
+			 	<h4 className="mt-4 text-light fw-bold"><strong>Generate Personal Access Token</strong></h4>
 		  		<label className="description text-muted fw-bold">
 					  Copy the below token generated into an env file or over HTTPS to connect to TerminusX.
 				</label>

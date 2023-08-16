@@ -2,31 +2,48 @@ import React  from 'react'
 import {RelationshipBox} from './RelationshipBox'
 import {GraphContextObj} from '../hook/graphObjectContext'
 import {PROPERTY_TYPE_NAME} from '../utils/elementsName'
+import { getInheritedProperties } from "../detailsComponent/PropertiesComponent"
  
 export const RelationshipView = (props)=>{
-	const {changeCurrentNode,
+	const {changeCurrentNode, 
 		  selectedNodeObject,
 		  objPropsRelatedToClass,
 		  mainGraphObj,nodePropertiesList} = GraphContextObj();
 
 	const propertyList = nodePropertiesList || {}
+	const inheritedProperties= getInheritedProperties();
 	let domainToProp = [], relObjArr = []
 	/*
 	* get all the relationship where the select node is a target
 	*/
 	objPropsRelatedToClass.map((complexPropertyObj,index)=>{
-            const propertyDomainName=mainGraphObj.getElement(complexPropertyObj.nodeName,false) || {};
+    const propertyDomainName=mainGraphObj.getElement(complexPropertyObj.nodeName,false) || {};
             
-			const property = mainGraphObj.getObjectProperty(complexPropertyObj.nodeName,complexPropertyObj.propName)
-			if(property){
-				const label = property.id || '' 
+		const property = mainGraphObj.getObjectProperty(complexPropertyObj.nodeName,complexPropertyObj.propName)
+		if(property){
+			const label = property.id || '' 
 
-				relObjArr.push(<RelationshipBox source={propertyDomainName} 
-									sourceAction={changeCurrentNode}
-									target={selectedNodeObject}
-									propId={label} 
-									key={'rel__'+index}/>)
-			}
+			relObjArr.push(<RelationshipBox source={propertyDomainName} 
+								sourceAction={changeCurrentNode}
+								target={selectedNodeObject}
+								propId={label} 
+								key={'rel__'+index}/>)
+		}
+	})
+
+	inheritedProperties.map((inheritedProperty, index) => {
+		const propertyDomainName=mainGraphObj.getElement(inheritedProperty.isInherited.inheritedFrom, false) || {};
+            
+		const property = mainGraphObj.getObjectProperty(inheritedProperty.isInherited.inheritedFrom, inheritedProperty.name)
+		if(property){
+			const label = property.id || '' 
+
+			relObjArr.push(<RelationshipBox source={propertyDomainName} 
+								sourceAction={changeCurrentNode}
+								target={selectedNodeObject}
+								propId={label} 
+								key={'inherited__'+index}/>)
+		}
 	})
 
 	/*

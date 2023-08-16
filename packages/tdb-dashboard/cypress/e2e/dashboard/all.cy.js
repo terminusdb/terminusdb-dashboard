@@ -1,3 +1,9 @@
-import './branch_management.cy'
-import './cr_inactive.cy'
-import './document_ui.cy'
+import "./advanced_filter.cy"
+import "./branch_management.cy"
+import "./cr_diff_workflow.cy"
+import "./cr_inactive.cy"
+import "./document_history.cy"
+import "./graphQL.cy"
+import "./update_dataProduct_details.cy"
+import "./woql.cy"
+import "./workflow.cy"

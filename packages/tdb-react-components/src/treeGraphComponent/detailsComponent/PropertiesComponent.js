@@ -127,7 +127,7 @@ export const getPropertiesPanels=(propertyList, view)=>{
 }
 
 // gather current documents properties along with inheritted properties
-const getInheritedProperties = () => {
+export const getInheritedProperties = () => {
 	let inheritedProperties = []
 	const {
 		mainGraphObj,
@@ -140,12 +140,12 @@ const getInheritedProperties = () => {
 		properties.map((propertyItem) => {
 			propertyItem["isInherited"]={ inheritedFrom: par }
 			inheritedProperties.push(propertyItem)
-		})
+		}) 
 	})
 	return inheritedProperties
 }
 
-export const PropertiesComponent = (props)=> {
+export const PropertiesComponent = (props)=> { 
 	
 	const {
 		nodePropertiesList,

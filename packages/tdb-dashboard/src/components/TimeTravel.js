@@ -102,6 +102,7 @@ export const TimeTravel = ({refreshTime}) => {
                         <div>
                             {!disabled && <Button variant="light" 
                               className="mr-3" 
+                              id={`time_travel_to_${item.message}`}
                               title={"Time Travel to this Commit"} 
                               onClick={(e) =>   handleTimeTravel(e, item, selectedCounter)}>
                                 <BiTimer className="me-2"/>{"Time Travel to this point"}
