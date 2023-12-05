@@ -40,7 +40,7 @@ export const AboutDataProduct = ({dataProductDetails, setShowDeleteModal, setSho
     const [healthText, setHealthText]=useState(false)
     
     const getCloneUrl = () =>{
-        return `${localSettings.server}${organization}/${organization}/${dataProduct}`
+      return `${localSettings.server.replace(/\/$/,'')}/${organization}/${organization}/${dataProduct}`
     }
 
     useEffect(() =>{
