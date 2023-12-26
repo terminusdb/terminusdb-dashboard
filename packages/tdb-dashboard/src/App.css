@@ -366,7 +366,8 @@ div.progress-bar-container {
 
 /* ---------- form control custom dark mode ---------- */
 .form-control {
-  color: #adb5bd !important;
+  color: #fff !important;
+  /* color: #adb5bd !important; */
   background-color: #000 !important;
   /* background-color: transparent !important; */
   border-color: rgb(102, 102, 102) !important;
