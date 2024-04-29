@@ -65,7 +65,9 @@ module.exports = (env, argv) => ({
               }
             ],"@babel/plugin-transform-react-jsx",
               "@babel/plugin-proposal-export-default-from","@babel/plugin-transform-regenerator",
-            ["@babel/plugin-transform-runtime"]
+            ["@babel/plugin-transform-runtime"],
+            ["@babel/plugin-proposal-private-property-in-object", { "loose": true }],
+            ["@babel/plugin-proposal-private-methods", { "loose": true }],
             ]
           }
         },
