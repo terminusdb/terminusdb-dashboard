@@ -2,6 +2,7 @@ import React, {useRef, useState} from "react"
 import {Modal, Button, Form} from "react-bootstrap" 
 import { Alerts } from "./Alerts"
 import {ChangeRequest} from "../hooks/ChangeRequest"
+import { TERMINUS_DANGER } from "./constants"
 import { CHANGE_REQUEST_SUBMIT_REVIEW, CHANGE_REQUEST_MESSAGE_FOR_REVIEW } from "../cypress.constants"
 
 export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent, updateChangeRequestID, operation}) => { 
@@ -41,8 +42,7 @@ export const SubmitChangeRequestModal = ({showModal, setShowModal , updateParent
             <Button variant="close" aria-label="Close" onClick={closeModal} />
         </Modal.Header>
         <Modal.Body className="p-3">
-            {errorMessage && 
-             <Alert variant="danger"  onClose={() => setError(false)} dismissible>{errorMessage}</Alert>}
+            {errorMessage && <Alerts type={TERMINUS_DANGER} onCancel={() => setError(false)} message={errorMessage}/>}
             <Form>
                 <Form.Group className="mb-3 tdb__input">
                     <Form.Control required 

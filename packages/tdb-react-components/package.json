@@ -1,6 +1,6 @@
 {
   "name": "@terminusdb-live/tdb-react-components",
-  "version": "6.0.10",
+  "version": "6.2.5",
   "description": "components tools for terminusdb",
   "main": "src/index",
   "module": "es6/index",
