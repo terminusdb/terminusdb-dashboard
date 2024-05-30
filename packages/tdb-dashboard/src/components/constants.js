@@ -496,7 +496,7 @@ export const OPEN="Open"
 export const MERGED="Merged"
 export const SUBMITTED="Submitted"
 export const REJECTED="Rejected"
-export const CLOSE = "Closed"
+export const CLOSE = "Close"
 
 // CR actions
 export const COMMENT="Comment"
